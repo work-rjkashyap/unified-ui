@@ -1,0 +1,100 @@
+---
+title: Components
+description: A collection of high-performance, accessible components for your next project.
+---
+
+Explore our growing library of components built with Tailwind CSS and Radix UI. Each component is designed to be accessible, performant, and fully customizable.
+
+## UI Primitives
+
+Fundamental building blocks for any application.
+
+<ComponentGrid>
+  <ComponentCard
+    title="Button"
+    description="Interactive button component with multiple variants and loading states."
+    href="/docs/ui/button"
+    tag="Ready"
+  >
+    <div className="px-4 py-2 rounded-md bg-fd-primary text-fd-primary-foreground text-xs font-medium">Click Me</div>
+  </ComponentCard>
+
+  <ComponentCard
+    title="Popover"
+    description="Floating content that appears when clicking an element."
+    href="/docs/ui/popover"
+    tag="Ready"
+  >
+    <div className="w-16 h-10 rounded border border-fd-border bg-fd-card flex items-center justify-center p-2">
+      <div className="w-full h-2 rounded bg-fd-muted" />
+    </div>
+  </ComponentCard>
+
+  <ComponentCard
+    title="Scroll Area"
+    description="Custom scrollbars for cross-browser consistency."
+    href="/docs/ui/scroll-area"
+    tag="Ready"
+  >
+    <div className="w-12 h-16 border border-fd-border rounded-md bg-fd-card p-1 relative overflow-hidden">
+      <div className="w-full h-20 bg-linear-to-b from-purple-500/20 to-cyan-500/20" />
+      <div className="absolute right-0.5 top-0.5 bottom-0.5 w-1 rounded-full bg-fd-muted-foreground/30" />
+    </div>
+  </ComponentCard>
+</ComponentGrid>
+
+## Navigation
+
+Components for building headers, sidebars, and menus.
+
+<ComponentGrid>
+  <ComponentCard
+    title="Navigation Menu"
+    description="A collection of links for navigating a website."
+    href="/docs/ui/navigation-menu"
+    tag="New"
+  >
+    <div className="flex gap-2">
+      <div className="w-8 h-2 rounded bg-fd-muted" />
+      <div className="w-8 h-2 rounded bg-fd-primary/50" />
+      <div className="w-8 h-2 rounded bg-fd-muted" />
+    </div>
+  </ComponentCard>
+
+  <ComponentCard
+    title="Collapsible"
+    description="Expandable sections for progressive disclosure."
+    href="/docs/ui/collapsible"
+    tag="Ready"
+  >
+    <div className="w-20 border border-fd-border rounded-md bg-fd-card overflow-hidden">
+      <div className="p-2 border-b border-fd-border flex justify-between items-center">
+        <div className="w-8 h-2 bg-fd-muted" />
+        <div className="w-2 h-2 rounded-full bg-fd-primary" />
+      </div>
+      <div className="p-2 space-y-1">
+        <div className="w-full h-1 bg-fd-muted" />
+        <div className="w-2/3 h-1 bg-fd-muted" />
+      </div>
+    </div>
+  </ComponentCard>
+</ComponentGrid>
+
+## Interactive
+
+Components that enhance user interaction.
+
+<ComponentGrid>
+  <ComponentCard
+    title="Micro-animations"
+    description="Subtle animations to provide feedback and delight."
+    href="/docs/animations"
+    tag="Updated"
+  >
+    <div className="flex items-center justify-center gap-2">
+      <div className="w-3 h-3 rounded-full bg-purple-500 animate-bounce" />
+      <div className="w-3 h-3 rounded-full bg-blue-500 animate-bounce [animation-delay:0.1s]" />
+      <div className="w-3 h-3 rounded-full bg-cyan-500 animate-bounce [animation-delay:0.2s]" />
+    </div>
+  </ComponentCard>
+</ComponentGrid>

@@ -1,0 +1,41 @@
+---
+title: Button
+description: An interactive button component with multiple variants.
+---
+
+import { Button } from '@/components/ui/button';
+
+<ComponentPage
+  title="Button"
+  description="The basic building block for user interaction."
+  preview={
+    <div className="flex gap-4 items-center flex-wrap justify-center">
+      <Button variant="default">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+    </div>
+  }
+  code={`<Button variant="default">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>`}
+>
+
+## Installation
+
+```bash
+npx shadcn-ui@latest add button
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function App() {
+  return <Button>Click me</Button>
+}
+```
+
+</ComponentPage>

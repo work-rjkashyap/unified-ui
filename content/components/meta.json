@@ -1,0 +1,13 @@
+{
+  "title": "Components",
+  "pages": [
+    "index",
+    "---UI Primitives---",
+    "button",
+    "popover",
+    "scroll-area",
+    "---Navigation---",
+    "navigation-menu",
+    "collapsible"
+  ]
+}
