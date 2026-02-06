@@ -9,20 +9,16 @@ import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { useSidebar } from "./sidebar/base";
 import { baseOptions } from "@/app/layout.config";
 import { renderTitleNav } from "./shared";
-
 export const Nav = () => {
     const { setOpenSearch } = useSearchContext();
     const { open, setOpen } = useSidebar();
-
     const links = baseOptions.links || [];
-
     return (
-        <LayoutHeader className="sticky top-0 z-50 h-16 w-full border-b border-fd-border/50 bg-fd-background/60 backdrop-blur-xl">
+        <LayoutHeader className="sticky top-0 z-50 h-16 w-full   backdrop-blur-xl bg-transparent -mb-2.5">
             <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 {renderTitleNav(baseOptions.nav || {}, {
                     className: "flex items-center gap-2.5 transition-opacity hover:opacity-90 shrink-0"
                 })}
-
                 <div className="flex flex-1 items-center justify-center px-8 max-md:hidden">
                     <nav className="flex items-center gap-8">
                         {links.map((item) => (
@@ -36,7 +32,6 @@ export const Nav = () => {
                         ))}
                     </nav>
                 </div>
-
                 <div className="flex items-center gap-2 sm:gap-4">
                     <button
                         type="button"
@@ -55,7 +50,6 @@ export const Nav = () => {
                             </kbd>
                         </div>
                     </button>
-
                     <div className="flex items-center gap-1 max-sm:hidden">
                         <ThemeToggle />
                         <a
@@ -69,7 +63,6 @@ export const Nav = () => {
                             </svg>
                         </a>
                     </div>
-
                     <button
                         type="button"
                         className={cn(

@@ -17,11 +17,9 @@ import type { SidebarTabWithProps } from "../sidebar/tabs/dropdown";
 import { LayoutBody, LayoutContextProvider, LayoutHeaderTabs } from "./client";
 import { Sidebar, SidebarCollapseTrigger, SidebarTrigger } from "./sidebar";
 import { DocsSidebar } from "./sidebar-content";
-
 export interface DocsLayoutProps extends BaseLayoutProps {
     tree: PageTree.Root;
     tabMode?: "sidebar" | "navbar";
-
     nav?: BaseLayoutProps["nav"] & {
         mode?: "top" | "auto";
         component?: ReactNode;
@@ -29,23 +27,19 @@ export interface DocsLayoutProps extends BaseLayoutProps {
     sidebar?: SidebarOptions;
     containerProps?: HTMLAttributes<HTMLDivElement>;
 }
-
 interface SidebarOptions
     extends ComponentProps<"aside">,
     Pick<ComponentProps<typeof Sidebar>, "defaultOpenLevel" | "prefetch"> {
     enabled?: boolean;
     component?: ReactNode;
-
     /**
      * Support collapsing the sidebar on desktop mode
      *
      * @defaultValue true
      */
     collapsible?: boolean;
-
     tabs?: SidebarTabWithProps[] | GetSidebarTabsOptions;
 }
-
 export function DocsLayout(props: DocsLayoutProps) {
     const {
         tabMode = "sidebar",
@@ -58,25 +52,20 @@ export function DocsLayout(props: DocsLayoutProps) {
         } = {},
         tree,
     } = props;
-
     const _navMode = nav.mode ?? "auto";
     const { navItems } = useLinkItems(props);
     const tabs = useMemo(() => {
         if (Array.isArray(tabOptions)) {
             return tabOptions;
         }
-
         if (typeof tabOptions === "object") {
             return getSidebarTabs(tree, tabOptions);
         }
-
         if (tabOptions !== false) {
             return getSidebarTabs(tree);
         }
-
         return [];
     }, [tabOptions, tree]);
-
     return (
         <TreeContextProvider tree={tree}>
             <LayoutContextProvider
@@ -85,11 +74,11 @@ export function DocsLayout(props: DocsLayoutProps) {
                 navTransparentMode={nav.transparentMode}
             >
                 <Sidebar defaultOpenLevel={defaultOpenLevel} prefetch={prefetch}>
+                    {nav.component ?? (
+                        <DocsNavbar {...props} links={navItems} tabs={tabs} />
+                    )}
                     <LayoutBody {...props.containerProps}>
                         {sidebarProps.component ?? <DocsSidebar {...props} tabs={tabs} />}
-                        {nav.component ?? (
-                            <DocsNavbar {...props} links={navItems} tabs={tabs} />
-                        )}
                         {props.children}
                     </LayoutBody>
                 </Sidebar>
@@ -97,7 +86,6 @@ export function DocsLayout(props: DocsLayoutProps) {
         </TreeContextProvider>
     );
 }
-
 function DocsNavbar(
     props: DocsLayoutProps & {
         links: LinkItemType[];
@@ -107,12 +95,11 @@ function DocsNavbar(
     const {
         sidebar: { collapsible: sidebarCollapsible = true } = {},
         nav = {},
-        tabMode = "sidebar",
+        tabMode = "navbar",
         tabs,
     } = props;
     const navMode = nav.mode ?? "auto";
     const showLayoutTabs = tabMode === "navbar" && tabs.length > 0;
-
     const sidebarTrigger = (
         <SidebarTrigger
             className={cn(
@@ -126,7 +113,6 @@ function DocsNavbar(
             <SidebarIcon className="size-4" />
         </SidebarTrigger>
     );
-
     const sidebarCollapseTrigger = sidebarCollapsible && (
         <SidebarCollapseTrigger
             className={cn(
@@ -141,7 +127,6 @@ function DocsNavbar(
             <SidebarIcon className="size-4" />
         </SidebarCollapseTrigger>
     );
-
     const navCollapseTrigger = sidebarCollapsible && navMode === "top" && (
         <SidebarCollapseTrigger
             className={cn(
@@ -155,7 +140,6 @@ function DocsNavbar(
             <SidebarIcon className="size-4" />
         </SidebarCollapseTrigger>
     );
-
     return (
         <div
             className="[grid-area:header] flex flex-col sticky top-(--fd-docs-row-1) z-10"

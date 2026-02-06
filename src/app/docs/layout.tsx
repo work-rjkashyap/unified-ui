@@ -10,7 +10,7 @@ const DOCS_LAYOUT_PROPS = {
     ...baseOptions,
     tree: source.getPageTree(),
     sidebar: {
-        ...baseOptions.sidebar,
+        // ...baseOptions.sidebar,
         tabs: SIDEBAR_TABS,
     },
     links: [
@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <DocsLayout
             {...DOCS_LAYOUT_PROPS}
             sidebar={{
-                ...DOCS_LAYOUT_PROPS.sidebar,
+                // ...DOCS_LAYOUT_PROPS.sidebar,
                 component: <DocsSidebar {...DOCS_LAYOUT_PROPS} />,
             }}
             nav={{
