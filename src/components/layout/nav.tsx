@@ -14,8 +14,8 @@ export const Nav = () => {
     const { open, setOpen } = useSidebar();
     const links = baseOptions.links || [];
     return (
-        <LayoutHeader className="sticky top-0 z-50 h-16 w-full   backdrop-blur-xl bg-transparent -mb-2.5">
-            <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <LayoutHeader className="sticky top-0 z-50 h-16 w-full   backdrop-blur-xl bg-transparent -mb-5">
+            <div className="mx-auto flex h-full max-w-8xl items-center justify-between px-4 sm:px-6 lg:px-8 ">
                 {renderTitleNav(baseOptions.nav || {}, {
                     className: "flex items-center gap-2.5 transition-opacity hover:opacity-90 shrink-0"
                 })}
