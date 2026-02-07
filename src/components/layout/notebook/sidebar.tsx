@@ -65,7 +65,7 @@ export function SidebarContent({
                 <div
                     data-sidebar-placeholder=""
                     className={cn(
-                        "sticky z-20 [grid-area:sidebar] pointer-events-none *:pointer-events-auto md:layout:[--fd-sidebar-width:268px] max-md:hidden",
+                        "sticky mt-5 z-20 [grid-area:sidebar] pointer-events-none *:pointer-events-auto md:layout:[--fd-sidebar-width:268px] max-md:hidden",
                         navMode === "auto"
                             ? "top-(--fd-docs-row-1) h-[calc(var(--fd-docs-height)-var(--fd-docs-row-1))]"
                             : "top-(--fd-docs-row-2) h-[calc(var(--fd-docs-height)-var(--fd-docs-row-2))]",
@@ -140,7 +140,7 @@ export function SidebarSeparator({
         <Base.SidebarSeparator
             className={cn(
                 "mt-8 mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.2em] text-fd-muted-foreground/60 flex items-center gap-2 before:content-[''] before:h-px before:flex-1 before:bg-fd-border/30 after:content-[''] after:h-px after:flex-1 after:bg-fd-border/30",
-                className
+                className,
             )}
             style={{
                 paddingInlineStart: getItemOffset(depth),

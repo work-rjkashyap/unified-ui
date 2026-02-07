@@ -30,6 +30,36 @@ export const components = defineDocs({
   },
 });
 
+export const legal = defineDocs({
+  dir: "content/legal",
+  docs: {
+    schema: frontmatterSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
+export const company = defineDocs({
+  dir: "content/company",
+  docs: {
+    schema: frontmatterSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
+export const resources = defineDocs({
+  dir: "content/resources",
+  docs: {
+    schema: frontmatterSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
 export default defineConfig({
   mdxOptions: {
     // MDX options

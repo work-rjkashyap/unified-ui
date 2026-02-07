@@ -10,27 +10,27 @@ import { BookIcon, CodeIcon, LayoutIcon } from "lucide-react";
  * Docs Layout: app/docs/layout.tsx
  */
 export const baseOptions: BaseLayoutProps = {
-    nav: {
-        title: <Logo />,
+  nav: {
+    title: <Logo />,
+  },
+  links: [
+    {
+      text: "Documentation",
+      url: "/docs",
+      active: "nested-url",
+      icon: <BookIcon className="size-4" />,
     },
-    links: [
-        {
-            text: "Documentation",
-            url: "/docs",
-            active: "nested-url",
-            icon: <BookIcon className="size-4" />,
-        },
-        {
-            text: "Components",
-            url: "/components",
-            active: "nested-url",
-            icon: <CodeIcon className="size-4" />,
-        },
-        {
-            text: "Showcase",
-            url: "/showcase",
-            icon: <LayoutIcon className="size-4" />,
-        },
-    ],
-    githubUrl: "https://github.com/unified-ui/unified-ui",
+    {
+      text: "Components",
+      url: "/components",
+      active: "nested-url",
+      icon: <CodeIcon className="size-4" />,
+    },
+    {
+      text: "Showcase",
+      url: "/showcase",
+      icon: <LayoutIcon className="size-4" />,
+    },
+  ],
+  githubUrl: "https://github.com/unified-ui/unified-ui",
 };

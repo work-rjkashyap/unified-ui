@@ -4,15 +4,15 @@ import { HomeLayout } from "@/components/layout/home";
 import { Nav } from "@/components/layout/nav";
 
 export default function Layout({ children }: { children: ReactNode }) {
-    return (
-        <HomeLayout
-            {...baseOptions}
-            nav={{
-                ...baseOptions.nav,
-                component: <Nav />,
-            }}
-        >
-            {children}
-        </HomeLayout>
-    );
+  return (
+    <HomeLayout
+      {...baseOptions}
+      nav={{
+        ...baseOptions.nav,
+        component: <Nav />,
+      }}
+    >
+      {children}
+    </HomeLayout>
+  );
 }

@@ -1,5 +1,24 @@
 "use client";
 
+import { type ComponentProps, Fragment, useState } from "react";
+import Link from "fumadocs-core/link";
+import { useIsScrollTop } from "fumadocs-ui/utils/use-is-scroll-top";
+import type { NavOptions } from "../shared";
+import { cn } from "@/lib/cn";
+import { buttonVariants } from "../../ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "../../ui/navigation-menu";
+import type { LinkItemType } from "../link-item";
+import { LinkItem } from "../link-item";
+import { navItemVariants } from "../navbar";
+
 export { Header } from "../navbar";
 
 function _isSecondary(item: LinkItemType): boolean {
