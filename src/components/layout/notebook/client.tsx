@@ -23,19 +23,16 @@ import {
   isTabActive,
   type SidebarTabWithProps,
 } from "../sidebar/tabs/dropdown";
-
 export const LayoutContext = createContext<
   | (LayoutInfo & {
       isNavTransparent: boolean;
     })
   | null
 >(null);
-
 export interface LayoutInfo {
   tabMode: "sidebar" | "navbar";
   navMode: "top" | "auto";
 }
-
 export function LayoutContextProvider({
   navTransparentMode = "none",
   navMode,
@@ -49,7 +46,6 @@ export function LayoutContextProvider({
     useIsScrollTop({ enabled: navTransparentMode === "top" }) ?? true;
   const isNavTransparent =
     navTransparentMode === "top" ? isTop : navTransparentMode === "always";
-
   return (
     <LayoutContext
       value={useMemo(
@@ -65,18 +61,15 @@ export function LayoutContextProvider({
     </LayoutContext>
   );
 }
-
 export function LayoutHeader(props: ComponentProps<"header">) {
   const { open } = useSidebar();
   const { isNavTransparent } = use(LayoutContext)!;
-
   return (
     <header data-transparent={isNavTransparent && !open} {...props}>
       {props.children}
     </header>
   );
 }
-
 export function LayoutBody({
   className,
   style,
@@ -87,12 +80,11 @@ export function LayoutBody({
   const { collapsed } = useSidebar();
   const pageCol =
     "calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-col) - var(--fd-toc-width))";
-
   return (
     <div
       id="nd-notebook-layout"
       className={cn(
-        "grid overflow-x-clip min-h-(--fd-docs-height) transition-[grid-template-columns] auto-cols-auto auto-rows-auto [--fd-docs-height:100dvh] [--fd-header-height:0px] [--fd-toc-popover-height:0px] [--fd-sidebar-width:0px] [--fd-toc-width:0px]",
+        "grid overflow-x-clip min-h-(--fd-docs-height) transition-[grid-template-columns] auto-cols-auto auto-rows-auto [--fd-docs-height:94dvh] [--fd-header-height:0px] [--fd-toc-popover-height:0px] [--fd-sidebar-width:0px] [--fd-toc-width:0px]",
         className,
       )}
       style={
@@ -120,7 +112,6 @@ export function LayoutBody({
     </div>
   );
 }
-
 export function LayoutHeaderTabs({
   options,
   className,
@@ -132,7 +123,6 @@ export function LayoutHeaderTabs({
   const selectedIdx = useMemo(() => {
     return options.findLastIndex((option) => isTabActive(option, pathname));
   }, [options, pathname]);
-
   return (
     <div className={cn("flex flex-row items-end gap-6", className)} {...props}>
       {options.map((option, i) => {
@@ -143,7 +133,6 @@ export function LayoutHeaderTabs({
           props: { className, ...rest } = {},
         } = option;
         const isSelected = selectedIdx === i;
-
         return (
           <Link
             key={i}
@@ -163,18 +152,15 @@ export function LayoutHeaderTabs({
     </div>
   );
 }
-
 export function NavbarLinkItem({
   item,
   className,
   ...props
 }: { item: LinkItemType } & HTMLAttributes<HTMLElement>) {
   if (item.type === "custom") return item.children;
-
   if (item.type === "menu") {
     return <NavbarLinkItemMenu item={item} className={className} {...props} />;
   }
-
   return (
     <LinkItem
       item={item}
@@ -188,7 +174,6 @@ export function NavbarLinkItem({
     </LinkItem>
   );
 }
-
 function NavbarLinkItemMenu({
   item,
   hoverDelay = 50,
@@ -198,13 +183,11 @@ function NavbarLinkItemMenu({
   const [open, setOpen] = useState(false);
   const timeoutRef = useRef<number>(null);
   const freezeUntil = useRef<number>(null);
-
   const delaySetOpen = (value: boolean) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-
     timeoutRef.current = window.setTimeout(() => {
       setOpen(value);
       freezeUntil.current = Date.now() + 300;
@@ -221,7 +204,6 @@ function NavbarLinkItemMenu({
   function isTouchDevice() {
     return "ontouchstart" in window || navigator.maxTouchPoints > 0;
   }
-
   return (
     <Popover
       open={open}
@@ -254,7 +236,6 @@ function NavbarLinkItemMenu({
         {item.items.map((child, i) => {
           if (child.type === "custom")
             return <Fragment key={i}>{child.children}</Fragment>;
-
           return (
             <LinkItem
               key={i}

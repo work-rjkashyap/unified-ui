@@ -1,139 +1,161 @@
-@import 'tailwindcss';
-@import 'fumadocs-ui/css/ocean.css';
-@import 'fumadocs-ui/css/preset.css';
+@import "tailwindcss";
+@import "fumadocs-ui/css/ocean.css";
+@import "fumadocs-ui/css/preset.css";
 
 @theme {
-    --color-fd-background: hsl(0, 0%, 96%);
-    --color-fd-foreground: hsl(0, 0%, 3.9%);
-    --color-fd-muted: hsl(0, 0%, 96.1%);
-    --color-fd-muted-foreground: hsl(0, 0%, 45.1%);
-    --color-fd-popover: hsl(0, 0%, 98%);
-    --color-fd-popover-foreground: hsl(0, 0%, 15.1%);
-    --color-fd-card: hsl(0, 0%, 94.7%);
-    --color-fd-card-foreground: hsl(0, 0%, 3.9%);
-    --color-fd-border: hsla(0, 0%, 80%, 50%);
-    --color-fd-primary: hsl(0, 0%, 9%);
-    --color-fd-primary-foreground: hsl(0, 0%, 98%);
-    --color-fd-secondary: hsl(0, 0%, 93.1%);
-    --color-fd-secondary-foreground: hsl(0, 0%, 9%);
-    --color-fd-accent: hsla(0, 0%, 82%, 50%);
-    --color-fd-accent-foreground: hsl(0, 0%, 9%);
-    --color-fd-ring: hsl(0, 0%, 63.9%);
+  --color-fd-background: hsl(0, 0%, 96%);
+  --color-fd-foreground: hsl(0, 0%, 3.9%);
+  --color-fd-muted: hsl(0, 0%, 96.1%);
+  --color-fd-muted-foreground: hsl(0, 0%, 45.1%);
+  --color-fd-popover: hsl(0, 0%, 98%);
+  --color-fd-popover-foreground: hsl(0, 0%, 15.1%);
+  --color-fd-card: hsl(0, 0%, 94.7%);
+  --color-fd-card-foreground: hsl(0, 0%, 3.9%);
+  --color-fd-border: hsla(0, 0%, 80%, 50%);
+  --color-fd-primary: hsl(0, 0%, 9%);
+  --color-fd-primary-foreground: hsl(0, 0%, 98%);
+  --color-fd-secondary: hsl(0, 0%, 93.1%);
+  --color-fd-secondary-foreground: hsl(0, 0%, 9%);
+  --color-fd-accent: hsla(0, 0%, 82%, 50%);
+  --color-fd-accent-foreground: hsl(0, 0%, 9%);
+  --color-fd-ring: hsl(0, 0%, 63.9%);
 }
 
 .dark {
-    --color-fd-background: hsl(0, 0%, 7.04%);
-    --color-fd-foreground: hsl(0, 0%, 92%);
-    --color-fd-muted: hsl(0, 0%, 12.9%);
-    --color-fd-muted-foreground: hsla(0, 0%, 70%, 0.8);
-    --color-fd-popover: hsl(0, 0%, 11.6%);
-    --color-fd-popover-foreground: hsl(0, 0%, 86.9%);
-    --color-fd-card: hsl(0, 0%, 9.8%);
-    --color-fd-card-foreground: hsl(0, 0%, 98%);
-    --color-fd-border: hsla(0, 0%, 40%, 20%);
-    --color-fd-primary: hsl(0, 0%, 98%);
-    --color-fd-primary-foreground: hsl(0, 0%, 9%);
-    --color-fd-secondary: hsl(0, 0%, 12.9%);
-    --color-fd-secondary-foreground: hsl(0, 0%, 92%);
-    --color-fd-accent: hsla(0, 0%, 40.9%, 30%);
-    --color-fd-accent-foreground: hsl(0, 0%, 90%);
-    --color-fd-ring: hsl(0, 0%, 54.9%);
+  --color-fd-background: hsl(0, 0%, 7.04%);
+  --color-fd-foreground: hsl(0, 0%, 92%);
+  --color-fd-muted: hsl(0, 0%, 12.9%);
+  --color-fd-muted-foreground: hsla(0, 0%, 70%, 0.8);
+  --color-fd-popover: hsl(0, 0%, 11.6%);
+  --color-fd-popover-foreground: hsl(0, 0%, 86.9%);
+  --color-fd-card: hsl(0, 0%, 9.8%);
+  --color-fd-card-foreground: hsl(0, 0%, 98%);
+  --color-fd-border: hsla(0, 0%, 40%, 20%);
+  --color-fd-primary: hsl(0, 0%, 98%);
+  --color-fd-primary-foreground: hsl(0, 0%, 9%);
+  --color-fd-secondary: hsl(0, 0%, 12.9%);
+  --color-fd-secondary-foreground: hsl(0, 0%, 92%);
+  --color-fd-accent: hsla(0, 0%, 40.9%, 30%);
+  --color-fd-accent-foreground: hsl(0, 0%, 90%);
+  --color-fd-ring: hsl(0, 0%, 54.9%);
 }
 
 /* Animations */
 @keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
 
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
 
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
 
-    100% {
-        transform: translate(0px, 0px) scale(1);
-    }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
+  0% {
+    background-position: 0% 50%;
+  }
 
-    50% {
-        background-position: 100% 50%;
-    }
+  50% {
+    background-position: 100% 50%;
+  }
 
-    100% {
-        background-position: 0% 50%;
-    }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes fade-in {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-blob {
-    animation: blob 7s infinite;
+  animation: blob 7s infinite;
+}
+
+/* Fix popup z-indices */
+div[role="dialog"] {
+  z-index: 100;
+}
+
+.fd-search {
+  z-index: 110;
+}
+
+[data-radix-portal] {
+  z-index: 100;
+}
+
+/* Fix global scrollbars appearing when not needed */
+html {
+  overflow-y: auto;
 }
 
 .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 15s ease infinite;
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
 }
 
 .animate-fade-in {
-    animation: fade-in 0.6s ease-out;
+  animation: fade-in 0.6s ease-out;
 }
 
 .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out;
+  animation: fade-in-up 0.6s ease-out;
 }
 
 .bg-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    mask-image: radial-gradient(ellipse with size 100% 100% at 50% 50%, black, transparent);
-    opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mask-image: radial-gradient(
+    ellipse with size 100% 100% at 50% 50%,
+    black,
+    transparent
+  );
+  opacity: 0.05;
 }
 
 .animation-delay-200 {
-    animation-delay: 200ms;
+  animation-delay: 200ms;
 }
 
 .animation-delay-400 {
-    animation-delay: 400ms;
+  animation-delay: 400ms;
 }
 
 .animation-delay-600 {
-    animation-delay: 600ms;
+  animation-delay: 600ms;
 }
 
 .animation-delay-2000 {
-    animation-delay: 2s;
+  animation-delay: 2s;
 }
 
 .animation-delay-4000 {
-    animation-delay: 4s;
+  animation-delay: 4s;
 }

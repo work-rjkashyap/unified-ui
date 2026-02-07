@@ -8,7 +8,7 @@ const ScrollArea = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <Primitive.Root
     ref={ref}
-    type="scroll"
+    type="auto"
     className={cn("overflow-hidden", className)}
     {...props}
   >

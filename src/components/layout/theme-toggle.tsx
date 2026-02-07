@@ -24,7 +24,7 @@ export function ThemeToggle({
   className,
   mode = "light-dark",
   ...props
-}: ComponentProps<"div"> & {
+}: ComponentProps<"button"> & {
   mode?: "light-dark" | "light-dark-system";
 }) {
   const { setTheme, theme, resolvedTheme } = useTheme();
@@ -34,50 +34,51 @@ export function ThemeToggle({
     setMounted(true);
   }, []);
 
-  const container = cn(
-    "inline-flex items-center rounded-full border border-border/40 bg-muted/20 p-1 *:rounded-full transition-all duration-300 hover:border-border/80",
-    className,
-  );
-
-  if (mode === "light-dark") {
-    const value = mounted ? resolvedTheme : null;
-
-    return (
-      <button
-        className={container}
-        aria-label={`Toggle Theme`}
-        onClick={() => setTheme(value === "light" ? "dark" : "light")}
-        data-theme-toggle=""
-      >
-        {full.map(([key, Icon]) => {
-          if (key === "system") return;
-
-          return (
-            <Icon
-              key={key}
-              fill="currentColor"
-              className={cn(itemVariants({ active: value === key }))}
-            />
-          );
-        })}
-      </button>
-    );
-  }
-
-  const value = mounted ? theme : null;
+  const value = mounted
+    ? mode === "light-dark"
+      ? resolvedTheme
+      : theme
+    : null;
 
   return (
-    <div className={container} data-theme-toggle="" {...props}>
-      {full.map(([key, Icon]) => (
-        <button
-          key={key}
-          aria-label={key}
-          className={cn(itemVariants({ active: value === key }))}
-          onClick={() => setTheme(key)}
-        >
-          <Icon className="size-full" fill="currentColor" />
-        </button>
-      ))}
-    </div>
+    <button
+      type="button"
+      className={cn(
+        "inline-flex size-9 items-center justify-center rounded-lg border border-fd-border/50 bg-fd-muted/50 p-2 text-fd-muted-foreground transition-all duration-300 hover:border-fd-border hover:bg-fd-muted hover:text-fd-foreground",
+        className,
+      )}
+      aria-label="Toggle theme"
+      onClick={() => {
+        if (mode === "light-dark-system") {
+          const modes = ["light", "dark", "system"] as const;
+          const next = modes[(modes.indexOf(theme as any) + 1) % 3];
+          setTheme(next);
+        } else {
+          setTheme(resolvedTheme === "light" ? "dark" : "light");
+        }
+      }}
+      {...props}
+    >
+      <Sun
+        className={cn(
+          "size-full transition-all duration-500",
+          value !== "light" && "scale-0 rotate-90 opacity-0 absolute",
+        )}
+      />
+      <Moon
+        className={cn(
+          "size-full transition-all duration-500",
+          value !== "dark" && "scale-0 rotate-90 opacity-0 absolute",
+        )}
+      />
+      {mode === "light-dark-system" && (
+        <Airplay
+          className={cn(
+            "size-full transition-all duration-500",
+            value !== "system" && "scale-0 rotate-90 opacity-0 absolute",
+          )}
+        />
+      )}
+    </button>
   );
 }

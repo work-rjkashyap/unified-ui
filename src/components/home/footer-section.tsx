@@ -43,8 +43,12 @@ const footerLinks = {
     },
 };
 const socialLinks = [
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    {
+        icon: Github,
+        href: "https://github.com/work-rjkashyap/unified-ui",
+        label: "GitHub",
+    },
+    { icon: Twitter, href: "https://x.com/i_am_rj05", label: "Twitter" },
     { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
     { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
 ];
@@ -116,7 +120,7 @@ export function FooterSection() {
                             <p>© {new Date().getFullYear()} Unified UI</p>
                             <span className="hidden md:inline opacity-30">•</span>
                             <Link
-                                href="/docs"
+                                href="/status"
                                 className="inline-flex items-center gap-1.5 text-fd-primary hover:text-fd-primary/80 transition-colors"
                             >
                                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />

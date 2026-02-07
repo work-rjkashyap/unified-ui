@@ -25,7 +25,7 @@ export function CTASection() {
               <Link
                 href="/docs"
                 className={cn(
-                  "inline-flex items-center gap-2 px-8 py-4 rounded-full",
+                  "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full w-full sm:w-56",
                   "bg-fd-foreground text-fd-background",
                   "font-semibold text-sm transition-all duration-300",
                   "hover:shadow-[0_0_30px_rgba(var(--fd-foreground),0.3)] hover:-translate-y-1 active:scale-95",
@@ -35,11 +35,11 @@ export function CTASection() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="https://github.com"
+                href="https://github.com/work-rjkashyap/unified-ui"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "inline-flex items-center gap-2 px-8 py-4 rounded-full",
+                  "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full w-full sm:w-56",
                   "bg-fd-background text-fd-foreground border border-fd-border",
                   "font-semibold text-sm transition-all duration-300",
                   "hover:bg-fd-muted active:scale-95",

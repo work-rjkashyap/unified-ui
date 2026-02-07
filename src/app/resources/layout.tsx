@@ -5,18 +5,18 @@ import { Nav } from "@/components/layout/nav";
 import { FooterSection } from "@/components/home/footer-section";
 
 export default function Layout({ children }: { children: ReactNode }) {
-    return (
-        <HomeLayout
-            {...baseOptions}
-            nav={{
-                ...baseOptions.nav,
-                component: <Nav />,
-            }}
-        >
-            <div className="flex flex-col min-h-screen">
-                <main className="flex-1">{children}</main>
-                <FooterSection />
-            </div>
-        </HomeLayout>
-    );
+  return (
+    <HomeLayout
+      {...baseOptions}
+      nav={{
+        ...baseOptions.nav,
+        component: <Nav />,
+      }}
+    >
+      <div className="flex flex-col min-h-screen">
+        <main className="flex-1">{children}</main>
+        <FooterSection />
+      </div>
+    </HomeLayout>
+  );
 }

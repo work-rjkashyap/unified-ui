@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 export function HeroSection() {
@@ -49,7 +49,7 @@ export function HeroSection() {
           <Link
             href="/docs"
             className={cn(
-              "group inline-flex items-center gap-2 px-7 py-3 rounded-full",
+              "group inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full w-full sm:w-48",
               "bg-fd-foreground text-fd-background",
               "font-semibold text-sm transition-all duration-300",
               "hover:shadow-[0_0_20px_rgba(var(--fd-foreground),0.3)] hover:-translate-y-0.5 active:scale-95",
@@ -61,7 +61,7 @@ export function HeroSection() {
           <Link
             href="/docs"
             className={cn(
-              "inline-flex items-center gap-2 px-7 py-3 rounded-full",
+              "inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full w-full sm:w-48",
               "bg-fd-background text-fd-foreground border border-fd-border",
               "font-semibold text-sm transition-all duration-300",
               "hover:bg-fd-muted hover:border-fd-muted-foreground/20 active:scale-95",

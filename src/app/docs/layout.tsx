@@ -17,7 +17,7 @@ const DOCS_LAYOUT_PROPS = {
     ...(baseOptions.links || []),
     {
       icon: <Twitter className="size-4" />,
-      url: "https://x.com/unified_ui",
+      url: "https://x.com/i_am_rj05",
       text: "X",
       type: "icon" as const,
     },

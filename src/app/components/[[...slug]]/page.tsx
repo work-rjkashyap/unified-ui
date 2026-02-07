@@ -21,8 +21,8 @@ export default async function Page(
   const MDX = page.data.body;
 
   const gitConfig = {
-    user: "username",
-    repo: "repo",
+    user: "work-rjkashyap",
+    repo: "unified-ui",
     branch: "main",
   };
 

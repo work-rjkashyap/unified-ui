@@ -1,5 +1,4 @@
 "use client";
-
 import type * as PageTree from "fumadocs-core/page-tree";
 import { Languages, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -20,13 +19,11 @@ import {
   SidebarTrigger,
   SidebarViewport,
 } from "./sidebar";
-
 export interface DocsSidebarProps extends BaseLayoutProps {
   tree: PageTree.Root;
   tabs?: SidebarTabWithProps[];
   tabMode?: "sidebar" | "navbar";
 }
-
 export function DocsSidebar({
   tree,
   tabs = [],
@@ -38,7 +35,6 @@ export function DocsSidebar({
 }: DocsSidebarProps) {
   const { menuItems } = useLinkItems(props);
   const iconLinks = menuItems.filter((item) => item.type === "icon");
-
   const viewport = (
     <SidebarViewport>
       {menuItems
@@ -53,7 +49,6 @@ export function DocsSidebar({
       <SidebarPageTree />
     </SidebarViewport>
   );
-
   return (
     <>
       <SidebarContent>
@@ -68,7 +63,7 @@ export function DocsSidebar({
             />
           )}
         </div>
-        <div className="px-2 py-1">{viewport}</div>
+        <div className="flex-1 min-h-0">{viewport}</div>
         <div
           className={cn(
             "hidden flex-row text-fd-muted-foreground items-center border-t border-fd-border/40 p-4 pt-2 mt-auto",
@@ -93,7 +88,6 @@ export function DocsSidebar({
           ))}
         </div>
       </SidebarContent>
-
       <SidebarDrawer>
         <div className="flex flex-col gap-3 p-4 pb-2">
           <SidebarTrigger

@@ -1,6 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { Logo } from "@/components/layout/logo";
-import { BookIcon, CodeIcon, LayoutIcon } from "lucide-react";
+import { BookIcon, CodeIcon, LayoutIcon, Twitter } from "lucide-react";
 
 /**
  * Shared layout configurations
@@ -31,6 +31,12 @@ export const baseOptions: BaseLayoutProps = {
       url: "/showcase",
       icon: <LayoutIcon className="size-4" />,
     },
+    {
+      type: "icon",
+      text: "Twitter",
+      url: "https://x.com/i_am_rj05",
+      icon: <Twitter className="size-4" />,
+    },
   ],
-  githubUrl: "https://github.com/unified-ui/unified-ui",
+  githubUrl: "https://github.com/work-rjkashyap/unified-ui",
 };
