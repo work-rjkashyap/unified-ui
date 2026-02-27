@@ -1,0 +1,365 @@
+---
+title: Colors
+description: Color palettes, semantic mappings, and dark mode support in Unified UI.
+icon: Paintbrush
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+Unified UI uses a two-tier color system:
+
+1. **Base palettes** — Raw color ramps from 50 → 950 (inspired by Tailwind's palette structure).
+2. **Semantic mappings** — Intent-based aliases (`primary`, `danger`, `success`, etc.) that map to specific palette stops for light and dark modes.
+
+All color values are stored as **RGB channel strings** (e.g. `"15 23 42"`) so they work with Tailwind's opacity modifier syntax: `bg-ds-primary/50`.
+
+<Callout type="info">
+  Components never reference base palette values directly. They use semantic tokens through CSS custom properties (`--ds-color-primary`, `--ds-color-danger`, etc.), which the theme layer resolves to the correct palette stop for the active mode.
+</Callout>
+
+---
+
+## Base Palettes
+
+Each palette provides 11 stops from `50` (lightest) to `950` (darkest).
+
+### Brand
+
+The primary identity palette, based on an indigo scale. Used for primary actions, links, and focus states.
+
+| Stop | Value             | Preview |
+| ---- | ----------------- | ------- |
+| 50   | `rgb(238 242 255)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(238,242,255)"}} /> |
+| 100  | `rgb(224 231 255)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(224,231,255)"}} /> |
+| 200  | `rgb(199 210 254)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(199,210,254)"}} /> |
+| 300  | `rgb(165 180 252)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(165,180,252)"}} /> |
+| 400  | `rgb(129 140 248)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(129,140,248)"}} /> |
+| 500  | `rgb(99 102 241)`  | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(99,102,241)"}} /> |
+| 600  | `rgb(79 70 229)`   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(79,70,229)"}} /> |
+| 700  | `rgb(67 56 202)`   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(67,56,202)"}} /> |
+| 800  | `rgb(55 48 163)`   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(55,48,163)"}} /> |
+| 900  | `rgb(49 46 129)`   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(49,46,129)"}} /> |
+| 950  | `rgb(30 27 75)`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(30,27,75)"}} /> |
+
+### Neutral (Zinc)
+
+The workhorse palette for text, borders, backgrounds, and surfaces.
+
+| Stop | Value             | Preview |
+| ---- | ----------------- | ------- |
+| 50   | `rgb(250 250 250)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(250,250,250)"}} /> |
+| 100  | `rgb(244 244 245)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(244,244,245)"}} /> |
+| 200  | `rgb(228 228 231)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(228,228,231)"}} /> |
+| 300  | `rgb(212 212 216)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(212,212,216)"}} /> |
+| 400  | `rgb(161 161 170)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(161,161,170)"}} /> |
+| 500  | `rgb(113 113 122)` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(113,113,122)"}} /> |
+| 600  | `rgb(82 82 91)`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(82,82,91)"}} /> |
+| 700  | `rgb(63 63 70)`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(63,63,70)"}} /> |
+| 800  | `rgb(39 39 42)`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(39,39,42)"}} /> |
+| 900  | `rgb(24 24 27)`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(24,24,27)"}} /> |
+| 950  | `rgb(9 9 11)`      | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "rgb(9,9,11)"}} /> |
+
+### Additional Palettes
+
+Unified UI also ships these palettes for semantic and decorative use:
+
+| Palette  | Purpose                         | Key stops used                    |
+| -------- | ------------------------------- | --------------------------------- |
+| **Slate**  | Alternative cool neutral      | Backgrounds, surfaces             |
+| **Gray**   | True gray neutral             | Backgrounds, surfaces             |
+| **Blue**   | Information, links            | `info` semantic color             |
+| **Green**  | Success, confirmation         | `success` semantic color          |
+| **Amber**  | Warnings, caution             | `warning` semantic color          |
+| **Red**    | Errors, destructive actions   | `danger` semantic color           |
+| **Teal**   | Accent, decorative            | Illustrations, charts             |
+
+```tsx
+import { brand, blue, green, amber, red, teal, neutral, palettes } from "@work-rjkashyap/unified-ui/tokens";
+
+// Individual palette
+console.log(brand[600]); // "79 70 229"
+
+// All palettes bundled (useful for tooling / documentation)
+console.log(Object.keys(palettes)); // ["slate", "gray", "zinc", "brand", "blue", "green", "amber", "red", "teal"]
+```
+
+---
+
+## Semantic Colors
+
+Semantic colors map **intent** to specific palette stops. This indirection means you can rebrand the entire system by changing the semantic mapping — components never need to change.
+
+<Tabs items={['Light Mode', 'Dark Mode']}>
+<Tab value="Light Mode">
+
+### Backgrounds & Surfaces
+
+| Token                | Source          | Tailwind class             | Use case                      |
+| -------------------- | --------------- | -------------------------- | ----------------------------- |
+| `background`         | `pure.white`    | `bg-ds-background`         | Page background               |
+| `foreground`         | `neutral.950`   | `text-ds-foreground`       | Default text color            |
+| `surface`            | `neutral.50`    | `bg-ds-surface`            | Subtle surface background     |
+| `surfaceRaised`      | `pure.white`    | `bg-ds-surface-raised`     | Cards, elevated surfaces      |
+| `surfaceOverlay`     | `neutral.100`   | `bg-ds-surface-overlay`    | Overlay backgrounds           |
+| `muted`              | `neutral.100`   | `bg-ds-muted`              | Muted backgrounds             |
+| `mutedForeground`    | `neutral.600`   | `text-ds-muted-foreground` | Secondary text                |
+
+### Primary (Brand)
+
+| Token                    | Source        | Tailwind class                  | Use case                   |
+| ------------------------ | ------------- | ------------------------------- | -------------------------- |
+| `primary`                | `brand.600`   | `bg-ds-primary`                 | Primary buttons, links     |
+| `primaryForeground`      | `pure.white`  | `text-ds-primary-foreground`    | Text on primary bg         |
+| `primaryHover`           | `brand.700`   | —                               | Hover state                |
+| `primaryActive`          | `brand.800`   | —                               | Active/pressed state       |
+| `primaryMuted`           | `brand.50`    | `bg-ds-primary-muted`           | Soft primary background    |
+| `primaryMutedForeground` | `brand.700`   | `text-ds-primary-muted-foreground` | Text on muted primary   |
+
+### Secondary
+
+| Token                  | Source        | Tailwind class                    | Use case                 |
+| ---------------------- | ------------- | --------------------------------- | ------------------------ |
+| `secondary`            | `neutral.100` | `bg-ds-secondary`                 | Secondary buttons        |
+| `secondaryForeground`  | `neutral.900` | `text-ds-secondary-foreground`    | Text on secondary bg     |
+| `secondaryHover`       | `neutral.200` | —                                 | Hover state              |
+| `secondaryActive`      | `neutral.300` | —                                 | Active/pressed state     |
+
+### Status Colors
+
+| Intent      | Base              | Foreground          | Muted            | Muted Foreground   |
+| ----------- | ----------------- | ------------------- | ---------------- | ------------------ |
+| **Success** | `green.600`       | `neutral.950`       | `green.50`       | `green.700`        |
+| **Warning** | `amber.500`       | `neutral.950`       | `amber.50`       | `amber.700`        |
+| **Danger**  | `red.600`         | `pure.white`        | `red.50`         | `red.700`          |
+| **Info**    | `blue.600`        | `pure.white`        | `blue.50`        | `blue.700`         |
+
+### Borders & Inputs
+
+| Token             | Source                  | Tailwind class         | Use case                     |
+| ----------------- | ----------------------- | ---------------------- | ---------------------------- |
+| `border`          | `rgb(188 188 194)`      | `border-ds-border`     | Default borders              |
+| `borderMuted`     | `neutral.100`           | `border-ds-border-muted` | Subtle borders             |
+| `borderStrong`    | `rgb(148 148 157)`      | `border-ds-border-strong` | Emphasized borders        |
+| `focusRing`       | `brand.500`             | `ring-ds-focus-ring`   | Focus indicators             |
+| `input`           | `rgb(148 148 157)`      | `border-ds-input`      | Input field borders          |
+| `inputForeground` | `neutral.900`           | `text-ds-input-foreground` | Input text color         |
+| `inputPlaceholder`| `neutral.500`           | —                      | Placeholder text             |
+
+### Disabled
+
+| Token                | Source                  | Use case                    |
+| -------------------- | ----------------------- | --------------------------- |
+| `disabled`           | `neutral.100`           | Disabled backgrounds        |
+| `disabledForeground` | `rgb(120 120 129)`      | Disabled text               |
+
+</Tab>
+<Tab value="Dark Mode">
+
+### Backgrounds & Surfaces
+
+| Token                | Source          | Tailwind class             | Use case                      |
+| -------------------- | --------------- | -------------------------- | ----------------------------- |
+| `background`         | `neutral.950`   | `bg-ds-background`         | Page background               |
+| `foreground`         | `neutral.50`    | `text-ds-foreground`       | Default text color            |
+| `surface`            | `neutral.900`   | `bg-ds-surface`            | Subtle surface background     |
+| `surfaceRaised`      | `neutral.800`   | `bg-ds-surface-raised`     | Cards, elevated surfaces      |
+| `surfaceOverlay`     | `neutral.800`   | `bg-ds-surface-overlay`    | Overlay backgrounds           |
+| `muted`              | `neutral.800`   | `bg-ds-muted`              | Muted backgrounds             |
+| `mutedForeground`    | `neutral.400`   | `text-ds-muted-foreground` | Secondary text                |
+
+### Primary (Brand)
+
+| Token                    | Source        | Tailwind class                  | Dark mode note                     |
+| ------------------------ | ------------- | ------------------------------- | ---------------------------------- |
+| `primary`                | `brand.400`   | `bg-ds-primary`                 | Lighter stop for AA contrast (6.67:1) |
+| `primaryForeground`      | `neutral.900` | `text-ds-primary-foreground`    | Dark text on light primary         |
+| `primaryHover`           | `brand.300`   | —                               | Even lighter on hover              |
+| `primaryActive`          | `brand.200`   | —                               | Lightest on active                 |
+| `primaryMuted`           | `brand.950`   | `bg-ds-primary-muted`           | Very dark muted primary            |
+| `primaryMutedForeground` | `brand.300`   | `text-ds-primary-muted-foreground` | Light text on dark muted        |
+
+### Secondary
+
+| Token                  | Source        | Tailwind class                    | Use case                 |
+| ---------------------- | ------------- | --------------------------------- | ------------------------ |
+| `secondary`            | `neutral.800` | `bg-ds-secondary`                 | Secondary buttons        |
+| `secondaryForeground`  | `neutral.100` | `text-ds-secondary-foreground`    | Text on secondary bg     |
+| `secondaryHover`       | `neutral.700` | —                                 | Hover state              |
+| `secondaryActive`      | `neutral.600` | —                                 | Active/pressed state     |
+
+### Status Colors
+
+| Intent      | Base              | Foreground          | Muted            | Muted Foreground   |
+| ----------- | ----------------- | ------------------- | ---------------- | ------------------ |
+| **Success** | `green.500`       | `neutral.950`       | `green.950`      | `green.300`        |
+| **Warning** | `amber.400`       | `neutral.950`       | `amber.950`      | `amber.300`        |
+| **Danger**  | `red.500`         | `neutral.950`       | `red.950`        | `red.300`          |
+| **Info**    | `blue.400`        | `neutral.950`       | `blue.950`       | `blue.300`         |
+
+### Borders & Inputs
+
+| Token             | Source                  | Tailwind class         | Use case                     |
+| ----------------- | ----------------------- | ---------------------- | ---------------------------- |
+| `border`          | `neutral.600`           | `border-ds-border`     | Default borders              |
+| `borderMuted`     | `neutral.800`           | `border-ds-border-muted` | Subtle borders             |
+| `borderStrong`    | `neutral.500`           | `border-ds-border-strong` | Emphasized borders        |
+| `focusRing`       | `brand.400`             | `ring-ds-focus-ring`   | Focus indicators             |
+| `input`           | `rgb(96 96 105)`        | `border-ds-input`      | Input field borders          |
+| `inputForeground` | `neutral.50`            | `text-ds-input-foreground` | Input text color         |
+| `inputPlaceholder`| `rgb(137 137 145)`      | —                      | Placeholder text             |
+
+### Disabled
+
+| Token                | Source                  | Use case                    |
+| -------------------- | ----------------------- | --------------------------- |
+| `disabled`           | `neutral.800`           | Disabled backgrounds        |
+| `disabledForeground` | `neutral.500`           | Disabled text               |
+
+</Tab>
+</Tabs>
+
+---
+
+## Contrast Compliance
+
+All semantic color pairings are designed to meet **WCAG AA** contrast requirements:
+
+- **Normal text** (< 18px or < 14px bold): 4.5:1 minimum contrast ratio
+- **Large text** (≥ 18px or ≥ 14px bold): 3:1 minimum contrast ratio
+- **Non-text elements** (borders, icons, form controls): 3:1 minimum per SC 1.4.11
+
+### Key Decisions
+
+- **Light mode borders** use custom RGB values (`rgb(188 188 194)` for `border`, `rgb(148 148 157)` for `input`) instead of palette stops to ensure they meet the 3:1 non-text contrast requirement against white backgrounds.
+- **Dark mode primary** uses `brand.400` instead of `brand.600` to achieve 6.67:1 contrast against the dark background.
+- **Disabled states** exceed WCAG requirements (which exempt disabled controls) with a ≥ 3:1 target for usability.
+
+### Built-in Contrast Checking
+
+Unified UI ships a contrast-checking utility you can use in tests or at build time:
+
+```tsx
+import { checkHexContrast, meetsAA, contrastRatio } from "@work-rjkashyap/unified-ui/utils";
+
+// Check a specific pair
+const result = checkHexContrast("#4F46E5", "#FFFFFF");
+console.log(result.ratio);    // 6.35
+console.log(result.aa);       // true (normal text)
+console.log(result.aaLarge);  // true (large text)
+
+// Quick boolean check
+console.log(meetsAA(6.35, "normal")); // true
+
+// Raw ratio calculation
+console.log(contrastRatio("#000000", "#FFFFFF")); // 21
+```
+
+### Auditing All Semantic Pairs
+
+```tsx
+import { auditContrast, DS_LIGHT_CRITICAL_PAIRS, DS_DARK_CRITICAL_PAIRS } from "@work-rjkashyap/unified-ui/utils";
+
+// Audit all critical light mode pairs
+const lightResults = auditContrast(DS_LIGHT_CRITICAL_PAIRS);
+const failures = lightResults.filter(r => !r.passes);
+
+if (failures.length > 0) {
+  console.error("Contrast failures:", failures);
+}
+```
+
+---
+
+## Usage Patterns
+
+### Backgrounds & Text
+
+```tsx
+// Page background with default text
+<div className="bg-ds-background text-ds-foreground">
+  <h1>Page Title</h1>
+  <p className="text-ds-muted-foreground">Secondary description text</p>
+</div>
+
+// Card surface
+<div className="bg-ds-surface-raised border border-ds-border rounded-ds-md p-ds-4">
+  Card content
+</div>
+```
+
+### Status Colors
+
+```tsx
+// Success alert
+<div className="bg-ds-success-muted text-ds-success-muted-foreground">
+  Operation completed successfully.
+</div>
+
+// Danger button
+<button className="bg-ds-danger text-ds-danger-foreground hover:bg-ds-danger/90">
+  Delete
+</button>
+
+// Warning badge
+<span className="bg-ds-warning-muted text-ds-warning-muted-foreground">
+  Caution
+</span>
+```
+
+### Opacity Modifier
+
+Because color values are stored as RGB channels, you can use Tailwind's opacity modifier syntax:
+
+```tsx
+// 50% opacity primary background
+<div className="bg-ds-primary/50" />
+
+// 20% opacity border
+<div className="border border-ds-border/20" />
+
+// 80% opacity text
+<p className="text-ds-foreground/80">Slightly transparent text</p>
+```
+
+### CSS Custom Properties
+
+All semantic colors are available as CSS variables for use in custom styles:
+
+```css
+.custom-element {
+  background-color: rgb(var(--ds-color-primary));
+  color: rgb(var(--ds-color-primary-foreground));
+  border-color: rgb(var(--ds-color-border));
+}
+
+/* With opacity */
+.custom-overlay {
+  background-color: rgb(var(--ds-color-primary) / 0.1);
+}
+```
+
+---
+
+## Importing Colors
+
+```tsx
+// Semantic mappings (what components use)
+import { semanticLight, semanticDark } from "@work-rjkashyap/unified-ui/tokens";
+
+console.log(semanticLight.primary);          // "79 70 229" (brand.600)
+console.log(semanticDark.primary);           // "129 140 248" (brand.400)
+
+// Raw palettes (for tooling, docs, custom themes)
+import { brand, blue, green, amber, red, neutral } from "@work-rjkashyap/unified-ui/tokens";
+
+console.log(brand[600]);   // "79 70 229"
+console.log(red[500]);     // "239 68 68"
+console.log(neutral[100]); // "244 244 245"
+```
+
+<Callout type="warn">
+  **Don't use raw palette values in components.** Always use the semantic tokens (`bg-ds-primary`, not `bg-[rgb(79_70_229)]`). Semantic tokens automatically adapt to light/dark mode and can be rebranded without touching component code.
+</Callout>

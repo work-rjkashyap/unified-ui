@@ -1,0 +1,28 @@
+# Source files (dist is published instead)
+src/
+
+# Source maps
+*.map
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+__tests__/
+
+# Development config
+tsup.config.ts
+tsconfig.json
+biome.json
+.eslintrc*
+.prettierrc*
+
+# Build artifacts that shouldn't be in the package
+node_modules/
+.turbo/
+.next/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -2,12 +2,28 @@ import { RootProvider } from "fumadocs-ui/provider/next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./global.css";
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Inter, Lora, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 const outfit = Outfit({
   subsets: ["latin"],
+  variable: "--font-outfit",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +47,17 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={outfit.className} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={cn(
+        outfit.variable,
+        inter.variable,
+        lora.variable,
+        jetbrainsMono.variable,
+        outfit.className,
+      )}
+      suppressHydrationWarning
+    >
       <body className={cn("flex flex-col min-h-screen")}>
         <RootProvider>
           <NuqsAdapter>{children}</NuqsAdapter>

@@ -1,0 +1,305 @@
+---
+title: Select
+description: A dropdown select component with groups, labels, and full keyboard navigation built on Radix UI.
+icon: ChevronDown
+---
+
+import { Select, SelectGroup, SelectItem, SelectLabel, SelectSeparator, Button } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Select"
+  description="A dropdown select component with groups, labels, separators, and full keyboard navigation. Built on Radix UI for accessibility."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-xs">
+      <Select placeholder="Select a fruit...">
+        <SelectItem value="apple">Apple</SelectItem>
+        <SelectItem value="banana">Banana</SelectItem>
+        <SelectItem value="cherry">Cherry</SelectItem>
+        <SelectItem value="grape">Grape</SelectItem>
+        <SelectItem value="orange">Orange</SelectItem>
+      </Select>
+    </div>
+  }
+  code={`<Select placeholder="Select a fruit...">
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="cherry">Cherry</SelectItem>
+  <SelectItem value="grape">Grape</SelectItem>
+  <SelectItem value="orange">Orange</SelectItem>
+</Select>`}
+>
+
+## Import
+
+```tsx
+import {
+  Select,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+  Select,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The `Select` component wraps Radix UI's Select primitive with design system tokens for consistent styling.
+
+```tsx
+<Select placeholder="Choose an option...">
+  <SelectItem value="option-1">Option 1</SelectItem>
+  <SelectItem value="option-2">Option 2</SelectItem>
+  <SelectItem value="option-3">Option 3</SelectItem>
+</Select>
+```
+
+## Variants
+
+Select supports three visual variants that mirror the Input component for consistent form styling.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Select placeholder="Default" variant="default">
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </Select>
+  <Select placeholder="Error state" variant="error">
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </Select>
+  <Select placeholder="Success state" variant="success">
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </Select>
+</div>
+
+```tsx
+<Select placeholder="Default" variant="default">
+  <SelectItem value="a">Option A</SelectItem>
+</Select>
+
+<Select placeholder="Error state" variant="error">
+  <SelectItem value="a">Option A</SelectItem>
+</Select>
+
+<Select placeholder="Success state" variant="success">
+  <SelectItem value="a">Option A</SelectItem>
+</Select>
+```
+
+## Sizes
+
+Three sizes that match the Button and Input height scale for consistent form layouts.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Select placeholder="Small (h-8)" size="sm">
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </Select>
+  <Select placeholder="Medium (h-9)" size="md">
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </Select>
+  <Select placeholder="Large (h-10)" size="lg">
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </Select>
+</div>
+
+```tsx
+<Select placeholder="Small (h-8)" size="sm">...</Select>
+<Select placeholder="Medium (h-9)" size="md">...</Select>
+<Select placeholder="Large (h-10)" size="lg">...</Select>
+```
+
+| Size | Height | Font Size |
+| ---- | ------ | --------- |
+| `sm` | 32px   | 12px      |
+| `md` | 36px   | 14px      |
+| `lg` | 40px   | 14px      |
+
+## With Groups
+
+Use `SelectGroup` and `SelectLabel` to organize options into labeled sections. Use `SelectSeparator` to add visual dividers.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Select placeholder="Select a food...">
+    <SelectGroup>
+      <SelectLabel>Fruits</SelectLabel>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="cherry">Cherry</SelectItem>
+    </SelectGroup>
+    <SelectSeparator />
+    <SelectGroup>
+      <SelectLabel>Vegetables</SelectLabel>
+      <SelectItem value="carrot">Carrot</SelectItem>
+      <SelectItem value="broccoli">Broccoli</SelectItem>
+      <SelectItem value="spinach">Spinach</SelectItem>
+    </SelectGroup>
+  </Select>
+</div>
+
+```tsx
+<Select placeholder="Select a food...">
+  <SelectGroup>
+    <SelectLabel>Fruits</SelectLabel>
+    <SelectItem value="apple">Apple</SelectItem>
+    <SelectItem value="banana">Banana</SelectItem>
+    <SelectItem value="cherry">Cherry</SelectItem>
+  </SelectGroup>
+  <SelectSeparator />
+  <SelectGroup>
+    <SelectLabel>Vegetables</SelectLabel>
+    <SelectItem value="carrot">Carrot</SelectItem>
+    <SelectItem value="broccoli">Broccoli</SelectItem>
+    <SelectItem value="spinach">Spinach</SelectItem>
+  </SelectGroup>
+</Select>
+```
+
+## Disabled
+
+The entire select or individual items can be disabled.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Select placeholder="Disabled select" disabled>
+    <SelectItem value="a">Option A</SelectItem>
+  </Select>
+  <Select placeholder="Some items disabled">
+    <SelectItem value="a">Available</SelectItem>
+    <SelectItem value="b" disabled>Unavailable</SelectItem>
+    <SelectItem value="c">Available</SelectItem>
+  </Select>
+</div>
+
+```tsx
+{/* Entire select disabled */}
+<Select placeholder="Disabled select" disabled>
+  <SelectItem value="a">Option A</SelectItem>
+</Select>
+
+{/* Individual items disabled */}
+<Select placeholder="Some items disabled">
+  <SelectItem value="a">Available</SelectItem>
+  <SelectItem value="b" disabled>Unavailable</SelectItem>
+  <SelectItem value="c">Available</SelectItem>
+</Select>
+```
+
+## Controlled
+
+Use `value` and `onValueChange` for controlled usage.
+
+```tsx
+const [value, setValue] = useState("");
+
+<Select
+  placeholder="Choose..."
+  value={value}
+  onValueChange={setValue}
+>
+  <SelectItem value="react">React</SelectItem>
+  <SelectItem value="vue">Vue</SelectItem>
+  <SelectItem value="svelte">Svelte</SelectItem>
+</Select>
+
+<p>Selected: {value || "None"}</p>
+```
+
+## With Error Message
+
+Pair the error variant with a label and error message for accessible form validation.
+
+<div className="my-6 flex flex-col gap-1.5 max-w-xs">
+  <label htmlFor="role-select" className="text-sm font-medium text-ds-foreground">
+    Role
+  </label>
+  <Select
+    placeholder="Select a role..."
+    variant="error"
+  >
+    <SelectItem value="admin">Admin</SelectItem>
+    <SelectItem value="editor">Editor</SelectItem>
+    <SelectItem value="viewer">Viewer</SelectItem>
+  </Select>
+  <p className="text-xs text-ds-danger">
+    Please select a role to continue.
+  </p>
+</div>
+
+```tsx
+<label htmlFor="role-select" className="text-sm font-medium">
+  Role
+</label>
+<Select placeholder="Select a role..." variant="error">
+  <SelectItem value="admin">Admin</SelectItem>
+  <SelectItem value="editor">Editor</SelectItem>
+  <SelectItem value="viewer">Viewer</SelectItem>
+</Select>
+<p className="text-xs text-ds-danger">
+  Please select a role to continue.
+</p>
+```
+
+## Props
+
+### Select
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `placeholder` | `string` | — | Placeholder text when no value is selected. |
+| `variant` | `"default" \| "error" \| "success"` | `"default"` | Visual variant for validation state. |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Size of the trigger. Matches Button/Input heights. |
+| `value` | `string` | — | Controlled selected value. |
+| `defaultValue` | `string` | — | Default value for uncontrolled usage. |
+| `onValueChange` | `(value: string) => void` | — | Callback when value changes. |
+| `disabled` | `boolean` | `false` | Disables the entire select. |
+| `label` | `string` | — | Accessible label for the select. |
+| `className` | `string` | — | Additional CSS classes for the trigger. |
+
+### SelectItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **required** | The value for this option. |
+| `disabled` | `boolean` | `false` | Disables this specific item. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### SelectGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### SelectLabel
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### SelectSeparator
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+## Accessibility
+
+- Built on **Radix UI Select** for full ARIA compliance.
+- **Keyboard navigation** — Arrow keys to navigate, Enter/Space to select, Escape to close.
+- **Type-ahead** — Typing characters focuses matching items.
+- Placeholder text uses `data-[placeholder]` styling for muted appearance.
+- Focus ring is visible on keyboard navigation only (`focus-visible`).
+- Disabled state uses both `disabled` attribute and `aria-disabled`.
+- Error variant should be paired with descriptive text linked via `aria-describedby`.
+- Groups with `SelectLabel` provide semantic grouping for screen readers.
+
+</ComponentPage>

@@ -1,0 +1,450 @@
+---
+title: Table
+description: A data table component with sorting indicators, density options, alignment control, and semantic markup.
+icon: Table
+---
+
+import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, Badge } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+  title="Table"
+  description="A data table component with sorting indicators, density options, alignment control, and proper semantic HTML markup."
+  preview={
+    <div className="w-full max-w-lg overflow-auto">
+      <Table>
+        <TableCaption>A list of recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead align="right">Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell className="font-medium">INV-001</TableCell>
+            <TableCell><Badge variant="success" size="sm">Paid</Badge></TableCell>
+            <TableCell>Credit Card</TableCell>
+            <TableCell align="right">$250.00</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">INV-002</TableCell>
+            <TableCell><Badge variant="warning" size="sm">Pending</Badge></TableCell>
+            <TableCell>PayPal</TableCell>
+            <TableCell align="right">$150.00</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">INV-003</TableCell>
+            <TableCell><Badge variant="danger" size="sm">Overdue</Badge></TableCell>
+            <TableCell>Bank Transfer</TableCell>
+            <TableCell align="right">$350.00</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </div>
+  }
+  code={`<Table>
+  <TableCaption>A list of recent invoices.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead align="right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell className="font-medium">INV-001</TableCell>
+      <TableCell><Badge variant="success" size="sm">Paid</Badge></TableCell>
+      <TableCell>Credit Card</TableCell>
+      <TableCell align="right">$250.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-medium">INV-002</TableCell>
+      <TableCell><Badge variant="warning" size="sm">Pending</Badge></TableCell>
+      <TableCell>PayPal</TableCell>
+      <TableCell align="right">$150.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-medium">INV-003</TableCell>
+      <TableCell><Badge variant="danger" size="sm">Overdue</Badge></TableCell>
+      <TableCell>Bank Transfer</TableCell>
+      <TableCell align="right">$350.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`}
+>
+
+## Import
+
+```tsx
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The Table component renders semantic HTML table elements (`<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`) styled with design system tokens.
+
+```tsx
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Email</TableHead>
+      <TableHead>Role</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Alice Cooper</TableCell>
+      <TableCell>alice@example.com</TableCell>
+      <TableCell>Admin</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Bob Smith</TableCell>
+      <TableCell>bob@example.com</TableCell>
+      <TableCell>Editor</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Density
+
+The `density` prop on the root `Table` controls the vertical padding of all rows. Two options are available.
+
+```tsx
+{/* Compact — less vertical padding, good for dense data */}
+<Table density="compact">
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Value</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Item A</TableCell>
+      <TableCell>100</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+{/* Comfortable — default, more breathing room */}
+<Table density="comfortable">
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Value</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Item A</TableCell>
+      <TableCell>100</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+| Density | Vertical Padding | Use Case |
+|---------|-----------------|----------|
+| `compact` | Reduced | Data-dense tables, logs, admin panels |
+| `comfortable` | Default | General-purpose tables, user-facing content |
+
+## Cell Alignment
+
+Use the `align` prop on `TableHead` and `TableCell` to control horizontal text alignment. This is especially useful for numeric columns.
+
+```tsx
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Product</TableHead>
+      <TableHead align="center">Quantity</TableHead>
+      <TableHead align="right">Price</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Widget A</TableCell>
+      <TableCell align="center">42</TableCell>
+      <TableCell align="right">$9.99</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Widget B</TableCell>
+      <TableCell align="center">17</TableCell>
+      <TableCell align="right">$24.99</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+| Align | Class | Use Case |
+|-------|-------|----------|
+| `left` | `text-left` | Default. Text content, names, descriptions |
+| `center` | `text-center` | Status indicators, quantities, boolean values |
+| `right` | `text-right` | Numeric values, prices, percentages |
+
+## With Caption
+
+Use `TableCaption` to provide an accessible description of the table's content. The caption is rendered below the table by default.
+
+```tsx
+<Table>
+  <TableCaption>Monthly revenue breakdown for Q4 2024.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Month</TableHead>
+      <TableHead align="right">Revenue</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>October</TableCell>
+      <TableCell align="right">$12,400</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>November</TableCell>
+      <TableCell align="right">$14,800</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>December</TableCell>
+      <TableCell align="right">$18,200</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## With Footer
+
+Use `TableFooter` for summary rows like totals.
+
+```tsx
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Item</TableHead>
+      <TableHead align="right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Hosting</TableCell>
+      <TableCell align="right">$50.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Domain</TableCell>
+      <TableCell align="right">$12.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>SSL Certificate</TableCell>
+      <TableCell align="right">$0.00</TableCell>
+    </TableRow>
+  </TableBody>
+  <TableFooter>
+    <TableRow>
+      <TableCell className="font-semibold">Total</TableCell>
+      <TableCell align="right" className="font-semibold">$62.00</TableCell>
+    </TableRow>
+  </TableFooter>
+</Table>
+```
+
+## Sorting Indicators
+
+The `TableHead` component supports a `sortDirection` prop to display a visual sort indicator (arrow). This is a purely visual prop — you handle the sort logic externally.
+
+```tsx
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead
+        sortDirection="asc"
+        onClick={() => handleSort("name")}
+        className="cursor-pointer"
+      >
+        Name
+      </TableHead>
+      <TableHead
+        sortDirection={null}
+        onClick={() => handleSort("email")}
+        className="cursor-pointer"
+      >
+        Email
+      </TableHead>
+      <TableHead align="right">Actions</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {/* Sorted rows */}
+  </TableBody>
+</Table>
+```
+
+| `sortDirection` | Visual | Description |
+|-----------------|--------|-------------|
+| `"asc"` | ↑ | Sorted ascending |
+| `"desc"` | ↓ | Sorted descending |
+| `null` / omitted | — | Not sorted / no indicator |
+
+## Striped Rows
+
+Add a `striped` prop to the root `Table` for alternating row backgrounds to improve readability in large data sets.
+
+```tsx
+<Table striped>
+  <TableHeader>
+    <TableRow>
+      <TableHead>ID</TableHead>
+      <TableHead>Name</TableHead>
+      <TableHead>Status</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>001</TableCell>
+      <TableCell>Alice</TableCell>
+      <TableCell>Active</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>002</TableCell>
+      <TableCell>Bob</TableCell>
+      <TableCell>Inactive</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>003</TableCell>
+      <TableCell>Charlie</TableCell>
+      <TableCell>Active</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Responsive Wrapping
+
+For tables that may exceed the viewport width on mobile, wrap the `Table` in a horizontally scrollable container.
+
+```tsx
+<div className="overflow-x-auto rounded-ds-md border border-ds-border">
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>ID</TableHead>
+        <TableHead>Name</TableHead>
+        <TableHead>Email</TableHead>
+        <TableHead>Role</TableHead>
+        <TableHead>Department</TableHead>
+        <TableHead align="right">Joined</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {/* Many columns that may overflow */}
+    </TableBody>
+  </Table>
+</div>
+```
+
+## Props
+
+### Table
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `density` | `"compact" \| "comfortable"` | `"comfortable"` | Vertical padding density for all rows. |
+| `striped` | `boolean` | `false` | Whether to apply alternating row backgrounds. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### TableHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### TableBody
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### TableFooter
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### TableRow
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### TableHead
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `align` | `"left" \| "center" \| "right"` | `"left"` | Horizontal text alignment. |
+| `sortDirection` | `"asc" \| "desc" \| null` | — | Sort indicator direction. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### TableCell
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `align` | `"left" \| "center" \| "right"` | `"left"` | Horizontal text alignment. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### TableCaption
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+## Accessibility
+
+<Callout type="info">
+  The Table component uses semantic HTML elements (`table`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`, `caption`) for full screen reader support without requiring additional ARIA attributes.
+</Callout>
+
+- Uses native HTML table elements which are natively accessible to screen readers and assistive technology.
+- `TableCaption` renders as a `<caption>` element, providing an accessible description of the table.
+- `TableHead` renders as `<th>` with proper `scope` attributes for column/row headers.
+- Sort indicators include `aria-sort` attributes (`ascending`, `descending`, `none`) on sortable column headers.
+- Focus ring is visible on sortable headers when navigated via keyboard.
+- The table is wrapped in a container that allows horizontal scrolling on small viewports without breaking layout.
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-surface` | Table background |
+| `--ds-color-border-muted` | Row borders |
+| `--ds-color-muted` | Striped row background, footer background |
+| `--ds-color-foreground` | Header and cell text |
+| `--ds-color-muted-foreground` | Caption text |
+| `--ds-duration-fast` | Hover transition speed |
+
+</ComponentPage>

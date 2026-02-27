@@ -1,0 +1,164 @@
+---
+title: Alert
+description: A static notification component for displaying contextual feedback messages with semantic variants.
+icon: AlertCircle
+---
+
+import {
+	Alert,
+} from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+	title="Alert"
+	description="Contextual feedback messages for inline notifications, validation, and system status."
+	preview={
+		<div className="flex flex-col gap-3 w-full">
+			<Alert variant="info" title="Tip">
+				You can press Ctrl+S to save your work at any time.
+			</Alert>
+			<Alert variant="success" title="Payment received">
+				Your order has been confirmed and is being processed.
+			</Alert>
+			<Alert variant="warning">
+				Your session will expire in 5 minutes. Save your work.
+			</Alert>
+			<Alert variant="danger" title="Connection failed">
+				Unable to reach the server. Check your network connection.
+			</Alert>
+		</div>
+	}
+	code={`<Alert variant="info" title="Tip">
+  You can press Ctrl+S to save your work at any time.
+</Alert>
+<Alert variant="success" title="Payment received">
+  Your order has been confirmed and is being processed.
+</Alert>
+<Alert variant="warning">
+  Your session will expire in 5 minutes. Save your work.
+</Alert>
+<Alert variant="danger" title="Connection failed">
+  Unable to reach the server. Check your network connection.
+</Alert>`}
+>
+
+## Import
+
+```tsx
+import { Alert } from "@work-rjkashyap/unified-ui";
+// or
+import { Alert } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Variants
+
+Alert supports four semantic variants that determine color, icon, and ARIA role.
+
+### Info (default)
+
+Used for informational messages, tips, and notes. Renders with `role="status"` (polite live region).
+
+```tsx
+<Alert variant="info" title="Did you know?">
+  You can drag and drop files to upload them.
+</Alert>
+```
+
+### Success
+
+Used for positive outcomes like confirmations and completions. Renders with `role="status"`.
+
+```tsx
+<Alert variant="success" title="Changes saved">
+  Your profile has been updated successfully.
+</Alert>
+```
+
+### Warning
+
+Used for caution messages and deprecation notices. Renders with `role="alert"` (assertive live region).
+
+```tsx
+<Alert variant="warning" title="Deprecation notice">
+  This API endpoint will be removed in v3.0. Please migrate to the new endpoint.
+</Alert>
+```
+
+### Danger
+
+Used for error messages and destructive action warnings. Renders with `role="alert"`.
+
+```tsx
+<Alert variant="danger" title="Delete failed">
+  Could not delete the resource. You may not have sufficient permissions.
+</Alert>
+```
+
+## Without Title
+
+Alerts can be rendered without a title for simpler, single-line messages.
+
+```tsx
+<Alert variant="info">
+  This feature is currently in beta.
+</Alert>
+
+<Alert variant="warning">
+  Maintenance scheduled for tomorrow at 3:00 AM UTC.
+</Alert>
+```
+
+## Dismissible
+
+Add the `dismissible` prop to show a close button. Provide an `onDismiss` callback to control visibility externally, or let the alert manage its own visibility.
+
+```tsx
+// Controlled
+<Alert variant="danger" dismissible onDismiss={() => setVisible(false)}>
+  Something went wrong. Please try again.
+</Alert>
+
+// Self-managed (hides itself when dismissed)
+<Alert variant="info" dismissible>
+  This alert will hide itself when dismissed.
+</Alert>
+```
+
+## Custom Icons
+
+Override the default variant icon with the `icon` prop, or pass `null` to hide it entirely.
+
+```tsx
+// Custom icon
+<Alert variant="success" icon={<RocketIcon className="size-4" />}>
+  Your app has been deployed successfully!
+</Alert>
+
+// No icon
+<Alert variant="warning" icon={null}>
+  Maintenance scheduled for tomorrow at 3:00 AM UTC.
+</Alert>
+```
+
+## Props
+
+| Prop           | Type                                        | Default            | Description                                                      |
+| -------------- | ------------------------------------------- | ------------------ | ---------------------------------------------------------------- |
+| `variant`      | `"info" \| "success" \| "warning" \| "danger"` | `"info"`           | Semantic variant determining color, icon, and ARIA role.         |
+| `title`        | `ReactNode`                                 | —                  | Title text displayed prominently at the top.                     |
+| `icon`         | `ReactNode \| null`                         | Auto (per variant) | Custom icon. Pass `null` to hide.                                |
+| `dismissible`  | `boolean`                                   | `false`            | Whether to show a close button.                                  |
+| `onDismiss`    | `() => void`                                | —                  | Callback when dismissed. If omitted, alert self-manages.         |
+| `dismissLabel` | `string`                                    | `"Dismiss alert"`  | Accessible label for the dismiss button.                         |
+| `role`         | `"alert" \| "status"`                       | Auto (per variant) | ARIA role. Danger/warning default to `"alert"`, others `"status"`. |
+| `className`    | `string`                                    | —                  | Additional CSS classes merged on the root element.               |
+| `children`     | `ReactNode`                                 | —                  | Description / body content.                                      |
+
+## Accessibility
+
+- **Danger** and **warning** alerts use `role="alert"` (assertive live region) — screen readers announce them immediately.
+- **Info** and **success** alerts use `role="status"` (polite live region) — announced at the next opportunity.
+- Each variant renders a unique icon so meaning is **never conveyed by color alone** (WCAG 1.4.1).
+- The dismiss button has a configurable `aria-label` (defaults to `"Dismiss alert"`).
+- Icons are decorative and marked with `aria-hidden="true"`.
+
+</ComponentPage>

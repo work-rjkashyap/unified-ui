@@ -1,0 +1,500 @@
+/* ============================================================================
+   Unified UI — CSS Custom Properties & Tailwind v4 Integration
+   ============================================================================
+   This stylesheet defines all Unified UI CSS custom properties and maps
+   them into the Tailwind v4 theme via @theme blocks. It is the bridge
+   between the TypeScript token layer and the utility-class layer.
+
+   Architecture:
+     1. :root          → Light theme CSS custom properties (default)
+     2. .dark          → Dark theme CSS custom property overrides
+     3. @theme         → Tailwind v4 theme extension (maps vars to utilities)
+
+   Naming convention:
+     --ds-color-*      → Semantic color tokens (RGB channel strings)
+     --ds-radius-*     → Border radius tokens
+     --ds-shadow-*     → Box shadow tokens
+     --ds-z-*          → Z-index tokens
+     --ds-duration-*   → Motion duration tokens
+     --ds-easing-*     → Motion easing tokens
+     --ds-font-*       → Font family tokens
+
+   Color values are stored as raw RGB channels (e.g. "99 102 241") to
+   support Tailwind's opacity modifier syntax:
+     bg-ds-primary/50 → background: rgb(99 102 241 / 0.5)
+
+   NEVER hardcode design values in components. All values must flow
+   through these CSS custom properties.
+   ============================================================================ */
+
+/* ---------------------------------------------------------------------------
+   Layer 1: Light Theme (Default)
+   --------------------------------------------------------------------------- */
+
+:root {
+	/* --- Backgrounds --- */
+	--ds-color-background: 255 255 255;
+	--ds-color-foreground: 9 9 11;
+
+	/* --- Surfaces --- */
+	--ds-color-surface: 250 250 250;
+	--ds-color-surface-raised: 255 255 255;
+	--ds-color-surface-overlay: 244 244 245;
+
+	/* --- Muted --- */
+	--ds-color-muted: 244 244 245;
+	--ds-color-muted-foreground: 82 82 91;
+
+	/* --- Primary (Brand) --- */
+	--ds-color-primary: 79 70 229;
+	--ds-color-primary-foreground: 255 255 255;
+	--ds-color-primary-hover: 67 56 202;
+	--ds-color-primary-active: 55 48 163;
+	--ds-color-primary-muted: 238 242 255;
+	--ds-color-primary-muted-foreground: 67 56 202;
+
+	/* --- Secondary --- */
+	--ds-color-secondary: 244 244 245;
+	--ds-color-secondary-foreground: 24 24 27;
+	--ds-color-secondary-hover: 228 228 231;
+	--ds-color-secondary-active: 212 212 216;
+
+	/* --- Success --- */
+	--ds-color-success: 22 163 74;
+	--ds-color-success-foreground: 9 9 11;
+	--ds-color-success-muted: 240 253 244;
+	--ds-color-success-muted-foreground: 21 128 61;
+
+	/* --- Warning --- */
+	--ds-color-warning: 245 158 11;
+	--ds-color-warning-foreground: 9 9 11;
+	--ds-color-warning-muted: 255 251 235;
+	--ds-color-warning-muted-foreground: 180 83 9;
+
+	/* --- Danger --- */
+	--ds-color-danger: 220 38 38;
+	--ds-color-danger-foreground: 255 255 255;
+	--ds-color-danger-hover: 185 28 28;
+	--ds-color-danger-active: 153 27 27;
+	--ds-color-danger-muted: 254 242 242;
+	--ds-color-danger-muted-foreground: 185 28 28;
+
+	/* --- Info --- */
+	--ds-color-info: 37 99 235;
+	--ds-color-info-foreground: 255 255 255;
+	--ds-color-info-muted: 239 246 255;
+	--ds-color-info-muted-foreground: 29 78 216;
+
+	/* --- Borders --- */
+	--ds-color-border: 188 188 194;
+	--ds-color-border-muted: 244 244 245;
+	--ds-color-border-strong: 148 148 157;
+
+	/* --- Focus --- */
+	--ds-color-focus-ring: 99 102 241;
+
+	/* --- Input --- */
+	--ds-color-input: 148 148 157;
+	--ds-color-input-foreground: 24 24 27;
+	--ds-color-input-placeholder: 113 113 122;
+
+	/* --- Disabled --- */
+	--ds-color-disabled: 244 244 245;
+	--ds-color-disabled-foreground: 120 120 129;
+
+	/* --- Radius --- */
+	--ds-radius-none: 0px;
+	--ds-radius-sm: 4px;
+	--ds-radius-md: 6px;
+	--ds-radius-lg: 8px;
+	--ds-radius-xl: 12px;
+	--ds-radius-full: 9999px;
+
+	/* --- Shadows --- */
+	--ds-shadow-none: none;
+	--ds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	--ds-shadow-sm:
+		0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+	--ds-shadow-md:
+		0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--ds-shadow-lg:
+		0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	--ds-shadow-xl:
+		0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+	--ds-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+	--ds-shadow-focus-ring: 0 0 0 2px rgb(var(--ds-color-focus-ring) / 0.4);
+
+	/* --- Z-Index --- */
+	--ds-z-base: 0;
+	--ds-z-dropdown: 10;
+	--ds-z-sticky: 20;
+	--ds-z-overlay: 30;
+	--ds-z-modal: 40;
+	--ds-z-popover: 50;
+	--ds-z-toast: 60;
+	--ds-z-tooltip: 70;
+	--ds-z-max: 9999;
+
+	/* --- Motion Durations --- */
+	--ds-duration-instant: 0ms;
+	--ds-duration-fast: 100ms;
+	--ds-duration-moderate: 150ms;
+	--ds-duration-normal: 200ms;
+	--ds-duration-slow: 300ms;
+	--ds-duration-slower: 400ms;
+	--ds-duration-slowest: 500ms;
+
+	/* --- Motion Easing --- */
+	--ds-easing-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+	--ds-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+	--ds-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
+	--ds-easing-emphasize: cubic-bezier(0, 0, 0.15, 1);
+	--ds-easing-linear: cubic-bezier(0, 0, 1, 1);
+	--ds-easing-snap: cubic-bezier(0.2, 0, 0, 1);
+
+	/* --- Font Families --- */
+	--ds-font-display:
+		var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, sans-serif;
+	--ds-font-sans:
+		var(--font-outfit), system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--ds-font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
+	--ds-font-mono:
+		var(--font-jetbrains), "Fira Code", "SF Mono", "Cascadia Code",
+		Consolas, "Liberation Mono", Menlo, monospace;
+	--ds-font-inherit: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 2: Dark Theme Overrides
+   --------------------------------------------------------------------------- */
+
+.dark {
+	/* --- Backgrounds --- */
+	--ds-color-background: 9 9 11;
+	--ds-color-foreground: 250 250 250;
+
+	/* --- Surfaces --- */
+	--ds-color-surface: 24 24 27;
+	--ds-color-surface-raised: 39 39 42;
+	--ds-color-surface-overlay: 39 39 42;
+
+	/* --- Muted --- */
+	--ds-color-muted: 39 39 42;
+	--ds-color-muted-foreground: 161 161 170;
+
+	/* --- Primary (Brand) --- */
+	--ds-color-primary: 129 140 248;
+	--ds-color-primary-foreground: 24 24 27;
+	--ds-color-primary-hover: 165 180 252;
+	--ds-color-primary-active: 199 210 254;
+	--ds-color-primary-muted: 30 27 75;
+	--ds-color-primary-muted-foreground: 165 180 252;
+
+	/* --- Secondary --- */
+	--ds-color-secondary: 39 39 42;
+	--ds-color-secondary-foreground: 244 244 245;
+	--ds-color-secondary-hover: 63 63 70;
+	--ds-color-secondary-active: 82 82 91;
+
+	/* --- Success --- */
+	--ds-color-success: 34 197 94;
+	--ds-color-success-foreground: 9 9 11;
+	--ds-color-success-muted: 5 46 22;
+	--ds-color-success-muted-foreground: 134 239 172;
+
+	/* --- Warning --- */
+	--ds-color-warning: 251 191 36;
+	--ds-color-warning-foreground: 9 9 11;
+	--ds-color-warning-muted: 69 26 3;
+	--ds-color-warning-muted-foreground: 252 211 77;
+
+	/* --- Danger --- */
+	--ds-color-danger: 239 68 68;
+	--ds-color-danger-foreground: 9 9 11;
+	--ds-color-danger-hover: 248 113 113;
+	--ds-color-danger-active: 252 165 165;
+	--ds-color-danger-muted: 69 10 10;
+	--ds-color-danger-muted-foreground: 252 165 165;
+
+	/* --- Info --- */
+	--ds-color-info: 96 165 250;
+	--ds-color-info-foreground: 9 9 11;
+	--ds-color-info-muted: 23 37 84;
+	--ds-color-info-muted-foreground: 147 197 253;
+
+	/* --- Borders --- */
+	--ds-color-border: 82 82 91;
+	--ds-color-border-muted: 39 39 42;
+	--ds-color-border-strong: 113 113 122;
+
+	/* --- Focus --- */
+	--ds-color-focus-ring: 129 140 248;
+
+	/* --- Input --- */
+	--ds-color-input: 96 96 105;
+	--ds-color-input-foreground: 250 250 250;
+	--ds-color-input-placeholder: 137 137 145;
+
+	/* --- Disabled --- */
+	--ds-color-disabled: 39 39 42;
+	--ds-color-disabled-foreground: 113 113 122;
+
+	/* --- Dark Shadows (more opaque for dark backgrounds) --- */
+	--ds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+	--ds-shadow-sm:
+		0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+	--ds-shadow-md:
+		0 4px 6px -1px rgb(0 0 0 / 0.35), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+	--ds-shadow-lg:
+		0 10px 15px -3px rgb(0 0 0 / 0.35), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+	--ds-shadow-xl:
+		0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.35);
+	--ds-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+	--ds-shadow-focus-ring: 0 0 0 2px rgb(var(--ds-color-focus-ring) / 0.5);
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 3: Tailwind v4 Theme Extension
+   ---------------------------------------------------------------------------
+   Maps design system CSS custom properties into Tailwind utility classes.
+
+   After this block, you can use classes like:
+     bg-ds-primary      → background: rgb(var(--ds-color-primary))
+     text-ds-foreground  → color: rgb(var(--ds-color-foreground))
+     rounded-ds-md       → border-radius: var(--ds-radius-md)
+     shadow-ds-md        → box-shadow: var(--ds-shadow-md)
+     z-ds-modal          → z-index: var(--ds-z-modal)
+     duration-ds-normal  → transition-duration: var(--ds-duration-normal)
+     ease-ds-standard    → transition-timing-function: var(--ds-easing-standard)
+
+   Color utilities support opacity modifiers:
+     bg-ds-primary/50    → background: rgb(var(--ds-color-primary) / 0.5)
+   --------------------------------------------------------------------------- */
+
+@theme {
+	/* --- Colors (RGB channel references for alpha support) --- */
+
+	/* Backgrounds */
+	--color-ds-background: rgb(var(--ds-color-background));
+	--color-ds-foreground: rgb(var(--ds-color-foreground));
+
+	/* Surfaces */
+	--color-ds-surface: rgb(var(--ds-color-surface));
+	--color-ds-surface-raised: rgb(var(--ds-color-surface-raised));
+	--color-ds-surface-overlay: rgb(var(--ds-color-surface-overlay));
+
+	/* Muted */
+	--color-ds-muted: rgb(var(--ds-color-muted));
+	--color-ds-muted-foreground: rgb(var(--ds-color-muted-foreground));
+
+	/* Primary */
+	--color-ds-primary: rgb(var(--ds-color-primary));
+	--color-ds-primary-foreground: rgb(var(--ds-color-primary-foreground));
+	--color-ds-primary-hover: rgb(var(--ds-color-primary-hover));
+	--color-ds-primary-active: rgb(var(--ds-color-primary-active));
+	--color-ds-primary-muted: rgb(var(--ds-color-primary-muted));
+	--color-ds-primary-muted-foreground: rgb(
+		var(--ds-color-primary-muted-foreground)
+	);
+
+	/* Secondary */
+	--color-ds-secondary: rgb(var(--ds-color-secondary));
+	--color-ds-secondary-foreground: rgb(var(--ds-color-secondary-foreground));
+	--color-ds-secondary-hover: rgb(var(--ds-color-secondary-hover));
+	--color-ds-secondary-active: rgb(var(--ds-color-secondary-active));
+
+	/* Success */
+	--color-ds-success: rgb(var(--ds-color-success));
+	--color-ds-success-foreground: rgb(var(--ds-color-success-foreground));
+	--color-ds-success-muted: rgb(var(--ds-color-success-muted));
+	--color-ds-success-muted-foreground: rgb(
+		var(--ds-color-success-muted-foreground)
+	);
+
+	/* Warning */
+	--color-ds-warning: rgb(var(--ds-color-warning));
+	--color-ds-warning-foreground: rgb(var(--ds-color-warning-foreground));
+	--color-ds-warning-muted: rgb(var(--ds-color-warning-muted));
+	--color-ds-warning-muted-foreground: rgb(
+		var(--ds-color-warning-muted-foreground)
+	);
+
+	/* Danger */
+	--color-ds-danger: rgb(var(--ds-color-danger));
+	--color-ds-danger-foreground: rgb(var(--ds-color-danger-foreground));
+	--color-ds-danger-hover: rgb(var(--ds-color-danger-hover));
+	--color-ds-danger-active: rgb(var(--ds-color-danger-active));
+	--color-ds-danger-muted: rgb(var(--ds-color-danger-muted));
+	--color-ds-danger-muted-foreground: rgb(
+		var(--ds-color-danger-muted-foreground)
+	);
+
+	/* Info */
+	--color-ds-info: rgb(var(--ds-color-info));
+	--color-ds-info-foreground: rgb(var(--ds-color-info-foreground));
+	--color-ds-info-muted: rgb(var(--ds-color-info-muted));
+	--color-ds-info-muted-foreground: rgb(
+		var(--ds-color-info-muted-foreground)
+	);
+
+	/* Borders */
+	--color-ds-border: rgb(var(--ds-color-border));
+	--color-ds-border-muted: rgb(var(--ds-color-border-muted));
+	--color-ds-border-strong: rgb(var(--ds-color-border-strong));
+
+	/* Focus */
+	--color-ds-focus-ring: rgb(var(--ds-color-focus-ring));
+
+	/* Input */
+	--color-ds-input: rgb(var(--ds-color-input));
+	--color-ds-input-foreground: rgb(var(--ds-color-input-foreground));
+	--color-ds-input-placeholder: rgb(var(--ds-color-input-placeholder));
+
+	/* Disabled */
+	--color-ds-disabled: rgb(var(--ds-color-disabled));
+	--color-ds-disabled-foreground: rgb(var(--ds-color-disabled-foreground));
+
+	/* --- Border Radius --- */
+	--radius-ds-none: var(--ds-radius-none);
+	--radius-ds-sm: var(--ds-radius-sm);
+	--radius-ds-md: var(--ds-radius-md);
+	--radius-ds-lg: var(--ds-radius-lg);
+	--radius-ds-xl: var(--ds-radius-xl);
+	--radius-ds-full: var(--ds-radius-full);
+
+	/* --- Shadows --- */
+	--shadow-ds-none: var(--ds-shadow-none);
+	--shadow-ds-xs: var(--ds-shadow-xs);
+	--shadow-ds-sm: var(--ds-shadow-sm);
+	--shadow-ds-md: var(--ds-shadow-md);
+	--shadow-ds-lg: var(--ds-shadow-lg);
+	--shadow-ds-xl: var(--ds-shadow-xl);
+	--shadow-ds-2xl: var(--ds-shadow-2xl);
+	--shadow-ds-focus-ring: var(--ds-shadow-focus-ring);
+
+	/* --- Z-Index --- */
+	--z-index-ds-base: var(--ds-z-base);
+	--z-index-ds-dropdown: var(--ds-z-dropdown);
+	--z-index-ds-sticky: var(--ds-z-sticky);
+	--z-index-ds-overlay: var(--ds-z-overlay);
+	--z-index-ds-modal: var(--ds-z-modal);
+	--z-index-ds-popover: var(--ds-z-popover);
+	--z-index-ds-toast: var(--ds-z-toast);
+	--z-index-ds-tooltip: var(--ds-z-tooltip);
+	--z-index-ds-max: var(--ds-z-max);
+
+	/* --- Transition Durations --- */
+	--transition-duration-ds-instant: var(--ds-duration-instant);
+	--transition-duration-ds-fast: var(--ds-duration-fast);
+	--transition-duration-ds-moderate: var(--ds-duration-moderate);
+	--transition-duration-ds-normal: var(--ds-duration-normal);
+	--transition-duration-ds-slow: var(--ds-duration-slow);
+	--transition-duration-ds-slower: var(--ds-duration-slower);
+	--transition-duration-ds-slowest: var(--ds-duration-slowest);
+
+	/* --- Transition Easing --- */
+	--transition-timing-function-ds-standard: var(--ds-easing-standard);
+	--transition-timing-function-ds-decelerate: var(--ds-easing-decelerate);
+	--transition-timing-function-ds-accelerate: var(--ds-easing-accelerate);
+	--transition-timing-function-ds-emphasize: var(--ds-easing-emphasize);
+	--transition-timing-function-ds-linear: var(--ds-easing-linear);
+	--transition-timing-function-ds-snap: var(--ds-easing-snap);
+
+	/* --- Font Families --- */
+	--font-ds-display: var(--ds-font-display);
+	--font-ds-sans: var(--ds-font-sans);
+	--font-ds-serif: var(--ds-font-serif);
+	--font-ds-mono: var(--ds-font-mono);
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 4: Focus Ring Utility
+   ---------------------------------------------------------------------------
+   A consistent, accessible focus ring that uses the design system's focus
+   color token. Apply via `focus-visible:ring-ds` or use the `.ds-focus-ring`
+   utility class directly.
+   --------------------------------------------------------------------------- */
+
+.ds-focus-ring {
+	outline: 2px solid rgb(var(--ds-color-focus-ring));
+	outline-offset: 2px;
+}
+
+/* Focus ring as a box-shadow variant (for rounded elements where outline
+   doesn't follow border-radius in older browsers) */
+.ds-focus-ring-shadow {
+	box-shadow: var(--ds-shadow-focus-ring);
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 5: Base Resets for Design System Components
+   ---------------------------------------------------------------------------
+   Minimal resets that apply to elements within the design system. These
+   do NOT conflict with Fumadocs styles — they only target elements with
+   the `ds-` prefix or within `[data-ds]` containers.
+   --------------------------------------------------------------------------- */
+
+[data-ds] {
+	font-family: var(--ds-font-sans);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Consistent focus behavior for all interactive DS elements */
+[data-ds] :focus-visible {
+	outline: 2px solid rgb(var(--ds-color-focus-ring));
+	outline-offset: 2px;
+}
+
+/* Remove default focus styles for mouse users (keep for keyboard) */
+[data-ds] :focus:not(:focus-visible) {
+	outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 6: Transition Defaults
+   ---------------------------------------------------------------------------
+   Default transition properties for design system interactive elements.
+   Uses the standard easing curve and normal duration from tokens.
+   --------------------------------------------------------------------------- */
+
+.ds-transition {
+	transition-property:
+		color, background-color, border-color, box-shadow, opacity, transform;
+	transition-duration: var(--ds-duration-normal);
+	transition-timing-function: var(--ds-easing-standard);
+}
+
+.ds-transition-fast {
+	transition-property:
+		color, background-color, border-color, box-shadow, opacity, transform;
+	transition-duration: var(--ds-duration-fast);
+	transition-timing-function: var(--ds-easing-standard);
+}
+
+.ds-transition-slow {
+	transition-property:
+		color, background-color, border-color, box-shadow, opacity, transform;
+	transition-duration: var(--ds-duration-slow);
+	transition-timing-function: var(--ds-easing-decelerate);
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 7: Reduced Motion
+   ---------------------------------------------------------------------------
+   Respects user's prefers-reduced-motion setting. All DS transitions and
+   animations are disabled when reduced motion is preferred.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	[data-ds] *,
+	[data-ds] *::before,
+	[data-ds] *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

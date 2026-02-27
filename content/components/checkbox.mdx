@@ -1,0 +1,197 @@
+---
+title: Checkbox
+description: An accessible checkbox component with label, description, indeterminate state, and group support.
+icon: CheckSquare
+---
+
+import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+  title="Checkbox"
+  description="An accessible checkbox built on Radix UI with label, description, indeterminate state, and group composition."
+  preview={
+    <div className="flex flex-col gap-4 w-full max-w-xs">
+      <Checkbox label="Accept terms and conditions" />
+      <Checkbox label="Send me email notifications" defaultChecked />
+      <Checkbox label="Disabled option" disabled />
+      <Checkbox label="Indeterminate" checked="indeterminate" />
+    </div>
+  }
+  code={`<Checkbox label="Accept terms and conditions" />
+<Checkbox label="Send me email notifications" defaultChecked />
+<Checkbox label="Disabled option" disabled />
+<Checkbox label="Indeterminate" checked="indeterminate" />`}
+>
+
+## Import
+
+```tsx
+import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui";
+// or
+import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The simplest checkbox with a clickable label.
+
+```tsx
+<Checkbox label="Remember me" />
+```
+
+## Controlled
+
+Use `checked` and `onCheckedChange` for controlled state.
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Checkbox
+  label="Enable notifications"
+  checked={checked}
+  onCheckedChange={setChecked}
+/>
+```
+
+## Sizes
+
+Two sizes are available to match different density needs.
+
+```tsx
+<Checkbox size="sm" label="Small checkbox" />
+<Checkbox size="md" label="Medium checkbox (default)" />
+```
+
+## With Description
+
+Add a `description` prop for additional context below the label.
+
+```tsx
+<Checkbox
+  label="Marketing emails"
+  description="Receive occasional updates about new features and promotions."
+/>
+<Checkbox
+  label="Security alerts"
+  description="Get notified about important security events on your account."
+  defaultChecked
+/>
+```
+
+## Indeterminate State
+
+The indeterminate state is useful for "select all" patterns where only some children are checked.
+
+```tsx
+<Checkbox checked="indeterminate" label="Select all" />
+```
+
+## Disabled
+
+```tsx
+<Checkbox disabled label="Disabled unchecked" />
+<Checkbox disabled defaultChecked label="Disabled checked" />
+```
+
+## Error State
+
+Use the `error` prop to indicate validation failure. Pair with `aria-describedby` for accessible error messaging.
+
+```tsx
+<Checkbox error label="Accept terms" />
+<p id="terms-error" className="text-xs text-ds-danger">
+  You must accept the terms to continue.
+</p>
+```
+
+## Checkbox Group
+
+Use `CheckboxGroup` to manage a collection of related checkboxes. The group provides a shared label, orientation, and optional error state.
+
+### Vertical (default)
+
+```tsx
+<CheckboxGroup label="Notifications">
+  <Checkbox value="email" label="Email" />
+  <Checkbox value="sms" label="SMS" />
+  <Checkbox value="push" label="Push notifications" />
+</CheckboxGroup>
+```
+
+### Horizontal
+
+```tsx
+<CheckboxGroup label="Interests" orientation="horizontal">
+  <Checkbox value="design" label="Design" />
+  <Checkbox value="engineering" label="Engineering" />
+  <Checkbox value="product" label="Product" />
+</CheckboxGroup>
+```
+
+### With Description
+
+```tsx
+<CheckboxGroup
+  label="Privacy settings"
+  description="Choose which data you want to share."
+>
+  <Checkbox value="analytics" label="Analytics" description="Help us improve with usage data" />
+  <Checkbox value="crashes" label="Crash reports" description="Automatically send crash logs" />
+</CheckboxGroup>
+```
+
+## Props
+
+### Checkbox
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean \| "indeterminate"` | — | Controlled checked state. |
+| `defaultChecked` | `boolean` | `false` | Initial checked state (uncontrolled). |
+| `onCheckedChange` | `(checked: boolean \| "indeterminate") => void` | — | Callback when checked state changes. |
+| `size` | `"sm" \| "md"` | `"md"` | Size of the checkbox. |
+| `label` | `ReactNode` | — | Clickable label text. |
+| `description` | `ReactNode` | — | Description text below the label. |
+| `value` | `string` | — | Value used when inside a CheckboxGroup. |
+| `error` | `boolean` | `false` | Whether to show error styling. |
+| `disabled` | `boolean` | `false` | Whether the checkbox is disabled. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### CheckboxGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `ReactNode` | — | Group label displayed above the checkboxes. |
+| `description` | `ReactNode` | — | Description text below the group label. |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Layout direction of the checkboxes. |
+| `size` | `"sm" \| "md"` | `"md"` | Size applied to all child checkboxes. |
+| `error` | `boolean` | `false` | Whether to show error styling on all children. |
+| `disabled` | `boolean` | `false` | Whether all children are disabled. |
+| `className` | `string` | — | Additional CSS classes. |
+
+## Accessibility
+
+<Callout type="info">
+  Built on **@radix-ui/react-checkbox** which provides full keyboard and screen reader support out of the box.
+</Callout>
+
+- **Keyboard** — `Space` toggles the checkbox. `Tab` moves focus between checkboxes.
+- **Focus ring** — Visible on keyboard navigation via `focus-visible`.
+- **Label** — Clicking the label text toggles the checkbox (integrated `<label>` element).
+- **Indeterminate** — Properly exposed via `aria-checked="mixed"`.
+- **Group** — `CheckboxGroup` uses `role="group"` with `aria-labelledby` for the group label.
+- **Disabled** — Sets both the `disabled` attribute and `aria-disabled`.
+- **Error** — The `error` prop applies visual styling. Pair with `aria-describedby` and an error message element for screen reader support.
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-primary` | Checked state background |
+| `--ds-color-primary-foreground` | Checkmark icon color |
+| `--ds-color-danger` | Error state border |
+| `--ds-radius-sm` | Checkbox border radius |
+| `--ds-duration-fast` | Transition speed |
+
+</ComponentPage>

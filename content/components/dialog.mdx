@@ -1,0 +1,449 @@
+---
+title: Dialog
+description: A modal dialog component with focus trap, slot composition, and multiple sizes. Built on Radix UI.
+icon: PanelTop
+---
+
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogBody, DialogFooter, DialogTitle, DialogDescription, DialogClose, Button, Input } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Dialog"
+  description="A production-ready modal dialog with focus trap, keyboard dismissal, and slot-based composition. Built on Radix UI for full accessibility."
+  preview={
+    <div className="flex gap-3 items-center justify-center">
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="primary">Open Dialog</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+          </DialogHeader>
+          <DialogBody>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="dialog-name" className="text-sm font-medium">Name</label>
+                <Input id="dialog-name" placeholder="Enter your name" />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="dialog-email" className="text-sm font-medium">Email</label>
+                <Input id="dialog-email" placeholder="you@example.com" type="email" />
+              </div>
+            </div>
+          </DialogBody>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="secondary">Cancel</Button>
+            </DialogClose>
+            <Button variant="primary">Save Changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  }
+  code={`<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="primary">Open Dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit Profile</DialogTitle>
+      <DialogDescription>
+        Make changes to your profile here.
+      </DialogDescription>
+    </DialogHeader>
+    <DialogBody>
+      <Input placeholder="Enter your name" />
+      <Input placeholder="you@example.com" type="email" />
+    </DialogBody>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="secondary">Cancel</Button>
+      </DialogClose>
+      <Button variant="primary">Save Changes</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`}
+>
+
+## Import
+
+```tsx
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The Dialog uses a trigger-based pattern. Wrap a button in `DialogTrigger` and the content in `DialogContent`. Radix UI handles open/close state, focus trapping, and scroll locking automatically.
+
+```tsx
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Dialog Title</DialogTitle>
+      <DialogDescription>Optional description text.</DialogDescription>
+    </DialogHeader>
+    <DialogBody>
+      <p>Dialog content goes here.</p>
+    </DialogBody>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="secondary">Close</Button>
+      </DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Sizes
+
+The Dialog supports four size presets that control the max-width of the content panel.
+
+<div className="my-6 flex flex-wrap gap-3 items-center justify-center not-prose">
+  <Dialog>
+    <DialogTrigger asChild>
+      <Button variant="secondary" size="sm">Small (480px)</Button>
+    </DialogTrigger>
+    <DialogContent size="sm">
+      <DialogHeader>
+        <DialogTitle>Small Dialog</DialogTitle>
+        <DialogDescription>Max width: 480px</DialogDescription>
+      </DialogHeader>
+      <DialogBody>
+        <p className="text-sm">Ideal for simple confirmations and short forms.</p>
+      </DialogBody>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="secondary" size="sm">Close</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+  <Dialog>
+    <DialogTrigger asChild>
+      <Button variant="secondary" size="sm">Medium (560px)</Button>
+    </DialogTrigger>
+    <DialogContent size="md">
+      <DialogHeader>
+        <DialogTitle>Medium Dialog</DialogTitle>
+        <DialogDescription>Max width: 560px — the default size.</DialogDescription>
+      </DialogHeader>
+      <DialogBody>
+        <p className="text-sm">Good for most forms and content dialogs.</p>
+      </DialogBody>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="secondary" size="sm">Close</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+  <Dialog>
+    <DialogTrigger asChild>
+      <Button variant="secondary" size="sm">Large (720px)</Button>
+    </DialogTrigger>
+    <DialogContent size="lg">
+      <DialogHeader>
+        <DialogTitle>Large Dialog</DialogTitle>
+        <DialogDescription>Max width: 720px</DialogDescription>
+      </DialogHeader>
+      <DialogBody>
+        <p className="text-sm">For complex forms, settings panels, or data-heavy content.</p>
+      </DialogBody>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="secondary" size="sm">Close</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</div>
+
+```tsx
+<DialogContent size="sm">  {/* 480px */}
+<DialogContent size="md">  {/* 560px — default */}
+<DialogContent size="lg">  {/* 720px */}
+<DialogContent size="full"> {/* Full viewport */}
+```
+
+| Size   | Max Width | Use Case                              |
+| ------ | --------- | ------------------------------------- |
+| `sm`   | 480px     | Simple confirmations, short forms     |
+| `md`   | 560px     | Most forms and content dialogs        |
+| `lg`   | 720px     | Complex forms, settings, data tables  |
+| `full` | 100vw     | Full-screen overlays, media viewers   |
+
+## Slot Composition
+
+The Dialog uses a slot-based pattern with `DialogHeader`, `DialogBody`, and `DialogFooter` sub-components for consistent structure.
+
+```tsx
+<DialogContent>
+  {/* Header — contains title and description */}
+  <DialogHeader>
+    <DialogTitle>Title</DialogTitle>
+    <DialogDescription>Description</DialogDescription>
+  </DialogHeader>
+
+  {/* Body — scrollable main content area */}
+  <DialogBody>
+    <p>Content goes here.</p>
+  </DialogBody>
+
+  {/* Footer — actions, typically right-aligned */}
+  <DialogFooter>
+    <DialogClose asChild>
+      <Button variant="secondary">Cancel</Button>
+    </DialogClose>
+    <Button>Save</Button>
+  </DialogFooter>
+</DialogContent>
+```
+
+## Controlled Mode
+
+Use the `open` and `onOpenChange` props for programmatic control.
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Controlled Dialog</DialogTitle>
+    </DialogHeader>
+    <DialogBody>
+      <p>This dialog is controlled externally.</p>
+    </DialogBody>
+    <DialogFooter>
+      <Button variant="primary" onClick={() => {
+        // Perform action then close
+        handleSave();
+        setOpen(false);
+      }}>
+        Save & Close
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Confirmation Pattern
+
+A common pattern for destructive actions requiring user confirmation.
+
+<div className="my-6 flex gap-3 items-center justify-center not-prose">
+  <Dialog>
+    <DialogTrigger asChild>
+      <Button variant="danger">Delete Account</Button>
+    </DialogTrigger>
+    <DialogContent size="sm">
+      <DialogHeader>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogDescription>
+          This action cannot be undone. Your account and all associated data will be permanently deleted.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="secondary" size="sm">Cancel</Button>
+        </DialogClose>
+        <Button variant="danger" size="sm">Delete Account</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</div>
+
+```tsx
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="danger">Delete Account</Button>
+  </DialogTrigger>
+  <DialogContent size="sm">
+    <DialogHeader>
+      <DialogTitle>Are you sure?</DialogTitle>
+      <DialogDescription>
+        This action cannot be undone. Your account and all
+        associated data will be permanently deleted.
+      </DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="secondary">Cancel</Button>
+      </DialogClose>
+      <Button variant="danger">Delete Account</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Without Close Button
+
+By default, `DialogContent` renders a close button in the top-right corner. Set `showClose={false}` to hide it.
+
+```tsx
+<DialogContent showClose={false}>
+  <DialogHeader>
+    <DialogTitle>No close button</DialogTitle>
+  </DialogHeader>
+  <DialogBody>
+    <p>The user must use the footer actions or press Escape.</p>
+  </DialogBody>
+  <DialogFooter>
+    <DialogClose asChild>
+      <Button variant="secondary">Dismiss</Button>
+    </DialogClose>
+  </DialogFooter>
+</DialogContent>
+```
+
+## Form Dialog
+
+Dialogs are commonly used to wrap forms. The `DialogBody` area scrolls independently when content overflows.
+
+```tsx
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Create Project</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>New Project</DialogTitle>
+      <DialogDescription>
+        Fill in the details to create a new project.
+      </DialogDescription>
+    </DialogHeader>
+    <DialogBody>
+      <form className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium">Project Name</label>
+          <Input placeholder="My awesome project" />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium">Description</label>
+          <Textarea placeholder="What is this project about?" />
+        </div>
+      </form>
+    </DialogBody>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="secondary">Cancel</Button>
+      </DialogClose>
+      <Button variant="primary">Create</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Props
+
+### Dialog
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state. |
+| `defaultOpen` | `boolean` | — | Default open state (uncontrolled). |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when the open state changes. |
+| `modal` | `boolean` | `true` | Whether the dialog blocks interaction with the rest of the page. |
+
+### DialogContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"sm" \| "md" \| "lg" \| "full"` | `"md"` | Max-width of the dialog panel. |
+| `showClose` | `boolean` | `true` | Whether to show the close button in the top-right corner. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### DialogHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DialogBody
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DialogFooter
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DialogTitle
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DialogDescription
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DialogTrigger
+
+Uses Radix UI's `DialogTrigger` API. Use `asChild` to render the trigger as your own element.
+
+### DialogClose
+
+Uses Radix UI's `DialogClose` API. Use `asChild` to render the close action as your own element.
+
+## Accessibility
+
+- Built on **@radix-ui/react-dialog** for full ARIA compliance.
+- **Focus trap** — Focus is contained within the dialog when open (managed by Radix).
+- **Focus restoration** — Focus returns to the trigger element when the dialog closes.
+- **Escape to close** — Pressing `Escape` closes the dialog.
+- **Click outside** — Clicking the overlay backdrop closes the dialog.
+- **Scroll lock** — Body scroll is locked while the dialog is open.
+- **`aria-labelledby`** — Automatically linked to `DialogTitle`.
+- **`aria-describedby`** — Automatically linked to `DialogDescription`.
+- The close button has `aria-label="Close"`.
+- Uses `z-ds-modal` for content and `z-ds-overlay` for the backdrop.
+- Uses `rounded-ds-lg` per project guidelines for dialog panels.
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-surface-raised` | Dialog panel background |
+| `--ds-color-overlay` | Backdrop overlay color |
+| `--ds-radius-lg` | Dialog border radius |
+| `--ds-z-modal` | Z-index for dialog content |
+| `--ds-z-overlay` | Z-index for backdrop |
+| `--ds-shadow-lg` | Dialog panel shadow |
+
+</ComponentPage>

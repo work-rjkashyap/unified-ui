@@ -1,51 +1,52 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
-    "vcs": {
-        "enabled": true,
-        "clientKind": "git",
-        "useIgnoreFile": true
-    },
-    "files": {
-        "ignoreUnknown": true,
-        "includes": [
-            "**",
-            "!node_modules",
-            "!.next",
-            "!dist",
-            "!build",
-            "!.source"
-        ]
-    },
-    "formatter": {
-        "enabled": true,
-        "indentStyle": "space",
-        "indentWidth": 2
-    },
-    "javascript": {
-        "formatter": {
-            "quoteStyle": "double"
-        }
-    },
-    "css": {
-        "parser": {
-            "tailwindDirectives": true
-        }
-    },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "recommended": true
-        },
-        "domains": {
-            "next": "recommended",
-            "react": "recommended"
-        }
-    },
-    "assist": {
-        "actions": {
-            "source": {
-                "organizeImports": "on"
-            }
-        }
-    }
+	"$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"**",
+			"!node_modules",
+			"!.next",
+			"!dist",
+			"!build",
+			"!.source",
+			"!packages/*/dist"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "space",
+		"indentWidth": 2
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		},
+		"domains": {
+			"next": "recommended",
+			"react": "recommended"
+		}
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
 }

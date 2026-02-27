@@ -1,0 +1,422 @@
+---
+title: Typography
+description: Font families, type scale, variant presets, and typography components.
+icon: Type
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+Unified UI's typography system is designed for **web interfaces** — not marketing pages. It favors compact, readable sizes. The largest heading is 30px; body text is 14–16px.
+
+The system provides:
+
+- **5 font families** loaded via `next/font/google` and mapped to CSS custom properties.
+- **7 font sizes** from 12px to 30px on a curated scale.
+- **10 typography presets** — pre-composed combinations of size, weight, line height, tracking, and font family.
+- **React components** — `<Heading>`, `<Body>`, `<Caption>`, `<Label>`, `<Overline>`, `<Subheading>`, `<InlineCode>`, and the base `<Typography>` component.
+
+---
+
+## Font Families
+
+Each font family maps to a CSS custom property and a Tailwind utility:
+
+| Key       | Typeface         | CSS Variable          | Tailwind Class    | Use Case                                 |
+| --------- | ---------------- | --------------------- | ----------------- | ---------------------------------------- |
+| `sans`    | Outfit           | `--ds-font-sans`      | `font-ds-sans`    | Primary UI typeface — all interface text |
+| `display` | Inter            | `--ds-font-display`   | `font-ds-display` | Hero headings, marketing text            |
+| `serif`   | Lora             | `--ds-font-serif`     | `font-ds-serif`   | Long-form reading, editorial content     |
+| `mono`    | JetBrains Mono   | `--ds-font-mono`      | `font-ds-mono`    | Code blocks, technical values            |
+| `inherit` | inherit          | `--ds-font-inherit`   | `font-ds-inherit` | Escape hatch for third-party integration |
+
+### Loading Fonts
+
+Fonts are loaded in your root layout using `next/font/google`. Each font exposes a CSS variable that the design system references:
+
+```tsx title="app/layout.tsx"
+import { Outfit, Inter, Lora, JetBrains_Mono } from "next/font/google";
+
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+});
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html className={`${outfit.variable} ${inter.variable} ${lora.variable} ${jetbrainsMono.variable}`}>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+The design system CSS (`styles.css`) maps these `next/font` variables to the `--ds-font-*` properties:
+
+```css
+:root {
+  --ds-font-sans: var(--font-outfit), system-ui, sans-serif;
+  --ds-font-display: var(--font-inter), system-ui, sans-serif;
+  --ds-font-serif: var(--font-lora), Georgia, serif;
+  --ds-font-mono: var(--font-jetbrains), Consolas, monospace;
+  --ds-font-inherit: inherit;
+}
+```
+
+### Using Font Families
+
+```tsx
+// In Tailwind classes
+<p className="font-ds-sans">Interface text in Outfit</p>
+<h1 className="font-ds-display">Hero heading in Inter</h1>
+<blockquote className="font-ds-serif">Editorial quote in Lora</blockquote>
+<code className="font-ds-mono">const x = 42;</code>
+
+// In CSS
+.custom-element {
+  font-family: var(--ds-font-sans);
+}
+
+// In TypeScript
+import { fontFamily } from "@work-rjkashyap/unified-ui/tokens";
+console.log(fontFamily.sans);
+// "'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+```
+
+---
+
+## Font Sizes
+
+A curated scale designed for density and readability:
+
+| Token  | Value | Tailwind      | Typical Use                    |
+| ------ | ----- | ------------- | ------------------------------ |
+| `xs`   | 12px  | `text-xs`     | Captions, helper text, badges  |
+| `sm`   | 14px  | `text-sm`     | Body small, labels, code       |
+| `base` | 16px  | `text-base`   | Default body text              |
+| `lg`   | 18px  | `text-lg`     | Subheadings                    |
+| `xl`   | 20px  | `text-xl`     | Heading 3                      |
+| `2xl`  | 24px  | `text-2xl`    | Heading 2                      |
+| `3xl`  | 30px  | `text-3xl`    | Heading 1 — page titles        |
+
+<Callout type="warn">
+  **Avoid `text-4xl` and above.** Per project guidelines, headings should not exceed `text-3xl` (30px). If you need larger text for a marketing hero, use the `display` font family with `text-3xl` for visual distinction instead of a larger size.
+</Callout>
+
+---
+
+## Font Weights
+
+| Token      | Value | Use Case                          |
+| ---------- | ----- | --------------------------------- |
+| `regular`  | 400   | Body text, descriptions           |
+| `medium`   | 500   | Labels, subheadings, emphasis     |
+| `semibold` | 600   | Section titles, card headings     |
+| `bold`     | 700   | Page titles, strong emphasis      |
+
+---
+
+## Line Heights
+
+### Relative Values
+
+| Token     | Value   | Use Case                          |
+| --------- | ------- | --------------------------------- |
+| `none`    | 1       | Single-line display text          |
+| `tight`   | 1.25    | Headings                          |
+| `snug`    | 1.375   | Compact body text                 |
+| `normal`  | 1.5     | Default body text                 |
+| `relaxed` | 1.625   | Long-form reading                 |
+
+### Fixed Values
+
+For precise control aligned to the 4px grid:
+
+| Token | Value | Paired With          |
+| ----- | ----- | -------------------- |
+| `16`  | 16px  | Caption, overline    |
+| `20`  | 20px  | Body small, label    |
+| `24`  | 24px  | Body default         |
+| `28`  | 28px  | Subheading, heading3 |
+| `32`  | 32px  | Heading 2            |
+| `36`  | 36px  | Heading 1            |
+
+<Callout type="info">
+  Fixed line heights are preferred in the preset system because they keep vertical rhythm aligned to the 4px grid. Relative values (`tight`, `normal`, etc.) are available for custom text styling outside the preset system.
+</Callout>
+
+---
+
+## Letter Spacing
+
+| Token    | Value     | Use Case                     |
+| -------- | --------- | ---------------------------- |
+| `tighter`| -0.05em   | Display headings             |
+| `tight`  | -0.025em  | Headings (H1, H2)           |
+| `normal` | 0em       | Body text, subheadings       |
+| `wide`   | 0.025em   | Captions                     |
+| `wider`  | 0.05em    | Overlines, uppercased text   |
+
+---
+
+## Typography Presets
+
+Pre-composed variants are the **canonical text styles** for the system. Components should use these presets rather than assembling individual tokens ad hoc.
+
+| Preset       | Size | Weight   | Line Height | Tracking | Font  | Use Case                                |
+| ------------ | ---- | -------- | ----------- | -------- | ----- | --------------------------------------- |
+| `heading1`   | 30px | bold     | 36px        | tight    | sans  | Page titles                             |
+| `heading2`   | 24px | semibold | 32px        | tight    | sans  | Section titles                          |
+| `heading3`   | 20px | semibold | 28px        | normal   | sans  | Subsection titles                       |
+| `subheading` | 18px | medium   | 28px        | normal   | sans  | Card titles, sidebar headings           |
+| `body`       | 16px | regular  | 24px        | normal   | sans  | Default body text                       |
+| `bodySm`     | 14px | regular  | 20px        | normal   | sans  | Compact body text, table cells          |
+| `caption`    | 12px | regular  | 16px        | wide     | sans  | Helper text, timestamps, footnotes      |
+| `label`      | 14px | medium   | 20px        | normal   | sans  | Form labels, badge text                 |
+| `overline`   | 12px | semibold | 16px        | wider    | sans  | Eyebrow text (typically uppercased)     |
+| `code`       | 14px | regular  | 20px        | normal   | mono  | Inline code, technical values           |
+
+```tsx
+import { typographyVariants } from "@work-rjkashyap/unified-ui/tokens";
+
+const h1 = typographyVariants.heading1;
+// {
+//   fontSize: "30px",
+//   lineHeight: "36px",
+//   fontWeight: "700",
+//   letterSpacing: "-0.025em",
+//   fontFamily: "sans"
+// }
+```
+
+---
+
+## Typography Components
+
+Unified UI provides semantic React components for every typography preset. All components support `forwardRef`, the `font` prop for font family override, and standard HTML attributes.
+
+### `<Heading>`
+
+Renders heading text at levels 1–3. Automatically maps to the correct HTML element (`h1`, `h2`, `h3`).
+
+```tsx
+import { Heading } from "@work-rjkashyap/unified-ui";
+
+<Heading level={1}>Page Title</Heading>          // → <h1> with heading1 preset
+<Heading level={2}>Section Title</Heading>        // → <h2> with heading2 preset
+<Heading level={3}>Subsection Title</Heading>     // → <h3> with heading3 preset
+
+// Override font family
+<Heading level={1} font="display">Hero Title</Heading>  // Uses Inter instead of Outfit
+<Heading level={1} font="serif">Editorial Title</Heading>
+```
+
+#### Props
+
+| Prop        | Type                              | Default     | Description                          |
+| ----------- | --------------------------------- | ----------- | ------------------------------------ |
+| `level`     | `1 \| 2 \| 3`                    | —           | Heading level (required)             |
+| `font`      | `"sans" \| "display" \| "serif" \| "mono" \| "inherit"` | Preset default | Override font family |
+| `color`     | `"default" \| "muted" \| "primary" \| "danger" \| "success" \| "warning" \| "inherit"` | `"default"` | Text color |
+| `align`     | `"left" \| "center" \| "right"`  | —           | Text alignment                       |
+| `truncate`  | `boolean`                         | `false`     | Truncate with ellipsis               |
+| `lineClamp` | `number`                          | —           | Limit visible lines                  |
+| `className` | `string`                          | —           | Additional CSS classes               |
+
+### `<Subheading>`
+
+For card titles, sidebar headings, and secondary emphasis.
+
+```tsx
+import { Subheading } from "@work-rjkashyap/unified-ui";
+
+<Subheading>Card Title</Subheading>                  // 18px medium
+<Subheading font="display">Feature Title</Subheading> // Inter 18px medium
+```
+
+### `<Body>`
+
+Default body text at 16px.
+
+```tsx
+import { Body } from "@work-rjkashyap/unified-ui";
+
+<Body>This is the default body text at 16px.</Body>
+<Body color="muted">Secondary description text.</Body>
+<Body font="serif">Editorial body text in Lora.</Body>
+<Body lineClamp={3}>Long text that will be clamped to 3 lines...</Body>
+```
+
+#### Props (shared across Body, Caption, Label, Overline)
+
+| Prop        | Type                              | Default     | Description                          |
+| ----------- | --------------------------------- | ----------- | ------------------------------------ |
+| `font`      | `"sans" \| "display" \| "serif" \| "mono" \| "inherit"` | Preset default | Override font family |
+| `color`     | `"default" \| "muted" \| "primary" \| "danger" \| "success" \| "warning" \| "inherit"` | `"default"` | Text color |
+| `align`     | `"left" \| "center" \| "right"`  | —           | Text alignment                       |
+| `truncate`  | `boolean`                         | `false`     | Truncate with ellipsis               |
+| `lineClamp` | `number`                          | —           | Limit visible lines                  |
+
+### `<Caption>`
+
+Small helper text at 12px. Ideal for timestamps, footnotes, and descriptions.
+
+```tsx
+import { Caption } from "@work-rjkashyap/unified-ui";
+
+<Caption>Last updated 2 hours ago</Caption>
+<Caption color="muted">Optional field</Caption>
+```
+
+### `<Label>`
+
+Form labels at 14px medium weight. Pairs with Input, Select, and other form controls.
+
+```tsx
+import { Label } from "@work-rjkashyap/unified-ui";
+
+<Label>Email address</Label>
+<Label color="danger">Required field</Label>
+```
+
+### `<Overline>`
+
+Eyebrow text at 12px semibold. Typically rendered in uppercase.
+
+```tsx
+import { Overline } from "@work-rjkashyap/unified-ui";
+
+<Overline>New Feature</Overline>           // Uppercased by default styling
+<Overline color="primary">Category</Overline>
+```
+
+### `<InlineCode>`
+
+Inline code spans at 14px in the mono font. Renders a `<code>` element with subtle background styling.
+
+```tsx
+import { InlineCode } from "@work-rjkashyap/unified-ui";
+
+<Body>
+  Use the <InlineCode>cn()</InlineCode> utility for class merging.
+</Body>
+```
+
+### `<Typography>` (Base Component)
+
+The low-level component that all typography components are built from. Use it when you need a variant that doesn't have a dedicated component, or for full control over rendering.
+
+```tsx
+import { Typography } from "@work-rjkashyap/unified-ui";
+
+<Typography variant="heading1" as="h1">Custom Heading</Typography>
+<Typography variant="bodySm" as="span">Inline small text</Typography>
+<Typography variant="code" as="code">const x = 42</Typography>
+```
+
+#### Props
+
+| Prop        | Type                              | Default     | Description                          |
+| ----------- | --------------------------------- | ----------- | ------------------------------------ |
+| `variant`   | `"heading1" \| "heading2" \| "heading3" \| "subheading" \| "body" \| "bodySm" \| "caption" \| "label" \| "overline" \| "code"` | `"body"` | Typography preset |
+| `as`        | `React.ElementType`               | `"p"`       | HTML element to render               |
+| `font`      | `"sans" \| "display" \| "serif" \| "mono" \| "inherit"` | Preset default | Override font family |
+| `color`     | `"default" \| "muted" \| "primary" \| "danger" \| "success" \| "warning" \| "inherit"` | `"default"` | Text color |
+| `align`     | `"left" \| "center" \| "right"`  | —           | Text alignment                       |
+| `truncate`  | `boolean`                         | `false`     | Truncate with ellipsis               |
+| `lineClamp` | `number`                          | —           | Limit visible lines                  |
+
+---
+
+## The `font` Prop
+
+Every typography component accepts a `font` prop that overrides the preset's default font family. This lets you mix typefaces without creating custom components:
+
+```tsx
+import { Heading, Body, Caption } from "@work-rjkashyap/unified-ui";
+
+// Default — all use the "sans" (Outfit) font
+<Heading level={1}>Dashboard</Heading>
+<Body>Welcome to your dashboard.</Body>
+
+// Override to "display" (Inter) for a different feel
+<Heading level={1} font="display">Welcome Back</Heading>
+
+// Mix fonts in a card
+<Heading level={2} font="serif">The Story of Design Systems</Heading>
+<Body font="serif">Once upon a time, every button was a different shade of blue...</Body>
+<Caption font="mono">Published: 2025-01-15T10:30:00Z</Caption>
+```
+
+---
+
+## Truncation & Line Clamping
+
+All typography components support text overflow control:
+
+### Single-Line Truncation
+
+```tsx
+<Body truncate>
+  This very long text will be truncated with an ellipsis when it overflows its container.
+</Body>
+```
+
+Renders with `overflow: hidden; text-overflow: ellipsis; white-space: nowrap`.
+
+### Multi-Line Clamping
+
+```tsx
+<Body lineClamp={2}>
+  This text will show at most 2 lines. Any overflow beyond the second line will be hidden
+  with an ellipsis. This is useful for card descriptions, preview text, and list items.
+</Body>
+```
+
+Uses CSS `line-clamp` for native multi-line truncation.
+
+---
+
+## Color Options
+
+The `color` prop maps to semantic design tokens:
+
+| Value       | CSS Variable                       | Use Case                    |
+| ----------- | ---------------------------------- | --------------------------- |
+| `default`   | `--ds-color-foreground`            | Primary text                |
+| `muted`     | `--ds-color-muted-foreground`      | Secondary, descriptive text |
+| `primary`   | `--ds-color-primary`               | Links, emphasized text      |
+| `danger`    | `--ds-color-danger`                | Error messages              |
+| `success`   | `--ds-color-success`               | Success messages            |
+| `warning`   | `--ds-color-warning`               | Warning messages            |
+| `inherit`   | `inherit`                          | Inherit from parent         |
+
+```tsx
+<Heading level={2} color="primary">Featured Section</Heading>
+<Body color="muted">This section highlights our latest updates.</Body>
+<Caption color="danger">This field is required.</Caption>
+<Label color="success">Verified</Label>
+```
+
+---
+
+## Best Practices
+
+### Do
+
+- Use the **preset components** (`<Heading>`, `<Body>`, etc.) instead of raw HTML elements with manual classes.
+- Let the `font` prop handle font family switching — don't add `font-ds-*` classes manually to typography components.
+- Use `color="muted"` for secondary text instead of applying opacity or custom colors.
+- Use `truncate` or `lineClamp` for text in constrained containers (cards, list items, table cells).
+
+### Don't
+
+- Don't exceed `text-3xl` (30px) for headings. Use font family contrast (`display` vs `sans`) for visual hierarchy instead of larger sizes.
+- Don't use `leading-loose` or `leading-relaxed` for interface text — stick to `tight` through `normal`.
+- Don't combine typography components with manual `text-*` size classes — this defeats the purpose of the preset system.
+- Don't use more than 2 font families on a single page. The `sans` + one other (e.g., `mono` for code) is the typical pattern.

@@ -1,0 +1,621 @@
+---
+title: Theming
+description: CSS variable architecture, runtime theme switching, and custom theme creation.
+icon: Moon
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## Overview
+
+Unified UI's theming system is built on **CSS custom properties** (variables) with the `--ds-` prefix. Every visual property — color, radius, shadow, font family, spacing — is expressed as a CSS variable that components consume through Tailwind utilities.
+
+This architecture provides:
+
+- **Zero-flash theme switching** — Light and dark modes are pure CSS, no JavaScript rehydration needed.
+- **Runtime customization** — Override any `--ds-*` variable to rebrand the entire system without touching component code.
+- **Namespace isolation** — The `--ds-` prefix prevents collisions with host application styles, Fumadocs (`--fd-*`), or third-party CSS.
+
+---
+
+## How It Works
+
+The theming pipeline flows through three layers:
+
+```
+TypeScript Tokens → CSS Custom Properties (--ds-*) → Tailwind Utilities (ds-*)
+```
+
+1. **Tokens** define raw values in TypeScript (`semanticLight`, `semanticDark`, `radius`, etc.).
+2. **The theme contract** maps tokens to `--ds-*` CSS custom properties in `styles.css`.
+3. **Tailwind's `@theme`** block registers these CSS variables as utilities (`bg-ds-primary`, `rounded-ds-md`, etc.).
+4. **Components** use only Tailwind utilities — they never reference tokens or CSS variables directly.
+
+This indirection means changing a single token value propagates automatically to every component that uses it.
+
+---
+
+## CSS Variable Architecture
+
+### Color Variables
+
+All color variables store **RGB channel strings** (e.g., `79 70 229`) so they work with Tailwind's opacity modifier syntax:
+
+```css
+:root {
+  /* Backgrounds & Surfaces */
+  --ds-color-background: 255 255 255;
+  --ds-color-foreground: 9 9 11;
+  --ds-color-surface: 250 250 250;
+  --ds-color-surface-raised: 255 255 255;
+  --ds-color-surface-overlay: 244 244 245;
+  --ds-color-muted: 244 244 245;
+  --ds-color-muted-foreground: 82 82 91;
+
+  /* Primary (Brand) */
+  --ds-color-primary: 79 70 229;
+  --ds-color-primary-foreground: 255 255 255;
+  --ds-color-primary-hover: 67 56 202;
+  --ds-color-primary-active: 55 48 163;
+  --ds-color-primary-muted: 238 242 255;
+  --ds-color-primary-muted-foreground: 67 56 202;
+
+  /* Secondary */
+  --ds-color-secondary: 244 244 245;
+  --ds-color-secondary-foreground: 24 24 27;
+
+  /* Status */
+  --ds-color-success: 22 163 74;
+  --ds-color-warning: 245 158 11;
+  --ds-color-danger: 220 38 38;
+  --ds-color-info: 37 99 235;
+
+  /* Borders & Focus */
+  --ds-color-border: 188 188 194;
+  --ds-color-border-muted: 244 244 245;
+  --ds-color-border-strong: 148 148 157;
+  --ds-color-focus-ring: 99 102 241;
+
+  /* Input */
+  --ds-color-input: 148 148 157;
+  --ds-color-input-foreground: 24 24 27;
+  --ds-color-input-placeholder: 113 113 122;
+
+  /* Disabled */
+  --ds-color-disabled: 244 244 245;
+  --ds-color-disabled-foreground: 120 120 129;
+}
+```
+
+### Dark Mode
+
+Dark mode overrides are applied via the `.dark` class on the `<html>` element:
+
+```css
+.dark {
+  --ds-color-background: 9 9 11;
+  --ds-color-foreground: 250 250 250;
+  --ds-color-surface: 24 24 27;
+  --ds-color-surface-raised: 39 39 42;
+  --ds-color-muted: 39 39 42;
+  --ds-color-muted-foreground: 161 161 170;
+
+  --ds-color-primary: 129 140 248;
+  --ds-color-primary-foreground: 24 24 27;
+  --ds-color-primary-hover: 165 180 252;
+  --ds-color-primary-active: 199 210 254;
+
+  --ds-color-border: 82 82 91;
+  --ds-color-focus-ring: 129 140 248;
+
+  /* ... all other dark overrides */
+}
+```
+
+### Non-Color Variables
+
+```css
+:root {
+  /* Typography */
+  --ds-font-sans: var(--font-outfit), system-ui, sans-serif;
+  --ds-font-display: var(--font-inter), system-ui, sans-serif;
+  --ds-font-serif: var(--font-lora), Georgia, serif;
+  --ds-font-mono: var(--font-jetbrains), Consolas, monospace;
+  --ds-font-inherit: inherit;
+
+  /* Radius */
+  --ds-radius-none: 0px;
+  --ds-radius-sm: 4px;
+  --ds-radius-md: 6px;
+  --ds-radius-lg: 8px;
+  --ds-radius-xl: 12px;
+  --ds-radius-full: 9999px;
+
+  /* Shadows */
+  --ds-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --ds-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --ds-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Z-Index */
+  --ds-z-base: 0;
+  --ds-z-dropdown: 10;
+  --ds-z-sticky: 20;
+  --ds-z-overlay: 30;
+  --ds-z-modal: 40;
+  --ds-z-popover: 50;
+  --ds-z-toast: 60;
+  --ds-z-tooltip: 70;
+
+  /* Duration */
+  --ds-duration-instant: 0ms;
+  --ds-duration-fast: 100ms;
+  --ds-duration-moderate: 150ms;
+  --ds-duration-normal: 200ms;
+  --ds-duration-slow: 300ms;
+  --ds-duration-slower: 400ms;
+  --ds-duration-slowest: 500ms;
+}
+```
+
+---
+
+## Tailwind Integration
+
+The `styles.css` file includes a `@theme` block that registers all CSS variables as Tailwind utilities:
+
+```css
+@theme {
+  /* Colors become bg-ds-*, text-ds-*, border-ds-*, ring-ds-* */
+  --color-ds-background: rgb(var(--ds-color-background));
+  --color-ds-foreground: rgb(var(--ds-color-foreground));
+  --color-ds-primary: rgb(var(--ds-color-primary));
+  --color-ds-primary-foreground: rgb(var(--ds-color-primary-foreground));
+  /* ... */
+
+  /* Radius becomes rounded-ds-* */
+  --radius-ds-none: var(--ds-radius-none);
+  --radius-ds-sm: var(--ds-radius-sm);
+  --radius-ds-md: var(--ds-radius-md);
+  --radius-ds-lg: var(--ds-radius-lg);
+  --radius-ds-xl: var(--ds-radius-xl);
+  --radius-ds-full: var(--ds-radius-full);
+
+  /* Shadows become shadow-ds-* */
+  --shadow-ds-sm: var(--ds-shadow-sm);
+  --shadow-ds-md: var(--ds-shadow-md);
+  --shadow-ds-lg: var(--ds-shadow-lg);
+
+  /* Fonts become font-ds-* */
+  --font-ds-sans: var(--ds-font-sans);
+  --font-ds-display: var(--ds-font-display);
+  --font-ds-serif: var(--ds-font-serif);
+  --font-ds-mono: var(--ds-font-mono);
+}
+```
+
+This means you can use standard Tailwind syntax with the `ds-` namespace:
+
+```tsx
+<div className="bg-ds-primary text-ds-primary-foreground rounded-ds-md shadow-ds-sm font-ds-sans">
+  Fully themed with Tailwind utilities
+</div>
+
+{/* Opacity modifiers work because colors are RGB channels */}
+<div className="bg-ds-primary/50 border border-ds-border/20">
+  Semi-transparent
+</div>
+```
+
+---
+
+## Theme Provider
+
+The `DSThemeProvider` component provides runtime theme switching with React context. It manages the `.dark` class on the document root and exposes the current theme via the `useDSTheme` hook.
+
+### Setup
+
+```tsx title="app/providers.tsx"
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <DSThemeProvider defaultTheme="system" storageKey="ds-theme">
+      {children}
+    </DSThemeProvider>
+  );
+}
+```
+
+```tsx title="app/layout.tsx"
+import { Providers } from "./providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+<Callout type="info">
+  The `suppressHydrationWarning` on `<html>` is needed because the provider sets the `class` attribute before hydration to prevent theme flash. This is safe and expected.
+</Callout>
+
+### Props
+
+| Prop           | Type                                    | Default       | Description                                       |
+| -------------- | --------------------------------------- | ------------- | ------------------------------------------------- |
+| `defaultTheme` | `"light" \| "dark" \| "system"`        | `"system"`    | Initial theme before user preference is loaded     |
+| `storageKey`   | `string`                                | `"ds-theme"`  | `localStorage` key for persisting user preference  |
+| `children`     | `React.ReactNode`                       | —             | Application content                                |
+
+---
+
+## `useDSTheme` Hook
+
+The `useDSTheme` hook provides access to the current theme state and a setter function.
+
+```tsx
+import { useDSTheme } from "@work-rjkashyap/unified-ui";
+
+function ThemeToggle() {
+  const { theme, setTheme, resolvedTheme } = useDSTheme();
+
+  return (
+    <button onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}>
+      Current: {resolvedTheme}
+    </button>
+  );
+}
+```
+
+### Return Value
+
+| Property        | Type                                    | Description                                      |
+| --------------- | --------------------------------------- | ------------------------------------------------ |
+| `theme`         | `"light" \| "dark" \| "system"`        | The user's selected preference                    |
+| `setTheme`      | `(theme: ThemeMode) => void`            | Update the theme preference                       |
+| `resolvedTheme` | `"light" \| "dark"`                     | The actual active theme (resolves `"system"`)     |
+
+<Callout type="warn">
+  Always use `resolvedTheme` for conditional rendering, not `theme`. When `theme` is `"system"`, you need the resolved value to know whether the user's OS prefers light or dark.
+</Callout>
+
+---
+
+## Theme Contract
+
+The theme contract is a TypeScript object that defines every CSS variable the design system uses. It's the bridge between TypeScript tokens and CSS custom properties.
+
+```tsx
+import { contract, cssVar, buildLightThemeVars, buildDarkThemeVars } from "@work-rjkashyap/unified-ui/theme";
+
+// Access the contract (lists all variable names)
+console.log(contract.color.primary);     // "--ds-color-primary"
+console.log(contract.radius.md);         // "--ds-radius-md"
+console.log(contract.z.modal);           // "--ds-z-modal"
+
+// Generate CSS variable assignments for a theme
+const lightVars = buildLightThemeVars();
+// { "--ds-color-primary": "79 70 229", "--ds-color-background": "255 255 255", ... }
+
+const darkVars = buildDarkThemeVars();
+// { "--ds-color-primary": "129 140 248", "--ds-color-background": "9 9 11", ... }
+
+// Read a CSS variable at runtime
+const primaryColor = cssVar("--ds-color-primary");
+// Returns the computed value from getComputedStyle
+```
+
+### Contract Structure
+
+The contract object mirrors the token categories:
+
+```tsx
+const contract = {
+  color: {
+    background: "--ds-color-background",
+    foreground: "--ds-color-foreground",
+    primary: "--ds-color-primary",
+    primaryForeground: "--ds-color-primary-foreground",
+    // ... all semantic color variables
+  },
+  radius: {
+    none: "--ds-radius-none",
+    sm: "--ds-radius-sm",
+    md: "--ds-radius-md",
+    lg: "--ds-radius-lg",
+    xl: "--ds-radius-xl",
+    full: "--ds-radius-full",
+  },
+  shadow: {
+    sm: "--ds-shadow-sm",
+    md: "--ds-shadow-md",
+    lg: "--ds-shadow-lg",
+  },
+  font: {
+    sans: "--ds-font-sans",
+    display: "--ds-font-display",
+    serif: "--ds-font-serif",
+    mono: "--ds-font-mono",
+    inherit: "--ds-font-inherit",
+  },
+  z: {
+    base: "--ds-z-base",
+    dropdown: "--ds-z-dropdown",
+    sticky: "--ds-z-sticky",
+    overlay: "--ds-z-overlay",
+    modal: "--ds-z-modal",
+    popover: "--ds-z-popover",
+    toast: "--ds-z-toast",
+    tooltip: "--ds-z-tooltip",
+  },
+  duration: {
+    instant: "--ds-duration-instant",
+    fast: "--ds-duration-fast",
+    moderate: "--ds-duration-moderate",
+    normal: "--ds-duration-normal",
+    slow: "--ds-duration-slow",
+    slower: "--ds-duration-slower",
+    slowest: "--ds-duration-slowest",
+  },
+};
+```
+
+---
+
+## Building a Theme Toggle
+
+A complete theme toggle implementation:
+
+```tsx title="components/theme-toggle.tsx"
+"use client";
+
+import { useDSTheme } from "@work-rjkashyap/unified-ui";
+import { Moon, Sun, Monitor } from "lucide-react";
+
+const themes = [
+  { value: "light", icon: Sun, label: "Light" },
+  { value: "dark", icon: Moon, label: "Dark" },
+  { value: "system", icon: Monitor, label: "System" },
+] as const;
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useDSTheme();
+
+  return (
+    <div className="flex items-center gap-1 rounded-ds-full border border-ds-border p-1">
+      {themes.map(({ value, icon: Icon, label }) => (
+        <button
+          key={value}
+          onClick={() => setTheme(value)}
+          className={`
+            rounded-ds-full p-1.5 transition-colors
+            ${theme === value
+              ? "bg-ds-primary text-ds-primary-foreground"
+              : "text-ds-muted-foreground hover:text-ds-foreground"
+            }
+          `}
+          aria-label={`Switch to ${label} theme`}
+        >
+          <Icon className="size-4" />
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+---
+
+## Custom Themes
+
+You can create custom themes by overriding `--ds-*` CSS variables. There are two approaches:
+
+### Approach 1: CSS Overrides
+
+Create a custom CSS class that overrides the design system variables:
+
+```css title="app/custom-theme.css"
+/* A warm theme with amber accents */
+.theme-warm {
+  --ds-color-primary: 217 119 6;          /* amber.600 */
+  --ds-color-primary-foreground: 255 255 255;
+  --ds-color-primary-hover: 180 83 9;     /* amber.700 */
+  --ds-color-primary-active: 146 64 14;   /* amber.800 */
+  --ds-color-primary-muted: 255 251 235;  /* amber.50 */
+  --ds-color-primary-muted-foreground: 180 83 9; /* amber.700 */
+  --ds-color-focus-ring: 245 158 11;      /* amber.500 */
+}
+
+/* Apply the class alongside the base theme */
+.dark.theme-warm {
+  --ds-color-primary: 251 191 36;         /* amber.400 */
+  --ds-color-primary-foreground: 9 9 11;
+  --ds-color-primary-hover: 252 211 77;   /* amber.300 */
+  --ds-color-primary-active: 253 230 138; /* amber.200 */
+  --ds-color-primary-muted: 69 26 3;      /* amber.950 */
+  --ds-color-primary-muted-foreground: 252 211 77; /* amber.300 */
+  --ds-color-focus-ring: 251 191 36;      /* amber.400 */
+}
+```
+
+Apply the custom theme class to your root element:
+
+```tsx
+<html className="theme-warm">
+  {/* All components now use amber as the primary color */}
+</html>
+```
+
+### Approach 2: JavaScript Runtime Overrides
+
+Use `buildThemeCSS` to generate theme CSS from token objects at runtime:
+
+```tsx
+import { buildThemeCSS } from "@work-rjkashyap/unified-ui/theme";
+import { amber, green } from "@work-rjkashyap/unified-ui/tokens";
+
+// Generate a CSS string with custom color overrides
+const customCSS = buildThemeCSS({
+  light: {
+    primary: amber[600],
+    primaryForeground: "255 255 255",
+    primaryHover: amber[700],
+    focusRing: amber[500],
+  },
+  dark: {
+    primary: amber[400],
+    primaryForeground: "9 9 11",
+    primaryHover: amber[300],
+    focusRing: amber[400],
+  },
+});
+
+// Inject via a <style> tag or CSS-in-JS solution
+```
+
+<Callout type="warn">
+  When creating custom themes, **always provide both light and dark mode overrides**. A theme that only overrides light mode will look broken in dark mode. Also verify contrast ratios — custom primary colors must meet WCAG AA (4.5:1 for normal text, 3:1 for large text) against their foreground colors.
+</Callout>
+
+---
+
+## Scoped Theming
+
+You can scope theme overrides to a specific subtree of your application by applying `--ds-*` overrides on a container element:
+
+```tsx
+<div style={{
+  "--ds-color-primary": "22 163 74",
+  "--ds-color-primary-foreground": "255 255 255",
+} as React.CSSProperties}>
+  {/* All components inside this div use green as primary */}
+  <Button variant="primary">Green Button</Button>
+</div>
+
+{/* Components outside are unaffected */}
+<Button variant="primary">Default Button</Button>
+```
+
+This is useful for:
+
+- **Multi-brand pages** — Different sections with different brand colors.
+- **Component previews** — Showing components in different themes side by side.
+- **White-labeling** — Letting tenants customize their section of a shared app.
+
+---
+
+## Without the Theme Provider
+
+The theme provider is **optional**. If you don't need runtime theme switching, the CSS custom properties work on their own:
+
+### Static Light/Dark via CSS
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "@work-rjkashyap/unified-ui/styles.css";
+
+/* Light mode is the default from styles.css */
+
+/* Dark mode via media query (no JS needed) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Override with dark values — or use the .dark class approach */
+  }
+}
+```
+
+### With `next-themes` or Other Providers
+
+If you're already using `next-themes` or another theme management library, you can skip `DSThemeProvider` entirely. Just ensure the `.dark` class is toggled on the `<html>` element — that's all Unified UI needs:
+
+```tsx
+import { ThemeProvider } from "next-themes";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider attribute="class" defaultTheme="system">
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+The design system's `styles.css` already defines `:root` (light) and `.dark` (dark) variable sets, so any class-based theme switcher will work.
+
+---
+
+## Variable Reference
+
+### Color Variables
+
+| Variable                              | Light Default        | Dark Default          |
+| ------------------------------------- | -------------------- | --------------------- |
+| `--ds-color-background`               | `255 255 255`        | `9 9 11`              |
+| `--ds-color-foreground`               | `9 9 11`             | `250 250 250`         |
+| `--ds-color-primary`                  | `79 70 229`          | `129 140 248`         |
+| `--ds-color-primary-foreground`       | `255 255 255`        | `24 24 27`            |
+| `--ds-color-secondary`               | `244 244 245`        | `39 39 42`            |
+| `--ds-color-secondary-foreground`    | `24 24 27`           | `244 244 245`         |
+| `--ds-color-muted`                    | `244 244 245`        | `39 39 42`            |
+| `--ds-color-muted-foreground`        | `82 82 91`           | `161 161 170`         |
+| `--ds-color-border`                   | `188 188 194`        | `82 82 91`            |
+| `--ds-color-focus-ring`              | `99 102 241`         | `129 140 248`         |
+| `--ds-color-success`                  | `22 163 74`          | `34 197 94`           |
+| `--ds-color-warning`                  | `245 158 11`         | `251 191 36`          |
+| `--ds-color-danger`                   | `220 38 38`          | `239 68 68`           |
+| `--ds-color-info`                     | `37 99 235`          | `96 165 250`          |
+
+### Non-Color Variables
+
+| Variable                | Default Value                                    |
+| ----------------------- | ------------------------------------------------ |
+| `--ds-radius-none`      | `0px`                                            |
+| `--ds-radius-sm`        | `4px`                                            |
+| `--ds-radius-md`        | `6px`                                            |
+| `--ds-radius-lg`        | `8px`                                            |
+| `--ds-radius-xl`        | `12px`                                           |
+| `--ds-radius-full`      | `9999px`                                         |
+| `--ds-z-modal`          | `40`                                             |
+| `--ds-z-toast`          | `60`                                             |
+| `--ds-z-tooltip`        | `70`                                             |
+| `--ds-duration-fast`    | `100ms`                                          |
+| `--ds-duration-normal`  | `200ms`                                          |
+| `--ds-duration-slow`    | `300ms`                                          |
+
+<Callout type="info">
+  The `--ds-` prefix is a **permanent decision**. It will not be renamed or changed in future versions. You can safely build tooling and custom styles that depend on this prefix.
+</Callout>
+
+---
+
+## Next Steps
+
+<Cards>
+  <Card
+    title="Colors"
+    description="Deep dive into color palettes, semantic mappings, and contrast compliance."
+    href="/docs/design-system/colors"
+  />
+  <Card
+    title="Motion"
+    description="Animation presets, springs, and reduced motion support."
+    href="/docs/design-system/motion"
+  />
+  <Card
+    title="Tokens"
+    description="The complete reference for all design token values."
+    href="/docs/design-system/tokens"
+  />
+  <Card
+    title="Accessibility"
+    description="Focus management, keyboard navigation, and ARIA patterns."
+    href="/docs/design-system/accessibility"
+  />
+</Cards>

@@ -1,0 +1,375 @@
+---
+title: Spacing
+description: A strict 4px grid system for consistent spacing, padding, and layout rhythm.
+icon: Ruler
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+Unified UI uses a **strict 4px grid system** for all spacing values. Every margin, padding, gap, and offset is a multiple of 4px, ensuring visual consistency and vertical rhythm across the entire UI.
+
+This discipline means you never need to debate spacing values — the grid provides a finite set of options that always look good together.
+
+---
+
+## Spacing Scale
+
+| Token   | Value  | Rem     | Use Case                                          |
+| ------- | ------ | ------- | ------------------------------------------------- |
+| `0`     | 0px    | 0       | No spacing                                        |
+| `px`    | 1px    | —       | Hairline borders, fine dividers                   |
+| `0.5`   | 2px    | 0.125   | Micro spacing — icon-to-text gaps                 |
+| `1`     | 4px    | 0.25    | Tight internal padding                            |
+| `1.5`   | 6px    | 0.375   | Small internal spacing                            |
+| `2`     | 8px    | 0.5     | Default internal padding, small gaps              |
+| `2.5`   | 10px   | 0.625   | Between micro and compact                         |
+| `3`     | 12px   | 0.75    | Compact component padding                         |
+| `3.5`   | 14px   | 0.875   | Slightly larger compact spacing                   |
+| `4`     | 16px   | 1       | **Standard** — component padding, default gap     |
+| `5`     | 20px   | 1.25    | Comfortable padding                               |
+| `6`     | 24px   | 1.5     | Section padding (mobile)                          |
+| `7`     | 28px   | 1.75    | Between section sizes                             |
+| `8`     | 32px   | 2       | Section padding (tablet)                          |
+| `9`     | 36px   | 2.25    | Between section sizes                             |
+| `10`    | 40px   | 2.5     | Section spacing                                   |
+| `11`    | 44px   | 2.75    | Between section sizes                             |
+| `12`    | 48px   | 3       | Large section spacing                             |
+| `14`    | 56px   | 3.5     | Page-level vertical rhythm                        |
+| `16`    | 64px   | 4       | Major section breaks                              |
+| `20`    | 80px   | 5       | Hero / page-level padding                         |
+| `24`    | 96px   | 6       | Max vertical spacing                              |
+
+### Importing Tokens
+
+```tsx
+import { spacing } from "@work-rjkashyap/unified-ui/tokens";
+
+console.log(spacing[4]);   // "16px"
+console.log(spacing[0.5]); // "2px"
+console.log(spacing.px);   // "1px"
+```
+
+---
+
+## The 4px Grid
+
+Every spacing value in the system is a multiple of 4px (with `px` and `0.5` as exceptions for fine adjustments). This creates a predictable visual rhythm:
+
+```
+0   4   8   12  16  20  24  28  32  36  40  44  48
+│   │   │   │   │   │   │   │   │   │   │   │   │
+0   1   2   3   4   5   6   7   8   9  10  11  12
+```
+
+The 4px grid ensures:
+
+- **Vertical rhythm** — Text, spacing, and components align naturally.
+- **Consistent density** — No one-off values that look subtly wrong.
+- **Predictable scaling** — Doubling a spacing value always produces a harmonious result (e.g., `4` → `8` is 16px → 32px).
+
+<Callout type="info">
+  The `px` (1px) and `0.5` (2px) tokens break the 4px grid intentionally. Use them only for hairline borders, fine optical adjustments, and micro icon gaps — never for layout spacing.
+</Callout>
+
+---
+
+## Usage Patterns
+
+### Tailwind Utilities
+
+Use spacing tokens in Tailwind classes. The design system CSS maps tokens to `ds-*` utilities:
+
+```tsx
+// Padding
+<div className="p-4" />      // 16px all sides
+<div className="px-6 py-4" /> // 24px horizontal, 16px vertical
+
+// Gap (in flex/grid)
+<div className="flex gap-2" />  // 8px gap
+<div className="grid gap-4" /> // 16px gap
+
+// Margin
+<div className="mt-3 mb-6" /> // 12px top, 24px bottom
+
+// Space between children
+<div className="space-y-4" /> // 16px vertical space between children
+```
+
+### In the Stack Component
+
+The `<Stack>` primitive accepts a `gap` prop that maps directly to spacing tokens:
+
+```tsx
+import { Stack, Heading, Body, Button } from "@work-rjkashyap/unified-ui";
+
+<Stack direction="column" gap={4}>
+  <Heading level={2}>Sign In</Heading>
+  <Body color="muted">Enter your credentials to continue.</Body>
+  <Button variant="primary">Log In</Button>
+</Stack>
+```
+
+The `gap` prop accepts any spacing scale key (`0`, `0.5`, `1`, `2`, `3`, `4`, `5`, `6`, `8`, `10`, `12`, etc.) and renders the corresponding pixel value.
+
+### CSS Custom Properties
+
+All spacing tokens are available as CSS variables after importing `@work-rjkashyap/unified-ui/styles.css`:
+
+```css
+.custom-layout {
+  padding: var(--ds-spacing-4);          /* 16px */
+  margin-bottom: var(--ds-spacing-6);    /* 24px */
+  gap: var(--ds-spacing-2);              /* 8px */
+}
+```
+
+---
+
+## Responsive Spacing Guidelines
+
+Unified UI follows a responsive spacing strategy that increases whitespace as viewport size grows:
+
+### Container Padding
+
+| Breakpoint | Class   | Value | Use Case                        |
+| ---------- | ------- | ----- | ------------------------------- |
+| Mobile     | `px-4`  | 16px  | Minimum horizontal padding      |
+| Tablet     | `px-6`  | 24px  | Comfortable reading width        |
+| Desktop    | `px-8`  | 32px  | Full desktop padding             |
+
+```tsx
+<div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+  {/* Content constrained to 1280px */}
+</div>
+```
+
+### Section Spacing
+
+| Context              | Recommended | Class    | Value |
+| -------------------- | ----------- | -------- | ----- |
+| Default vertical     | Standard    | `py-10`  | 40px  |
+| Hero section (max)   | Generous    | `py-14`  | 56px  |
+| Between cards        | Compact     | `gap-4`  | 16px  |
+| Stack items          | Default     | `space-y-3` or `space-y-4` | 12–16px |
+
+### Content Width
+
+| Constraint      | Class         | Value   | Use Case                       |
+| --------------- | ------------- | ------- | ------------------------------ |
+| Content max     | `max-w-7xl`   | 1280px  | Page content container          |
+| Prose max       | `max-w-prose` | 65ch    | Long-form reading               |
+| Card ideal      | —             | 280–360px | Card components               |
+
+---
+
+## Layout Primitives
+
+Unified UI provides layout primitives that encode spacing patterns so you don't need to assemble them manually.
+
+### `<Container>`
+
+A centered, max-width constrained wrapper with responsive horizontal padding.
+
+```tsx
+import { Container } from "@work-rjkashyap/unified-ui";
+
+// Default — max-w-7xl with responsive padding
+<Container>
+  <h1>Page Content</h1>
+</Container>
+
+// Sizes
+<Container size="sm">Narrow content (max-w-3xl)</Container>
+<Container size="md">Medium content (max-w-5xl)</Container>
+<Container size="lg">Wide content (max-w-7xl)</Container>
+<Container size="full">Full-width content</Container>
+
+// Padding options
+<Container padding="none">No horizontal padding</Container>
+<Container padding="tight">Tighter padding (px-3 / px-4 / px-6)</Container>
+<Container padding="default">Default padding (px-4 / px-6 / px-8)</Container>
+```
+
+#### Props
+
+| Prop      | Type                                          | Default     | Description                |
+| --------- | --------------------------------------------- | ----------- | -------------------------- |
+| `size`    | `"sm" \| "md" \| "lg" \| "full"`             | `"lg"`      | Max width constraint        |
+| `padding` | `"none" \| "tight" \| "default"`              | `"default"` | Horizontal padding          |
+| `as`      | `React.ElementType`                           | `"div"`     | HTML element to render      |
+
+### `<Stack>`
+
+A flex container with directional layout and consistent gap spacing.
+
+```tsx
+import { Stack, Button } from "@work-rjkashyap/unified-ui";
+
+// Vertical stack (default)
+<Stack gap={4}>
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Stack>
+
+// Horizontal stack
+<Stack direction="row" gap={2} align="center">
+  <Button variant="primary">Save</Button>
+  <Button variant="secondary">Cancel</Button>
+</Stack>
+
+// Responsive direction
+<Stack direction="column" gap={4} className="sm:flex-row">
+  <div className="flex-1">Left column</div>
+  <div className="flex-1">Right column</div>
+</Stack>
+```
+
+#### Props
+
+| Prop        | Type                                        | Default    | Description              |
+| ----------- | ------------------------------------------- | ---------- | ------------------------ |
+| `direction` | `"row" \| "column" \| "row-reverse" \| "column-reverse"` | `"column"` | Flex direction |
+| `gap`       | `number`                                    | —          | Gap from spacing scale    |
+| `align`     | `"start" \| "center" \| "end" \| "stretch" \| "baseline"` | —   | Cross-axis alignment     |
+| `justify`   | `"start" \| "center" \| "end" \| "between" \| "around" \| "evenly"` | — | Main-axis distribution |
+| `wrap`      | `boolean`                                   | `false`    | Allow flex wrapping       |
+| `as`        | `React.ElementType`                         | `"div"`    | HTML element to render    |
+
+### `<Grid>`
+
+A CSS Grid container for multi-column layouts.
+
+```tsx
+import { Grid } from "@work-rjkashyap/unified-ui";
+
+// Responsive card grid
+<Grid cols={1} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
+  <Card>Card 1</Card>
+  <Card>Card 2</Card>
+  <Card>Card 3</Card>
+</Grid>
+```
+
+#### Props
+
+| Prop   | Type                | Default | Description                  |
+| ------ | ------------------- | ------- | ---------------------------- |
+| `cols` | `1 \| 2 \| 3 \| 4` | `1`     | Number of grid columns        |
+| `gap`  | `number`            | —       | Gap from spacing scale        |
+| `as`   | `React.ElementType` | `"div"` | HTML element to render        |
+
+### `<Divider>`
+
+A horizontal or vertical separator line with consistent spacing.
+
+```tsx
+import { Divider, Stack, Body } from "@work-rjkashyap/unified-ui";
+
+<Stack gap={4}>
+  <Body>Section one content</Body>
+  <Divider />
+  <Body>Section two content</Body>
+</Stack>
+
+// Vertical divider in a row layout
+<Stack direction="row" gap={4} align="center">
+  <span>Left</span>
+  <Divider orientation="vertical" className="h-6" />
+  <span>Right</span>
+</Stack>
+```
+
+---
+
+## Spacing Rules
+
+### Component Internal Spacing
+
+| Component Type      | Default Padding | Class   | Notes                           |
+| ------------------- | --------------- | ------- | ------------------------------- |
+| Cards               | 16px or 24px    | `p-4` / `p-6` | Use `compact` or `comfortable` variant |
+| Buttons             | 8–12px × 16–20px | Varies by size | Height matches inputs       |
+| Inputs              | 8px × 12px     | `px-3 py-2`   | All form controls share this  |
+| Dialogs             | 24px            | `p-6`          | Header, body, footer          |
+| Tooltips            | 6px × 12px     | `px-3 py-1.5`  | Compact by design            |
+| Dropdowns           | 4px             | `p-1`          | Container padding              |
+
+### Grid Layout Rules
+
+| Viewport    | Max Columns | Grid Pattern             |
+| ----------- | ----------- | ------------------------ |
+| Mobile      | 1           | `grid-cols-1`            |
+| Tablet      | 2           | `sm:grid-cols-2`         |
+| Desktop     | 3           | `lg:grid-cols-3`         |
+| Small icons | 4           | `lg:grid-cols-4`         |
+
+<Callout type="warn">
+  **Desktop max is `grid-cols-3`** (or `grid-cols-4` for small icon grids). Avoid wider grids — they create cards that are too narrow to be readable on standard monitors.
+</Callout>
+
+---
+
+## Do's and Don'ts
+
+### Do
+
+- **Use the spacing scale** — Pick from the defined token values. Never invent a one-off spacing like `13px` or `27px`.
+- **Start compact, increase as needed** — Default to `gap-3` or `gap-4`. Only reach for larger values (`gap-6`, `gap-8`) for section-level spacing.
+- **Use Stack and Grid primitives** — They encode best practices and keep gap values on the scale.
+- **Match control heights** — Buttons, Inputs, and Selects should share the same height (`h-9` or `h-10`) for visual alignment.
+
+### Don't
+
+- **Don't use large spacing for dense UI** — Avoid `py-24+`, `space-y-10+`, and `gap-12+` in application interfaces. These are acceptable only for marketing landing pages.
+- **Don't hardcode pixel values** — Use tokens, CSS variables, or Tailwind utilities instead.
+- **Don't combine large padding with large gaps** — A card with `p-6` and internal `space-y-6` feels loose. Prefer `p-4` with `space-y-3` or `p-6` with `space-y-4`.
+- **Don't use `margin` for layout** — Prefer `gap` in flex/grid containers or `space-y-*` for sequential content. Margin creates coupling between sibling elements.
+
+---
+
+## Quick Reference
+
+Common spacing patterns used throughout the system:
+
+```tsx
+// Form layout
+<Stack gap={4}>
+  <Stack gap={1.5}>
+    <Label>Email</Label>
+    <Input placeholder="you@example.com" />
+  </Stack>
+  <Stack gap={1.5}>
+    <Label>Password</Label>
+    <Input type="password" />
+  </Stack>
+  <Button variant="primary" className="mt-2">Sign In</Button>
+</Stack>
+
+// Card content
+<Card>
+  <CardHeader>           {/* p-4 or p-6 (via padding context) */}
+    <Heading level={3}>Title</Heading>
+  </CardHeader>
+  <CardBody>             {/* p-4 or p-6, space-y-2 internal */}
+    <Body color="muted">Description text here.</Body>
+  </CardBody>
+  <CardFooter>           {/* p-4 or p-6 */}
+    <Button>Action</Button>
+  </CardFooter>
+</Card>
+
+// Page section
+<Container>
+  <section className="py-10 space-y-6">
+    <Heading level={2}>Section Title</Heading>
+    <Grid cols={1} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
+      <Card>...</Card>
+      <Card>...</Card>
+      <Card>...</Card>
+    </Grid>
+  </section>
+</Container>
+```

@@ -1,0 +1,485 @@
+---
+title: Dropdown Menu
+description: A context menu component with items, checkboxes, radios, submenus, and keyboard navigation. Built on Radix UI.
+icon: ChevronDown
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+The `DropdownMenu` component provides a context menu triggered by a button or other interactive element. It supports standard menu items, checkbox items, radio groups, submenus, labels, separators, and keyboard shortcuts — all built on Radix UI's DropdownMenu primitive for full accessibility.
+
+---
+
+## Import
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  // ...
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Basic Usage
+
+Wrap a trigger element in `DropdownMenuTrigger` and place menu items inside `DropdownMenuContent`.
+
+```tsx
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, Button } from "@work-rjkashyap/unified-ui";
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">Options</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Edit</DropdownMenuItem>
+    <DropdownMenuItem>Duplicate</DropdownMenuItem>
+    <DropdownMenuItem>Archive</DropdownMenuItem>
+    <DropdownMenuItem variant="danger">Delete</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## With Labels and Separators
+
+Use `DropdownMenuLabel` to add section headings and `DropdownMenuSeparator` to visually divide groups of items.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">My Account</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Account</DropdownMenuLabel>
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuLabel>Team</DropdownMenuLabel>
+    <DropdownMenuItem>Invite Members</DropdownMenuItem>
+    <DropdownMenuItem>Team Settings</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem variant="danger">Log Out</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## With Groups
+
+Use `DropdownMenuGroup` to logically group related items. This provides semantic grouping for assistive technology.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">Actions</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Edit</DropdownMenuLabel>
+      <DropdownMenuItem>Cut</DropdownMenuItem>
+      <DropdownMenuItem>Copy</DropdownMenuItem>
+      <DropdownMenuItem>Paste</DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>View</DropdownMenuLabel>
+      <DropdownMenuItem>Zoom In</DropdownMenuItem>
+      <DropdownMenuItem>Zoom Out</DropdownMenuItem>
+      <DropdownMenuItem>Reset Zoom</DropdownMenuItem>
+    </DropdownMenuGroup>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Keyboard Shortcuts
+
+Use `DropdownMenuShortcut` to display keyboard shortcut hints alongside menu items. The shortcut is purely visual — you handle the actual key binding separately.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">File</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>
+      New File
+      <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuItem>
+      Open
+      <DropdownMenuShortcut>⌘O</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuItem>
+      Save
+      <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>
+      Export
+      <DropdownMenuShortcut>⇧⌘E</DropdownMenuShortcut>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Checkbox Items
+
+Use `DropdownMenuCheckboxItem` for togglable menu items. Manage the checked state externally.
+
+```tsx
+const [showStatusBar, setShowStatusBar] = useState(true);
+const [showPanel, setShowPanel] = useState(false);
+const [showToolbar, setShowToolbar] = useState(true);
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">View</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuCheckboxItem
+      checked={showStatusBar}
+      onCheckedChange={setShowStatusBar}
+    >
+      Status Bar
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem
+      checked={showPanel}
+      onCheckedChange={setShowPanel}
+    >
+      Side Panel
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem
+      checked={showToolbar}
+      onCheckedChange={setShowToolbar}
+    >
+      Toolbar
+    </DropdownMenuCheckboxItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Radio Items
+
+Use `DropdownMenuRadioGroup` and `DropdownMenuRadioItem` for single-select option groups.
+
+```tsx
+const [theme, setTheme] = useState("system");
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">Theme</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Theme</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+      <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Submenus
+
+Use `DropdownMenuSub`, `DropdownMenuSubTrigger`, and `DropdownMenuSubContent` to nest submenus.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">Options</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>New Tab</DropdownMenuItem>
+    <DropdownMenuItem>New Window</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
+      <DropdownMenuSubContent>
+        <DropdownMenuItem>Email</DropdownMenuItem>
+        <DropdownMenuItem>Messages</DropdownMenuItem>
+        <DropdownMenuItem>Slack</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Copy Link</DropdownMenuItem>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Print</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Danger / Destructive Items
+
+Use `variant="danger"` on `DropdownMenuItem` for destructive actions. These render in red to visually distinguish them from safe actions.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">Manage</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Edit</DropdownMenuItem>
+    <DropdownMenuItem>Duplicate</DropdownMenuItem>
+    <DropdownMenuItem>Archive</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem variant="danger">Delete</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Disabled Items
+
+Individual items can be disabled to prevent interaction.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">Actions</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Edit</DropdownMenuItem>
+    <DropdownMenuItem disabled>Duplicate (limit reached)</DropdownMenuItem>
+    <DropdownMenuItem>Archive</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## With onSelect Handler
+
+Each `DropdownMenuItem` fires an `onSelect` callback when clicked or activated via keyboard.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary">Actions</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem onSelect={() => navigator.clipboard.writeText(url)}>
+      Copy Link
+      <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuItem onSelect={() => window.open(url, "_blank")}>
+      Open in New Tab
+      <DropdownMenuShortcut>⌘⇧T</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem
+      variant="danger"
+      onSelect={() => handleDelete(id)}
+    >
+      Delete
+      <DropdownMenuShortcut>⌫</DropdownMenuShortcut>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Full Kitchen Sink
+
+Combining all features into a comprehensive example.
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="secondary" iconOnly aria-label="More options">
+      <MoreHorizontal className="size-4" />
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent align="end">
+    <DropdownMenuLabel>jane@example.com</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuItem>
+        Profile
+        <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        Settings
+        <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuItem>Billing</DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Preferences</DropdownMenuLabel>
+      <DropdownMenuCheckboxItem
+        checked={notifications}
+        onCheckedChange={setNotifications}
+      >
+        Notifications
+      </DropdownMenuCheckboxItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>Invite Users</DropdownMenuSubTrigger>
+      <DropdownMenuSubContent>
+        <DropdownMenuItem>Email</DropdownMenuItem>
+        <DropdownMenuItem>Message</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Copy Invite Link</DropdownMenuItem>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem variant="danger">
+      Log Out
+      <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+---
+
+## Props
+
+### DropdownMenu
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state. |
+| `defaultOpen` | `boolean` | — | Default open state (uncontrolled). |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when the open state changes. |
+| `modal` | `boolean` | `true` | Whether the menu blocks interaction with the rest of the page. |
+
+### DropdownMenuTrigger
+
+Uses Radix UI's trigger API. Use `asChild` to render as your own element.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Merge props onto the child element. |
+
+### DropdownMenuContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Which side of the trigger to place the menu. |
+| `align` | `"start" \| "center" \| "end"` | `"start"` | Alignment along the side axis. |
+| `sideOffset` | `number` | `4` | Distance in px from the trigger. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "danger"` | `"default"` | Visual variant. Use `"danger"` for destructive actions. |
+| `disabled` | `boolean` | `false` | Whether the item is disabled. |
+| `onSelect` | `(event: Event) => void` | — | Callback when the item is selected (click or keyboard). |
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuCheckboxItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | — | Controlled checked state. |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback when checked state changes. |
+| `disabled` | `boolean` | `false` | Whether the item is disabled. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuRadioGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Controlled selected value. |
+| `onValueChange` | `(value: string) => void` | — | Callback when the selection changes. |
+
+### DropdownMenuRadioItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **required** | The value of this radio item. |
+| `disabled` | `boolean` | `false` | Whether the item is disabled. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuLabel
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuSeparator
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuShortcut
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuSubTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+
+### DropdownMenuSubContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `sideOffset` | `number` | `2` | Distance from the parent menu. |
+| `className` | `string` | — | Additional CSS classes. |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+  Built on **@radix-ui/react-dropdown-menu** which provides full WAI-ARIA Menu pattern compliance.
+</Callout>
+
+- **Keyboard navigation** — `Arrow Up` / `Arrow Down` to navigate items. `Arrow Right` to open submenus. `Arrow Left` to close submenus. `Enter` / `Space` to select.
+- **Type-ahead** — Typing characters focuses matching items.
+- **Escape** — Closes the menu and returns focus to the trigger.
+- **Focus management** — Focus is trapped within the menu when open. Returns to the trigger on close.
+- The trigger renders with `aria-haspopup="menu"` and `aria-expanded`.
+- Menu items have `role="menuitem"`, checkbox items have `role="menuitemcheckbox"`, radio items have `role="menuitemradio"`.
+- `DropdownMenuGroup` provides semantic `role="group"` for assistive technology.
+- Disabled items are excluded from keyboard navigation and marked with `aria-disabled`.
+- Focus ring is visible on keyboard navigation only (`focus-visible`).
+- The shortcut text (`DropdownMenuShortcut`) is purely visual — it does not create actual keyboard bindings.
+
+---
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-surface-raised` | Menu panel background |
+| `--ds-color-border` | Menu border color |
+| `--ds-color-primary` | Focused item background highlight |
+| `--ds-color-danger` | Danger variant item text color |
+| `--ds-color-muted-foreground` | Label and shortcut text color |
+| `--ds-shadow-md` | Menu panel elevation shadow |
+| `--ds-radius-md` | Menu panel border radius |
+| `--ds-z-dropdown` | Z-index for the menu layer |
+| `--ds-duration-fast` | Enter/exit animation timing |

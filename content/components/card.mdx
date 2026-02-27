@@ -1,0 +1,466 @@
+---
+title: Card
+description: A versatile container for grouping related content and actions with slot-based composition.
+icon: Square
+---
+
+import {
+	Card,
+	CardHeader,
+	CardBody,
+	CardFooter,
+	Button,
+	Badge,
+} from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Card"
+  description="A versatile container for grouping related content and actions."
+  preview={
+    <div className="flex flex-col gap-4 w-full max-w-sm">
+      <Card>
+        <CardHeader>
+          <h3 className="text-base font-semibold">Card Title</h3>
+          <p className="text-sm text-ds-muted-foreground">Card subtitle text</p>
+        </CardHeader>
+        <CardBody>
+          <p>This is the main content area of the card. It can contain any content you need.</p>
+        </CardBody>
+        <CardFooter>
+          <Button variant="ghost" size="sm">Cancel</Button>
+          <Button variant="primary" size="sm">Save</Button>
+        </CardFooter>
+      </Card>
+    </div>
+  }
+  code={`<Card>
+  <CardHeader>
+    <h3 className="text-base font-semibold">Card Title</h3>
+    <p className="text-sm text-ds-muted-foreground">Card subtitle text</p>
+  </CardHeader>
+  <CardBody>
+    <p>This is the main content area of the card.</p>
+  </CardBody>
+  <CardFooter>
+    <Button variant="ghost" size="sm">Cancel</Button>
+    <Button variant="primary" size="sm">Save</Button>
+  </CardFooter>
+</Card>`}
+>
+
+## Import
+
+```tsx
+import { Card, CardHeader, CardBody, CardFooter } from "@work-rjkashyap/unified-ui";
+```
+
+## Variants
+
+### Default
+
+The standard card with a subtle background and border.
+
+<div className="flex flex-col gap-4 max-w-sm not-prose">
+	<Card>
+		<CardBody>
+			<p className="font-medium text-sm">Default Card</p>
+			<p className="text-sm text-ds-muted-foreground">
+				Subtle background with a standard border. Blends into the page
+				naturally.
+			</p>
+		</CardBody>
+	</Card>
+</div>
+
+```tsx
+<Card>
+	<CardBody>
+		<p>Default Card</p>
+		<p>Subtle background with a standard border.</p>
+	</CardBody>
+</Card>
+```
+
+### Outlined
+
+Transparent background with a stronger border. Use when the card sits on a colored or complex background.
+
+<div className="flex flex-col gap-4 max-w-sm not-prose">
+	<Card variant="outlined">
+		<CardBody>
+			<p className="font-medium text-sm">Outlined Card</p>
+			<p className="text-sm text-ds-muted-foreground">
+				Transparent background with a stronger border for contrast.
+			</p>
+		</CardBody>
+	</Card>
+</div>
+
+```tsx
+<Card variant="outlined">
+	<CardBody>
+		<p>Outlined Card</p>
+		<p>Transparent background with a stronger border.</p>
+	</CardBody>
+</Card>
+```
+
+### Elevated
+
+Raised card with shadow to draw attention or lift content above the page surface.
+
+<div className="flex flex-col gap-4 max-w-sm not-prose">
+	<Card variant="elevated">
+		<CardBody>
+			<p className="font-medium text-sm">Elevated Card</p>
+			<p className="text-sm text-ds-muted-foreground">
+				Uses shadow to create depth and visual prominence.
+			</p>
+		</CardBody>
+	</Card>
+</div>
+
+```tsx
+<Card variant="elevated">
+	<CardBody>
+		<p>Elevated Card</p>
+		<p>Uses shadow to create depth and visual prominence.</p>
+	</CardBody>
+</Card>
+```
+
+### Interactive
+
+Clickable card with hover lift animation, focus ring, and cursor pointer. Ideal for navigation cards.
+
+<div className="flex flex-col gap-4 max-w-sm not-prose">
+	<Card variant="interactive" as="a" href="#interactive">
+		<CardBody>
+			<p className="font-medium text-sm">Interactive Card</p>
+			<p className="text-sm text-ds-muted-foreground">
+				Hover to see the lift effect. Includes focus ring for keyboard
+				users.
+			</p>
+		</CardBody>
+	</Card>
+</div>
+
+```tsx
+<Card variant="interactive" as="a" href="/details">
+	<CardBody>
+		<p>Interactive Card</p>
+		<p>Hover to see the lift effect.</p>
+	</CardBody>
+</Card>
+```
+
+## All Variants Side by Side
+
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose">
+	<Card>
+		<CardBody>
+			<Badge variant="default" size="sm">
+				default
+			</Badge>
+			<p className="text-sm mt-2">Standard card</p>
+		</CardBody>
+	</Card>
+	<Card variant="outlined">
+		<CardBody>
+			<Badge variant="primary" size="sm">
+				outlined
+			</Badge>
+			<p className="text-sm mt-2">Stronger border</p>
+		</CardBody>
+	</Card>
+	<Card variant="elevated">
+		<CardBody>
+			<Badge variant="info" size="sm">
+				elevated
+			</Badge>
+			<p className="text-sm mt-2">With shadow</p>
+		</CardBody>
+	</Card>
+	<Card variant="interactive" as="a" href="#interactive">
+		<CardBody>
+			<Badge variant="success" size="sm">
+				interactive
+			</Badge>
+			<p className="text-sm mt-2">Hover me!</p>
+		</CardBody>
+	</Card>
+</div>
+
+## Slot Composition
+
+Cards use a slot-based pattern with `CardHeader`, `CardBody`, and `CardFooter` sub-components. Each slot automatically inherits the card's padding setting via React context.
+
+### Full Composition
+
+<div className="flex flex-col gap-4 max-w-sm not-prose">
+	<Card>
+		<CardHeader>
+			<h3 className="text-base font-semibold">Project Settings</h3>
+			<p className="text-sm text-ds-muted-foreground">
+				Manage your project configuration
+			</p>
+		</CardHeader>
+		<CardBody>
+			<p className="text-sm">
+				Update your project name, description, and visibility settings.
+				Changes are saved automatically.
+			</p>
+		</CardBody>
+		<CardFooter>
+			<Button variant="ghost" size="sm">
+				Reset
+			</Button>
+			<Button variant="primary" size="sm">
+				Save Changes
+			</Button>
+		</CardFooter>
+	</Card>
+</div>
+
+```tsx
+<Card>
+	<CardHeader>
+		<h3>Project Settings</h3>
+		<p>Manage your project configuration</p>
+	</CardHeader>
+	<CardBody>
+		<p>Update your project name, description, and visibility settings.</p>
+	</CardBody>
+	<CardFooter>
+		<Button variant="ghost" size="sm">
+			Reset
+		</Button>
+		<Button variant="primary" size="sm">
+			Save Changes
+		</Button>
+	</CardFooter>
+</Card>
+```
+
+### Body Only
+
+<div className="flex flex-col gap-4 max-w-sm not-prose">
+	<Card>
+		<CardBody>
+			<p className="text-sm">
+				A simple card with only a body slot. No header or footer needed.
+			</p>
+		</CardBody>
+	</Card>
+</div>
+
+### Without Borders on Slots
+
+<div className="flex flex-col gap-4 max-w-sm not-prose">
+	<Card>
+		<CardHeader bordered={false}>
+			<h3 className="text-base font-semibold">No Border Header</h3>
+		</CardHeader>
+		<CardBody>
+			<p className="text-sm">
+				The header and footer borders can be removed independently.
+			</p>
+		</CardBody>
+		<CardFooter bordered={false}>
+			<Button variant="primary" size="sm">
+				Continue
+			</Button>
+		</CardFooter>
+	</Card>
+</div>
+
+```tsx
+<Card>
+	<CardHeader bordered={false}>
+		<h3>No Border Header</h3>
+	</CardHeader>
+	<CardBody>
+		<p>The header and footer borders can be removed.</p>
+	</CardBody>
+	<CardFooter bordered={false}>
+		<Button variant="primary" size="sm">
+			Continue
+		</Button>
+	</CardFooter>
+</Card>
+```
+
+## Padding
+
+The `padding` prop controls the internal spacing of all slot sub-components. Padding is applied to the slots, not the card root, which allows edge-to-edge images or content.
+
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose">
+	<Card padding="compact">
+		<CardHeader>
+			<h3 className="text-sm font-semibold">Compact (p-4)</h3>
+		</CardHeader>
+		<CardBody>
+			<p className="text-sm">
+				Default padding for dense UIs and smaller cards.
+			</p>
+		</CardBody>
+	</Card>
+	<Card padding="comfortable">
+		<CardHeader>
+			<h3 className="text-sm font-semibold">Comfortable (p-6)</h3>
+		</CardHeader>
+		<CardBody>
+			<p className="text-sm">
+				More generous padding for prominent content cards.
+			</p>
+		</CardBody>
+	</Card>
+</div>
+
+```tsx
+<Card padding="compact">   {/* p-4 — default */}
+<Card padding="comfortable"> {/* p-6 */}
+```
+
+## Footer Alignment
+
+The `CardFooter` supports horizontal alignment of its content via the `align` prop.
+
+<div className="flex flex-col gap-4 max-w-md not-prose">
+	<Card>
+		<CardBody>
+			<p className="text-sm font-medium">align="end" (default)</p>
+		</CardBody>
+		<CardFooter align="end">
+			<Button variant="ghost" size="sm">
+				Cancel
+			</Button>
+			<Button variant="primary" size="sm">
+				Save
+			</Button>
+		</CardFooter>
+	</Card>
+	<Card>
+		<CardBody>
+			<p className="text-sm font-medium">align="between"</p>
+		</CardBody>
+		<CardFooter align="between">
+			<span className="text-sm text-ds-muted-foreground">
+				Step 2 of 4
+			</span>
+			<Button variant="primary" size="sm">
+				Next
+			</Button>
+		</CardFooter>
+	</Card>
+	<Card>
+		<CardBody>
+			<p className="text-sm font-medium">align="start"</p>
+		</CardBody>
+		<CardFooter align="start">
+			<Button variant="ghost" size="sm">
+				Learn more →
+			</Button>
+		</CardFooter>
+	</Card>
+</div>
+
+```tsx
+<CardFooter align="end">      {/* Default — right-aligned */}
+<CardFooter align="between">  {/* Space between */}
+<CardFooter align="start">    {/* Left-aligned */}
+<CardFooter align="center">   {/* Centered */}
+```
+
+## Full Width
+
+<div className="not-prose">
+	<Card fullWidth>
+		<CardBody>
+			<p className="text-sm">
+				This card stretches to fill its container width using the{" "}
+				<code className="text-xs bg-ds-muted px-1 py-0.5 rounded">
+					fullWidth
+				</code>{" "}
+				prop.
+			</p>
+		</CardBody>
+	</Card>
+</div>
+
+```tsx
+<Card fullWidth>
+	<CardBody>This card fills its container.</CardBody>
+</Card>
+```
+
+## Polymorphic Rendering
+
+The Card root accepts an `as` prop for polymorphic rendering. This is especially useful with the `interactive` variant.
+
+```tsx
+{
+	/* As a link */
+}
+<Card variant="interactive" as="a" href="/project/123">
+	<CardBody>Click to view project</CardBody>
+</Card>;
+
+{
+	/* As a Next.js Link */
+}
+import Link from "next/link";
+
+<Card variant="interactive" as={Link} href="/project/123">
+	<CardBody>Navigate to project</CardBody>
+</Card>;
+
+{
+	/* As a button */
+}
+<Card variant="interactive" as="button" onClick={handleClick}>
+	<CardBody>Clickable card</CardBody>
+</Card>;
+```
+
+## Props
+
+### Card
+
+| Prop        | Type                                                     | Default     | Description                                       |
+| ----------- | -------------------------------------------------------- | ----------- | ------------------------------------------------- |
+| `variant`   | `"default" \| "outlined" \| "elevated" \| "interactive"` | `"default"` | Visual variant of the card.                       |
+| `padding`   | `"compact" \| "comfortable"`                             | `"compact"` | Padding scale for slot sub-components.            |
+| `fullWidth` | `boolean`                                                | `false`     | Whether the card stretches to fill its container. |
+| `as`        | `ElementType`                                            | `"div"`     | The HTML element or component to render as.       |
+| `className` | `string`                                                 | —           | Additional CSS classes.                           |
+
+### CardHeader
+
+| Prop        | Type      | Default | Description                                |
+| ----------- | --------- | ------- | ------------------------------------------ |
+| `bordered`  | `boolean` | `true`  | Whether to show a bottom border separator. |
+| `className` | `string`  | —       | Additional CSS classes.                    |
+
+### CardBody
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### CardFooter
+
+| Prop        | Type                                        | Default | Description                             |
+| ----------- | ------------------------------------------- | ------- | --------------------------------------- |
+| `bordered`  | `boolean`                                   | `true`  | Whether to show a top border separator. |
+| `align`     | `"start" \| "center" \| "end" \| "between"` | `"end"` | Horizontal alignment of footer content. |
+| `className` | `string`                                    | —       | Additional CSS classes.                 |
+
+## Accessibility
+
+- **Interactive variant** includes a visible focus ring for keyboard navigation.
+- When used as a link (`as="a"`), the card supports standard link semantics.
+- Content within cards should maintain proper heading hierarchy — don't skip from `h2` to `h4`.
+- The interactive variant removes text decoration for anchor usage.
+
+</ComponentPage>

@@ -1,0 +1,404 @@
+---
+title: Breadcrumb
+description: A navigation trail component with separator, ellipsis truncation, and composable items for wayfinding.
+icon: ChevronRight
+---
+
+import {
+	Breadcrumb,
+	BreadcrumbList,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+	BreadcrumbEllipsis,
+	BreadcrumbNav,
+} from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+  title="Breadcrumb"
+  description="A navigation trail component for wayfinding. Supports custom separators, ellipsis truncation for deep hierarchies, and both composable and declarative APIs."
+  preview={
+    <div className="flex flex-col gap-6 w-full items-center">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/docs">Documentation</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/docs/design-system">Design System</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
+  }
+  code={`<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs">Documentation</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs/design-system">Design System</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+
+## Import
+
+```tsx
+import {
+	Breadcrumb,
+	BreadcrumbList,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+	BreadcrumbEllipsis,
+	BreadcrumbNav,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+	Breadcrumb,
+	BreadcrumbList,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+	BreadcrumbEllipsis,
+	BreadcrumbNav,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+## Composable API
+
+The Breadcrumb uses a fully composable slot-based pattern. You build the trail from individual sub-components, giving you complete control over each segment.
+
+### Basic Trail
+
+```tsx
+<Breadcrumb>
+	<BreadcrumbList>
+		<BreadcrumbItem>
+			<BreadcrumbLink href="/">Home</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbLink href="/products">Products</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbPage>Widget Pro</BreadcrumbPage>
+		</BreadcrumbItem>
+	</BreadcrumbList>
+</Breadcrumb>
+```
+
+- **`BreadcrumbLink`** — A clickable breadcrumb segment that navigates to a URL.
+- **`BreadcrumbPage`** — The current page (non-clickable, rendered with `aria-current="page"`).
+- **`BreadcrumbSeparator`** — A visual divider between segments (renders a chevron by default).
+
+## Declarative API
+
+For simpler use cases, the `BreadcrumbNav` component accepts an array of items and renders the full trail automatically.
+
+```tsx
+<BreadcrumbNav
+	items={[
+		{ label: "Home", href: "/" },
+		{ label: "Products", href: "/products" },
+		{ label: "Widget Pro" },
+	]}
+/>
+```
+
+The last item (without an `href`) is automatically treated as the current page.
+
+## With Ellipsis
+
+For deep navigation hierarchies, use `BreadcrumbEllipsis` to collapse intermediate segments. This prevents the breadcrumb trail from becoming too long on narrow viewports.
+
+<div className="my-6 flex justify-center not-prose">
+	<Breadcrumb>
+		<BreadcrumbList>
+			<BreadcrumbItem>
+				<BreadcrumbLink href="/">Home</BreadcrumbLink>
+			</BreadcrumbItem>
+			<BreadcrumbSeparator />
+			<BreadcrumbItem>
+				<BreadcrumbEllipsis />
+			</BreadcrumbItem>
+			<BreadcrumbSeparator />
+			<BreadcrumbItem>
+				<BreadcrumbLink href="/docs/design-system">
+					Design System
+				</BreadcrumbLink>
+			</BreadcrumbItem>
+			<BreadcrumbSeparator />
+			<BreadcrumbItem>
+				<BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+			</BreadcrumbItem>
+		</BreadcrumbList>
+	</Breadcrumb>
+</div>
+
+```tsx
+<Breadcrumb>
+	<BreadcrumbList>
+		<BreadcrumbItem>
+			<BreadcrumbLink href="/">Home</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbEllipsis />
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbLink href="/docs/design-system">
+				Design System
+			</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+		</BreadcrumbItem>
+	</BreadcrumbList>
+</Breadcrumb>
+```
+
+The `BreadcrumbEllipsis` renders as `"…"` and can optionally be wrapped in a `DropdownMenu` or `Popover` to reveal the hidden segments on click.
+
+## Custom Separator
+
+The `BreadcrumbSeparator` renders a chevron icon by default, but you can pass custom children to use any separator character or icon.
+
+```tsx
+{
+	/* Default chevron */
+}
+<BreadcrumbSeparator />;
+
+{
+	/* Slash separator */
+}
+<BreadcrumbSeparator>/</BreadcrumbSeparator>;
+
+{
+	/* Dot separator */
+}
+<BreadcrumbSeparator>·</BreadcrumbSeparator>;
+
+{
+	/* Custom icon */
+}
+import { ArrowRight } from "lucide-react";
+
+<BreadcrumbSeparator>
+	<ArrowRight className="size-3" />
+</BreadcrumbSeparator>;
+```
+
+## With Custom Separator Example
+
+<div className="my-6 flex flex-col gap-4 items-center not-prose">
+	<Breadcrumb>
+		<BreadcrumbList>
+			<BreadcrumbItem>
+				<BreadcrumbLink href="/">Home</BreadcrumbLink>
+			</BreadcrumbItem>
+			<BreadcrumbSeparator>/</BreadcrumbSeparator>
+			<BreadcrumbItem>
+				<BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+			</BreadcrumbItem>
+			<BreadcrumbSeparator>/</BreadcrumbSeparator>
+			<BreadcrumbItem>
+				<BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+			</BreadcrumbItem>
+		</BreadcrumbList>
+	</Breadcrumb>
+</div>
+
+```tsx
+<Breadcrumb>
+	<BreadcrumbList>
+		<BreadcrumbItem>
+			<BreadcrumbLink href="/">Home</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator>/</BreadcrumbSeparator>
+		<BreadcrumbItem>
+			<BreadcrumbLink href="/docs">Docs</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator>/</BreadcrumbSeparator>
+		<BreadcrumbItem>
+			<BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+		</BreadcrumbItem>
+	</BreadcrumbList>
+</Breadcrumb>
+```
+
+## With Framework Links
+
+Use the `asChild` pattern (or the `as` prop) on `BreadcrumbLink` to render framework-specific link components like Next.js `<Link>`.
+
+```tsx
+import Link from "next/link";
+
+<Breadcrumb>
+	<BreadcrumbList>
+		<BreadcrumbItem>
+			<BreadcrumbLink asChild>
+				<Link href="/">Home</Link>
+			</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbLink asChild>
+				<Link href="/products">Products</Link>
+			</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbPage>Widget Pro</BreadcrumbPage>
+		</BreadcrumbItem>
+	</BreadcrumbList>
+</Breadcrumb>;
+```
+
+## With Dropdown for Collapsed Items
+
+Combine `BreadcrumbEllipsis` with a `DropdownMenu` to let users access collapsed breadcrumb segments.
+
+```tsx
+<Breadcrumb>
+	<BreadcrumbList>
+		<BreadcrumbItem>
+			<BreadcrumbLink href="/">Home</BreadcrumbLink>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<BreadcrumbEllipsis />
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuItem>
+						<a href="/docs">Documentation</a>
+					</DropdownMenuItem>
+					<DropdownMenuItem>
+						<a href="/docs/design-system">Design System</a>
+					</DropdownMenuItem>
+					<DropdownMenuItem>
+						<a href="/components">Components</a>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</BreadcrumbItem>
+		<BreadcrumbSeparator />
+		<BreadcrumbItem>
+			<BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+		</BreadcrumbItem>
+	</BreadcrumbList>
+</Breadcrumb>
+```
+
+## Props
+
+### Breadcrumb
+
+| Prop        | Type        | Default | Description                                    |
+| ----------- | ----------- | ------- | ---------------------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes on the `<nav>` element. |
+| `children`  | `ReactNode` | —       | Should contain a single `BreadcrumbList`.      |
+
+### BreadcrumbList
+
+| Prop        | Type     | Default | Description                                   |
+| ----------- | -------- | ------- | --------------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes on the `<ol>` element. |
+
+### BreadcrumbItem
+
+| Prop        | Type     | Default | Description                                   |
+| ----------- | -------- | ------- | --------------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes on the `<li>` element. |
+
+### BreadcrumbLink
+
+| Prop        | Type      | Default | Description                                               |
+| ----------- | --------- | ------- | --------------------------------------------------------- |
+| `href`      | `string`  | —       | URL to navigate to.                                       |
+| `asChild`   | `boolean` | `false` | Merge props onto the child element (for framework links). |
+| `className` | `string`  | —       | Additional CSS classes.                                   |
+
+### BreadcrumbPage
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### BreadcrumbSeparator
+
+| Prop        | Type        | Default      | Description               |
+| ----------- | ----------- | ------------ | ------------------------- |
+| `children`  | `ReactNode` | Chevron icon | Custom separator content. |
+| `className` | `string`    | —            | Additional CSS classes.   |
+
+### BreadcrumbEllipsis
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### BreadcrumbNav (Declarative)
+
+| Prop        | Type                  | Default      | Description                                        |
+| ----------- | --------------------- | ------------ | -------------------------------------------------- |
+| `items`     | `BreadcrumbNavItem[]` | **required** | Array of `{ label: string; href?: string }` items. |
+| `separator` | `ReactNode`           | Chevron icon | Custom separator to use between items.             |
+| `className` | `string`              | —            | Additional CSS classes.                            |
+
+## Accessibility
+
+<Callout type="info">
+	Breadcrumbs follow the [WAI-ARIA Breadcrumb
+	pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/) for full
+	screen reader support.
+</Callout>
+
+- The root `Breadcrumb` renders as a `<nav>` element with `aria-label="Breadcrumb"`.
+- The trail is an ordered list (`<ol>`) for proper semantic structure.
+- The current page segment uses `aria-current="page"` (via `BreadcrumbPage`).
+- Separators are decorative and marked with `aria-hidden="true"` — they are not announced by screen readers.
+- The ellipsis element has an accessible label (`aria-label="More breadcrumbs"`) so assistive technology users know collapsed items exist.
+- All links are keyboard focusable and show a visible focus ring via `focus-visible`.
+- Breadcrumb links use standard `<a>` semantics (or delegated to the child via `asChild`) for native browser behavior.
+
+## Design Tokens
+
+| Token                         | Usage                         |
+| ----------------------------- | ----------------------------- |
+| `--ds-color-foreground`       | Current page text color       |
+| `--ds-color-muted-foreground` | Link text and separator color |
+| `--ds-color-primary`          | Link hover text color         |
+| `--ds-duration-fast`          | Hover transition speed        |
+
+</ComponentPage>

@@ -1,0 +1,217 @@
+---
+title: Switch
+description: A toggle switch component with spring animation, label support, and configurable label position.
+icon: ToggleLeft
+---
+
+import { Switch } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Switch"
+  description="A toggle switch for binary on/off settings. Built on Radix UI with spring animation via Framer Motion."
+  preview={
+    <div className="flex flex-col gap-4 items-start">
+      <Switch label="Notifications" />
+      <Switch label="Dark mode" defaultChecked />
+      <Switch label="Auto-save" description="Save changes automatically every 30 seconds" />
+      <Switch label="Feature locked" disabled />
+    </div>
+  }
+  code={`<Switch label="Notifications" />
+<Switch label="Dark mode" defaultChecked />
+<Switch label="Auto-save" description="Save changes automatically every 30 seconds" />
+<Switch label="Feature locked" disabled />`}
+>
+
+## Import
+
+```tsx
+import { Switch } from "@work-rjkashyap/unified-ui";
+// or
+import { Switch } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The simplest switch with a label.
+
+```tsx
+<Switch label="Enable feature" />
+```
+
+## Controlled
+
+Use `checked` and `onCheckedChange` to control the switch state externally.
+
+```tsx
+const [enabled, setEnabled] = useState(false);
+
+<Switch
+  label="Dark mode"
+  checked={enabled}
+  onCheckedChange={setEnabled}
+/>
+```
+
+## Sizes
+
+Two sizes are available: `sm` and `md` (default).
+
+<div className="my-6 flex flex-col gap-4 items-start">
+  <Switch size="sm" label="Small switch" />
+  <Switch size="md" label="Medium switch (default)" />
+</div>
+
+```tsx
+<Switch size="sm" label="Small switch" />
+<Switch size="md" label="Medium switch (default)" />
+```
+
+## Label Position
+
+Labels can be placed on the left or right side of the switch track.
+
+<div className="my-6 flex flex-col gap-4 items-start">
+  <Switch label="Right label (default)" labelPosition="right" />
+  <Switch label="Left label" labelPosition="left" />
+</div>
+
+```tsx
+<Switch label="Right label (default)" labelPosition="right" />
+<Switch label="Left label" labelPosition="left" />
+```
+
+## With Description
+
+Add a `description` prop for additional context below the label.
+
+<div className="my-6 flex flex-col gap-4 items-start max-w-sm">
+  <Switch
+    label="Push notifications"
+    description="Receive push notifications on your device when important events occur."
+  />
+  <Switch
+    label="Marketing emails"
+    description="Receive occasional emails about new features and promotions."
+  />
+</div>
+
+```tsx
+<Switch
+  label="Push notifications"
+  description="Receive push notifications on your device when important events occur."
+/>
+<Switch
+  label="Marketing emails"
+  description="Receive occasional emails about new features and promotions."
+/>
+```
+
+## Disabled
+
+<div className="my-6 flex flex-col gap-4 items-start">
+  <Switch label="Disabled off" disabled />
+  <Switch label="Disabled on" disabled defaultChecked />
+</div>
+
+```tsx
+<Switch label="Disabled off" disabled />
+<Switch label="Disabled on" disabled defaultChecked />
+```
+
+## Without Label
+
+When used without a label, provide an `aria-label` for accessibility.
+
+```tsx
+<Switch aria-label="Toggle dark mode" />
+```
+
+## Settings Pattern
+
+A common pattern for settings pages using switches in a list.
+
+<div className="my-6 flex flex-col gap-0 max-w-sm divide-y divide-ds-border-muted border border-ds-border rounded-ds-md overflow-hidden not-prose">
+  <div className="p-4">
+    <Switch
+      label="Email notifications"
+      description="Get notified about new messages"
+      defaultChecked
+    />
+  </div>
+  <div className="p-4">
+    <Switch
+      label="Push notifications"
+      description="Receive alerts on your device"
+      defaultChecked
+    />
+  </div>
+  <div className="p-4">
+    <Switch
+      label="SMS notifications"
+      description="Get text messages for urgent alerts"
+    />
+  </div>
+  <div className="p-4">
+    <Switch
+      label="Marketing emails"
+      description="Occasional product updates and tips"
+    />
+  </div>
+</div>
+
+```tsx
+<div className="divide-y divide-ds-border-muted border border-ds-border rounded-ds-md">
+  <div className="p-4">
+    <Switch
+      label="Email notifications"
+      description="Get notified about new messages"
+      defaultChecked
+    />
+  </div>
+  <div className="p-4">
+    <Switch
+      label="Push notifications"
+      description="Receive alerts on your device"
+      defaultChecked
+    />
+  </div>
+  <div className="p-4">
+    <Switch
+      label="SMS notifications"
+      description="Get text messages for urgent alerts"
+    />
+  </div>
+</div>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"sm" \| "md"` | `"md"` | Size of the switch. |
+| `label` | `ReactNode` | — | Label text displayed next to the switch. |
+| `labelPosition` | `"left" \| "right"` | `"right"` | Position of the label relative to the track. |
+| `description` | `ReactNode` | — | Description text below the label. |
+| `checked` | `boolean` | — | Controlled checked state. |
+| `defaultChecked` | `boolean` | — | Default checked state (uncontrolled). |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback when the checked state changes. |
+| `disabled` | `boolean` | `false` | Disables the switch. |
+| `required` | `boolean` | `false` | Whether the switch is required in a form. |
+| `name` | `string` | — | Form field name for native form submission. |
+| `value` | `string` | — | Value submitted with the form. |
+| `className` | `string` | — | Additional CSS classes. |
+
+## Accessibility
+
+- Built on **Radix UI Switch** primitive for full keyboard and screen reader support.
+- Toggle with **Space** or **Enter** keys.
+- `aria-checked` state is managed automatically by Radix.
+- When no visible label is provided, you **must** supply an `aria-label`.
+- The label is clickable — clicking it toggles the switch.
+- Description text is linked to the switch via `aria-describedby`.
+- Focus ring is visible on keyboard navigation only (`focus-visible`).
+- Disabled state sets both the `disabled` attribute and reduces opacity.
+- Spring animation on the thumb respects `prefers-reduced-motion` via `useReducedMotion`.
+
+</ComponentPage>

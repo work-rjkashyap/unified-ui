@@ -1,0 +1,327 @@
+---
+title: Accordion
+description: A collapsible accordion component with single and multiple expand modes, built on Radix UI.
+icon: ChevronsUpDown
+---
+
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+  title="Accordion"
+  description="Collapsible content sections for organizing information. Supports single and multiple expand modes with animated transitions."
+  preview={
+    <div className="w-full max-w-sm">
+      <Accordion type="single" collapsible defaultValue="item-1">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>What is Unified UI?</AccordionTrigger>
+          <AccordionContent>
+            Unified UI is a token-driven, accessible React design system built with Tailwind CSS v4 and Framer Motion.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>
+            Yes. Built on Radix UI primitives, every component meets WCAG AA standards with full keyboard navigation.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>Can I customize the theme?</AccordionTrigger>
+          <AccordionContent>
+            Absolutely. All visual values come from CSS custom properties with the --ds- prefix, making theming straightforward.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </div>
+  }
+  code={`<Accordion type="single" collapsible defaultValue="item-1">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>What is Unified UI?</AccordionTrigger>
+    <AccordionContent>
+      Unified UI is a token-driven, accessible React design system
+      built with Tailwind CSS v4 and Framer Motion.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>
+      Yes. Built on Radix UI primitives, every component meets
+      WCAG AA standards with full keyboard navigation.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>Can I customize the theme?</AccordionTrigger>
+    <AccordionContent>
+      Absolutely. All visual values come from CSS custom properties
+      with the --ds- prefix, making theming straightforward.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+
+## Import
+
+```tsx
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+## Single Expand Mode
+
+Only one item can be open at a time. Set `collapsible` to allow closing all items.
+
+```tsx
+{/* One open at a time, collapsible */}
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content for section 1.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section 2</AccordionTrigger>
+    <AccordionContent>Content for section 2.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+{/* One open at a time, NOT collapsible (always one open) */}
+<Accordion type="single" defaultValue="item-1">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content for section 1.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section 2</AccordionTrigger>
+    <AccordionContent>Content for section 2.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Multiple Expand Mode
+
+Multiple items can be open simultaneously.
+
+```tsx
+<Accordion type="multiple" defaultValue={["item-1", "item-3"]}>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content for section 1.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section 2</AccordionTrigger>
+    <AccordionContent>Content for section 2.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>Section 3</AccordionTrigger>
+    <AccordionContent>Content for section 3.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Variants
+
+### Bordered (default)
+
+The default variant renders items with borders between them.
+
+```tsx
+<Accordion type="single" collapsible variant="bordered">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Bordered item</AccordionTrigger>
+    <AccordionContent>Content with borders between items.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+### Borderless
+
+A cleaner look without dividing borders. Useful inside cards or already-bordered containers.
+
+```tsx
+<Accordion type="single" collapsible variant="borderless">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Borderless item</AccordionTrigger>
+    <AccordionContent>Content without borders.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Sizes
+
+Two sizes are available for different content density needs.
+
+```tsx
+<Accordion type="single" collapsible size="sm">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Small accordion</AccordionTrigger>
+    <AccordionContent>Compact content area.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+<Accordion type="single" collapsible size="md">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Medium accordion (default)</AccordionTrigger>
+    <AccordionContent>Standard content area.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Disabled Items
+
+Individual accordion items can be disabled.
+
+```tsx
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Available section</AccordionTrigger>
+    <AccordionContent>This section can be expanded.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2" disabled>
+    <AccordionTrigger>Locked section</AccordionTrigger>
+    <AccordionContent>This content is hidden.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>Another available section</AccordionTrigger>
+    <AccordionContent>This section can also be expanded.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Controlled
+
+Control the expanded state externally with `value` and `onValueChange`.
+
+```tsx
+// Single mode
+const [value, setValue] = useState("item-1");
+
+<Accordion type="single" collapsible value={value} onValueChange={setValue}>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content 1</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section 2</AccordionTrigger>
+    <AccordionContent>Content 2</AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// Multiple mode
+const [values, setValues] = useState(["item-1"]);
+
+<Accordion type="multiple" value={values} onValueChange={setValues}>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content 1</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section 2</AccordionTrigger>
+    <AccordionContent>Content 2</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## FAQ Pattern
+
+A common pattern for FAQ sections.
+
+<div className="my-6 w-full max-w-lg not-prose">
+  <Accordion type="single" collapsible>
+    <AccordionItem value="faq-1">
+      <AccordionTrigger>How do I install Unified UI?</AccordionTrigger>
+      <AccordionContent>
+        <p className="text-sm text-ds-muted-foreground">
+          Install via npm with <code className="text-xs bg-ds-muted px-1 py-0.5 rounded">npm install @work-rjkashyap/unified-ui</code>, then import the stylesheet and components in your app.
+        </p>
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="faq-2">
+      <AccordionTrigger>Does it support dark mode?</AccordionTrigger>
+      <AccordionContent>
+        <p className="text-sm text-ds-muted-foreground">
+          Yes! All components use CSS custom properties that automatically adapt when the <code className="text-xs bg-ds-muted px-1 py-0.5 rounded">.dark</code> class is applied.
+        </p>
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="faq-3">
+      <AccordionTrigger>Can I use it with Next.js?</AccordionTrigger>
+      <AccordionContent>
+        <p className="text-sm text-ds-muted-foreground">
+          Absolutely. Unified UI works seamlessly with Next.js App Router and Pages Router. All interactive components include the "use client" directive.
+        </p>
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</div>
+
+## Props
+
+### Accordion
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `"single" \| "multiple"` | **required** | Whether one or multiple items can be open. |
+| `collapsible` | `boolean` | `false` | Allow closing all items (single mode only). |
+| `value` | `string \| string[]` | — | Controlled expanded value(s). |
+| `defaultValue` | `string \| string[]` | — | Default expanded value(s) (uncontrolled). |
+| `onValueChange` | `(value: string \| string[]) => void` | — | Callback when expanded state changes. |
+| `variant` | `"bordered" \| "borderless"` | `"bordered"` | Visual variant. |
+| `size` | `"sm" \| "md"` | `"md"` | Size of the accordion items. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### AccordionItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **required** | Unique identifier for this item. |
+| `disabled` | `boolean` | `false` | Whether this item is disabled. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### AccordionTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+| `children` | `ReactNode` | — | Trigger label content. |
+
+### AccordionContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes. |
+| `children` | `ReactNode` | — | Collapsible content. |
+
+## Accessibility
+
+<Callout type="info">
+  Built on **@radix-ui/react-accordion** which provides full WAI-ARIA Accordion pattern compliance.
+</Callout>
+
+- **Keyboard navigation** — `Enter` / `Space` toggles an item. `Arrow Up` / `Arrow Down` moves focus between triggers. `Home` / `End` jumps to first/last trigger.
+- **Focus ring** — Visible on keyboard navigation via `focus-visible`.
+- **ARIA attributes** — `aria-expanded`, `aria-controls`, and `role` attributes are managed automatically by Radix.
+- **Disabled** — Disabled items are excluded from keyboard navigation and marked with `aria-disabled`.
+- **Animation** — Content expand/collapse uses CSS grid animation. Respects `prefers-reduced-motion`.
+- **Chevron indicator** — Rotates 180° when the item is expanded, providing a visual cue for the current state.
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-foreground` | Trigger text color |
+| `--ds-color-muted-foreground` | Trigger hover and content text |
+| `--ds-color-border` | Bordered variant dividers |
+| `--ds-duration-normal` | Chevron rotation and content animation |
+| `--ds-ease-standard` | Animation easing curve |
+
+</ComponentPage>

@@ -1,0 +1,194 @@
+---
+title: Radio
+description: A radio group component with standard and card variants, built on Radix UI for full accessibility.
+icon: CircleDot
+---
+
+import { RadioGroup, RadioGroupItem, RadioCard } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Radio"
+  description="A radio group for selecting a single option from a set. Supports standard radio buttons and a card variant for richer selection UIs."
+  preview={
+    <div className="flex flex-col gap-6 w-full max-w-xs">
+      <RadioGroup defaultValue="option-1">
+        <RadioGroupItem value="option-1" label="Option One" />
+        <RadioGroupItem value="option-2" label="Option Two" />
+        <RadioGroupItem value="option-3" label="Option Three" />
+      </RadioGroup>
+    </div>
+  }
+  code={`<RadioGroup defaultValue="option-1">
+  <RadioGroupItem value="option-1" label="Option One" />
+  <RadioGroupItem value="option-2" label="Option Two" />
+  <RadioGroupItem value="option-3" label="Option Three" />
+</RadioGroup>`}
+>
+
+## Import
+
+```tsx
+import { RadioGroup, RadioGroupItem, RadioCard } from "@work-rjkashyap/unified-ui";
+// or
+import { RadioGroup, RadioGroupItem, RadioCard } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The `RadioGroup` wraps `RadioGroupItem` children and manages the selected value. Use `defaultValue` for uncontrolled mode or `value` + `onValueChange` for controlled mode.
+
+```tsx
+// Uncontrolled
+<RadioGroup defaultValue="a">
+  <RadioGroupItem value="a" label="Option A" />
+  <RadioGroupItem value="b" label="Option B" />
+  <RadioGroupItem value="c" label="Option C" />
+</RadioGroup>
+
+// Controlled
+<RadioGroup value={selected} onValueChange={setSelected}>
+  <RadioGroupItem value="a" label="Option A" />
+  <RadioGroupItem value="b" label="Option B" />
+</RadioGroup>
+```
+
+## With Descriptions
+
+Each radio item can include a `description` for additional context.
+
+```tsx
+<RadioGroup defaultValue="email">
+  <RadioGroupItem
+    value="email"
+    label="Email notifications"
+    description="Receive updates via email. Best for daily summaries."
+  />
+  <RadioGroupItem
+    value="sms"
+    label="SMS notifications"
+    description="Get instant alerts via text message."
+  />
+  <RadioGroupItem
+    value="push"
+    label="Push notifications"
+    description="Real-time notifications in the browser."
+  />
+</RadioGroup>
+```
+
+## Sizes
+
+Two sizes are available for different density requirements.
+
+```tsx
+<RadioGroup size="sm" defaultValue="a">
+  <RadioGroupItem value="a" label="Small radio" />
+  <RadioGroupItem value="b" label="Small radio" />
+</RadioGroup>
+
+<RadioGroup size="md" defaultValue="a">
+  <RadioGroupItem value="a" label="Medium radio (default)" />
+  <RadioGroupItem value="b" label="Medium radio" />
+</RadioGroup>
+```
+
+## Orientation
+
+By default, radio items stack vertically. Set `orientation="horizontal"` for inline layout.
+
+```tsx
+<RadioGroup orientation="horizontal" defaultValue="left">
+  <RadioGroupItem value="left" label="Left" />
+  <RadioGroupItem value="center" label="Center" />
+  <RadioGroupItem value="right" label="Right" />
+</RadioGroup>
+```
+
+## Radio Card Variant
+
+The `RadioCard` variant renders each option as a full clickable card. Ideal for plan selectors, shipping options, and other rich selection interfaces.
+
+```tsx
+<RadioGroup defaultValue="starter">
+  <RadioCard
+    value="starter"
+    label="Starter"
+    description="For individuals and small projects. 5 GB storage."
+  />
+  <RadioCard
+    value="pro"
+    label="Pro"
+    description="For growing teams. 50 GB storage, priority support."
+  />
+  <RadioCard
+    value="enterprise"
+    label="Enterprise"
+    description="Custom limits, dedicated support, SLA."
+  />
+</RadioGroup>
+```
+
+## Disabled State
+
+Disable the entire group or individual items.
+
+```tsx
+{/* Entire group disabled */}
+<RadioGroup disabled defaultValue="a">
+  <RadioGroupItem value="a" label="Option A" />
+  <RadioGroupItem value="b" label="Option B" />
+</RadioGroup>
+
+{/* Individual item disabled */}
+<RadioGroup defaultValue="a">
+  <RadioGroupItem value="a" label="Available" />
+  <RadioGroupItem value="b" label="Unavailable" disabled />
+  <RadioGroupItem value="c" label="Available" />
+</RadioGroup>
+```
+
+## Props
+
+### RadioGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Controlled selected value. |
+| `defaultValue` | `string` | — | Initial selected value (uncontrolled). |
+| `onValueChange` | `(value: string) => void` | — | Callback when the selection changes. |
+| `size` | `"sm" \| "md"` | `"md"` | Size of all radio items in the group. |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Layout direction of items. |
+| `disabled` | `boolean` | `false` | Disables all items in the group. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### RadioGroupItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **Required** | The value of this radio item. |
+| `label` | `ReactNode` | — | Clickable label text. |
+| `description` | `ReactNode` | — | Additional description below the label. |
+| `disabled` | `boolean` | `false` | Disables this individual item. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### RadioCard
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **Required** | The value of this radio card. |
+| `label` | `ReactNode` | — | Card title / label text. |
+| `description` | `ReactNode` | — | Description text below the label. |
+| `disabled` | `boolean` | `false` | Disables this card. |
+| `className` | `string` | — | Additional CSS classes. |
+
+## Accessibility
+
+- Built on **Radix UI's Radio Group** primitive for full keyboard and screen reader support.
+- **Arrow keys** navigate between items within the group.
+- **Space** selects the focused item.
+- Each item has proper `role="radio"` and `aria-checked` attributes.
+- Labels are associated with their radio inputs for click-to-select behavior.
+- Focus ring is visible on keyboard navigation only (`focus-visible`).
+- Disabled items are excluded from the tab order and marked with `aria-disabled`.
+
+</ComponentPage>

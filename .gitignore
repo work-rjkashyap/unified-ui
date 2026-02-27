@@ -1,6 +1,9 @@
 # deps
 /node_modules
 
+# packed tarballs
+*.tgz
+
 # generated content
 .source
 
@@ -10,6 +13,9 @@
 /out/
 /build
 *.tsbuildinfo
+
+# design system build output
+packages/*/dist/
 
 # misc
 .DS_Store

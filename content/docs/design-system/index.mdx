@@ -1,0 +1,225 @@
+---
+title: Design System
+description: A token-driven, accessible React design system built with Tailwind CSS v4 and Framer Motion.
+icon: Palette
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+Unified UI is a **6-layer design system** that enforces a strict separation of concerns. Each layer has a clear responsibility, and dependencies only flow downward — components can use primitives and tokens, but tokens never depend on components.
+
+This architecture ensures that changes to low-level values (like a color or spacing unit) propagate consistently across the entire system without manual updates.
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│                  Components                      │  Layer 4 — 24+ composite UI components
+│          Button · Dialog · Tabs · Toast          │  Built from primitives + tokens
+├─────────────────────────────────────────────────┤
+│                  Primitives                       │  Layer 3 — Typography, Stack, Grid,
+│       Heading · Body · Container · Divider       │  Container, Divider
+├─────────────────────────────────────────────────┤
+│                    Theme                          │  Layer 2 — CSS variable contract,
+│     DSThemeProvider · useDSTheme · contract       │  light/dark mode, runtime switching
+├─────────────────────────────────────────────────┤
+│                   Tokens                          │  Layer 1 — Raw design values:
+│   colors · spacing · typography · radius · z     │  the single source of truth
+└─────────────────────────────────────────────────┘
+
+  Motion ─── Animation presets, springs, stagger (crosses layers)
+  Utils  ─── cn(), focus ring, contrast checking  (crosses layers)
+```
+
+### Layer Rules
+
+1. **Tokens** are pure data — no React, no CSS, no side effects.
+2. **Theme** reads tokens and maps them to `--ds-*` CSS custom properties.
+3. **Primitives** consume theme variables via Tailwind `ds-*` utilities.
+4. **Components** compose primitives and add interaction logic (Radix UI, Framer Motion).
+5. **Motion** provides Framer Motion presets that any layer can use.
+6. **Utils** are pure functions shared across all layers (`cn`, `focusRingClasses`, etc.).
+
+<Callout type="warn">
+	**No upward imports.** A token file must never import from a component.
+	A primitive must never import from a composite component. This rule is
+	enforced by convention and code review.
+</Callout>
+
+---
+
+## Design Principles
+
+### Token-Driven
+
+Every visual property in the system — color, spacing, radius, shadow, font size, motion duration — originates from a design token. Components reference tokens through CSS custom properties (`--ds-*`) or Tailwind utilities, never through hardcoded values.
+
+```tsx
+// ✅ Correct — uses token-driven Tailwind classes
+<div className="bg-ds-primary text-ds-primary-foreground rounded-ds-md p-ds-4" />
+
+// ❌ Wrong — hardcoded values bypass the token system
+<div className="bg-blue-600 text-white rounded-lg p-4" />
+```
+
+### Accessible by Default
+
+All interactive components meet **WCAG AA** standards:
+
+- **Focus management** — Visible focus rings via the `focusRingClasses` utility.
+- **Keyboard navigation** — Full keyboard support powered by Radix UI primitives.
+- **ARIA attributes** — Correct `role`, `aria-*`, and semantic HTML throughout.
+- **Color contrast** — 4.5:1 for normal text, 3:1 for large text. Verified with the built-in `checkHexContrast` utility.
+- **Reduced motion** — All animations respect `prefers-reduced-motion` via the `useReducedMotion` hook.
+
+### Composable
+
+The system is designed for **progressive composition**. Start with tokens if you need raw values. Use primitives for layout and typography. Reach for components when you need full interaction patterns.
+
+```tsx
+// Just tokens
+import { spacing, radius } from "@work-rjkashyap/unified-ui/tokens";
+
+// Primitives for layout
+import { Stack, Heading, Body } from "@work-rjkashyap/unified-ui/primitives";
+
+// Full components for interaction
+import { Button, Dialog, Toast } from "@work-rjkashyap/unified-ui/components";
+```
+
+### Theme-Aware
+
+Every component automatically adapts to the active theme through CSS custom properties. The `--ds-` prefix namespaces all design system variables to avoid collisions with host application styles.
+
+```css
+/* Light mode (default) */
+:root {
+	--ds-color-primary: #0f172a;
+	--ds-color-background: #ffffff;
+}
+
+/* Dark mode */
+.dark {
+	--ds-color-primary: #f8fafc;
+	--ds-color-background: #0a0a0a;
+}
+```
+
+---
+
+## File Structure
+
+```
+packages/unified-ui/src/
+├── tokens/              ← Layer 1: Design tokens
+│   ├── colors.ts        ← Color palettes + semantic mappings
+│   ├── spacing.ts       ← 4px grid spacing scale
+│   ├── typography.ts    ← Font families, sizes, weights, presets
+│   ├── radius.ts        ← Border radius scale
+│   ├── shadows.ts       ← Elevation shadows (light + dark)
+│   ├── z-index.ts       ← Z-index scale for layering
+│   ├── motion.ts        ← Duration, easing, spring configs
+│   └── index.ts         ← Token barrel export
+│
+├── theme/               ← Layer 2: Theme system
+│   ├── contract.ts      ← CSS variable contract (--ds-*)
+│   ├── provider.tsx     ← DSThemeProvider + useDSTheme hook
+│   └── index.ts
+│
+├── primitives/          ← Layer 3: Typography + Layout
+│   ├── typography.tsx   ← Typography, Heading, Body, Caption, etc.
+│   ├── layout.tsx       ← Container, Stack, Grid, Divider
+│   └── index.ts
+│
+├── components/          ← Layer 4: 24+ composite components
+│   ├── button.tsx
+│   ├── input.tsx
+│   ├── dialog.tsx
+│   ├── toast.tsx
+│   ├── ... (22 more)
+│   └── index.ts
+│
+├── motion/              ← Layer 5: Framer Motion presets
+│   ├── presets.ts       ← fadeIn, slideUp, scaleIn, modal, toast, etc.
+│   ├── hooks.ts         ← useMotion, useReducedMotion, MotionSafe
+│   └── index.ts
+│
+├── utils/               ← Layer 6: Shared utilities
+│   ├── cn.ts            ← Class merging (clsx + tailwind-merge)
+│   ├── focus-ring.ts    ← Focus ring class utilities
+│   ├── contrast.ts      ← WCAG contrast ratio checking
+│   └── types.ts         ← Polymorphic types, slot types
+│
+├── styles.css           ← Tailwind @theme + CSS custom properties
+└── index.ts             ← Barrel entry point
+```
+
+---
+
+## CSS Custom Properties
+
+All design system CSS variables use the `--ds-` prefix. This is a **permanent decision** — the prefix will not change.
+
+| Category    | Pattern                        | Example                        |
+| ----------- | ------------------------------ | ------------------------------ |
+| Colors      | `--ds-color-{name}`            | `--ds-color-primary`           |
+| Spacing     | `--ds-spacing-{scale}`         | `--ds-spacing-4`               |
+| Radius      | `--ds-radius-{size}`           | `--ds-radius-md`               |
+| Shadows     | `--ds-shadow-{level}`          | `--ds-shadow-md`               |
+| Typography  | `--ds-font-family-{key}`       | `--ds-font-family-sans`        |
+| Z-Index     | `--ds-z-{name}`                | `--ds-z-modal`                 |
+| Motion      | `--ds-duration-{speed}`        | `--ds-duration-normal`         |
+
+---
+
+## Data Attributes
+
+Every Unified UI component renders semantic `data-ds-*` attributes for styling hooks and debugging:
+
+| Attribute             | Purpose                                            |
+| --------------------- | -------------------------------------------------- |
+| `data-ds`             | Marks an element as part of the design system       |
+| `data-ds-component`   | Component name (e.g., `"button"`, `"dialog"`)      |
+| `data-ds-variant`     | Active variant (e.g., `"primary"`, `"outline"`)    |
+| `data-ds-size`        | Active size (e.g., `"sm"`, `"md"`, `"lg"`)         |
+| `data-ds-state`       | Component state (e.g., `"open"`, `"disabled"`)     |
+
+These attributes make it easy to target design system components in CSS, tests, or browser DevTools:
+
+```css
+/* Style all open dialogs */
+[data-ds-component="dialog"][data-ds-state="open"] {
+	/* ... */
+}
+```
+
+---
+
+## Next Steps
+
+<Cards>
+	<Card
+		title="Tokens"
+		description="The raw design values that power every component."
+		href="/docs/design-system/tokens"
+	/>
+	<Card
+		title="Colors"
+		description="Color palettes, semantic mappings, and dark mode."
+		href="/docs/design-system/colors"
+	/>
+	<Card
+		title="Typography"
+		description="Font families, size scale, and typography components."
+		href="/docs/design-system/typography"
+	/>
+	<Card
+		title="Theming"
+		description="CSS variable architecture and runtime theme switching."
+		href="/docs/design-system/theming"
+	/>
+</Cards>

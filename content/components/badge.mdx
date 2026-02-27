@@ -1,0 +1,202 @@
+---
+title: Badge
+description: A compact label component for categorization, status indicators, and metadata display.
+icon: Tag
+---
+
+import { Badge } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+import { Star } from "lucide-react";
+
+## Overview
+
+The `Badge` component is a compact inline label used for categorization, status indicators, and metadata. It supports 7 semantic variants, dot indicators, removable state, and icon support.
+
+---
+
+## Import
+
+```tsx
+import { Badge } from "@work-rjkashyap/unified-ui";
+// or
+import { Badge } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Variants
+
+<ComponentPage
+  title="Badge Variants"
+  description="Seven semantic variants for different contexts."
+  preview={
+    <div className="flex flex-wrap gap-2 items-center justify-center">
+      <Badge>Default</Badge>
+      <Badge variant="primary">Primary</Badge>
+      <Badge variant="success">Success</Badge>
+      <Badge variant="warning">Warning</Badge>
+      <Badge variant="danger">Danger</Badge>
+      <Badge variant="info">Info</Badge>
+      <Badge variant="outline">Outline</Badge>
+    </div>
+  }
+  code={`<Badge>Default</Badge>
+<Badge variant="primary">Primary</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="danger">Danger</Badge>
+<Badge variant="info">Info</Badge>
+<Badge variant="outline">Outline</Badge>`}
+/>
+
+### Sizes
+
+<ComponentPage
+  title="Badge Sizes"
+  description="Two sizes: sm (11px) and md (12px) for different density needs."
+  preview={
+    <div className="flex flex-wrap gap-3 items-center justify-center">
+      <Badge variant="primary" size="sm">Small</Badge>
+      <Badge variant="primary" size="md">Medium</Badge>
+    </div>
+  }
+  code={`<Badge variant="primary" size="sm">Small</Badge>
+<Badge variant="primary" size="md">Medium</Badge>`}
+/>
+
+### Dot Indicator
+
+Use the `dot` prop to display a colored status dot before the label. The dot color automatically matches the badge variant.
+
+<ComponentPage
+  title="Dot Indicator"
+  description="Status badges with dot indicators for quick visual scanning."
+  preview={
+    <div className="flex flex-wrap gap-3 items-center justify-center">
+      <Badge variant="success" dot>Online</Badge>
+      <Badge variant="danger" dot>Offline</Badge>
+      <Badge variant="warning" dot>Away</Badge>
+      <Badge variant="info" dot>Idle</Badge>
+      <Badge variant="primary" dot>Active</Badge>
+    </div>
+  }
+  code={`<Badge variant="success" dot>Online</Badge>
+<Badge variant="danger" dot>Offline</Badge>
+<Badge variant="warning" dot>Away</Badge>
+<Badge variant="info" dot>Idle</Badge>
+<Badge variant="primary" dot>Active</Badge>`}
+/>
+
+### With Icon
+
+Pass an icon via the `icon` prop to display it before the label text.
+
+<ComponentPage
+  title="Badge with Icon"
+  description="Icons provide additional context alongside the label."
+  preview={
+    <div className="flex flex-wrap gap-3 items-center justify-center">
+      <Badge variant="info" icon={<Star className="size-3" />}>Featured</Badge>
+      <Badge variant="primary" icon={<Star className="size-3" />}>Popular</Badge>
+      <Badge variant="warning" icon={<Star className="size-3" />}>Expiring</Badge>
+    </div>
+  }
+  code={`<Badge variant="info" icon={<Star className="size-3" />}>Featured</Badge>
+<Badge variant="primary" icon={<Star className="size-3" />}>Popular</Badge>
+<Badge variant="warning" icon={<Star className="size-3" />}>Expiring</Badge>`}
+/>
+
+### Removable
+
+Set `removable` to render a dismiss button. Provide an `onRemove` callback to handle dismissal.
+
+<ComponentPage
+  title="Removable Badges"
+  description="Dismissible badges for tags, filters, and selections."
+  preview={
+    <div className="flex flex-wrap gap-3 items-center justify-center">
+      <Badge variant="primary" removable>React</Badge>
+      <Badge variant="info" removable>TypeScript</Badge>
+      <Badge variant="success" removable>Tailwind</Badge>
+      <Badge variant="outline" removable>Draft</Badge>
+    </div>
+  }
+  code={`<Badge variant="primary" removable onRemove={() => handleRemove("react")}>
+  React
+</Badge>
+<Badge variant="info" removable onRemove={() => handleRemove("ts")}>
+  TypeScript
+</Badge>
+<Badge variant="success" removable onRemove={() => handleRemove("tw")}>
+  Tailwind
+</Badge>
+<Badge variant="outline" removable onRemove={() => handleRemove("draft")}>
+  Draft
+</Badge>`}
+/>
+
+### Combined Features
+
+Badges can combine dot, icon, and removable features together.
+
+<ComponentPage
+  title="Combined Features"
+  description="All features can be composed together."
+  preview={
+    <div className="flex flex-wrap gap-3 items-center justify-center">
+      <Badge variant="success" dot size="sm">Active</Badge>
+      <Badge variant="danger" dot removable>Critical Alert</Badge>
+      <Badge variant="info" icon={<Star className="size-3" />} removable>Featured Tag</Badge>
+    </div>
+  }
+  code={`<Badge variant="success" dot size="sm">Active</Badge>
+<Badge variant="danger" dot removable>Critical Alert</Badge>
+<Badge variant="info" icon={<Star className="size-3" />} removable>Featured Tag</Badge>`}
+/>
+
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "primary" \| "success" \| "warning" \| "danger" \| "info" \| "outline"` | `"default"` | Semantic variant controlling colors. |
+| `size` | `"sm" \| "md"` | `"md"` | Size of the badge. |
+| `dot` | `boolean` | `false` | Show a colored dot indicator before the text. |
+| `icon` | `ReactNode` | — | Icon to display before the text. |
+| `removable` | `boolean` | `false` | Show a dismiss (×) button. |
+| `onRemove` | `(event: MouseEvent) => void` | — | Callback when the remove button is clicked. |
+| `removeLabel` | `string` | `"Remove"` | Accessible label for the remove button. |
+| `as` | `ElementType` | `"span"` | The HTML element or component to render as. |
+| `className` | `string` | — | Additional CSS classes. |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+  Color is never the sole means of conveying information. Always pair semantic colors with a descriptive text label.
+</Callout>
+
+- The dot indicator is decorative (`aria-hidden="true"`) — the text label conveys the meaning.
+- The remove button includes a configurable `aria-label` (defaults to `"Remove"`).
+- All semantic variant color combinations meet WCAG AA contrast ratios on their muted backgrounds.
+- When using `as="button"` or `as="a"`, the badge gains interactive semantics automatically.
+
+---
+
+## Design Tokens
+
+The Badge uses the following design system tokens:
+
+| Token | Usage |
+| --- | --- |
+| `--ds-color-primary-muted` | Primary variant background |
+| `--ds-color-success-muted` | Success variant background |
+| `--ds-color-warning-muted` | Warning variant background |
+| `--ds-color-danger-muted` | Danger variant background |
+| `--ds-color-info-muted` | Info variant background |
+| `--ds-radius-full` | Pill shape (rounded-full) |
+| `--ds-duration-fast` | Transition speed for hover/focus |

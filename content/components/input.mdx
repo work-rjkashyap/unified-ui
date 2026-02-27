@@ -1,0 +1,184 @@
+---
+title: Input
+description: A text input component with icons, clearable option, and validation states.
+icon: TextCursorInput
+---
+
+import { Input } from "@work-rjkashyap/unified-ui";
+import { Search, Mail, Eye, Lock } from "lucide-react";
+
+<ComponentPage
+  title="Input"
+  description="A production-ready text input for capturing user data. Supports icons, clearable state, and validation variants."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-xs">
+      <Input placeholder="Default input" />
+      <Input variant="error" placeholder="Error state" />
+      <Input variant="success" placeholder="Success state" />
+      <Input disabled placeholder="Disabled input" />
+    </div>
+  }
+  code={`<Input placeholder="Default input" />
+<Input variant="error" placeholder="Error state" />
+<Input variant="success" placeholder="Success state" />
+<Input disabled placeholder="Disabled input" />`}
+>
+
+## Import
+
+```tsx
+import { Input } from "@work-rjkashyap/unified-ui";
+// or
+import { Input } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Variants
+
+The Input supports three visual variants to indicate validation state.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Input variant="default" placeholder="Default" />
+  <Input variant="error" placeholder="Error — validation failed" />
+  <Input variant="success" placeholder="Success — validation passed" />
+</div>
+
+```tsx
+<Input variant="default" placeholder="Default" />
+<Input variant="error" placeholder="Error — validation failed" />
+<Input variant="success" placeholder="Success — validation passed" />
+```
+
+## Sizes
+
+Three sizes that match the Button height scale for consistent form layouts.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Input size="sm" placeholder="Small (h-8)" />
+  <Input size="md" placeholder="Medium (h-9)" />
+  <Input size="lg" placeholder="Large (h-10)" />
+</div>
+
+```tsx
+<Input size="sm" placeholder="Small (h-8)" />
+<Input size="md" placeholder="Medium (h-9)" />
+<Input size="lg" placeholder="Large (h-10)" />
+```
+
+## With Icons
+
+Add leading or trailing icons to provide visual context.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Input iconLeft={<Search />} placeholder="Search..." />
+  <Input iconRight={<Mail />} placeholder="Email address" />
+  <Input iconLeft={<Lock />} iconRight={<Eye />} placeholder="Password" type="password" />
+</div>
+
+```tsx
+import { Search, Mail, Eye, Lock } from "lucide-react";
+
+<Input iconLeft={<Search />} placeholder="Search..." />
+<Input iconRight={<Mail />} placeholder="Email address" />
+<Input
+  iconLeft={<Lock />}
+  iconRight={<Eye />}
+  placeholder="Password"
+  type="password"
+/>
+```
+
+## States
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Input placeholder="Enabled" />
+  <Input disabled placeholder="Disabled" />
+  <Input readOnly value="Read-only value" />
+</div>
+
+```tsx
+<Input placeholder="Enabled" />
+<Input disabled placeholder="Disabled" />
+<Input readOnly value="Read-only value" />
+```
+
+## Input Types
+
+The Input component supports all standard HTML input types.
+
+<div className="my-6 flex flex-col gap-3 max-w-xs">
+  <Input type="text" placeholder="Text" />
+  <Input type="email" placeholder="Email" />
+  <Input type="password" placeholder="Password" />
+  <Input type="number" placeholder="Number" />
+  <Input type="url" placeholder="https://example.com" />
+</div>
+
+```tsx
+<Input type="text" placeholder="Text" />
+<Input type="email" placeholder="Email" />
+<Input type="password" placeholder="Password" />
+<Input type="number" placeholder="Number" />
+<Input type="url" placeholder="https://example.com" />
+```
+
+## With Error Message
+
+Pair the error variant with `aria-describedby` for accessible validation feedback.
+
+<div className="my-6 flex flex-col gap-1.5 max-w-xs">
+  <label htmlFor="email-input" className="text-sm font-medium text-ds-foreground">
+    Email
+  </label>
+  <Input
+    id="email-input"
+    variant="error"
+    placeholder="you@example.com"
+    aria-describedby="email-error"
+  />
+  <p id="email-error" className="text-xs text-ds-danger">
+    Please enter a valid email address.
+  </p>
+</div>
+
+```tsx
+<label htmlFor="email-input" className="text-sm font-medium">
+  Email
+</label>
+<Input
+  id="email-input"
+  variant="error"
+  placeholder="you@example.com"
+  aria-describedby="email-error"
+/>
+<p id="email-error" className="text-xs text-ds-danger">
+  Please enter a valid email address.
+</p>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "error" \| "success"` | `"default"` | Visual variant for validation state. |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Size of the input. Matches Button height scale. |
+| `iconLeft` | `ReactNode` | — | Icon displayed on the left side. |
+| `iconRight` | `ReactNode` | — | Icon displayed on the right side. |
+| `clearable` | `boolean` | `false` | Show a clear button when the input has a value. |
+| `onClear` | `() => void` | — | Callback when the clear button is clicked. |
+| `wrapperClassName` | `string` | — | CSS classes for the outer wrapper (when icons are used). |
+| `disabled` | `boolean` | `false` | Disables the input. |
+| `readOnly` | `boolean` | `false` | Makes the input read-only. |
+| `className` | `string` | — | Additional CSS classes for the input element. |
+
+All standard `<input>` HTML attributes are also supported.
+
+## Accessibility
+
+- **Error variant** automatically sets `aria-invalid="true"` unless explicitly overridden.
+- Use `aria-describedby` to link the input to error/helper text elements.
+- Disabled inputs set both the `disabled` attribute and `aria-disabled`.
+- The clear button has `aria-label="Clear input"` and is excluded from tab order (`tabIndex={-1}`).
+- Focus ring is visible on keyboard navigation only (`focus-visible`).
+- Icons are marked `aria-hidden="true"` since they are decorative.
+
+</ComponentPage>

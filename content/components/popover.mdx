@@ -1,19 +1,375 @@
 ---
 title: Popover
-description: Displays rich content in a portal, triggered by a button.
+description: A floating content panel with arrow, close button, and configurable placement. Built on Radix UI.
 icon: MessageSquare
 ---
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverArrow, Button, Input } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
 
 <ComponentPage
   title="Popover"
-  description="Displays rich content in a portal, triggered by a button."
+  description="A floating content panel that appears relative to a trigger element. Built on Radix UI with support for arrow indicators, close buttons, and 4-side placement."
+  preview={
+    <div className="flex gap-3 items-center justify-center">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="secondary">Open Popover</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <div className="flex flex-col gap-3">
+            <div className="space-y-1">
+              <h4 className="text-sm font-semibold">Dimensions</h4>
+              <p className="text-xs text-ds-muted-foreground">Set the dimensions for the layer.</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <label htmlFor="pop-width" className="text-xs w-16 shrink-0">Width</label>
+                <Input id="pop-width" size="sm" placeholder="100%" />
+              </div>
+              <div className="flex items-center gap-2">
+                <label htmlFor="pop-height" className="text-xs w-16 shrink-0">Height</label>
+                <Input id="pop-height" size="sm" placeholder="25px" />
+              </div>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </div>
+  }
+  code={`<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="secondary">Open Popover</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <div className="flex flex-col gap-3">
+      <div className="space-y-1">
+        <h4 className="text-sm font-semibold">Dimensions</h4>
+        <p className="text-xs text-ds-muted-foreground">
+          Set the dimensions for the layer.
+        </p>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <label className="text-xs w-16">Width</label>
+          <Input size="sm" placeholder="100%" />
+        </div>
+        <div className="flex items-center gap-2">
+          <label className="text-xs w-16">Height</label>
+          <Input size="sm" placeholder="25px" />
+        </div>
+      </div>
+    </div>
+  </PopoverContent>
+</Popover>`}
 >
+
+## Import
+
+```tsx
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+  PopoverArrow,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+  PopoverArrow,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The Popover wraps Radix UI's Popover primitive with design system tokens. It uses a trigger-based pattern — wrap an interactive element in `PopoverTrigger` and the floating content in `PopoverContent`.
+
+```tsx
+<Popover>
+  <PopoverTrigger asChild>
+    <Button>Open</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <p>Popover content goes here.</p>
+  </PopoverContent>
+</Popover>
+```
+
+## Placement
+
+Control which side of the trigger the popover appears on using the `side` prop on `PopoverContent`. Fine-tune alignment with the `align` prop.
+
+```tsx
+<PopoverContent side="top">     {/* Above the trigger */}
+<PopoverContent side="right">   {/* To the right */}
+<PopoverContent side="bottom">  {/* Below — default */}
+<PopoverContent side="left">    {/* To the left */}
+
+{/* Alignment within the side */}
+<PopoverContent side="bottom" align="start">  {/* Left-aligned */}
+<PopoverContent side="bottom" align="center"> {/* Centered — default */}
+<PopoverContent side="bottom" align="end">    {/* Right-aligned */}
+```
+
+| Side | Description |
+|------|-------------|
+| `top` | Above the trigger element |
+| `right` | To the right of the trigger |
+| `bottom` | Below the trigger (default) |
+| `left` | To the left of the trigger |
+
+| Align | Description |
+|-------|-------------|
+| `start` | Align to the start edge |
+| `center` | Center alignment (default) |
+| `end` | Align to the end edge |
+
+## With Arrow
+
+Add a `PopoverArrow` inside `PopoverContent` to render a small pointing arrow toward the trigger.
+
+<div className="my-6 flex justify-center not-prose">
   <Popover>
-    <PopoverTrigger>Open Popover</PopoverTrigger>
-    <PopoverContent>
-      Place content for the popover here.
+    <PopoverTrigger asChild>
+      <Button variant="secondary" size="sm">With Arrow</Button>
+    </PopoverTrigger>
+    <PopoverContent arrow>
+      <p className="text-sm">This popover has a pointing arrow.</p>
     </PopoverContent>
   </Popover>
+</div>
+
+```tsx
+<Popover>
+  <PopoverTrigger asChild>
+    <Button>With Arrow</Button>
+  </PopoverTrigger>
+  <PopoverContent arrow>
+    <p>This popover has a pointing arrow.</p>
+  </PopoverContent>
+</Popover>
+```
+
+Or use the `PopoverArrow` component directly for more control:
+
+```tsx
+<PopoverContent>
+  <PopoverArrow />
+  <p>Content with explicit arrow component.</p>
+</PopoverContent>
+```
+
+## With Close Button
+
+Set `showClose` on `PopoverContent` to render a close button in the top-right corner.
+
+<div className="my-6 flex justify-center not-prose">
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="secondary" size="sm">With Close Button</Button>
+    </PopoverTrigger>
+    <PopoverContent showClose>
+      <div className="space-y-2 pr-4">
+        <h4 className="text-sm font-semibold">Notification settings</h4>
+        <p className="text-xs text-ds-muted-foreground">Choose which notifications you'd like to receive.</p>
+      </div>
+    </PopoverContent>
+  </Popover>
+</div>
+
+```tsx
+<Popover>
+  <PopoverTrigger asChild>
+    <Button>Settings</Button>
+  </PopoverTrigger>
+  <PopoverContent showClose>
+    <h4 className="text-sm font-semibold">Notification settings</h4>
+    <p className="text-xs text-ds-muted-foreground">
+      Choose which notifications you'd like to receive.
+    </p>
+  </PopoverContent>
+</Popover>
+```
+
+## Combined: Arrow + Close
+
+```tsx
+<Popover>
+  <PopoverTrigger asChild>
+    <Button>Settings</Button>
+  </PopoverTrigger>
+  <PopoverContent showClose arrow>
+    <p>Full-featured popover with arrow and close button.</p>
+  </PopoverContent>
+</Popover>
+```
+
+## With Form Content
+
+Popovers are commonly used for inline editing, quick settings, and small forms.
+
+```tsx
+<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="secondary">Edit Name</Button>
+  </PopoverTrigger>
+  <PopoverContent showClose>
+    <div className="flex flex-col gap-3">
+      <div className="space-y-1">
+        <h4 className="text-sm font-semibold">Edit display name</h4>
+        <p className="text-xs text-ds-muted-foreground">
+          This name will be visible to other users.
+        </p>
+      </div>
+      <Input placeholder="Display name" size="sm" />
+      <div className="flex justify-end gap-2">
+        <PopoverClose asChild>
+          <Button variant="ghost" size="sm">Cancel</Button>
+        </PopoverClose>
+        <Button variant="primary" size="sm">Save</Button>
+      </div>
+    </div>
+  </PopoverContent>
+</Popover>
+```
+
+## Offset and Collision
+
+Use `sideOffset` to control the distance between the trigger and the popover. The popover automatically flips to avoid viewport collisions (handled by Radix UI).
+
+```tsx
+{/* Default offset */}
+<PopoverContent sideOffset={4}>...</PopoverContent>
+
+{/* Larger offset */}
+<PopoverContent sideOffset={12}>...</PopoverContent>
+```
+
+## Controlled
+
+Use `open` and `onOpenChange` for programmatic control.
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<Popover open={open} onOpenChange={setOpen}>
+  <PopoverTrigger asChild>
+    <Button>Controlled</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <p>This popover is controlled externally.</p>
+    <Button
+      variant="primary"
+      size="sm"
+      onClick={() => setOpen(false)}
+    >
+      Done
+    </Button>
+  </PopoverContent>
+</Popover>
+```
+
+## Color Picker Pattern
+
+A common pattern using a popover for a color picker or swatch selector.
+
+```tsx
+<Popover>
+  <PopoverTrigger asChild>
+    <button
+      className="size-8 rounded-ds-md border border-ds-border"
+      style={{ backgroundColor: color }}
+      aria-label="Choose color"
+    />
+  </PopoverTrigger>
+  <PopoverContent side="bottom" align="start">
+    <div className="grid grid-cols-5 gap-2">
+      {colors.map((c) => (
+        <button
+          key={c}
+          className="size-6 rounded-ds-sm border border-ds-border"
+          style={{ backgroundColor: c }}
+          onClick={() => setColor(c)}
+          aria-label={c}
+        />
+      ))}
+    </div>
+  </PopoverContent>
+</Popover>
+```
+
+## Props
+
+### Popover
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state. |
+| `defaultOpen` | `boolean` | — | Default open state (uncontrolled). |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when the open state changes. |
+| `modal` | `boolean` | `false` | Whether the popover acts as a modal (traps focus). |
+
+### PopoverTrigger
+
+Uses Radix UI's `PopoverTrigger` API. Use `asChild` to render the trigger as your own element.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Merge props onto the child element instead of rendering a `<button>`. |
+
+### PopoverContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Which side of the trigger to place the popover. |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment along the side. |
+| `sideOffset` | `number` | `4` | Distance in pixels from the trigger. |
+| `showClose` | `boolean` | `false` | Whether to render a close button. |
+| `arrow` | `boolean` | `false` | Whether to render a pointing arrow. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### PopoverClose
+
+Uses Radix UI's `PopoverClose` API. Use `asChild` to render as your own element.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Merge props onto the child element. |
+
+### PopoverArrow
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional CSS classes for the arrow SVG. |
+
+## Accessibility
+
+<Callout type="info">
+  Built on **@radix-ui/react-popover** which provides full ARIA compliance and keyboard management.
+</Callout>
+
+- **Focus management** — Focus moves into the popover when opened and returns to the trigger when closed.
+- **Escape to close** — Pressing `Escape` closes the popover.
+- **Click outside** — Clicking outside the popover dismisses it (configurable via Radix).
+- **ARIA attributes** — The trigger has `aria-expanded` and `aria-haspopup`. Content has `role="dialog"`.
+- **Close button** has an accessible `aria-label`.
+- Focus ring is visible on keyboard navigation only (`focus-visible`).
+- Uses `z-ds-popover` z-index token to layer correctly above page content.
+- Collision detection automatically repositions the popover to stay within the viewport.
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-surface-raised` | Popover panel background |
+| `--ds-color-border` | Popover border color |
+| `--ds-shadow-md` | Popover elevation shadow |
+| `--ds-radius-md` | Popover border radius |
+| `--ds-z-popover` | Z-index for the popover layer |
+| `--ds-duration-fast` | Enter/exit animation timing |
+
 </ComponentPage>

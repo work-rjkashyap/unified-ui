@@ -1,42 +1,163 @@
 ---
 title: Button
-description: An interactive button component with multiple variants.
+description: The primary interactive element for triggering actions. 4 variants, 3 sizes, loading state, icon support, and polymorphic rendering.
 icon: MousePointer2
 ---
 
-import { Button } from '@/components/ui/button';
+import {
+	Button,
+} from "@work-rjkashyap/unified-ui";
 
 <ComponentPage
-  title="Button"
-  description="The basic building block for user interaction."
-  preview={
-    <div className="flex gap-4 items-center flex-wrap justify-center">
-      <Button variant="default">Primary</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
-    </div>
-  }
-  code={`<Button variant="default">Primary</Button>
+	title="Button"
+	description="The primary interactive element for triggering actions. Supports 4 visual variants, 3 sizes, loading states, icons, and polymorphic rendering."
+	preview={
+		<div className="flex flex-col gap-6 items-center w-full">
+			<div className="flex gap-3 items-center flex-wrap justify-center">
+				<Button variant="primary">Primary</Button>
+				<Button variant="secondary">Secondary</Button>
+				<Button variant="ghost">Ghost</Button>
+				<Button variant="danger">Danger</Button>
+			</div>
+		</div>
+	}
+	code={`<Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
-<Button variant="outline">Outline</Button>
-<Button variant="ghost">Ghost</Button>`}
+<Button variant="ghost">Ghost</Button>
+<Button variant="danger">Danger</Button>`}
 >
 
-## Installation
-
-```bash
-npx shadcn-ui@latest add button
-```
-
-## Usage
+## Import
 
 ```tsx
-import { Button } from "@/components/ui/button"
-
-export default function App() {
-  return <Button>Click me</Button>
-}
+import { Button } from "@work-rjkashyap/unified-ui";
+// or
+import { Button } from "@work-rjkashyap/unified-ui/components";
 ```
+
+## Variants
+
+The Button component supports 4 visual variants:
+
+- **`primary`** — Main call-to-action. High visual prominence. Use sparingly (1–2 per view).
+- **`secondary`** — Secondary actions. Medium prominence. Pairs with primary buttons.
+- **`ghost`** — Minimal visual weight. No background until hover. For tertiary actions, toolbars, nav.
+- **`danger`** — Destructive actions. High prominence. For delete, remove, revoke actions.
+
+```tsx
+<Button variant="primary">Save Changes</Button>
+<Button variant="secondary">Cancel</Button>
+<Button variant="ghost">Learn More</Button>
+<Button variant="danger">Delete Account</Button>
+```
+
+## Sizes
+
+Three sizes are available, designed to align with Input and Select heights:
+
+```tsx
+<Button size="sm">Small (h-8)</Button>
+<Button size="md">Medium (h-9)</Button>
+<Button size="lg">Large (h-10)</Button>
+```
+
+| Size | Height | Padding | Font Size |
+| ---- | ------ | ------- | --------- |
+| `sm` | 32px   | 12px    | 12px      |
+| `md` | 36px   | 16px    | 14px      |
+| `lg` | 40px   | 20px    | 14px      |
+
+## Loading State
+
+When `loading` is true, the button shows a spinner, disables interaction, and sets `aria-busy="true"`. Optionally provide `loadingText` to display a message alongside the spinner.
+
+```tsx
+<Button loading>Save</Button>
+<Button loading loadingText="Saving...">Save</Button>
+```
+
+## Icons
+
+Use `iconLeft` and `iconRight` props to place icons before or after the label. Icons are automatically sized based on the button size.
+
+```tsx
+import { Plus, ArrowRight, Search } from "lucide-react";
+
+<Button iconLeft={<Plus />}>Add Item</Button>
+<Button iconRight={<ArrowRight />}>Continue</Button>
+<Button variant="secondary" iconLeft={<Search />}>Search</Button>
+```
+
+## Icon-Only
+
+Set `iconOnly` to render a square button. You **must** provide an `aria-label` for accessibility.
+
+```tsx
+import { X, Settings, Heart } from "lucide-react";
+
+<Button variant="ghost" iconOnly aria-label="Close">
+  <X className="size-4" />
+</Button>
+<Button variant="secondary" iconOnly aria-label="Settings">
+  <Settings className="size-4" />
+</Button>
+```
+
+## Full Width
+
+Use `fullWidth` to stretch the button to fill its container:
+
+```tsx
+<Button fullWidth>Continue to Checkout</Button>
+```
+
+## Polymorphic Rendering
+
+The `as` prop lets you render the button as any HTML element or component. Useful for rendering as `<a>` links or Next.js `<Link>` components:
+
+```tsx
+<Button as="a" href="/login" variant="secondary">
+  Log In
+</Button>
+
+import Link from "next/link";
+<Button as={Link} href="/dashboard" variant="primary">
+  Go to Dashboard
+</Button>
+```
+
+## Disabled State
+
+Disabled buttons have reduced opacity and no pointer events:
+
+```tsx
+<Button disabled>Cannot Click</Button>
+<Button variant="danger" disabled>Delete</Button>
+```
+
+## Props
+
+| Prop          | Type                                               | Default     | Description                                      |
+| ------------- | -------------------------------------------------- | ----------- | ------------------------------------------------ |
+| `variant`     | `"primary" \| "secondary" \| "ghost" \| "danger"`  | `"primary"` | Visual variant of the button.                    |
+| `size`        | `"sm" \| "md" \| "lg"`                             | `"md"`      | Size of the button.                              |
+| `fullWidth`   | `boolean`                                          | `false`     | Whether the button fills its container width.    |
+| `loading`     | `boolean`                                          | `false`     | Shows spinner and disables interaction.          |
+| `loadingText` | `string`                                           | —           | Text to display alongside the loading spinner.   |
+| `iconLeft`    | `ReactNode`                                        | —           | Icon rendered before the label.                  |
+| `iconRight`   | `ReactNode`                                        | —           | Icon rendered after the label.                   |
+| `iconOnly`    | `boolean`                                          | `false`     | Renders a square button (requires `aria-label`). |
+| `disabled`    | `boolean`                                          | `false`     | Disables the button.                             |
+| `as`          | `ElementType`                                      | `"button"`  | The element or component to render as.           |
+| `className`   | `string`                                           | —           | Additional CSS classes.                          |
+
+## Accessibility
+
+- **Focus ring** — Visible on keyboard navigation via `focus-visible`.
+- **Disabled** — Uses both `disabled` attribute and `aria-disabled`.
+- **Loading** — Sets `aria-busy="true"` and disables interaction.
+- **Icon-only** — Requires `aria-label` for screen readers.
+- **Press feedback** — `active:scale-[0.98]` provides tactile feedback.
+- **Type safety** — Defaults to `type="button"` to prevent accidental form submission.
 
 </ComponentPage>

@@ -1,0 +1,292 @@
+---
+title: Tabs
+description: A tabbed interface component with 3 visual variants, animated indicator, and vertical orientation support.
+icon: PanelTop
+---
+
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+  title="Tabs"
+  description="A tabbed navigation component for switching between content panels. Built on Radix UI with an animated active indicator powered by Framer Motion."
+  preview={
+    <div className="w-full max-w-md">
+      <Tabs defaultValue="account">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">
+          <div className="p-4 text-sm text-ds-muted-foreground">
+            Manage your account settings and preferences.
+          </div>
+        </TabsContent>
+        <TabsContent value="password">
+          <div className="p-4 text-sm text-ds-muted-foreground">
+            Change your password and security settings.
+          </div>
+        </TabsContent>
+        <TabsContent value="notifications">
+          <div className="p-4 text-sm text-ds-muted-foreground">
+            Configure your notification preferences.
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  }
+  code={`<Tabs defaultValue="account">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+    <TabsTrigger value="notifications">Notifications</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">
+    <p>Manage your account settings and preferences.</p>
+  </TabsContent>
+  <TabsContent value="password">
+    <p>Change your password and security settings.</p>
+  </TabsContent>
+  <TabsContent value="notifications">
+    <p>Configure your notification preferences.</p>
+  </TabsContent>
+</Tabs>`}
+>
+
+## Import
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@work-rjkashyap/unified-ui";
+// or
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The `Tabs` component wraps Radix UI's Tabs primitive with design system tokens and an animated active indicator powered by Framer Motion's `layoutId`.
+
+```tsx
+<Tabs defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+    <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+  </TabsList>
+  <TabsContent value="tab1">Content 1</TabsContent>
+  <TabsContent value="tab2">Content 2</TabsContent>
+</Tabs>
+```
+
+## Variants
+
+Three visual variants are available to suit different UI contexts.
+
+### Underline (default)
+
+The standard tab style with a bottom border indicator. Best for top-level page navigation.
+
+```tsx
+<Tabs variant="underline" defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">Overview</TabsTrigger>
+    <TabsTrigger value="tab2">Analytics</TabsTrigger>
+    <TabsTrigger value="tab3">Settings</TabsTrigger>
+  </TabsList>
+  <TabsContent value="tab1">Overview content</TabsContent>
+  <TabsContent value="tab2">Analytics content</TabsContent>
+  <TabsContent value="tab3">Settings content</TabsContent>
+</Tabs>
+```
+
+### Pills
+
+Rounded pill-shaped buttons for the active tab. Great for filtering or secondary navigation.
+
+```tsx
+<Tabs variant="pills" defaultValue="all">
+  <TabsList>
+    <TabsTrigger value="all">All</TabsTrigger>
+    <TabsTrigger value="active">Active</TabsTrigger>
+    <TabsTrigger value="archived">Archived</TabsTrigger>
+  </TabsList>
+  <TabsContent value="all">All items</TabsContent>
+  <TabsContent value="active">Active items</TabsContent>
+  <TabsContent value="archived">Archived items</TabsContent>
+</Tabs>
+```
+
+### Enclosed
+
+Tabs enclosed in a container with a background highlight on the active tab. Works well in card headers and toolbars.
+
+```tsx
+<Tabs variant="enclosed" defaultValue="code">
+  <TabsList>
+    <TabsTrigger value="code">Code</TabsTrigger>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="tests">Tests</TabsTrigger>
+  </TabsList>
+  <TabsContent value="code">Code editor</TabsContent>
+  <TabsContent value="preview">Live preview</TabsContent>
+  <TabsContent value="tests">Test results</TabsContent>
+</Tabs>
+```
+
+## Sizes
+
+Two sizes are available for different density requirements.
+
+```tsx
+<Tabs size="sm" defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">Small</TabsTrigger>
+    <TabsTrigger value="tab2">Tabs</TabsTrigger>
+  </TabsList>
+  ...
+</Tabs>
+
+<Tabs size="md" defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">Medium</TabsTrigger>
+    <TabsTrigger value="tab2">Tabs (default)</TabsTrigger>
+  </TabsList>
+  ...
+</Tabs>
+```
+
+## Vertical Orientation
+
+Set `orientation="vertical"` for a sidebar-style layout where the tab list sits on the left and content on the right.
+
+```tsx
+<Tabs orientation="vertical" defaultValue="general">
+  <TabsList>
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="security">Security</TabsTrigger>
+    <TabsTrigger value="billing">Billing</TabsTrigger>
+    <TabsTrigger value="integrations">Integrations</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">General settings</TabsContent>
+  <TabsContent value="security">Security settings</TabsContent>
+  <TabsContent value="billing">Billing settings</TabsContent>
+  <TabsContent value="integrations">Integration settings</TabsContent>
+</Tabs>
+```
+
+## Full Width
+
+Set `fullWidth` on the `TabsList` to stretch tabs evenly across the available width.
+
+```tsx
+<Tabs defaultValue="tab1">
+  <TabsList fullWidth>
+    <TabsTrigger value="tab1">First</TabsTrigger>
+    <TabsTrigger value="tab2">Second</TabsTrigger>
+    <TabsTrigger value="tab3">Third</TabsTrigger>
+  </TabsList>
+  ...
+</Tabs>
+```
+
+## Disabled Tabs
+
+Individual tabs can be disabled while others remain interactive.
+
+```tsx
+<Tabs defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">Active</TabsTrigger>
+    <TabsTrigger value="tab2" disabled>Disabled</TabsTrigger>
+    <TabsTrigger value="tab3">Active</TabsTrigger>
+  </TabsList>
+  ...
+</Tabs>
+```
+
+## Controlled
+
+Use `value` and `onValueChange` for controlled tab state.
+
+```tsx
+const [activeTab, setActiveTab] = useState("overview");
+
+<Tabs value={activeTab} onValueChange={setActiveTab}>
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="details">Details</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">Overview content</TabsContent>
+  <TabsContent value="details">Details content</TabsContent>
+</Tabs>
+```
+
+## Animated Indicator
+
+The active tab indicator uses Framer Motion's `layoutId` for smooth animated transitions between tabs. The animation automatically respects `prefers-reduced-motion` via the `useReducedMotion` hook — when the user prefers reduced motion, the indicator snaps instantly without animation.
+
+## Props
+
+### Tabs
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"underline" \| "pills" \| "enclosed"` | `"underline"` | Visual variant of the tabs. |
+| `size` | `"sm" \| "md"` | `"md"` | Size of the tab triggers. |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction. |
+| `value` | `string` | — | Controlled active tab value. |
+| `defaultValue` | `string` | — | Default active tab (uncontrolled). |
+| `onValueChange` | `(value: string) => void` | — | Callback when the active tab changes. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### TabsList
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fullWidth` | `boolean` | `false` | Stretch tabs to fill available width. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### TabsTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **required** | The value identifying this tab. |
+| `disabled` | `boolean` | `false` | Disables this tab trigger. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### TabsContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **required** | The value identifying this content panel. |
+| `forceMount` | `boolean` | `false` | Force mount the content even when inactive. |
+| `className` | `string` | — | Additional CSS classes. |
+
+## Accessibility
+
+<Callout type="info">
+  Built on **@radix-ui/react-tabs** which provides full keyboard navigation and ARIA attributes out of the box.
+</Callout>
+
+- **Arrow keys** — Navigate between tab triggers (left/right for horizontal, up/down for vertical).
+- **Home/End** — Jump to the first or last tab.
+- **Enter/Space** — Activate the focused tab (automatic activation by default).
+- The tab list renders with `role="tablist"` and each trigger has `role="tab"`.
+- Content panels have `role="tabpanel"` and are linked to their trigger via `aria-labelledby`.
+- `aria-selected` is set on the active tab trigger.
+- `aria-orientation` is set on the tab list when `orientation` is specified.
+- Disabled tabs are removed from the tab order and marked with `aria-disabled`.
+- Focus ring is visible on keyboard navigation only (`focus-visible`).
+- The animated indicator respects `prefers-reduced-motion` via `useReducedMotion`.
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-primary` | Active tab indicator / highlight |
+| `--ds-color-muted` | Inactive tab background (enclosed/pills) |
+| `--ds-color-foreground` | Active tab text color |
+| `--ds-color-muted-foreground` | Inactive tab text color |
+| `--ds-radius-md` | Tab trigger border radius |
+| `--ds-duration-fast` | Transition speed for hover/focus states |
+
+</ComponentPage>

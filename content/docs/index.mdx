@@ -1,14 +1,184 @@
 ---
-title: Hello World
-description: Your first document
-icon: Layout
+title: Getting Started
+description: Install and configure Unified UI in your React project.
+icon: Rocket
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
-## What is Next?
+## What is Unified UI?
+
+Unified UI is a **token-driven React design system** built with Tailwind CSS v4 and Framer Motion. It provides a complete set of accessible, composable components that share a consistent visual language through design tokens and CSS custom properties.
+
+### Key Principles
+
+- **Token-driven** — Every color, spacing value, radius, shadow, and motion timing comes from a single source of truth. No hardcoded values.
+- **Accessible by default** — All components meet WCAG AA standards with proper ARIA attributes, keyboard navigation, and focus management.
+- **Composable** — Small primitives compose into complex components. Use the layer that fits your needs.
+- **Theme-aware** — Light and dark modes via CSS custom properties with a `--ds-` prefix. Switch themes at runtime with zero flash.
+
+### Architecture
+
+Unified UI is organized in a strict **6-layer hierarchy** where each layer can only import from layers below it:
+
+```
+Tokens → Theme → Primitives → Components
+                                  ↑
+                               Motion
+                               Utils (shared across all layers)
+```
+
+| Layer          | What it provides                                                                  |
+| -------------- | --------------------------------------------------------------------------------- |
+| **Tokens**     | Raw design values — colors, spacing, typography, radius, shadows, z-index, motion |
+| **Theme**      | CSS variable contract (`--ds-*`), theme provider, light/dark mode                 |
+| **Primitives** | Typography, Container, Stack, Grid, Divider                                       |
+| **Components** | 24+ composite components (Button, Dialog, Tabs, Toast, etc.)                      |
+| **Motion**     | Framer Motion animation presets and stagger utilities                             |
+| **Utils**      | `cn()`, focus ring helpers, contrast checking, polymorphic types                  |
+
+---
+
+## Installation
+
+<Steps>
+
+<Step>
+### Install the package
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	Unified UI requires **React 19+** and **Tailwind CSS 4+** as peer
+	dependencies. Make sure they're installed in your project.
+</Callout>
+
+</Step>
+
+<Step>
+### Import the CSS
+
+Add the Unified UI stylesheet to your global CSS file. This provides all the `--ds-*` custom properties and Tailwind `@theme` integration.
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "@work-rjkashyap/unified-ui/styles.css";
+```
+
+</Step>
+
+<Step>
+### Wrap with the Theme Provider (optional)
+
+If you need runtime theme switching (light/dark), wrap your app with `DSThemeProvider`:
+
+```tsx title="app/providers.tsx"
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+	return <DSThemeProvider>{children}</DSThemeProvider>;
+}
+```
+
+</Step>
+
+<Step>
+### Start using components
+
+```tsx title="app/page.tsx"
+import { Button, Heading, Body, Stack } from "@work-rjkashyap/unified-ui";
+
+export default function Page() {
+	return (
+		<Stack direction="column" gap={4}>
+			<Heading level={1}>Welcome to Unified UI</Heading>
+			<Body>A token-driven design system for React applications.</Body>
+			<Button variant="primary" size="md">
+				Get Started
+			</Button>
+		</Stack>
+	);
+}
+```
+
+</Step>
+
+</Steps>
+
+---
+
+## Import Patterns
+
+Unified UI supports two import styles depending on your needs:
+
+### Barrel import
+
+The simplest way — import everything from the top-level entry point:
+
+```tsx
+import { Button, Heading, fadeIn, cn } from "@work-rjkashyap/unified-ui";
+```
+
+### Layer-specific imports
+
+For better tree-shaking in larger applications, import from specific sub-paths:
+
+```tsx
+import { spacing, radius } from "@work-rjkashyap/unified-ui/tokens";
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+import { Typography, Heading } from "@work-rjkashyap/unified-ui/primitives";
+import { Button, Dialog } from "@work-rjkashyap/unified-ui/components";
+import { slideUp, motionProps } from "@work-rjkashyap/unified-ui/motion";
+import { cn, mergeSlots } from "@work-rjkashyap/unified-ui/utils";
+```
+
+---
+
+## What's Next?
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+	<Card
+		title="Design System Overview"
+		description="Understand the architecture, layers, and design principles."
+		href="/docs/design-system"
+	/>
+	<Card
+		title="Tokens"
+		description="Explore the design tokens that power every component."
+		href="/docs/design-system/tokens"
+	/>
+	<Card
+		title="Components"
+		description="Browse the full component library with live examples."
+		href="/components"
+	/>
+	<Card
+		title="Theming"
+		description="Learn how to customize colors, modes, and CSS variables."
+		href="/docs/design-system/theming"
+	/>
 </Cards>

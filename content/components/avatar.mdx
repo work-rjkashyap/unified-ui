@@ -1,0 +1,250 @@
+---
+title: Avatar
+description: A user identity component for displaying profile images, initials, or icon fallbacks with status indicators and group stacking.
+icon: User
+---
+
+import { Avatar, AvatarGroup } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Avatar"
+  description="A user identity component for displaying profile images, initials, or icon fallbacks. Supports status indicators, 5 sizes, 2 shapes, and group stacking."
+  preview={
+    <div className="flex flex-col gap-6 items-center w-full">
+      <div className="flex gap-3 items-center justify-center">
+        <Avatar name="Alice Cooper" size="xs" />
+        <Avatar name="Bob Smith" size="sm" />
+        <Avatar name="Charlie Davis" size="md" />
+        <Avatar name="Diana Evans" size="lg" />
+        <Avatar name="Evan Foster" size="xl" />
+      </div>
+      <div className="flex gap-3 items-center justify-center">
+        <Avatar name="Alice Cooper" status="online" />
+        <Avatar name="Bob Smith" status="busy" />
+        <Avatar name="Charlie Davis" status="away" />
+        <Avatar name="Diana Evans" status="offline" />
+      </div>
+    </div>
+  }
+  code={`<Avatar name="Alice Cooper" size="xs" />
+<Avatar name="Bob Smith" size="sm" />
+<Avatar name="Charlie Davis" size="md" />
+<Avatar name="Diana Evans" size="lg" />
+<Avatar name="Evan Foster" size="xl" />
+
+<Avatar name="Alice Cooper" status="online" />
+<Avatar name="Bob Smith" status="busy" />
+<Avatar name="Charlie Davis" status="away" />
+<Avatar name="Diana Evans" status="offline" />`}
+>
+
+## Import
+
+```tsx
+import { Avatar, AvatarGroup } from "@work-rjkashyap/unified-ui";
+// or
+import { Avatar, AvatarGroup } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The Avatar component displays a user image. When no `src` is provided (or the image fails to load), it falls back to initials derived from the `name` prop, or a default user icon.
+
+```tsx
+// With image
+<Avatar src="/photo.jpg" alt="Jane Doe" />
+
+// With initials fallback
+<Avatar name="Jane Doe" />
+
+// Default icon fallback (no name or src)
+<Avatar />
+```
+
+## Sizes
+
+Five sizes are available ranging from extra small (24px) to extra large (64px).
+
+<div className="my-6 flex gap-3 items-end justify-center">
+  <Avatar name="XS" size="xs" />
+  <Avatar name="SM" size="sm" />
+  <Avatar name="MD" size="md" />
+  <Avatar name="LG" size="lg" />
+  <Avatar name="XL" size="xl" />
+</div>
+
+```tsx
+<Avatar name="Jane" size="xs" />  {/* 24px */}
+<Avatar name="Jane" size="sm" />  {/* 32px */}
+<Avatar name="Jane" size="md" />  {/* 40px — default */}
+<Avatar name="Jane" size="lg" />  {/* 48px */}
+<Avatar name="Jane" size="xl" />  {/* 64px */}
+```
+
+| Size | Dimensions | Use Case |
+|------|-----------|----------|
+| `xs` | 24×24px | Inline mentions, compact lists |
+| `sm` | 32×32px | Comment threads, table rows |
+| `md` | 40×40px | Default, navigation bars |
+| `lg` | 48×48px | Profile cards, headers |
+| `xl` | 64×64px | Profile pages, hero sections |
+
+## Shapes
+
+Two shapes are supported: `circle` (default) and `square`.
+
+<div className="my-6 flex gap-4 items-center justify-center">
+  <Avatar name="Circle" shape="circle" size="lg" />
+  <Avatar name="Square" shape="square" size="lg" />
+</div>
+
+```tsx
+<Avatar name="Jane Doe" shape="circle" />  {/* Default */}
+<Avatar name="Jane Doe" shape="square" />  {/* Rounded square */}
+```
+
+## Initials Fallback
+
+When no `src` is provided (or the image fails to load), the component automatically generates initials from the `name` prop. It takes the first letter of the first and last words.
+
+<div className="my-6 flex gap-3 items-center justify-center">
+  <Avatar name="Jane Doe" size="lg" />
+  <Avatar name="Alice" size="lg" />
+  <Avatar name="Bob Charles Smith" size="lg" />
+</div>
+
+```tsx
+<Avatar name="Jane Doe" />      {/* Shows "JD" */}
+<Avatar name="Alice" />          {/* Shows "A" */}
+<Avatar name="Bob Charles Smith" /> {/* Shows "BS" */}
+```
+
+## Status Indicator
+
+Add a `status` prop to display a small colored dot indicating the user's availability.
+
+<div className="my-6 flex gap-4 items-center justify-center">
+  <Avatar name="Online" status="online" size="lg" />
+  <Avatar name="Busy" status="busy" size="lg" />
+  <Avatar name="Away" status="away" size="lg" />
+  <Avatar name="Offline" status="offline" size="lg" />
+</div>
+
+```tsx
+<Avatar name="Jane" status="online" />   {/* Green dot */}
+<Avatar name="Jane" status="busy" />     {/* Red dot */}
+<Avatar name="Jane" status="away" />     {/* Yellow dot */}
+<Avatar name="Jane" status="offline" />  {/* Gray dot */}
+```
+
+| Status | Color | Meaning |
+|--------|-------|---------|
+| `online` | Green (`--ds-color-success`) | User is active |
+| `busy` | Red (`--ds-color-danger`) | User is unavailable |
+| `away` | Yellow (`--ds-color-warning`) | User is idle |
+| `offline` | Gray (`--ds-color-muted`) | User is offline |
+
+## Avatar Group
+
+Use `AvatarGroup` to stack multiple avatars with a configurable overlap. When the number of avatars exceeds the `max` prop, a "+N" overflow indicator is shown.
+
+<div className="my-6 flex justify-center">
+  <AvatarGroup max={3}>
+    <Avatar name="Alice Cooper" />
+    <Avatar name="Bob Smith" />
+    <Avatar name="Charlie Davis" />
+    <Avatar name="Diana Evans" />
+    <Avatar name="Evan Foster" />
+  </AvatarGroup>
+</div>
+
+```tsx
+<AvatarGroup max={3}>
+  <Avatar name="Alice Cooper" />
+  <Avatar name="Bob Smith" />
+  <Avatar name="Charlie Davis" />
+  <Avatar name="Diana Evans" />
+  <Avatar name="Evan Foster" />
+</AvatarGroup>
+{/* Shows Alice, Bob, Charlie, then "+2" */}
+```
+
+### Group with Images
+
+```tsx
+<AvatarGroup max={4}>
+  <Avatar src="/a.jpg" alt="Alice" />
+  <Avatar src="/b.jpg" alt="Bob" />
+  <Avatar src="/c.jpg" alt="Charlie" />
+  <Avatar src="/d.jpg" alt="Diana" />
+  <Avatar src="/e.jpg" alt="Evan" />
+  <Avatar src="/f.jpg" alt="Fiona" />
+</AvatarGroup>
+```
+
+## Image Error Handling
+
+When a `src` is provided but the image fails to load, the Avatar gracefully falls back to initials (if `name` is set) or the default icon.
+
+```tsx
+{/* If image fails, shows "JD" */}
+<Avatar src="/broken-link.jpg" name="Jane Doe" />
+
+{/* If image fails and no name, shows default user icon */}
+<Avatar src="/broken-link.jpg" alt="User" />
+```
+
+## With Alt Text
+
+Always provide descriptive alt text for images via the `alt` prop, or use the `name` prop which doubles as accessible text.
+
+```tsx
+{/* alt text from alt prop */}
+<Avatar src="/photo.jpg" alt="Jane Doe's profile picture" />
+
+{/* alt text from name prop */}
+<Avatar name="Jane Doe" />
+```
+
+## Props
+
+### Avatar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | — | URL of the avatar image. |
+| `alt` | `string` | — | Alt text for the image. Falls back to `name` if not provided. |
+| `name` | `string` | — | User name used to generate initials fallback. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"` | Size of the avatar. |
+| `shape` | `"circle" \| "square"` | `"circle"` | Shape of the avatar. |
+| `status` | `"online" \| "offline" \| "busy" \| "away"` | — | Status indicator dot. |
+| `className` | `string` | — | Additional CSS classes. |
+
+### AvatarGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `max` | `number` | — | Maximum number of avatars to display before showing "+N". |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"` | Size applied to all child avatars. |
+| `className` | `string` | — | Additional CSS classes. |
+
+## Accessibility
+
+- Images include an `alt` attribute (falls back to `name` if `alt` is not provided).
+- Initials fallback uses `role="img"` with an `aria-label` derived from `name`.
+- Status indicators have an `aria-label` describing the status (e.g., `"online"`).
+- The status dot itself is decorative — the accessible label is on the parent element.
+- The "+N" overflow indicator in `AvatarGroup` is announced to screen readers.
+
+## Design Tokens
+
+| Token | Usage |
+|-------|-------|
+| `--ds-color-muted` | Initials/icon fallback background |
+| `--ds-color-success` | Online status indicator |
+| `--ds-color-danger` | Busy status indicator |
+| `--ds-color-warning` | Away status indicator |
+| `--ds-radius-full` | Circle shape |
+| `--ds-radius-md` | Square shape border radius |
+
+</ComponentPage>
