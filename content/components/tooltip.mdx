@@ -4,6 +4,16 @@ description: A lightweight tooltip component for displaying contextual informati
 icon: MessageSquare
 ---
 
+import { Tooltip, TooltipProvider, Button } from "@work-rjkashyap/unified-ui";
+import {
+	Settings,
+	Trash,
+	Copy,
+	Download,
+	Bold,
+	Italic,
+	Underline,
+} from "lucide-react";
 import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
@@ -17,7 +27,10 @@ The `Tooltip` component provides contextual information when users hover over or
 ```tsx
 import { Tooltip, TooltipProvider } from "@work-rjkashyap/unified-ui";
 // or
-import { Tooltip, TooltipProvider } from "@work-rjkashyap/unified-ui/components";
+import {
+	Tooltip,
+	TooltipProvider,
+} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ---
@@ -30,191 +43,209 @@ Wrap your application (or a section of it) with `TooltipProvider` to enable tool
 import { TooltipProvider } from "@work-rjkashyap/unified-ui";
 
 export default function RootLayout({ children }) {
-  return (
-    <TooltipProvider>
-      {children}
-    </TooltipProvider>
-  );
+	return <TooltipProvider>{children}</TooltipProvider>;
 }
 ```
 
-## Basic Usage
+---
 
-Wrap any element with `Tooltip` and provide a `content` prop. The tooltip appears on hover and focus.
+## Examples
 
-```tsx
-import { Tooltip, Button } from "@work-rjkashyap/unified-ui";
+### Basic Usage
 
-<Tooltip content="Save your changes">
-  <Button>Save</Button>
-</Tooltip>
-```
+<ComponentPage
+	title="Basic Tooltip"
+	description="Wrap any element with Tooltip and provide a content prop. The tooltip appears on hover and focus."
+	preview={
+		<div className="flex gap-3 items-center justify-center">
+			<TooltipProvider>
+				<Tooltip content="Save your changes">
+					<Button variant="primary">Save</Button>
+				</Tooltip>
+			</TooltipProvider>
+		</div>
+	}
+	code={`<Tooltip content="Save your changes">
+  <Button variant="primary">Save</Button>
+</Tooltip>`}
+/>
 
 <Callout type="info">
-  The trigger element must be a single React element that can accept a ref. If you're wrapping a custom component, make sure it forwards refs.
+	The trigger element must be a single React element that can accept a ref. If
+	you're wrapping a custom component, make sure it forwards refs.
 </Callout>
 
-## Placement
+### Placement
 
-Control which side of the trigger the tooltip appears on with the `side` prop.
-
-```tsx
-<Tooltip content="Top tooltip" side="top">
+<ComponentPage
+	title="Placement"
+	description="Control which side of the trigger the tooltip appears on with the side prop."
+	preview={
+		<div className="flex gap-3 items-center justify-center flex-wrap">
+			<TooltipProvider>
+				<Tooltip content="Top tooltip" side="top">
+					<Button variant="secondary" size="sm">Top</Button>
+				</Tooltip>
+				<Tooltip content="Right tooltip" side="right">
+					<Button variant="secondary" size="sm">Right</Button>
+				</Tooltip>
+				<Tooltip content="Bottom tooltip" side="bottom">
+					<Button variant="secondary" size="sm">Bottom</Button>
+				</Tooltip>
+				<Tooltip content="Left tooltip" side="left">
+					<Button variant="secondary" size="sm">Left</Button>
+				</Tooltip>
+			</TooltipProvider>
+		</div>
+	}
+	code={`<Tooltip content="Top tooltip" side="top">
   <Button variant="secondary">Top</Button>
 </Tooltip>
 
 <Tooltip content="Right tooltip" side="right">
-  <Button variant="secondary">Right</Button>
+	<Button variant="secondary">Right</Button>
 </Tooltip>
 
 <Tooltip content="Bottom tooltip" side="bottom">
-  <Button variant="secondary">Bottom</Button>
+	<Button variant="secondary">Bottom</Button>
 </Tooltip>
 
 <Tooltip content="Left tooltip" side="left">
   <Button variant="secondary">Left</Button>
-</Tooltip>
-```
+</Tooltip>`}
+/>
 
-| Side | Description |
-|------|-------------|
-| `top` | Above the trigger (default) |
-| `right` | To the right of the trigger |
-| `bottom` | Below the trigger |
-| `left` | To the left of the trigger |
+### Alignment
 
-## Alignment
-
-Fine-tune the tooltip position with the `align` prop.
-
-```tsx
-<Tooltip content="Start aligned" side="bottom" align="start">
+<ComponentPage
+	title="Alignment"
+	description="Fine-tune the tooltip position with the align prop."
+	preview={
+		<div className="flex gap-3 items-center justify-center flex-wrap">
+			<TooltipProvider>
+				<Tooltip content="Start aligned" side="bottom" align="start">
+					<Button variant="secondary" size="sm">Start</Button>
+				</Tooltip>
+				<Tooltip content="Center aligned" side="bottom" align="center">
+					<Button variant="secondary" size="sm">Center</Button>
+				</Tooltip>
+				<Tooltip content="End aligned" side="bottom" align="end">
+					<Button variant="secondary" size="sm">End</Button>
+				</Tooltip>
+			</TooltipProvider>
+		</div>
+	}
+	code={`<Tooltip content="Start aligned" side="bottom" align="start">
   <Button variant="secondary">Start</Button>
 </Tooltip>
 
 <Tooltip content="Center aligned" side="bottom" align="center">
-  <Button variant="secondary">Center</Button>
+	<Button variant="secondary">Center</Button>
 </Tooltip>
 
 <Tooltip content="End aligned" side="bottom" align="end">
   <Button variant="secondary">End</Button>
-</Tooltip>
-```
+</Tooltip>`}
+/>
 
-## Arrow
+### With Icon-Only Buttons
 
-By default, tooltips show a small arrow pointing toward the trigger. Set `arrow={false}` to hide it.
-
-```tsx
-{/* With arrow (default) */}
-<Tooltip content="With arrow" arrow>
-  <Button>Hover me</Button>
-</Tooltip>
-
-{/* Without arrow */}
-<Tooltip content="No arrow" arrow={false}>
-  <Button>Hover me</Button>
-</Tooltip>
-```
-
-## Delay
-
-Configure the open delay to control how quickly the tooltip appears. The `TooltipProvider` controls the shared delay for all tooltips in its scope.
-
-```tsx
-{/* Fast — 200ms delay */}
-<TooltipProvider delayDuration={200}>
-  <Tooltip content="Quick tooltip">
-    <Button>Fast</Button>
-  </Tooltip>
-</TooltipProvider>
-
-{/* Slow — 700ms delay */}
-<TooltipProvider delayDuration={700}>
-  <Tooltip content="Slow tooltip">
-    <Button>Slow</Button>
-  </Tooltip>
-</TooltipProvider>
-```
-
-You can also override the delay per tooltip:
-
-```tsx
-<Tooltip content="Custom delay" delayDuration={0}>
-  <Button>Instant</Button>
-</Tooltip>
-```
-
-## Rich Content
-
-The `content` prop accepts any `ReactNode`, so you can render rich tooltip content.
-
-```tsx
-<Tooltip
-  content={
-    <div className="flex flex-col gap-1">
-      <p className="font-semibold text-xs">Keyboard Shortcut</p>
-      <p className="text-xs text-ds-muted-foreground">
-        Press <kbd className="px-1 py-0.5 bg-ds-muted rounded text-[10px]">Ctrl+S</kbd> to save
-      </p>
-    </div>
-  }
->
-  <Button>Save</Button>
-</Tooltip>
-```
-
-## Max Width
-
-Tooltips have a default max width of 220px to keep content readable. Override with `maxWidth`.
-
-```tsx
-<Tooltip
-  content="This is a very long tooltip message that would normally wrap at the default max width."
-  maxWidth={300}
->
-  <Button>Wide tooltip</Button>
-</Tooltip>
-```
-
-## With Icon-Only Buttons
-
-Tooltips are especially useful with icon-only buttons to provide accessible labels.
-
-```tsx
-import { Settings, Trash, Copy, Download } from "lucide-react";
-
-<Tooltip content="Settings">
+<ComponentPage
+	title="Icon-Only Buttons"
+	description="Tooltips are especially useful with icon-only buttons to provide accessible labels."
+	preview={
+		<div className="flex gap-2 items-center justify-center">
+			<TooltipProvider>
+				<Tooltip content="Settings">
+					<Button variant="ghost" iconOnly aria-label="Settings">
+						<Settings className="size-4" />
+					</Button>
+				</Tooltip>
+				<Tooltip content="Delete">
+					<Button variant="ghost" iconOnly aria-label="Delete">
+						<Trash className="size-4" />
+					</Button>
+				</Tooltip>
+				<Tooltip content="Copy to clipboard">
+					<Button variant="ghost" iconOnly aria-label="Copy">
+						<Copy className="size-4" />
+					</Button>
+				</Tooltip>
+				<Tooltip content="Download">
+					<Button variant="ghost" iconOnly aria-label="Download">
+						<Download className="size-4" />
+					</Button>
+				</Tooltip>
+			</TooltipProvider>
+		</div>
+	}
+	code={`<Tooltip content="Settings">
   <Button variant="ghost" iconOnly aria-label="Settings">
     <Settings className="size-4" />
   </Button>
 </Tooltip>
 
 <Tooltip content="Delete">
-  <Button variant="ghost" iconOnly aria-label="Delete">
-    <Trash className="size-4" />
-  </Button>
+	<Button variant="ghost" iconOnly aria-label="Delete">
+		<Trash className="size-4" />
+	</Button>
 </Tooltip>
 
 <Tooltip content="Copy to clipboard">
-  <Button variant="ghost" iconOnly aria-label="Copy">
-    <Copy className="size-4" />
-  </Button>
+	<Button variant="ghost" iconOnly aria-label="Copy">
+		<Copy className="size-4" />
+	</Button>
 </Tooltip>
 
 <Tooltip content="Download">
   <Button variant="ghost" iconOnly aria-label="Download">
     <Download className="size-4" />
   </Button>
-</Tooltip>
-```
+</Tooltip>`}
+/>
 
-## Toolbar Example
+### Toolbar Pattern
 
-A common pattern combining tooltips with a row of icon-only buttons.
-
-```tsx
-<div className="flex items-center gap-1 p-1 border border-ds-border rounded-ds-md">
+<ComponentPage
+	title="Toolbar with Tooltips"
+	description="A common pattern combining tooltips with a row of icon-only buttons in a toolbar."
+	preview={
+		<div className="flex items-center gap-1 p-1 border border-fd-border rounded-md">
+			<TooltipProvider>
+				<Tooltip content="Bold (Ctrl+B)">
+					<Button
+						variant="ghost"
+						size="sm"
+						iconOnly
+						aria-label="Bold"
+					>
+						<Bold className="size-4" />
+					</Button>
+				</Tooltip>
+				<Tooltip content="Italic (Ctrl+I)">
+					<Button
+						variant="ghost"
+						size="sm"
+						iconOnly
+						aria-label="Italic"
+					>
+						<Italic className="size-4" />
+					</Button>
+				</Tooltip>
+				<Tooltip content="Underline (Ctrl+U)">
+					<Button
+						variant="ghost"
+						size="sm"
+						iconOnly
+						aria-label="Underline"
+					>
+						<Underline className="size-4" />
+					</Button>
+				</Tooltip>
+			</TooltipProvider>
+		</div>
+	}
+	code={`<div className="flex items-center gap-1 p-1 border border-ds-border rounded-ds-md">
   <Tooltip content="Bold (Ctrl+B)">
     <Button variant="ghost" size="sm" iconOnly aria-label="Bold">
       <BoldIcon className="size-4" />
@@ -230,7 +261,97 @@ A common pattern combining tooltips with a row of icon-only buttons.
       <UnderlineIcon className="size-4" />
     </Button>
   </Tooltip>
-</div>
+</div>`}
+/>
+
+---
+
+## Arrow
+
+By default, tooltips show a small arrow pointing toward the trigger. Set `arrow={false}` to hide it.
+
+```tsx
+{
+	/* With arrow (default) */
+}
+<Tooltip content="With arrow" arrow>
+	<Button>Hover me</Button>
+</Tooltip>;
+
+{
+	/* Without arrow */
+}
+<Tooltip content="No arrow" arrow={false}>
+	<Button>Hover me</Button>
+</Tooltip>;
+```
+
+## Delay
+
+Configure the open delay to control how quickly the tooltip appears. The `TooltipProvider` controls the shared delay for all tooltips in its scope.
+
+```tsx
+{
+	/* Fast — 200ms delay */
+}
+<TooltipProvider delayDuration={200}>
+	<Tooltip content="Quick tooltip">
+		<Button>Fast</Button>
+	</Tooltip>
+</TooltipProvider>;
+
+{
+	/* Slow — 700ms delay */
+}
+<TooltipProvider delayDuration={700}>
+	<Tooltip content="Slow tooltip">
+		<Button>Slow</Button>
+	</Tooltip>
+</TooltipProvider>;
+```
+
+You can also override the delay per tooltip:
+
+```tsx
+<Tooltip content="Custom delay" delayDuration={0}>
+	<Button>Instant</Button>
+</Tooltip>
+```
+
+## Rich Content
+
+The `content` prop accepts any `ReactNode`, so you can render rich tooltip content.
+
+```tsx
+<Tooltip
+	content={
+		<div className="flex flex-col gap-1">
+			<p className="font-semibold text-xs">Keyboard Shortcut</p>
+			<p className="text-xs text-ds-muted-foreground">
+				Press{" "}
+				<kbd className="px-1 py-0.5 bg-ds-muted rounded text-[10px]">
+					Ctrl+S
+				</kbd>{" "}
+				to save
+			</p>
+		</div>
+	}
+>
+	<Button>Save</Button>
+</Tooltip>
+```
+
+## Max Width
+
+Tooltips have a default max width of 220px to keep content readable. Override with `maxWidth`.
+
+```tsx
+<Tooltip
+	content="This is a very long tooltip message that would normally wrap at the default max width."
+	maxWidth={300}
+>
+	<Button>Wide tooltip</Button>
+</Tooltip>
 ```
 
 ---
@@ -239,23 +360,23 @@ A common pattern combining tooltips with a row of icon-only buttons.
 
 ### Tooltip
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `content` | `ReactNode` | **required** | The tooltip content. Can be a string or React node. |
-| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"top"` | Which side the tooltip appears on. |
-| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment along the side axis. |
-| `arrow` | `boolean` | `true` | Whether to show the arrow indicator. |
-| `sideOffset` | `number` | `4` | Distance in px from the trigger. |
-| `maxWidth` | `number` | `220` | Maximum width of the tooltip in px. |
-| `delayDuration` | `number` | — | Override the provider's delay for this tooltip. |
-| `children` | `ReactElement` | **required** | The trigger element (must accept a ref). |
+| Prop            | Type                                     | Default      | Description                                         |
+| --------------- | ---------------------------------------- | ------------ | --------------------------------------------------- |
+| `content`       | `ReactNode`                              | **required** | The tooltip content. Can be a string or React node. |
+| `side`          | `"top" \| "right" \| "bottom" \| "left"` | `"top"`      | Which side the tooltip appears on.                  |
+| `align`         | `"start" \| "center" \| "end"`           | `"center"`   | Alignment along the side axis.                      |
+| `arrow`         | `boolean`                                | `true`       | Whether to show the arrow indicator.                |
+| `sideOffset`    | `number`                                 | `4`          | Distance in px from the trigger.                    |
+| `maxWidth`      | `number`                                 | `220`        | Maximum width of the tooltip in px.                 |
+| `delayDuration` | `number`                                 | —            | Override the provider's delay for this tooltip.     |
+| `children`      | `ReactElement`                           | **required** | The trigger element (must accept a ref).            |
 
 ### TooltipProvider
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `delayDuration` | `number` | `400` | Open delay in ms for all tooltips in scope. |
-| `skipDelayDuration` | `number` | `300` | Time in ms before the delay resets after leaving a tooltip. |
+| Prop                      | Type      | Default | Description                                                       |
+| ------------------------- | --------- | ------- | ----------------------------------------------------------------- |
+| `delayDuration`           | `number`  | `400`   | Open delay in ms for all tooltips in scope.                       |
+| `skipDelayDuration`       | `number`  | `300`   | Time in ms before the delay resets after leaving a tooltip.       |
 | `disableHoverableContent` | `boolean` | `false` | Prevent tooltip from staying open when hovering over its content. |
 
 ---
@@ -263,7 +384,8 @@ A common pattern combining tooltips with a row of icon-only buttons.
 ## Accessibility
 
 <Callout type="info">
-  Built on **@radix-ui/react-tooltip** which provides full keyboard and screen reader support out of the box.
+	Built on **@radix-ui/react-tooltip** which provides full keyboard and screen
+	reader support out of the box.
 </Callout>
 
 - **Keyboard accessible** — Tooltips appear when the trigger receives keyboard focus and hide on blur.
@@ -280,11 +402,11 @@ A common pattern combining tooltips with a row of icon-only buttons.
 
 ## Design Tokens
 
-| Token | Usage |
-|-------|-------|
-| `--ds-color-foreground` | Tooltip text color |
-| `--ds-color-popover` | Tooltip background |
-| `--ds-radius-md` | Tooltip border radius |
-| `--ds-z-tooltip` | Z-index for tooltip layer |
-| `--ds-shadow-sm` | Tooltip elevation shadow |
-| `--ds-duration-fast` | Animation timing for enter/exit |
+| Token                   | Usage                           |
+| ----------------------- | ------------------------------- |
+| `--ds-color-foreground` | Tooltip text color              |
+| `--ds-color-popover`    | Tooltip background              |
+| `--ds-radius-md`        | Tooltip border radius           |
+| `--ds-z-tooltip`        | Z-index for tooltip layer       |
+| `--ds-shadow-sm`        | Tooltip elevation shadow        |
+| `--ds-duration-fast`    | Animation timing for enter/exit |

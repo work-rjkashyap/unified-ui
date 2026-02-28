@@ -25,7 +25,7 @@
 // ============================================================================
 
 /** Current version of the Unified UI design system. */
-export const UNIFIED_UI_VERSION = "0.1.0" as const;
+export const UNIFIED_UI_VERSION = "0.1.1" as const;
 
 export {
   Accordion,
@@ -292,6 +292,26 @@ export {
   type TableSortDirection,
   tableRootVariants,
 } from "./components/table";
+// ---------------------------------------------------------------------------
+// DataTable (TanStack Table powered)
+// ---------------------------------------------------------------------------
+export {
+  DataTable,
+  type DataTableColumnMeta,
+  type DataTableFacetedFilter,
+  type DataTableProps,
+  type UseDataTableOptions,
+  type UseDataTableReturn,
+  useDataTable,
+  createColumnHelper,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type PaginationState,
+  type Row,
+  type RowSelectionState,
+  type SortingState,
+  type VisibilityState,
+} from "./components/data-table";
 export {
   Tabs,
   TabsContent,

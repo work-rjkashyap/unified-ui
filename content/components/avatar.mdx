@@ -65,168 +65,215 @@ The Avatar component displays a user image. When no `src` is provided (or the im
 
 Five sizes are available ranging from extra small (24px) to extra large (64px).
 
-<div className="my-6 flex gap-3 items-end justify-center">
-  <Avatar name="XS" size="xs" />
-  <Avatar name="SM" size="sm" />
-  <Avatar name="MD" size="md" />
-  <Avatar name="LG" size="lg" />
-  <Avatar name="XL" size="xl" />
-</div>
-
-```tsx
-<Avatar name="Jane" size="xs" />  {/* 24px */}
+<ComponentPage
+	title="Avatar Sizes"
+	description="Five sizes ranging from extra small (24px) to extra large (64px)."
+	preview={
+		<div className="flex gap-3 items-end justify-center">
+			<Avatar name="XS" size="xs" />
+			<Avatar name="SM" size="sm" />
+			<Avatar name="MD" size="md" />
+			<Avatar name="LG" size="lg" />
+			<Avatar name="XL" size="xl" />
+		</div>
+	}
+	code={`<Avatar name="Jane" size="xs" />  {/* 24px */}
 <Avatar name="Jane" size="sm" />  {/* 32px */}
 <Avatar name="Jane" size="md" />  {/* 40px — default */}
 <Avatar name="Jane" size="lg" />  {/* 48px */}
-<Avatar name="Jane" size="xl" />  {/* 64px */}
-```
+<Avatar name="Jane" size="xl" />  {/* 64px */}`}
+/>
 
-| Size | Dimensions | Use Case |
-|------|-----------|----------|
-| `xs` | 24×24px | Inline mentions, compact lists |
-| `sm` | 32×32px | Comment threads, table rows |
-| `md` | 40×40px | Default, navigation bars |
-| `lg` | 48×48px | Profile cards, headers |
-| `xl` | 64×64px | Profile pages, hero sections |
+| Size | Dimensions | Use Case                       |
+| ---- | ---------- | ------------------------------ |
+| `xs` | 24×24px    | Inline mentions, compact lists |
+| `sm` | 32×32px    | Comment threads, table rows    |
+| `md` | 40×40px    | Default, navigation bars       |
+| `lg` | 48×48px    | Profile cards, headers         |
+| `xl` | 64×64px    | Profile pages, hero sections   |
 
 ## Shapes
 
 Two shapes are supported: `circle` (default) and `square`.
 
-<div className="my-6 flex gap-4 items-center justify-center">
-  <Avatar name="Circle" shape="circle" size="lg" />
-  <Avatar name="Square" shape="square" size="lg" />
-</div>
-
-```tsx
-<Avatar name="Jane Doe" shape="circle" />  {/* Default */}
-<Avatar name="Jane Doe" shape="square" />  {/* Rounded square */}
-```
+<ComponentPage
+	title="Avatar Shapes"
+	description="Two shapes: circle (default) and square with rounded corners."
+	preview={
+		<div className="flex gap-4 items-center justify-center">
+			<Avatar name="Circle" shape="circle" size="lg" />
+			<Avatar name="Square" shape="square" size="lg" />
+		</div>
+	}
+	code={`<Avatar name="Jane Doe" shape="circle" />  {/* Default */}
+<Avatar name="Jane Doe" shape="square" />  {/* Rounded square */}`}
+/>
 
 ## Initials Fallback
 
 When no `src` is provided (or the image fails to load), the component automatically generates initials from the `name` prop. It takes the first letter of the first and last words.
 
-<div className="my-6 flex gap-3 items-center justify-center">
-  <Avatar name="Jane Doe" size="lg" />
-  <Avatar name="Alice" size="lg" />
-  <Avatar name="Bob Charles Smith" size="lg" />
-</div>
-
-```tsx
-<Avatar name="Jane Doe" />      {/* Shows "JD" */}
+<ComponentPage
+	title="Initials Fallback"
+	description="Automatic initials generated from the name prop when no image is available."
+	preview={
+		<div className="flex gap-3 items-center justify-center">
+			<Avatar name="Jane Doe" size="lg" />
+			<Avatar name="Alice" size="lg" />
+			<Avatar name="Bob Charles Smith" size="lg" />
+		</div>
+	}
+	code={`<Avatar name="Jane Doe" />      {/* Shows "JD" */}
 <Avatar name="Alice" />          {/* Shows "A" */}
-<Avatar name="Bob Charles Smith" /> {/* Shows "BS" */}
-```
+<Avatar name="Bob Charles Smith" /> {/* Shows "BS" */}`}
+/>
 
 ## Status Indicator
 
 Add a `status` prop to display a small colored dot indicating the user's availability.
 
-<div className="my-6 flex gap-4 items-center justify-center">
-  <Avatar name="Online" status="online" size="lg" />
-  <Avatar name="Busy" status="busy" size="lg" />
-  <Avatar name="Away" status="away" size="lg" />
-  <Avatar name="Offline" status="offline" size="lg" />
-</div>
-
-```tsx
-<Avatar name="Jane" status="online" />   {/* Green dot */}
+<ComponentPage
+	title="Status Indicator"
+	description="Colored status dots indicating user availability: online, busy, away, or offline."
+	preview={
+		<div className="flex gap-4 items-center justify-center">
+			<Avatar name="Online" status="online" size="lg" />
+			<Avatar name="Busy" status="busy" size="lg" />
+			<Avatar name="Away" status="away" size="lg" />
+			<Avatar name="Offline" status="offline" size="lg" />
+		</div>
+	}
+	code={`<Avatar name="Jane" status="online" />   {/* Green dot */}
 <Avatar name="Jane" status="busy" />     {/* Red dot */}
 <Avatar name="Jane" status="away" />     {/* Yellow dot */}
-<Avatar name="Jane" status="offline" />  {/* Gray dot */}
-```
+<Avatar name="Jane" status="offline" />  {/* Gray dot */}`}
+/>
 
-| Status | Color | Meaning |
-|--------|-------|---------|
-| `online` | Green (`--ds-color-success`) | User is active |
-| `busy` | Red (`--ds-color-danger`) | User is unavailable |
-| `away` | Yellow (`--ds-color-warning`) | User is idle |
-| `offline` | Gray (`--ds-color-muted`) | User is offline |
+| Status    | Color                         | Meaning             |
+| --------- | ----------------------------- | ------------------- |
+| `online`  | Green (`--ds-color-success`)  | User is active      |
+| `busy`    | Red (`--ds-color-danger`)     | User is unavailable |
+| `away`    | Yellow (`--ds-color-warning`) | User is idle        |
+| `offline` | Gray (`--ds-color-muted`)     | User is offline     |
 
 ## Avatar Group
 
 Use `AvatarGroup` to stack multiple avatars with a configurable overlap. When the number of avatars exceeds the `max` prop, a "+N" overflow indicator is shown.
 
-<div className="my-6 flex justify-center">
-  <AvatarGroup max={3}>
-    <Avatar name="Alice Cooper" />
-    <Avatar name="Bob Smith" />
-    <Avatar name="Charlie Davis" />
-    <Avatar name="Diana Evans" />
-    <Avatar name="Evan Foster" />
-  </AvatarGroup>
-</div>
-
-```tsx
-<AvatarGroup max={3}>
+<ComponentPage
+	title="Avatar Group"
+	description="Stack multiple avatars with overlap and a +N overflow indicator when exceeding the max count."
+	preview={
+		<div className="flex justify-center">
+			<AvatarGroup max={3}>
+				<Avatar name="Alice Cooper" />
+				<Avatar name="Bob Smith" />
+				<Avatar name="Charlie Davis" />
+				<Avatar name="Diana Evans" />
+				<Avatar name="Evan Foster" />
+			</AvatarGroup>
+		</div>
+	}
+	code={`<AvatarGroup max={3}>
   <Avatar name="Alice Cooper" />
   <Avatar name="Bob Smith" />
   <Avatar name="Charlie Davis" />
   <Avatar name="Diana Evans" />
   <Avatar name="Evan Foster" />
 </AvatarGroup>
-{/* Shows Alice, Bob, Charlie, then "+2" */}
-```
+{/* Shows Alice, Bob, Charlie, then "+2" */}`}
+/>
 
 ### Group with Images
 
-```tsx
-<AvatarGroup max={4}>
+<ComponentPage
+	title="Group with Images"
+	description="Avatar group using image sources. When images fail to load, initials or the default icon are shown as fallback."
+	preview={
+		<div className="flex justify-center">
+			<AvatarGroup max={4}>
+				<Avatar name="Alice" />
+				<Avatar name="Bob" />
+				<Avatar name="Charlie" />
+				<Avatar name="Diana" />
+				<Avatar name="Evan" />
+				<Avatar name="Fiona" />
+			</AvatarGroup>
+		</div>
+	}
+	code={`<AvatarGroup max={4}>
   <Avatar src="/a.jpg" alt="Alice" />
   <Avatar src="/b.jpg" alt="Bob" />
   <Avatar src="/c.jpg" alt="Charlie" />
   <Avatar src="/d.jpg" alt="Diana" />
   <Avatar src="/e.jpg" alt="Evan" />
   <Avatar src="/f.jpg" alt="Fiona" />
-</AvatarGroup>
-```
+</AvatarGroup>`}
+/>
 
 ## Image Error Handling
 
 When a `src` is provided but the image fails to load, the Avatar gracefully falls back to initials (if `name` is set) or the default icon.
 
-```tsx
-{/* If image fails, shows "JD" */}
+<ComponentPage
+	title="Image Error Handling"
+	description="Graceful fallback when image sources fail to load. Shows initials from the name prop, or a default user icon."
+	preview={
+		<div className="flex gap-4 items-center justify-center">
+			<Avatar src="/broken-link.jpg" name="Jane Doe" size="lg" />
+			<Avatar src="/broken-link.jpg" alt="User" size="lg" />
+		</div>
+	}
+	code={`{/* If image fails, shows "JD" */}
 <Avatar src="/broken-link.jpg" name="Jane Doe" />
 
 {/* If image fails and no name, shows default user icon */}
-<Avatar src="/broken-link.jpg" alt="User" />
-```
+
+<Avatar src="/broken-link.jpg" alt="User" />`}
+/>
 
 ## With Alt Text
 
 Always provide descriptive alt text for images via the `alt` prop, or use the `name` prop which doubles as accessible text.
 
-```tsx
-{/* alt text from alt prop */}
+<ComponentPage
+	title="With Alt Text"
+	description="Always provide descriptive alt text via the alt prop, or use the name prop which doubles as accessible text."
+	preview={
+		<div className="flex gap-4 items-center justify-center">
+			<Avatar name="Jane Doe" size="lg" />
+			<Avatar name="Jane Doe" size="lg" />
+		</div>
+	}
+	code={`{/* alt text from alt prop */}
 <Avatar src="/photo.jpg" alt="Jane Doe's profile picture" />
 
 {/* alt text from name prop */}
-<Avatar name="Jane Doe" />
-```
+
+<Avatar name="Jane Doe" />`}
+/>
 
 ## Props
 
 ### Avatar
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `src` | `string` | — | URL of the avatar image. |
-| `alt` | `string` | — | Alt text for the image. Falls back to `name` if not provided. |
-| `name` | `string` | — | User name used to generate initials fallback. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"` | Size of the avatar. |
-| `shape` | `"circle" \| "square"` | `"circle"` | Shape of the avatar. |
-| `status` | `"online" \| "offline" \| "busy" \| "away"` | — | Status indicator dot. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type                                        | Default    | Description                                                   |
+| ----------- | ------------------------------------------- | ---------- | ------------------------------------------------------------- |
+| `src`       | `string`                                    | —          | URL of the avatar image.                                      |
+| `alt`       | `string`                                    | —          | Alt text for the image. Falls back to `name` if not provided. |
+| `name`      | `string`                                    | —          | User name used to generate initials fallback.                 |
+| `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "xl"`      | `"md"`     | Size of the avatar.                                           |
+| `shape`     | `"circle" \| "square"`                      | `"circle"` | Shape of the avatar.                                          |
+| `status`    | `"online" \| "offline" \| "busy" \| "away"` | —          | Status indicator dot.                                         |
+| `className` | `string`                                    | —          | Additional CSS classes.                                       |
 
 ### AvatarGroup
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `max` | `number` | — | Maximum number of avatars to display before showing "+N". |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"` | Size applied to all child avatars. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type                                   | Default | Description                                               |
+| ----------- | -------------------------------------- | ------- | --------------------------------------------------------- |
+| `max`       | `number`                               | —       | Maximum number of avatars to display before showing "+N". |
+| `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"`  | Size applied to all child avatars.                        |
+| `className` | `string`                               | —       | Additional CSS classes.                                   |
 
 ## Accessibility
 
@@ -238,13 +285,13 @@ Always provide descriptive alt text for images via the `alt` prop, or use the `n
 
 ## Design Tokens
 
-| Token | Usage |
-|-------|-------|
-| `--ds-color-muted` | Initials/icon fallback background |
-| `--ds-color-success` | Online status indicator |
-| `--ds-color-danger` | Busy status indicator |
-| `--ds-color-warning` | Away status indicator |
-| `--ds-radius-full` | Circle shape |
-| `--ds-radius-md` | Square shape border radius |
+| Token                | Usage                             |
+| -------------------- | --------------------------------- |
+| `--ds-color-muted`   | Initials/icon fallback background |
+| `--ds-color-success` | Online status indicator           |
+| `--ds-color-danger`  | Busy status indicator             |
+| `--ds-color-warning` | Away status indicator             |
+| `--ds-radius-full`   | Circle shape                      |
+| `--ds-radius-md`     | Square shape border radius        |
 
 </ComponentPage>

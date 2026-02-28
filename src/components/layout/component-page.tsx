@@ -1,15 +1,15 @@
 "use client";
 
-import { Code2, Eye } from "lucide-react";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { cn } from "@/lib/cn";
+import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 
 interface ComponentPageProps {
 	title: string;
 	description?: string;
-	preview?: React.ReactNode;
+	preview?: ReactNode;
 	code?: string;
-	children?: React.ReactNode;
+	children?: ReactNode;
 }
 
 export function ComponentPage({
@@ -19,69 +19,93 @@ export function ComponentPage({
 	code,
 	children,
 }: ComponentPageProps) {
-	const [activeTab, setActiveTab] = useState("preview");
+	const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
 
 	return (
-		<div className="space-y-10">
-			<div className="space-y-2">
+		<div className="space-y-8">
+			{/* Header */}
+			<div className="space-y-1.5">
 				<h1 className="text-3xl font-bold tracking-tight">{title}</h1>
 				{description && (
-					<p className="text-lg text-fd-muted-foreground">
+					<p className="text-base text-fd-muted-foreground leading-relaxed">
 						{description}
 					</p>
 				)}
 			</div>
 
-			<div className="space-y-4">
-				<div className="flex items-center gap-4 border-b border-fd-border pb-px">
+			{/* Preview / Code Card */}
+			<div className="rounded-lg border border-fd-border bg-fd-card overflow-hidden">
+				{/* Tab Bar */}
+				<div className="flex items-center border-b border-fd-border">
 					<button
+						type="button"
 						onClick={() => setActiveTab("preview")}
 						className={cn(
-							"flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors",
+							"relative px-4 py-2.5 text-sm font-medium transition-colors",
 							activeTab === "preview"
-								? "border-purple-500 text-fd-foreground"
-								: "border-transparent text-fd-muted-foreground hover:text-fd-foreground",
+								? "text-fd-foreground"
+								: "text-fd-muted-foreground hover:text-fd-foreground",
 						)}
 					>
-						<Eye className="w-4 h-4" />
 						Preview
+						{activeTab === "preview" && (
+							<span className="absolute inset-x-0 bottom-0 h-0.5 bg-fd-primary" />
+						)}
 					</button>
 					<button
+						type="button"
 						onClick={() => setActiveTab("code")}
 						className={cn(
-							"flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors",
+							"relative px-4 py-2.5 text-sm font-medium transition-colors",
 							activeTab === "code"
-								? "border-purple-500 text-fd-foreground"
-								: "border-transparent text-fd-muted-foreground hover:text-fd-foreground",
+								? "text-fd-foreground"
+								: "text-fd-muted-foreground hover:text-fd-foreground",
 						)}
 					>
-						<Code2 className="w-4 h-4" />
 						Code
+						{activeTab === "code" && (
+							<span className="absolute inset-x-0 bottom-0 h-0.5 bg-fd-primary" />
+						)}
 					</button>
 				</div>
 
-				<div className="mt-4">
-					{activeTab === "preview" ? (
-						<div className="relative rounded-lg border border-fd-border bg-fd-card p-10 flex items-center justify-center min-h-[350px]">
-							<div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20 dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)]" />
-							<div className="relative z-10 w-full max-w-md flex justify-center">
-								{preview}
-							</div>
+				{/* Content Area */}
+				{activeTab === "preview" ? (
+					<div className="relative p-6 sm:p-8 md:p-10 flex items-center justify-center min-h-75">
+						{/* Subtle dot grid background */}
+						<div
+							className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-fd-muted-foreground)_0.5px,transparent_0.5px)] bg-size-[16px_16px] opacity-[0.07]"
+							aria-hidden="true"
+						/>
+						<div className="relative z-10 w-full max-w-lg flex justify-center">
+							{preview}
 						</div>
-					) : (
-						<div className="rounded-lg border border-fd-border bg-black overflow-hidden">
-							{/* This would ideally be a syntax highlighter or the MDX code block */}
-							<pre className="p-4 text-sm text-zinc-300 overflow-x-auto">
-								<code>{code || "// No code provided"}</code>
+					</div>
+				) : (
+					<div className="relative [&_figure]:rounded-none! [&_figure]:shadow-none! [&_figure]:border-0! [&_figure]:my-0! [&_figure]:bg-transparent!">
+						{code ? (
+							<DynamicCodeBlock
+								lang="tsx"
+								code={code}
+								codeblock={{
+									allowCopy: true,
+								}}
+							/>
+						) : (
+							<pre className="p-4 text-sm text-fd-muted-foreground overflow-x-auto">
+								<code>{"// No code provided"}</code>
 							</pre>
-						</div>
-					)}
-				</div>
+						)}
+					</div>
+				)}
 			</div>
 
-			<div className="prose prose-sm dark:prose-invert max-w-none">
-				{children}
-			</div>
+			{/* Additional Content (children from MDX) */}
+			{children && (
+				<div className="prose prose-sm dark:prose-invert max-w-none">
+					{children}
+				</div>
+			)}
 		</div>
 	);
 }

@@ -41,14 +41,22 @@ export function SidebarCollapseTrigger(
 ) {
 	return <Base.SidebarCollapseTrigger {...props} />;
 }
-export function SidebarViewport(
-	props: ComponentProps<typeof Base.SidebarViewport>,
-) {
+export function SidebarViewport({
+	className,
+	children,
+	...props
+}: ComponentProps<"div">) {
 	return (
-		<Base.SidebarViewport
-			className="h-full overflow-y-scroll hide-scrollbar"
+		<div
+			className={cn(
+				"min-h-0 flex-1 overflow-auto p-4 overscroll-contain hide-scrollbar [scrollbar-width:none]",
+				"mask-[linear-gradient(to_bottom,transparent,white_12px,white_calc(100%-12px),transparent)]",
+				className,
+			)}
 			{...props}
-		/>
+		>
+			{children}
+		</div>
 	);
 }
 export function SidebarTrigger(
@@ -69,12 +77,7 @@ export function SidebarContent({
 			{({ collapsed, hovered, ref: asideRef, ...rest }) => (
 				<div
 					data-sidebar-placeholder=""
-					className={cn(
-						"sticky z-20 [grid-area:sidebar] pointer-events-none *:pointer-events-auto md:layout:[--fd-sidebar-width:268px] max-md:hidden",
-						navMode === "auto"
-							? "top-(--fd-docs-row-1) h-[calc(var(--fd-docs-height)-var(--fd-docs-row-1)-20px)]"
-							: "top-(--fd-docs-row-2) h-[calc(var(--fd-docs-height)-var(--fd-docs-row-2)-20px)]",
-					)}
+					className="sticky z-20 [grid-area:sidebar] pointer-events-none *:pointer-events-auto md:layout:[--fd-sidebar-width:268px] max-md:hidden top-(--fd-docs-row-2) h-[calc(100dvh-var(--fd-docs-row-2)-20px)]"
 				>
 					{collapsed && (
 						<div

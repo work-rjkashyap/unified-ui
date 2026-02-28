@@ -1,10 +1,11 @@
 ---
 title: DataTable
-description: A feature-rich data table powered by TanStack Table with sorting, filtering, pagination, row selection, and column visibility — rendered with Unified UI styling.
+description: A feature-rich data table powered by TanStack Table with sorting, filtering, pagination, row selection, column visibility, and column pinning — rendered with Unified UI styling.
 icon: Table
 ---
 
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { DataTableDemo } from "@/components/ui/data-table-demo";
 
 <ComponentPage
@@ -60,7 +61,7 @@ import {
 	type ColumnDef,
 	createColumnHelper,
 } from "@work-rjkashyap/unified-ui";
-// or
+// or layer-specific import
 import {
 	DataTable,
 	type ColumnDef,
@@ -69,6 +70,8 @@ import {
 ```
 
 ### Additional type imports
+
+When working with controlled state, import the relevant state types:
 
 ```tsx
 import type {
@@ -79,6 +82,8 @@ import type {
 	PaginationState,
 	Row,
 	DataTableColumnMeta,
+	UseDataTableOptions,
+	UseDataTableReturn,
 } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -87,6 +92,8 @@ import type {
 	install `@tanstack/react-table` separately. It's included as a dependency of
 	the design system package.
 </Callout>
+
+---
 
 ## Defining Columns
 
@@ -133,7 +140,7 @@ const columns: ColumnDef<Person>[] = [
 
 ### Using `createColumnHelper`
 
-For better type inference, use the `createColumnHelper` utility:
+For better type inference without explicit generics on every column, use the `createColumnHelper` utility:
 
 ```tsx
 import { createColumnHelper } from "@work-rjkashyap/unified-ui";
@@ -155,6 +162,150 @@ const columns = [
 ];
 ```
 
+### Column Sizing
+
+Control column widths with the `size`, `minSize`, and `maxSize` properties:
+
+```tsx
+const columns: ColumnDef<Person>[] = [
+	{
+		accessorKey: "id",
+		header: "ID",
+		size: 80, // preferred width in pixels
+		minSize: 60, // minimum width
+		maxSize: 120, // maximum width
+	},
+	{
+		accessorKey: "name",
+		header: "Name",
+		size: 200,
+	},
+	{
+		accessorKey: "email",
+		header: "Email",
+		size: 280,
+	},
+];
+```
+
+<Callout type="warn">
+	TanStack Table uses a default column size of `150`. The DataTable only
+	applies explicit width styles when the column size differs from `150`, so
+	columns without a `size` prop will auto-size naturally via the browser.
+</Callout>
+
+---
+
+## Custom Cell Renderers
+
+Column cells can render arbitrary React content. Use the `cell` property to create rich, interactive cells.
+
+<div className="w-full max-w-3xl mt-4">
+	<DataTableDemo variant="custom-cells" />
+</div>
+
+### Combined User Cell
+
+Stack multiple fields into a single cell for a compact layout:
+
+```tsx
+{
+	accessorKey: "name",
+	header: "User",
+	cell: ({ row }) => (
+		<div className="flex flex-col">
+			<span className="font-medium text-ds-foreground">
+				{row.original.name}
+			</span>
+			<span className="text-xs text-ds-muted-foreground">
+				{row.original.email}
+			</span>
+		</div>
+	),
+}
+```
+
+### Status Indicator with Dot
+
+```tsx
+{
+	accessorKey: "status",
+	header: "Status",
+	cell: ({ getValue }) => {
+		const status = getValue() as string;
+		const isActive = status === "Active";
+		return (
+			<div className="flex items-center gap-1.5">
+				<span
+					className={`inline-block size-2 rounded-full ${
+						isActive ? "bg-green-500"
+						: status === "Pending" ? "bg-yellow-500"
+						: "bg-zinc-400"
+					}`}
+				/>
+				<span className="text-sm">{status}</span>
+			</div>
+		);
+	},
+}
+```
+
+### Conditional Color on Numeric Values
+
+```tsx
+{
+	accessorKey: "amount",
+	header: "Amount",
+	cell: ({ getValue }) => {
+		const amount = getValue() as number;
+		return (
+			<span className={`font-mono text-sm tabular-nums ${
+				amount >= 2000
+					? "text-green-600 dark:text-green-400"
+					: "text-ds-foreground"
+			}`}>
+				${amount.toLocaleString()}
+			</span>
+		);
+	},
+	meta: { align: "right", cellClassName: "font-mono tabular-nums" },
+}
+```
+
+### Action Column
+
+Add an actions column with buttons or dropdown menus:
+
+```tsx
+{
+	id: "actions",
+	header: "",
+	size: 60,
+	enableSorting: false,
+	enableHiding: false,
+	cell: ({ row }) => (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost" size="sm" className="size-8 p-0">
+					<MoreHorizontal className="size-4" />
+					<span className="sr-only">Actions</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end">
+				<DropdownMenuItem onClick={() => handleEdit(row.original)}>
+					Edit
+				</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => handleDelete(row.original)}>
+					Delete
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	),
+}
+```
+
+---
+
 ## Sorting
 
 Enable client-side sorting with the `sorting` prop. Click column headers to toggle sort direction.
@@ -169,15 +320,43 @@ Enable client-side sorting with the `sorting` prop. Click column headers to togg
 
 ### Multi-Column Sorting
 
-Hold **Shift** and click additional column headers to sort by multiple columns:
+Hold **Shift** and click additional column headers to sort by multiple columns simultaneously:
 
 ```tsx
 <DataTable data={users} columns={columns} sorting multiSort />
 ```
 
+### Disable Sorting on a Column
+
+Prevent a column from being sortable by setting `enableSorting: false`:
+
+```tsx
+{
+	accessorKey: "actions",
+	header: "",
+	enableSorting: false,
+}
+```
+
+### Custom Sort Functions
+
+TanStack Table supports custom sorting functions via the `sortingFn` property on a column definition:
+
+```tsx
+{
+	accessorKey: "date",
+	header: "Date",
+	sortingFn: (rowA, rowB, columnId) => {
+		const a = new Date(rowA.getValue(columnId)).getTime();
+		const b = new Date(rowB.getValue(columnId)).getTime();
+		return a - b;
+	},
+}
+```
+
 ### Controlled Sorting
 
-Manage sort state externally:
+Manage sort state externally for integration with URL search params or external state:
 
 ```tsx
 const [sorting, setSorting] = useState<SortingState>([
@@ -192,6 +371,8 @@ const [sorting, setSorting] = useState<SortingState>([
 	onSortingChange={setSorting}
 />;
 ```
+
+---
 
 ## Filtering
 
@@ -213,7 +394,7 @@ Enable client-side filtering with the `filtering` prop. Add a global search bar 
 
 ### Per-Column Filters
 
-Enable column-specific filter inputs by setting `meta.filterable: true` on individual columns:
+Enable column-specific filter inputs by setting `meta.filterable: true` on individual columns. Each filterable column gets an inline text input rendered directly below its header text.
 
 ```tsx
 const columns: ColumnDef<Person>[] = [
@@ -242,6 +423,36 @@ const columns: ColumnDef<Person>[] = [
 <DataTable data={users} columns={columns} filtering />;
 ```
 
+### Combining Global and Column Filters
+
+Use both at the same time — the global filter applies first, then column filters narrow down further:
+
+```tsx
+<DataTable
+	data={users}
+	columns={columnsWithFilterableMeta}
+	filtering
+	showGlobalFilter
+	globalFilterPlaceholder="Quick search..."
+/>
+```
+
+### Custom Filter Functions
+
+TanStack Table supports custom filter functions via the `filterFn` property:
+
+```tsx
+{
+	accessorKey: "amount",
+	header: "Amount",
+	filterFn: (row, columnId, filterValue) => {
+		const amount = row.getValue<number>(columnId);
+		const [min, max] = filterValue as [number, number];
+		return amount >= min && amount <= max;
+	},
+}
+```
+
 ### Controlled Filtering
 
 ```tsx
@@ -260,6 +471,8 @@ const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 />;
 ```
 
+---
+
 ## Pagination
 
 Enable client-side pagination with the `pagination` prop. Control the page size with `pageSize`.
@@ -271,6 +484,12 @@ Enable client-side pagination with the `pagination` prop. Control the page size 
 ```tsx
 <DataTable data={users} columns={columns} pagination pageSize={20} />
 ```
+
+The pagination bar includes:
+
+- **Row count** — total rows or selected row count
+- **Page size selector** — dropdown to change rows per page
+- **Page navigation** — first, previous, next, last buttons with page indicator
 
 ### Custom Page Size Options
 
@@ -292,6 +511,8 @@ Enable client-side pagination with the `pagination` prop. Control the page size 
 
 ### Controlled Pagination
 
+Manage pagination state externally (e.g. for URL-based page tracking):
+
 ```tsx
 const [pagination, setPagination] = useState<PaginationState>({
 	pageIndex: 0,
@@ -306,6 +527,8 @@ const [pagination, setPagination] = useState<PaginationState>({
 	onPaginationChange={setPagination}
 />;
 ```
+
+---
 
 ## Row Selection
 
@@ -325,6 +548,29 @@ Enable row selection with the `rowSelection` prop. Choose between `"single"` and
 	/* Single-select (radio-style) */
 }
 <DataTable data={users} columns={columns} rowSelection="single" />;
+```
+
+When enabled, a checkbox column is automatically prepended:
+
+- **Multi mode** — header checkbox toggles "select all" for the current page.
+- **Single mode** — no header checkbox; clicking a new row deselects the previous one.
+
+### Selected Row Callback
+
+The `onSelectedRowsChange` convenience callback gives you the full `Row` objects:
+
+```tsx
+<DataTable
+	data={users}
+	columns={columns}
+	rowSelection="multi"
+	onSelectedRowsChange={(rows) => {
+		console.log(
+			"Selected:",
+			rows.map((r) => r.original),
+		);
+	}}
+/>
 ```
 
 ### Controlled Row Selection
@@ -349,7 +595,7 @@ const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
 ### Conditional Row Selection
 
-Disable selection for specific rows:
+Disable selection for specific rows based on data:
 
 ```tsx
 <DataTable
@@ -360,9 +606,11 @@ Disable selection for specific rows:
 />
 ```
 
+Disabled rows render with a dimmed, non-interactive checkbox.
+
 ### Custom Row ID
 
-By default, row selection uses the row index. Pass `getRowId` for stable IDs:
+By default, row selection uses the row index as a key. Pass `getRowId` for stable, data-driven IDs that survive re-renders and re-sorting:
 
 ```tsx
 <DataTable
@@ -373,9 +621,17 @@ By default, row selection uses the row index. Pass `getRowId` for stable IDs:
 />
 ```
 
+<Callout type="warn">
+	Always use `getRowId` when your data can change order (e.g. sorting,
+	filtering, live updates). Index-based selection will silently select wrong
+	rows after a re-sort.
+</Callout>
+
+---
+
 ## Column Visibility
 
-Enable column toggling with the `columnVisibility` prop. A "Columns" dropdown button appears in the toolbar.
+Enable column toggling with the `columnVisibility` prop. A **Columns** dropdown button appears in the toolbar.
 
 <div className="w-full max-w-3xl mt-4">
 	<DataTableDemo variant="column-visibility" />
@@ -386,6 +642,8 @@ Enable column toggling with the `columnVisibility` prop. A "Columns" dropdown bu
 ```
 
 ### Controlled Column Visibility
+
+Pre-hide columns and react to changes:
 
 ```tsx
 const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
@@ -410,7 +668,7 @@ const columns: ColumnDef<Person>[] = [
 	{
 		accessorKey: "name",
 		header: "Name",
-		enableHiding: false, // Always visible
+		enableHiding: false, // Always visible — not shown in dropdown
 	},
 	{
 		accessorKey: "email",
@@ -420,22 +678,74 @@ const columns: ColumnDef<Person>[] = [
 ];
 ```
 
+The selection checkbox column (`id: "select"`) is always excluded from the visibility toggle automatically.
+
+---
+
+## Column Pinning
+
+Pin columns to the left or right edge so they remain visible during horizontal scrolling. This is especially useful for ID columns or action buttons on wide tables.
+
+<div className="w-full max-w-3xl mt-4">
+	<DataTableDemo variant="column-pinning" />
+</div>
+
+```tsx
+<DataTable
+	data={users}
+	columns={columns}
+	columnPinning={{ left: ["id"], right: ["amount"] }}
+	responsive
+/>
+```
+
+### Controlled Column Pinning
+
+```tsx
+import type { ColumnPinningState } from "@tanstack/react-table";
+
+const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
+	left: ["select", "id"],
+	right: ["actions"],
+});
+
+<DataTable
+	data={users}
+	columns={columns}
+	rowSelection="multi"
+	columnPinning={columnPinning}
+	onColumnPinningChange={setColumnPinning}
+	responsive
+/>;
+```
+
+<Callout type="info">
+	Column pinning is applied via TanStack Table's `columnPinning` state. The
+	visual "sticky" behavior depends on the columns having explicit `size`
+	values and the table being inside a scrollable container (`responsive={true}
+	`).
+</Callout>
+
+---
+
 ## Table Appearance
 
 ### Density
 
+The `density` prop controls the vertical padding on all rows. Three options are available:
+
 <div className="flex flex-col gap-6 w-full max-w-3xl mt-4">
 	<div>
-		<p className="text-xs font-medium text-ds-muted-foreground mb-2">
-			comfortable (default)
-		</p>
-		<DataTableDemo variant="density-comfortable" />
+		<span className="block text-xs font-medium text-ds-muted-foreground mb-2">
+			compact
+		</span>
+		<DataTableDemo variant="density-compact" />
 	</div>
 	<div>
-		<p className="text-xs font-medium text-ds-muted-foreground mb-2">
-			compact
-		</p>
-		<DataTableDemo variant="density-compact" />
+		<span className="block text-xs font-medium text-ds-muted-foreground mb-2">
+			comfortable (default)
+		</span>
+		<DataTableDemo variant="density-comfortable" />
 	</div>
 </div>
 
@@ -443,6 +753,11 @@ const columns: ColumnDef<Person>[] = [
 <DataTable data={users} columns={columns} density="compact" />
 <DataTable data={users} columns={columns} density="comfortable" />
 ```
+
+| Density       | Padding | Best For                                  |
+| ------------- | ------- | ----------------------------------------- |
+| `compact`     | Reduced | Data-dense tables, logs, admin dashboards |
+| `comfortable` | Default | General-purpose, user-facing content      |
 
 ### Striped & Bordered
 
@@ -454,9 +769,72 @@ const columns: ColumnDef<Person>[] = [
 <DataTable data={users} columns={columns} striped bordered hoverable />
 ```
 
+| Prop        | Effect                                                            |
+| ----------- | ----------------------------------------------------------------- |
+| `striped`   | Alternating row background using `--ds-color-muted` on even rows  |
+| `bordered`  | Visible borders between all cells using `--ds-color-border-muted` |
+| `hoverable` | Row background highlight on hover (enabled by default)            |
+
+### Combining Appearance Props
+
+```tsx
+<DataTable
+	data={users}
+	columns={columns}
+	density="compact"
+	striped
+	bordered
+	hoverable
+	sorting
+	pagination
+	pageSize={25}
+/>
+```
+
+---
+
+## Responsive Behavior
+
+By default, DataTable wraps the `<table>` in a horizontally-scrollable container when `responsive={true}` (the default). This prevents layout breaks on narrow viewports.
+
+<div className="w-full max-w-3xl mt-4">
+	<DataTableDemo variant="responsive" />
+</div>
+
+```tsx
+{
+	/* Responsive scrolling (default) */
+}
+<DataTable data={users} columns={wideColumns} responsive />;
+
+{
+	/* Disable responsive wrapping — table will overflow its parent */
+}
+<DataTable data={users} columns={wideColumns} responsive={false} />;
+```
+
+Add a custom class to the scroll wrapper with `wrapperClassName`:
+
+```tsx
+<DataTable
+	data={users}
+	columns={columns}
+	responsive
+	wrapperClassName="max-h-[400px] overflow-y-auto"
+/>
+```
+
+<Callout type="info">
+	When columns have explicit `size` values and the total exceeds the container
+	width, the scrollbar activates automatically. Pair with column pinning for
+	the best experience on wide tables.
+</Callout>
+
+---
+
 ## Loading State
 
-Show a skeleton placeholder while data is being fetched.
+Show a skeleton placeholder while data is being fetched. The skeleton adapts to the current `density` and visible column count.
 
 <div className="w-full max-w-3xl mt-4">
 	<DataTableDemo variant="loading" />
@@ -465,6 +843,34 @@ Show a skeleton placeholder while data is being fetched.
 ```tsx
 <DataTable data={users} columns={columns} loading={isLoading} />
 ```
+
+The loading skeleton renders 5 animated rows by default. Each row contains pulsing bars with varying widths for a realistic placeholder appearance.
+
+### Pattern: Loading with Retained Columns
+
+The skeleton always uses the column count from your `columns` prop, so headers remain visible during loading even when `data` is empty:
+
+```tsx
+const [data, setData] = useState<User[]>([]);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+	fetchUsers().then((users) => {
+		setData(users);
+		setLoading(false);
+	});
+}, []);
+
+<DataTable
+	data={data}
+	columns={columns}
+	loading={loading}
+	sorting
+	pagination
+/>;
+```
+
+---
 
 ## Empty State
 
@@ -489,6 +895,68 @@ Customize the message shown when no data matches.
 />
 ```
 
+If `emptyState` is not provided, a default **"No results."** message is displayed.
+
+### Empty State with Action
+
+```tsx
+<DataTable
+	data={filteredData}
+	columns={columns}
+	filtering
+	showGlobalFilter
+	emptyState={
+		<div className="flex flex-col items-center gap-3 py-8">
+			<SearchX className="size-8 text-ds-muted-foreground" />
+			<div className="text-center">
+				<p className="text-sm font-medium">No matching results</p>
+				<p className="text-xs text-ds-muted-foreground mt-1">
+					Try a different search term or clear your filters.
+				</p>
+			</div>
+			<Button variant="secondary" size="sm" onClick={clearFilters}>
+				Clear filters
+			</Button>
+		</div>
+	}
+/>
+```
+
+---
+
+## Caption
+
+Add an accessible caption that describes the table content. The caption renders as a native `<caption>` element for full screen reader support.
+
+<div className="w-full max-w-3xl mt-4">
+	<DataTableDemo variant="caption" />
+</div>
+
+```tsx
+<DataTable
+	data={invoices}
+	columns={columns}
+	caption="Q4 2024 invoice summary — all amounts in USD."
+/>
+```
+
+The caption is rendered visually below the table body, styled with `text-ds-muted-foreground`. It also accepts `ReactNode`:
+
+```tsx
+<DataTable
+	data={invoices}
+	columns={columns}
+	caption={
+		<span>
+			Showing data from <strong>Jan 1</strong> to{" "}
+			<strong>Dec 31, 2024</strong>
+		</span>
+	}
+/>
+```
+
+---
+
 ## Row Click Handler
 
 Handle row clicks for navigation or detail views:
@@ -503,9 +971,27 @@ Handle row clicks for navigation or detail views:
 />
 ```
 
-## Toolbar Slot
+Rows with an `onRowClick` handler automatically receive a `cursor-pointer` class.
 
-Render custom content in the toolbar area. You can pass a static `ReactNode` or a render function that receives the TanStack Table instance.
+<Callout type="warn">
+	When using row selection alongside `onRowClick`, be mindful of interaction
+	conflicts. Clicking a checkbox triggers both handlers. Use `event.target` to
+	differentiate if needed.
+</Callout>
+
+---
+
+## Toolbar & Footer Slots
+
+Render custom content above and below the table. Both props accept a static `ReactNode` or a **render function** that receives the TanStack Table instance for dynamic content.
+
+<div className="w-full max-w-3xl mt-4">
+	<DataTableDemo variant="toolbar-footer" />
+</div>
+
+### Toolbar
+
+The toolbar renders above the table, in the same row as the global filter and column visibility toggle. Custom toolbar items are placed between the search input and the Columns button.
 
 ```tsx
 <DataTable
@@ -515,24 +1001,55 @@ Render custom content in the toolbar area. You can pass a static `ReactNode` or 
 	filtering
 	showGlobalFilter
 	columnVisibility
-	toolbar={(table) => (
-		<Button
-			variant="secondary"
-			size="sm"
-			onClick={() => {
-				const selected = table.getFilteredSelectedRowModel().rows;
-				handleExport(selected.map((r) => r.original));
-			}}
-		>
-			Export Selected
-		</Button>
-	)}
+	toolbar={(table) => {
+		const selected = table.getFilteredSelectedRowModel().rows;
+		return selected.length > 0 ? (
+			<div className="flex items-center gap-2">
+				<span className="text-xs text-ds-muted-foreground">
+					{selected.length} selected
+				</span>
+				<Button
+					variant="secondary"
+					size="sm"
+					onClick={() =>
+						handleExport(selected.map((r) => r.original))
+					}
+				>
+					Export Selected
+				</Button>
+				<Button
+					variant="danger"
+					size="sm"
+					onClick={() =>
+						handleDelete(selected.map((r) => r.original))
+					}
+				>
+					Delete
+				</Button>
+			</div>
+		) : null;
+	}}
 />
 ```
 
-## Footer Slot
+### Static Toolbar
 
-Render custom content below the table:
+```tsx
+<DataTable
+	data={users}
+	columns={columns}
+	toolbar={
+		<Button variant="secondary" size="sm">
+			<Download className="size-3.5 mr-1.5" />
+			Export CSV
+		</Button>
+	}
+/>
+```
+
+### Footer Slot
+
+The footer renders below the table (and below the pagination bar, if enabled):
 
 ```tsx
 <DataTable
@@ -540,17 +1057,22 @@ Render custom content below the table:
 	columns={columns}
 	pagination
 	footer={(table) => (
-		<div className="text-xs text-ds-muted-foreground px-2">
-			Showing {table.getRowModel().rows.length} of{" "}
-			{table.getFilteredRowModel().rows.length} rows
+		<div className="flex items-center justify-between px-2 text-xs text-ds-muted-foreground">
+			<span>
+				Showing {table.getRowModel().rows.length} of{" "}
+				{table.getFilteredRowModel().rows.length} rows
+			</span>
+			<span>Last updated: 2 minutes ago</span>
 		</div>
 	)}
 />
 ```
 
+---
+
 ## Table Footer Row
 
-Render footer cells defined in column definitions:
+Render aggregation or summary rows using the `footer` property on column definitions. Enable rendering with `showFooter`.
 
 ```tsx
 const columns: ColumnDef<Invoice>[] = [
@@ -579,9 +1101,70 @@ const columns: ColumnDef<Invoice>[] = [
 <DataTable data={invoices} columns={columns} showFooter />;
 ```
 
+The footer is rendered inside a `<tfoot>` element for proper semantic HTML. Footer cells support the same `ReactNode | function` pattern as header and cell renderers.
+
+---
+
+## Accessing the Table Instance
+
+Use `onTableInstance` to get a reference to the underlying TanStack Table instance. This is useful for imperative actions from outside the DataTable.
+
+```tsx
+import type { Table as TanStackTable } from "@tanstack/react-table";
+
+function UsersPage() {
+	const tableRef = useRef<TanStackTable<User> | null>(null);
+
+	const selectAll = () => {
+		tableRef.current?.toggleAllRowsSelected(true);
+	};
+
+	const clearSelection = () => {
+		tableRef.current?.resetRowSelection();
+	};
+
+	const goToFirstPage = () => {
+		tableRef.current?.firstPage();
+	};
+
+	return (
+		<div>
+			<div className="flex gap-2 mb-3">
+				<Button size="sm" onClick={selectAll}>
+					Select All
+				</Button>
+				<Button size="sm" variant="secondary" onClick={clearSelection}>
+					Clear
+				</Button>
+				<Button size="sm" variant="secondary" onClick={goToFirstPage}>
+					First Page
+				</Button>
+			</div>
+
+			<DataTable
+				data={users}
+				columns={columns}
+				rowSelection="multi"
+				pagination
+				onTableInstance={(table) => {
+					tableRef.current = table;
+				}}
+			/>
+		</div>
+	);
+}
+```
+
+<Callout type="info">
+	The `onTableInstance` callback fires on every render. Store the reference in
+	a `useRef` rather than state to avoid infinite re-render loops.
+</Callout>
+
+---
+
 ## `useDataTable` Hook
 
-For advanced controlled usage, the `useDataTable` hook manages all table state in one place. Spread `tableProps` into `<DataTable />`.
+For advanced controlled usage, the `useDataTable` hook manages all table state in one place. Spread `tableProps` into `<DataTable />` for fully controlled mode.
 
 ```tsx
 import { DataTable, useDataTable, type ColumnDef } from "@work-rjkashyap/unified-ui";
@@ -603,7 +1186,7 @@ function UsersPage({ data }: { data: User[] }) {
           {Object.keys(rowSelection).length} selected
         </span>
         <Button variant="ghost" size="sm" onClick={reset}>
-          Reset
+          Reset All
         </Button>
       </div>
 
@@ -640,18 +1223,113 @@ function UsersPage({ data }: { data: User[] }) {
 
 ### `useDataTable` Return
 
-| Property           | Type                 | Description                                      |
-| ------------------ | -------------------- | ------------------------------------------------ |
-| `sorting`          | `SortingState`       | Current sort state.                              |
-| `globalFilter`     | `string`             | Current global filter value.                     |
-| `columnFilters`    | `ColumnFiltersState` | Current column filters.                          |
-| `pagination`       | `PaginationState`    | Current pagination state.                        |
-| `rowSelection`     | `RowSelectionState`  | Current row selection.                           |
-| `columnVisibility` | `VisibilityState`    | Current column visibility.                       |
-| `tableProps`       | `object`             | Spread into `<DataTable />` for controlled mode. |
-| `reset`            | `() => void`         | Reset all state to initial values.               |
+| Property                   | Type                             | Description                                      |
+| -------------------------- | -------------------------------- | ------------------------------------------------ |
+| `sorting`                  | `SortingState`                   | Current sort state.                              |
+| `onSortingChange`          | `OnChangeFn<SortingState>`       | Sort state setter (pass to controlled props).    |
+| `globalFilter`             | `string`                         | Current global filter value.                     |
+| `onGlobalFilterChange`     | `OnChangeFn<string>`             | Global filter setter.                            |
+| `columnFilters`            | `ColumnFiltersState`             | Current column filters.                          |
+| `onColumnFiltersChange`    | `OnChangeFn<ColumnFiltersState>` | Column filter setter.                            |
+| `pagination`               | `PaginationState`                | Current pagination state.                        |
+| `onPaginationChange`       | `OnChangeFn<PaginationState>`    | Pagination setter.                               |
+| `rowSelection`             | `RowSelectionState`              | Current row selection map.                       |
+| `onRowSelectionChange`     | `OnChangeFn<RowSelectionState>`  | Row selection setter.                            |
+| `columnVisibility`         | `VisibilityState`                | Current column visibility map.                   |
+| `onColumnVisibilityChange` | `OnChangeFn<VisibilityState>`    | Column visibility setter.                        |
+| `tableProps`               | `object`                         | Spread into `<DataTable />` for controlled mode. |
+| `reset`                    | `() => void`                     | Reset all state to initial values.               |
+
+The `tableProps` object contains all the `*State` and `on*Change` props pre-wired, so you only need a single spread:
+
+```tsx
+const { tableProps } = useDataTable({ data, columns });
+
+// Equivalent to manually passing:
+// sortingState, onSortingChange, globalFilter, onGlobalFilterChange,
+// columnFilters, onColumnFiltersChange, paginationState, onPaginationChange,
+// rowSelectionState, onRowSelectionChange, columnVisibilityState, onColumnVisibilityChange
+<DataTable {...tableProps} data={data} columns={columns} sorting pagination />;
+```
+
+---
+
+## Server-Side Data Pattern
+
+DataTable is optimized for client-side operations, but you can integrate it with server-side data fetching by disabling the built-in client models and managing state externally.
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+	DataTable,
+	type ColumnDef,
+	type SortingState,
+	type PaginationState,
+} from "@work-rjkashyap/unified-ui";
+
+function ServerSideTable() {
+	const [data, setData] = useState<User[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [totalCount, setTotalCount] = useState(0);
+
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 20,
+	});
+
+	useEffect(() => {
+		setLoading(true);
+		const sortParam = sorting[0]
+			? `&sort=${sorting[0].id}&order=${sorting[0].desc ? "desc" : "asc"}`
+			: "";
+
+		fetch(
+			`/api/users?page=${pagination.pageIndex}&size=${pagination.pageSize}${sortParam}`,
+		)
+			.then((res) => res.json())
+			.then(({ rows, total }) => {
+				setData(rows);
+				setTotalCount(total);
+				setLoading(false);
+			});
+	}, [sorting, pagination]);
+
+	return (
+		<DataTable
+			data={data}
+			columns={columns}
+			loading={loading}
+			// Sorting — controlled, server handles the actual sort
+			sorting
+			sortingState={sorting}
+			onSortingChange={setSorting}
+			// Pagination — controlled, server handles page slicing
+			pagination
+			paginationState={pagination}
+			onPaginationChange={setPagination}
+			// Don't pass filtering/showGlobalFilter unless you handle it server-side too
+			hoverable
+			striped
+		/>
+	);
+}
+```
+
+<Callout type="warn">
+	When using server-side pagination, TanStack Table's `pageCount` is derived
+	from your data array length, which may not match the true total. For correct
+	page counts, you may need to pass `manualPagination` and `pageCount`
+	directly via the table instance. Use `onTableInstance` to configure this.
+</Callout>
+
+---
 
 ## Full Kitchen Sink Example
+
+All features enabled simultaneously:
 
 <div className="w-full max-w-3xl mt-4">
 	<DataTableDemo variant="kitchen-sink" />
@@ -669,19 +1347,141 @@ function UsersPage({ data }: { data: User[] }) {
 	pagination
 	pageSize={20}
 	rowSelection="multi"
+	getRowId={(row) => row.id}
 	columnVisibility
 	striped
 	hoverable
 	density="compact"
 	caption="User management table"
+	showFooter
 	onRowClick={(row) => router.push(`/users/${row.original.id}`)}
 	onSelectedRowsChange={(rows) => setSelected(rows)}
+	toolbar={(table) => {
+		const count = table.getFilteredSelectedRowModel().rows.length;
+		return count > 0 ? (
+			<Button variant="danger" size="sm">
+				Delete {count} row(s)
+			</Button>
+		) : null;
+	}}
+	footer={(table) => (
+		<p className="text-xs text-ds-muted-foreground px-2">
+			{table.getFilteredRowModel().rows.length} total records
+		</p>
+	)}
 />
 ```
 
+---
+
+## Faceted Filters
+
+Faceted filters add pill-style toolbar buttons that open a popover with checkbox options derived from a column's unique values. They're ideal for filtering categorical data like status, priority, or labels.
+
+<div className="w-full max-w-4xl mt-4">
+	<DataTableDemo variant="tasks" />
+</div>
+
+### Defining Faceted Filters
+
+Pass an array of `DataTableFacetedFilter` objects to the `facetedFilters` prop:
+
+```tsx
+import {
+	DataTable,
+	type DataTableFacetedFilter,
+	type ColumnDef,
+} from "@work-rjkashyap/unified-ui";
+
+const facetedFilters: DataTableFacetedFilter[] = [
+	{
+		columnId: "status",
+		title: "Status",
+		icon: <CircleDot className="size-3.5" />,
+		options: [
+			{ label: "Todo", value: "Todo", icon: <span>◎</span> },
+			{
+				label: "In-Progress",
+				value: "In-Progress",
+				icon: <span>◑</span>,
+			},
+			{ label: "Done", value: "Done", icon: <span>◉</span> },
+			{ label: "Cancelled", value: "Cancelled", icon: <span>◌</span> },
+		],
+	},
+	{
+		columnId: "priority",
+		title: "Priority",
+		icon: <ArrowUpDown className="size-3.5" />,
+		options: [
+			{ label: "Low", value: "Low", icon: <span>↓</span> },
+			{ label: "Medium", value: "Medium", icon: <span>→</span> },
+			{ label: "High", value: "High", icon: <span>↑</span> },
+		],
+	},
+];
+
+<DataTable
+	data={tasks}
+	columns={taskColumns}
+	sorting
+	multiSort
+	filtering
+	showGlobalFilter
+	globalFilterPlaceholder="Filter tasks..."
+	pagination
+	pageSize={10}
+	rowSelection="multi"
+	columnVisibility
+	hoverable
+	density="compact"
+	facetedFilters={facetedFilters}
+/>;
+```
+
+### `DataTableFacetedFilter` Reference
+
+| Property   | Type                                                   | Required | Description                                                                                       |
+| ---------- | ------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------------------- |
+| `columnId` | `string`                                               | Yes      | The column ID to filter on (must match a `ColumnDef` `accessorKey` or `id`).                      |
+| `title`    | `string`                                               | Yes      | Display label for the filter button.                                                              |
+| `icon`     | `ReactNode`                                            | No       | Icon rendered before the title in the pill button.                                                |
+| `options`  | `{ label: string; value: string; icon?: ReactNode }[]` | No       | Explicit list of filter options. If omitted, options are derived from the column's unique values. |
+
+<Callout type="info">
+Faceted filters require the column to have a `filterFn` that accepts an array of values (e.g. `(row, id, value: string[]) => value.includes(row.getValue(id))`). Without this, selected filter values won't match rows correctly.
+</Callout>
+
+### Header Menu
+
+When you set `enableHeaderMenu: true` in a column's `meta`, clicking the column header opens a dropdown menu with **Sort Ascending**, **Sort Descending**, and **Hide Column** actions instead of the default toggle-sort behavior.
+
+```tsx
+const columns: ColumnDef<Task>[] = [
+	{
+		accessorKey: "status",
+		header: "Status",
+		meta: {
+			enableHeaderMenu: true,
+		} satisfies DataTableColumnMeta,
+	},
+];
+```
+
+### Sort Badge & View Button
+
+When faceted filters are enabled, the toolbar automatically includes:
+
+- **Sort Badge** — Shows the number of active sort columns. Click to clear all sorts or remove individual ones.
+- **View Button** — Opens a dropdown to toggle column visibility directly from the toolbar.
+
+These controls appear alongside the global filter and faceted filter pills, giving the user a complete data exploration toolbar without any extra configuration.
+
+---
+
 ## Column Meta
 
-Use the `meta` field on column definitions to control Unified UI-specific behavior:
+Use the `meta` field on column definitions to control Unified UI–specific behavior:
 
 ```tsx
 const columns: ColumnDef<Person>[] = [
@@ -692,9 +1492,9 @@ const columns: ColumnDef<Person>[] = [
 			align: "left", // "left" | "center" | "right"
 			sticky: true, // Sticky header for this column
 			filterable: true, // Show per-column filter input
-			filterPlaceholder: "...", // Filter input placeholder
-			headerClassName: "...", // Extra class for <th>
-			cellClassName: "...", // Extra class for <td>
+			filterPlaceholder: "…", // Filter input placeholder
+			headerClassName: "…", // Extra class for <th>
+			cellClassName: "…", // Extra class for <td>
 		},
 	},
 ];
@@ -711,6 +1511,49 @@ const columns: ColumnDef<Person>[] = [
 | `headerClassName`   | `string`                        | —             | Additional CSS class for the header cell.        |
 | `cellClassName`     | `string`                        | —             | Additional CSS class for body cells.             |
 
+---
+
+## Data Attributes
+
+The DataTable and its sub-elements emit semantic `data-ds-*` attributes for styling hooks, testing, and DevTools inspection:
+
+| Attribute                                      | Element             | Description                            |
+| ---------------------------------------------- | ------------------- | -------------------------------------- |
+| `data-ds-component="data-table"`               | Root wrapper        | Identifies the DataTable root          |
+| `data-ds-component="data-table-toolbar"`       | Toolbar container   | Toolbar area above the table           |
+| `data-ds-component="data-table-search"`        | Global filter input | The search input element               |
+| `data-ds-component="data-table-column-filter"` | Column filter input | Per-column filter input under header   |
+| `data-ds-component="data-table-column-toggle"` | Columns button      | Column visibility toggle button        |
+| `data-ds-component="data-table-column-menu"`   | Columns dropdown    | Column visibility dropdown menu        |
+| `data-ds-component="data-table-pagination"`    | Pagination bar      | Pagination controls container          |
+| `data-ds-row-index="even"` / `"odd"`           | Table row           | Row parity — useful for custom styling |
+
+### Targeting in CSS
+
+```css
+/* Style the DataTable wrapper */
+[data-ds-component="data-table"] {
+	/* custom styles */
+}
+
+/* Style only even rows */
+[data-ds-row-index="even"] {
+	background: var(--custom-row-bg);
+}
+```
+
+### Targeting in Tests
+
+```tsx
+// Testing library
+screen.getByTestId is not needed — use data attributes:
+const table = container.querySelector('[data-ds-component="data-table"]');
+const searchInput = container.querySelector('[data-ds-component="data-table-search"]');
+const paginationBar = container.querySelector('[data-ds-component="data-table-pagination"]');
+```
+
+---
+
 ## Props
 
 ### DataTable
@@ -719,12 +1562,13 @@ const columns: ColumnDef<Person>[] = [
 | -------------------------- | --------------------------------------- | ----------------------- | ---------------------------------------------- |
 | `data`                     | `TData[]`                               | **required**            | Array of data objects.                         |
 | `columns`                  | `ColumnDef<TData>[]`                    | **required**            | TanStack Table column definitions.             |
+| `getRowId`                 | `(row: TData, index: number) => string` | Row index               | Custom row ID accessor for stable keys.        |
 | `sorting`                  | `boolean`                               | `false`                 | Enable client-side sorting.                    |
 | `sortingState`             | `SortingState`                          | —                       | Controlled sorting state.                      |
 | `onSortingChange`          | `OnChangeFn<SortingState>`              | —                       | Controlled sorting callback.                   |
-| `multiSort`                | `boolean`                               | `false`                 | Enable multi-column sorting.                   |
+| `multiSort`                | `boolean`                               | `false`                 | Enable multi-column sorting (Shift+click).     |
 | `filtering`                | `boolean`                               | `false`                 | Enable client-side filtering.                  |
-| `showGlobalFilter`         | `boolean`                               | `false`                 | Show global search input.                      |
+| `showGlobalFilter`         | `boolean`                               | `false`                 | Show global search input in toolbar.           |
 | `globalFilterPlaceholder`  | `string`                                | `"Search..."`           | Global filter placeholder text.                |
 | `globalFilter`             | `string`                                | —                       | Controlled global filter value.                |
 | `onGlobalFilterChange`     | `OnChangeFn<string>`                    | —                       | Controlled global filter callback.             |
@@ -740,10 +1584,11 @@ const columns: ColumnDef<Person>[] = [
 | `onRowSelectionChange`     | `OnChangeFn<RowSelectionState>`         | —                       | Controlled selection callback.                 |
 | `onSelectedRowsChange`     | `(rows: Row<TData>[]) => void`          | —                       | Convenience callback with full Row objects.    |
 | `enableRowSelection`       | `boolean \| (row: Row) => boolean`      | `true`                  | Enable/disable row selection per-row.          |
-| `getRowId`                 | `(row: TData, index: number) => string` | —                       | Custom row ID accessor.                        |
 | `columnVisibility`         | `boolean`                               | `false`                 | Enable column visibility toggling.             |
 | `columnVisibilityState`    | `VisibilityState`                       | —                       | Controlled visibility state.                   |
 | `onColumnVisibilityChange` | `OnChangeFn<VisibilityState>`           | —                       | Controlled visibility callback.                |
+| `columnPinning`            | `ColumnPinningState`                    | —                       | Controlled column pinning state.               |
+| `onColumnPinningChange`    | `OnChangeFn<ColumnPinningState>`        | —                       | Controlled column pinning callback.            |
 | `density`                  | `"compact" \| "comfortable"`            | `"comfortable"`         | Row height density.                            |
 | `striped`                  | `boolean`                               | `false`                 | Alternating row backgrounds.                   |
 | `hoverable`                | `boolean`                               | `true`                  | Highlight rows on hover.                       |
@@ -751,67 +1596,147 @@ const columns: ColumnDef<Person>[] = [
 | `responsive`               | `boolean`                               | `true`                  | Horizontal scroll wrapper.                     |
 | `loading`                  | `boolean`                               | `false`                 | Show loading skeleton.                         |
 | `emptyState`               | `ReactNode`                             | `"No results."`         | Custom empty state content.                    |
-| `caption`                  | `ReactNode`                             | —                       | Accessible table caption.                      |
-| `showFooter`               | `boolean`                               | `false`                 | Render column footer definitions.              |
-| `toolbar`                  | `ReactNode \| (table) => ReactNode`     | —                       | Custom toolbar content.                        |
-| `footer`                   | `ReactNode \| (table) => ReactNode`     | —                       | Custom footer content.                         |
+| `caption`                  | `ReactNode`                             | —                       | Accessible table caption (`<caption>`).        |
+| `showFooter`               | `boolean`                               | `false`                 | Render column footer definitions in `<tfoot>`. |
+| `toolbar`                  | `ReactNode \| (table) => ReactNode`     | —                       | Custom toolbar content (above table).          |
+| `footer`                   | `ReactNode \| (table) => ReactNode`     | —                       | Custom footer content (below table).           |
 | `className`                | `string`                                | —                       | Root wrapper classes.                          |
-| `tableClassName`           | `string`                                | —                       | Table element classes.                         |
-| `wrapperClassName`         | `string`                                | —                       | Responsive wrapper classes.                    |
+| `tableClassName`           | `string`                                | —                       | `<table>` element classes.                     |
+| `wrapperClassName`         | `string`                                | —                       | Responsive scroll wrapper classes.             |
 | `onRowClick`               | `(row: Row, event: MouseEvent) => void` | —                       | Row click handler.                             |
 | `onTableInstance`          | `(table: Table) => void`                | —                       | Exposes the TanStack Table instance.           |
+
+---
 
 ## Accessibility
 
 <Callout type="info">
 	DataTable renders using the same semantic Table primitives (`table`,
 	`thead`, `tbody`, `tfoot`, `tr`, `th`, `td`) ensuring full screen reader
-	support.
+	support without additional configuration.
 </Callout>
 
-- Sortable column headers include `aria-sort` attributes (`ascending`, `descending`, `none`).
-- Sort toggle buttons have descriptive `aria-label` text indicating the current state and next action.
-- Row selection checkboxes include `aria-label` for each row and a "Select all" label on the header checkbox.
-- Selected rows are marked with `aria-selected="true"`.
-- The global search and column filter inputs are properly labeled.
-- Focus rings are visible on all interactive elements when navigated via keyboard.
-- The column visibility dropdown uses `role="menu"` and supports Escape to close.
-- `TableCaption` provides an accessible description via the native `<caption>` element.
+- **Semantic HTML** — Uses native `<table>` elements for automatic screen reader table navigation.
+- **Sort indicators** — Sortable column headers include `aria-sort` attributes (`ascending`, `descending`, `none`). Sort toggle buttons have descriptive `aria-label` text.
+- **Selection checkboxes** — Each row checkbox has an `aria-label` (e.g. "Select row 3"). The header checkbox is labeled "Select all rows". Indeterminate state is correctly set when some (but not all) rows are selected.
+- **Selected rows** — Active selections are marked with `aria-selected="true"` on the row.
+- **Focus rings** — All interactive elements (checkboxes, pagination buttons, filter inputs, column toggle, sort headers) display visible focus rings using `--ds-color-focus-ring`.
+- **Keyboard navigation** — Tab through interactive elements in reading order. Sort headers respond to Enter/Space. The column visibility dropdown closes on Escape.
+- **Caption** — The `caption` prop renders a native `<caption>` element for table description.
+- **Column visibility menu** — Uses `role="menu"` with keyboard-dismissable overlay.
+- **Disabled states** — Disabled checkboxes and pagination buttons include `disabled` attribute and visual dimming.
+
+---
 
 ## Design Tokens
 
-| Token                         | Usage                                               |
-| ----------------------------- | --------------------------------------------------- |
-| `--ds-color-primary`          | Checkbox accent, focus ring color                   |
-| `--ds-color-border`           | Table borders, input borders, pagination buttons    |
-| `--ds-color-border-muted`     | Row dividers, column filter borders                 |
-| `--ds-color-muted`            | Striped row background, header background, skeleton |
-| `--ds-color-foreground`       | Cell text, button text                              |
-| `--ds-color-muted-foreground` | Caption, pagination info, placeholder text          |
-| `--ds-color-background`       | Input backgrounds, button backgrounds               |
-| `--ds-color-popover`          | Column visibility dropdown background               |
-| `--ds-color-primary-muted`    | Selected row background                             |
-| `--ds-radius-sm`              | Filter inputs, checkboxes                           |
-| `--ds-radius-md`              | Search input, buttons, dropdown                     |
-| `--ds-shadow-md`              | Column visibility dropdown                          |
-| `--ds-duration-fast`          | Hover and focus transitions                         |
+Every visual property in DataTable comes from CSS custom properties. Override these tokens to restyle the entire component without touching its source.
+
+| Token                           | Usage                                               |
+| ------------------------------- | --------------------------------------------------- |
+| `--ds-color-primary`            | Checkbox accent color, focus ring base              |
+| `--ds-color-border`             | Table borders, input borders, pagination buttons    |
+| `--ds-color-border-muted`       | Row dividers, column filter input borders           |
+| `--ds-color-muted`              | Striped row background, header background, skeleton |
+| `--ds-color-foreground`         | Cell text, button text, header text                 |
+| `--ds-color-muted-foreground`   | Caption, pagination info, placeholder text          |
+| `--ds-color-background`         | Input backgrounds, button backgrounds               |
+| `--ds-color-popover`            | Column visibility dropdown background               |
+| `--ds-color-popover-foreground` | Column visibility dropdown text                     |
+| `--ds-color-primary-muted`      | Selected row background highlight                   |
+| `--ds-color-focus-ring`         | Focus ring on all interactive elements              |
+| `--ds-radius-sm`                | Filter inputs, checkboxes, skeleton bars            |
+| `--ds-radius-md`                | Search input, pagination buttons, dropdown          |
+| `--ds-shadow-md`                | Column visibility dropdown shadow                   |
+| `--ds-duration-fast`            | Hover and focus transition speed                    |
+| `--ds-z-dropdown`               | Column visibility dropdown z-index (default: 40)    |
+
+### Scoped Token Override Example
+
+```css
+/* Make DataTable use a blue accent instead of the global primary */
+[data-ds-component="data-table"] {
+	--ds-color-primary: 37 99 235;
+	--ds-color-primary-muted: 219 234 254;
+	--ds-color-focus-ring: 59 130 246;
+}
+```
+
+---
 
 ## Relationship to Table
 
-`DataTable` is a **higher-level** component built on top of the existing [Table](/components/table) primitives. Here's how they relate:
+`DataTable` is a **higher-level** component built on top of the existing [Table](/components/table) primitives. Here's how they compare:
 
 | Aspect                | `Table`                           | `DataTable`                          |
 | --------------------- | --------------------------------- | ------------------------------------ |
 | **Level**             | Low-level primitives              | High-level, feature-rich             |
-| **Data**              | Manual row rendering              | Declarative via `data` + `columns`   |
-| **Sorting**           | Visual-only indicators            | Full client-side sorting logic       |
+| **Data**              | Manual row rendering via JSX      | Declarative via `data` + `columns`   |
+| **Sorting**           | Visual-only `sortDirection` prop  | Full client-side sorting logic       |
 | **Filtering**         | Not included                      | Global + per-column filtering        |
 | **Pagination**        | Not included                      | Built-in pagination bar              |
 | **Selection**         | Not included                      | Single/multi row selection           |
 | **Column visibility** | Not included                      | Toggle dropdown                      |
+| **Column pinning**    | Not included                      | Left/right pinning                   |
 | **Dependencies**      | None (pure HTML/CSS)              | `@tanstack/react-table`              |
+| **Bundle size**       | ~2 KB                             | ~15 KB (+ TanStack Table)            |
 | **Use when**          | Custom table layouts, static data | Dynamic data, CRUD views, dashboards |
 
-Use `Table` when you need full control over markup. Use `DataTable` when you want batteries-included data management.
+### Migration from Table to DataTable
+
+If you're upgrading from manual `Table` markup:
+
+<Tabs items={["Before (Table)", "After (DataTable)"]}>
+
+<Tab value="Before (Table)">
+	```tsx
+	<Table density="compact" striped>
+		<TableHeader>
+			<TableRow>
+				<TableHead sortable sorted={sortDir} onSort={handleSort}>
+					Name
+				</TableHead>
+				<TableHead align="right">Amount</TableHead>
+			</TableRow>
+		</TableHeader>
+		<TableBody>
+			{paginatedData.map((row) => (
+				<TableRow key={row.id}>
+					<TableCell>{row.name}</TableCell>
+					<TableCell align="right">${row.amount}</TableCell>
+				</TableRow>
+			))}
+		</TableBody>
+	</Table>
+	{/* Plus manual sort state, pagination logic, selection state... */}
+	```
+</Tab>
+
+<Tab value="After (DataTable)">
+```tsx
+const columns: ColumnDef<Invoice>[] = [
+	{ accessorKey: "name", header: "Name" },
+	{
+		accessorKey: "amount",
+		header: "Amount",
+		cell: ({ getValue }) => `$${getValue()}`,
+		meta: { align: "right" },
+	},
+];
+
+<DataTable
+	data={data}
+	columns={columns}
+	sorting
+	pagination
+	density="compact"
+	striped
+/>
+```
+</Tab>
+
+</Tabs>
+
+The DataTable handles all the state management, sort logic, pagination slicing, and keyboard accessibility that you'd otherwise implement manually.
 
 </ComponentPage>

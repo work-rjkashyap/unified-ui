@@ -66,7 +66,7 @@ export function DocsSidebar({
 						/>
 					)}
 				</div>
-				<div className="flex-1 min-h-0">{viewport}</div>
+				<div className="flex-1 min-h-0 flex flex-col">{viewport}</div>
 				<div
 					className={cn(
 						"hidden flex-row text-fd-muted-foreground items-center border-t border-fd-border/40 p-4 pt-2 mt-auto",

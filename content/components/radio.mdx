@@ -4,60 +4,122 @@ description: A radio group component with standard and card variants, built on R
 icon: CircleDot
 ---
 
-import { RadioGroup, RadioGroupItem, RadioCard } from "@work-rjkashyap/unified-ui";
+import {
+	RadioGroup,
+	RadioGroupItem,
+	RadioCard,
+} from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Radio"
-  description="A radio group for selecting a single option from a set. Supports standard radio buttons and a card variant for richer selection UIs."
-  preview={
-    <div className="flex flex-col gap-6 w-full max-w-xs">
-      <RadioGroup defaultValue="option-1">
-        <RadioGroupItem value="option-1" label="Option One" />
-        <RadioGroupItem value="option-2" label="Option Two" />
-        <RadioGroupItem value="option-3" label="Option Three" />
-      </RadioGroup>
-    </div>
-  }
-  code={`<RadioGroup defaultValue="option-1">
-  <RadioGroupItem value="option-1" label="Option One" />
-  <RadioGroupItem value="option-2" label="Option Two" />
-  <RadioGroupItem value="option-3" label="Option Three" />
-</RadioGroup>`}
->
+## Overview
+
+The `RadioGroup` component is used for selecting a single option from a set. It supports standard radio buttons, a card variant for richer selection UIs, descriptions, two sizes, horizontal/vertical orientation, and disabled states.
+
+---
 
 ## Import
 
 ```tsx
-import { RadioGroup, RadioGroupItem, RadioCard } from "@work-rjkashyap/unified-ui";
+import {
+	RadioGroup,
+	RadioGroupItem,
+	RadioCard,
+} from "@work-rjkashyap/unified-ui";
 // or
-import { RadioGroup, RadioGroupItem, RadioCard } from "@work-rjkashyap/unified-ui/components";
+import {
+	RadioGroup,
+	RadioGroupItem,
+	RadioCard,
+} from "@work-rjkashyap/unified-ui/components";
 ```
 
-## Basic Usage
+---
 
-The `RadioGroup` wraps `RadioGroupItem` children and manages the selected value. Use `defaultValue` for uncontrolled mode or `value` + `onValueChange` for controlled mode.
+## Examples
 
-```tsx
-// Uncontrolled
-<RadioGroup defaultValue="a">
-  <RadioGroupItem value="a" label="Option A" />
-  <RadioGroupItem value="b" label="Option B" />
-  <RadioGroupItem value="c" label="Option C" />
+### Basic Usage
+
+<ComponentPage
+	title="Basic Radio Group"
+	description="The simplest radio group with labeled options. Use defaultValue for uncontrolled mode."
+	preview={
+		<div className="w-full max-w-xs">
+			<RadioGroup defaultValue="option-1">
+				<RadioGroupItem value="option-1" label="Option One" />
+				<RadioGroupItem value="option-2" label="Option Two" />
+				<RadioGroupItem value="option-3" label="Option Three" />
+			</RadioGroup>
+		</div>
+	}
+	code={`<RadioGroup defaultValue="option-1">
+  <RadioGroupItem value="option-1" label="Option One" />
+  <RadioGroupItem value="option-2" label="Option Two" />
+  <RadioGroupItem value="option-3" label="Option Three" />
+</RadioGroup>`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="Radio Sizes"
+	description="Two sizes are available for different density requirements."
+	preview={
+		<div className="flex flex-col gap-8 w-full max-w-xs">
+			<RadioGroup size="sm" defaultValue="a">
+				<RadioGroupItem value="a" label="Small radio" />
+				<RadioGroupItem value="b" label="Small radio" />
+				<RadioGroupItem value="c" label="Small radio" />
+			</RadioGroup>
+			<RadioGroup size="md" defaultValue="a">
+				<RadioGroupItem value="a" label="Medium radio (default)" />
+				<RadioGroupItem value="b" label="Medium radio" />
+				<RadioGroupItem value="c" label="Medium radio" />
+			</RadioGroup>
+		</div>
+	}
+	code={`{/* Small */}
+<RadioGroup size="sm" defaultValue="a">
+  <RadioGroupItem value="a" label="Small radio" />
+  <RadioGroupItem value="b" label="Small radio" />
+  <RadioGroupItem value="c" label="Small radio" />
 </RadioGroup>
 
-// Controlled
-<RadioGroup value={selected} onValueChange={setSelected}>
-  <RadioGroupItem value="a" label="Option A" />
-  <RadioGroupItem value="b" label="Option B" />
-</RadioGroup>
-```
+{/* Medium (default) */}
 
-## With Descriptions
+<RadioGroup size="md" defaultValue="a">
+  <RadioGroupItem value="a" label="Medium radio (default)" />
+  <RadioGroupItem value="b" label="Medium radio" />
+  <RadioGroupItem value="c" label="Medium radio" />
+</RadioGroup>`}
+/>
 
-Each radio item can include a `description` for additional context.
+### With Descriptions
 
-```tsx
-<RadioGroup defaultValue="email">
+<ComponentPage
+	title="With Descriptions"
+	description="Each radio item can include a description for additional context."
+	preview={
+		<div className="w-full max-w-sm">
+			<RadioGroup defaultValue="email">
+				<RadioGroupItem
+					value="email"
+					label="Email notifications"
+					description="Receive updates via email. Best for daily summaries."
+				/>
+				<RadioGroupItem
+					value="sms"
+					label="SMS notifications"
+					description="Get instant alerts via text message."
+				/>
+				<RadioGroupItem
+					value="push"
+					label="Push notifications"
+					description="Real-time notifications in the browser."
+				/>
+			</RadioGroup>
+		</div>
+	}
+	code={`<RadioGroup defaultValue="email">
   <RadioGroupItem
     value="email"
     label="Email notifications"
@@ -73,43 +135,57 @@ Each radio item can include a `description` for additional context.
     label="Push notifications"
     description="Real-time notifications in the browser."
   />
-</RadioGroup>
-```
+</RadioGroup>`}
+/>
 
-## Sizes
+### Horizontal Orientation
 
-Two sizes are available for different density requirements.
-
-```tsx
-<RadioGroup size="sm" defaultValue="a">
-  <RadioGroupItem value="a" label="Small radio" />
-  <RadioGroupItem value="b" label="Small radio" />
-</RadioGroup>
-
-<RadioGroup size="md" defaultValue="a">
-  <RadioGroupItem value="a" label="Medium radio (default)" />
-  <RadioGroupItem value="b" label="Medium radio" />
-</RadioGroup>
-```
-
-## Orientation
-
-By default, radio items stack vertically. Set `orientation="horizontal"` for inline layout.
-
-```tsx
-<RadioGroup orientation="horizontal" defaultValue="left">
+<ComponentPage
+	title="Horizontal Orientation"
+	description="Set orientation to horizontal for inline layout."
+	preview={
+		<div className="w-full max-w-sm">
+			<RadioGroup orientation="horizontal" defaultValue="left">
+				<RadioGroupItem value="left" label="Left" />
+				<RadioGroupItem value="center" label="Center" />
+				<RadioGroupItem value="right" label="Right" />
+			</RadioGroup>
+		</div>
+	}
+	code={`<RadioGroup orientation="horizontal" defaultValue="left">
   <RadioGroupItem value="left" label="Left" />
   <RadioGroupItem value="center" label="Center" />
   <RadioGroupItem value="right" label="Right" />
-</RadioGroup>
-```
+</RadioGroup>`}
+/>
 
-## Radio Card Variant
+### Radio Card Variant
 
-The `RadioCard` variant renders each option as a full clickable card. Ideal for plan selectors, shipping options, and other rich selection interfaces.
-
-```tsx
-<RadioGroup defaultValue="starter">
+<ComponentPage
+	title="Radio Card"
+	description="The RadioCard variant renders each option as a full clickable card. Ideal for plan selectors, shipping options, and other rich selection interfaces."
+	preview={
+		<div className="w-full max-w-sm">
+			<RadioGroup defaultValue="starter">
+				<RadioCard
+					value="starter"
+					label="Starter"
+					description="For individuals and small projects. 5 GB storage."
+				/>
+				<RadioCard
+					value="pro"
+					label="Pro"
+					description="For growing teams. 50 GB storage, priority support."
+				/>
+				<RadioCard
+					value="enterprise"
+					label="Enterprise"
+					description="Custom limits, dedicated support, SLA."
+				/>
+			</RadioGroup>
+		</div>
+	}
+	code={`<RadioGroup defaultValue="starter">
   <RadioCard
     value="starter"
     label="Starter"
@@ -125,65 +201,162 @@ The `RadioCard` variant renders each option as a full clickable card. Ideal for 
     label="Enterprise"
     description="Custom limits, dedicated support, SLA."
   />
-</RadioGroup>
-```
+</RadioGroup>`}
+/>
 
-## Disabled State
+### Disabled State
 
-Disable the entire group or individual items.
-
-```tsx
-{/* Entire group disabled */}
+<ComponentPage
+	title="Disabled State"
+	description="Disable the entire group or individual items."
+	preview={
+		<div className="flex flex-col gap-8 w-full max-w-xs">
+			<RadioGroup disabled defaultValue="a">
+				<RadioGroupItem value="a" label="Disabled group — Option A" />
+				<RadioGroupItem value="b" label="Disabled group — Option B" />
+			</RadioGroup>
+			<RadioGroup defaultValue="a">
+				<RadioGroupItem value="a" label="Available" />
+				<RadioGroupItem value="b" label="Unavailable" disabled />
+				<RadioGroupItem value="c" label="Available" />
+			</RadioGroup>
+		</div>
+	}
+	code={`{/* Entire group disabled */}
 <RadioGroup disabled defaultValue="a">
-  <RadioGroupItem value="a" label="Option A" />
-  <RadioGroupItem value="b" label="Option B" />
+  <RadioGroupItem value="a" label="Disabled group — Option A" />
+  <RadioGroupItem value="b" label="Disabled group — Option B" />
 </RadioGroup>
 
 {/* Individual item disabled */}
+
 <RadioGroup defaultValue="a">
   <RadioGroupItem value="a" label="Available" />
   <RadioGroupItem value="b" label="Unavailable" disabled />
   <RadioGroupItem value="c" label="Available" />
+</RadioGroup>`}
+/>
+
+### Combined Features
+
+<ComponentPage
+	title="Combined Features"
+	description="All features can be composed together for real-world use cases."
+	preview={
+		<div className="flex flex-col gap-8 w-full max-w-sm">
+			<RadioGroup defaultValue="standard" size="sm">
+				<RadioGroupItem
+					value="standard"
+					label="Standard shipping"
+					description="5–7 business days"
+				/>
+				<RadioGroupItem
+					value="express"
+					label="Express shipping"
+					description="2–3 business days"
+				/>
+				<RadioGroupItem
+					value="overnight"
+					label="Overnight"
+					description="Next business day"
+					disabled
+				/>
+			</RadioGroup>
+			<RadioGroup defaultValue="monthly">
+				<RadioCard
+					value="monthly"
+					label="Monthly"
+					description="$9/month — Cancel anytime."
+				/>
+				<RadioCard
+					value="yearly"
+					label="Yearly"
+					description="$89/year — Save 18%."
+				/>
+			</RadioGroup>
+		</div>
+	}
+	code={`{/* Small radio group with descriptions and disabled item */}
+<RadioGroup defaultValue="standard" size="sm">
+  <RadioGroupItem
+    value="standard"
+    label="Standard shipping"
+    description="5–7 business days"
+  />
+  <RadioGroupItem
+    value="express"
+    label="Express shipping"
+    description="2–3 business days"
+  />
+  <RadioGroupItem
+    value="overnight"
+    label="Overnight"
+    description="Next business day"
+    disabled
+  />
 </RadioGroup>
-```
+
+{/* Card variant for plan selection */}
+
+<RadioGroup defaultValue="monthly">
+  <RadioCard
+    value="monthly"
+    label="Monthly"
+    description="$9/month — Cancel anytime."
+  />
+  <RadioCard
+    value="yearly"
+    label="Yearly"
+    description="$89/year — Save 18%."
+  />
+</RadioGroup>`}
+/>
+
+---
 
 ## Props
 
 ### RadioGroup
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | — | Controlled selected value. |
-| `defaultValue` | `string` | — | Initial selected value (uncontrolled). |
-| `onValueChange` | `(value: string) => void` | — | Callback when the selection changes. |
-| `size` | `"sm" \| "md"` | `"md"` | Size of all radio items in the group. |
-| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Layout direction of items. |
-| `disabled` | `boolean` | `false` | Disables all items in the group. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop            | Type                         | Default      | Description                            |
+| --------------- | ---------------------------- | ------------ | -------------------------------------- |
+| `value`         | `string`                     | —            | Controlled selected value.             |
+| `defaultValue`  | `string`                     | —            | Initial selected value (uncontrolled). |
+| `onValueChange` | `(value: string) => void`    | —            | Callback when the selection changes.   |
+| `size`          | `"sm" \| "md"`               | `"md"`       | Size of all radio items in the group.  |
+| `orientation`   | `"vertical" \| "horizontal"` | `"vertical"` | Layout direction of items.             |
+| `disabled`      | `boolean`                    | `false`      | Disables all items in the group.       |
+| `className`     | `string`                     | —            | Additional CSS classes.                |
 
 ### RadioGroupItem
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | **Required** | The value of this radio item. |
-| `label` | `ReactNode` | — | Clickable label text. |
-| `description` | `ReactNode` | — | Additional description below the label. |
-| `disabled` | `boolean` | `false` | Disables this individual item. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop          | Type        | Default      | Description                             |
+| ------------- | ----------- | ------------ | --------------------------------------- |
+| `value`       | `string`    | **Required** | The value of this radio item.           |
+| `label`       | `ReactNode` | —            | Clickable label text.                   |
+| `description` | `ReactNode` | —            | Additional description below the label. |
+| `disabled`    | `boolean`   | `false`      | Disables this individual item.          |
+| `className`   | `string`    | —            | Additional CSS classes.                 |
 
 ### RadioCard
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | **Required** | The value of this radio card. |
-| `label` | `ReactNode` | — | Card title / label text. |
-| `description` | `ReactNode` | — | Description text below the label. |
-| `disabled` | `boolean` | `false` | Disables this card. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop          | Type        | Default      | Description                       |
+| ------------- | ----------- | ------------ | --------------------------------- |
+| `value`       | `string`    | **Required** | The value of this radio card.     |
+| `label`       | `ReactNode` | —            | Card title / label text.          |
+| `description` | `ReactNode` | —            | Description text below the label. |
+| `disabled`    | `boolean`   | `false`      | Disables this card.               |
+| `className`   | `string`    | —            | Additional CSS classes.           |
+
+---
 
 ## Accessibility
 
-- Built on **Radix UI's Radio Group** primitive for full keyboard and screen reader support.
+<Callout type="info">
+	Built on **Radix UI's Radio Group** primitive for full keyboard and screen
+	reader support out of the box.
+</Callout>
+
 - **Arrow keys** navigate between items within the group.
 - **Space** selects the focused item.
 - Each item has proper `role="radio"` and `aria-checked` attributes.
@@ -191,4 +364,18 @@ Disable the entire group or individual items.
 - Focus ring is visible on keyboard navigation only (`focus-visible`).
 - Disabled items are excluded from the tab order and marked with `aria-disabled`.
 
-</ComponentPage>
+---
+
+## Design Tokens
+
+The Radio components use the following design system tokens:
+
+| Token                           | Usage                      |
+| ------------------------------- | -------------------------- |
+| `--ds-color-primary`            | Selected indicator color   |
+| `--ds-color-primary-foreground` | Selected indicator dot     |
+| `--ds-color-border`             | Default border color       |
+| `--ds-color-muted-foreground`   | Description text color     |
+| `--ds-radius-full`              | Radio circle border radius |
+| `--ds-radius-md`                | RadioCard border radius    |
+| `--ds-duration-fast`            | Transition speed           |

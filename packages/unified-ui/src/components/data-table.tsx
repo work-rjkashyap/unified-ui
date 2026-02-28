@@ -45,8 +45,11 @@ import {
 	type SortingState,
 	type Table as TanStackTable,
 	type VisibilityState,
+	type Column,
 	flexRender,
 	getCoreRowModel,
+	getFacetedRowModel,
+	getFacetedUniqueValues,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
@@ -56,7 +59,9 @@ import {
 	type ReactNode,
 	forwardRef,
 	useCallback,
+	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from "react";
 
@@ -111,6 +116,35 @@ export interface DataTableColumnMeta {
 	filterable?: boolean;
 	/** Placeholder text for the column filter input. */
 	filterPlaceholder?: string;
+	/**
+	 * Enable a dropdown header menu (Asc / Desc / Hide) on this column.
+	 * When `true`, clicking the column header opens a dropdown instead of
+	 * directly toggling the sort direction.
+	 * @default false
+	 */
+	enableHeaderMenu?: boolean;
+}
+
+/**
+ * Configuration for a faceted filter button shown in the toolbar.
+ * Each entry creates a pill-style button that opens a popover with
+ * checkbox options derived from the column's unique values.
+ */
+export interface DataTableFacetedFilter {
+	/** The column ID to filter on (must match a `ColumnDef` accessorKey or id). */
+	columnId: string;
+	/** Display label for the filter button. */
+	title: string;
+	/**
+	 * Optional icon rendered before the title.
+	 * Pass a React element (e.g. a Lucide icon).
+	 */
+	icon?: ReactNode;
+	/**
+	 * Explicit list of filter options. If omitted the component will
+	 * derive options from the column's unique faceted values.
+	 */
+	options?: { label: string; value: string; icon?: ReactNode }[];
 }
 
 // ---------------------------------------------------------------------------
@@ -128,6 +162,15 @@ export interface DataTableProps<TData> {
 	 * @see https://tanstack.com/table/latest/docs/guide/column-defs
 	 */
 	columns: ColumnDef<TData, any>[];
+
+	// -- Faceted Filters ------------------------------------------------------
+
+	/**
+	 * Faceted filter buttons rendered in the toolbar.
+	 * Each entry creates a pill-style button that opens a checkbox popover
+	 * filtered by that column's unique values.
+	 */
+	facetedFilters?: DataTableFacetedFilter[];
 
 	// -- Sorting --------------------------------------------------------------
 
@@ -368,6 +411,428 @@ export interface DataTableProps<TData> {
 }
 
 // ---------------------------------------------------------------------------
+// Internal: Dropdown wrapper (click-outside aware)
+// ---------------------------------------------------------------------------
+
+function Dropdown({
+	trigger,
+	children,
+	align = "start",
+}: {
+	trigger: ReactNode;
+	children: ReactNode;
+	align?: "start" | "end";
+}) {
+	const [open, setOpen] = useState(false);
+	const ref = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (!open) return;
+		function handleClick(e: MouseEvent) {
+			if (ref.current && !ref.current.contains(e.target as Node)) {
+				setOpen(false);
+			}
+		}
+		function handleKey(e: KeyboardEvent) {
+			if (e.key === "Escape") setOpen(false);
+		}
+		document.addEventListener("mousedown", handleClick);
+		document.addEventListener("keydown", handleKey);
+		return () => {
+			document.removeEventListener("mousedown", handleClick);
+			document.removeEventListener("keydown", handleKey);
+		};
+	}, [open]);
+
+	return (
+		<div ref={ref} className="relative">
+			<div
+				onClick={() => setOpen((v) => !v)}
+				onKeyDown={(e) => {
+					if (e.key === "Enter" || e.key === " ") {
+						e.preventDefault();
+						setOpen((v) => !v);
+					}
+				}}
+			>
+				{trigger}
+			</div>
+			{open && (
+				<div
+					className={cn(
+						"absolute top-full z-[var(--ds-z-dropdown,40)] mt-1",
+						align === "end" ? "right-0" : "left-0",
+						"min-w-[8rem] rounded-ds-md py-1",
+						"border border-ds-border bg-ds-popover text-ds-popover-foreground",
+						"shadow-ds-md",
+					)}
+					role="menu"
+					data-ds=""
+					data-ds-component="data-table-dropdown"
+				>
+					{children}
+				</div>
+			)}
+		</div>
+	);
+}
+
+function DropdownItem({
+	children,
+	onClick,
+	active,
+}: {
+	children: ReactNode;
+	onClick?: () => void;
+	active?: boolean;
+}) {
+	return (
+		<button
+			type="button"
+			role="menuitem"
+			onClick={onClick}
+			className={cn(
+				"flex w-full items-center gap-2 px-2 py-1.5 text-sm",
+				"cursor-pointer rounded-ds-sm",
+				active
+					? "bg-ds-muted text-ds-foreground"
+					: "text-ds-foreground hover:bg-ds-muted/50",
+				"transition-colors duration-ds-fast",
+			)}
+		>
+			{children}
+		</button>
+	);
+}
+
+// ---------------------------------------------------------------------------
+// Internal: Column header dropdown menu (Asc / Desc / Hide)
+// ---------------------------------------------------------------------------
+
+function DataTableColumnHeaderMenu<TData>({
+	column,
+	title,
+}: {
+	column: Column<TData, unknown>;
+	title: string;
+}) {
+	const isSorted = column.getIsSorted();
+
+	return (
+		<Dropdown
+			trigger={
+				<button
+					type="button"
+					className={cn(
+						"inline-flex items-center gap-1 -ml-1 px-1 py-0.5",
+						"cursor-pointer select-none rounded-ds-sm",
+						"hover:bg-ds-muted/50",
+						"transition-colors duration-ds-fast",
+						"text-ds-muted-foreground font-semibold whitespace-nowrap",
+					)}
+				>
+					{title}
+					{isSorted === "asc" ? (
+						<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7" /><path d="M12 19V5" /></svg>
+					) : isSorted === "desc" ? (
+						<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+					) : (
+						<svg className="size-3.5 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5" /><path d="m7 9 5-5 5 5" /></svg>
+					)}
+				</button>
+			}
+		>
+			<div className="px-1">
+				<DropdownItem
+					onClick={() => column.toggleSorting(false)}
+					active={isSorted === "asc"}
+				>
+					<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7" /><path d="M12 19V5" /></svg>
+					Asc
+				</DropdownItem>
+				<DropdownItem
+					onClick={() => column.toggleSorting(true)}
+					active={isSorted === "desc"}
+				>
+					<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+					Desc
+				</DropdownItem>
+				{column.getCanHide() && (
+					<>
+						<div className="my-1 h-px bg-ds-border" />
+						<DropdownItem onClick={() => column.toggleVisibility(false)}>
+							<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" /><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" /><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.749 10.749 0 0 1 4.446-5.143" /><path d="m2 2 20 20" /></svg>
+							Hide
+						</DropdownItem>
+					</>
+				)}
+			</div>
+		</Dropdown>
+	);
+}
+
+// ---------------------------------------------------------------------------
+// Internal: Faceted filter button (pill + popover with checkboxes)
+// ---------------------------------------------------------------------------
+
+function DataTableFacetedFilterButton<TData>({
+	column,
+	title,
+	icon,
+	options: explicitOptions,
+}: {
+	column: Column<TData, unknown> | undefined;
+	title: string;
+	icon?: ReactNode;
+	options?: { label: string; value: string; icon?: ReactNode }[];
+}) {
+	if (!column) return null;
+
+	const facets = column.getFacetedUniqueValues();
+	const selectedValues = new Set(
+		(column.getFilterValue() as string[]) ?? [],
+	);
+
+	const options: { label: string; value: string; icon?: ReactNode }[] =
+		explicitOptions ??
+		Array.from(facets.keys())
+			.sort()
+			.map((value) => ({ label: String(value), value: String(value) }));
+
+	const toggleValue = (value: string) => {
+		const next = new Set(selectedValues);
+		if (next.has(value)) {
+			next.delete(value);
+		} else {
+			next.add(value);
+		}
+		const filterValue = next.size > 0 ? Array.from(next) : undefined;
+		column.setFilterValue(filterValue);
+	};
+
+	const clearFilter = () => {
+		column.setFilterValue(undefined);
+	};
+
+	return (
+		<Dropdown
+			trigger={
+				<button
+					type="button"
+					className={cn(
+						"inline-flex items-center gap-1.5 rounded-ds-md px-3 h-8",
+						"text-xs font-medium text-ds-foreground",
+						"border border-dashed border-ds-border bg-ds-background",
+						"hover:bg-ds-muted/50",
+						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
+						"transition-colors duration-ds-fast",
+					)}
+					data-ds=""
+					data-ds-component="data-table-faceted-filter"
+				>
+					{icon && <span className="size-3.5">{icon}</span>}
+					{title}
+					{selectedValues.size > 0 && (
+						<>
+							<span className="mx-0.5 h-4 w-px bg-ds-border" />
+							<span className="inline-flex items-center justify-center rounded-ds-sm bg-ds-muted px-1.5 text-[10px] font-semibold">
+								{selectedValues.size}
+							</span>
+						</>
+					)}
+				</button>
+			}
+		>
+			<div className="px-1 max-h-64 overflow-y-auto">
+				{options.map((option) => {
+					const isSelected = selectedValues.has(option.value);
+					const count = facets.get(option.value);
+					return (
+						<label
+							key={option.value}
+							className={cn(
+								"flex cursor-pointer items-center gap-2 rounded-ds-sm px-2 py-1.5",
+								"text-sm text-ds-foreground",
+								"hover:bg-ds-muted/50",
+								"transition-colors duration-ds-fast",
+							)}
+						>
+							<input
+								type="checkbox"
+								checked={isSelected}
+								onChange={() => toggleValue(option.value)}
+								className="size-3.5 rounded-ds-sm accent-ds-primary"
+							/>
+							{option.icon && (
+								<span className="size-3.5 shrink-0">{option.icon}</span>
+							)}
+							<span className="flex-1 truncate">{option.label}</span>
+							{count !== undefined && (
+								<span className="ml-auto text-xs text-ds-muted-foreground tabular-nums">
+									{count}
+								</span>
+							)}
+						</label>
+					);
+				})}
+				{selectedValues.size > 0 && (
+					<>
+						<div className="my-1 h-px bg-ds-border" />
+						<button
+							type="button"
+							onClick={clearFilter}
+							className={cn(
+								"w-full rounded-ds-sm px-2 py-1.5 text-center text-sm",
+								"text-ds-foreground hover:bg-ds-muted/50",
+								"transition-colors duration-ds-fast",
+							)}
+						>
+							Clear filter
+						</button>
+					</>
+				)}
+			</div>
+		</Dropdown>
+	);
+}
+
+// ---------------------------------------------------------------------------
+// Internal: Sort badge (shows count of sorted columns)
+// ---------------------------------------------------------------------------
+
+function DataTableSortBadge<TData>({
+	table,
+}: {
+	table: TanStackTable<TData>;
+}) {
+	const sorting = table.getState().sorting;
+	if (sorting.length === 0) return null;
+
+	return (
+		<Dropdown
+			align="end"
+			trigger={
+				<button
+					type="button"
+					className={cn(
+						"inline-flex items-center gap-1.5 rounded-ds-md px-3 h-8",
+						"text-xs font-medium text-ds-foreground",
+						"border border-ds-border bg-ds-background",
+						"hover:bg-ds-muted/50",
+						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
+						"transition-colors duration-ds-fast",
+					)}
+					data-ds=""
+					data-ds-component="data-table-sort-badge"
+				>
+					<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></svg>
+					Sort
+					<span className="inline-flex size-4 items-center justify-center rounded-ds-full bg-ds-foreground text-ds-background text-[10px] font-bold">
+						{sorting.length}
+					</span>
+				</button>
+			}
+		>
+			<div className="px-1">
+				{sorting.map((sort) => {
+					const col = table.getColumn(sort.id);
+					const label =
+						col && typeof col.columnDef.header === "string"
+							? col.columnDef.header
+							: sort.id;
+					return (
+						<DropdownItem
+							key={sort.id}
+							onClick={() => col?.clearSorting()}
+						>
+							{sort.desc ? (
+								<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+							) : (
+								<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7" /><path d="M12 19V5" /></svg>
+							)}
+							<span className="flex-1">{label}</span>
+							<span className="text-xs text-ds-muted-foreground">
+								{sort.desc ? "desc" : "asc"}
+							</span>
+						</DropdownItem>
+					);
+				})}
+				{sorting.length > 0 && (
+					<>
+						<div className="my-1 h-px bg-ds-border" />
+						<DropdownItem onClick={() => table.resetSorting()}>
+							Clear all sorts
+						</DropdownItem>
+					</>
+				)}
+			</div>
+		</Dropdown>
+	);
+}
+
+// ---------------------------------------------------------------------------
+// Internal: View button (column visibility dropdown — replaces old toggle)
+// ---------------------------------------------------------------------------
+
+function DataTableViewButton<TData>({
+	table,
+}: {
+	table: TanStackTable<TData>;
+}) {
+	return (
+		<Dropdown
+			align="end"
+			trigger={
+				<button
+					type="button"
+					className={cn(
+						"inline-flex items-center gap-1.5 rounded-ds-md px-3 h-8",
+						"text-xs font-medium text-ds-foreground",
+						"border border-ds-border bg-ds-background",
+						"hover:bg-ds-muted/50",
+						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
+						"transition-colors duration-ds-fast",
+					)}
+					data-ds=""
+					data-ds-component="data-table-view-button"
+				>
+					<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="21" x2="14" y1="4" y2="4" /><line x1="10" x2="3" y1="4" y2="4" /><line x1="21" x2="12" y1="12" y2="12" /><line x1="8" x2="3" y1="12" y2="12" /><line x1="21" x2="16" y1="20" y2="20" /><line x1="12" x2="3" y1="20" y2="20" /></svg>
+					View
+				</button>
+			}
+		>
+			<div className="px-1">
+				{table.getAllLeafColumns().map((column) => {
+					if (column.id === "select" || !column.getCanHide()) return null;
+
+					return (
+						<label
+							key={column.id}
+							className={cn(
+								"flex cursor-pointer items-center gap-2 rounded-ds-sm px-2 py-1.5",
+								"text-sm text-ds-foreground",
+								"hover:bg-ds-muted/50",
+								"transition-colors duration-ds-fast",
+							)}
+						>
+							<input
+								type="checkbox"
+								checked={column.getIsVisible()}
+								onChange={column.getToggleVisibilityHandler()}
+								className="size-3.5 rounded-ds-sm accent-ds-primary"
+							/>
+							{typeof column.columnDef.header === "string"
+								? column.columnDef.header
+								: column.id}
+						</label>
+					);
+				})}
+			</div>
+		</Dropdown>
+	);
+}
+
+// ---------------------------------------------------------------------------
 // Internal: Checkbox component (minimal, avoids importing external dep)
 // ---------------------------------------------------------------------------
 
@@ -595,7 +1060,6 @@ function DataTablePagination<TData>({
 	const pageSize = table.getState().pagination.pageSize;
 	const totalRows = table.getFilteredRowModel().rows.length;
 	const selectedCount = table.getFilteredSelectedRowModel().rows.length;
-	const hasSelection = selectedCount > 0;
 
 	return (
 		<div
@@ -606,28 +1070,28 @@ function DataTablePagination<TData>({
 			data-ds=""
 			data-ds-component="data-table-pagination"
 		>
-			{/* Left: selection info + page size */}
-			<div className="flex items-center gap-4 text-xs text-ds-muted-foreground">
-				{hasSelection && (
-					<span>
-						{selectedCount} of {totalRows} row(s) selected
-					</span>
-				)}
-				{!hasSelection && (
-					<span>{totalRows} row(s) total</span>
-				)}
+			{/* Left: selection info */}
+			<div className="text-xs text-ds-muted-foreground">
+				{selectedCount} of {totalRows} row(s) selected.
+			</div>
 
+			{/* Right: rows per page + page info + nav */}
+			<div className="flex items-center gap-6">
+				{/* Rows per page */}
 				{pageSizeOptions !== false && (
-					<div className="flex items-center gap-1.5">
-						<span>Rows:</span>
+					<div className="flex items-center gap-2 text-xs text-ds-foreground">
+						<span className="whitespace-nowrap">Rows per page</span>
 						<select
 							value={pageSize}
 							onChange={(e) =>
 								table.setPageSize(Number(e.target.value))
 							}
 							className={cn(
-								"h-7 rounded-ds-sm border border-ds-border bg-ds-background px-1.5 text-xs text-ds-foreground",
+								"h-8 rounded-ds-md border border-ds-border bg-ds-background px-2 text-xs text-ds-foreground",
 								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ds-focus-ring",
+								"appearance-none cursor-pointer pr-6",
+								"bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')]",
+								"bg-[position:right_0.4rem_center] bg-no-repeat",
 							)}
 						>
 							{(pageSizeOptions || [10, 20, 30, 50, 100]).map(
@@ -640,91 +1104,56 @@ function DataTablePagination<TData>({
 						</select>
 					</div>
 				)}
-			</div>
 
-			{/* Right: page navigation */}
-			<div className="flex items-center gap-1.5">
-				<span className="mr-2 text-xs text-ds-muted-foreground">
+				{/* Page info */}
+				<span className="text-xs text-ds-foreground whitespace-nowrap">
 					Page {pageIndex + 1} of {pageCount || 1}
 				</span>
 
-				<PaginationButton
-					onClick={() => table.firstPage()}
-					disabled={!table.getCanPreviousPage()}
-					aria-label="Go to first page"
-				>
-					<svg
-						className="size-3.5"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						aria-hidden="true"
+				{/* Navigation buttons */}
+				<div className="flex items-center gap-1">
+					<PaginationButton
+						onClick={() => table.firstPage()}
+						disabled={!table.getCanPreviousPage()}
+						aria-label="Go to first page"
 					>
-						<path d="m11 17-5-5 5-5" />
-						<path d="m18 17-5-5 5-5" />
-					</svg>
-				</PaginationButton>
+						<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+							<path d="m11 17-5-5 5-5" />
+							<path d="m18 17-5-5 5-5" />
+						</svg>
+					</PaginationButton>
 
-				<PaginationButton
-					onClick={() => table.previousPage()}
-					disabled={!table.getCanPreviousPage()}
-					aria-label="Go to previous page"
-				>
-					<svg
-						className="size-3.5"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						aria-hidden="true"
+					<PaginationButton
+						onClick={() => table.previousPage()}
+						disabled={!table.getCanPreviousPage()}
+						aria-label="Go to previous page"
 					>
-						<path d="m15 18-6-6 6-6" />
-					</svg>
-				</PaginationButton>
+						<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+							<path d="m15 18-6-6 6-6" />
+						</svg>
+					</PaginationButton>
 
-				<PaginationButton
-					onClick={() => table.nextPage()}
-					disabled={!table.getCanNextPage()}
-					aria-label="Go to next page"
-				>
-					<svg
-						className="size-3.5"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						aria-hidden="true"
+					<PaginationButton
+						onClick={() => table.nextPage()}
+						disabled={!table.getCanNextPage()}
+						aria-label="Go to next page"
 					>
-						<path d="m9 18 6-6-6-6" />
-					</svg>
-				</PaginationButton>
+						<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+							<path d="m9 18 6-6-6-6" />
+						</svg>
+					</PaginationButton>
 
-				<PaginationButton
-					onClick={() => table.lastPage()}
-					disabled={!table.getCanNextPage()}
-					aria-label="Go to last page"
-				>
-					<svg
-						className="size-3.5"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						aria-hidden="true"
+					<PaginationButton
+						onClick={() => table.lastPage()}
+						disabled={!table.getCanNextPage()}
+						aria-label="Go to last page"
 					>
-						<path d="m13 17 5-5-5-5" />
-						<path d="m6 17 5-5-5-5" />
-					</svg>
-				</PaginationButton>
+						<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+							<path d="m13 17 5-5-5-5" />
+							<path d="m6 17 5-5-5-5" />
+						</svg>
+					</PaginationButton>
+				</div>
 			</div>
 		</div>
 	);
@@ -840,6 +1269,9 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 			data,
 			columns: userColumns,
 
+			// Faceted filters
+			facetedFilters,
+
 			// Sorting
 			sorting: enableSorting = false,
 			sortingState: controlledSorting,
@@ -878,6 +1310,9 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 			// Column pinning
 			columnPinning: controlledColumnPinning,
 			onColumnPinningChange: onControlledColumnPinningChange,
+
+			// Faceted filtering requires filtering to be enabled
+			// (handled below in table config)
 
 			// Appearance
 			density = "comfortable",
@@ -995,9 +1430,14 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 			return [selectionColumn, ...userColumns];
 		}, [userColumns, rowSelectionMode]);
 
+		// -- Derived flags --------------------------------------------------------
+
+		const hasFacetedFilters = !!(facetedFilters && facetedFilters.length > 0);
+
 		// -- Initialize TanStack Table ------------------------------------------
 
-		const table = useReactTable({
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any -- forwardRef forces `any` generics; the outer cast restores type safety for consumers
+		const table = useReactTable<any>({
 			data,
 			columns,
 			getRowId,
@@ -1020,10 +1460,18 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 			// Filtering
 			onGlobalFilterChange,
 			onColumnFiltersChange,
-			enableFilters: enableFiltering,
-			getFilteredRowModel: enableFiltering
+			enableFilters: enableFiltering || hasFacetedFilters,
+			getFilteredRowModel: (enableFiltering || hasFacetedFilters)
 				? getFilteredRowModel()
 				: undefined,
+
+			// Faceted models (for unique value counts in filter popovers)
+			...(hasFacetedFilters
+				? {
+						getFacetedRowModel: getFacetedRowModel(),
+						getFacetedUniqueValues: getFacetedUniqueValues(),
+					}
+				: {}),
 
 			// Pagination
 			onPaginationChange,
@@ -1078,7 +1526,7 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 		const visibleColumnCount = table.getVisibleLeafColumns().length;
 
 		const hasToolbar =
-			showGlobalFilter || enableColumnVisibility || toolbar;
+			showGlobalFilter || enableColumnVisibility || toolbar || hasFacetedFilters || (enableSorting && sortingValue.length > 0);
 
 		// Map TanStack sort direction to our TableSortDirection
 		const toSortDir = (
@@ -1105,13 +1553,25 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 						data-ds=""
 						data-ds-component="data-table-toolbar"
 					>
-						{showGlobalFilter && enableFiltering && (
+						{showGlobalFilter && (enableFiltering || hasFacetedFilters) && (
 							<DataTableGlobalFilter
 								value={globalFilterValue}
 								onChange={onGlobalFilterChange}
 								placeholder={globalFilterPlaceholder}
 							/>
 						)}
+
+						{/* Faceted filter buttons */}
+						{hasFacetedFilters &&
+							facetedFilters.map((filter) => (
+								<DataTableFacetedFilterButton
+									key={filter.columnId}
+									column={table.getColumn(filter.columnId)}
+									title={filter.title}
+									icon={filter.icon}
+									options={filter.options}
+								/>
+							))}
 
 						{/* Push remaining toolbar items to the right */}
 						<div className="flex-1" />
@@ -1120,8 +1580,14 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 							? toolbar(table)
 							: toolbar}
 
+						{/* Sort badge */}
+						{enableSorting && sortingValue.length > 0 && (
+							<DataTableSortBadge table={table} />
+						)}
+
+						{/* View button (column visibility) */}
 						{enableColumnVisibility && (
-							<DataTableColumnVisibility table={table} />
+							<DataTableViewButton table={table} />
 						)}
 					</div>
 				)}
@@ -1153,6 +1619,8 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 										meta?.filterable !== false;
 									const showColumnFilter =
 										canFilter && meta?.filterable === true;
+									const useHeaderMenu =
+										meta?.enableHeaderMenu && canSort;
 
 									return (
 										<TableHead
@@ -1163,10 +1631,10 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 													: undefined
 											}
 											align={meta?.align}
-											sortable={canSort}
-											sorted={toSortDir(sortDir)}
+											sortable={!useHeaderMenu && canSort}
+											sorted={!useHeaderMenu ? toSortDir(sortDir) : undefined}
 											onSort={
-												canSort
+												!useHeaderMenu && canSort
 													? () => header.column.toggleSorting()
 													: undefined
 											}
@@ -1186,13 +1654,22 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 													: undefined
 											}
 										>
-											{header.isPlaceholder
-												? null
-												: flexRender(
-														header.column.columnDef
-															.header,
-														header.getContext(),
-													)}
+											{header.isPlaceholder ? null : useHeaderMenu ? (
+												<DataTableColumnHeaderMenu
+													column={header.column}
+													title={
+														typeof header.column.columnDef.header === "string"
+															? header.column.columnDef.header
+															: header.column.id
+													}
+												/>
+											) : (
+												flexRender(
+													header.column.columnDef
+														.header,
+													header.getContext(),
+												)
+											)}
 
 											{/* Per-column filter */}
 											{showColumnFilter && (

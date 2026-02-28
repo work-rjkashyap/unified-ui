@@ -4,13 +4,54 @@ description: Stackable notification toasts with 5 positions, semantic variants, 
 icon: Bell
 ---
 
+import { ToastProvider, useToast, Button } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
 
-## Overview
+<ComponentPage
+	title="Toast"
+	description="Stackable, non-blocking notifications that appear as overlays. Triggered imperatively via the useToast hook with semantic variants, custom actions, configurable positions, and auto-dismiss with progress indication."
+	preview={<ToastPreview />}
+	code={`import { ToastProvider, useToast, Button } from "@work-rjkashyap/unified-ui";
 
-The `Toast` system provides stackable, non-blocking notifications that appear as overlays. Toasts are triggered imperatively via the `useToast` hook and support semantic variants, custom actions, configurable positions, and auto-dismiss with progress indication.
+// 1. Wrap your app with ToastProvider
+function App() {
+return (
+<ToastProvider position="top-right">
+<MyComponent />
+</ToastProvider>
+);
+}
 
----
+// 2. Use the hook to trigger toasts
+function MyComponent() {
+const toast = useToast();
+
+return (
+<div className="flex gap-2">
+<Button onClick={() => toast.success("Changes saved!")}>
+Success
+</Button>
+<Button onClick={() => toast.danger({
+title: "Upload failed",
+description: "File exceeds the 10 MB limit.",
+})}>
+Danger
+</Button>
+<Button onClick={() => toast.info({
+title: "New update available",
+description: "Version 2.4.0 is ready to install.",
+action: {
+label: "Update now",
+onClick: () => handleUpdate(),
+},
+})}>
+With Action
+</Button>
+</div>
+);
+}`}
+
+>
 
 ## Import
 
@@ -30,15 +71,15 @@ Wrap your application (or layout) with `ToastProvider` to enable the toast syste
 import { ToastProvider } from "@work-rjkashyap/unified-ui";
 
 export default function RootLayout({ children }) {
-  return (
-    <ToastProvider>
-      {children}
-    </ToastProvider>
-  );
+	return <ToastProvider>{children}</ToastProvider>;
 }
 ```
 
-## Basic Usage
+---
+
+## Examples
+
+### Basic Usage
 
 Use the `useToast` hook inside any component to trigger toasts imperatively.
 
@@ -46,21 +87,21 @@ Use the `useToast` hook inside any component to trigger toasts imperatively.
 import { useToast, Button } from "@work-rjkashyap/unified-ui";
 
 function SaveButton() {
-  const toast = useToast();
+	const toast = useToast();
 
-  return (
-    <Button
-      onClick={() => {
-        toast.success("Changes saved successfully.");
-      }}
-    >
-      Save
-    </Button>
-  );
+	return (
+		<Button
+			onClick={() => {
+				toast.success("Changes saved successfully.");
+			}}
+		>
+			Save
+		</Button>
+	);
 }
 ```
 
-## Variants
+### Variants
 
 Toasts support five semantic variants that match the Alert component's visual language.
 
@@ -68,7 +109,7 @@ Toasts support five semantic variants that match the Alert component's visual la
 const toast = useToast();
 
 // Default — neutral notification
-toast.default("A new version is available.");
+toast.toast("A new version is available.");
 
 // Success — positive outcomes
 toast.success("Your changes have been saved.");
@@ -84,49 +125,53 @@ toast.info("Tip: Press Ctrl+S to save at any time.");
 ```
 
 Each variant renders with:
+
 - A semantic background color from the design system tokens
 - An auto-selected icon matching the variant
 - Appropriate visual weight for the message severity
 
-## With Title and Description
+### With Title and Description
 
 Pass an options object to include a title alongside the description.
 
 ```tsx
 toast.success({
-  title: "Payment received",
-  description: "Your order #12345 has been confirmed.",
+	title: "Payment received",
+	description: "Your order #12345 has been confirmed.",
 });
 
 toast.danger({
-  title: "Upload failed",
-  description: "The file exceeds the 10 MB size limit. Please compress and try again.",
+	title: "Upload failed",
+	description:
+		"The file exceeds the 10 MB size limit. Please compress and try again.",
 });
 ```
 
-## With Actions
+### With Actions
 
 Toasts can include action buttons for quick user responses. Actions render as small buttons inside the toast.
 
 ```tsx
 toast.info({
-  title: "New update available",
-  description: "Version 2.4.0 is ready to install.",
-  action: {
-    label: "Update now",
-    onClick: () => handleUpdate(),
-  },
+	title: "New update available",
+	description: "Version 2.4.0 is ready to install.",
+	action: {
+		label: "Update now",
+		onClick: () => handleUpdate(),
+	},
 });
 
 toast.danger({
-  title: "Message deleted",
-  description: "The message has been moved to trash.",
-  action: {
-    label: "Undo",
-    onClick: () => handleUndo(),
-  },
+	title: "Message deleted",
+	description: "The message has been moved to trash.",
+	action: {
+		label: "Undo",
+		onClick: () => handleUndo(),
+	},
 });
 ```
+
+---
 
 ## Duration
 
@@ -156,14 +201,19 @@ Configure the toast position on the `ToastProvider`. All toasts in the stack wil
 <ToastProvider position="bottom-center">
 ```
 
-| Position | Description |
-|----------|-------------|
-| `top-right` | Top-right corner (default) |
-| `top-left` | Top-left corner |
-| `top-center` | Top center |
-| `bottom-right` | Bottom-right corner |
-| `bottom-left` | Bottom-left corner |
-| `bottom-center` | Bottom center |
+| Position        | Description                |
+| --------------- | -------------------------- |
+| `top-right`     | Top-right corner (default) |
+| `top-left`      | Top-left corner            |
+| `top-center`    | Top center                 |
+| `bottom-right`  | Bottom-right corner        |
+| `bottom-left`   | Bottom-left corner         |
+| `bottom-center` | Bottom center              |
+
+<Callout type="info">
+	Use the **Position** picker in the live preview above to see each position
+	in action.
+</Callout>
 
 ## Dismissing Toasts
 
@@ -187,19 +237,19 @@ toast.dismissAll();
 For advanced use cases, pass a custom `render` function to control the toast content entirely.
 
 ```tsx
-toast.default({
-  render: ({ dismiss }) => (
-    <div className="flex items-center gap-3">
-      <Avatar src="/user.jpg" alt="Jane" size="sm" />
-      <div>
-        <p className="text-sm font-medium">Jane sent you a message</p>
-        <p className="text-xs text-ds-muted-foreground">Just now</p>
-      </div>
-      <Button variant="ghost" size="sm" onClick={dismiss}>
-        Dismiss
-      </Button>
-    </div>
-  ),
+toast.toast({
+	render: ({ dismiss }) => (
+		<div className="flex items-center gap-3">
+			<Avatar src="/user.jpg" alt="Jane" size="sm" />
+			<div>
+				<p className="text-sm font-medium">Jane sent you a message</p>
+				<p className="text-xs text-ds-muted-foreground">Just now</p>
+			</div>
+			<Button variant="ghost" size="sm" onClick={dismiss}>
+				Dismiss
+			</Button>
+		</div>
+	),
 });
 ```
 
@@ -208,47 +258,50 @@ toast.default({
 Multiple toasts stack automatically. New toasts appear at the edge closest to the configured position. The stack has a default maximum of 5 visible toasts — older ones are dismissed when the limit is reached.
 
 ```tsx
-<ToastProvider maxToasts={3}>  {/* Limit to 3 visible toasts */}
+<ToastProvider maxToasts={3}>{/* Limit to 3 visible toasts */}</ToastProvider>
 ```
+
+---
 
 ## Props
 
 ### ToastProvider
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `position` | `"top-right" \| "top-left" \| "top-center" \| "bottom-right" \| "bottom-left" \| "bottom-center"` | `"top-right"` | Where toasts appear on the screen. |
-| `maxToasts` | `number` | `5` | Maximum number of visible toasts before oldest are dismissed. |
-| `className` | `string` | — | Additional CSS classes for the toast container. |
+| Prop        | Type                                                                                              | Default       | Description                                                   |
+| ----------- | ------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------- |
+| `position`  | `"top-right" \| "top-left" \| "top-center" \| "bottom-right" \| "bottom-left" \| "bottom-center"` | `"top-right"` | Where toasts appear on the screen.                            |
+| `maxToasts` | `number`                                                                                          | `5`           | Maximum number of visible toasts before oldest are dismissed. |
+| `className` | `string`                                                                                          | —             | Additional CSS classes for the toast container.               |
 
 ### useToast (returned API)
 
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `default` | `(message: string \| ToastOptions) => string` | Show a neutral toast. Returns toast ID. |
-| `success` | `(message: string \| ToastOptions) => string` | Show a success toast. |
-| `warning` | `(message: string \| ToastOptions) => string` | Show a warning toast. |
-| `danger` | `(message: string \| ToastOptions) => string` | Show a danger/error toast. |
-| `info` | `(message: string \| ToastOptions) => string` | Show an info toast. |
-| `dismiss` | `(id: string) => void` | Dismiss a specific toast by ID. |
-| `dismissAll` | `() => void` | Dismiss all visible toasts. |
+| Method       | Signature                                     | Description                             |
+| ------------ | --------------------------------------------- | --------------------------------------- |
+| `toast`      | `(message: string \| ToastOptions) => string` | Show a neutral toast. Returns toast ID. |
+| `success`    | `(message: string \| ToastOptions) => string` | Show a success toast.                   |
+| `warning`    | `(message: string \| ToastOptions) => string` | Show a warning toast.                   |
+| `danger`     | `(message: string \| ToastOptions) => string` | Show a danger/error toast.              |
+| `info`       | `(message: string \| ToastOptions) => string` | Show an info toast.                     |
+| `dismiss`    | `(id: string) => void`                        | Dismiss a specific toast by ID.         |
+| `dismissAll` | `() => void`                                  | Dismiss all visible toasts.             |
 
 ### ToastOptions
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | — | Toast title text. |
-| `description` | `string` | — | Toast description / body text. |
-| `duration` | `number` | `5000` | Auto-dismiss duration in ms. Use `Infinity` for persistent. |
-| `action` | `{ label: string; onClick: () => void }` | — | Action button config. |
-| `render` | `(props: { dismiss: () => void }) => ReactNode` | — | Custom render function for full control. |
+| Prop          | Type                                            | Default | Description                                                 |
+| ------------- | ----------------------------------------------- | ------- | ----------------------------------------------------------- |
+| `title`       | `string`                                        | —       | Toast title text.                                           |
+| `description` | `string`                                        | —       | Toast description / body text.                              |
+| `duration`    | `number`                                        | `5000`  | Auto-dismiss duration in ms. Use `Infinity` for persistent. |
+| `action`      | `{ label: string; onClick: () => void }`        | —       | Action button config.                                       |
+| `render`      | `(props: { dismiss: () => void }) => ReactNode` | —       | Custom render function for full control.                    |
 
 ---
 
 ## Accessibility
 
 <Callout type="info">
-  Toasts use `role="status"` with `aria-live="polite"` so screen readers announce them without interrupting the current task.
+	Toasts use `role="status"` with `aria-live="polite"` so screen readers
+	announce them without interrupting the current task.
 </Callout>
 
 - Toasts are rendered in a **live region** (`aria-live="polite"`) so assistive technology announces them.
@@ -262,14 +315,16 @@ Multiple toasts stack automatically. New toasts appear at the edge closest to th
 
 ## Design Tokens
 
-| Token | Usage |
-|-------|-------|
-| `--ds-color-success` | Success variant accent |
-| `--ds-color-warning` | Warning variant accent |
-| `--ds-color-danger` | Danger variant accent |
-| `--ds-color-info` | Info variant accent |
-| `--ds-color-surface-raised` | Toast background |
-| `--ds-shadow-lg` | Toast elevation shadow |
-| `--ds-z-toast` | Z-index for toast layer |
-| `--ds-duration-normal` | Enter/exit animation timing |
-| `--ds-radius-md` | Toast border radius |
+| Token                       | Usage                       |
+| --------------------------- | --------------------------- |
+| `--ds-color-success`        | Success variant accent      |
+| `--ds-color-warning`        | Warning variant accent      |
+| `--ds-color-danger`         | Danger variant accent       |
+| `--ds-color-info`           | Info variant accent         |
+| `--ds-color-surface-raised` | Toast background            |
+| `--ds-shadow-lg`            | Toast elevation shadow      |
+| `--ds-z-toast`              | Z-index for toast layer     |
+| `--ds-duration-normal`      | Enter/exit animation timing |
+| `--ds-radius-md`            | Toast border radius         |
+
+</ComponentPage>

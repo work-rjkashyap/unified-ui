@@ -9,6 +9,27 @@
 // ============================================================================
 
 // ---------------------------------------------------------------------------
+// DataTable
+// ---------------------------------------------------------------------------
+export {
+	DataTable,
+	type DataTableColumnMeta,
+	type DataTableFacetedFilter,
+	type DataTableProps,
+	type UseDataTableOptions,
+	type UseDataTableReturn,
+	useDataTable,
+	createColumnHelper,
+	type ColumnDef,
+	type ColumnFiltersState,
+	type SortingState,
+	type VisibilityState,
+	type RowSelectionState,
+	type PaginationState,
+	type Row,
+} from "./data-table";
+
+// ---------------------------------------------------------------------------
 // Accordion
 // ---------------------------------------------------------------------------
 export {

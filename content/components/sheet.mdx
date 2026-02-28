@@ -4,7 +4,18 @@ description: A slide-out panel component that appears from any edge of the scree
 icon: PanelRight
 ---
 
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, SheetClose, Button, Input } from "@work-rjkashyap/unified-ui";
+import {
+	Sheet,
+	SheetTrigger,
+	SheetContent,
+	SheetHeader,
+	SheetFooter,
+	SheetTitle,
+	SheetDescription,
+	SheetClose,
+	Button,
+	Input,
+} from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
 
 <ComponentPage
@@ -83,25 +94,25 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ```tsx
 import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
-  SheetClose,
+	Sheet,
+	SheetTrigger,
+	SheetContent,
+	SheetHeader,
+	SheetFooter,
+	SheetTitle,
+	SheetDescription,
+	SheetClose,
 } from "@work-rjkashyap/unified-ui";
 // or
 import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
-  SheetClose,
+	Sheet,
+	SheetTrigger,
+	SheetContent,
+	SheetHeader,
+	SheetFooter,
+	SheetTitle,
+	SheetDescription,
+	SheetClose,
 } from "@work-rjkashyap/unified-ui/components";
 ```
 
@@ -111,23 +122,23 @@ The Sheet uses a trigger-based pattern similar to Dialog. Wrap a button in `Shee
 
 ```tsx
 <Sheet>
-  <SheetTrigger asChild>
-    <Button>Open Sheet</Button>
-  </SheetTrigger>
-  <SheetContent>
-    <SheetHeader>
-      <SheetTitle>Panel Title</SheetTitle>
-      <SheetDescription>Optional description text.</SheetDescription>
-    </SheetHeader>
-    <div className="p-6">
-      <p>Sheet content goes here.</p>
-    </div>
-    <SheetFooter>
-      <SheetClose asChild>
-        <Button variant="secondary">Close</Button>
-      </SheetClose>
-    </SheetFooter>
-  </SheetContent>
+	<SheetTrigger asChild>
+		<Button>Open Sheet</Button>
+	</SheetTrigger>
+	<SheetContent>
+		<SheetHeader>
+			<SheetTitle>Panel Title</SheetTitle>
+			<SheetDescription>Optional description text.</SheetDescription>
+		</SheetHeader>
+		<div className="p-6">
+			<p>Sheet content goes here.</p>
+		</div>
+		<SheetFooter>
+			<SheetClose asChild>
+				<Button variant="secondary">Close</Button>
+			</SheetClose>
+		</SheetFooter>
+	</SheetContent>
 </Sheet>
 ```
 
@@ -135,78 +146,99 @@ The Sheet uses a trigger-based pattern similar to Dialog. Wrap a button in `Shee
 
 The `side` prop controls which edge of the screen the sheet slides in from. Four directions are supported.
 
-<div className="my-6 flex flex-wrap gap-3 items-center justify-center not-prose">
-  <Sheet>
-    <SheetTrigger asChild>
-      <Button variant="secondary" size="sm">Right</Button>
-    </SheetTrigger>
-    <SheetContent side="right">
-      <SheetHeader>
-        <SheetTitle>Right Sheet</SheetTitle>
-        <SheetDescription>Slides in from the right edge.</SheetDescription>
-      </SheetHeader>
-      <div className="p-6 text-sm text-ds-muted-foreground">
-        This is the default side. Ideal for detail panels, settings, and forms.
-      </div>
-    </SheetContent>
-  </Sheet>
-  <Sheet>
-    <SheetTrigger asChild>
-      <Button variant="secondary" size="sm">Left</Button>
-    </SheetTrigger>
-    <SheetContent side="left">
-      <SheetHeader>
-        <SheetTitle>Left Sheet</SheetTitle>
-        <SheetDescription>Slides in from the left edge.</SheetDescription>
-      </SheetHeader>
-      <div className="p-6 text-sm text-ds-muted-foreground">
-        Ideal for navigation drawers and sidebars.
-      </div>
-    </SheetContent>
-  </Sheet>
-  <Sheet>
-    <SheetTrigger asChild>
-      <Button variant="secondary" size="sm">Top</Button>
-    </SheetTrigger>
-    <SheetContent side="top">
-      <SheetHeader>
-        <SheetTitle>Top Sheet</SheetTitle>
-        <SheetDescription>Slides down from the top edge.</SheetDescription>
-      </SheetHeader>
-      <div className="p-6 text-sm text-ds-muted-foreground">
-        Useful for search bars, announcements, or command palettes.
-      </div>
-    </SheetContent>
-  </Sheet>
-  <Sheet>
-    <SheetTrigger asChild>
-      <Button variant="secondary" size="sm">Bottom</Button>
-    </SheetTrigger>
-    <SheetContent side="bottom">
-      <SheetHeader>
-        <SheetTitle>Bottom Sheet</SheetTitle>
-        <SheetDescription>Slides up from the bottom edge.</SheetDescription>
-      </SheetHeader>
-      <div className="p-6 text-sm text-ds-muted-foreground">
-        Common on mobile for action sheets and menus.
-      </div>
-    </SheetContent>
-  </Sheet>
-</div>
-
-```tsx
-<SheetContent side="right">  {/* Default */}
+<ComponentPage
+	title="Side Variants"
+	description="Four directions are supported: right (default), left, top, and bottom."
+	preview={
+		<div className="flex flex-wrap gap-3 items-center justify-center">
+			<Sheet>
+				<SheetTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Right
+					</Button>
+				</SheetTrigger>
+				<SheetContent side="right">
+					<SheetHeader>
+						<SheetTitle>Right Sheet</SheetTitle>
+						<SheetDescription>
+							Slides in from the right edge.
+						</SheetDescription>
+					</SheetHeader>
+					<div className="p-6 text-sm text-ds-muted-foreground">
+						This is the default side. Ideal for detail panels,
+						settings, and forms.
+					</div>
+				</SheetContent>
+			</Sheet>
+			<Sheet>
+				<SheetTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Left
+					</Button>
+				</SheetTrigger>
+				<SheetContent side="left">
+					<SheetHeader>
+						<SheetTitle>Left Sheet</SheetTitle>
+						<SheetDescription>
+							Slides in from the left edge.
+						</SheetDescription>
+					</SheetHeader>
+					<div className="p-6 text-sm text-ds-muted-foreground">
+						Ideal for navigation drawers and sidebars.
+					</div>
+				</SheetContent>
+			</Sheet>
+			<Sheet>
+				<SheetTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Top
+					</Button>
+				</SheetTrigger>
+				<SheetContent side="top">
+					<SheetHeader>
+						<SheetTitle>Top Sheet</SheetTitle>
+						<SheetDescription>
+							Slides down from the top edge.
+						</SheetDescription>
+					</SheetHeader>
+					<div className="p-6 text-sm text-ds-muted-foreground">
+						Useful for search bars, announcements, or command
+						palettes.
+					</div>
+				</SheetContent>
+			</Sheet>
+			<Sheet>
+				<SheetTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Bottom
+					</Button>
+				</SheetTrigger>
+				<SheetContent side="bottom">
+					<SheetHeader>
+						<SheetTitle>Bottom Sheet</SheetTitle>
+						<SheetDescription>
+							Slides up from the bottom edge.
+						</SheetDescription>
+					</SheetHeader>
+					<div className="p-6 text-sm text-ds-muted-foreground">
+						Common on mobile for action sheets and menus.
+					</div>
+				</SheetContent>
+			</Sheet>
+		</div>
+	}
+	code={`<SheetContent side="right">  {/* Default */}
 <SheetContent side="left">
 <SheetContent side="top">
-<SheetContent side="bottom">
-```
+<SheetContent side="bottom">`}
+/>
 
-| Side     | Use Case                                       |
-| -------- | ---------------------------------------------- |
-| `right`  | Detail panels, settings, forms (default)       |
-| `left`   | Navigation drawers, sidebars                   |
-| `top`    | Search bars, announcements, command palettes    |
-| `bottom` | Action sheets, mobile menus                    |
+| Side     | Use Case                                     |
+| -------- | -------------------------------------------- |
+| `right`  | Detail panels, settings, forms (default)     |
+| `left`   | Navigation drawers, sidebars                 |
+| `top`    | Search bars, announcements, command palettes |
+| `bottom` | Action sheets, mobile menus                  |
 
 ## Size
 
@@ -219,12 +251,12 @@ The `size` prop controls the width (for left/right sheets) or height (for top/bo
 <SheetContent side="right" size="full"> {/* Full width/height */}
 ```
 
-| Size   | Width (left/right) | Height (top/bottom) | Use Case                          |
-| ------ | ------------------ | ------------------- | --------------------------------- |
-| `sm`   | 320px              | 320px               | Compact panels, mobile nav        |
-| `md`   | 420px              | 420px               | Default forms and settings        |
-| `lg`   | 560px              | 560px               | Complex forms, data-heavy panels  |
-| `full` | 100%               | 100%                | Full-screen overlays              |
+| Size   | Width (left/right) | Height (top/bottom) | Use Case                         |
+| ------ | ------------------ | ------------------- | -------------------------------- |
+| `sm`   | 320px              | 320px               | Compact panels, mobile nav       |
+| `md`   | 420px              | 420px               | Default forms and settings       |
+| `lg`   | 560px              | 560px               | Complex forms, data-heavy panels |
+| `full` | 100%               | 100%                | Full-screen overlays             |
 
 ## Slot Composition
 
@@ -232,24 +264,24 @@ Sheets use the same slot pattern as Dialog with `SheetHeader`, content area, and
 
 ```tsx
 <SheetContent>
-  {/* Header — title, description, close button */}
-  <SheetHeader>
-    <SheetTitle>Panel Title</SheetTitle>
-    <SheetDescription>Description text</SheetDescription>
-  </SheetHeader>
+	{/* Header — title, description, close button */}
+	<SheetHeader>
+		<SheetTitle>Panel Title</SheetTitle>
+		<SheetDescription>Description text</SheetDescription>
+	</SheetHeader>
 
-  {/* Body — your custom content (add your own padding) */}
-  <div className="flex-1 overflow-y-auto p-6">
-    <p>Scrollable content area</p>
-  </div>
+	{/* Body — your custom content (add your own padding) */}
+	<div className="flex-1 overflow-y-auto p-6">
+		<p>Scrollable content area</p>
+	</div>
 
-  {/* Footer — action buttons */}
-  <SheetFooter>
-    <SheetClose asChild>
-      <Button variant="secondary">Cancel</Button>
-    </SheetClose>
-    <Button variant="primary">Save</Button>
-  </SheetFooter>
+	{/* Footer — action buttons */}
+	<SheetFooter>
+		<SheetClose asChild>
+			<Button variant="secondary">Cancel</Button>
+		</SheetClose>
+		<Button variant="primary">Save</Button>
+	</SheetFooter>
 </SheetContent>
 ```
 
@@ -259,30 +291,42 @@ A common pattern for mobile-style navigation sidebars.
 
 ```tsx
 <Sheet>
-  <SheetTrigger asChild>
-    <Button variant="ghost" iconOnly aria-label="Open menu">
-      <MenuIcon className="size-4" />
-    </Button>
-  </SheetTrigger>
-  <SheetContent side="left" size="sm">
-    <SheetHeader>
-      <SheetTitle>Navigation</SheetTitle>
-    </SheetHeader>
-    <nav className="flex flex-col gap-1 p-4">
-      <a href="/" className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted">
-        Home
-      </a>
-      <a href="/docs" className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted">
-        Documentation
-      </a>
-      <a href="/components" className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted">
-        Components
-      </a>
-      <a href="/examples" className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted">
-        Examples
-      </a>
-    </nav>
-  </SheetContent>
+	<SheetTrigger asChild>
+		<Button variant="ghost" iconOnly aria-label="Open menu">
+			<MenuIcon className="size-4" />
+		</Button>
+	</SheetTrigger>
+	<SheetContent side="left" size="sm">
+		<SheetHeader>
+			<SheetTitle>Navigation</SheetTitle>
+		</SheetHeader>
+		<nav className="flex flex-col gap-1 p-4">
+			<a
+				href="/"
+				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
+			>
+				Home
+			</a>
+			<a
+				href="/docs"
+				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
+			>
+				Documentation
+			</a>
+			<a
+				href="/components"
+				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
+			>
+				Components
+			</a>
+			<a
+				href="/examples"
+				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
+			>
+				Examples
+			</a>
+		</nav>
+	</SheetContent>
 </Sheet>
 ```
 
@@ -292,42 +336,43 @@ A detail panel that slides in from the right with a form.
 
 ```tsx
 <Sheet>
-  <SheetTrigger asChild>
-    <Button variant="secondary" iconLeft={<SettingsIcon />}>
-      Settings
-    </Button>
-  </SheetTrigger>
-  <SheetContent side="right" size="md">
-    <SheetHeader>
-      <SheetTitle>Project Settings</SheetTitle>
-      <SheetDescription>
-        Update your project configuration. Changes are saved when you click Save.
-      </SheetDescription>
-    </SheetHeader>
-    <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium">Project Name</label>
-        <Input placeholder="My Project" />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium">Description</label>
-        <Textarea placeholder="What is this project about?" />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium">Visibility</label>
-        <Select placeholder="Select visibility">
-          <SelectItem value="public">Public</SelectItem>
-          <SelectItem value="private">Private</SelectItem>
-        </Select>
-      </div>
-    </div>
-    <SheetFooter>
-      <SheetClose asChild>
-        <Button variant="secondary">Cancel</Button>
-      </SheetClose>
-      <Button variant="primary">Save Changes</Button>
-    </SheetFooter>
-  </SheetContent>
+	<SheetTrigger asChild>
+		<Button variant="secondary" iconLeft={<SettingsIcon />}>
+			Settings
+		</Button>
+	</SheetTrigger>
+	<SheetContent side="right" size="md">
+		<SheetHeader>
+			<SheetTitle>Project Settings</SheetTitle>
+			<SheetDescription>
+				Update your project configuration. Changes are saved when you
+				click Save.
+			</SheetDescription>
+		</SheetHeader>
+		<div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
+			<div className="flex flex-col gap-1.5">
+				<label className="text-sm font-medium">Project Name</label>
+				<Input placeholder="My Project" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<label className="text-sm font-medium">Description</label>
+				<Textarea placeholder="What is this project about?" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<label className="text-sm font-medium">Visibility</label>
+				<Select placeholder="Select visibility">
+					<SelectItem value="public">Public</SelectItem>
+					<SelectItem value="private">Private</SelectItem>
+				</Select>
+			</div>
+		</div>
+		<SheetFooter>
+			<SheetClose asChild>
+				<Button variant="secondary">Cancel</Button>
+			</SheetClose>
+			<Button variant="primary">Save Changes</Button>
+		</SheetFooter>
+	</SheetContent>
 </Sheet>
 ```
 
@@ -339,71 +384,71 @@ Use the `open` and `onOpenChange` props for programmatic control.
 const [open, setOpen] = useState(false);
 
 <Sheet open={open} onOpenChange={setOpen}>
-  <SheetTrigger asChild>
-    <Button>Open</Button>
-  </SheetTrigger>
-  <SheetContent>
-    <SheetHeader>
-      <SheetTitle>Controlled Sheet</SheetTitle>
-    </SheetHeader>
-    <div className="p-6">
-      <p>This sheet is controlled externally.</p>
-      <Button
-        variant="primary"
-        onClick={() => {
-          handleSave();
-          setOpen(false);
-        }}
-      >
-        Save & Close
-      </Button>
-    </div>
-  </SheetContent>
-</Sheet>
+	<SheetTrigger asChild>
+		<Button>Open</Button>
+	</SheetTrigger>
+	<SheetContent>
+		<SheetHeader>
+			<SheetTitle>Controlled Sheet</SheetTitle>
+		</SheetHeader>
+		<div className="p-6">
+			<p>This sheet is controlled externally.</p>
+			<Button
+				variant="primary"
+				onClick={() => {
+					handleSave();
+					setOpen(false);
+				}}
+			>
+				Save & Close
+			</Button>
+		</div>
+	</SheetContent>
+</Sheet>;
 ```
 
 ## Props
 
 ### Sheet
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` | — | Controlled open state. |
-| `defaultOpen` | `boolean` | — | Default open state (uncontrolled). |
-| `onOpenChange` | `(open: boolean) => void` | — | Callback when the open state changes. |
-| `modal` | `boolean` | `true` | Whether the sheet blocks interaction with the rest of the page. |
+| Prop           | Type                      | Default | Description                                                     |
+| -------------- | ------------------------- | ------- | --------------------------------------------------------------- |
+| `open`         | `boolean`                 | —       | Controlled open state.                                          |
+| `defaultOpen`  | `boolean`                 | —       | Default open state (uncontrolled).                              |
+| `onOpenChange` | `(open: boolean) => void` | —       | Callback when the open state changes.                           |
+| `modal`        | `boolean`                 | `true`  | Whether the sheet blocks interaction with the rest of the page. |
 
 ### SheetContent
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"right"` | Which edge the sheet slides in from. |
-| `size` | `"sm" \| "md" \| "lg" \| "full"` | `"md"` | Width (left/right) or height (top/bottom) of the panel. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type                                     | Default   | Description                                             |
+| ----------- | ---------------------------------------- | --------- | ------------------------------------------------------- |
+| `side`      | `"top" \| "right" \| "bottom" \| "left"` | `"right"` | Which edge the sheet slides in from.                    |
+| `size`      | `"sm" \| "md" \| "lg" \| "full"`         | `"md"`    | Width (left/right) or height (top/bottom) of the panel. |
+| `className` | `string`                                 | —         | Additional CSS classes.                                 |
 
 ### SheetHeader
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
 
 ### SheetFooter
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
 
 ### SheetTitle
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
 
 ### SheetDescription
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
 
 ### SheetTrigger
 
@@ -416,7 +461,8 @@ Uses Radix UI's `DialogClose` API. Use `asChild` to render the close action as y
 ## Accessibility
 
 <Callout type="info">
-  Built on **@radix-ui/react-dialog** (the same primitive that powers the Dialog component) for full ARIA compliance.
+	Built on **@radix-ui/react-dialog** (the same primitive that powers the
+	Dialog component) for full ARIA compliance.
 </Callout>
 
 - **Focus trap** — Focus is contained within the sheet when open (managed by Radix).
@@ -433,15 +479,15 @@ Uses Radix UI's `DialogClose` API. Use `asChild` to render the close action as y
 
 ## Design Tokens
 
-| Token | Usage |
-|-------|-------|
-| `--ds-color-surface-raised` | Sheet panel background |
-| `--ds-color-overlay` | Backdrop overlay color |
-| `--ds-radius-lg` | Sheet border radius (inner edge corners) |
-| `--ds-z-modal` | Z-index for sheet content |
-| `--ds-z-overlay` | Z-index for backdrop |
-| `--ds-shadow-lg` | Sheet panel shadow |
-| `--ds-duration-normal` | Slide animation timing |
-| `--ds-ease-standard` | Slide animation easing |
+| Token                       | Usage                                    |
+| --------------------------- | ---------------------------------------- |
+| `--ds-color-surface-raised` | Sheet panel background                   |
+| `--ds-color-overlay`        | Backdrop overlay color                   |
+| `--ds-radius-lg`            | Sheet border radius (inner edge corners) |
+| `--ds-z-modal`              | Z-index for sheet content                |
+| `--ds-z-overlay`            | Z-index for backdrop                     |
+| `--ds-shadow-lg`            | Sheet panel shadow                       |
+| `--ds-duration-normal`      | Slide animation timing                   |
+| `--ds-ease-standard`        | Slide animation easing                   |
 
 </ComponentPage>

@@ -66,161 +66,197 @@ Use `defaultPage` to set the initial page without controlling state externally. 
 
 The standard pagination with individual page number buttons, ellipsis, and prev/next controls.
 
-<div className="my-6 flex justify-center">
-  <Pagination totalPages={20} defaultPage={7} />
-</div>
-
-```tsx
-<Pagination totalPages={20} defaultPage={7} />
-```
+<ComponentPage
+	title="Default Variant"
+	description="Standard pagination with individual page number buttons, ellipsis, and prev/next controls."
+	preview={
+		<div className="flex justify-center w-full">
+			<Pagination totalPages={20} defaultPage={7} />
+		</div>
+	}
+	code={`<Pagination totalPages={20} defaultPage={7} />`}
+/>
 
 ### Compact
 
 A minimal "Page X of Y" display with just the prev/next buttons. Ideal for mobile or space-constrained layouts.
 
-<div className="my-6 flex justify-center">
-  <Pagination totalPages={10} defaultPage={3} variant="compact" />
-</div>
-
-```tsx
-<Pagination totalPages={10} defaultPage={3} variant="compact" />
-```
+<ComponentPage
+	title="Compact Variant"
+	description='A minimal "Page X of Y" display with just prev/next buttons. Ideal for mobile or space-constrained layouts.'
+	preview={
+		<div className="flex justify-center w-full">
+			<Pagination totalPages={10} defaultPage={3} variant="compact" />
+		</div>
+	}
+	code={`<Pagination totalPages={10} defaultPage={3} variant="compact" />`}
+/>
 
 ## Sizes
 
 Two sizes are available for different density needs.
 
-<div className="my-6 flex flex-col gap-4 items-center">
-  <Pagination totalPages={10} defaultPage={3} size="sm" />
-  <Pagination totalPages={10} defaultPage={3} size="md" />
-</div>
+<ComponentPage
+	title="Pagination Sizes"
+	description="Two sizes for different density requirements."
+	preview={
+		<div className="flex flex-col gap-4 items-center w-full">
+			<Pagination totalPages={10} defaultPage={3} size="sm" />
+			<Pagination totalPages={10} defaultPage={3} size="md" />
+		</div>
+	}
+	code={`<Pagination totalPages={10} size="sm" />  {/* Compact buttons */}
+<Pagination totalPages={10} size="md" />  {/* Default size */}`}
+/>
 
-```tsx
-<Pagination totalPages={10} size="sm" />  {/* Compact buttons */}
-<Pagination totalPages={10} size="md" />  {/* Default size */}
-```
-
-| Size | Button Height | Use Case |
-|------|--------------|----------|
-| `sm` | 32px | Dense UIs, admin tables, mobile |
-| `md` | 36px | Default, general-purpose tables |
+| Size | Button Height | Use Case                        |
+| ---- | ------------- | ------------------------------- |
+| `sm` | 32px          | Dense UIs, admin tables, mobile |
+| `md` | 36px          | Default, general-purpose tables |
 
 ## Smart Ellipsis
 
 The pagination component uses a smart truncation algorithm that shows:
+
 - The **first** and **last** page numbers (boundary pages)
 - A configurable number of **sibling** pages around the current page
 - **Ellipsis** (`…`) indicators when pages are skipped
 
-<div className="my-6 flex flex-col gap-4 items-center">
-  <div className="text-xs text-ds-muted-foreground">Page 1 of 20</div>
-  <Pagination totalPages={20} defaultPage={1} />
-  <div className="text-xs text-ds-muted-foreground">Page 10 of 20</div>
-  <Pagination totalPages={20} defaultPage={10} />
-  <div className="text-xs text-ds-muted-foreground">Page 20 of 20</div>
-  <Pagination totalPages={20} defaultPage={20} />
-</div>
-
-```tsx
-{/* Near the start — no left ellipsis */}
+<ComponentPage
+	title="Smart Ellipsis"
+	description="Intelligent truncation that adapts based on the current page position — hiding left or right ellipsis as needed."
+	preview={
+		<div className="flex flex-col gap-4 items-center w-full">
+			<div className="text-xs text-ds-muted-foreground">Page 1 of 20</div>
+			<Pagination totalPages={20} defaultPage={1} />
+			<div className="text-xs text-ds-muted-foreground">Page 10 of 20</div>
+			<Pagination totalPages={20} defaultPage={10} />
+			<div className="text-xs text-ds-muted-foreground">Page 20 of 20</div>
+			<Pagination totalPages={20} defaultPage={20} />
+		</div>
+	}
+	code={`{/* Near the start — no left ellipsis */}
 <Pagination totalPages={20} defaultPage={1} />
 
 {/* In the middle — both ellipses visible */}
+
 <Pagination totalPages={20} defaultPage={10} />
 
 {/* Near the end — no right ellipsis */}
-<Pagination totalPages={20} defaultPage={20} />
-```
+
+<Pagination totalPages={20} defaultPage={20} />`}
+/>
 
 ## Sibling and Boundary Count
 
 Configure how many sibling pages appear around the current page and how many boundary pages appear at the edges.
 
 ```tsx
-{/* Default: 1 sibling on each side */}
-<Pagination totalPages={50} defaultPage={25} />
+{
+	/* Default: 1 sibling on each side */
+}
+<Pagination totalPages={50} defaultPage={25} />;
 
-{/* More siblings for wider navigation */}
-<Pagination totalPages={50} defaultPage={25} siblingCount={2} />
+{
+	/* More siblings for wider navigation */
+}
+<Pagination totalPages={50} defaultPage={25} siblingCount={2} />;
 
-{/* More boundary pages */}
-<Pagination totalPages={50} defaultPage={25} boundaryCount={2} />
+{
+	/* More boundary pages */
+}
+<Pagination totalPages={50} defaultPage={25} boundaryCount={2} />;
 ```
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `siblingCount` | `1` | Number of pages to show on each side of the current page. |
-| `boundaryCount` | `1` | Number of pages to always show at the start and end. |
+| Prop            | Default | Description                                               |
+| --------------- | ------- | --------------------------------------------------------- |
+| `siblingCount`  | `1`     | Number of pages to show on each side of the current page. |
+| `boundaryCount` | `1`     | Number of pages to always show at the start and end.      |
 
 ## Disabled State
 
 The previous button is automatically disabled on page 1, and the next button is disabled on the last page. You can also disable the entire component.
 
 ```tsx
-{/* Auto-disabled at boundaries */}
-<Pagination totalPages={10} defaultPage={1} />
+{
+	/* Auto-disabled at boundaries */
+}
+<Pagination totalPages={10} defaultPage={1} />;
 
-{/* Fully disabled */}
-<Pagination totalPages={10} defaultPage={5} disabled />
+{
+	/* Fully disabled */
+}
+<Pagination totalPages={10} defaultPage={5} disabled />;
 ```
 
 ## Small Page Counts
 
 When the total page count is small enough to show all pages, no ellipsis is rendered.
 
-<div className="my-6 flex flex-col gap-4 items-center">
-  <Pagination totalPages={1} defaultPage={1} />
-  <Pagination totalPages={3} defaultPage={2} />
-  <Pagination totalPages={5} defaultPage={3} />
-</div>
-
-```tsx
-<Pagination totalPages={1} />   {/* Just "1" — prev/next disabled */}
+<ComponentPage
+	title="Small Page Counts"
+	description="When the total page count is small enough, all pages are shown without ellipsis."
+	preview={
+		<div className="flex flex-col gap-4 items-center w-full">
+			<Pagination totalPages={1} defaultPage={1} />
+			<Pagination totalPages={3} defaultPage={2} />
+			<Pagination totalPages={5} defaultPage={3} />
+		</div>
+	}
+	code={`<Pagination totalPages={1} />   {/* Just "1" — prev/next disabled */}
 <Pagination totalPages={3} />   {/* "1 2 3" — no ellipsis needed */}
-<Pagination totalPages={5} />   {/* "1 2 3 4 5" — all visible */}
-```
+<Pagination totalPages={5} />   {/* "1 2 3 4 5" — all visible */}`}
+/>
 
 ## Table Integration
 
 A common pattern pairing pagination with a data table.
 
 ```tsx
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Pagination } from "@work-rjkashyap/unified-ui";
+import {
+	Table,
+	TableHeader,
+	TableBody,
+	TableRow,
+	TableHead,
+	TableCell,
+	Pagination,
+} from "@work-rjkashyap/unified-ui";
 
 function DataTable({ data, pageSize = 10 }) {
-  const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(data.length / pageSize);
-  const pageData = data.slice((page - 1) * pageSize, page * pageSize);
+	const [page, setPage] = useState(1);
+	const totalPages = Math.ceil(data.length / pageSize);
+	const pageData = data.slice((page - 1) * pageSize, page * pageSize);
 
-  return (
-    <div className="flex flex-col gap-4">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead align="right">Role</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {pageData.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.email}</TableCell>
-              <TableCell align="right">{row.role}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className="flex justify-center">
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      </div>
-    </div>
-  );
+	return (
+		<div className="flex flex-col gap-4">
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead>Name</TableHead>
+						<TableHead>Email</TableHead>
+						<TableHead align="right">Role</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{pageData.map((row) => (
+						<TableRow key={row.id}>
+							<TableCell>{row.name}</TableCell>
+							<TableCell>{row.email}</TableCell>
+							<TableCell align="right">{row.role}</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
+			<div className="flex justify-center">
+				<Pagination
+					page={page}
+					totalPages={totalPages}
+					onPageChange={setPage}
+				/>
+			</div>
+		</div>
+	);
 }
 ```
 
@@ -230,38 +266,40 @@ Combine the compact variant with additional page info for a mobile-friendly layo
 
 ```tsx
 <div className="flex items-center justify-between w-full">
-  <p className="text-sm text-ds-muted-foreground">
-    Showing {startItem}–{endItem} of {totalItems}
-  </p>
-  <Pagination
-    page={page}
-    totalPages={totalPages}
-    onPageChange={setPage}
-    variant="compact"
-    size="sm"
-  />
+	<p className="text-sm text-ds-muted-foreground">
+		Showing {startItem}–{endItem} of {totalItems}
+	</p>
+	<Pagination
+		page={page}
+		totalPages={totalPages}
+		onPageChange={setPage}
+		variant="compact"
+		size="sm"
+	/>
 </div>
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `page` | `number` | — | Controlled current page (1-indexed). |
-| `defaultPage` | `number` | `1` | Default page for uncontrolled mode. |
-| `totalPages` | `number` | **required** | Total number of pages. |
-| `onPageChange` | `(page: number) => void` | — | Callback when the page changes. |
-| `variant` | `"default" \| "compact"` | `"default"` | Visual variant. `"compact"` shows "Page X of Y". |
-| `size` | `"sm" \| "md"` | `"md"` | Size of the pagination buttons. |
-| `siblingCount` | `number` | `1` | Number of pages shown on each side of the current page. |
-| `boundaryCount` | `number` | `1` | Number of pages always shown at the start and end. |
-| `disabled` | `boolean` | `false` | Disables the entire pagination component. |
-| `className` | `string` | — | Additional CSS classes on the root `<nav>` element. |
+| Prop            | Type                     | Default      | Description                                             |
+| --------------- | ------------------------ | ------------ | ------------------------------------------------------- |
+| `page`          | `number`                 | —            | Controlled current page (1-indexed).                    |
+| `defaultPage`   | `number`                 | `1`          | Default page for uncontrolled mode.                     |
+| `totalPages`    | `number`                 | **required** | Total number of pages.                                  |
+| `onPageChange`  | `(page: number) => void` | —            | Callback when the page changes.                         |
+| `variant`       | `"default" \| "compact"` | `"default"`  | Visual variant. `"compact"` shows "Page X of Y".        |
+| `size`          | `"sm" \| "md"`           | `"md"`       | Size of the pagination buttons.                         |
+| `siblingCount`  | `number`                 | `1`          | Number of pages shown on each side of the current page. |
+| `boundaryCount` | `number`                 | `1`          | Number of pages always shown at the start and end.      |
+| `disabled`      | `boolean`                | `false`      | Disables the entire pagination component.               |
+| `className`     | `string`                 | —            | Additional CSS classes on the root `<nav>` element.     |
 
 ## Accessibility
 
 <Callout type="info">
-  The Pagination component renders as a `nav` element with `aria-label="Pagination"` for proper landmark identification by screen readers.
+	The Pagination component renders as a `nav` element with
+	`aria-label="Pagination"` for proper landmark identification by screen
+	readers.
 </Callout>
 
 - **Semantic markup** — Renders as `<nav>` with `aria-label="Pagination"`.
@@ -275,15 +313,15 @@ Combine the compact variant with additional page info for a mobile-friendly layo
 
 ## Design Tokens
 
-| Token | Usage |
-|-------|-------|
-| `--ds-color-primary` | Active page button background |
-| `--ds-color-primary-foreground` | Active page button text |
-| `--ds-color-muted` | Inactive page button hover background |
-| `--ds-color-foreground` | Page button text |
-| `--ds-color-muted-foreground` | Ellipsis and disabled button text |
-| `--ds-color-border` | Button border color |
-| `--ds-radius-md` | Button border radius |
-| `--ds-duration-fast` | Hover/focus transition speed |
+| Token                           | Usage                                 |
+| ------------------------------- | ------------------------------------- |
+| `--ds-color-primary`            | Active page button background         |
+| `--ds-color-primary-foreground` | Active page button text               |
+| `--ds-color-muted`              | Inactive page button hover background |
+| `--ds-color-foreground`         | Page button text                      |
+| `--ds-color-muted-foreground`   | Ellipsis and disabled button text     |
+| `--ds-color-border`             | Button border color                   |
+| `--ds-radius-md`                | Button border radius                  |
+| `--ds-duration-fast`            | Hover/focus transition speed          |
 
 </ComponentPage>

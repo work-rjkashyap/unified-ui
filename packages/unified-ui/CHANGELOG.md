@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Planned
+
+- Documentation site overhaul (Phase 6) — MDX pages with interactive component previews
+- Motion & accessibility hardening (Phase 7) — focus ring standardization, WCAG AA contrast audit, `prefers-reduced-motion` audit
+- Migration guide (Phase 9) — mapping from legacy `fd-*` tokens to `ds-*` tokens, component replacement strategy
+- CI/CD pipeline for automated publishing on git tags
+- `UnifiedUIProvider` component for optional auto CSS injection
+- Component tests with Vitest + Testing Library
+
+---
+
+## [0.1.1] — 2026-02-28
+
+### Added
+
+#### DataTable Component
+
+- **DataTable** — Full-featured data table powered by TanStack Table (`@tanstack/react-table` ≥ 8.0.0)
+  - Column sorting, filtering (text + faceted), row selection, column visibility toggles
+  - Built-in pagination with configurable page sizes
+  - `useDataTable` hook for headless table state management
+  - `createColumnHelper` re-export for type-safe column definitions
+  - Exported types: `DataTableProps`, `DataTableColumnMeta`, `DataTableFacetedFilter`, `UseDataTableOptions`, `UseDataTableReturn`, `ColumnDef`, `ColumnFiltersState`, `PaginationState`, `Row`, `RowSelectionState`, `SortingState`, `VisibilityState`
+  - `@tanstack/react-table` added as an optional peer dependency
+
+#### Motion Hooks
+
+- `useMotion()` — hook for accessing motion presets with reduced-motion awareness
+- `useMotionProps()` — hook that returns spread-ready motion props
+- `useMotionSpringConfig()` — hook for accessing spring configuration tokens
+- `useReducedMotion()` — hook for detecting `prefers-reduced-motion` user preference
+- `MotionSafe` — wrapper component that conditionally renders motion based on user preference
+
+### Changed
+
+- Updated `UNIFIED_UI_VERSION` exported constant from `"0.1.0"` to `"0.1.1"`
+- Component count updated from 22 to 23 across documentation and metadata
+- Package description updated to reflect 23+ components
+
+### Fixed
+
+- Removed self-referential dependency (`@work-rjkashyap/unified-ui` depending on itself) from `package.json`
+- Added missing `homepage` and `bugs` fields to `package.json`
+- Added `funding` field to `package.json`
+- Expanded `keywords` in `package.json` for better npm discoverability (`tailwind-css-v4`, `design-tokens`, `css-variables`, `theming`, `dark-mode`, `typescript`, `tree-shakeable`)
+
+---
+
 ## [0.1.0] — 2026-02-27
 
 ### Added
@@ -42,7 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Tailwind CSS v4 Integration
 
-- `design-system.css` with full `@theme` block mapping all tokens to Tailwind utilities
+- `styles.css` with full `@theme` block mapping all tokens to Tailwind utilities
 - `ds-*` prefixed utilities for colors, radius, shadows, transitions, fonts
 - Font CSS custom properties (`--font-outfit`, `--font-inter`, `--font-lora`, `--font-jetbrains`)
 
@@ -112,6 +162,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `dsVar()` / `dsColorVar()` — CSS custom property reference helpers
 - `typedKeys()` — type-safe `Object.keys`
 - `noop` — no-operation function
+- Focus ring utilities: `focusRingClasses`, `focusRingInsetClasses`, `focusRingCompactClasses`, `focusWithinRingClasses`, `focusRingGroupRingClasses`, `focusRingGroupTriggerClasses`, `focusRingVariantOverrides`
+- WCAG contrast checking: `checkHexContrast`, `checkDSContrast`, `auditContrast`, `contrastRatio`, `relativeLuminance`, `meetsAA`, `meetsAAA`, `meetsNonTextAA`, `parseHex`, `parseRGBString`, `toRGBString`
 - Polymorphic component types: `AsProp`, `PolymorphicProps`, `PolymorphicPropsWithRef`, `PolymorphicRef`, `PolymorphicComponent`
 - Slot types: `SlotClasses`, `SlotConfig`, `SlotDefinition`, `SlotRenderFn`, `Slots`
 - Component types: `ComponentSize`, `ComponentIntent`, `ChildrenProps`, `OptionalChildrenProps`
@@ -123,9 +175,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Selective `"use client"` directive — applied only to client entry points (not tokens/utils)
 - Radix UI packages externalized as optional peer dependencies
 - Tree-shakeable with code splitting enabled
-- `design-system.css` exported as `unified-ui/css` for Tailwind `@theme` integration
+- `styles.css` exported as `@work-rjkashyap/unified-ui/styles.css` for Tailwind `@theme` integration
 - `@unified-ui/*` TypeScript path aliases (zero relative cross-directory imports)
-- Consumer documentation: `INSTALL.md` with setup guide, font loading, theme provider, import patterns, troubleshooting
 
 #### Infrastructure
 
@@ -133,20 +184,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.npmignore` for clean package distribution
 - `sideEffects` field for optimal tree-shaking
 - Conditional `exports` map with full `import`/`require`/`types` resolution
+- `typesVersions` fallback for older TypeScript resolvers
 
 ---
 
-## [Unreleased]
-
-### Planned
-
-- Documentation site overhaul (Phase 6) — MDX pages with interactive component previews
-- Motion & accessibility hardening (Phase 7) — focus ring standardization, WCAG AA contrast audit, `prefers-reduced-motion` audit
-- Migration guide (Phase 9) — mapping from legacy `fd-*` tokens to `ds-*` tokens, component replacement strategy
-- CI/CD pipeline for automated publishing on git tags
-- `UnifiedUIProvider` component for optional auto CSS injection
-
----
-
-_Design system: Unified UI v0.1.0_
+_Design system: Unified UI_
 _Maintainer: Rajeshwar Kashyap_
+_Repository: [github.com/imrj05/unified-ui](https://github.com/imrj05/unified-ui)_

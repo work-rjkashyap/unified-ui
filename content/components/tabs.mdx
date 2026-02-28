@@ -4,7 +4,12 @@ description: A tabbed interface component with 3 visual variants, animated indic
 icon: PanelTop
 ---
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@work-rjkashyap/unified-ui";
+import {
+	Tabs,
+	TabsList,
+	TabsTrigger,
+	TabsContent,
+} from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
 
 <ComponentPage
@@ -57,25 +62,57 @@ import { Callout } from "fumadocs-ui/components/callout";
 ## Import
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@work-rjkashyap/unified-ui";
+import {
+	Tabs,
+	TabsList,
+	TabsTrigger,
+	TabsContent,
+} from "@work-rjkashyap/unified-ui";
 // or
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@work-rjkashyap/unified-ui/components";
+import {
+	Tabs,
+	TabsList,
+	TabsTrigger,
+	TabsContent,
+} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
 
 The `Tabs` component wraps Radix UI's Tabs primitive with design system tokens and an animated active indicator powered by Framer Motion's `layoutId`.
 
-```tsx
-<Tabs defaultValue="tab1">
+<ComponentPage
+	title="Basic Tabs"
+	description="A simple tabbed interface with two panels."
+	preview={
+		<div className="w-full max-w-md">
+			<Tabs defaultValue="tab1">
+				<TabsList>
+					<TabsTrigger value="tab1">Tab 1</TabsTrigger>
+					<TabsTrigger value="tab2">Tab 2</TabsTrigger>
+				</TabsList>
+				<TabsContent value="tab1">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Content 1
+					</div>
+				</TabsContent>
+				<TabsContent value="tab2">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Content 2
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
+	}
+	code={`<Tabs defaultValue="tab1">
   <TabsList>
     <TabsTrigger value="tab1">Tab 1</TabsTrigger>
     <TabsTrigger value="tab2">Tab 2</TabsTrigger>
   </TabsList>
   <TabsContent value="tab1">Content 1</TabsContent>
   <TabsContent value="tab2">Content 2</TabsContent>
-</Tabs>
-```
+</Tabs>`}
+/>
 
 ## Variants
 
@@ -85,8 +122,36 @@ Three visual variants are available to suit different UI contexts.
 
 The standard tab style with a bottom border indicator. Best for top-level page navigation.
 
-```tsx
-<Tabs variant="underline" defaultValue="tab1">
+<ComponentPage
+	title="Underline Variant"
+	description="The standard tab style with a bottom border indicator. Best for top-level page navigation."
+	preview={
+		<div className="w-full max-w-md">
+			<Tabs variant="underline" defaultValue="tab1">
+				<TabsList>
+					<TabsTrigger value="tab1">Overview</TabsTrigger>
+					<TabsTrigger value="tab2">Analytics</TabsTrigger>
+					<TabsTrigger value="tab3">Settings</TabsTrigger>
+				</TabsList>
+				<TabsContent value="tab1">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Overview content
+					</div>
+				</TabsContent>
+				<TabsContent value="tab2">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Analytics content
+					</div>
+				</TabsContent>
+				<TabsContent value="tab3">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Settings content
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
+	}
+	code={`<Tabs variant="underline" defaultValue="tab1">
   <TabsList>
     <TabsTrigger value="tab1">Overview</TabsTrigger>
     <TabsTrigger value="tab2">Analytics</TabsTrigger>
@@ -95,15 +160,43 @@ The standard tab style with a bottom border indicator. Best for top-level page n
   <TabsContent value="tab1">Overview content</TabsContent>
   <TabsContent value="tab2">Analytics content</TabsContent>
   <TabsContent value="tab3">Settings content</TabsContent>
-</Tabs>
-```
+</Tabs>`}
+/>
 
 ### Pills
 
 Rounded pill-shaped buttons for the active tab. Great for filtering or secondary navigation.
 
-```tsx
-<Tabs variant="pills" defaultValue="all">
+<ComponentPage
+	title="Pills Variant"
+	description="Rounded pill-shaped buttons for the active tab. Great for filtering or secondary navigation."
+	preview={
+		<div className="w-full max-w-md">
+			<Tabs variant="pills" defaultValue="all">
+				<TabsList>
+					<TabsTrigger value="all">All</TabsTrigger>
+					<TabsTrigger value="active">Active</TabsTrigger>
+					<TabsTrigger value="archived">Archived</TabsTrigger>
+				</TabsList>
+				<TabsContent value="all">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						All items
+					</div>
+				</TabsContent>
+				<TabsContent value="active">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Active items
+					</div>
+				</TabsContent>
+				<TabsContent value="archived">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Archived items
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
+	}
+	code={`<Tabs variant="pills" defaultValue="all">
   <TabsList>
     <TabsTrigger value="all">All</TabsTrigger>
     <TabsTrigger value="active">Active</TabsTrigger>
@@ -112,15 +205,43 @@ Rounded pill-shaped buttons for the active tab. Great for filtering or secondary
   <TabsContent value="all">All items</TabsContent>
   <TabsContent value="active">Active items</TabsContent>
   <TabsContent value="archived">Archived items</TabsContent>
-</Tabs>
-```
+</Tabs>`}
+/>
 
 ### Enclosed
 
 Tabs enclosed in a container with a background highlight on the active tab. Works well in card headers and toolbars.
 
-```tsx
-<Tabs variant="enclosed" defaultValue="code">
+<ComponentPage
+	title="Enclosed Variant"
+	description="Tabs enclosed in a container with a background highlight on the active tab. Works well in card headers and toolbars."
+	preview={
+		<div className="w-full max-w-md">
+			<Tabs variant="enclosed" defaultValue="code">
+				<TabsList>
+					<TabsTrigger value="code">Code</TabsTrigger>
+					<TabsTrigger value="preview">Preview</TabsTrigger>
+					<TabsTrigger value="tests">Tests</TabsTrigger>
+				</TabsList>
+				<TabsContent value="code">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Code editor
+					</div>
+				</TabsContent>
+				<TabsContent value="preview">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Live preview
+					</div>
+				</TabsContent>
+				<TabsContent value="tests">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Test results
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
+	}
+	code={`<Tabs variant="enclosed" defaultValue="code">
   <TabsList>
     <TabsTrigger value="code">Code</TabsTrigger>
     <TabsTrigger value="preview">Preview</TabsTrigger>
@@ -129,20 +250,57 @@ Tabs enclosed in a container with a background highlight on the active tab. Work
   <TabsContent value="code">Code editor</TabsContent>
   <TabsContent value="preview">Live preview</TabsContent>
   <TabsContent value="tests">Test results</TabsContent>
-</Tabs>
-```
+</Tabs>`}
+/>
 
 ## Sizes
 
 Two sizes are available for different density requirements.
 
-```tsx
-<Tabs size="sm" defaultValue="tab1">
+<ComponentPage
+	title="Tab Sizes"
+	description="Two sizes for different density requirements: sm and md (default)."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-md">
+			<div>
+				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Small</p>
+				<Tabs size="sm" defaultValue="tab1">
+					<TabsList>
+						<TabsTrigger value="tab1">Small</TabsTrigger>
+						<TabsTrigger value="tab2">Tabs</TabsTrigger>
+					</TabsList>
+					<TabsContent value="tab1">
+						<div className="p-4 text-sm text-ds-muted-foreground">Small tab content</div>
+					</TabsContent>
+					<TabsContent value="tab2">
+						<div className="p-4 text-sm text-ds-muted-foreground">Small tab 2 content</div>
+					</TabsContent>
+				</Tabs>
+			</div>
+			<div>
+				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Medium (default)</p>
+				<Tabs size="md" defaultValue="tab1">
+					<TabsList>
+						<TabsTrigger value="tab1">Medium</TabsTrigger>
+						<TabsTrigger value="tab2">Tabs (default)</TabsTrigger>
+					</TabsList>
+					<TabsContent value="tab1">
+						<div className="p-4 text-sm text-ds-muted-foreground">Medium tab content</div>
+					</TabsContent>
+					<TabsContent value="tab2">
+						<div className="p-4 text-sm text-ds-muted-foreground">Medium tab 2 content</div>
+					</TabsContent>
+				</Tabs>
+			</div>
+		</div>
+	}
+	code={`<Tabs size="sm" defaultValue="tab1">
   <TabsList>
     <TabsTrigger value="tab1">Small</TabsTrigger>
     <TabsTrigger value="tab2">Tabs</TabsTrigger>
   </TabsList>
-  ...
+  <TabsContent value="tab1">Small tab content</TabsContent>
+  <TabsContent value="tab2">Small tab 2 content</TabsContent>
 </Tabs>
 
 <Tabs size="md" defaultValue="tab1">
@@ -150,16 +308,51 @@ Two sizes are available for different density requirements.
     <TabsTrigger value="tab1">Medium</TabsTrigger>
     <TabsTrigger value="tab2">Tabs (default)</TabsTrigger>
   </TabsList>
-  ...
-</Tabs>
-```
+  <TabsContent value="tab1">Medium tab content</TabsContent>
+  <TabsContent value="tab2">Medium tab 2 content</TabsContent>
+</Tabs>`}
+/>
 
 ## Vertical Orientation
 
 Set `orientation="vertical"` for a sidebar-style layout where the tab list sits on the left and content on the right.
 
-```tsx
-<Tabs orientation="vertical" defaultValue="general">
+<ComponentPage
+	title="Vertical Orientation"
+	description="A sidebar-style layout where the tab list sits on the left and content on the right."
+	preview={
+		<div className="w-full max-w-lg">
+			<Tabs orientation="vertical" defaultValue="general">
+				<TabsList>
+					<TabsTrigger value="general">General</TabsTrigger>
+					<TabsTrigger value="security">Security</TabsTrigger>
+					<TabsTrigger value="billing">Billing</TabsTrigger>
+					<TabsTrigger value="integrations">Integrations</TabsTrigger>
+				</TabsList>
+				<TabsContent value="general">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						General settings
+					</div>
+				</TabsContent>
+				<TabsContent value="security">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Security settings
+					</div>
+				</TabsContent>
+				<TabsContent value="billing">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Billing settings
+					</div>
+				</TabsContent>
+				<TabsContent value="integrations">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Integration settings
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
+	}
+	code={`<Tabs orientation="vertical" defaultValue="general">
   <TabsList>
     <TabsTrigger value="general">General</TabsTrigger>
     <TabsTrigger value="security">Security</TabsTrigger>
@@ -170,38 +363,100 @@ Set `orientation="vertical"` for a sidebar-style layout where the tab list sits 
   <TabsContent value="security">Security settings</TabsContent>
   <TabsContent value="billing">Billing settings</TabsContent>
   <TabsContent value="integrations">Integration settings</TabsContent>
-</Tabs>
-```
+</Tabs>`}
+/>
 
 ## Full Width
 
 Set `fullWidth` on the `TabsList` to stretch tabs evenly across the available width.
 
-```tsx
-<Tabs defaultValue="tab1">
+<ComponentPage
+	title="Full Width"
+	description="Stretch tabs evenly across the available width using the fullWidth prop on TabsList."
+	preview={
+		<div className="w-full max-w-md">
+			<Tabs defaultValue="tab1">
+				<TabsList fullWidth>
+					<TabsTrigger value="tab1">First</TabsTrigger>
+					<TabsTrigger value="tab2">Second</TabsTrigger>
+					<TabsTrigger value="tab3">Third</TabsTrigger>
+				</TabsList>
+				<TabsContent value="tab1">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						First tab content
+					</div>
+				</TabsContent>
+				<TabsContent value="tab2">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Second tab content
+					</div>
+				</TabsContent>
+				<TabsContent value="tab3">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Third tab content
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
+	}
+	code={`<Tabs defaultValue="tab1">
   <TabsList fullWidth>
     <TabsTrigger value="tab1">First</TabsTrigger>
     <TabsTrigger value="tab2">Second</TabsTrigger>
     <TabsTrigger value="tab3">Third</TabsTrigger>
   </TabsList>
-  ...
-</Tabs>
-```
+  <TabsContent value="tab1">First tab content</TabsContent>
+  <TabsContent value="tab2">Second tab content</TabsContent>
+  <TabsContent value="tab3">Third tab content</TabsContent>
+</Tabs>`}
+/>
 
 ## Disabled Tabs
 
 Individual tabs can be disabled while others remain interactive.
 
-```tsx
-<Tabs defaultValue="tab1">
+<ComponentPage
+	title="Disabled Tabs"
+	description="Individual tabs can be disabled while others remain interactive."
+	preview={
+		<div className="w-full max-w-md">
+			<Tabs defaultValue="tab1">
+				<TabsList>
+					<TabsTrigger value="tab1">Active</TabsTrigger>
+					<TabsTrigger value="tab2" disabled>
+						Disabled
+					</TabsTrigger>
+					<TabsTrigger value="tab3">Active</TabsTrigger>
+				</TabsList>
+				<TabsContent value="tab1">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						First tab content
+					</div>
+				</TabsContent>
+				<TabsContent value="tab2">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						This tab is disabled
+					</div>
+				</TabsContent>
+				<TabsContent value="tab3">
+					<div className="p-4 text-sm text-ds-muted-foreground">
+						Third tab content
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
+	}
+	code={`<Tabs defaultValue="tab1">
   <TabsList>
     <TabsTrigger value="tab1">Active</TabsTrigger>
     <TabsTrigger value="tab2" disabled>Disabled</TabsTrigger>
     <TabsTrigger value="tab3">Active</TabsTrigger>
   </TabsList>
-  ...
-</Tabs>
-```
+  <TabsContent value="tab1">First tab content</TabsContent>
+  <TabsContent value="tab2">This tab is disabled</TabsContent>
+  <TabsContent value="tab3">Third tab content</TabsContent>
+</Tabs>`}
+/>
 
 ## Controlled
 
@@ -211,13 +466,13 @@ Use `value` and `onValueChange` for controlled tab state.
 const [activeTab, setActiveTab] = useState("overview");
 
 <Tabs value={activeTab} onValueChange={setActiveTab}>
-  <TabsList>
-    <TabsTrigger value="overview">Overview</TabsTrigger>
-    <TabsTrigger value="details">Details</TabsTrigger>
-  </TabsList>
-  <TabsContent value="overview">Overview content</TabsContent>
-  <TabsContent value="details">Details content</TabsContent>
-</Tabs>
+	<TabsList>
+		<TabsTrigger value="overview">Overview</TabsTrigger>
+		<TabsTrigger value="details">Details</TabsTrigger>
+	</TabsList>
+	<TabsContent value="overview">Overview content</TabsContent>
+	<TabsContent value="details">Details content</TabsContent>
+</Tabs>;
 ```
 
 ## Animated Indicator
@@ -228,43 +483,44 @@ The active tab indicator uses Framer Motion's `layoutId` for smooth animated tra
 
 ### Tabs
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `"underline" \| "pills" \| "enclosed"` | `"underline"` | Visual variant of the tabs. |
-| `size` | `"sm" \| "md"` | `"md"` | Size of the tab triggers. |
-| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction. |
-| `value` | `string` | — | Controlled active tab value. |
-| `defaultValue` | `string` | — | Default active tab (uncontrolled). |
-| `onValueChange` | `(value: string) => void` | — | Callback when the active tab changes. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop            | Type                                   | Default        | Description                           |
+| --------------- | -------------------------------------- | -------------- | ------------------------------------- |
+| `variant`       | `"underline" \| "pills" \| "enclosed"` | `"underline"`  | Visual variant of the tabs.           |
+| `size`          | `"sm" \| "md"`                         | `"md"`         | Size of the tab triggers.             |
+| `orientation`   | `"horizontal" \| "vertical"`           | `"horizontal"` | Layout direction.                     |
+| `value`         | `string`                               | —              | Controlled active tab value.          |
+| `defaultValue`  | `string`                               | —              | Default active tab (uncontrolled).    |
+| `onValueChange` | `(value: string) => void`              | —              | Callback when the active tab changes. |
+| `className`     | `string`                               | —              | Additional CSS classes.               |
 
 ### TabsList
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| Prop        | Type      | Default | Description                           |
+| ----------- | --------- | ------- | ------------------------------------- |
 | `fullWidth` | `boolean` | `false` | Stretch tabs to fill available width. |
-| `className` | `string` | — | Additional CSS classes. |
+| `className` | `string`  | —       | Additional CSS classes.               |
 
 ### TabsTrigger
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | **required** | The value identifying this tab. |
-| `disabled` | `boolean` | `false` | Disables this tab trigger. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type      | Default      | Description                     |
+| ----------- | --------- | ------------ | ------------------------------- |
+| `value`     | `string`  | **required** | The value identifying this tab. |
+| `disabled`  | `boolean` | `false`      | Disables this tab trigger.      |
+| `className` | `string`  | —            | Additional CSS classes.         |
 
 ### TabsContent
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | **required** | The value identifying this content panel. |
-| `forceMount` | `boolean` | `false` | Force mount the content even when inactive. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop         | Type      | Default      | Description                                 |
+| ------------ | --------- | ------------ | ------------------------------------------- |
+| `value`      | `string`  | **required** | The value identifying this content panel.   |
+| `forceMount` | `boolean` | `false`      | Force mount the content even when inactive. |
+| `className`  | `string`  | —            | Additional CSS classes.                     |
 
 ## Accessibility
 
 <Callout type="info">
-  Built on **@radix-ui/react-tabs** which provides full keyboard navigation and ARIA attributes out of the box.
+	Built on **@radix-ui/react-tabs** which provides full keyboard navigation
+	and ARIA attributes out of the box.
 </Callout>
 
 - **Arrow keys** — Navigate between tab triggers (left/right for horizontal, up/down for vertical).
@@ -280,13 +536,13 @@ The active tab indicator uses Framer Motion's `layoutId` for smooth animated tra
 
 ## Design Tokens
 
-| Token | Usage |
-|-------|-------|
-| `--ds-color-primary` | Active tab indicator / highlight |
-| `--ds-color-muted` | Inactive tab background (enclosed/pills) |
-| `--ds-color-foreground` | Active tab text color |
-| `--ds-color-muted-foreground` | Inactive tab text color |
-| `--ds-radius-md` | Tab trigger border radius |
-| `--ds-duration-fast` | Transition speed for hover/focus states |
+| Token                         | Usage                                    |
+| ----------------------------- | ---------------------------------------- |
+| `--ds-color-primary`          | Active tab indicator / highlight         |
+| `--ds-color-muted`            | Inactive tab background (enclosed/pills) |
+| `--ds-color-foreground`       | Active tab text color                    |
+| `--ds-color-muted-foreground` | Inactive tab text color                  |
+| `--ds-radius-md`              | Tab trigger border radius                |
+| `--ds-duration-fast`          | Transition speed for hover/focus states  |
 
 </ComponentPage>

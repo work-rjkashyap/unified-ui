@@ -4,7 +4,12 @@ description: Loading placeholder components that mimic content shapes with a pul
 icon: Loader
 ---
 
-import { Skeleton, SkeletonText, SkeletonCircle, SkeletonRect } from "@work-rjkashyap/unified-ui";
+import {
+	Skeleton,
+	SkeletonText,
+	SkeletonCircle,
+	SkeletonRect,
+} from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
 
 <ComponentPage
@@ -37,9 +42,19 @@ import { Callout } from "fumadocs-ui/components/callout";
 ## Import
 
 ```tsx
-import { Skeleton, SkeletonText, SkeletonCircle, SkeletonRect } from "@work-rjkashyap/unified-ui";
+import {
+	Skeleton,
+	SkeletonText,
+	SkeletonCircle,
+	SkeletonRect,
+} from "@work-rjkashyap/unified-ui";
 // or
-import { Skeleton, SkeletonText, SkeletonCircle, SkeletonRect } from "@work-rjkashyap/unified-ui/components";
+import {
+	Skeleton,
+	SkeletonText,
+	SkeletonCircle,
+	SkeletonRect,
+} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Skeleton
@@ -56,90 +71,104 @@ The base `Skeleton` component renders a single animated placeholder. Use the `sh
 
 Renders one or more text-line placeholders. Use the `lines` prop to control the number of lines. The last line is automatically shorter for a natural appearance.
 
-<div className="my-6 flex flex-col gap-6 max-w-sm">
-  <div>
-    <p className="text-xs text-ds-muted-foreground mb-2">1 line</p>
-    <SkeletonText lines={1} />
-  </div>
-  <div>
-    <p className="text-xs text-ds-muted-foreground mb-2">3 lines</p>
-    <SkeletonText lines={3} />
-  </div>
-  <div>
-    <p className="text-xs text-ds-muted-foreground mb-2">5 lines</p>
-    <SkeletonText lines={5} />
-  </div>
-</div>
-
-```tsx
-<SkeletonText lines={1} />
+<ComponentPage
+	title="SkeletonText"
+	description="Renders one or more text-line placeholders. The last line is automatically shorter for a natural appearance."
+	preview={
+		<div className="flex flex-col gap-6 max-w-sm w-full">
+			<div>
+				<p className="text-xs text-ds-muted-foreground mb-2">1 line</p>
+				<SkeletonText lines={1} />
+			</div>
+			<div>
+				<p className="text-xs text-ds-muted-foreground mb-2">3 lines</p>
+				<SkeletonText lines={3} />
+			</div>
+			<div>
+				<p className="text-xs text-ds-muted-foreground mb-2">5 lines</p>
+				<SkeletonText lines={5} />
+			</div>
+		</div>
+	}
+	code={`<SkeletonText lines={1} />
 <SkeletonText lines={3} />
-<SkeletonText lines={5} />
-```
+<SkeletonText lines={5} />`}
+/>
 
 ### Text Sizes
 
 Two sizes control the height of each text line to match your typography scale.
 
-<div className="my-6 flex flex-col gap-4 max-w-sm">
-  <div>
-    <p className="text-xs text-ds-muted-foreground mb-2">Small</p>
-    <SkeletonText lines={2} size="sm" />
-  </div>
-  <div>
-    <p className="text-xs text-ds-muted-foreground mb-2">Medium (default)</p>
-    <SkeletonText lines={2} size="md" />
-  </div>
-</div>
-
-```tsx
-<SkeletonText lines={2} size="sm" />
-<SkeletonText lines={2} size="md" />
-```
+<ComponentPage
+	title="Text Sizes"
+	description="Two sizes control the height of each text line to match your typography scale."
+	preview={
+		<div className="flex flex-col gap-4 max-w-sm w-full">
+			<div>
+				<p className="text-xs text-ds-muted-foreground mb-2">Small</p>
+				<SkeletonText lines={2} size="sm" />
+			</div>
+			<div>
+				<p className="text-xs text-ds-muted-foreground mb-2">
+					Medium (default)
+				</p>
+				<SkeletonText lines={2} size="md" />
+			</div>
+		</div>
+	}
+	code={`<SkeletonText lines={2} size="sm" />
+<SkeletonText lines={2} size="md" />`}
+/>
 
 ## SkeletonCircle
 
 Renders a circular placeholder. Perfect for avatar and icon loading states.
 
-<div className="my-6 flex gap-4 items-end justify-center">
-  <SkeletonCircle size="xs" />
-  <SkeletonCircle size="sm" />
-  <SkeletonCircle size="md" />
-  <SkeletonCircle size="lg" />
-  <SkeletonCircle size="xl" />
-</div>
-
-```tsx
-<SkeletonCircle size="xs" />  {/* 24px */}
+<ComponentPage
+	title="SkeletonCircle"
+	description="Circular placeholders in 5 sizes matching the Avatar component dimensions."
+	preview={
+		<div className="flex gap-4 items-end justify-center">
+			<SkeletonCircle size="xs" />
+			<SkeletonCircle size="sm" />
+			<SkeletonCircle size="md" />
+			<SkeletonCircle size="lg" />
+			<SkeletonCircle size="xl" />
+		</div>
+	}
+	code={`<SkeletonCircle size="xs" />  {/* 24px */}
 <SkeletonCircle size="sm" />  {/* 32px */}
 <SkeletonCircle size="md" />  {/* 40px — default */}
 <SkeletonCircle size="lg" />  {/* 48px */}
-<SkeletonCircle size="xl" />  {/* 64px */}
-```
+<SkeletonCircle size="xl" />  {/* 64px */}`}
+/>
 
-| Size | Dimensions | Matches |
-|------|-----------|---------|
-| `xs` | 24×24px | Avatar xs |
-| `sm` | 32×32px | Avatar sm |
-| `md` | 40×40px | Avatar md |
-| `lg` | 48×48px | Avatar lg |
-| `xl` | 64×64px | Avatar xl |
+| Size | Dimensions | Matches   |
+| ---- | ---------- | --------- |
+| `xs` | 24×24px    | Avatar xs |
+| `sm` | 32×32px    | Avatar sm |
+| `md` | 40×40px    | Avatar md |
+| `lg` | 48×48px    | Avatar lg |
+| `xl` | 64×64px    | Avatar xl |
 
 ## SkeletonRect
 
 Renders a rectangular placeholder with configurable width and height. Useful for images, cards, and media content loading states.
 
-<div className="my-6 flex flex-col gap-4 max-w-sm">
-  <SkeletonRect width="100%" height={80} />
-  <SkeletonRect width={200} height={120} />
-  <SkeletonRect width="50%" height={60} />
-</div>
-
-```tsx
-<SkeletonRect width="100%" height={80} />
+<ComponentPage
+	title="SkeletonRect"
+	description="Rectangular placeholders with configurable width and height. Useful for images, cards, and media."
+	preview={
+		<div className="flex flex-col gap-4 max-w-sm w-full">
+			<SkeletonRect width="100%" height={80} />
+			<SkeletonRect width={200} height={120} />
+			<SkeletonRect width="50%" height={60} />
+		</div>
+	}
+	code={`<SkeletonRect width="100%" height={80} />
 <SkeletonRect width={200} height={120} />
-<SkeletonRect width="50%" height={60} />
-```
+<SkeletonRect width="50%" height={60} />`}
+/>
 
 ## Composition Examples
 
@@ -147,19 +176,22 @@ Renders a rectangular placeholder with configurable width and height. Useful for
 
 A common loading pattern for user profile cards.
 
-<div className="my-6 max-w-sm border border-ds-border rounded-ds-md p-4 not-prose">
-  <div className="flex items-center gap-3 mb-4">
-    <SkeletonCircle size="lg" />
-    <div className="flex flex-col gap-2 flex-1">
-      <SkeletonText lines={1} className="w-2/3" />
-      <SkeletonText lines={1} className="w-1/3" size="sm" />
-    </div>
-  </div>
-  <SkeletonText lines={3} />
-</div>
-
-```tsx
-<Card>
+<ComponentPage
+	title="User Card Skeleton"
+	description="A common loading pattern for user profile cards with avatar, name, and body text."
+	preview={
+		<div className="max-w-sm w-full border border-ds-border rounded-ds-md p-4">
+			<div className="flex items-center gap-3 mb-4">
+				<SkeletonCircle size="lg" />
+				<div className="flex flex-col gap-2 flex-1">
+					<SkeletonText lines={1} className="w-2/3" />
+					<SkeletonText lines={1} className="w-1/3" size="sm" />
+				</div>
+			</div>
+			<SkeletonText lines={3} />
+		</div>
+	}
+	code={`<Card>
   <CardBody>
     <div className="flex items-center gap-3 mb-4">
       <SkeletonCircle size="lg" />
@@ -170,52 +202,58 @@ A common loading pattern for user profile cards.
     </div>
     <SkeletonText lines={3} />
   </CardBody>
-</Card>
-```
+</Card>`}
+/>
 
 ### Article Skeleton
 
 A loading placeholder for article or blog post content.
 
-<div className="my-6 max-w-sm not-prose flex flex-col gap-4">
-  <SkeletonRect width="100%" height={160} />
-  <SkeletonText lines={1} className="w-3/4" size="md" />
-  <SkeletonText lines={1} className="w-1/2" size="sm" />
-  <SkeletonText lines={4} />
-</div>
-
-```tsx
-<SkeletonRect width="100%" height={160} />
+<ComponentPage
+	title="Article Skeleton"
+	description="A loading placeholder for article or blog post content with hero image, title, subtitle, and body."
+	preview={
+		<div className="max-w-sm w-full flex flex-col gap-4">
+			<SkeletonRect width="100%" height={160} />
+			<SkeletonText lines={1} className="w-3/4" size="md" />
+			<SkeletonText lines={1} className="w-1/2" size="sm" />
+			<SkeletonText lines={4} />
+		</div>
+	}
+	code={`<SkeletonRect width="100%" height={160} />
 <SkeletonText lines={1} className="w-3/4" size="md" />
 <SkeletonText lines={1} className="w-1/2" size="sm" />
-<SkeletonText lines={4} />
-```
+<SkeletonText lines={4} />`}
+/>
 
 ### Table Row Skeleton
 
 Loading state for data table rows.
 
-<div className="my-6 max-w-md not-prose flex flex-col gap-3">
-  {[1, 2, 3].map((i) => (
-    <div key={i} className="flex items-center gap-3">
-      <SkeletonCircle size="sm" />
-      <SkeletonText lines={1} className="flex-1" />
-      <Skeleton shape="text" className="w-16" />
-      <Skeleton shape="text" className="w-20" />
-    </div>
-  ))}
-</div>
-
-```tsx
-{rows.map((_, i) => (
+<ComponentPage
+	title="Table Row Skeleton"
+	description="Loading state for data table rows with avatar, name, and metadata columns."
+	preview={
+		<div className="max-w-md w-full flex flex-col gap-3">
+			{[1, 2, 3].map((i) => (
+				<div key={i} className="flex items-center gap-3">
+					<SkeletonCircle size="sm" />
+					<SkeletonText lines={1} className="flex-1" />
+					<Skeleton shape="text" className="w-16" />
+					<Skeleton shape="text" className="w-20" />
+				</div>
+			))}
+		</div>
+	}
+	code={`{rows.map((_, i) => (
   <div key={i} className="flex items-center gap-3">
     <SkeletonCircle size="sm" />
     <SkeletonText lines={1} className="flex-1" />
     <Skeleton shape="text" className="w-16" />
     <Skeleton shape="text" className="w-20" />
   </div>
-))}
-```
+))}`}
+/>
 
 ## Custom Dimensions
 
@@ -237,41 +275,42 @@ Both `width` and `height` accept numbers (pixels) or strings (CSS values like pe
 
 ### Skeleton
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `shape` | `"text" \| "circle" \| "rect"` | `"text"` | Shape of the skeleton placeholder. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"` | Size preset (used with `circle` shape). |
-| `width` | `number \| string` | — | Custom width. Numbers are treated as pixels. |
-| `height` | `number \| string` | — | Custom height. Numbers are treated as pixels. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type                                   | Default  | Description                                   |
+| ----------- | -------------------------------------- | -------- | --------------------------------------------- |
+| `shape`     | `"text" \| "circle" \| "rect"`         | `"text"` | Shape of the skeleton placeholder.            |
+| `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"`   | Size preset (used with `circle` shape).       |
+| `width`     | `number \| string`                     | —        | Custom width. Numbers are treated as pixels.  |
+| `height`    | `number \| string`                     | —        | Custom height. Numbers are treated as pixels. |
+| `className` | `string`                               | —        | Additional CSS classes.                       |
 
 ### SkeletonText
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `lines` | `number` | `3` | Number of text lines to render. |
-| `size` | `"sm" \| "md"` | `"md"` | Height of each text line. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type           | Default | Description                     |
+| ----------- | -------------- | ------- | ------------------------------- |
+| `lines`     | `number`       | `3`     | Number of text lines to render. |
+| `size`      | `"sm" \| "md"` | `"md"`  | Height of each text line.       |
+| `className` | `string`       | —       | Additional CSS classes.         |
 
 ### SkeletonCircle
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"` | Diameter of the circle. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type                                   | Default | Description             |
+| ----------- | -------------------------------------- | ------- | ----------------------- |
+| `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"`  | Diameter of the circle. |
+| `className` | `string`                               | —       | Additional CSS classes. |
 
 ### SkeletonRect
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `width` | `number \| string` | `"100%"` | Width of the rectangle. |
-| `height` | `number \| string` | `80` | Height of the rectangle. |
-| `className` | `string` | — | Additional CSS classes. |
+| Prop        | Type               | Default  | Description              |
+| ----------- | ------------------ | -------- | ------------------------ |
+| `width`     | `number \| string` | `"100%"` | Width of the rectangle.  |
+| `height`    | `number \| string` | `80`     | Height of the rectangle. |
+| `className` | `string`           | —        | Additional CSS classes.  |
 
 ## Accessibility
 
 <Callout type="info">
-  Skeleton placeholders are purely decorative and should not convey meaningful information.
+	Skeleton placeholders are purely decorative and should not convey meaningful
+	information.
 </Callout>
 
 - All skeleton elements render with `aria-hidden="true"` so screen readers skip them.
@@ -286,18 +325,18 @@ The skeleton pulse animation is defined via `animate-pulse` in Tailwind, which i
 ```css
 /* Handled globally in styles.css */
 @media (prefers-reduced-motion: reduce) {
-  .animate-pulse {
-    animation: none;
-  }
+	.animate-pulse {
+		animation: none;
+	}
 }
 ```
 
 ## Design Tokens
 
-| Token | Usage |
-|-------|-------|
-| `--ds-color-muted` | Skeleton placeholder background |
-| `--ds-radius-sm` | Text line and rect border radius |
-| `--ds-radius-full` | Circle shape border radius |
+| Token              | Usage                            |
+| ------------------ | -------------------------------- |
+| `--ds-color-muted` | Skeleton placeholder background  |
+| `--ds-radius-sm`   | Text line and rect border radius |
+| `--ds-radius-full` | Circle shape border radius       |
 
 </ComponentPage>
