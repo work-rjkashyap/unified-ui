@@ -17,6 +17,6 @@ import 'framer-motion';
 import 'clsx';
 
 /** Current version of the Unified UI design system. */
-declare const UNIFIED_UI_VERSION: "0.1.1";
+declare const UNIFIED_UI_VERSION: "0.1.2";
 
 export { UNIFIED_UI_VERSION };

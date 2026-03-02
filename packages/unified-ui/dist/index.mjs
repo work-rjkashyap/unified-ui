@@ -12,6 +12,6 @@ export { focusRingClassList, focusRingClasses, focusRingCompactClassList, focusR
 export { cn, composeRefs, dsAttr, dsColorVar, dsStateAttr, dsVar, mergeSlots, noop, typedKeys } from './chunk-ZT3PCXDF.mjs';
 
 // src/index.ts
-var UNIFIED_UI_VERSION = "0.1.1";
+var UNIFIED_UI_VERSION = "0.1.2";
 
 export { UNIFIED_UI_VERSION };

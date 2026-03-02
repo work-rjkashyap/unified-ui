@@ -1,31 +1,63 @@
 # Unified UI Changelog
-
 All notable changes to the Unified UI design system will be documented in this file.
-
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
 ---
-
 ## [Unreleased]
-
 ### Planned
-
-- Documentation site overhaul (Phase 6) — MDX pages with interactive component previews
-- Motion & accessibility hardening (Phase 7) — focus ring standardization, WCAG AA contrast audit, `prefers-reduced-motion` audit
-- Migration guide (Phase 9) — mapping from legacy `fd-*` tokens to unified tokens, component replacement strategy
+- Migration guide — mapping from legacy `--ds-*` tokens to new plain `--*` tokens
 - CI/CD pipeline for automated publishing on git tags
 - `UnifiedUIProvider` component for optional auto CSS injection
 - Component tests with Vitest + Testing Library
-
 ---
-
-## [0.1.1] — 2026-02-28
-
+## [0.1.2] — 2026-03-03
 ### Added
-
+#### Theme Customizer System
+- **`ThemeCustomizerProvider`** — React context provider for runtime theme management with `localStorage` persistence and cross-tab sync via `StorageEvent`
+- **`useThemeCustomizer()`** — hook exposing `config`, `setColorPreset`, `setRadius`, `setFont`, `setShadow`, `setSurfaceStyle`, `resetConfig`, `isDefault`, `generateCSS`
+- **`ThemeCustomizer`** — drop-in UI component with color swatch picker, radius preview, font preview, shadow/surface style toggles, "Copy CSS" button, and reset
+- **13 color presets**: 5 neutral (`Zinc`, `Slate`, `Gray`, `Stone`, `Neutral`) + 8 chromatic (`Blue`, `Green`, `Violet`, `Rose`, `Orange`, `Red`, `Teal`, `Brand`)
+- **7 radius presets**: None (0px) through XL (16px), default 10px
+- **5 font presets**: Outfit, Inter, System, Serif, Mono
+- **4 shadow presets**: None, Subtle, Default, Heavy (each with light/dark scales)
+- **3 surface style presets**: Bordered, Elevated, Mixed
+- `ThemeConfig` type, `DEFAULT_THEME_CONFIG`, `buildThemeOverrides()`, `generateThemeCSS()` utilities
+- `COLOR_PRESET_KEYS`, `COLOR_PRESETS`, `getColorPreset`, `getFontPreset`, `getRadiusPreset`, `getShadowPreset` helpers
+- Exported types: `ColorPreset`, `ColorPresetKey`, `FontPreset`, `RadiusPreset`, `ShadowPreset`, `SurfaceStylePreset`, `PresetSemanticColors`, `ThemeCustomizerContextValue`, `ThemeCustomizerProps`, `ThemeCustomizerProviderProps`
+#### New Tokens
+- `neutral` color palette added to `tokens/colors`
+- New CSS custom properties: `--card`, `--card-foreground`, `--popover`, `--popover-foreground`, `--accent`, `--accent-foreground`, `--destructive`, `--destructive-foreground`, `--ring`, `--radius`, `--chart-1` through `--chart-5`, `--sidebar-*` (8 tokens)
+#### Select Sub-component Exports
+- Newly exported: `SelectContent`, `SelectContentProps`, `SelectTrigger`, `SelectTriggerProps`, `SelectValue`, `SelectScrollUpButton`, `SelectScrollUpButtonProps`, `SelectScrollDownButton`, `SelectScrollDownButtonProps`
+### Changed
+#### Color Format: RGB → oklch
+- All color tokens migrated from RGB channel strings (e.g. `"79 70 229"`) to complete `oklch()` values (e.g. `"oklch(0.585 0.233 277.117)"`)
+- Affects all palettes: `slate`, `gray`, `zinc`, `brand`, `blue`, `green`, `red`, `amber`, `teal`
+- Semantic colors (light + dark) updated to use oklch values
+- Shadow tokens updated from `rgba()` to `oklch()` syntax
+- `dsColorVar()` now returns `var(--{name})` and uses `color-mix(in oklch, ...)` for alpha variants instead of `rgb(... / alpha)`
+#### CSS Variable Prefix Removal (`--ds-*` → `--*`)
+- Removed the `PREFIX` constant from `contract.ts`
+- All CSS custom properties simplified: `--ds-color-primary` → `--primary`, `--ds-radius-md` → `--radius-md`, `--ds-shadow-lg` → `--shadow-lg`, `--ds-z-modal` → `--z-modal`, `--ds-duration-fast` → `--duration-fast`, `--ds-easing-standard` → `--easing-standard`, `--ds-font-sans` → `--font-sans`
+- All Tailwind utility classes updated: `bg-ds-primary` → `bg-primary`, `text-ds-foreground` → `text-foreground`, `rounded-ds-md` → `rounded-md`, etc.
+- All 25 components, 3 primitives, and all utilities updated for the new naming
+#### Focus Ring System Overhaul
+- Redesigned from ring-based (`focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-2`) to border-based (`focus-visible:border-border-strong`) focus indicators
+- All focus ring variants updated: `focusRingClasses`, `focusRingInsetClasses`, `focusRingCompactClasses`, `focusWithinRingClasses`, `focusRingGroupRingClasses`, `focusRingGroupTriggerClasses`
+#### Component Updates
+- **Button** — Added `not-prose no-underline` to base styles to prevent prose typography overrides on `<a>` buttons
+- **Select** — Refactored to compositional sub-component pattern; removed `SelectProps` type (use sub-component props instead)
+- **DropdownMenu** — Major refactor (618 lines changed)
+- **Popover** — Major refactor (332 lines changed)
+- **DataTable** — Updated for new token naming and focus styles
+#### Other
+- Updated `UNIFIED_UI_VERSION` exported constant from `"0.1.1"` to `"0.1.2"`
+- `@theme` block in `styles.css` completely rewritten with plain `--{name}` properties and new token categories
+- `dsVar()` now generates `--{category}-{name}` (was `--ds-{category}-{name}`)
+---
+## [0.1.1] — 2026-02-28
+### Added
 #### DataTable Component
-
 - **DataTable** — Full-featured data table powered by TanStack Table (`@tanstack/react-table` ≥ 8.0.0)
   - Column sorting, filtering (text + faceted), row selection, column visibility toggles
   - Built-in pagination with configurable page sizes
@@ -33,36 +65,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `createColumnHelper` re-export for type-safe column definitions
   - Exported types: `DataTableProps`, `DataTableColumnMeta`, `DataTableFacetedFilter`, `UseDataTableOptions`, `UseDataTableReturn`, `ColumnDef`, `ColumnFiltersState`, `PaginationState`, `Row`, `RowSelectionState`, `SortingState`, `VisibilityState`
   - `@tanstack/react-table` added as an optional peer dependency
-
 #### Motion Hooks
-
 - `useMotion()` — hook for accessing motion presets with reduced-motion awareness
 - `useMotionProps()` — hook that returns spread-ready motion props
 - `useMotionSpringConfig()` — hook for accessing spring configuration tokens
 - `useReducedMotion()` — hook for detecting `prefers-reduced-motion` user preference
 - `MotionSafe` — wrapper component that conditionally renders motion based on user preference
-
 ### Changed
-
 - Updated `UNIFIED_UI_VERSION` exported constant from `"0.1.0"` to `"0.1.1"`
 - Component count updated from 22 to 23 across documentation and metadata
 - Package description updated to reflect 23+ components
-
 ### Fixed
-
 - Removed self-referential dependency (`@work-rjkashyap/unified-ui` depending on itself) from `package.json`
 - Added missing `homepage` and `bugs` fields to `package.json`
 - Added `funding` field to `package.json`
 - Expanded `keywords` in `package.json` for better npm discoverability (`tailwind-css-v4`, `design-tokens`, `css-variables`, `theming`, `dark-mode`, `typescript`, `tree-shakeable`)
-
 ---
-
 ## [0.1.0] — 2026-02-27
-
 ### Added
-
 #### Design Tokens
-
 - Color palettes: `slate`, `gray`, `zinc`, `neutral`, `red`, `green`, `blue`, `amber`, `teal`, `brand`, `pure`
 - Semantic color mappings for light and dark themes (`semanticLight`, `semanticDark`)
 - Spacing scale (0–96 + custom values)
@@ -71,17 +92,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Shadow scale with light and dark variants
 - Z-index scale (`hide`, `base`, `dropdown`, `sticky`, `overlay`, `modal`, `popover`, `toast`, `max`)
 - Motion tokens: `duration`, `easing`, `spring`, `stagger` (with CSS and seconds variants)
-
 #### Theme System
-
 - CSS variable contract mapping all tokens to plain CSS custom properties
 - `DSThemeProvider` component with light/dark/system mode support
 - `useDSTheme()` hook for programmatic theme access
 - `buildLightThemeVars()` / `buildDarkThemeVars()` / `buildThemeCSS()` utilities
 - `cssVar()` helper for type-safe CSS variable references
-
 #### Typography System
-
 - Multi-font architecture with four font families:
   - **Outfit** (`--font-outfit`) — primary sans-serif UI typeface
   - **Inter** (`--font-inter`) — display / headings
@@ -89,15 +106,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **JetBrains Mono** (`--font-jetbrains`) — monospace / code
 - `font` prop on `Typography` component for runtime font switching
 - Graceful fallback to system font stacks when web fonts are unavailable
-
 #### Tailwind CSS v4 Integration
-
 - `styles.css` with full `@theme` block mapping all tokens to Tailwind utilities
 - Direct Tailwind utilities for colors, radius, shadows, transitions, fonts (no prefix)
 - Font CSS custom properties (`--font-outfit`, `--font-inter`, `--font-lora`, `--font-jetbrains`)
-
 #### Primitive Components
-
 - **Typography** — polymorphic text component with `variant`, `font`, `color`, `align`, `truncate` props
 - **Heading** — semantic heading (h1–h6) with automatic size mapping
 - **Subheading** — secondary heading variant
@@ -110,9 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Stack** — flexbox layout with `direction`, `gap`, `align`, `justify`
 - **Grid** — CSS grid layout with responsive column configuration
 - **Divider** — horizontal/vertical separator with label support
-
 #### Composite Components (22 total)
-
 - **Button** — primary, secondary, outline, ghost, danger, link variants; sm/md/lg sizes; icon-only mode; loading state
 - **Input** — text input with prefix/suffix slots, error state, disabled state
 - **Textarea** — auto-resize support, character count, error state
@@ -136,9 +147,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Table** — semantic table with striped rows, hover highlight, sticky header, responsive wrapper; compact/default/relaxed density
 - **Pagination** — page numbers with ellipsis, prev/next, compact variant, controlled/uncontrolled
 - **Breadcrumb** — composable sub-components + `BreadcrumbNav` shorthand; truncation with ellipsis
-
 #### Motion System
-
 - Fade presets: `fadeIn`, `fadeInFast`, `fadeInSlow`
 - Slide presets: `slideUp`, `slideUpSm`, `slideUpLg`, `slideUpSpring`, `slideDown`, `slideDownSm`, `slideLeft`, `slideRight`, `slideInFromLeft`, `slideInFromRight`, `slideInFromBottom`
 - Scale presets: `scaleIn`, `scaleInLg`, `scaleInSpring`
@@ -151,9 +160,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stagger containers: `staggerContainer`, `staggerContainerFast`, `staggerContainerSlow`
 - `motionProps()` spread helper for clean JSX usage
 - `reduceMotion` / `withReducedMotion()` utilities for `prefers-reduced-motion` support
-
 #### Utilities
-
 - `cn()` — class name merger (clsx + tailwind-merge)
 - `mergeSlots()` — slot-based class merging for composite components
 - `composeRefs()` — compose multiple React refs into one
@@ -167,9 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Polymorphic component types: `AsProp`, `PolymorphicProps`, `PolymorphicPropsWithRef`, `PolymorphicRef`, `PolymorphicComponent`
 - Slot types: `SlotClasses`, `SlotConfig`, `SlotDefinition`, `SlotRenderFn`, `Slots`
 - Component types: `ComponentSize`, `ComponentIntent`, `ChildrenProps`, `OptionalChildrenProps`
-
 #### Package & Build
-
 - `tsup` build pipeline producing ESM (`.mjs`) and CJS (`.cjs`) with TypeScript declarations (`.d.ts` / `.d.cts`)
 - 7 entry points: `index`, `tokens`, `theme`, `primitives`, `components`, `motion`, `utils`
 - Selective `"use client"` directive — applied only to client entry points (not tokens/utils)
@@ -177,17 +182,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tree-shakeable with code splitting enabled
 - `styles.css` exported as `@work-rjkashyap/unified-ui/styles.css` for Tailwind `@theme` integration
 - `@unified-ui/*` TypeScript path aliases (zero relative cross-directory imports)
-
 #### Infrastructure
-
 - `UNIFIED_UI_VERSION` exported constant for runtime version checking
 - `.npmignore` for clean package distribution
 - `sideEffects` field for optimal tree-shaking
 - Conditional `exports` map with full `import`/`require`/`types` resolution
 - `typesVersions` fallback for older TypeScript resolvers
-
 ---
-
 _Design system: Unified UI_
 _Maintainer: Rajeshwar Kashyap_
 _Repository: [github.com/imrj05/unified-ui](https://github.com/imrj05/unified-ui)_
