@@ -1,0 +1,478 @@
+'use strict';
+
+var chunkXCKK6P46_cjs = require('./chunk-XCKK6P46.cjs');
+var react = require('react');
+
+// src/motion/presets.ts
+function buildTransition(duration2, easingCurve) {
+  return {
+    duration: duration2,
+    ease: [...easingCurve]
+  };
+}
+function motionProps(preset) {
+  return {
+    variants: preset.variants,
+    initial: "initial",
+    animate: "animate",
+    exit: "exit"
+  };
+}
+var fadeIn = {
+  variants: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.standard)
+};
+var fadeInSlow = {
+  variants: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var fadeInFast = {
+  variants: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.fast, chunkXCKK6P46_cjs.easing.standard)
+};
+var scaleIn = {
+  variants: {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.95 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var scaleInSpring = {
+  variants: {
+    initial: { opacity: 0, scale: 0.9 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.9 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var scaleInLg = {
+  variants: {
+    initial: { opacity: 0, scale: 0.85 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.85 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideUp = {
+  variants: {
+    initial: { opacity: 0, y: 16 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 16 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideUpSm = {
+  variants: {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 8 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.moderate, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideUpLg = {
+  variants: {
+    initial: { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 24 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideUpSpring = {
+  variants: {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 20 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.gentle
+};
+var slideDown = {
+  variants: {
+    initial: { opacity: 0, y: -16 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -16 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideDownSm = {
+  variants: {
+    initial: { opacity: 0, y: -8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.moderate, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideLeft = {
+  variants: {
+    initial: { opacity: 0, x: 20 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: 20 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideRight = {
+  variants: {
+    initial: { opacity: 0, x: -20 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -20 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideInFromRight = {
+  variants: {
+    initial: { opacity: 0, x: "100%" },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: "100%" }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideInFromLeft = {
+  variants: {
+    initial: { opacity: 0, x: "-100%" },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: "-100%" }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var slideInFromBottom = {
+  variants: {
+    initial: { opacity: 0, y: "100%" },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: "100%" }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var expandHeight = {
+  variants: {
+    initial: { opacity: 0, height: 0, overflow: "hidden" },
+    animate: { opacity: 1, height: "auto", overflow: "hidden" },
+    exit: { opacity: 0, height: 0, overflow: "hidden" }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.standard)
+};
+var expandHeightSlow = {
+  variants: {
+    initial: { opacity: 0, height: 0, overflow: "hidden" },
+    animate: { opacity: 1, height: "auto", overflow: "hidden" },
+    exit: { opacity: 0, height: 0, overflow: "hidden" }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var pop = {
+  variants: {
+    initial: { opacity: 0, scale: 0.6 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.6 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.bouncy
+};
+var popSubtle = {
+  variants: {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.8 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var blurIn = {
+  variants: {
+    initial: { opacity: 0, filter: "blur(8px)" },
+    animate: { opacity: 1, filter: "blur(0px)" },
+    exit: { opacity: 0, filter: "blur(8px)" }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.slow, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var blurInSubtle = {
+  variants: {
+    initial: { opacity: 0, filter: "blur(4px)" },
+    animate: { opacity: 1, filter: "blur(0px)" },
+    exit: { opacity: 0, filter: "blur(4px)" }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var staggerContainer = {
+  variants: {
+    initial: {},
+    animate: {
+      transition: {
+        staggerChildren: chunkXCKK6P46_cjs.stagger.normal,
+        delayChildren: 0
+      }
+    },
+    exit: {
+      transition: {
+        staggerChildren: chunkXCKK6P46_cjs.stagger.fast,
+        staggerDirection: -1
+      }
+    }
+  },
+  transition: {}
+};
+var staggerContainerFast = {
+  variants: {
+    initial: {},
+    animate: {
+      transition: {
+        staggerChildren: chunkXCKK6P46_cjs.stagger.fast,
+        delayChildren: 0
+      }
+    },
+    exit: {
+      transition: {
+        staggerChildren: chunkXCKK6P46_cjs.stagger.fast,
+        staggerDirection: -1
+      }
+    }
+  },
+  transition: {}
+};
+var staggerContainerSlow = {
+  variants: {
+    initial: {},
+    animate: {
+      transition: {
+        staggerChildren: chunkXCKK6P46_cjs.stagger.slow,
+        delayChildren: 0.05
+      }
+    },
+    exit: {
+      transition: {
+        staggerChildren: chunkXCKK6P46_cjs.stagger.normal,
+        staggerDirection: -1
+      }
+    }
+  },
+  transition: {}
+};
+var overlayBackdrop = {
+  variants: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.moderate, chunkXCKK6P46_cjs.easing.standard)
+};
+var modalContent = {
+  variants: {
+    initial: { opacity: 0, scale: 0.96, y: 8 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.96, y: 8 }
+  },
+  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+};
+var modalContentSpring = {
+  variants: {
+    initial: { opacity: 0, scale: 0.95, y: 10 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.95, y: 10 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.stiff
+};
+var toastSlideIn = {
+  variants: {
+    initial: { opacity: 0, x: 24, scale: 0.95 },
+    animate: { opacity: 1, x: 0, scale: 1 },
+    exit: { opacity: 0, x: 24, scale: 0.95 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var toastSlideUp = {
+  variants: {
+    initial: { opacity: 0, y: 16, scale: 0.95 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: 16, scale: 0.95 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var press = {
+  variants: {
+    initial: { scale: 1 },
+    animate: { scale: 1 },
+    exit: { scale: 1 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var tapScale = {
+  scale: 0.97,
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var hoverScale = {
+  scale: 1.02,
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var hoverLift = {
+  y: -2,
+  transition: {
+    duration: chunkXCKK6P46_cjs.durationSeconds.fast,
+    ease: [...chunkXCKK6P46_cjs.easing.decelerate]
+  }
+};
+var pulse = {
+  variants: {
+    initial: { opacity: 1 },
+    animate: {
+      opacity: [1, 0.5, 1],
+      transition: {
+        duration: chunkXCKK6P46_cjs.durationSeconds.slowest * 3,
+        ease: [...chunkXCKK6P46_cjs.easing.linear],
+        repeat: Number.POSITIVE_INFINITY
+      }
+    },
+    exit: { opacity: 0 }
+  },
+  transition: {}
+};
+var spin = {
+  variants: {
+    initial: { rotate: 0 },
+    animate: {
+      rotate: 360,
+      transition: {
+        duration: chunkXCKK6P46_cjs.durationSeconds.slowest * 2,
+        ease: [...chunkXCKK6P46_cjs.easing.linear],
+        repeat: Number.POSITIVE_INFINITY
+      }
+    },
+    exit: { opacity: 0 }
+  },
+  transition: {}
+};
+function reduceMotion(preset) {
+  return {
+    variants: {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 }
+    },
+    transition: {
+      duration: chunkXCKK6P46_cjs.durationSeconds.fast,
+      ease: [...chunkXCKK6P46_cjs.easing.standard]
+    }
+  };
+}
+function withReducedMotion(preset, prefersReduced) {
+  if (prefersReduced) {
+    return reduceMotion();
+  }
+  return preset;
+}
+
+// src/motion/hooks.ts
+var mediaQuery = null;
+function getMediaQuery() {
+  if (typeof window === "undefined") return null;
+  if (!mediaQuery) {
+    mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  }
+  return mediaQuery;
+}
+function getSnapshot() {
+  const mq = getMediaQuery();
+  return mq ? mq.matches : false;
+}
+function getServerSnapshot() {
+  return false;
+}
+function subscribe(callback) {
+  const mq = getMediaQuery();
+  if (!mq) return () => {
+  };
+  mq.addEventListener("change", callback);
+  return () => {
+    mq.removeEventListener("change", callback);
+  };
+}
+function useReducedMotion() {
+  return react.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
+function useMotion(preset) {
+  const prefersReduced = useReducedMotion();
+  return react.useMemo(
+    () => withReducedMotion(preset, prefersReduced),
+    [preset, prefersReduced]
+  );
+}
+function useMotionProps(preset) {
+  const safePreset = useMotion(preset);
+  return react.useMemo(() => motionProps(safePreset), [safePreset]);
+}
+var INSTANT_SPRING = {
+  stiffness: 1e4,
+  damping: 1e4,
+  mass: 0.01
+};
+function useMotionSpringConfig(config) {
+  const prefersReduced = useReducedMotion();
+  return react.useMemo(
+    () => prefersReduced ? INSTANT_SPRING : config,
+    [prefersReduced, config]
+  );
+}
+function MotionSafe({ children, fallback }) {
+  const prefersReduced = useReducedMotion();
+  if (typeof children === "function") {
+    return children(prefersReduced);
+  }
+  if (prefersReduced && fallback !== void 0) {
+    return fallback;
+  }
+  return children;
+}
+
+exports.MotionSafe = MotionSafe;
+exports.blurIn = blurIn;
+exports.blurInSubtle = blurInSubtle;
+exports.expandHeight = expandHeight;
+exports.expandHeightSlow = expandHeightSlow;
+exports.fadeIn = fadeIn;
+exports.fadeInFast = fadeInFast;
+exports.fadeInSlow = fadeInSlow;
+exports.hoverLift = hoverLift;
+exports.hoverScale = hoverScale;
+exports.modalContent = modalContent;
+exports.modalContentSpring = modalContentSpring;
+exports.motionProps = motionProps;
+exports.overlayBackdrop = overlayBackdrop;
+exports.pop = pop;
+exports.popSubtle = popSubtle;
+exports.press = press;
+exports.pulse = pulse;
+exports.reduceMotion = reduceMotion;
+exports.scaleIn = scaleIn;
+exports.scaleInLg = scaleInLg;
+exports.scaleInSpring = scaleInSpring;
+exports.slideDown = slideDown;
+exports.slideDownSm = slideDownSm;
+exports.slideInFromBottom = slideInFromBottom;
+exports.slideInFromLeft = slideInFromLeft;
+exports.slideInFromRight = slideInFromRight;
+exports.slideLeft = slideLeft;
+exports.slideRight = slideRight;
+exports.slideUp = slideUp;
+exports.slideUpLg = slideUpLg;
+exports.slideUpSm = slideUpSm;
+exports.slideUpSpring = slideUpSpring;
+exports.spin = spin;
+exports.staggerContainer = staggerContainer;
+exports.staggerContainerFast = staggerContainerFast;
+exports.staggerContainerSlow = staggerContainerSlow;
+exports.tapScale = tapScale;
+exports.toastSlideIn = toastSlideIn;
+exports.toastSlideUp = toastSlideUp;
+exports.useMotion = useMotion;
+exports.useMotionProps = useMotionProps;
+exports.useMotionSpringConfig = useMotionSpringConfig;
+exports.useReducedMotion = useReducedMotion;
+exports.withReducedMotion = withReducedMotion;

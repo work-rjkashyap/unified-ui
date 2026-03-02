@@ -143,7 +143,7 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
 			<nav
 				ref={ref}
 				aria-label={ariaLabel}
-				className={className}
+				className={cn("not-prose", className)}
 				data-ds=""
 				data-ds-component="breadcrumb"
 				{...rest}
@@ -178,7 +178,7 @@ export const BreadcrumbList = forwardRef<HTMLOListElement, BreadcrumbListProps>(
 				className={cn(
 					"flex flex-wrap items-center gap-1.5",
 					"text-xs leading-4 tracking-wide",
-					"text-ds-muted-foreground",
+					"text-muted-foreground",
 					className,
 				)}
 				data-ds=""
@@ -253,11 +253,12 @@ export const BreadcrumbLink = forwardRef<
 		<a
 			ref={ref}
 			className={cn(
-				"text-ds-muted-foreground",
-				"transition-colors duration-ds-fast",
-				"hover:text-ds-foreground",
+				"no-underline",
+				"text-muted-foreground",
+				"transition-colors duration-fast",
+				"hover:text-foreground",
 				focusRingCompactClasses,
-				"rounded-ds-sm",
+				"rounded-sm",
 				className,
 			)}
 			data-ds=""
@@ -292,7 +293,7 @@ export const BreadcrumbPage = forwardRef<HTMLSpanElement, BreadcrumbPageProps>(
 			<span
 				ref={ref}
 				aria-current="page"
-				className={cn("font-medium", "text-ds-foreground", className)}
+				className={cn("font-medium", "text-foreground", className)}
 				data-ds=""
 				data-ds-component="breadcrumb-page"
 				{...rest}
@@ -333,7 +334,7 @@ export const BreadcrumbSeparator = forwardRef<
 			aria-hidden="true"
 			className={cn(
 				"inline-flex items-center",
-				"text-ds-muted-foreground/60",
+				"text-muted-foreground/60",
 				"[&>svg]:size-3",
 				className,
 			)}
@@ -374,7 +375,7 @@ export const BreadcrumbEllipsis = forwardRef<
 			aria-hidden="true"
 			className={cn(
 				"inline-flex items-center justify-center size-5",
-				"text-ds-muted-foreground",
+				"text-muted-foreground",
 				className,
 			)}
 			data-ds=""

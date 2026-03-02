@@ -23,7 +23,7 @@ This is an **npm workspace monorepo** containing two packages:
 
 - **Token-driven design** — Colors, spacing, radius, shadows, typography, and motion all flow from a single source of truth
 - **23+ production-ready components** — Built on Radix UI primitives with full accessibility support
-- **Tailwind CSS v4** — First-class integration via `@theme` and `ds-*` utility classes
+- **Tailwind CSS v4** — First-class integration via `@theme` with direct utility classes
 - **Framer Motion** — Consistent animation presets with `prefers-reduced-motion` support
 - **Dark mode** — CSS variable–based theming with automatic `.dark` class support
 - **Tree-shakeable** — 7 independent entry points with ESM/CJS dual output and code splitting
@@ -207,23 +207,21 @@ import "@work-rjkashyap/unified-ui/styles.css";
 
 ## CSS Variable Prefix
 
-All design system CSS custom properties use the `--ds-` prefix to avoid collisions:
+All design system CSS custom properties use plain `--` prefix with no namespace infix:
 
 ```
---ds-color-primary
---ds-radius-md
---ds-shadow-lg
---ds-duration-normal
---ds-easing-standard
---ds-font-sans
+--primary
+--radius-md
+--shadow-lg
+--duration-normal
+--easing-standard
+--font-sans
 ```
 
-After importing the styles, use `ds-*` prefixed Tailwind utilities:
+After importing the styles, use standard Tailwind utilities:
 
 ```html
-<div
-	class="bg-ds-primary text-ds-primary-foreground rounded-ds-md shadow-ds-lg"
->
+<div class="bg-primary text-primary-foreground rounded-md shadow-lg">
 	Styled with design tokens
 </div>
 ```
@@ -282,7 +280,7 @@ Contributions are welcome! Here's how to get started:
 2. Use CVA for variant composition (if the component has variants)
 3. Use `cn()` for all class merging
 4. Forward refs with `React.forwardRef`
-5. Add `data-ds`, `data-ds-component`, and relevant `data-ds-*` state attributes
+5. Add `data-ds`, `data-ds-component`, and relevant `data-ds-*` state attributes (these are HTML data attributes, not CSS variable prefixes)
 6. Export from `packages/unified-ui/src/components/index.ts`
 7. Re-export from `packages/unified-ui/src/index.ts`
 8. Write documentation in `content/docs/design-system/components/<name>.mdx`

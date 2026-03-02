@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Documentation site overhaul (Phase 6) — MDX pages with interactive component previews
 - Motion & accessibility hardening (Phase 7) — focus ring standardization, WCAG AA contrast audit, `prefers-reduced-motion` audit
-- Migration guide (Phase 9) — mapping from legacy `fd-*` tokens to `ds-*` tokens, component replacement strategy
+- Migration guide (Phase 9) — mapping from legacy `fd-*` tokens to unified tokens, component replacement strategy
 - CI/CD pipeline for automated publishing on git tags
 - `UnifiedUIProvider` component for optional auto CSS injection
 - Component tests with Vitest + Testing Library
@@ -74,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Theme System
 
-- CSS variable contract using `--ds-` prefix for all tokens
+- CSS variable contract mapping all tokens to plain CSS custom properties
 - `DSThemeProvider` component with light/dark/system mode support
 - `useDSTheme()` hook for programmatic theme access
 - `buildLightThemeVars()` / `buildDarkThemeVars()` / `buildThemeCSS()` utilities
@@ -93,7 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Tailwind CSS v4 Integration
 
 - `styles.css` with full `@theme` block mapping all tokens to Tailwind utilities
-- `ds-*` prefixed utilities for colors, radius, shadows, transitions, fonts
+- Direct Tailwind utilities for colors, radius, shadows, transitions, fonts (no prefix)
 - Font CSS custom properties (`--font-outfit`, `--font-inter`, `--font-lora`, `--font-jetbrains`)
 
 #### Primitive Components

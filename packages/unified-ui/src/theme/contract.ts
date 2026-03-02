@@ -6,21 +6,12 @@
 // layer. Both the light and dark themes must satisfy this contract — if a
 // variable is defined here, every theme must provide a value for it.
 //
-// PREFIX DECISION (documented):
-//   Chosen prefix: `--ds-` (design-system).
-//   Alternatives considered: `--uui-` (branded).
-//   Rationale: `--ds-` is already used consistently across all token layers,
-//   CSS custom properties, Tailwind @theme mappings, component data attributes
-//   (`data-ds`, `data-ds-component`), and utility functions (`dsVar`,
-//   `dsColorVar`, `dsAttr`, `dsStateAttr`). Renaming would touch every file
-//   in the system with no functional benefit. The `--ds-` prefix is short,
-//   unambiguous, and already avoids collisions with Fumadocs (`--color-fd-*`)
-//   and third-party libraries. If a future rename is needed, update the
-//   `PREFIX` constant below and run a codebase-wide find/replace.
+// All CSS custom properties use plain `--` prefix with no namespace infix.
+// Examples: `--primary`, `--background`, `--radius-md`, `--z-modal`.
 //
-// Color variables store raw RGB channel strings (e.g. "99 102 241") so
-// they can be used with Tailwind's opacity modifier syntax:
-//   bg-[rgb(var(--ds-color-primary)/0.5)]
+// Color variables store complete oklch() values. They are used directly
+// as CSS color values via var() references:
+//   background: var(--primary)
 //
 // Non-color variables (spacing, radius, shadows, z-index) are stored as
 // complete CSS values since they don't need alpha composition.
@@ -45,80 +36,97 @@ import { zIndex } from "@unified-ui/tokens/z-index";
 // it here and everything downstream (Tailwind, components) picks it up.
 // ---------------------------------------------------------------------------
 
-/**
- * Prefix for all Unified UI CSS custom properties.
- *
- * This is the single source of truth for the variable namespace. Every CSS
- * custom property in the design system is derived from this constant:
- *   `${PREFIX}-color-primary` → `--ds-color-primary`
- *
- * If you ever need to rebrand the prefix (e.g. to `--uui-`), change this
- * value and update `design-system.css` to match. All TypeScript references
- * flow through this constant automatically.
- */
-const PREFIX = "--ds" as const;
+
 
 // ---------------------------------------------------------------------------
-// Color Contract
+// Color Contract (no prefix — plain CSS custom properties)
 // ---------------------------------------------------------------------------
 
 const colorVarNames: Record<SemanticColorKey, string> = {
-  background: `${PREFIX}-color-background`,
-  foreground: `${PREFIX}-color-foreground`,
+  background: "--background",
+  foreground: "--foreground",
 
-  surface: `${PREFIX}-color-surface`,
-  surfaceRaised: `${PREFIX}-color-surface-raised`,
-  surfaceOverlay: `${PREFIX}-color-surface-overlay`,
+  surface: "--surface",
+  surfaceRaised: "--surface-raised",
+  surfaceOverlay: "--surface-overlay",
 
-  muted: `${PREFIX}-color-muted`,
-  mutedForeground: `${PREFIX}-color-muted-foreground`,
+  card: "--card",
+  cardForeground: "--card-foreground",
 
-  primary: `${PREFIX}-color-primary`,
-  primaryForeground: `${PREFIX}-color-primary-foreground`,
-  primaryHover: `${PREFIX}-color-primary-hover`,
-  primaryActive: `${PREFIX}-color-primary-active`,
-  primaryMuted: `${PREFIX}-color-primary-muted`,
-  primaryMutedForeground: `${PREFIX}-color-primary-muted-foreground`,
+  popover: "--popover",
+  popoverForeground: "--popover-foreground",
 
-  secondary: `${PREFIX}-color-secondary`,
-  secondaryForeground: `${PREFIX}-color-secondary-foreground`,
-  secondaryHover: `${PREFIX}-color-secondary-hover`,
-  secondaryActive: `${PREFIX}-color-secondary-active`,
+  muted: "--muted",
+  mutedForeground: "--muted-foreground",
 
-  success: `${PREFIX}-color-success`,
-  successForeground: `${PREFIX}-color-success-foreground`,
-  successMuted: `${PREFIX}-color-success-muted`,
-  successMutedForeground: `${PREFIX}-color-success-muted-foreground`,
+  primary: "--primary",
+  primaryForeground: "--primary-foreground",
+  primaryHover: "--primary-hover",
+  primaryActive: "--primary-active",
+  primaryMuted: "--primary-muted",
+  primaryMutedForeground: "--primary-muted-foreground",
 
-  warning: `${PREFIX}-color-warning`,
-  warningForeground: `${PREFIX}-color-warning-foreground`,
-  warningMuted: `${PREFIX}-color-warning-muted`,
-  warningMutedForeground: `${PREFIX}-color-warning-muted-foreground`,
+  secondary: "--secondary",
+  secondaryForeground: "--secondary-foreground",
+  secondaryHover: "--secondary-hover",
+  secondaryActive: "--secondary-active",
 
-  danger: `${PREFIX}-color-danger`,
-  dangerForeground: `${PREFIX}-color-danger-foreground`,
-  dangerHover: `${PREFIX}-color-danger-hover`,
-  dangerActive: `${PREFIX}-color-danger-active`,
-  dangerMuted: `${PREFIX}-color-danger-muted`,
-  dangerMutedForeground: `${PREFIX}-color-danger-muted-foreground`,
+  accent: "--accent",
+  accentForeground: "--accent-foreground",
 
-  info: `${PREFIX}-color-info`,
-  infoForeground: `${PREFIX}-color-info-foreground`,
-  infoMuted: `${PREFIX}-color-info-muted`,
-  infoMutedForeground: `${PREFIX}-color-info-muted-foreground`,
+  success: "--success",
+  successForeground: "--success-foreground",
+  successMuted: "--success-muted",
+  successMutedForeground: "--success-muted-foreground",
 
-  border: `${PREFIX}-color-border`,
-  borderMuted: `${PREFIX}-color-border-muted`,
-  borderStrong: `${PREFIX}-color-border-strong`,
+  warning: "--warning",
+  warningForeground: "--warning-foreground",
+  warningMuted: "--warning-muted",
+  warningMutedForeground: "--warning-muted-foreground",
 
-  focusRing: `${PREFIX}-color-focus-ring`,
+  danger: "--danger",
+  dangerForeground: "--danger-foreground",
+  dangerHover: "--danger-hover",
+  dangerActive: "--danger-active",
+  dangerMuted: "--danger-muted",
+  dangerMutedForeground: "--danger-muted-foreground",
 
-  input: `${PREFIX}-color-input`,
-  inputForeground: `${PREFIX}-color-input-foreground`,
-  inputPlaceholder: `${PREFIX}-color-input-placeholder`,
+  destructive: "--destructive",
+  destructiveForeground: "--destructive-foreground",
 
-  disabled: `${PREFIX}-color-disabled`,
-  disabledForeground: `${PREFIX}-color-disabled-foreground`,
+  info: "--info",
+  infoForeground: "--info-foreground",
+  infoMuted: "--info-muted",
+  infoMutedForeground: "--info-muted-foreground",
+
+  border: "--border",
+  borderMuted: "--border-muted",
+  borderStrong: "--border-strong",
+
+  focusRing: "--focus-ring",
+  ring: "--ring",
+
+  input: "--input",
+  inputForeground: "--input-foreground",
+  inputPlaceholder: "--input-placeholder",
+
+  disabled: "--disabled",
+  disabledForeground: "--disabled-foreground",
+
+  chart1: "--chart-1",
+  chart2: "--chart-2",
+  chart3: "--chart-3",
+  chart4: "--chart-4",
+  chart5: "--chart-5",
+
+  sidebar: "--sidebar",
+  sidebarForeground: "--sidebar-foreground",
+  sidebarPrimary: "--sidebar-primary",
+  sidebarPrimaryForeground: "--sidebar-primary-foreground",
+  sidebarAccent: "--sidebar-accent",
+  sidebarAccentForeground: "--sidebar-accent-foreground",
+  sidebarBorder: "--sidebar-border",
+  sidebarRing: "--sidebar-ring",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -128,12 +136,12 @@ const colorVarNames: Record<SemanticColorKey, string> = {
 type RadiusKey = keyof typeof radius;
 
 const radiusVarNames: Record<RadiusKey, string> = {
-  none: `${PREFIX}-radius-none`,
-  sm: `${PREFIX}-radius-sm`,
-  md: `${PREFIX}-radius-md`,
-  lg: `${PREFIX}-radius-lg`,
-  xl: `${PREFIX}-radius-xl`,
-  full: `${PREFIX}-radius-full`,
+  none: "--radius-none",
+  sm: "--radius-sm",
+  md: "--radius-md",
+  lg: "--radius-lg",
+  xl: "--radius-xl",
+  full: "--radius-full",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -143,14 +151,14 @@ const radiusVarNames: Record<RadiusKey, string> = {
 type ShadowKey = keyof typeof shadow;
 
 const shadowVarNames: Record<ShadowKey, string> = {
-  none: `${PREFIX}-shadow-none`,
-  xs: `${PREFIX}-shadow-xs`,
-  sm: `${PREFIX}-shadow-sm`,
-  md: `${PREFIX}-shadow-md`,
-  lg: `${PREFIX}-shadow-lg`,
-  xl: `${PREFIX}-shadow-xl`,
-  "2xl": `${PREFIX}-shadow-2xl`,
-  focusRing: `${PREFIX}-shadow-focus-ring`,
+  none: "--shadow-none",
+  xs: "--shadow-xs",
+  sm: "--shadow-sm",
+  md: "--shadow-md",
+  lg: "--shadow-lg",
+  xl: "--shadow-xl",
+  "2xl": "--shadow-2xl",
+  focusRing: "--shadow-focus-ring",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -160,15 +168,15 @@ const shadowVarNames: Record<ShadowKey, string> = {
 type ZIndexKey = keyof typeof zIndex;
 
 const zIndexVarNames: Record<ZIndexKey, string> = {
-  base: `${PREFIX}-z-base`,
-  dropdown: `${PREFIX}-z-dropdown`,
-  sticky: `${PREFIX}-z-sticky`,
-  overlay: `${PREFIX}-z-overlay`,
-  modal: `${PREFIX}-z-modal`,
-  popover: `${PREFIX}-z-popover`,
-  toast: `${PREFIX}-z-toast`,
-  tooltip: `${PREFIX}-z-tooltip`,
-  max: `${PREFIX}-z-max`,
+  base: "--z-base",
+  dropdown: "--z-dropdown",
+  sticky: "--z-sticky",
+  overlay: "--z-overlay",
+  modal: "--z-modal",
+  popover: "--z-popover",
+  toast: "--z-toast",
+  tooltip: "--z-tooltip",
+  max: "--z-max",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -179,22 +187,22 @@ type DurationKey = keyof typeof durationCSS;
 type EasingKey = keyof typeof easingCSS;
 
 const durationVarNames: Record<DurationKey, string> = {
-  instant: `${PREFIX}-duration-instant`,
-  fast: `${PREFIX}-duration-fast`,
-  moderate: `${PREFIX}-duration-moderate`,
-  normal: `${PREFIX}-duration-normal`,
-  slow: `${PREFIX}-duration-slow`,
-  slower: `${PREFIX}-duration-slower`,
-  slowest: `${PREFIX}-duration-slowest`,
+  instant: "--duration-instant",
+  fast: "--duration-fast",
+  moderate: "--duration-moderate",
+  normal: "--duration-normal",
+  slow: "--duration-slow",
+  slower: "--duration-slower",
+  slowest: "--duration-slowest",
 } as const;
 
 const easingVarNames: Record<EasingKey, string> = {
-  standard: `${PREFIX}-easing-standard`,
-  decelerate: `${PREFIX}-easing-decelerate`,
-  accelerate: `${PREFIX}-easing-accelerate`,
-  emphasize: `${PREFIX}-easing-emphasize`,
-  linear: `${PREFIX}-easing-linear`,
-  snap: `${PREFIX}-easing-snap`,
+  standard: "--easing-standard",
+  decelerate: "--easing-decelerate",
+  accelerate: "--easing-accelerate",
+  emphasize: "--easing-emphasize",
+  linear: "--easing-linear",
+  snap: "--easing-snap",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -204,11 +212,11 @@ const easingVarNames: Record<EasingKey, string> = {
 type FontFamilyKey = keyof typeof fontFamily;
 
 const fontFamilyVarNames: Record<FontFamilyKey, string> = {
-  display: `${PREFIX}-font-display`,
-  sans: `${PREFIX}-font-sans`,
-  serif: `${PREFIX}-font-serif`,
-  mono: `${PREFIX}-font-mono`,
-  inherit: `${PREFIX}-font-inherit`,
+  display: "--font-display",
+  sans: "--font-sans",
+  serif: "--font-serif",
+  mono: "--font-mono",
+  inherit: "--font-inherit",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -297,41 +305,55 @@ export const contract = {
 // ---------------------------------------------------------------------------
 // Use these in inline styles or when constructing dynamic class strings.
 //
+// Color values are stored as complete oklch() values, so no rgb() wrapping
+// is needed. Use var() directly.
+//
 // Example:
 //   style={{ color: cssVar.color("primary") }}
-//   → "rgb(var(--ds-color-primary))"
+//   → "var(--primary)"
 //
 //   style={{ borderRadius: cssVar.radius("md") }}
-//   → "var(--ds-radius-md)"
+//   → "var(--radius-md)"
 // ---------------------------------------------------------------------------
 
 export const cssVar = {
-  /** Returns `rgb(var(--ds-color-<key>))` for use in style props */
-  color: (key: SemanticColorKey): string => `rgb(var(${colorVarNames[key]}))`,
+  /** Returns `var(--<key>)` for use in style props */
+  color: (key: SemanticColorKey): string => `var(${colorVarNames[key]})`,
 
-  /** Returns `rgb(var(--ds-color-<key>) / <alpha>)` for colors with opacity */
+  /**
+   * Returns a color-mix() expression with a custom alpha channel.
+   *
+   * Because oklch values are stored as complete `oklch(L C H)` strings
+   * in the CSS custom property, you cannot directly decompose them with
+   * simple var() references. For alpha-modified colors, prefer using
+   * Tailwind's built-in opacity modifier syntax (e.g. `bg-primary/50`)
+   * or define a dedicated muted token.
+   *
+   * If you need programmatic alpha in JS, use this helper which produces
+   * a color-mix() expression for broad browser support.
+   */
   colorAlpha: (key: SemanticColorKey, alpha: number): string =>
-    `rgb(var(${colorVarNames[key]}) / ${alpha})`,
+    `color-mix(in oklch, var(${colorVarNames[key]}) ${Math.round(alpha * 100)}%, transparent)`,
 
-  /** Returns `var(--ds-radius-<key>)` */
+  /** Returns `var(--radius-<key>)` */
   radius: (key: RadiusKey): string => `var(${radiusVarNames[key]})`,
 
-  /** Returns `var(--ds-shadow-<key>)` */
+  /** Returns `var(--shadow-<key>)` */
   shadow: (key: ShadowKey): string => `var(${shadowVarNames[key]})`,
 
-  /** Returns `var(--ds-z-<key>)` */
+  /** Returns `var(--z-<key>)` */
   zIndex: (key: ZIndexKey): string => `var(${zIndexVarNames[key]})`,
 
-  /** Returns `var(--ds-duration-<key>)` */
+  /** Returns `var(--duration-<key>)` */
   duration: (key: DurationKey): string => `var(${durationVarNames[key]})`,
 
-  /** Returns `var(--ds-easing-<key>)` */
+  /** Returns `var(--easing-<key>)` */
   easing: (key: EasingKey): string => `var(${easingVarNames[key]})`,
 
-  /** Returns `var(--ds-font-<key>)` */
+  /** Returns `var(--font-<key>)` */
   fontFamily: (key: FontFamilyKey): string => `var(${fontFamilyVarNames[key]})`,
 
-  /** Returns the raw `var(--ds-color-<key>)` channels without rgb() wrapping */
+  /** Returns the raw `var(--<key>)` — same as color() since values are complete oklch */
   colorChannels: (key: SemanticColorKey): string =>
     `var(${colorVarNames[key]})`,
 } as const;

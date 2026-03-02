@@ -11,17 +11,15 @@
      3. @theme         → Tailwind v4 theme extension (maps vars to utilities)
 
    Naming convention:
-     --ds-color-*      → Semantic color tokens (RGB channel strings)
-     --ds-radius-*     → Border radius tokens
-     --ds-shadow-*     → Box shadow tokens
-     --ds-z-*          → Z-index tokens
-     --ds-duration-*   → Motion duration tokens
-     --ds-easing-*     → Motion easing tokens
-     --ds-font-*       → Font family tokens
+     --<name>          → Semantic color tokens (oklch values, no prefix)
+     --radius-*     → Border radius tokens
+     --shadow-*     → Box shadow tokens
+     --z-*          → Z-index tokens
+     --duration-*   → Motion duration tokens
+     --easing-*     → Motion easing tokens
+     --font-*       → Font family tokens
 
-   Color values are stored as raw RGB channels (e.g. "99 102 241") to
-   support Tailwind's opacity modifier syntax:
-     bg-ds-primary/50 → background: rgb(99 102 241 / 0.5)
+   Color values are stored as complete oklch() values.
 
    NEVER hardcode design values in components. All values must flow
    through these CSS custom properties.
@@ -32,138 +30,172 @@
    --------------------------------------------------------------------------- */
 
 :root {
-	/* --- Backgrounds --- */
-	--ds-color-background: 255 255 255;
-	--ds-color-foreground: 9 9 11;
+	/* --- Core Backgrounds --- */
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
 
 	/* --- Surfaces --- */
-	--ds-color-surface: 250 250 250;
-	--ds-color-surface-raised: 255 255 255;
-	--ds-color-surface-overlay: 244 244 245;
+	--surface: oklch(0.985 0 0);
+	--surface-raised: oklch(1 0 0);
+	--surface-overlay: oklch(0.97 0 0);
+
+	/* --- Card --- */
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.145 0 0);
+
+	/* --- Popover --- */
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.145 0 0);
 
 	/* --- Muted --- */
-	--ds-color-muted: 244 244 245;
-	--ds-color-muted-foreground: 82 82 91;
+	--muted: oklch(0.97 0 0);
+	--muted-foreground: oklch(0.556 0 0);
 
 	/* --- Primary (Brand) --- */
-	--ds-color-primary: 79 70 229;
-	--ds-color-primary-foreground: 255 255 255;
-	--ds-color-primary-hover: 67 56 202;
-	--ds-color-primary-active: 55 48 163;
-	--ds-color-primary-muted: 238 242 255;
-	--ds-color-primary-muted-foreground: 67 56 202;
+	--primary: oklch(0.205 0 0);
+	--primary-foreground: oklch(0.985 0 0);
+
+	--primary-hover: oklch(0.295 0 0);
+	--primary-active: oklch(0.371 0 0);
+	--primary-muted: oklch(0.97 0 0);
+	--primary-muted-foreground: oklch(0.205 0 0);
 
 	/* --- Secondary --- */
-	--ds-color-secondary: 244 244 245;
-	--ds-color-secondary-foreground: 24 24 27;
-	--ds-color-secondary-hover: 228 228 231;
-	--ds-color-secondary-active: 212 212 216;
+	--secondary: oklch(0.97 0 0);
+	--secondary-foreground: oklch(0.205 0 0);
+	--secondary-hover: oklch(0.922 0 0);
+	--secondary-active: oklch(0.87 0 0);
+
+	/* --- Accent --- */
+	--accent: oklch(0.97 0 0);
+	--accent-foreground: oklch(0.205 0 0);
 
 	/* --- Success --- */
-	--ds-color-success: 22 163 74;
-	--ds-color-success-foreground: 9 9 11;
-	--ds-color-success-muted: 240 253 244;
-	--ds-color-success-muted-foreground: 21 128 61;
+	--success: oklch(0.72 0.22 150.6);
+	--success-foreground: oklch(0.18 0.04 150);
+	--success-muted: oklch(0.96 0.06 150.6);
+	--success-muted-foreground: oklch(0.42 0.18 148.3);
 
 	/* --- Warning --- */
-	--ds-color-warning: 245 158 11;
-	--ds-color-warning-foreground: 9 9 11;
-	--ds-color-warning-muted: 255 251 235;
-	--ds-color-warning-muted-foreground: 180 83 9;
+	--warning: oklch(0.85 0.2 75.8);
+	--warning-foreground: oklch(0.26 0.06 55);
+	--warning-muted: oklch(0.97 0.05 80.2);
+	--warning-muted-foreground: oklch(0.5 0.16 60.8);
 
-	/* --- Danger --- */
-	--ds-color-danger: 220 38 38;
-	--ds-color-danger-foreground: 255 255 255;
-	--ds-color-danger-hover: 185 28 28;
-	--ds-color-danger-active: 153 27 27;
-	--ds-color-danger-muted: 254 242 242;
-	--ds-color-danger-muted-foreground: 185 28 28;
+	/* --- Danger / Destructive --- */
+	--danger: oklch(0.7 0.22 25.8);
+	--danger-foreground: oklch(0.18 0.04 25);
+	--danger-hover: oklch(0.64 0.2 25.8);
+	--danger-active: oklch(0.58 0.18 25.8);
+	--danger-muted: oklch(0.97 0.04 17.4);
+	--danger-muted-foreground: oklch(0.52 0.2 25.8);
+	--destructive: oklch(0.7 0.22 25.8);
+	--destructive-foreground: oklch(0.18 0.04 25);
 
 	/* --- Info --- */
-	--ds-color-info: 37 99 235;
-	--ds-color-info-foreground: 255 255 255;
-	--ds-color-info-muted: 239 246 255;
-	--ds-color-info-muted-foreground: 29 78 216;
+	--info: oklch(0.7 0.2 258.3);
+	--info-foreground: oklch(0.18 0.04 260);
+	--info-muted: oklch(0.96 0.05 258.3);
+	--info-muted-foreground: oklch(0.44 0.2 264.4);
 
 	/* --- Borders --- */
-	--ds-color-border: 188 188 194;
-	--ds-color-border-muted: 244 244 245;
-	--ds-color-border-strong: 148 148 157;
+	--border: oklch(0.922 0 0);
+	--border-muted: oklch(0.97 0 0);
+	--border-strong: oklch(0.708 0 0);
 
-	/* --- Focus --- */
-	--ds-color-focus-ring: 99 102 241;
+	/* --- Focus / Ring --- */
+	--focus-ring: oklch(0.708 0 0);
+	--ring: oklch(0.708 0 0);
 
 	/* --- Input --- */
-	--ds-color-input: 148 148 157;
-	--ds-color-input-foreground: 24 24 27;
-	--ds-color-input-placeholder: 113 113 122;
+	--input: oklch(0.922 0 0);
+	--input-foreground: oklch(0.205 0 0);
+	--input-placeholder: oklch(0.556 0 0);
 
 	/* --- Disabled --- */
-	--ds-color-disabled: 244 244 245;
-	--ds-color-disabled-foreground: 120 120 129;
+	--disabled: oklch(0.97 0 0);
+	--disabled-foreground: oklch(0.556 0 0);
+
+	/* --- Chart --- */
+	--chart-1: oklch(0.646 0.222 41.116);
+	--chart-2: oklch(0.6 0.118 184.704);
+	--chart-3: oklch(0.398 0.07 227.392);
+	--chart-4: oklch(0.828 0.189 84.429);
+	--chart-5: oklch(0.769 0.188 70.08);
+
+	/* --- Sidebar --- */
+	--sidebar: oklch(0.985 0 0);
+	--sidebar-foreground: oklch(0.145 0 0);
+	--sidebar-primary: oklch(0.205 0 0);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.97 0 0);
+	--sidebar-accent-foreground: oklch(0.205 0 0);
+	--sidebar-border: oklch(0.922 0 0);
+	--sidebar-ring: oklch(0.708 0 0);
 
 	/* --- Radius --- */
-	--ds-radius-none: 0px;
-	--ds-radius-sm: 4px;
-	--ds-radius-md: 6px;
-	--ds-radius-lg: 8px;
-	--ds-radius-xl: 12px;
-	--ds-radius-full: 9999px;
+	--radius: 0.625rem;
+	--radius-none: 0px;
+	--radius-sm: 4px;
+	--radius-md: 6px;
+	--radius-lg: 8px;
+	--radius-xl: 12px;
+	--radius-full: 9999px;
 
 	/* --- Shadows --- */
-	--ds-shadow-none: none;
-	--ds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-	--ds-shadow-sm:
-		0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-	--ds-shadow-md:
-		0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-	--ds-shadow-lg:
-		0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-	--ds-shadow-xl:
-		0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-	--ds-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-	--ds-shadow-focus-ring: 0 0 0 2px rgb(var(--ds-color-focus-ring) / 0.4);
+	--shadow-none: none;
+	--shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+	--shadow-sm:
+		0 1px 3px 0 oklch(0 0 0 / 0.1), 0 1px 2px -1px oklch(0 0 0 / 0.1);
+	--shadow-md:
+		0 4px 6px -1px oklch(0 0 0 / 0.1), 0 2px 4px -2px oklch(0 0 0 / 0.1);
+	--shadow-lg:
+		0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -4px oklch(0 0 0 / 0.1);
+	--shadow-xl:
+		0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.1);
+	--shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.25);
+	--shadow-focus-ring: 0 0 0 2px oklch(0.708 0 0 / 40%);
 
 	/* --- Z-Index --- */
-	--ds-z-base: 0;
-	--ds-z-dropdown: 10;
-	--ds-z-sticky: 20;
-	--ds-z-overlay: 30;
-	--ds-z-modal: 40;
-	--ds-z-popover: 50;
-	--ds-z-toast: 60;
-	--ds-z-tooltip: 70;
-	--ds-z-max: 9999;
+	--z-base: 0;
+	--z-dropdown: 10;
+	--z-sticky: 20;
+	--z-overlay: 30;
+	--z-modal: 40;
+	--z-popover: 50;
+	--z-toast: 60;
+	--z-tooltip: 70;
+	--z-max: 9999;
 
 	/* --- Motion Durations --- */
-	--ds-duration-instant: 0ms;
-	--ds-duration-fast: 100ms;
-	--ds-duration-moderate: 150ms;
-	--ds-duration-normal: 200ms;
-	--ds-duration-slow: 300ms;
-	--ds-duration-slower: 400ms;
-	--ds-duration-slowest: 500ms;
+	--duration-instant: 0ms;
+	--duration-fast: 100ms;
+	--duration-moderate: 150ms;
+	--duration-normal: 200ms;
+	--duration-slow: 300ms;
+	--duration-slower: 400ms;
+	--duration-slowest: 500ms;
 
 	/* --- Motion Easing --- */
-	--ds-easing-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
-	--ds-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
-	--ds-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
-	--ds-easing-emphasize: cubic-bezier(0, 0, 0.15, 1);
-	--ds-easing-linear: cubic-bezier(0, 0, 1, 1);
-	--ds-easing-snap: cubic-bezier(0.2, 0, 0, 1);
+	--easing-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+	--easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+	--easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
+	--easing-emphasize: cubic-bezier(0, 0, 0.15, 1);
+	--easing-linear: cubic-bezier(0, 0, 1, 1);
+	--easing-snap: cubic-bezier(0.2, 0, 0, 1);
 
 	/* --- Font Families --- */
-	--ds-font-display:
+	--font-display:
 		var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
 		"Segoe UI", Roboto, sans-serif;
-	--ds-font-sans:
+	--font-sans:
 		var(--font-outfit), system-ui, -apple-system, BlinkMacSystemFont,
 		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-	--ds-font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
-	--ds-font-mono:
+	--font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
+	--font-mono:
 		var(--font-jetbrains), "Fira Code", "SF Mono", "Cascadia Code",
 		Consolas, "Liberation Mono", Menlo, monospace;
-	--ds-font-inherit: inherit;
+	--font-inherit: inherit;
 }
 
 /* ---------------------------------------------------------------------------
@@ -171,88 +203,120 @@
    --------------------------------------------------------------------------- */
 
 .dark {
-	/* --- Backgrounds --- */
-	--ds-color-background: 9 9 11;
-	--ds-color-foreground: 250 250 250;
+	/* --- Core Backgrounds --- */
+	--background: oklch(0.145 0 0);
+	--foreground: oklch(0.985 0 0);
 
 	/* --- Surfaces --- */
-	--ds-color-surface: 24 24 27;
-	--ds-color-surface-raised: 39 39 42;
-	--ds-color-surface-overlay: 39 39 42;
+	--surface: oklch(0.205 0 0);
+	--surface-raised: oklch(0.269 0 0);
+	--surface-overlay: oklch(0.269 0 0);
+
+	/* --- Card --- */
+	--card: oklch(0.205 0 0);
+	--card-foreground: oklch(0.985 0 0);
+
+	/* --- Popover --- */
+	--popover: oklch(0.269 0 0);
+	--popover-foreground: oklch(0.985 0 0);
 
 	/* --- Muted --- */
-	--ds-color-muted: 39 39 42;
-	--ds-color-muted-foreground: 161 161 170;
+	--muted: oklch(0.269 0 0);
+	--muted-foreground: oklch(0.708 0 0);
 
 	/* --- Primary (Brand) --- */
-	--ds-color-primary: 129 140 248;
-	--ds-color-primary-foreground: 24 24 27;
-	--ds-color-primary-hover: 165 180 252;
-	--ds-color-primary-active: 199 210 254;
-	--ds-color-primary-muted: 30 27 75;
-	--ds-color-primary-muted-foreground: 165 180 252;
+	--primary: oklch(0.922 0 0);
+	--primary-foreground: oklch(0.205 0 0);
+	--primary-hover: oklch(0.845 0 0);
+	--primary-active: oklch(0.768 0 0);
+	--primary-muted: oklch(0.269 0 0);
+	--primary-muted-foreground: oklch(0.922 0 0);
 
 	/* --- Secondary --- */
-	--ds-color-secondary: 39 39 42;
-	--ds-color-secondary-foreground: 244 244 245;
-	--ds-color-secondary-hover: 63 63 70;
-	--ds-color-secondary-active: 82 82 91;
+	--secondary: oklch(0.269 0 0);
+	--secondary-foreground: oklch(0.985 0 0);
+	--secondary-hover: oklch(0.371 0 0);
+	--secondary-active: oklch(0.439 0 0);
+
+	/* --- Accent --- */
+	--accent: oklch(0.371 0 0);
+	--accent-foreground: oklch(0.985 0 0);
 
 	/* --- Success --- */
-	--ds-color-success: 34 197 94;
-	--ds-color-success-foreground: 9 9 11;
-	--ds-color-success-muted: 5 46 22;
-	--ds-color-success-muted-foreground: 134 239 172;
+	--success: oklch(0.76 0.22 150.6);
+	--success-foreground: oklch(0.18 0.04 150);
+	--success-muted: oklch(0.28 0.1 150.6);
+	--success-muted-foreground: oklch(0.82 0.18 148.3);
 
 	/* --- Warning --- */
-	--ds-color-warning: 251 191 36;
-	--ds-color-warning-foreground: 9 9 11;
-	--ds-color-warning-muted: 69 26 3;
-	--ds-color-warning-muted-foreground: 252 211 77;
+	--warning: oklch(0.88 0.2 80.5);
+	--warning-foreground: oklch(0.18 0.04 55);
+	--warning-muted: oklch(0.3 0.1 60.8);
+	--warning-muted-foreground: oklch(0.88 0.17 80.5);
 
-	/* --- Danger --- */
-	--ds-color-danger: 239 68 68;
-	--ds-color-danger-foreground: 9 9 11;
-	--ds-color-danger-hover: 248 113 113;
-	--ds-color-danger-active: 252 165 165;
-	--ds-color-danger-muted: 69 10 10;
-	--ds-color-danger-muted-foreground: 252 165 165;
+	/* --- Danger / Destructive --- */
+	--danger: oklch(0.76 0.2 22.2);
+	--danger-foreground: oklch(0.985 0 0);
+	--danger-hover: oklch(0.82 0.17 22.2);
+	--danger-active: oklch(0.86 0.14 22.2);
+	--danger-muted: oklch(0.28 0.1 22.2);
+	--danger-muted-foreground: oklch(0.84 0.17 22.2);
+	--destructive: oklch(0.76 0.2 22.2);
+	--destructive-foreground: oklch(0.985 0 0);
 
 	/* --- Info --- */
-	--ds-color-info: 96 165 250;
-	--ds-color-info-foreground: 9 9 11;
-	--ds-color-info-muted: 23 37 84;
-	--ds-color-info-muted-foreground: 147 197 253;
+	--info: oklch(0.76 0.18 258.3);
+	--info-foreground: oklch(0.18 0.04 260);
+	--info-muted: oklch(0.28 0.12 264.4);
+	--info-muted-foreground: oklch(0.84 0.15 258.3);
 
 	/* --- Borders --- */
-	--ds-color-border: 82 82 91;
-	--ds-color-border-muted: 39 39 42;
-	--ds-color-border-strong: 113 113 122;
+	--border: oklch(1 0 0 / 10%);
+	--border-muted: oklch(0.269 0 0);
+	--border-strong: oklch(0.556 0 0);
 
-	/* --- Focus --- */
-	--ds-color-focus-ring: 129 140 248;
+	/* --- Focus / Ring --- */
+	--focus-ring: oklch(0.556 0 0);
+	--ring: oklch(0.556 0 0);
 
 	/* --- Input --- */
-	--ds-color-input: 96 96 105;
-	--ds-color-input-foreground: 250 250 250;
-	--ds-color-input-placeholder: 137 137 145;
+	--input: oklch(1 0 0 / 15%);
+	--input-foreground: oklch(0.985 0 0);
+	--input-placeholder: oklch(0.556 0 0);
 
 	/* --- Disabled --- */
-	--ds-color-disabled: 39 39 42;
-	--ds-color-disabled-foreground: 113 113 122;
+	--disabled: oklch(0.269 0 0);
+	--disabled-foreground: oklch(0.439 0 0);
+
+	/* --- Chart --- */
+	--chart-1: oklch(0.488 0.243 264.376);
+	--chart-2: oklch(0.696 0.17 162.48);
+	--chart-3: oklch(0.769 0.188 70.08);
+	--chart-4: oklch(0.627 0.265 303.9);
+	--chart-5: oklch(0.645 0.246 16.439);
+
+	/* --- Sidebar --- */
+	--sidebar: oklch(0.205 0 0);
+	--sidebar-foreground: oklch(0.985 0 0);
+	--sidebar-primary: oklch(0.488 0.243 264.376);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.269 0 0);
+	--sidebar-accent-foreground: oklch(0.985 0 0);
+	--sidebar-border: oklch(1 0 0 / 10%);
+	--sidebar-ring: oklch(0.439 0 0);
 
 	/* --- Dark Shadows (more opaque for dark backgrounds) --- */
-	--ds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
-	--ds-shadow-sm:
-		0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-	--ds-shadow-md:
-		0 4px 6px -1px rgb(0 0 0 / 0.35), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-	--ds-shadow-lg:
-		0 10px 15px -3px rgb(0 0 0 / 0.35), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-	--ds-shadow-xl:
-		0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.35);
-	--ds-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
-	--ds-shadow-focus-ring: 0 0 0 2px rgb(var(--ds-color-focus-ring) / 0.5);
+	--shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.2);
+	--shadow-sm:
+		0 1px 3px 0 oklch(0 0 0 / 0.3), 0 1px 2px -1px oklch(0 0 0 / 0.3);
+	--shadow-md:
+		0 4px 6px -1px oklch(0 0 0 / 0.35), 0 2px 4px -2px oklch(0 0 0 / 0.3);
+	--shadow-lg:
+		0 10px 15px -3px oklch(0 0 0 / 0.35), 0 4px 6px -4px oklch(0 0 0 / 0.3);
+	--shadow-xl:
+		0 20px 25px -5px oklch(0 0 0 / 0.4), 0 8px 10px -6px oklch(0 0 0 / 0.35);
+	--shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.5);
+	--shadow-focus-ring: 0 0 0 2px oklch(0.556 0 0 / 50%);
 }
 
 /* ---------------------------------------------------------------------------
@@ -261,171 +325,199 @@
    Maps design system CSS custom properties into Tailwind utility classes.
 
    After this block, you can use classes like:
-     bg-ds-primary      → background: rgb(var(--ds-color-primary))
-     text-ds-foreground  → color: rgb(var(--ds-color-foreground))
-     rounded-ds-md       → border-radius: var(--ds-radius-md)
-     shadow-ds-md        → box-shadow: var(--ds-shadow-md)
-     z-ds-modal          → z-index: var(--ds-z-modal)
-     duration-ds-normal  → transition-duration: var(--ds-duration-normal)
-     ease-ds-standard    → transition-timing-function: var(--ds-easing-standard)
-
-   Color utilities support opacity modifiers:
-     bg-ds-primary/50    → background: rgb(var(--ds-color-primary) / 0.5)
+     bg-primary         → background: var(--primary)
+     text-foreground    → color: var(--foreground)
+     rounded-md      → border-radius: var(--radius-md)
+     shadow-md       → box-shadow: var(--shadow-md)
+     z-modal         → z-index: var(--z-modal)
+     duration-normal → transition-duration: var(--duration-normal)
+     ease-standard   → transition-timing-function: var(--easing-standard)
    --------------------------------------------------------------------------- */
 
 @theme {
-	/* --- Colors (RGB channel references for alpha support) --- */
+	/* --- Colors (oklch direct references — no prefix) --- */
 
-	/* Backgrounds */
-	--color-ds-background: rgb(var(--ds-color-background));
-	--color-ds-foreground: rgb(var(--ds-color-foreground));
+	/* Core Backgrounds */
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
 
 	/* Surfaces */
-	--color-ds-surface: rgb(var(--ds-color-surface));
-	--color-ds-surface-raised: rgb(var(--ds-color-surface-raised));
-	--color-ds-surface-overlay: rgb(var(--ds-color-surface-overlay));
+	--color-surface: var(--surface);
+	--color-surface-raised: var(--surface-raised);
+	--color-surface-overlay: var(--surface-overlay);
+
+	/* Card */
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+
+	/* Popover */
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
 
 	/* Muted */
-	--color-ds-muted: rgb(var(--ds-color-muted));
-	--color-ds-muted-foreground: rgb(var(--ds-color-muted-foreground));
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
 
 	/* Primary */
-	--color-ds-primary: rgb(var(--ds-color-primary));
-	--color-ds-primary-foreground: rgb(var(--ds-color-primary-foreground));
-	--color-ds-primary-hover: rgb(var(--ds-color-primary-hover));
-	--color-ds-primary-active: rgb(var(--ds-color-primary-active));
-	--color-ds-primary-muted: rgb(var(--ds-color-primary-muted));
-	--color-ds-primary-muted-foreground: rgb(
-		var(--ds-color-primary-muted-foreground)
-	);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-primary-hover: var(--primary-hover);
+	--color-primary-active: var(--primary-active);
+	--color-primary-muted: var(--primary-muted);
+	--color-primary-muted-foreground: var(--primary-muted-foreground);
 
 	/* Secondary */
-	--color-ds-secondary: rgb(var(--ds-color-secondary));
-	--color-ds-secondary-foreground: rgb(var(--ds-color-secondary-foreground));
-	--color-ds-secondary-hover: rgb(var(--ds-color-secondary-hover));
-	--color-ds-secondary-active: rgb(var(--ds-color-secondary-active));
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-secondary-hover: var(--secondary-hover);
+	--color-secondary-active: var(--secondary-active);
+
+	/* Accent */
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
 
 	/* Success */
-	--color-ds-success: rgb(var(--ds-color-success));
-	--color-ds-success-foreground: rgb(var(--ds-color-success-foreground));
-	--color-ds-success-muted: rgb(var(--ds-color-success-muted));
-	--color-ds-success-muted-foreground: rgb(
-		var(--ds-color-success-muted-foreground)
-	);
+	--color-success: var(--success);
+	--color-success-foreground: var(--success-foreground);
+	--color-success-muted: var(--success-muted);
+	--color-success-muted-foreground: var(--success-muted-foreground);
 
 	/* Warning */
-	--color-ds-warning: rgb(var(--ds-color-warning));
-	--color-ds-warning-foreground: rgb(var(--ds-color-warning-foreground));
-	--color-ds-warning-muted: rgb(var(--ds-color-warning-muted));
-	--color-ds-warning-muted-foreground: rgb(
-		var(--ds-color-warning-muted-foreground)
-	);
+	--color-warning: var(--warning);
+	--color-warning-foreground: var(--warning-foreground);
+	--color-warning-muted: var(--warning-muted);
+	--color-warning-muted-foreground: var(--warning-muted-foreground);
 
 	/* Danger */
-	--color-ds-danger: rgb(var(--ds-color-danger));
-	--color-ds-danger-foreground: rgb(var(--ds-color-danger-foreground));
-	--color-ds-danger-hover: rgb(var(--ds-color-danger-hover));
-	--color-ds-danger-active: rgb(var(--ds-color-danger-active));
-	--color-ds-danger-muted: rgb(var(--ds-color-danger-muted));
-	--color-ds-danger-muted-foreground: rgb(
-		var(--ds-color-danger-muted-foreground)
-	);
+	--color-danger: var(--danger);
+	--color-danger-foreground: var(--danger-foreground);
+	--color-danger-hover: var(--danger-hover);
+	--color-danger-active: var(--danger-active);
+	--color-danger-muted: var(--danger-muted);
+	--color-danger-muted-foreground: var(--danger-muted-foreground);
+
+	/* Destructive (alias for danger — matches shadcn/ui naming) */
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
 
 	/* Info */
-	--color-ds-info: rgb(var(--ds-color-info));
-	--color-ds-info-foreground: rgb(var(--ds-color-info-foreground));
-	--color-ds-info-muted: rgb(var(--ds-color-info-muted));
-	--color-ds-info-muted-foreground: rgb(
-		var(--ds-color-info-muted-foreground)
-	);
+	--color-info: var(--info);
+	--color-info-foreground: var(--info-foreground);
+	--color-info-muted: var(--info-muted);
+	--color-info-muted-foreground: var(--info-muted-foreground);
 
 	/* Borders */
-	--color-ds-border: rgb(var(--ds-color-border));
-	--color-ds-border-muted: rgb(var(--ds-color-border-muted));
-	--color-ds-border-strong: rgb(var(--ds-color-border-strong));
+	--color-border: var(--border);
+	--color-border-muted: var(--border-muted);
+	--color-border-strong: var(--border-strong);
 
-	/* Focus */
-	--color-ds-focus-ring: rgb(var(--ds-color-focus-ring));
+	/* Focus / Ring */
+	--color-focus-ring: var(--focus-ring);
+	--color-ring: var(--ring);
 
 	/* Input */
-	--color-ds-input: rgb(var(--ds-color-input));
-	--color-ds-input-foreground: rgb(var(--ds-color-input-foreground));
-	--color-ds-input-placeholder: rgb(var(--ds-color-input-placeholder));
+	--color-input: var(--input);
+	--color-input-foreground: var(--input-foreground);
+	--color-input-placeholder: var(--input-placeholder);
 
 	/* Disabled */
-	--color-ds-disabled: rgb(var(--ds-color-disabled));
-	--color-ds-disabled-foreground: rgb(var(--ds-color-disabled-foreground));
+	--color-disabled: var(--disabled);
+	--color-disabled-foreground: var(--disabled-foreground);
+
+	/* Chart */
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+
+	/* Sidebar */
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
 
 	/* --- Border Radius --- */
-	--radius-ds-none: var(--ds-radius-none);
-	--radius-ds-sm: var(--ds-radius-sm);
-	--radius-ds-md: var(--ds-radius-md);
-	--radius-ds-lg: var(--ds-radius-lg);
-	--radius-ds-xl: var(--ds-radius-xl);
-	--radius-ds-full: var(--ds-radius-full);
+	--radius: 0.625rem;
+	--radius-none: 0px;
+	--radius-sm: 4px;
+	--radius-md: 6px;
+	--radius-lg: 8px;
+	--radius-xl: 12px;
+	--radius-full: 9999px;
 
-	/* --- Shadows --- */
-	--shadow-ds-none: var(--ds-shadow-none);
-	--shadow-ds-xs: var(--ds-shadow-xs);
-	--shadow-ds-sm: var(--ds-shadow-sm);
-	--shadow-ds-md: var(--ds-shadow-md);
-	--shadow-ds-lg: var(--ds-shadow-lg);
-	--shadow-ds-xl: var(--ds-shadow-xl);
-	--shadow-ds-2xl: var(--ds-shadow-2xl);
-	--shadow-ds-focus-ring: var(--ds-shadow-focus-ring);
+	/* --- Shadows (light-mode defaults; .dark overrides at runtime) --- */
+	--shadow-none: none;
+	--shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+	--shadow-sm:
+		0 1px 3px 0 oklch(0 0 0 / 0.1), 0 1px 2px -1px oklch(0 0 0 / 0.1);
+	--shadow-md:
+		0 4px 6px -1px oklch(0 0 0 / 0.1), 0 2px 4px -2px oklch(0 0 0 / 0.1);
+	--shadow-lg:
+		0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -4px oklch(0 0 0 / 0.1);
+	--shadow-xl:
+		0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.1);
+	--shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.25);
+	--shadow-focus-ring: 0 0 0 2px oklch(0.708 0 0 / 40%);
 
 	/* --- Z-Index --- */
-	--z-index-ds-base: var(--ds-z-base);
-	--z-index-ds-dropdown: var(--ds-z-dropdown);
-	--z-index-ds-sticky: var(--ds-z-sticky);
-	--z-index-ds-overlay: var(--ds-z-overlay);
-	--z-index-ds-modal: var(--ds-z-modal);
-	--z-index-ds-popover: var(--ds-z-popover);
-	--z-index-ds-toast: var(--ds-z-toast);
-	--z-index-ds-tooltip: var(--ds-z-tooltip);
-	--z-index-ds-max: var(--ds-z-max);
+	--z-index-base: 0;
+	--z-index-dropdown: 10;
+	--z-index-sticky: 20;
+	--z-index-overlay: 30;
+	--z-index-modal: 40;
+	--z-index-popover: 50;
+	--z-index-toast: 60;
+	--z-index-tooltip: 70;
+	--z-index-max: 9999;
 
 	/* --- Transition Durations --- */
-	--transition-duration-ds-instant: var(--ds-duration-instant);
-	--transition-duration-ds-fast: var(--ds-duration-fast);
-	--transition-duration-ds-moderate: var(--ds-duration-moderate);
-	--transition-duration-ds-normal: var(--ds-duration-normal);
-	--transition-duration-ds-slow: var(--ds-duration-slow);
-	--transition-duration-ds-slower: var(--ds-duration-slower);
-	--transition-duration-ds-slowest: var(--ds-duration-slowest);
+	--transition-duration-instant: 0ms;
+	--transition-duration-fast: 100ms;
+	--transition-duration-moderate: 150ms;
+	--transition-duration-normal: 200ms;
+	--transition-duration-slow: 300ms;
+	--transition-duration-slower: 400ms;
+	--transition-duration-slowest: 500ms;
 
 	/* --- Transition Easing --- */
-	--transition-timing-function-ds-standard: var(--ds-easing-standard);
-	--transition-timing-function-ds-decelerate: var(--ds-easing-decelerate);
-	--transition-timing-function-ds-accelerate: var(--ds-easing-accelerate);
-	--transition-timing-function-ds-emphasize: var(--ds-easing-emphasize);
-	--transition-timing-function-ds-linear: var(--ds-easing-linear);
-	--transition-timing-function-ds-snap: var(--ds-easing-snap);
+	--transition-timing-function-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+	--transition-timing-function-decelerate: cubic-bezier(0, 0, 0.2, 1);
+	--transition-timing-function-accelerate: cubic-bezier(0.4, 0, 1, 1);
+	--transition-timing-function-emphasize: cubic-bezier(0, 0, 0.15, 1);
+	--transition-timing-function-linear: cubic-bezier(0, 0, 1, 1);
+	--transition-timing-function-snap: cubic-bezier(0.2, 0, 0, 1);
 
 	/* --- Font Families --- */
-	--font-ds-display: var(--ds-font-display);
-	--font-ds-sans: var(--ds-font-sans);
-	--font-ds-serif: var(--ds-font-serif);
-	--font-ds-mono: var(--ds-font-mono);
+	--font-display: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, sans-serif;
+	--font-sans: var(--font-outfit), system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
+	--font-mono: var(--font-jetbrains), "Fira Code", "SF Mono", "Cascadia Code",
+		Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 /* ---------------------------------------------------------------------------
-   Layer 4: Focus Ring Utility
+   Layer 4: Focus Indicator Utility
    ---------------------------------------------------------------------------
-   A consistent, accessible focus ring that uses the design system's focus
-   color token. Apply via `focus-visible:ring-ds` or use the `.ds-focus-ring`
-   utility class directly.
+   A consistent, accessible focus indicator that uses a very subtle
+   border-color shift. No rings, outlines, or glow — just a minimal
+   visual cue that signals focus without being distracting.
    --------------------------------------------------------------------------- */
 
 .ds-focus-ring {
-	outline: 2px solid rgb(var(--ds-color-focus-ring));
-	outline-offset: 2px;
+	border-color: var(--border-strong);
 }
 
-/* Focus ring as a box-shadow variant (for rounded elements where outline
-   doesn't follow border-radius in older browsers) */
+/* Focus indicator as a box-shadow variant (kept for backwards compat,
+   now uses a very faint 1px shadow instead of a 2px ring) */
 .ds-focus-ring-shadow {
-	box-shadow: var(--ds-shadow-focus-ring);
+	box-shadow: 0 0 0 1px var(--border-strong);
 }
 
 /* ---------------------------------------------------------------------------
@@ -437,15 +529,16 @@
    --------------------------------------------------------------------------- */
 
 [data-ds] {
-	font-family: var(--ds-font-sans);
+	font-family: var(--font-sans);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Consistent focus behavior for all interactive DS elements */
+/* Consistent focus behavior for all interactive DS elements —
+   subtle border-color shift only, no ring or outline */
 [data-ds] :focus-visible {
-	outline: 2px solid rgb(var(--ds-color-focus-ring));
-	outline-offset: 2px;
+	outline: none;
+	border-color: var(--border-strong);
 }
 
 /* Remove default focus styles for mouse users (keep for keyboard) */
@@ -463,22 +556,22 @@
 .ds-transition {
 	transition-property:
 		color, background-color, border-color, box-shadow, opacity, transform;
-	transition-duration: var(--ds-duration-normal);
-	transition-timing-function: var(--ds-easing-standard);
+	transition-duration: var(--duration-normal);
+	transition-timing-function: var(--easing-standard);
 }
 
 .ds-transition-fast {
 	transition-property:
 		color, background-color, border-color, box-shadow, opacity, transform;
-	transition-duration: var(--ds-duration-fast);
-	transition-timing-function: var(--ds-easing-standard);
+	transition-duration: var(--duration-fast);
+	transition-timing-function: var(--easing-standard);
 }
 
 .ds-transition-slow {
 	transition-property:
 		color, background-color, border-color, box-shadow, opacity, transform;
-	transition-duration: var(--ds-duration-slow);
-	transition-timing-function: var(--ds-easing-decelerate);
+	transition-duration: var(--duration-slow);
+	transition-timing-function: var(--easing-decelerate);
 }
 
 /* ---------------------------------------------------------------------------

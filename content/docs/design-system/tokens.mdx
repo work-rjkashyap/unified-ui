@@ -11,22 +11,22 @@ Design tokens are the **single source of truth** for all visual properties in Un
 Tokens flow through three stages:
 
 ```
-TypeScript constants → CSS custom properties (--ds-*) → Tailwind utilities (ds-*)
+TypeScript constants → CSS custom properties → Tailwind utilities
 ```
 
 ---
 
 ## Token Categories
 
-| Category       | Token file         | CSS prefix              | Tailwind prefix | Example                          |
-| -------------- | ------------------ | ----------------------- | --------------- | -------------------------------- |
-| **Colors**     | `tokens/colors.ts` | `--ds-color-*`          | `bg-ds-*`       | `bg-ds-primary`                  |
-| **Spacing**    | `tokens/spacing.ts`| `--ds-spacing-*`        | `p-ds-*`        | `p-ds-4` (16px)                  |
-| **Typography** | `tokens/typography.ts` | `--ds-font-*`       | `font-ds-*`     | `font-ds-sans`                   |
-| **Radius**     | `tokens/radius.ts` | `--ds-radius-*`         | `rounded-ds-*`  | `rounded-ds-md` (6px)            |
-| **Shadows**    | `tokens/shadows.ts`| `--ds-shadow-*`         | `shadow-ds-*`   | `shadow-ds-md`                   |
-| **Z-Index**    | `tokens/z-index.ts`| `--ds-z-*`              | `z-ds-*`        | `z-ds-modal` (40)                |
-| **Motion**     | `tokens/motion.ts` | `--ds-duration-*`       | —               | `--ds-duration-normal` (200ms)   |
+| Category       | Token file             | CSS prefix     | Tailwind prefix | Example                     |
+| -------------- | ---------------------- | -------------- | --------------- | --------------------------- |
+| **Colors**     | `tokens/colors.ts`     | `--*`          | `bg-*`          | `bg-primary`                |
+| **Spacing**    | `tokens/spacing.ts`    | `--spacing-*`  | `p-*`           | `p-4` (16px)                |
+| **Typography** | `tokens/typography.ts` | `--font-*`     | `font-*`        | `font-sans`                 |
+| **Radius**     | `tokens/radius.ts`     | `--radius-*`   | `rounded-*`     | `rounded-md` (6px)          |
+| **Shadows**    | `tokens/shadows.ts`    | `--shadow-*`   | `shadow-*`      | `shadow-md`                 |
+| **Z-Index**    | `tokens/z-index.ts`    | `--z-*`        | `z-*`           | `z-modal` (40)              |
+| **Motion**     | `tokens/motion.ts`     | `--duration-*` | —               | `--duration-normal` (200ms) |
 
 ---
 
@@ -34,29 +34,29 @@ TypeScript constants → CSS custom properties (--ds-*) → Tailwind utilities (
 
 Based on a strict **4px grid system**. Every spacing value is a multiple of 4px, ensuring consistent vertical rhythm across the entire UI.
 
-| Token   | Value  | Use case                                     |
-| ------- | ------ | -------------------------------------------- |
-| `0`     | 0px    | No spacing                                   |
-| `px`    | 1px    | Hairline borders, fine adjustments            |
-| `0.5`   | 2px    | Micro spacing (icon gaps)                     |
-| `1`     | 4px    | Tight internal padding                        |
-| `1.5`   | 6px    | Small internal spacing                        |
-| `2`     | 8px    | Default internal padding, small gaps          |
-| `2.5`   | 10px   | Between micro and compact                     |
-| `3`     | 12px   | Compact component padding                     |
-| `3.5`   | 14px   | Slightly larger compact spacing               |
-| `4`     | 16px   | Standard component padding, default gap       |
-| `5`     | 20px   | Comfortable padding                           |
-| `6`     | 24px   | Section padding (mobile)                      |
-| `7`     | 28px   | Between section sizes                         |
-| `8`     | 32px   | Section padding (tablet)                      |
-| `9`     | 36px   | Between section sizes                         |
-| `10`    | 40px   | Section spacing                               |
-| `12`    | 48px   | Large section spacing                         |
-| `14`    | 56px   | Page-level vertical rhythm                    |
-| `16`    | 64px   | Major section breaks                          |
-| `20`    | 80px   | Hero / page-level padding                     |
-| `24`    | 96px   | Max vertical spacing                          |
+| Token | Value | Use case                                |
+| ----- | ----- | --------------------------------------- |
+| `0`   | 0px   | No spacing                              |
+| `px`  | 1px   | Hairline borders, fine adjustments      |
+| `0.5` | 2px   | Micro spacing (icon gaps)               |
+| `1`   | 4px   | Tight internal padding                  |
+| `1.5` | 6px   | Small internal spacing                  |
+| `2`   | 8px   | Default internal padding, small gaps    |
+| `2.5` | 10px  | Between micro and compact               |
+| `3`   | 12px  | Compact component padding               |
+| `3.5` | 14px  | Slightly larger compact spacing         |
+| `4`   | 16px  | Standard component padding, default gap |
+| `5`   | 20px  | Comfortable padding                     |
+| `6`   | 24px  | Section padding (mobile)                |
+| `7`   | 28px  | Between section sizes                   |
+| `8`   | 32px  | Section padding (tablet)                |
+| `9`   | 36px  | Between section sizes                   |
+| `10`  | 40px  | Section spacing                         |
+| `12`  | 48px  | Large section spacing                   |
+| `14`  | 56px  | Page-level vertical rhythm              |
+| `16`  | 64px  | Major section breaks                    |
+| `20`  | 80px  | Hero / page-level padding               |
+| `24`  | 96px  | Max vertical spacing                    |
 
 ### Usage
 
@@ -66,15 +66,17 @@ import { spacing } from "@work-rjkashyap/unified-ui/tokens";
 
 console.log(spacing[4]); // "16px"
 
-// In Tailwind classes — use ds-* utilities
-<div className="p-ds-4 gap-ds-2" />
+// In Tailwind classes — use standard utilities
+<div className="p-4 gap-2" />
 
 // In the Stack component — use the gap prop
 <Stack gap={4}> {/* maps to spacing[4] = 16px */}
 ```
 
 <Callout type="warn">
-  **Avoid large spacing values for dense UI.** Per project guidelines, utilities like `py-24+`, `space-y-10+`, and `gap-12+` should be used sparingly. Prefer compact, information-dense layouts.
+	**Avoid large spacing values for dense UI.** Per project guidelines,
+	utilities like `py-24+`, `space-y-10+`, and `gap-12+` should be used
+	sparingly. Prefer compact, information-dense layouts.
 </Callout>
 
 ---
@@ -85,25 +87,25 @@ The typographic scale is designed for **web interfaces**, not marketing pages. T
 
 ### Font Families
 
-| Key         | Typeface          | Use case                                    |
-| ----------- | ----------------- | ------------------------------------------- |
-| `sans`      | Outfit            | Primary UI typeface for all interface text   |
-| `display`   | Inter              | Hero headings, marketing text               |
-| `serif`     | Lora               | Long-form reading, editorial content        |
-| `mono`      | JetBrains Mono     | Code blocks, technical values, tabular data |
-| `inherit`   | inherit            | Escape hatch for third-party integration    |
+| Key       | Typeface       | Use case                                    |
+| --------- | -------------- | ------------------------------------------- |
+| `sans`    | Outfit         | Primary UI typeface for all interface text  |
+| `display` | Inter          | Hero headings, marketing text               |
+| `serif`   | Lora           | Long-form reading, editorial content        |
+| `mono`    | JetBrains Mono | Code blocks, technical values, tabular data |
+| `inherit` | inherit        | Escape hatch for third-party integration    |
 
 ### Font Sizes
 
-| Token    | Value | Typical use                    |
-| -------- | ----- | ------------------------------ |
-| `xs`     | 12px  | Captions, helper text          |
-| `sm`     | 14px  | Body small, labels, code       |
-| `base`   | 16px  | Default body text              |
-| `lg`     | 18px  | Subheadings                    |
-| `xl`     | 20px  | Heading 3                      |
-| `2xl`    | 24px  | Heading 2                      |
-| `3xl`    | 30px  | Heading 1 (page titles)        |
+| Token  | Value | Typical use              |
+| ------ | ----- | ------------------------ |
+| `xs`   | 12px  | Captions, helper text    |
+| `sm`   | 14px  | Body small, labels, code |
+| `base` | 16px  | Default body text        |
+| `lg`   | 18px  | Subheadings              |
+| `xl`   | 20px  | Heading 3                |
+| `2xl`  | 24px  | Heading 2                |
+| `3xl`  | 30px  | Heading 1 (page titles)  |
 
 ### Font Weights
 
@@ -116,36 +118,36 @@ The typographic scale is designed for **web interfaces**, not marketing pages. T
 
 ### Line Heights
 
-| Token     | Value   | Use case                          |
-| --------- | ------- | --------------------------------- |
-| `none`    | 1       | Single-line display text          |
-| `tight`   | 1.25    | Headings                          |
-| `snug`    | 1.375   | Compact body text                 |
-| `normal`  | 1.5     | Default body text                 |
-| `relaxed` | 1.625   | Long-form reading                 |
-| `16`      | 16px    | Fixed — captions, overlines       |
-| `20`      | 20px    | Fixed — body small, labels, code  |
-| `24`      | 24px    | Fixed — body default              |
-| `28`      | 28px    | Fixed — subheading, heading 3     |
-| `32`      | 32px    | Fixed — heading 2                 |
-| `36`      | 36px    | Fixed — heading 1                 |
+| Token     | Value | Use case                         |
+| --------- | ----- | -------------------------------- |
+| `none`    | 1     | Single-line display text         |
+| `tight`   | 1.25  | Headings                         |
+| `snug`    | 1.375 | Compact body text                |
+| `normal`  | 1.5   | Default body text                |
+| `relaxed` | 1.625 | Long-form reading                |
+| `16`      | 16px  | Fixed — captions, overlines      |
+| `20`      | 20px  | Fixed — body small, labels, code |
+| `24`      | 24px  | Fixed — body default             |
+| `28`      | 28px  | Fixed — subheading, heading 3    |
+| `32`      | 32px  | Fixed — heading 2                |
+| `36`      | 36px  | Fixed — heading 1                |
 
 ### Typography Presets
 
 Pre-composed combinations of size, weight, line height, tracking, and font family. These are the **canonical text styles** — components should use these presets rather than assembling individual tokens.
 
-| Preset       | Size | Weight   | Leading | Tracking | Font    |
-| ------------ | ---- | -------- | ------- | -------- | ------- |
-| `heading1`   | 30px | bold     | 36px    | tight    | sans    |
-| `heading2`   | 24px | semibold | 32px    | tight    | sans    |
-| `heading3`   | 20px | semibold | 28px    | normal   | sans    |
-| `subheading` | 18px | medium   | 28px    | normal   | sans    |
-| `body`       | 16px | regular  | 24px    | normal   | sans    |
-| `bodySm`     | 14px | regular  | 20px    | normal   | sans    |
-| `caption`    | 12px | regular  | 16px    | wide     | sans    |
-| `label`      | 14px | medium   | 20px    | normal   | sans    |
-| `overline`   | 12px | semibold | 16px    | wider    | sans    |
-| `code`       | 14px | regular  | 20px    | normal   | mono    |
+| Preset       | Size | Weight   | Leading | Tracking | Font |
+| ------------ | ---- | -------- | ------- | -------- | ---- |
+| `heading1`   | 30px | bold     | 36px    | tight    | sans |
+| `heading2`   | 24px | semibold | 32px    | tight    | sans |
+| `heading3`   | 20px | semibold | 28px    | normal   | sans |
+| `subheading` | 18px | medium   | 28px    | normal   | sans |
+| `body`       | 16px | regular  | 24px    | normal   | sans |
+| `bodySm`     | 14px | regular  | 20px    | normal   | sans |
+| `caption`    | 12px | regular  | 16px    | wide     | sans |
+| `label`      | 14px | medium   | 20px    | normal   | sans |
+| `overline`   | 12px | semibold | 16px    | wider    | sans |
+| `code`       | 14px | regular  | 20px    | normal   | mono |
 
 ```tsx
 import { typographyVariants } from "@work-rjkashyap/unified-ui/tokens";
@@ -161,14 +163,14 @@ const h1 = typographyVariants.heading1;
 
 Kept intentionally subtle to avoid excessive decoration.
 
-| Token  | Value  | Use case                                   |
-| ------ | ------ | ------------------------------------------ |
-| `none` | 0px    | No rounding                                |
-| `sm`   | 4px    | Tags, micro elements                       |
-| `md`   | 6px    | **Default** — buttons, inputs, cards       |
-| `lg`   | 8px    | Dialogs, sheets, popovers, dropdowns       |
-| `xl`   | 12px   | Larger containers, modals                  |
-| `full` | 9999px | Pill shapes, avatars, toggle pills         |
+| Token  | Value  | Use case                             |
+| ------ | ------ | ------------------------------------ |
+| `none` | 0px    | No rounding                          |
+| `sm`   | 4px    | Tags, micro elements                 |
+| `md`   | 6px    | **Default** — buttons, inputs, cards |
+| `lg`   | 8px    | Dialogs, sheets, popovers, dropdowns |
+| `xl`   | 12px   | Larger containers, modals            |
+| `full` | 9999px | Pill shapes, avatars, toggle pills   |
 
 ```tsx
 import { radius } from "@work-rjkashyap/unified-ui/tokens";
@@ -182,17 +184,17 @@ console.log(radius.md); // "6px"
 
 A structured stacking scale with intentional gaps so new layers can be inserted without renumbering.
 
-| Token      | Value | Use case                                     |
-| ---------- | ----- | -------------------------------------------- |
-| `base`     | 0     | Default document flow                         |
-| `dropdown` | 10    | Dropdowns, select menus, autocomplete lists   |
-| `sticky`   | 20    | Sticky headers, floating toolbars             |
-| `overlay`  | 30    | Backdrop overlays behind modals               |
-| `modal`    | 40    | Dialogs, sheets, drawers                      |
-| `popover`  | 50    | Popovers that must render above modals        |
-| `toast`    | 60    | Toast notifications — always visible          |
-| `tooltip`  | 70    | Tooltips — highest interactive layer          |
-| `max`      | 9999  | Emergency escape hatch (use sparingly)        |
+| Token      | Value | Use case                                    |
+| ---------- | ----- | ------------------------------------------- |
+| `base`     | 0     | Default document flow                       |
+| `dropdown` | 10    | Dropdowns, select menus, autocomplete lists |
+| `sticky`   | 20    | Sticky headers, floating toolbars           |
+| `overlay`  | 30    | Backdrop overlays behind modals             |
+| `modal`    | 40    | Dialogs, sheets, drawers                    |
+| `popover`  | 50    | Popovers that must render above modals      |
+| `toast`    | 60    | Toast notifications — always visible        |
+| `tooltip`  | 70    | Tooltips — highest interactive layer        |
+| `max`      | 9999  | Emergency escape hatch (use sparingly)      |
 
 ```tsx
 import { zIndex } from "@work-rjkashyap/unified-ui/tokens";
@@ -201,7 +203,8 @@ console.log(zIndex.modal); // "40"
 ```
 
 <Callout type="warn">
-  **Never hardcode z-index values.** Always reference the token scale. The `max` value (9999) is an escape hatch — if you need it, document why.
+	**Never hardcode z-index values.** Always reference the token scale. The
+	`max` value (9999) is an escape hatch — if you need it, document why.
 </Callout>
 
 ---
@@ -212,45 +215,51 @@ Duration and easing tokens define the motion language. See the [Motion](/docs/de
 
 ### Durations
 
-| Token      | Value  | Use case                                     |
-| ---------- | ------ | -------------------------------------------- |
-| `instant`  | 0ms    | Instant feedback — no visible transition      |
-| `fast`     | 100ms  | Micro-interactions — focus rings, icon swaps  |
-| `moderate` | 150ms  | Snappy transitions — tooltips, small toggles  |
-| `normal`   | 200ms  | Standard — dropdowns, accordions, tabs        |
-| `slow`     | 300ms  | Emphasis — modals, drawers, slide-ins         |
-| `slower`   | 400ms  | Complex orchestrated animations               |
-| `slowest`  | 500ms  | Long-form — skeleton loaders, progress        |
+| Token      | Value | Use case                                     |
+| ---------- | ----- | -------------------------------------------- |
+| `instant`  | 0ms   | Instant feedback — no visible transition     |
+| `fast`     | 100ms | Micro-interactions — focus rings, icon swaps |
+| `moderate` | 150ms | Snappy transitions — tooltips, small toggles |
+| `normal`   | 200ms | Standard — dropdowns, accordions, tabs       |
+| `slow`     | 300ms | Emphasis — modals, drawers, slide-ins        |
+| `slower`   | 400ms | Complex orchestrated animations              |
+| `slowest`  | 500ms | Long-form — skeleton loaders, progress       |
 
 ### Easing Curves
 
-| Token        | Cubic Bezier                 | Use case                        |
-| ------------ | ---------------------------- | ------------------------------- |
+| Token        | Cubic Bezier                      | Use case                    |
+| ------------ | --------------------------------- | --------------------------- |
 | `standard`   | `cubic-bezier(0.2, 0, 0.38, 0.9)` | General-purpose transitions |
-| `decelerate` | `cubic-bezier(0, 0, 0.2, 1)` | Enter animations                |
-| `accelerate` | `cubic-bezier(0.4, 0, 1, 1)` | Exit animations                 |
-| `emphasize`  | `cubic-bezier(0, 0, 0.15, 1)` | Attention-drawing motion        |
-| `linear`     | `cubic-bezier(0, 0, 1, 1)`   | Spinners, progress bars         |
-| `snap`       | `cubic-bezier(0.2, 0, 0, 1)` | Toggle switches, checkboxes     |
+| `decelerate` | `cubic-bezier(0, 0, 0.2, 1)`      | Enter animations            |
+| `accelerate` | `cubic-bezier(0.4, 0, 1, 1)`      | Exit animations             |
+| `emphasize`  | `cubic-bezier(0, 0, 0.15, 1)`     | Attention-drawing motion    |
+| `linear`     | `cubic-bezier(0, 0, 1, 1)`        | Spinners, progress bars     |
+| `snap`       | `cubic-bezier(0.2, 0, 0, 1)`      | Toggle switches, checkboxes |
 
 ### Spring Configurations
 
 For physics-based animations with Framer Motion:
 
-| Preset   | Stiffness | Damping | Mass | Use case                          |
-| -------- | --------- | ------- | ---- | --------------------------------- |
-| `gentle` | 150       | 20      | 1    | Tooltips, small popovers          |
+| Preset   | Stiffness | Damping | Mass | Use case                             |
+| -------- | --------- | ------- | ---- | ------------------------------------ |
+| `gentle` | 150       | 20      | 1    | Tooltips, small popovers             |
 | `snappy` | 300       | 25      | 0.8  | Buttons, toggles, micro-interactions |
-| `bouncy` | 400       | 15      | 0.8  | Playful emphasis, celebrations    |
-| `stiff`  | 500       | 35      | 1    | Dialogs, drawers (no overshoot)   |
+| `bouncy` | 400       | 15      | 0.8  | Playful emphasis, celebrations       |
+| `stiff`  | 500       | 35      | 1    | Dialogs, drawers (no overshoot)      |
 
 ```tsx
-import { duration, easing, spring, durationCSS, easingCSS } from "@work-rjkashyap/unified-ui/tokens";
+import {
+	duration,
+	easing,
+	spring,
+	durationCSS,
+	easingCSS,
+} from "@work-rjkashyap/unified-ui/tokens";
 
 // Raw values for Framer Motion
-console.log(duration.normal);   // 200 (milliseconds)
-console.log(easing.standard);   // [0.2, 0, 0.38, 0.9]
-console.log(spring.snappy);     // { type: "spring", stiffness: 300, damping: 25, mass: 0.8 }
+console.log(duration.normal); // 200 (milliseconds)
+console.log(easing.standard); // [0.2, 0, 0.38, 0.9]
+console.log(spring.snappy); // { type: "spring", stiffness: 300, damping: 25, mass: 0.8 }
 
 // CSS-ready strings for inline styles or Tailwind
 console.log(durationCSS.normal); // "200ms"
@@ -265,7 +274,13 @@ console.log(easingCSS.standard); // "cubic-bezier(0.2, 0, 0.38, 0.9)"
 
 ```tsx
 // All tokens from the barrel export
-import { spacing, radius, fontSize, duration, zIndex } from "@work-rjkashyap/unified-ui/tokens";
+import {
+	spacing,
+	radius,
+	fontSize,
+	duration,
+	zIndex,
+} from "@work-rjkashyap/unified-ui/tokens";
 
 // Or from the top-level entry point
 import { spacing, radius } from "@work-rjkashyap/unified-ui";
@@ -277,33 +292,35 @@ Tokens are available as CSS custom properties after importing `@work-rjkashyap/u
 
 ```css
 .custom-element {
-  padding: var(--ds-spacing-4);
-  border-radius: var(--ds-radius-md);
-  font-family: var(--ds-font-sans);
-  transition: all var(--ds-duration-normal) var(--ds-easing-standard);
+	padding: var(--spacing-4);
+	border-radius: var(--radius-md);
+	font-family: var(--font-sans);
+	transition: all var(--duration-normal) var(--easing-standard);
 }
 ```
 
 ### In Tailwind
 
-Use the `ds-*` utility prefix:
+Use the Tailwind utility prefix:
 
 ```html
-<div class="p-ds-4 rounded-ds-md font-ds-sans bg-ds-primary text-ds-primary-foreground" />
+<div class="p-4 rounded-md font-sans bg-primary text-primary-foreground" />
 ```
 
 ---
 
 ## Naming Conventions
 
-| Convention                | Example                     | Rationale                                   |
-| ------------------------- | --------------------------- | ------------------------------------------- |
-| **Semantic over literal** | `--ds-color-primary` not `--ds-color-indigo-600` | Intent survives palette changes |
-| **Kebab-case CSS vars**   | `--ds-font-family-sans`     | Standard CSS custom property convention     |
-| **camelCase TS exports**  | `fontFamily.sans`           | Standard TypeScript/JavaScript convention   |
-| **Scale numbers for size**| `spacing[4]`, `fontSize.xl` | Numeric scales for continuous values         |
-| **Named keys for intent** | `zIndex.modal`, `radius.md` | Named keys for categorical values            |
+| Convention                 | Example                        | Rationale                                 |
+| -------------------------- | ------------------------------ | ----------------------------------------- |
+| **Semantic over literal**  | `--primary` not `--indigo-600` | Intent survives palette changes           |
+| **Kebab-case CSS vars**    | `--font-family-sans`           | Standard CSS custom property convention   |
+| **camelCase TS exports**   | `fontFamily.sans`              | Standard TypeScript/JavaScript convention |
+| **Scale numbers for size** | `spacing[4]`, `fontSize.xl`    | Numeric scales for continuous values      |
+| **Named keys for intent**  | `zIndex.modal`, `radius.md`    | Named keys for categorical values         |
 
 <Callout type="info">
-  The `--ds-` prefix is a **permanent decision**. It namespaces all design system properties to prevent collisions with host application styles, Fumadocs (`--fd-*`), or any third-party CSS.
+	The `--` prefix is a **permanent decision**. It namespaces all design system
+	properties to prevent collisions with host application styles, Fumadocs
+	(`--fd-*`), or any third-party CSS.
 </Callout>

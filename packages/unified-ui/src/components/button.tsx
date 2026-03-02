@@ -48,22 +48,24 @@ import { type ElementType, forwardRef, type ReactNode } from "react";
 // CVA Variant Definition
 // ---------------------------------------------------------------------------
 // All color values reference design system CSS custom properties via the
-// Tailwind `ds-*` utilities defined in design-system.css. This ensures
+// Tailwind utilities defined in design-system.css. This ensures
 // automatic light/dark mode support and token compliance.
 // ---------------------------------------------------------------------------
 
 export const buttonVariants = cva(
 	// Base styles — shared across all variants and sizes
 	[
+		// Opt out of prose typography overrides (prevents underline on <a> buttons)
+		"not-prose no-underline",
 		// Layout
 		"inline-flex items-center justify-center gap-2",
 		// Typography
 		"text-sm font-medium leading-5",
 		// Shape
-		"rounded-ds-md",
+		"rounded-md",
 		// Transition (uses design system motion tokens)
 		"transition-[color,background-color,border-color,box-shadow,opacity,transform]",
-		"duration-ds-fast ease-ds-standard",
+		"duration-fast ease-standard",
 		// Focus ring — WCAG AA compliant, visible on keyboard navigation only
 		focusRingClasses,
 		// Disabled — consistent across all variants
@@ -86,9 +88,9 @@ export const buttonVariants = cva(
 				 * High visual prominence. Use sparingly (1–2 per view).
 				 */
 				primary: [
-					"bg-ds-primary text-ds-primary-foreground",
-					"hover:bg-ds-primary-hover",
-					"active:bg-ds-primary-active",
+					"bg-primary text-primary-foreground",
+					"hover:bg-primary-hover",
+					"active:bg-primary-active",
 				],
 
 				/**
@@ -96,10 +98,10 @@ export const buttonVariants = cva(
 				 * Medium visual prominence. Pairs with primary buttons.
 				 */
 				secondary: [
-					"bg-ds-secondary text-ds-secondary-foreground",
-					"border border-ds-border",
-					"hover:bg-ds-secondary-hover",
-					"active:bg-ds-secondary-active",
+					"bg-secondary text-secondary-foreground",
+					"border border-border",
+					"hover:bg-secondary-hover",
+					"active:bg-secondary-active",
 				],
 
 				/**
@@ -107,9 +109,9 @@ export const buttonVariants = cva(
 				 * Low visual prominence. Use for tertiary actions, toolbars, nav.
 				 */
 				ghost: [
-					"bg-transparent text-ds-foreground",
-					"hover:bg-ds-muted hover:text-ds-foreground",
-					"active:bg-ds-secondary-active",
+					"bg-transparent text-foreground",
+					"hover:bg-muted hover:text-foreground",
+					"active:bg-secondary-active",
 				],
 
 				/**
@@ -117,9 +119,9 @@ export const buttonVariants = cva(
 				 * High visual prominence. Use for delete, remove, revoke actions.
 				 */
 				danger: [
-					"bg-ds-danger text-ds-danger-foreground",
-					"hover:bg-ds-danger-hover",
-					"active:bg-ds-danger-active",
+					"bg-danger text-danger-foreground",
+					"hover:bg-danger-hover",
+					"active:bg-danger-active",
 				],
 			},
 

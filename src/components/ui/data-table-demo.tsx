@@ -206,10 +206,10 @@ const customCellColumns: ColumnDef<User, any>[] = [
 		header: "User",
 		cell: ({ row }) => (
 			<div className="flex flex-col">
-				<span className="font-medium text-ds-foreground">
+				<span className="font-medium text-foreground">
 					{row.original.name}
 				</span>
-				<span className="text-xs text-ds-muted-foreground">
+				<span className="text-xs text-muted-foreground">
 					{row.original.email}
 				</span>
 			</div>
@@ -256,7 +256,7 @@ const customCellColumns: ColumnDef<User, any>[] = [
 			const amount = getValue() as number;
 			return (
 				<span
-					className={`font-mono text-sm tabular-nums ${amount >= 2000 ? "text-green-600 dark:text-green-400" : "text-ds-foreground"}`}
+					className={`font-mono text-sm tabular-nums ${amount >= 2000 ? "text-green-600 dark:text-green-400" : "text-foreground"}`}
 				>
 					${amount.toLocaleString()}
 				</span>
@@ -509,7 +509,7 @@ const taskColumns: ColumnDef<Task, any>[] = [
 		enableSorting: false,
 		enableHiding: false,
 		cell: ({ getValue }) => (
-			<span className="font-medium text-ds-foreground">
+			<span className="font-medium text-foreground">
 				{getValue() as string}
 			</span>
 		),
@@ -526,7 +526,7 @@ const taskColumns: ColumnDef<Task, any>[] = [
 				<Badge variant={labelVariantMap[row.original.label]} size="sm">
 					{row.original.label}
 				</Badge>
-				<span className="truncate text-ds-foreground">
+				<span className="truncate text-foreground">
 					{row.original.title}
 				</span>
 			</div>
@@ -546,7 +546,7 @@ const taskColumns: ColumnDef<Task, any>[] = [
 			const status = getValue() as Task["status"];
 			return (
 				<div className="flex items-center gap-1.5">
-					<span className="text-ds-muted-foreground">
+					<span className="text-muted-foreground">
 						{statusIconMap[status]}
 					</span>
 					<span className="text-sm">{status}</span>
@@ -568,7 +568,7 @@ const taskColumns: ColumnDef<Task, any>[] = [
 			const priority = getValue() as Task["priority"];
 			return (
 				<div className="flex items-center gap-1.5">
-					<span className="text-ds-muted-foreground">
+					<span className="text-muted-foreground">
 						{priorityIconMap[priority]}
 					</span>
 					<span className="text-sm">{priority}</span>
@@ -596,7 +596,7 @@ const taskColumns: ColumnDef<Task, any>[] = [
 			enableHeaderMenu: true,
 		} satisfies DataTableColumnMeta,
 		cell: ({ getValue }) => (
-			<span className="text-sm text-ds-muted-foreground">
+			<span className="text-sm text-muted-foreground">
 				{getValue() as string}
 			</span>
 		),
@@ -609,7 +609,7 @@ const taskColumns: ColumnDef<Task, any>[] = [
 		cell: () => (
 			<button
 				type="button"
-				className="inline-flex size-8 items-center justify-center rounded-ds-md text-ds-muted-foreground hover:text-ds-foreground hover:bg-ds-muted/50 transition-colors"
+				className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
 				aria-label="Row actions"
 			>
 				<svg
@@ -854,10 +854,10 @@ export function DataTableDemo({
 					emptyState={
 						emptyState ?? (
 							<div className="flex flex-col items-center gap-1.5 py-4">
-								<span className="text-sm font-medium text-ds-foreground">
+								<span className="text-sm font-medium text-foreground">
 									No users found
 								</span>
-								<span className="text-xs text-ds-muted-foreground">
+								<span className="text-xs text-muted-foreground">
 									Try adjusting your search or filters.
 								</span>
 							</div>
@@ -934,13 +934,13 @@ export function DataTableDemo({
 						const count =
 							table.getFilteredSelectedRowModel().rows.length;
 						return count > 0 ? (
-							<span className="text-xs font-medium text-ds-primary">
+							<span className="text-xs font-medium text-primary">
 								{count} row(s) selected
 							</span>
 						) : null;
 					}}
 					footer={(table) => (
-						<div className="flex items-center justify-between px-2 text-xs text-ds-muted-foreground">
+						<div className="flex items-center justify-between px-2 text-xs text-muted-foreground">
 							<span>
 								Showing {table.getRowModel().rows.length} of{" "}
 								{table.getFilteredRowModel().rows.length} rows
@@ -994,7 +994,7 @@ export function DataTableDemo({
 						const count =
 							table.getFilteredSelectedRowModel().rows.length;
 						return count > 0 ? (
-							<span className="text-xs font-medium text-ds-primary">
+							<span className="text-xs font-medium text-primary">
 								{count} of{" "}
 								{table.getFilteredRowModel().rows.length} row(s)
 								selected

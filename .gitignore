@@ -15,7 +15,7 @@
 *.tsbuildinfo
 
 # design system build output
-packages/*/dist/
+#packages/*/dist/
 
 # misc
 .DS_Store

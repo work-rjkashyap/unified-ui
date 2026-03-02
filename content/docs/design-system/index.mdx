@@ -38,15 +38,15 @@ This architecture ensures that changes to low-level values (like a color or spac
 ### Layer Rules
 
 1. **Tokens** are pure data — no React, no CSS, no side effects.
-2. **Theme** reads tokens and maps them to `--ds-*` CSS custom properties.
-3. **Primitives** consume theme variables via Tailwind `ds-*` utilities.
+2. **Theme** reads tokens and maps them to CSS custom properties.
+3. **Primitives** consume theme variables via Tailwind utilities.
 4. **Components** compose primitives and add interaction logic (Radix UI, Framer Motion).
 5. **Motion** provides Framer Motion presets that any layer can use.
 6. **Utils** are pure functions shared across all layers (`cn`, `focusRingClasses`, etc.).
 
 <Callout type="warn">
-	**No upward imports.** A token file must never import from a component.
-	A primitive must never import from a composite component. This rule is
+	**No upward imports.** A token file must never import from a component. A
+	primitive must never import from a composite component. This rule is
 	enforced by convention and code review.
 </Callout>
 
@@ -56,11 +56,11 @@ This architecture ensures that changes to low-level values (like a color or spac
 
 ### Token-Driven
 
-Every visual property in the system — color, spacing, radius, shadow, font size, motion duration — originates from a design token. Components reference tokens through CSS custom properties (`--ds-*`) or Tailwind utilities, never through hardcoded values.
+Every visual property in the system — color, spacing, radius, shadow, font size, motion duration — originates from a design token. Components reference tokens through CSS custom properties or Tailwind utilities, never through hardcoded values.
 
 ```tsx
 // ✅ Correct — uses token-driven Tailwind classes
-<div className="bg-ds-primary text-ds-primary-foreground rounded-ds-md p-ds-4" />
+<div className="bg-primary text-primary-foreground rounded-md p-4" />
 
 // ❌ Wrong — hardcoded values bypass the token system
 <div className="bg-blue-600 text-white rounded-lg p-4" />
@@ -93,19 +93,19 @@ import { Button, Dialog, Toast } from "@work-rjkashyap/unified-ui/components";
 
 ### Theme-Aware
 
-Every component automatically adapts to the active theme through CSS custom properties. The `--ds-` prefix namespaces all design system variables to avoid collisions with host application styles.
+Every component automatically adapts to the active theme through CSS custom properties. Design system variables use semantic names (e.g. `--primary`, `--radius-md`) that don't collide with host application styles.
 
 ```css
 /* Light mode (default) */
 :root {
-	--ds-color-primary: #0f172a;
-	--ds-color-background: #ffffff;
+	--primary: #0f172a;
+	--background: #ffffff;
 }
 
 /* Dark mode */
 .dark {
-	--ds-color-primary: #f8fafc;
-	--ds-color-background: #0a0a0a;
+	--primary: #f8fafc;
+	--background: #0a0a0a;
 }
 ```
 
@@ -126,7 +126,7 @@ packages/unified-ui/src/
 │   └── index.ts         ← Token barrel export
 │
 ├── theme/               ← Layer 2: Theme system
-│   ├── contract.ts      ← CSS variable contract (--ds-*)
+│   ├── contract.ts      ← CSS variable contract + cssVar helper
 │   ├── provider.tsx     ← DSThemeProvider + useDSTheme hook
 │   └── index.ts
 │
@@ -162,17 +162,17 @@ packages/unified-ui/src/
 
 ## CSS Custom Properties
 
-All design system CSS variables use the `--ds-` prefix. This is a **permanent decision** — the prefix will not change.
+All design system CSS variables use plain `--` prefix with no namespace infix. This is a **permanent decision** — the naming convention will not change.
 
-| Category    | Pattern                        | Example                        |
-| ----------- | ------------------------------ | ------------------------------ |
-| Colors      | `--ds-color-{name}`            | `--ds-color-primary`           |
-| Spacing     | `--ds-spacing-{scale}`         | `--ds-spacing-4`               |
-| Radius      | `--ds-radius-{size}`           | `--ds-radius-md`               |
-| Shadows     | `--ds-shadow-{level}`          | `--ds-shadow-md`               |
-| Typography  | `--ds-font-family-{key}`       | `--ds-font-family-sans`        |
-| Z-Index     | `--ds-z-{name}`                | `--ds-z-modal`                 |
-| Motion      | `--ds-duration-{speed}`        | `--ds-duration-normal`         |
+| Category   | Pattern               | Example              |
+| ---------- | --------------------- | -------------------- |
+| Colors     | `--{name}`            | `--primary`          |
+| Spacing    | `--spacing-{scale}`   | `--spacing-4`        |
+| Radius     | `--radius-{size}`     | `--radius-md`        |
+| Shadows    | `--shadow-{level}`    | `--shadow-md`        |
+| Typography | `--font-family-{key}` | `--font-family-sans` |
+| Z-Index    | `--z-{name}`          | `--z-modal`          |
+| Motion     | `--duration-{speed}`  | `--duration-normal`  |
 
 ---
 
@@ -180,13 +180,13 @@ All design system CSS variables use the `--ds-` prefix. This is a **permanent de
 
 Every Unified UI component renders semantic `data-ds-*` attributes for styling hooks and debugging:
 
-| Attribute             | Purpose                                            |
-| --------------------- | -------------------------------------------------- |
-| `data-ds`             | Marks an element as part of the design system       |
-| `data-ds-component`   | Component name (e.g., `"button"`, `"dialog"`)      |
-| `data-ds-variant`     | Active variant (e.g., `"primary"`, `"outline"`)    |
-| `data-ds-size`        | Active size (e.g., `"sm"`, `"md"`, `"lg"`)         |
-| `data-ds-state`       | Component state (e.g., `"open"`, `"disabled"`)     |
+| Attribute           | Purpose                                         |
+| ------------------- | ----------------------------------------------- |
+| `data-ds`           | Marks an element as part of the design system   |
+| `data-ds-component` | Component name (e.g., `"button"`, `"dialog"`)   |
+| `data-ds-variant`   | Active variant (e.g., `"primary"`, `"outline"`) |
+| `data-ds-size`      | Active size (e.g., `"sm"`, `"md"`, `"lg"`)      |
+| `data-ds-state`     | Component state (e.g., `"open"`, `"disabled"`)  |
 
 These attributes make it easy to target design system components in CSS, tests, or browser DevTools:
 

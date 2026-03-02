@@ -60,9 +60,9 @@ export const avatarVariants = cva(
     // Typography for fallback initials
     "font-medium leading-none select-none",
     // Default colors for fallback state
-    "bg-ds-muted text-ds-muted-foreground",
+    "bg-muted text-muted-foreground",
     // Border for visual separation on grouped/colored backgrounds
-    "ring-2 ring-ds-background",
+    "ring-2 ring-background",
   ],
   {
     variants: {
@@ -103,12 +103,12 @@ export const avatarVariants = cva(
         /**
          * Circle — default, standard avatar shape.
          */
-        circle: "rounded-ds-full",
+        circle: "rounded-full",
 
         /**
          * Square — rounded rectangle, for app icons or org logos.
          */
-        square: "rounded-ds-md",
+        square: "rounded-md",
       },
     },
 
@@ -126,10 +126,10 @@ export const avatarVariants = cva(
 export type AvatarStatus = "online" | "offline" | "busy" | "away";
 
 const statusColorMap: Record<AvatarStatus, string> = {
-  online: "bg-ds-success",
-  offline: "bg-ds-muted-foreground",
-  busy: "bg-ds-danger",
-  away: "bg-ds-warning",
+  online: "bg-success",
+  offline: "bg-muted-foreground",
+  busy: "bg-danger",
+  away: "bg-warning",
 };
 
 const statusLabelMap: Record<AvatarStatus, string> = {
@@ -299,8 +299,8 @@ function StatusDot({
     <span
       className={cn(
         "absolute block",
-        "rounded-ds-full",
-        "ring-2 ring-ds-background",
+        "rounded-full",
+        "ring-2 ring-background",
         statusSizeMap[size],
         statusColorMap[status],
         // Position based on shape — circle uses corner, square uses edge
@@ -666,7 +666,7 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
             <span
               className={cn(
                 avatarVariants({ size, shape }),
-                "bg-ds-muted text-ds-muted-foreground",
+                "bg-muted text-muted-foreground",
                 "font-semibold",
               )}
               role="img"

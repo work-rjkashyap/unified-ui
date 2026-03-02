@@ -24,17 +24,17 @@ import { Callout } from "fumadocs-ui/components/callout";
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
-          <div className="p-4 text-sm text-ds-muted-foreground">
+          <div className="p-4 text-sm text-muted-foreground">
             Manage your account settings and preferences.
           </div>
         </TabsContent>
         <TabsContent value="password">
-          <div className="p-4 text-sm text-ds-muted-foreground">
+          <div className="p-4 text-sm text-muted-foreground">
             Change your password and security settings.
           </div>
         </TabsContent>
         <TabsContent value="notifications">
-          <div className="p-4 text-sm text-ds-muted-foreground">
+          <div className="p-4 text-sm text-muted-foreground">
             Configure your notification preferences.
           </div>
         </TabsContent>
@@ -92,12 +92,12 @@ The `Tabs` component wraps Radix UI's Tabs primitive with design system tokens a
 					<TabsTrigger value="tab2">Tab 2</TabsTrigger>
 				</TabsList>
 				<TabsContent value="tab1">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Content 1
 					</div>
 				</TabsContent>
 				<TabsContent value="tab2">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Content 2
 					</div>
 				</TabsContent>
@@ -134,17 +134,17 @@ The standard tab style with a bottom border indicator. Best for top-level page n
 					<TabsTrigger value="tab3">Settings</TabsTrigger>
 				</TabsList>
 				<TabsContent value="tab1">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Overview content
 					</div>
 				</TabsContent>
 				<TabsContent value="tab2">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Analytics content
 					</div>
 				</TabsContent>
 				<TabsContent value="tab3">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Settings content
 					</div>
 				</TabsContent>
@@ -179,17 +179,17 @@ Rounded pill-shaped buttons for the active tab. Great for filtering or secondary
 					<TabsTrigger value="archived">Archived</TabsTrigger>
 				</TabsList>
 				<TabsContent value="all">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						All items
 					</div>
 				</TabsContent>
 				<TabsContent value="active">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Active items
 					</div>
 				</TabsContent>
 				<TabsContent value="archived">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Archived items
 					</div>
 				</TabsContent>
@@ -224,17 +224,17 @@ Tabs enclosed in a container with a background highlight on the active tab. Work
 					<TabsTrigger value="tests">Tests</TabsTrigger>
 				</TabsList>
 				<TabsContent value="code">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Code editor
 					</div>
 				</TabsContent>
 				<TabsContent value="preview">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Live preview
 					</div>
 				</TabsContent>
 				<TabsContent value="tests">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Test results
 					</div>
 				</TabsContent>
@@ -263,32 +263,32 @@ Two sizes are available for different density requirements.
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-md">
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Small</p>
+				<p className="text-xs text-muted-foreground mb-2 font-medium">Small</p>
 				<Tabs size="sm" defaultValue="tab1">
 					<TabsList>
 						<TabsTrigger value="tab1">Small</TabsTrigger>
 						<TabsTrigger value="tab2">Tabs</TabsTrigger>
 					</TabsList>
 					<TabsContent value="tab1">
-						<div className="p-4 text-sm text-ds-muted-foreground">Small tab content</div>
+						<div className="p-4 text-sm text-muted-foreground">Small tab content</div>
 					</TabsContent>
 					<TabsContent value="tab2">
-						<div className="p-4 text-sm text-ds-muted-foreground">Small tab 2 content</div>
+						<div className="p-4 text-sm text-muted-foreground">Small tab 2 content</div>
 					</TabsContent>
 				</Tabs>
 			</div>
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Medium (default)</p>
+				<p className="text-xs text-muted-foreground mb-2 font-medium">Medium (default)</p>
 				<Tabs size="md" defaultValue="tab1">
 					<TabsList>
 						<TabsTrigger value="tab1">Medium</TabsTrigger>
 						<TabsTrigger value="tab2">Tabs (default)</TabsTrigger>
 					</TabsList>
 					<TabsContent value="tab1">
-						<div className="p-4 text-sm text-ds-muted-foreground">Medium tab content</div>
+						<div className="p-4 text-sm text-muted-foreground">Medium tab content</div>
 					</TabsContent>
 					<TabsContent value="tab2">
-						<div className="p-4 text-sm text-ds-muted-foreground">Medium tab 2 content</div>
+						<div className="p-4 text-sm text-muted-foreground">Medium tab 2 content</div>
 					</TabsContent>
 				</Tabs>
 			</div>
@@ -330,22 +330,22 @@ Set `orientation="vertical"` for a sidebar-style layout where the tab list sits 
 					<TabsTrigger value="integrations">Integrations</TabsTrigger>
 				</TabsList>
 				<TabsContent value="general">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						General settings
 					</div>
 				</TabsContent>
 				<TabsContent value="security">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Security settings
 					</div>
 				</TabsContent>
 				<TabsContent value="billing">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Billing settings
 					</div>
 				</TabsContent>
 				<TabsContent value="integrations">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Integration settings
 					</div>
 				</TabsContent>
@@ -382,17 +382,17 @@ Set `fullWidth` on the `TabsList` to stretch tabs evenly across the available wi
 					<TabsTrigger value="tab3">Third</TabsTrigger>
 				</TabsList>
 				<TabsContent value="tab1">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						First tab content
 					</div>
 				</TabsContent>
 				<TabsContent value="tab2">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Second tab content
 					</div>
 				</TabsContent>
 				<TabsContent value="tab3">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Third tab content
 					</div>
 				</TabsContent>
@@ -429,17 +429,17 @@ Individual tabs can be disabled while others remain interactive.
 					<TabsTrigger value="tab3">Active</TabsTrigger>
 				</TabsList>
 				<TabsContent value="tab1">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						First tab content
 					</div>
 				</TabsContent>
 				<TabsContent value="tab2">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						This tab is disabled
 					</div>
 				</TabsContent>
 				<TabsContent value="tab3">
-					<div className="p-4 text-sm text-ds-muted-foreground">
+					<div className="p-4 text-sm text-muted-foreground">
 						Third tab content
 					</div>
 				</TabsContent>
@@ -538,11 +538,11 @@ The active tab indicator uses Framer Motion's `layoutId` for smooth animated tra
 
 | Token                         | Usage                                    |
 | ----------------------------- | ---------------------------------------- |
-| `--ds-color-primary`          | Active tab indicator / highlight         |
-| `--ds-color-muted`            | Inactive tab background (enclosed/pills) |
-| `--ds-color-foreground`       | Active tab text color                    |
-| `--ds-color-muted-foreground` | Inactive tab text color                  |
-| `--ds-radius-md`              | Tab trigger border radius                |
-| `--ds-duration-fast`          | Transition speed for hover/focus states  |
+| `--primary`          | Active tab indicator / highlight         |
+| `--muted`            | Inactive tab background (enclosed/pills) |
+| `--foreground`       | Active tab text color                    |
+| `--muted-foreground` | Inactive tab text color                  |
+| `--radius-md`              | Tab trigger border radius                |
+| `--duration-fast`          | Transition speed for hover/focus states  |
 
 </ComponentPage>

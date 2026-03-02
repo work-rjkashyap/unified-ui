@@ -179,7 +179,7 @@ The `density` prop on the root `Table` controls the vertical padding of all rows
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-lg">
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Compact</p>
+				<p className="text-xs text-muted-foreground mb-2 font-medium">Compact</p>
 				<Table density="compact">
 					<TableHeader>
 						<TableRow>
@@ -200,7 +200,7 @@ The `density` prop on the root `Table` controls the vertical padding of all rows
 				</Table>
 			</div>
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Comfortable (default)</p>
+				<p className="text-xs text-muted-foreground mb-2 font-medium">Comfortable (default)</p>
 				<Table density="comfortable">
 					<TableHeader>
 						<TableRow>
@@ -559,7 +559,7 @@ Add a `striped` prop to the root `Table` for alternating row backgrounds to impr
 For tables that may exceed the viewport width on mobile, wrap the `Table` in a horizontally scrollable container.
 
 ```tsx
-<div className="overflow-x-auto rounded-ds-md border border-ds-border">
+<div className="overflow-x-auto rounded-md border border-border">
 	<Table>
 		<TableHeader>
 			<TableRow>
@@ -650,11 +650,11 @@ For tables that may exceed the viewport width on mobile, wrap the `Table` in a h
 
 | Token                         | Usage                                     |
 | ----------------------------- | ----------------------------------------- |
-| `--ds-color-surface`          | Table background                          |
-| `--ds-color-border-muted`     | Row borders                               |
-| `--ds-color-muted`            | Striped row background, footer background |
-| `--ds-color-foreground`       | Header and cell text                      |
-| `--ds-color-muted-foreground` | Caption text                              |
-| `--ds-duration-fast`          | Hover transition speed                    |
+| `--surface`          | Table background                          |
+| `--border-muted`     | Row borders                               |
+| `--muted`            | Striped row background, footer background |
+| `--foreground`       | Header and cell text                      |
+| `--muted-foreground` | Caption text                              |
+| `--duration-fast`          | Hover transition speed                    |
 
 </ComponentPage>

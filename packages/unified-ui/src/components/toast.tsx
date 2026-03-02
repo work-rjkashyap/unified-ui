@@ -273,11 +273,11 @@ export const toastVariants = cva(
 		// Layout
 		"relative flex items-start gap-3",
 		// Shape
-		"rounded-ds-lg",
+		"rounded-lg",
 		// Padding
 		"px-4 py-3",
 		// Shadow (elevated)
-		"shadow-ds-lg",
+		"shadow-lg",
 		// Border
 		"border",
 		// Width
@@ -291,29 +291,29 @@ export const toastVariants = cva(
 		variants: {
 			variant: {
 				default: [
-					"bg-ds-surface-raised",
-					"text-ds-foreground",
-					"border-ds-border",
+					"bg-surface-raised",
+					"text-foreground",
+					"border-border",
 				],
 				success: [
-					"bg-ds-success-muted",
-					"text-ds-success-muted-foreground",
-					"border-ds-success/20",
+					"bg-success-muted",
+					"text-success-muted-foreground",
+					"border-success/20",
 				],
 				warning: [
-					"bg-ds-warning-muted",
-					"text-ds-warning-muted-foreground",
-					"border-ds-warning/20",
+					"bg-warning-muted",
+					"text-warning-muted-foreground",
+					"border-warning/20",
 				],
 				danger: [
-					"bg-ds-danger-muted",
-					"text-ds-danger-muted-foreground",
-					"border-ds-danger/20",
+					"bg-danger-muted",
+					"text-danger-muted-foreground",
+					"border-danger/20",
 				],
 				info: [
-					"bg-ds-info-muted",
-					"text-ds-info-muted-foreground",
-					"border-ds-info/20",
+					"bg-info-muted",
+					"text-info-muted-foreground",
+					"border-info/20",
 				],
 			},
 		},
@@ -338,11 +338,11 @@ const defaultIconMap: Record<
 };
 
 const iconColorMap: Record<ToastVariant, string> = {
-	default: "text-ds-muted-foreground",
-	success: "text-ds-success",
-	warning: "text-ds-warning",
-	danger: "text-ds-danger",
-	info: "text-ds-info",
+	default: "text-muted-foreground",
+	success: "text-success",
+	warning: "text-warning",
+	danger: "text-danger",
+	info: "text-info",
 };
 
 // ---------------------------------------------------------------------------
@@ -569,8 +569,8 @@ export const ToastItem = forwardRef<HTMLDivElement, ToastItemProps>(
 								"text-xs font-semibold",
 								"underline underline-offset-2",
 								"hover:no-underline",
-								"transition-all duration-ds-fast",
-								"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-1 rounded-ds-sm",
+								"transition-all duration-fast",
+								"focus-visible:outline-none focus-visible:border-current rounded-sm",
 							)}
 						>
 							{action.label}
@@ -585,11 +585,11 @@ export const ToastItem = forwardRef<HTMLDivElement, ToastItemProps>(
 					className={cn(
 						"shrink-0",
 						"inline-flex items-center justify-center",
-						"size-5 rounded-ds-sm",
+						"size-5 rounded-sm",
 						"text-current opacity-40",
 						"hover:opacity-100",
-						"transition-opacity duration-ds-fast",
-						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-1",
+						"transition-opacity duration-fast",
+						"focus-visible:outline-none focus-visible:border-current",
 					)}
 					aria-label="Dismiss notification"
 				>
@@ -599,18 +599,18 @@ export const ToastItem = forwardRef<HTMLDivElement, ToastItemProps>(
 				{/* Progress bar for auto-dismiss */}
 				{duration > 0 && (
 					<div
-						className="absolute bottom-0 left-0 right-0 h-0.5 overflow-hidden rounded-b-ds-lg"
+						className="absolute bottom-0 left-0 right-0 h-0.5 overflow-hidden rounded-b-lg"
 						aria-hidden="true"
 					>
 						<div
 							className={cn(
 								"h-full origin-left",
 								variant === "default" &&
-									"bg-ds-muted-foreground/30",
-								variant === "success" && "bg-ds-success/30",
-								variant === "warning" && "bg-ds-warning/30",
-								variant === "danger" && "bg-ds-danger/30",
-								variant === "info" && "bg-ds-info/30",
+									"bg-muted-foreground/30",
+								variant === "success" && "bg-success/30",
+								variant === "warning" && "bg-warning/30",
+								variant === "danger" && "bg-danger/30",
+								variant === "info" && "bg-info/30",
 							)}
 							style={{
 								animation: isPaused
@@ -664,7 +664,7 @@ function ToastContainer({
 	const container = (
 		<div
 			className={cn(
-				"fixed z-[var(--ds-z-toast)]",
+				"fixed z-[var(--z-toast)]",
 				"flex flex-col",
 				"p-4",
 				"pointer-events-none",

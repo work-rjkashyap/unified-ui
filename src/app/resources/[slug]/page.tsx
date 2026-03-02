@@ -131,7 +131,7 @@ export default async function Page(props: PageProps) {
 								<input
 									type="email"
 									placeholder="name@email.com"
-									className="flex-1 px-4 py-2 text-sm rounded-xl border border-fd-border bg-fd-background focus:outline-hidden focus:ring-2 focus:ring-fd-primary/20 transition-all"
+									className="flex-1 px-4 py-2 text-sm rounded-xl border border-fd-border bg-fd-background focus:outline-hidden focus:border-fd-primary/40 transition-all"
 								/>
 								<button
 									type="button"

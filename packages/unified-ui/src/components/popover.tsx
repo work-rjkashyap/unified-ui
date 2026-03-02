@@ -44,13 +44,13 @@
 //   </Popover>
 // ============================================================================
 
-import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { Popover as PopoverPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingInsetClasses } from "@unified-ui/utils/focus-ring";
 import {
-	type ComponentPropsWithoutRef,
-	forwardRef,
-	type ReactNode,
+    type ComponentPropsWithoutRef,
+    forwardRef,
+    type ReactNode,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -58,56 +58,56 @@ import {
 // ---------------------------------------------------------------------------
 
 export interface PopoverProps extends PopoverPrimitive.PopoverProps {
-	/** The popover children (trigger + content). */
-	children: ReactNode;
+    /** The popover children (trigger + content). */
+    children: ReactNode;
 }
 
 export interface PopoverTriggerProps extends ComponentPropsWithoutRef<
-	typeof PopoverPrimitive.Trigger
+    typeof PopoverPrimitive.Trigger
 > {
-	/** Additional CSS classes. */
-	className?: string;
+    /** Additional CSS classes. */
+    className?: string;
 }
 
 export interface PopoverContentProps extends ComponentPropsWithoutRef<
-	typeof PopoverPrimitive.Content
+    typeof PopoverPrimitive.Content
 > {
-	/** Additional CSS classes for the content element. */
-	className?: string;
+    /** Additional CSS classes for the content element. */
+    className?: string;
 
-	/**
-	 * Whether to show a close button in the top-right corner.
-	 * @default false
-	 */
-	showClose?: boolean;
+    /**
+     * Whether to show a close button in the top-right corner.
+     * @default false
+     */
+    showClose?: boolean;
 
-	/**
-	 * Whether to render an arrow pointing to the trigger.
-	 * @default false
-	 */
-	arrow?: boolean;
+    /**
+     * Whether to render an arrow pointing to the trigger.
+     * @default false
+     */
+    arrow?: boolean;
 
-	/**
-	 * Additional CSS classes for the arrow element.
-	 */
-	arrowClassName?: string;
+    /**
+     * Additional CSS classes for the arrow element.
+     */
+    arrowClassName?: string;
 
-	/** The popover body content. */
-	children: ReactNode;
+    /** The popover body content. */
+    children: ReactNode;
 }
 
 export interface PopoverCloseProps extends ComponentPropsWithoutRef<
-	typeof PopoverPrimitive.Close
+    typeof PopoverPrimitive.Close
 > {
-	/** Additional CSS classes. */
-	className?: string;
+    /** Additional CSS classes. */
+    className?: string;
 }
 
 export interface PopoverArrowProps extends ComponentPropsWithoutRef<
-	typeof PopoverPrimitive.Arrow
+    typeof PopoverPrimitive.Arrow
 > {
-	/** Additional CSS classes. */
-	className?: string;
+    /** Additional CSS classes. */
+    className?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -115,22 +115,22 @@ export interface PopoverArrowProps extends ComponentPropsWithoutRef<
 // ---------------------------------------------------------------------------
 
 function CloseIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			className={className}
-			aria-hidden="true"
-		>
-			<path d="M18 6 6 18" />
-			<path d="m6 6 12 12" />
-		</svg>
-	);
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+            aria-hidden="true"
+        >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+        </svg>
+    );
 }
 
 // ---------------------------------------------------------------------------
@@ -151,7 +151,7 @@ function CloseIcon({ className }: { className?: string }) {
  * ```
  */
 export function Popover({ children, ...rest }: PopoverProps) {
-	return <PopoverPrimitive.Root {...rest}>{children}</PopoverPrimitive.Root>;
+    return <PopoverPrimitive.Root {...rest}>{children}</PopoverPrimitive.Root>;
 }
 
 Popover.displayName = "Popover";
@@ -173,18 +173,18 @@ Popover.displayName = "Popover";
  * ```
  */
 export const PopoverTrigger = forwardRef<
-	React.ComponentRef<typeof PopoverPrimitive.Trigger>,
-	PopoverTriggerProps
+    React.ComponentRef<typeof PopoverPrimitive.Trigger>,
+    PopoverTriggerProps
 >(function PopoverTrigger({ className, ...rest }, ref) {
-	return (
-		<PopoverPrimitive.Trigger
-			ref={ref}
-			className={className}
-			data-ds=""
-			data-ds-component="popover-trigger"
-			{...rest}
-		/>
-	);
+    return (
+        <PopoverPrimitive.Trigger
+            ref={ref}
+            className={className}
+            data-ds=""
+            data-ds-component="popover-trigger"
+            {...rest}
+        />
+    );
 });
 
 PopoverTrigger.displayName = "PopoverTrigger";
@@ -226,85 +226,85 @@ PopoverTrigger.displayName = "PopoverTrigger";
  * ```
  */
 export const PopoverContent = forwardRef<
-	React.ComponentRef<typeof PopoverPrimitive.Content>,
-	PopoverContentProps
+    React.ComponentRef<typeof PopoverPrimitive.Content>,
+    PopoverContentProps
 >(function PopoverContent(
-	{
-		className,
-		showClose = false,
-		arrow = false,
-		arrowClassName,
-		children,
-		side = "bottom",
-		align = "center",
-		sideOffset = 4,
-		...rest
-	},
-	ref,
+    {
+        className,
+        showClose = false,
+        arrow = false,
+        arrowClassName,
+        children,
+        side = "bottom",
+        align = "center",
+        sideOffset = 4,
+        ...rest
+    },
+    ref,
 ) {
-	return (
-		<PopoverPrimitive.Portal>
-			<PopoverPrimitive.Content
-				ref={ref}
-				side={side}
-				align={align}
-				sideOffset={sideOffset}
-				className={cn(
-					// Layout & sizing
-					"w-72",
-					// Z-index
-					"z-[var(--ds-z-popover)]",
-					// Visual
-					"rounded-ds-md",
-					"border border-ds-border",
-					"bg-ds-background",
-					"p-4",
-					"shadow-ds-lg",
-					// Text
-					"text-sm text-ds-foreground",
-					// Animation — CSS-based for Radix data attributes
-					"data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-					"data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-					"data-[side=top]:slide-in-from-bottom-2",
-					"data-[side=bottom]:slide-in-from-top-2",
-					"data-[side=left]:slide-in-from-right-2",
-					"data-[side=right]:slide-in-from-left-2",
-					// Outline
-					"outline-none",
-					className,
-				)}
-				data-ds=""
-				data-ds-component="popover-content"
-				{...rest}
-			>
-				{children}
+    return (
+        <PopoverPrimitive.Portal>
+            <PopoverPrimitive.Content
+                ref={ref}
+                side={side}
+                align={align}
+                sideOffset={sideOffset}
+                className={cn(
+                    // Layout & sizing
+                    "w-72",
+                    // Z-index
+                    "z-[var(--z-popover)]",
+                    // Visual
+                    "rounded-md",
+                    "border border-border",
+                    "bg-background",
+                    "p-4",
+                    "shadow-lg",
+                    // Text
+                    "text-sm text-foreground",
+                    // Animation — CSS-based for Radix data attributes
+                    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
+                    "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+                    "data-[side=top]:slide-in-from-bottom-2",
+                    "data-[side=bottom]:slide-in-from-top-2",
+                    "data-[side=left]:slide-in-from-right-2",
+                    "data-[side=right]:slide-in-from-left-2",
+                    // Outline
+                    "outline-none",
+                    className,
+                )}
+                data-ds=""
+                data-ds-component="popover-content"
+                {...rest}
+            >
+                {children}
 
-				{showClose && (
-					<PopoverPrimitive.Close
-						className={cn(
-							"absolute right-2 top-2",
-							"inline-flex items-center justify-center",
-							"rounded-ds-sm p-1",
-							"text-ds-muted-foreground hover:text-ds-foreground",
-							"transition-colors duration-ds-fast",
-							focusRingInsetClasses,
-						)}
-						aria-label="Close"
-					>
-						<CloseIcon className="size-4" />
-					</PopoverPrimitive.Close>
-				)}
+                {showClose && (
+                    <PopoverPrimitive.Close
+                        className={cn(
+                            "absolute right-2 top-2",
+                            "inline-flex items-center justify-center",
+                            "rounded-sm p-1",
+                            "text-muted-foreground hover:text-foreground",
+                            "transition-colors duration-fast",
+                            focusRingInsetClasses,
+                        )}
+                        aria-label="Close"
+                    >
+                        <CloseIcon className="size-4" />
+                    </PopoverPrimitive.Close>
+                )}
 
-				{arrow && (
-					<PopoverPrimitive.Arrow
-						className={cn("fill-ds-background", arrowClassName)}
-						width={12}
-						height={6}
-					/>
-				)}
-			</PopoverPrimitive.Content>
-		</PopoverPrimitive.Portal>
-	);
+                {arrow && (
+                    <PopoverPrimitive.Arrow
+                        className={cn("fill-background", arrowClassName)}
+                        width={12}
+                        height={6}
+                    />
+                )}
+            </PopoverPrimitive.Content>
+        </PopoverPrimitive.Portal>
+    );
 });
 
 PopoverContent.displayName = "PopoverContent";
@@ -314,25 +314,25 @@ PopoverContent.displayName = "PopoverContent";
 // ---------------------------------------------------------------------------
 
 export const PopoverClose = forwardRef<
-	React.ComponentRef<typeof PopoverPrimitive.Close>,
-	PopoverCloseProps
+    React.ComponentRef<typeof PopoverPrimitive.Close>,
+    PopoverCloseProps
 >(function PopoverClose({ className, ...rest }, ref) {
-	return (
-		<PopoverPrimitive.Close
-			ref={ref}
-			className={cn(
-				"inline-flex items-center justify-center",
-				"rounded-ds-sm",
-				"text-ds-muted-foreground hover:text-ds-foreground",
-				"transition-colors duration-ds-fast",
-				focusRingInsetClasses,
-				className,
-			)}
-			data-ds=""
-			data-ds-component="popover-close"
-			{...rest}
-		/>
-	);
+    return (
+        <PopoverPrimitive.Close
+            ref={ref}
+            className={cn(
+                "inline-flex items-center justify-center",
+                "rounded-sm",
+                "text-muted-foreground hover:text-foreground",
+                "transition-colors duration-fast",
+                focusRingInsetClasses,
+                className,
+            )}
+            data-ds=""
+            data-ds-component="popover-close"
+            {...rest}
+        />
+    );
 });
 
 PopoverClose.displayName = "PopoverClose";
@@ -342,18 +342,18 @@ PopoverClose.displayName = "PopoverClose";
 // ---------------------------------------------------------------------------
 
 export const PopoverArrow = forwardRef<
-	React.ComponentRef<typeof PopoverPrimitive.Arrow>,
-	PopoverArrowProps
+    React.ComponentRef<typeof PopoverPrimitive.Arrow>,
+    PopoverArrowProps
 >(function PopoverArrow({ className, ...rest }, ref) {
-	return (
-		<PopoverPrimitive.Arrow
-			ref={ref}
-			className={cn("fill-ds-background", className)}
-			width={12}
-			height={6}
-			{...rest}
-		/>
-	);
+    return (
+        <PopoverPrimitive.Arrow
+            ref={ref}
+            className={cn("fill-background", className)}
+            width={12}
+            height={6}
+            {...rest}
+        />
+    );
 });
 
 PopoverArrow.displayName = "PopoverArrow";

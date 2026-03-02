@@ -26,11 +26,11 @@ Each font family maps to a CSS custom property and a Tailwind utility:
 
 | Key       | Typeface         | CSS Variable          | Tailwind Class    | Use Case                                 |
 | --------- | ---------------- | --------------------- | ----------------- | ---------------------------------------- |
-| `sans`    | Outfit           | `--ds-font-sans`      | `font-ds-sans`    | Primary UI typeface — all interface text |
-| `display` | Inter            | `--ds-font-display`   | `font-ds-display` | Hero headings, marketing text            |
-| `serif`   | Lora             | `--ds-font-serif`     | `font-ds-serif`   | Long-form reading, editorial content     |
-| `mono`    | JetBrains Mono   | `--ds-font-mono`      | `font-ds-mono`    | Code blocks, technical values            |
-| `inherit` | inherit          | `--ds-font-inherit`   | `font-ds-inherit` | Escape hatch for third-party integration |
+| `sans`    | Outfit           | `--font-sans`      | `font-sans`    | Primary UI typeface — all interface text |
+| `display` | Inter            | `--font-display`   | `font-display` | Hero headings, marketing text            |
+| `serif`   | Lora             | `--font-serif`     | `font-serif`   | Long-form reading, editorial content     |
+| `mono`    | JetBrains Mono   | `--font-mono`      | `font-mono`    | Code blocks, technical values            |
+| `inherit` | inherit          | `--font-inherit`   | `font-inherit` | Escape hatch for third-party integration |
 
 ### Loading Fonts
 
@@ -56,15 +56,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-The design system CSS (`styles.css`) maps these `next/font` variables to the `--ds-font-*` properties:
+The design system CSS (`styles.css`) maps these `next/font` variables to the `--font-*` properties:
 
 ```css
 :root {
-  --ds-font-sans: var(--font-outfit), system-ui, sans-serif;
-  --ds-font-display: var(--font-inter), system-ui, sans-serif;
-  --ds-font-serif: var(--font-lora), Georgia, serif;
-  --ds-font-mono: var(--font-jetbrains), Consolas, monospace;
-  --ds-font-inherit: inherit;
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
+  --font-display: var(--font-inter), system-ui, sans-serif;
+  --font-serif: var(--font-lora), Georgia, serif;
+  --font-mono: var(--font-jetbrains), Consolas, monospace;
+  --font-inherit: inherit;
 }
 ```
 
@@ -72,14 +72,14 @@ The design system CSS (`styles.css`) maps these `next/font` variables to the `--
 
 ```tsx
 // In Tailwind classes
-<p className="font-ds-sans">Interface text in Outfit</p>
-<h1 className="font-ds-display">Hero heading in Inter</h1>
-<blockquote className="font-ds-serif">Editorial quote in Lora</blockquote>
-<code className="font-ds-mono">const x = 42;</code>
+<p className="font-sans">Interface text in Outfit</p>
+<h1 className="font-display">Hero heading in Inter</h1>
+<blockquote className="font-serif">Editorial quote in Lora</blockquote>
+<code className="font-mono">const x = 42;</code>
 
 // In CSS
 .custom-element {
-  font-family: var(--ds-font-sans);
+  font-family: var(--font-sans);
 }
 
 // In TypeScript
@@ -388,12 +388,12 @@ The `color` prop maps to semantic design tokens:
 
 | Value       | CSS Variable                       | Use Case                    |
 | ----------- | ---------------------------------- | --------------------------- |
-| `default`   | `--ds-color-foreground`            | Primary text                |
-| `muted`     | `--ds-color-muted-foreground`      | Secondary, descriptive text |
-| `primary`   | `--ds-color-primary`               | Links, emphasized text      |
-| `danger`    | `--ds-color-danger`                | Error messages              |
-| `success`   | `--ds-color-success`               | Success messages            |
-| `warning`   | `--ds-color-warning`               | Warning messages            |
+| `default`   | `--foreground`            | Primary text                |
+| `muted`     | `--muted-foreground`      | Secondary, descriptive text |
+| `primary`   | `--primary`               | Links, emphasized text      |
+| `danger`    | `--danger`                | Error messages              |
+| `success`   | `--success`               | Success messages            |
+| `warning`   | `--warning`               | Warning messages            |
 | `inherit`   | `inherit`                          | Inherit from parent         |
 
 ```tsx
@@ -410,7 +410,7 @@ The `color` prop maps to semantic design tokens:
 ### Do
 
 - Use the **preset components** (`<Heading>`, `<Body>`, etc.) instead of raw HTML elements with manual classes.
-- Let the `font` prop handle font family switching — don't add `font-ds-*` classes manually to typography components.
+- Let the `font` prop handle font family switching — don't add `font-*` classes manually to typography components.
 - Use `color="muted"` for secondary text instead of applying opacity or custom colors.
 - Use `truncate` or `lineClamp` for text in constrained containers (cards, list items, table cells).
 

@@ -18,8 +18,8 @@
 //   import { Button } from "@/design-system/components";
 //   import { slideUp, motionProps } from "@/design-system/motion";
 //
-// CSS custom properties use the `--ds-` prefix to avoid collisions with
-// host application styles and third-party libraries.
+// CSS custom properties use plain `--` prefix with no namespace infix
+// (e.g. `--radius-md`, `--shadow-lg`, `--duration-fast`).
 //
 // @see https://github.com/rajeshwar/unified-ui
 // ============================================================================
@@ -215,15 +215,15 @@ export {
 } from "./components/radio";
 export {
   Select,
+  SelectContent,
   SelectGroup,
-  type SelectGroupProps,
   SelectItem,
-  type SelectItemProps,
   SelectLabel,
-  type SelectLabelProps,
-  type SelectProps,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
   SelectSeparator,
-  type SelectSeparatorProps,
+  SelectTrigger,
+  SelectValue,
   type SelectSize,
   type SelectVariant,
   selectTriggerVariants,
@@ -435,8 +435,7 @@ export {
 // ---------------------------------------------------------------------------
 // Foundational Unified UI building blocks — typography, layout, and
 // structural elements. These are the lowest-level components that composite
-// components are built from. They consume design tokens via Tailwind `ds-*`
-// utilities.
+// components are built from. They consume design tokens via Tailwind utilities.
 // ---------------------------------------------------------------------------
 export {
   Body,
@@ -481,7 +480,7 @@ export {
 // ---------------------------------------------------------------------------
 // Layer 2: Theme System
 // ---------------------------------------------------------------------------
-// CSS variable contract (`--ds-*`), theme provider, and theme toggle hook.
+// CSS variable contract, theme provider, and theme toggle hook.
 // The theme layer bridges Unified UI tokens to runtime by mapping them to
 // CSS custom properties and providing React context for theme-aware
 // components.
@@ -509,6 +508,40 @@ export {
   type ThemeVars,
   useDSTheme,
   type ZIndexVarName,
+  // Theme Presets & Configuration
+  buildThemeOverrides,
+  COLOR_PRESET_KEYS,
+  COLOR_PRESETS,
+  type ColorPreset,
+  type ColorPresetKey,
+  DEFAULT_FONT_KEY,
+  DEFAULT_RADIUS_KEY,
+  DEFAULT_SHADOW_KEY,
+  DEFAULT_SURFACE_STYLE_KEY,
+  DEFAULT_THEME_CONFIG,
+  FONT_PRESETS,
+  type FontPreset,
+  generateThemeCSS,
+  getColorPreset,
+  getFontPreset,
+  getRadiusPreset,
+  getShadowPreset,
+  type PresetSemanticColors,
+  RADIUS_PRESETS,
+  type RadiusPreset,
+  SHADOW_PRESETS,
+  type ShadowPreset,
+  SURFACE_STYLE_PRESETS,
+  type SurfaceStylePreset,
+  type ThemeConfig,
+  // Theme Customizer Store (Context + Provider + Hook)
+  type ThemeCustomizerContextValue,
+  ThemeCustomizerProvider,
+  type ThemeCustomizerProviderProps,
+  useThemeCustomizer,
+  // Theme Customizer UI Component
+  ThemeCustomizer,
+  type ThemeCustomizerProps,
 } from "./theme";
 // ---------------------------------------------------------------------------
 // Layer 1: Design Tokens

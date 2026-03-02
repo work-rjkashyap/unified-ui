@@ -6,6 +6,7 @@
 //
 // Usage:
 //   import { DSThemeProvider, useDSTheme, contract, cssVar } from "@/design-system/theme";
+//   import { ThemeCustomizer, ThemeCustomizerProvider, useThemeCustomizer } from "@/design-system/theme";
 // ============================================================================
 
 // ---------------------------------------------------------------------------
@@ -38,3 +39,52 @@ export {
   type ThemeMode,
   useDSTheme,
 } from "./provider";
+
+// ---------------------------------------------------------------------------
+// Theme Presets & Configuration
+// ---------------------------------------------------------------------------
+export {
+  buildThemeOverrides,
+  COLOR_PRESET_KEYS,
+  COLOR_PRESETS,
+  type ColorPreset,
+  type ColorPresetKey,
+  DEFAULT_FONT_KEY,
+  DEFAULT_RADIUS_KEY,
+  DEFAULT_SHADOW_KEY,
+  DEFAULT_SURFACE_STYLE_KEY,
+  DEFAULT_THEME_CONFIG,
+  FONT_PRESETS,
+  type FontPreset,
+  generateThemeCSS,
+  getColorPreset,
+  getFontPreset,
+  getRadiusPreset,
+  getShadowPreset,
+  type PresetSemanticColors,
+  RADIUS_PRESETS,
+  type RadiusPreset,
+  SHADOW_PRESETS,
+  type ShadowPreset,
+  SURFACE_STYLE_PRESETS,
+  type SurfaceStylePreset,
+  type ThemeConfig,
+} from "./presets";
+
+// ---------------------------------------------------------------------------
+// Theme Customizer Store (Context + Provider + Hook)
+// ---------------------------------------------------------------------------
+export {
+  type ThemeCustomizerContextValue,
+  ThemeCustomizerProvider,
+  type ThemeCustomizerProviderProps,
+  useThemeCustomizer,
+} from "./customizer-store";
+
+// ---------------------------------------------------------------------------
+// Theme Customizer UI Component
+// ---------------------------------------------------------------------------
+export {
+  ThemeCustomizer,
+  type ThemeCustomizerProps,
+} from "./customizer";

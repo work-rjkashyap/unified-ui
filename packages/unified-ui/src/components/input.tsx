@@ -48,21 +48,21 @@ export const inputVariants = cva(
 		// Typography
 		"text-sm leading-5",
 		// Shape
-		"rounded-ds-md",
+		"rounded-md",
 		// Border
 		"border",
 		// Colors
-		"bg-ds-background text-ds-input-foreground",
-		"placeholder:text-ds-input-placeholder",
+		"bg-background text-input-foreground",
+		"placeholder:text-input-placeholder",
 		// Transition
 		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-ds-fast ease-ds-standard",
+		"duration-fast ease-standard",
 		// Focus ring — WCAG AA compliant, visible on keyboard navigation only
 		focusRingClasses,
 		// Disabled
-		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-ds-disabled disabled:text-ds-disabled-foreground",
+		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground",
 		// Read-only
-		"read-only:bg-ds-muted read-only:cursor-default",
+		"read-only:bg-muted read-only:cursor-default",
 		// File input styling
 		"file:border-0 file:bg-transparent file:text-sm file:font-medium",
 	],
@@ -76,29 +76,29 @@ export const inputVariants = cva(
 				 * Default — standard input with muted border.
 				 */
 				default: [
-					"border-ds-input",
-					"hover:border-ds-border-strong",
-					"focus-visible:border-ds-focus-ring",
+					"border-input",
+					"hover:border-border-strong",
+					"focus-visible:border-border-strong",
 				],
 
 				/**
 				 * Error — validation failed. Uses danger color.
 				 */
 				error: [
-					"border-ds-danger",
-					"text-ds-foreground",
-					"focus-visible:ring-ds-danger",
-					"placeholder:text-ds-input-placeholder",
+					"border-danger",
+					"text-foreground",
+					"focus-visible:border-danger",
+					"placeholder:text-input-placeholder",
 				],
 
 				/**
 				 * Success — validation passed. Uses success color.
 				 */
 				success: [
-					"border-ds-success",
-					"text-ds-foreground",
-					"focus-visible:ring-ds-success",
-					"placeholder:text-ds-input-placeholder",
+					"border-success",
+					"text-foreground",
+					"focus-visible:border-success",
+					"placeholder:text-input-placeholder",
 				],
 			},
 
@@ -260,10 +260,10 @@ function ClearButton({
 			onClick={onClick}
 			className={cn(
 				"absolute flex items-center justify-center",
-				"text-ds-muted-foreground hover:text-ds-foreground",
-				"transition-colors duration-ds-fast",
+				"text-muted-foreground hover:text-foreground",
+				"transition-colors duration-fast",
 				focusRingInsetClasses,
-				"rounded-ds-sm",
+				"rounded-sm",
 				iconRightPositionMap[size],
 				iconSizeMap[size],
 			)}
@@ -435,7 +435,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 				<span
 					className={cn(
 						"pointer-events-none absolute flex items-center justify-center",
-						"text-ds-muted-foreground",
+						"text-muted-foreground",
 						iconLeftPositionMap[size],
 						iconSizeMap[size],
 					)}
@@ -470,7 +470,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 					<span
 						className={cn(
 							"pointer-events-none absolute flex items-center justify-center",
-							"text-ds-muted-foreground",
+							"text-muted-foreground",
 							iconRightPositionMap[size],
 							iconSizeMap[size],
 						)}

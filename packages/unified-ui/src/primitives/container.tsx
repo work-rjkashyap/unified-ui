@@ -132,7 +132,7 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLElement> {
  *
  * // Full-bleed section with no padding
  * <Container size="full" padding="none" as="section">
- *   <div className="bg-ds-surface py-10">...</div>
+ *   <div className="bg-surface py-10">...</div>
  * </Container>
  * ```
  */

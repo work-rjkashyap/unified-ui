@@ -26,14 +26,14 @@ Every interactive component in Unified UI displays a visible focus indicator whe
 
 ### Default Focus Ring
 
-The standard focus ring uses the `--ds-color-focus-ring` token (brand.500 in light mode, brand.400 in dark mode) with a 2px ring offset:
+The standard focus ring uses the `--focus-ring` token (brand.500 in light mode, brand.400 in dark mode) with a 2px ring offset:
 
 ```tsx
 import { focusRingClasses } from "@work-rjkashyap/unified-ui/utils";
 
 // Returns a string of Tailwind classes
 console.log(focusRingClasses);
-// "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-ds-background"
+// "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 ```
 
 This produces a focus ring that:
@@ -47,14 +47,14 @@ This produces a focus ring that:
 
 Different contexts call for different focus ring styles:
 
-| Utility                         | Use Case                                         | Description                                      |
-| ------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
-| `focusRingClasses`              | Buttons, inputs, selects, checkboxes, switches   | Standard 2px ring with offset                    |
-| `focusRingCompactClasses`       | Breadcrumb links, inline links, small controls   | 1px ring with reduced offset for tight layouts   |
-| `focusRingInsetClasses`         | Table rows, list items, cards                    | Ring inset (inside the element, not outside)     |
-| `focusWithinRingClasses`        | Wrapper elements with focusable children         | Ring appears when any child receives focus       |
-| `focusRingGroupRingClasses`     | Group containers                                 | Ring on parent when group child is focused       |
-| `focusRingGroupTriggerClasses`  | Trigger elements within a group                  | Focus styling scoped to group triggers           |
+| Utility                        | Use Case                                       | Description                                    |
+| ------------------------------ | ---------------------------------------------- | ---------------------------------------------- |
+| `focusRingClasses`             | Buttons, inputs, selects, checkboxes, switches | Standard 2px ring with offset                  |
+| `focusRingCompactClasses`      | Breadcrumb links, inline links, small controls | 1px ring with reduced offset for tight layouts |
+| `focusRingInsetClasses`        | Table rows, list items, cards                  | Ring inset (inside the element, not outside)   |
+| `focusWithinRingClasses`       | Wrapper elements with focusable children       | Ring appears when any child receives focus     |
+| `focusRingGroupRingClasses`    | Group containers                               | Ring on parent when group child is focused     |
+| `focusRingGroupTriggerClasses` | Trigger elements within a group                | Focus styling scoped to group triggers         |
 
 ```tsx
 import {
@@ -65,12 +65,12 @@ import {
 } from "@work-rjkashyap/unified-ui/utils";
 
 // Standard button
-<button className={`px-4 py-2 rounded-ds-md bg-ds-primary text-ds-primary-foreground ${focusRingClasses}`}>
+<button className={`px-4 py-2 rounded-md bg-primary text-primary-foreground ${focusRingClasses}`}>
   Save
 </button>
 
 // Compact for inline links
-<a href="/docs" className={`text-ds-primary underline ${focusRingCompactClasses}`}>
+<a href="/docs" className={`text-primary underline ${focusRingCompactClasses}`}>
   Read the docs
 </a>
 
@@ -80,7 +80,7 @@ import {
 </tr>
 
 // Focus-within for wrapper elements
-<div className={`border border-ds-border rounded-ds-md p-4 ${focusWithinRingClasses}`}>
+<div className={`border border-border rounded-md p-4 ${focusWithinRingClasses}`}>
   <input type="text" className="outline-none" />
 </div>
 ```
@@ -94,12 +94,12 @@ import { focusRingVariantOverrides } from "@work-rjkashyap/unified-ui/utils";
 
 // Returns classes that override the focus ring color
 const errorFocusClasses = focusRingVariantOverrides.danger;
-// "focus-visible:ring-ds-danger"
+// "focus-visible:ring-danger"
 
 <input
-  className={`${focusRingClasses} ${hasError ? focusRingVariantOverrides.danger : ""}`}
-  aria-invalid={hasError}
-/>
+	className={`${focusRingClasses} ${hasError ? focusRingVariantOverrides.danger : ""}`}
+	aria-invalid={hasError}
+/>;
 ```
 
 ### Array Variants
@@ -107,13 +107,17 @@ const errorFocusClasses = focusRingVariantOverrides.danger;
 Each focus ring utility also has a `ClassList` variant that returns an array of class strings instead of a single string. This is useful when building with `cn()` or CVA:
 
 ```tsx
-import { focusRingClassList, focusRingCompactClassList, focusRingInsetClassList } from "@work-rjkashyap/unified-ui/utils";
+import {
+	focusRingClassList,
+	focusRingCompactClassList,
+	focusRingInsetClassList,
+} from "@work-rjkashyap/unified-ui/utils";
 import { cn } from "@work-rjkashyap/unified-ui/utils";
 
 const buttonClasses = cn(
-  "px-4 py-2 rounded-ds-md",
-  ...focusRingClassList,
-  isDisabled && "opacity-50 pointer-events-none",
+	"px-4 py-2 rounded-md",
+	...focusRingClassList,
+	isDisabled && "opacity-50 pointer-events-none",
 );
 ```
 
@@ -125,72 +129,75 @@ All interactive components support full keyboard navigation through Radix UI pri
 
 ### Buttons & Links
 
-| Key        | Action                          |
-| ---------- | ------------------------------- |
-| `Enter`    | Activate the button/link        |
-| `Space`    | Activate the button             |
-| `Tab`      | Move focus to next element      |
-| `Shift+Tab`| Move focus to previous element  |
+| Key         | Action                         |
+| ----------- | ------------------------------ |
+| `Enter`     | Activate the button/link       |
+| `Space`     | Activate the button            |
+| `Tab`       | Move focus to next element     |
+| `Shift+Tab` | Move focus to previous element |
 
 ### Form Controls
 
-| Component    | Key          | Action                              |
-| ------------ | ------------ | ----------------------------------- |
-| **Input**    | Standard     | Text input, Tab to move focus       |
-| **Textarea** | Standard     | Text input, Tab to move focus       |
-| **Select**   | `Space/Enter`| Open the dropdown                   |
-|              | `↑/↓`       | Navigate options                    |
-|              | `Enter`      | Select the focused option           |
-|              | `Escape`     | Close without selecting             |
-|              | Type-ahead   | Jump to matching option             |
-|              | `Home/End`   | Jump to first/last option           |
-| **Checkbox** | `Space`      | Toggle checked state                |
-| **Radio**    | `↑/↓/←/→`  | Navigate between options            |
-|              | `Space`      | Select the focused option           |
-| **Switch**   | `Space`      | Toggle on/off state                 |
+| Component    | Key           | Action                        |
+| ------------ | ------------- | ----------------------------- |
+| **Input**    | Standard      | Text input, Tab to move focus |
+| **Textarea** | Standard      | Text input, Tab to move focus |
+| **Select**   | `Space/Enter` | Open the dropdown             |
+|              | `↑/↓`         | Navigate options              |
+|              | `Enter`       | Select the focused option     |
+|              | `Escape`      | Close without selecting       |
+|              | Type-ahead    | Jump to matching option       |
+|              | `Home/End`    | Jump to first/last option     |
+| **Checkbox** | `Space`       | Toggle checked state          |
+| **Radio**    | `↑/↓/←/→`     | Navigate between options      |
+|              | `Space`       | Select the focused option     |
+| **Switch**   | `Space`       | Toggle on/off state           |
 
 ### Overlays
 
-| Component        | Key       | Action                              |
-| ---------------- | --------- | ----------------------------------- |
-| **Dialog/Modal** | `Escape`  | Close the dialog                    |
-|                  | `Tab`     | Cycle focus within the dialog       |
-| **Sheet/Drawer** | `Escape`  | Close the sheet                     |
-|                  | `Tab`     | Cycle focus within the sheet        |
-| **Popover**      | `Escape`  | Close the popover                   |
-|                  | `Tab`     | Move focus through popover content  |
-| **Tooltip**      | `Escape`  | Dismiss the tooltip                 |
-| **Dropdown Menu**| `↑/↓`    | Navigate menu items                 |
-|                  | `Enter`   | Activate the focused item           |
-|                  | `Escape`  | Close the menu                      |
-|                  | `→`       | Open submenu                        |
-|                  | `←`       | Close submenu                       |
+| Component         | Key      | Action                             |
+| ----------------- | -------- | ---------------------------------- |
+| **Dialog/Modal**  | `Escape` | Close the dialog                   |
+|                   | `Tab`    | Cycle focus within the dialog      |
+| **Sheet/Drawer**  | `Escape` | Close the sheet                    |
+|                   | `Tab`    | Cycle focus within the sheet       |
+| **Popover**       | `Escape` | Close the popover                  |
+|                   | `Tab`    | Move focus through popover content |
+| **Tooltip**       | `Escape` | Dismiss the tooltip                |
+| **Dropdown Menu** | `↑/↓`    | Navigate menu items                |
+|                   | `Enter`  | Activate the focused item          |
+|                   | `Escape` | Close the menu                     |
+|                   | `→`      | Open submenu                       |
+|                   | `←`      | Close submenu                      |
 
 ### Navigation
 
-| Component      | Key       | Action                              |
-| -------------- | --------- | ----------------------------------- |
-| **Tabs**       | `←/→`    | Navigate between tabs (horizontal)  |
-|                | `↑/↓`    | Navigate between tabs (vertical)    |
-|                | `Home`    | Focus first tab                     |
-|                | `End`     | Focus last tab                      |
-| **Accordion**  | `↑/↓`    | Navigate between accordion items    |
-|                | `Enter/Space` | Toggle the focused item         |
-|                | `Home`    | Focus first item                    |
-|                | `End`     | Focus last item                     |
-| **Breadcrumb** | `Tab`     | Navigate between breadcrumb links   |
-| **Pagination** | `Tab`     | Navigate between page buttons       |
+| Component      | Key           | Action                             |
+| -------------- | ------------- | ---------------------------------- |
+| **Tabs**       | `←/→`         | Navigate between tabs (horizontal) |
+|                | `↑/↓`         | Navigate between tabs (vertical)   |
+|                | `Home`        | Focus first tab                    |
+|                | `End`         | Focus last tab                     |
+| **Accordion**  | `↑/↓`         | Navigate between accordion items   |
+|                | `Enter/Space` | Toggle the focused item            |
+|                | `Home`        | Focus first item                   |
+|                | `End`         | Focus last item                    |
+| **Breadcrumb** | `Tab`         | Navigate between breadcrumb links  |
+| **Pagination** | `Tab`         | Navigate between page buttons      |
 
 ### Data Display
 
-| Component  | Key       | Action                              |
-| ---------- | --------- | ----------------------------------- |
-| **Table**  | `Tab`     | Navigate between sortable headers   |
-|            | `Enter/Space` | Toggle sort on focused header   |
-| **Toast**  | `Escape`  | Dismiss the focused toast           |
+| Component | Key           | Action                            |
+| --------- | ------------- | --------------------------------- |
+| **Table** | `Tab`         | Navigate between sortable headers |
+|           | `Enter/Space` | Toggle sort on focused header     |
+| **Toast** | `Escape`      | Dismiss the focused toast         |
 
 <Callout type="info">
-  All keyboard interactions are handled by **Radix UI** under the hood. Unified UI wraps Radix primitives with design system styling but preserves all built-in keyboard behavior. You don't need to implement keyboard handlers yourself.
+	All keyboard interactions are handled by **Radix UI** under the hood.
+	Unified UI wraps Radix primitives with design system styling but preserves
+	all built-in keyboard behavior. You don't need to implement keyboard
+	handlers yourself.
 </Callout>
 
 ---
@@ -201,25 +208,25 @@ Every component renders the correct ARIA attributes for screen readers. Here's a
 
 ### Component ARIA Patterns
 
-| Component        | Role / Attribute                                       | Notes                                              |
-| ---------------- | ------------------------------------------------------ | -------------------------------------------------- |
-| **Button**       | `role="button"` (native)                               | Inherits from `<button>` element                   |
-| **Input**        | `aria-invalid`, `aria-describedby`                     | Error messages linked via `aria-describedby`       |
-| **Select**       | `role="listbox"`, `aria-expanded`                      | Radix manages all ARIA for select patterns          |
-| **Checkbox**     | `role="checkbox"`, `aria-checked`                      | Supports `indeterminate` (`aria-checked="mixed"`)  |
-| **Radio**        | `role="radiogroup"`, `role="radio"`, `aria-checked`    | Group label linked via `aria-labelledby`            |
-| **Switch**       | `role="switch"`, `aria-checked`                        | Distinct from checkbox for screen readers           |
-| **Dialog**       | `role="dialog"`, `aria-modal`, `aria-labelledby`       | Title linked via `aria-labelledby`                  |
-| **Sheet**        | `role="dialog"`, `aria-modal`, `aria-labelledby`       | Same pattern as Dialog                              |
-| **Tabs**         | `role="tablist"`, `role="tab"`, `aria-selected`        | Tab panels linked via `aria-controls`               |
-| **Accordion**    | `aria-expanded`, `aria-controls`                       | Content regions linked to triggers                  |
-| **Tooltip**      | `role="tooltip"`, `aria-describedby`                   | Trigger links to tooltip content                    |
-| **Alert**        | `role="alert"` (danger/warning), `role="status"` (info/success) | Automatic role based on variant        |
-| **Toast**        | `role="status"`, `aria-live="polite"`, `aria-atomic`   | Live region for screen reader announcements         |
-| **Table**        | `scope="col"`, `aria-sort`, `aria-selected`            | Sortable headers announce sort direction            |
-| **Breadcrumb**   | `<nav aria-label="Breadcrumb">`, `aria-current="page"` | Ordered list inside a `<nav>` landmark             |
-| **Pagination**   | `<nav aria-label="Pagination">`, `aria-current="page"` | Current page announced to screen readers           |
-| **Dropdown Menu**| `role="menu"`, `role="menuitem"`, `role="menuitemcheckbox"`, `role="menuitemradio"` | Full menu pattern |
+| Component         | Role / Attribute                                                                    | Notes                                             |
+| ----------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------- |
+| **Button**        | `role="button"` (native)                                                            | Inherits from `<button>` element                  |
+| **Input**         | `aria-invalid`, `aria-describedby`                                                  | Error messages linked via `aria-describedby`      |
+| **Select**        | `role="listbox"`, `aria-expanded`                                                   | Radix manages all ARIA for select patterns        |
+| **Checkbox**      | `role="checkbox"`, `aria-checked`                                                   | Supports `indeterminate` (`aria-checked="mixed"`) |
+| **Radio**         | `role="radiogroup"`, `role="radio"`, `aria-checked`                                 | Group label linked via `aria-labelledby`          |
+| **Switch**        | `role="switch"`, `aria-checked`                                                     | Distinct from checkbox for screen readers         |
+| **Dialog**        | `role="dialog"`, `aria-modal`, `aria-labelledby`                                    | Title linked via `aria-labelledby`                |
+| **Sheet**         | `role="dialog"`, `aria-modal`, `aria-labelledby`                                    | Same pattern as Dialog                            |
+| **Tabs**          | `role="tablist"`, `role="tab"`, `aria-selected`                                     | Tab panels linked via `aria-controls`             |
+| **Accordion**     | `aria-expanded`, `aria-controls`                                                    | Content regions linked to triggers                |
+| **Tooltip**       | `role="tooltip"`, `aria-describedby`                                                | Trigger links to tooltip content                  |
+| **Alert**         | `role="alert"` (danger/warning), `role="status"` (info/success)                     | Automatic role based on variant                   |
+| **Toast**         | `role="status"`, `aria-live="polite"`, `aria-atomic`                                | Live region for screen reader announcements       |
+| **Table**         | `scope="col"`, `aria-sort`, `aria-selected`                                         | Sortable headers announce sort direction          |
+| **Breadcrumb**    | `<nav aria-label="Breadcrumb">`, `aria-current="page"`                              | Ordered list inside a `<nav>` landmark            |
+| **Pagination**    | `<nav aria-label="Pagination">`, `aria-current="page"`                              | Current page announced to screen readers          |
+| **Dropdown Menu** | `role="menu"`, `role="menuitem"`, `role="menuitemcheckbox"`, `role="menuitemradio"` | Full menu pattern                                 |
 
 ### Error State Pattern
 
@@ -230,23 +237,20 @@ import { Input, Label, Caption } from "@work-rjkashyap/unified-ui";
 
 // The Input component handles aria-invalid and aria-describedby automatically
 <div>
-  <Label htmlFor="email">Email</Label>
-  <Input
-    id="email"
-    variant="error"
-    aria-describedby="email-error"
-  />
-  <Caption id="email-error" color="danger">
-    Please enter a valid email address.
-  </Caption>
-</div>
+	<Label htmlFor="email">Email</Label>
+	<Input id="email" variant="error" aria-describedby="email-error" />
+	<Caption id="email-error" color="danger">
+		Please enter a valid email address.
+	</Caption>
+</div>;
 ```
 
 When the `variant="error"` prop is set:
+
 - `aria-invalid="true"` is added to the input
 - The error message is linked via `aria-describedby`
-- The border color changes to `--ds-color-danger`
-- The focus ring color changes to `--ds-color-danger`
+- The border color changes to `--danger`
+- The focus ring color changes to `--danger`
 
 ### Focus Trap
 
@@ -266,26 +270,26 @@ Unified UI enforces WCAG AA contrast requirements across all semantic color pair
 
 ### Requirements
 
-| Content Type                  | Minimum Ratio | WCAG Criterion |
-| ----------------------------- | ------------- | -------------- |
-| Normal text (< 18px)          | 4.5:1         | SC 1.4.3       |
-| Large text (≥ 18px or ≥ 14px bold) | 3:1     | SC 1.4.3       |
-| Non-text (borders, icons, controls) | 3:1    | SC 1.4.11      |
-| Focus indicators               | 3:1          | SC 1.4.11      |
+| Content Type                        | Minimum Ratio | WCAG Criterion |
+| ----------------------------------- | ------------- | -------------- |
+| Normal text (< 18px)                | 4.5:1         | SC 1.4.3       |
+| Large text (≥ 18px or ≥ 14px bold)  | 3:1           | SC 1.4.3       |
+| Non-text (borders, icons, controls) | 3:1           | SC 1.4.11      |
+| Focus indicators                    | 3:1           | SC 1.4.11      |
 
 ### Design Decisions for Contrast
 
 Several color values in the token system use custom RGB values (not from the standard palette) specifically to meet contrast requirements:
 
-| Token                  | Why                                                       |
-| ---------------------- | --------------------------------------------------------- |
-| `border` (light)       | `rgb(188 188 194)` instead of `neutral.200` — meets 3:1 against white |
-| `borderStrong` (light) | `rgb(148 148 157)` instead of `neutral.300` — stronger 3:1 ratio |
-| `input` (light)        | `rgb(148 148 157)` — input borders meet 3:1 non-text contrast |
-| `disabledForeground` (light) | `rgb(120 120 129)` — exceeds WCAG exemption (disabled elements) |
-| `primary` (dark)       | `brand.400` instead of `brand.600` — achieves 6.67:1 on dark backgrounds |
-| `input` (dark)         | `rgb(96 96 105)` — dark mode input borders meet 3:1 |
-| `inputPlaceholder` (dark) | `rgb(137 137 145)` — placeholder text visible in dark mode |
+| Token                        | Why                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------ |
+| `border` (light)             | `rgb(188 188 194)` instead of `neutral.200` — meets 3:1 against white    |
+| `borderStrong` (light)       | `rgb(148 148 157)` instead of `neutral.300` — stronger 3:1 ratio         |
+| `input` (light)              | `rgb(148 148 157)` — input borders meet 3:1 non-text contrast            |
+| `disabledForeground` (light) | `rgb(120 120 129)` — exceeds WCAG exemption (disabled elements)          |
+| `primary` (dark)             | `brand.400` instead of `brand.600` — achieves 6.67:1 on dark backgrounds |
+| `input` (dark)               | `rgb(96 96 105)` — dark mode input borders meet 3:1                      |
+| `inputPlaceholder` (dark)    | `rgb(137 137 145)` — placeholder text visible in dark mode               |
 
 ### Built-in Contrast Checking
 
@@ -294,7 +298,12 @@ Unified UI ships contrast-checking utilities you can use in tests, CI pipelines,
 #### Check a Single Pair
 
 ```tsx
-import { checkHexContrast, contrastRatio, meetsAA, meetsAAA } from "@work-rjkashyap/unified-ui/utils";
+import {
+	checkHexContrast,
+	contrastRatio,
+	meetsAA,
+	meetsAAA,
+} from "@work-rjkashyap/unified-ui/utils";
 
 // Full check with detailed result
 const result = checkHexContrast("#4F46E5", "#FFFFFF");
@@ -311,8 +320,8 @@ console.log(result);
 console.log(contrastRatio("#000000", "#FFFFFF")); // 21
 
 // Quick boolean checks
-console.log(meetsAA(6.35, "normal"));  // true (≥ 4.5:1)
-console.log(meetsAA(6.35, "large"));   // true (≥ 3:1)
+console.log(meetsAA(6.35, "normal")); // true (≥ 4.5:1)
+console.log(meetsAA(6.35, "large")); // true (≥ 3:1)
 console.log(meetsAAA(6.35, "normal")); // false (< 7:1)
 ```
 
@@ -332,32 +341,37 @@ The system ships pre-defined critical color pairs for both light and dark modes:
 
 ```tsx
 import {
-  auditContrast,
-  DS_LIGHT_CRITICAL_PAIRS,
-  DS_DARK_CRITICAL_PAIRS,
+	auditContrast,
+	DS_LIGHT_CRITICAL_PAIRS,
+	DS_DARK_CRITICAL_PAIRS,
 } from "@work-rjkashyap/unified-ui/utils";
 
 // Audit all light mode critical pairs
 const lightResults = auditContrast(DS_LIGHT_CRITICAL_PAIRS);
-const lightFailures = lightResults.filter(r => !r.passes);
+const lightFailures = lightResults.filter((r) => !r.passes);
 
 if (lightFailures.length > 0) {
-  console.error("Light mode contrast failures:", lightFailures);
+	console.error("Light mode contrast failures:", lightFailures);
 }
 
 // Audit all dark mode critical pairs
 const darkResults = auditContrast(DS_DARK_CRITICAL_PAIRS);
-const darkFailures = darkResults.filter(r => !r.passes);
+const darkFailures = darkResults.filter((r) => !r.passes);
 
 if (darkFailures.length > 0) {
-  console.error("Dark mode contrast failures:", darkFailures);
+	console.error("Dark mode contrast failures:", darkFailures);
 }
 ```
 
 #### Low-Level Utilities
 
 ```tsx
-import { parseHex, relativeLuminance, toRGBString, parseRGBString } from "@work-rjkashyap/unified-ui/utils";
+import {
+	parseHex,
+	relativeLuminance,
+	toRGBString,
+	parseRGBString,
+} from "@work-rjkashyap/unified-ui/utils";
 
 // Parse hex to RGB
 const rgb = parseHex("#4F46E5"); // { r: 79, g: 70, b: 229 }
@@ -366,7 +380,7 @@ const rgb = parseHex("#4F46E5"); // { r: 79, g: 70, b: 229 }
 const lum = relativeLuminance(rgb); // 0.065...
 
 // Convert between formats
-const rgbString = toRGBString(rgb);        // "79 70 229"
+const rgbString = toRGBString(rgb); // "79 70 229"
 const parsed = parseRGBString("79 70 229"); // { r: 79, g: 70, b: 229 }
 ```
 
@@ -374,11 +388,11 @@ const parsed = parseRGBString("79 70 229"); // { r: 79, g: 70, b: 229 }
 
 ```tsx
 import {
-  WCAG_AA_NORMAL,    // 4.5
-  WCAG_AA_LARGE,     // 3.0
-  WCAG_AAA_NORMAL,   // 7.0
-  WCAG_AAA_LARGE,    // 4.5
-  WCAG_NON_TEXT_AA,  // 3.0
+	WCAG_AA_NORMAL, // 4.5
+	WCAG_AA_LARGE, // 3.0
+	WCAG_AAA_NORMAL, // 7.0
+	WCAG_AAA_LARGE, // 4.5
+	WCAG_NON_TEXT_AA, // 3.0
 } from "@work-rjkashyap/unified-ui/utils";
 ```
 
@@ -390,19 +404,19 @@ Unified UI respects the `prefers-reduced-motion` media query at every level.
 
 ### What Happens When Reduced Motion Is Active
 
-| Component / Feature | Normal                              | Reduced Motion                            |
-| ------------------- | ----------------------------------- | ----------------------------------------- |
-| Dialog              | Scale + fade + slide entrance       | Instant appearance (no animation)         |
-| Sheet               | Slide-in from edge                  | Instant appearance                        |
-| Toast               | Slide-in with spring                | Instant appearance                        |
-| Accordion           | Height expand animation             | Instant expand/collapse                   |
-| Tabs                | Active indicator slides via `layoutId` | Instant position change               |
-| Switch thumb        | Spring-based slide                  | Instant toggle                            |
-| Tooltip             | Fade + scale entrance               | Instant appearance                        |
-| Popover             | Fade + zoom entrance                | Instant appearance                        |
-| Dropdown Menu       | Fade + zoom entrance                | Instant appearance                        |
-| Skeleton            | Pulse animation                     | Static gray placeholder (no pulse)        |
-| Motion presets      | Full animation with specified timing | Duration set to 0ms                      |
+| Component / Feature | Normal                                 | Reduced Motion                     |
+| ------------------- | -------------------------------------- | ---------------------------------- |
+| Dialog              | Scale + fade + slide entrance          | Instant appearance (no animation)  |
+| Sheet               | Slide-in from edge                     | Instant appearance                 |
+| Toast               | Slide-in with spring                   | Instant appearance                 |
+| Accordion           | Height expand animation                | Instant expand/collapse            |
+| Tabs                | Active indicator slides via `layoutId` | Instant position change            |
+| Switch thumb        | Spring-based slide                     | Instant toggle                     |
+| Tooltip             | Fade + scale entrance                  | Instant appearance                 |
+| Popover             | Fade + zoom entrance                   | Instant appearance                 |
+| Dropdown Menu       | Fade + zoom entrance                   | Instant appearance                 |
+| Skeleton            | Pulse animation                        | Static gray placeholder (no pulse) |
+| Motion presets      | Full animation with specified timing   | Duration set to 0ms                |
 
 ### Testing Reduced Motion
 
@@ -414,7 +428,7 @@ Unified UI respects the `prefers-reduced-motion` media query at every level.
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  /* Styles for users who prefer reduced motion */
+	/* Styles for users who prefer reduced motion */
 }
 ```
 
@@ -424,11 +438,11 @@ Unified UI respects the `prefers-reduced-motion` media query at every level.
 import { useReducedMotion } from "@work-rjkashyap/unified-ui";
 
 function MyComponent() {
-  const prefersReduced = useReducedMotion();
+	const prefersReduced = useReducedMotion();
 
-  if (prefersReduced) {
-    // Render without animation
-  }
+	if (prefersReduced) {
+		// Render without animation
+	}
 }
 ```
 
@@ -440,19 +454,19 @@ See the [Motion](/docs/design-system/motion#reduced-motion) page for the full re
 
 Unified UI uses correct semantic HTML throughout:
 
-| Component    | HTML Element                          | Why                                         |
-| ------------ | ------------------------------------- | ------------------------------------------- |
-| `Heading`    | `<h1>`, `<h2>`, `<h3>`               | Screen readers use heading levels for navigation |
-| `Body`       | `<p>`                                 | Paragraph semantics                         |
-| `Label`      | `<label>`                             | Links to form control via `htmlFor`         |
-| `Button`     | `<button>`                            | Native button semantics and keyboard support |
-| `Input`      | `<input>`                             | Native form control                         |
-| `Textarea`   | `<textarea>`                          | Native multi-line input                     |
-| `Table`      | `<table>`, `<thead>`, `<tbody>`, etc. | Screen readers navigate tables by row/column |
-| `Breadcrumb` | `<nav>` → `<ol>` → `<li>`            | Ordered list inside a navigation landmark   |
-| `Pagination` | `<nav>` → `<ul>` → `<li>`            | Navigation landmark with list structure     |
-| `Alert`      | `<div role="alert">` / `<div role="status">` | Live region for screen readers       |
-| `Dialog`     | Radix `Dialog` → `role="dialog"`      | Modal dialog pattern                        |
+| Component    | HTML Element                                 | Why                                              |
+| ------------ | -------------------------------------------- | ------------------------------------------------ |
+| `Heading`    | `<h1>`, `<h2>`, `<h3>`                       | Screen readers use heading levels for navigation |
+| `Body`       | `<p>`                                        | Paragraph semantics                              |
+| `Label`      | `<label>`                                    | Links to form control via `htmlFor`              |
+| `Button`     | `<button>`                                   | Native button semantics and keyboard support     |
+| `Input`      | `<input>`                                    | Native form control                              |
+| `Textarea`   | `<textarea>`                                 | Native multi-line input                          |
+| `Table`      | `<table>`, `<thead>`, `<tbody>`, etc.        | Screen readers navigate tables by row/column     |
+| `Breadcrumb` | `<nav>` → `<ol>` → `<li>`                    | Ordered list inside a navigation landmark        |
+| `Pagination` | `<nav>` → `<ul>` → `<li>`                    | Navigation landmark with list structure          |
+| `Alert`      | `<div role="alert">` / `<div role="status">` | Live region for screen readers                   |
+| `Dialog`     | Radix `Dialog` → `role="dialog"`             | Modal dialog pattern                             |
 
 ### Heading Hierarchy
 
@@ -499,10 +513,12 @@ These attributes are also useful for Playwright, Cypress, or Testing Library sel
 
 ```tsx
 // Playwright
-await page.locator('[data-ds-component="button"][data-ds-variant="primary"]').click();
+await page
+	.locator('[data-ds-component="button"][data-ds-variant="primary"]')
+	.click();
 
 // Testing Library
-screen.getByRole('button', { name: 'Submit' });
+screen.getByRole("button", { name: "Submit" });
 ```
 
 ---
@@ -556,7 +572,10 @@ Use this checklist when building new components or pages with Unified UI:
 - [ ] Auto-playing animations can be paused (or use reduced motion as pause).
 
 <Callout type="info">
-  **Automated testing catches ~30% of accessibility issues.** Manual testing with keyboard-only navigation and a screen reader (VoiceOver on macOS, NVDA on Windows) is essential for catching the remaining issues. Test with real assistive technology regularly.
+	**Automated testing catches ~30% of accessibility issues.** Manual testing
+	with keyboard-only navigation and a screen reader (VoiceOver on macOS, NVDA
+	on Windows) is essential for catching the remaining issues. Test with real
+	assistive technology regularly.
 </Callout>
 
 ---
@@ -565,46 +584,46 @@ Use this checklist when building new components or pages with Unified UI:
 
 ### Testing Tools
 
-| Tool                     | Use Case                                          |
-| ------------------------ | ------------------------------------------------- |
-| **axe DevTools**         | Browser extension for automated WCAG auditing     |
-| **Lighthouse**           | Chrome DevTools built-in accessibility audit       |
-| **VoiceOver (macOS)**    | Screen reader testing — `Cmd+F5` to toggle        |
-| **NVDA (Windows)**       | Free screen reader for Windows testing             |
-| **Unified UI `auditContrast`** | Built-in contrast ratio checking for CI/CD  |
+| Tool                           | Use Case                                      |
+| ------------------------------ | --------------------------------------------- |
+| **axe DevTools**               | Browser extension for automated WCAG auditing |
+| **Lighthouse**                 | Chrome DevTools built-in accessibility audit  |
+| **VoiceOver (macOS)**          | Screen reader testing — `Cmd+F5` to toggle    |
+| **NVDA (Windows)**             | Free screen reader for Windows testing        |
+| **Unified UI `auditContrast`** | Built-in contrast ratio checking for CI/CD    |
 
 ### References
 
-| Resource                                            | Description                                  |
-| --------------------------------------------------- | -------------------------------------------- |
-| [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/) | Official success criteria reference |
-| [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/) | Design patterns for accessible widgets |
-| [Radix UI Accessibility](https://www.radix-ui.com/primitives/docs/overview/accessibility) | Radix's accessibility approach |
-| [Inclusive Components](https://inclusive-components.design/) | Practical accessible component patterns |
+| Resource                                                                                  | Description                             |
+| ----------------------------------------------------------------------------------------- | --------------------------------------- |
+| [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/)                       | Official success criteria reference     |
+| [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/)                          | Design patterns for accessible widgets  |
+| [Radix UI Accessibility](https://www.radix-ui.com/primitives/docs/overview/accessibility) | Radix's accessibility approach          |
+| [Inclusive Components](https://inclusive-components.design/)                              | Practical accessible component patterns |
 
 ---
 
 ## Next Steps
 
 <Cards>
-  <Card
-    title="Colors"
-    description="Explore color palettes and contrast compliance details."
-    href="/docs/design-system/colors"
-  />
-  <Card
-    title="Motion"
-    description="Animation presets and reduced motion support."
-    href="/docs/design-system/motion"
-  />
-  <Card
-    title="Theming"
-    description="CSS variable architecture and custom theme creation."
-    href="/docs/design-system/theming"
-  />
-  <Card
-    title="Components"
-    description="Browse the full component library with accessibility notes."
-    href="/components"
-  />
+	<Card
+		title="Colors"
+		description="Explore color palettes and contrast compliance details."
+		href="/docs/design-system/colors"
+	/>
+	<Card
+		title="Motion"
+		description="Animation presets and reduced motion support."
+		href="/docs/design-system/motion"
+	/>
+	<Card
+		title="Theming"
+		description="CSS variable architecture and custom theme creation."
+		href="/docs/design-system/theming"
+	/>
+	<Card
+		title="Components"
+		description="Browse the full component library with accessibility notes."
+		href="/components"
+	/>
 </Cards>

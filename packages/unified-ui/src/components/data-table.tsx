@@ -460,11 +460,11 @@ function Dropdown({
 			{open && (
 				<div
 					className={cn(
-						"absolute top-full z-[var(--ds-z-dropdown,40)] mt-1",
+						"absolute top-full z-[var(--z-dropdown,40)] mt-1",
 						align === "end" ? "right-0" : "left-0",
-						"min-w-[8rem] rounded-ds-md py-1",
-						"border border-ds-border bg-ds-popover text-ds-popover-foreground",
-						"shadow-ds-md",
+						"min-w-[8rem] rounded-md py-1",
+						"border border-border bg-popover text-popover-foreground",
+						"shadow-md",
 					)}
 					role="menu"
 					data-ds=""
@@ -493,11 +493,11 @@ function DropdownItem({
 			onClick={onClick}
 			className={cn(
 				"flex w-full items-center gap-2 px-2 py-1.5 text-sm",
-				"cursor-pointer rounded-ds-sm",
+				"cursor-pointer rounded-sm",
 				active
-					? "bg-ds-muted text-ds-foreground"
-					: "text-ds-foreground hover:bg-ds-muted/50",
-				"transition-colors duration-ds-fast",
+					? "bg-muted text-foreground"
+					: "text-foreground hover:bg-muted/50",
+				"transition-colors duration-fast",
 			)}
 		>
 			{children}
@@ -525,10 +525,10 @@ function DataTableColumnHeaderMenu<TData>({
 					type="button"
 					className={cn(
 						"inline-flex items-center gap-1 -ml-1 px-1 py-0.5",
-						"cursor-pointer select-none rounded-ds-sm",
-						"hover:bg-ds-muted/50",
-						"transition-colors duration-ds-fast",
-						"text-ds-muted-foreground font-semibold whitespace-nowrap",
+						"cursor-pointer select-none rounded-sm",
+						"hover:bg-muted/50",
+						"transition-colors duration-fast",
+						"text-muted-foreground font-semibold whitespace-nowrap",
 					)}
 				>
 					{title}
@@ -559,7 +559,7 @@ function DataTableColumnHeaderMenu<TData>({
 				</DropdownItem>
 				{column.getCanHide() && (
 					<>
-						<div className="my-1 h-px bg-ds-border" />
+						<div className="my-1 h-px bg-border" />
 						<DropdownItem onClick={() => column.toggleVisibility(false)}>
 							<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" /><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" /><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.749 10.749 0 0 1 4.446-5.143" /><path d="m2 2 20 20" /></svg>
 							Hide
@@ -620,12 +620,12 @@ function DataTableFacetedFilterButton<TData>({
 				<button
 					type="button"
 					className={cn(
-						"inline-flex items-center gap-1.5 rounded-ds-md px-3 h-8",
-						"text-xs font-medium text-ds-foreground",
-						"border border-dashed border-ds-border bg-ds-background",
-						"hover:bg-ds-muted/50",
-						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
-						"transition-colors duration-ds-fast",
+						"inline-flex items-center gap-1.5 rounded-md px-3 h-8",
+						"text-xs font-medium text-foreground",
+						"border border-dashed border-border bg-background",
+						"hover:bg-muted/50",
+						"focus-visible:outline-none focus-visible:border-border-strong",
+						"transition-colors duration-fast",
 					)}
 					data-ds=""
 					data-ds-component="data-table-faceted-filter"
@@ -634,8 +634,8 @@ function DataTableFacetedFilterButton<TData>({
 					{title}
 					{selectedValues.size > 0 && (
 						<>
-							<span className="mx-0.5 h-4 w-px bg-ds-border" />
-							<span className="inline-flex items-center justify-center rounded-ds-sm bg-ds-muted px-1.5 text-[10px] font-semibold">
+							<span className="mx-0.5 h-4 w-px bg-border" />
+							<span className="inline-flex items-center justify-center rounded-sm bg-muted px-1.5 text-[10px] font-semibold">
 								{selectedValues.size}
 							</span>
 						</>
@@ -651,24 +651,24 @@ function DataTableFacetedFilterButton<TData>({
 						<label
 							key={option.value}
 							className={cn(
-								"flex cursor-pointer items-center gap-2 rounded-ds-sm px-2 py-1.5",
-								"text-sm text-ds-foreground",
-								"hover:bg-ds-muted/50",
-								"transition-colors duration-ds-fast",
+								"flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5",
+								"text-sm text-foreground",
+								"hover:bg-muted/50",
+								"transition-colors duration-fast",
 							)}
 						>
 							<input
 								type="checkbox"
 								checked={isSelected}
 								onChange={() => toggleValue(option.value)}
-								className="size-3.5 rounded-ds-sm accent-ds-primary"
+								className="size-3.5 rounded-sm accent-primary"
 							/>
 							{option.icon && (
 								<span className="size-3.5 shrink-0">{option.icon}</span>
 							)}
 							<span className="flex-1 truncate">{option.label}</span>
 							{count !== undefined && (
-								<span className="ml-auto text-xs text-ds-muted-foreground tabular-nums">
+								<span className="ml-auto text-xs text-muted-foreground tabular-nums">
 									{count}
 								</span>
 							)}
@@ -677,14 +677,14 @@ function DataTableFacetedFilterButton<TData>({
 				})}
 				{selectedValues.size > 0 && (
 					<>
-						<div className="my-1 h-px bg-ds-border" />
+						<div className="my-1 h-px bg-border" />
 						<button
 							type="button"
 							onClick={clearFilter}
 							className={cn(
-								"w-full rounded-ds-sm px-2 py-1.5 text-center text-sm",
-								"text-ds-foreground hover:bg-ds-muted/50",
-								"transition-colors duration-ds-fast",
+								"w-full rounded-sm px-2 py-1.5 text-center text-sm",
+								"text-foreground hover:bg-muted/50",
+								"transition-colors duration-fast",
 							)}
 						>
 							Clear filter
@@ -715,19 +715,19 @@ function DataTableSortBadge<TData>({
 				<button
 					type="button"
 					className={cn(
-						"inline-flex items-center gap-1.5 rounded-ds-md px-3 h-8",
-						"text-xs font-medium text-ds-foreground",
-						"border border-ds-border bg-ds-background",
-						"hover:bg-ds-muted/50",
-						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
-						"transition-colors duration-ds-fast",
+						"inline-flex items-center gap-1.5 rounded-md px-3 h-8",
+						"text-xs font-medium text-foreground",
+						"border border-border bg-background",
+						"hover:bg-muted/50",
+						"focus-visible:outline-none focus-visible:border-border-strong",
+						"transition-colors duration-fast",
 					)}
 					data-ds=""
 					data-ds-component="data-table-sort-badge"
 				>
 					<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></svg>
 					Sort
-					<span className="inline-flex size-4 items-center justify-center rounded-ds-full bg-ds-foreground text-ds-background text-[10px] font-bold">
+					<span className="inline-flex size-4 items-center justify-center rounded-full bg-foreground text-background text-[10px] font-bold">
 						{sorting.length}
 					</span>
 				</button>
@@ -751,7 +751,7 @@ function DataTableSortBadge<TData>({
 								<svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7" /><path d="M12 19V5" /></svg>
 							)}
 							<span className="flex-1">{label}</span>
-							<span className="text-xs text-ds-muted-foreground">
+							<span className="text-xs text-muted-foreground">
 								{sort.desc ? "desc" : "asc"}
 							</span>
 						</DropdownItem>
@@ -759,7 +759,7 @@ function DataTableSortBadge<TData>({
 				})}
 				{sorting.length > 0 && (
 					<>
-						<div className="my-1 h-px bg-ds-border" />
+						<div className="my-1 h-px bg-border" />
 						<DropdownItem onClick={() => table.resetSorting()}>
 							Clear all sorts
 						</DropdownItem>
@@ -786,12 +786,12 @@ function DataTableViewButton<TData>({
 				<button
 					type="button"
 					className={cn(
-						"inline-flex items-center gap-1.5 rounded-ds-md px-3 h-8",
-						"text-xs font-medium text-ds-foreground",
-						"border border-ds-border bg-ds-background",
-						"hover:bg-ds-muted/50",
-						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
-						"transition-colors duration-ds-fast",
+						"inline-flex items-center gap-1.5 rounded-md px-3 h-8",
+						"text-xs font-medium text-foreground",
+						"border border-border bg-background",
+						"hover:bg-muted/50",
+						"focus-visible:outline-none focus-visible:border-border-strong",
+						"transition-colors duration-fast",
 					)}
 					data-ds=""
 					data-ds-component="data-table-view-button"
@@ -809,17 +809,17 @@ function DataTableViewButton<TData>({
 						<label
 							key={column.id}
 							className={cn(
-								"flex cursor-pointer items-center gap-2 rounded-ds-sm px-2 py-1.5",
-								"text-sm text-ds-foreground",
-								"hover:bg-ds-muted/50",
-								"transition-colors duration-ds-fast",
+								"flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5",
+								"text-sm text-foreground",
+								"hover:bg-muted/50",
+								"transition-colors duration-fast",
 							)}
 						>
 							<input
 								type="checkbox"
 								checked={column.getIsVisible()}
 								onChange={column.getToggleVisibilityHandler()}
-								className="size-3.5 rounded-ds-sm accent-ds-primary"
+								className="size-3.5 rounded-sm accent-primary"
 							/>
 							{typeof column.columnDef.header === "string"
 								? column.columnDef.header
@@ -867,10 +867,10 @@ function DataTableCheckbox({
 			disabled={disabled}
 			aria-label={ariaLabel}
 			className={cn(
-				"size-4 cursor-pointer rounded-ds-sm",
-				"border border-ds-border",
-				"accent-ds-primary",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
+				"size-4 cursor-pointer rounded-sm",
+				"border border-border",
+				"accent-primary",
+				"focus-visible:outline-none focus-visible:border-border-strong",
 				"disabled:cursor-not-allowed disabled:opacity-50",
 			)}
 		/>
@@ -897,11 +897,11 @@ function DataTableGlobalFilter({
 			onChange={(e) => onChange(e.target.value)}
 			placeholder={placeholder ?? "Search..."}
 			className={cn(
-				"h-9 w-full max-w-xs rounded-ds-md px-3 text-sm",
-				"border border-ds-border bg-ds-background text-ds-foreground",
-				"placeholder:text-ds-muted-foreground",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
-				"transition-colors duration-ds-fast",
+				"h-9 w-full max-w-xs rounded-md px-3 text-sm",
+				"border border-border bg-background text-foreground",
+				"placeholder:text-muted-foreground",
+				"focus-visible:outline-none focus-visible:border-border-strong",
+				"transition-colors duration-fast",
 			)}
 			data-ds=""
 			data-ds-component="data-table-search"
@@ -929,11 +929,11 @@ function DataTableColumnFilter({
 			onChange={(e) => onChange(e.target.value)}
 			placeholder={placeholder ?? "Filter..."}
 			className={cn(
-				"mt-1 h-7 w-full rounded-ds-sm px-2 text-xs",
-				"border border-ds-border-muted bg-ds-background text-ds-foreground",
-				"placeholder:text-ds-muted-foreground",
-				"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ds-focus-ring",
-				"transition-colors duration-ds-fast",
+				"mt-1 h-7 w-full rounded-sm px-2 text-xs",
+				"border border-border-muted bg-background text-foreground",
+				"placeholder:text-muted-foreground",
+				"focus-visible:outline-none focus-visible:border-border-strong",
+				"transition-colors duration-fast",
 			)}
 			data-ds=""
 			data-ds-component="data-table-column-filter"
@@ -958,12 +958,12 @@ function DataTableColumnVisibility<TData>({
 				type="button"
 				onClick={() => setOpen(!open)}
 				className={cn(
-					"inline-flex items-center gap-1.5 rounded-ds-md px-3 py-1.5",
-					"text-sm font-medium text-ds-foreground",
-					"border border-ds-border bg-ds-background",
-					"hover:bg-ds-muted/50",
-					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
-					"transition-colors duration-ds-fast",
+					"inline-flex items-center gap-1.5 rounded-md px-3 py-1.5",
+					"text-sm font-medium text-foreground",
+					"border border-border bg-background",
+					"hover:bg-muted/50",
+					"focus-visible:outline-none focus-visible:border-border-strong",
+					"transition-colors duration-fast",
 				)}
 				data-ds=""
 				data-ds-component="data-table-column-toggle"
@@ -990,7 +990,7 @@ function DataTableColumnVisibility<TData>({
 				<>
 					{/* Backdrop to close on click outside */}
 					<div
-						className="fixed inset-0 z-[var(--ds-z-dropdown,40)]"
+						className="fixed inset-0 z-[var(--z-dropdown,40)]"
 						onClick={() => setOpen(false)}
 						onKeyDown={(e) => {
 							if (e.key === "Escape") setOpen(false);
@@ -999,10 +999,10 @@ function DataTableColumnVisibility<TData>({
 					/>
 					<div
 						className={cn(
-							"absolute right-0 top-full z-[var(--ds-z-dropdown,40)] mt-1",
-							"min-w-[10rem] rounded-ds-md p-1",
-							"border border-ds-border bg-ds-popover text-ds-popover-foreground",
-							"shadow-ds-md",
+							"absolute right-0 top-full z-[var(--z-dropdown,40)] mt-1",
+							"min-w-[10rem] rounded-md p-1",
+							"border border-border bg-popover text-popover-foreground",
+							"shadow-md",
 							"animate-in fade-in-0 zoom-in-95",
 						)}
 						role="menu"
@@ -1016,10 +1016,10 @@ function DataTableColumnVisibility<TData>({
 								<label
 									key={column.id}
 									className={cn(
-										"flex cursor-pointer items-center gap-2 rounded-ds-sm px-2 py-1.5",
-										"text-sm text-ds-foreground",
-										"hover:bg-ds-muted/50",
-										"transition-colors duration-ds-fast",
+										"flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5",
+										"text-sm text-foreground",
+										"hover:bg-muted/50",
+										"transition-colors duration-fast",
 									)}
 								>
 									<input
@@ -1027,8 +1027,8 @@ function DataTableColumnVisibility<TData>({
 										checked={column.getIsVisible()}
 										onChange={column.getToggleVisibilityHandler()}
 										className={cn(
-											"size-3.5 rounded-ds-sm",
-											"accent-ds-primary",
+											"size-3.5 rounded-sm",
+											"accent-primary",
 										)}
 									/>
 									{typeof column.columnDef.header === "string"
@@ -1071,7 +1071,7 @@ function DataTablePagination<TData>({
 			data-ds-component="data-table-pagination"
 		>
 			{/* Left: selection info */}
-			<div className="text-xs text-ds-muted-foreground">
+			<div className="text-xs text-muted-foreground">
 				{selectedCount} of {totalRows} row(s) selected.
 			</div>
 
@@ -1079,7 +1079,7 @@ function DataTablePagination<TData>({
 			<div className="flex items-center gap-6">
 				{/* Rows per page */}
 				{pageSizeOptions !== false && (
-					<div className="flex items-center gap-2 text-xs text-ds-foreground">
+					<div className="flex items-center gap-2 text-xs text-foreground">
 						<span className="whitespace-nowrap">Rows per page</span>
 						<select
 							value={pageSize}
@@ -1087,8 +1087,8 @@ function DataTablePagination<TData>({
 								table.setPageSize(Number(e.target.value))
 							}
 							className={cn(
-								"h-8 rounded-ds-md border border-ds-border bg-ds-background px-2 text-xs text-ds-foreground",
-								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ds-focus-ring",
+								"h-8 rounded-md border border-border bg-background px-2 text-xs text-foreground",
+								"focus-visible:outline-none focus-visible:border-border-strong",
 								"appearance-none cursor-pointer pr-6",
 								"bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')]",
 								"bg-[position:right_0.4rem_center] bg-no-repeat",
@@ -1106,7 +1106,7 @@ function DataTablePagination<TData>({
 				)}
 
 				{/* Page info */}
-				<span className="text-xs text-ds-foreground whitespace-nowrap">
+				<span className="text-xs text-foreground whitespace-nowrap">
 					Page {pageIndex + 1} of {pageCount || 1}
 				</span>
 
@@ -1168,12 +1168,12 @@ function PaginationButton({
 			type="button"
 			{...props}
 			className={cn(
-				"inline-flex size-8 items-center justify-center rounded-ds-md",
-				"border border-ds-border bg-ds-background text-ds-foreground",
-				"hover:bg-ds-muted/50",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ds-focus-ring focus-visible:ring-offset-1",
+				"inline-flex size-8 items-center justify-center rounded-md",
+				"border border-border bg-background text-foreground",
+				"hover:bg-muted/50",
+				"focus-visible:outline-none focus-visible:border-border-strong",
 				"disabled:pointer-events-none disabled:opacity-50",
-				"transition-colors duration-ds-fast",
+				"transition-colors duration-fast",
 			)}
 		>
 			{children}
@@ -1212,7 +1212,7 @@ function DataTableSkeleton({
 							<div
 								className={cn(
 									heightClass,
-									"rounded-ds-sm bg-ds-muted",
+									"rounded-sm bg-muted",
 									colIndex === 0
 										? "w-3/4"
 										: colIndex === columnCount - 1
@@ -1542,7 +1542,7 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 		return (
 			<div
 				ref={ref}
-				className={cn("flex flex-col gap-3", className)}
+				className={cn("not-prose", "flex flex-col gap-3", className)}
 				data-ds=""
 				data-ds-component="data-table"
 			>
@@ -1708,7 +1708,7 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps<any>>(
 									className="h-24 text-center"
 								>
 									{emptyState ?? (
-										<span className="text-ds-muted-foreground">
+										<span className="text-muted-foreground">
 											No results.
 										</span>
 									)}

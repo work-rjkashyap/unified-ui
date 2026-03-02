@@ -59,7 +59,7 @@ import { Callout } from "fumadocs-ui/components/callout";
             <SheetTitle>Navigation</SheetTitle>
             <SheetDescription>Browse site sections.</SheetDescription>
           </SheetHeader>
-          <div className="p-6 text-sm text-ds-muted-foreground">
+          <div className="p-6 text-sm text-muted-foreground">
             Side navigation content goes here.
           </div>
         </SheetContent>
@@ -164,7 +164,7 @@ The `side` prop controls which edge of the screen the sheet slides in from. Four
 							Slides in from the right edge.
 						</SheetDescription>
 					</SheetHeader>
-					<div className="p-6 text-sm text-ds-muted-foreground">
+					<div className="p-6 text-sm text-muted-foreground">
 						This is the default side. Ideal for detail panels,
 						settings, and forms.
 					</div>
@@ -183,7 +183,7 @@ The `side` prop controls which edge of the screen the sheet slides in from. Four
 							Slides in from the left edge.
 						</SheetDescription>
 					</SheetHeader>
-					<div className="p-6 text-sm text-ds-muted-foreground">
+					<div className="p-6 text-sm text-muted-foreground">
 						Ideal for navigation drawers and sidebars.
 					</div>
 				</SheetContent>
@@ -201,7 +201,7 @@ The `side` prop controls which edge of the screen the sheet slides in from. Four
 							Slides down from the top edge.
 						</SheetDescription>
 					</SheetHeader>
-					<div className="p-6 text-sm text-ds-muted-foreground">
+					<div className="p-6 text-sm text-muted-foreground">
 						Useful for search bars, announcements, or command
 						palettes.
 					</div>
@@ -220,7 +220,7 @@ The `side` prop controls which edge of the screen the sheet slides in from. Four
 							Slides up from the bottom edge.
 						</SheetDescription>
 					</SheetHeader>
-					<div className="p-6 text-sm text-ds-muted-foreground">
+					<div className="p-6 text-sm text-muted-foreground">
 						Common on mobile for action sheets and menus.
 					</div>
 				</SheetContent>
@@ -301,27 +301,24 @@ A common pattern for mobile-style navigation sidebars.
 			<SheetTitle>Navigation</SheetTitle>
 		</SheetHeader>
 		<nav className="flex flex-col gap-1 p-4">
-			<a
-				href="/"
-				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
-			>
+			<a href="/" className="px-3 py-2 text-sm rounded-md hover:bg-muted">
 				Home
 			</a>
 			<a
 				href="/docs"
-				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
+				className="px-3 py-2 text-sm rounded-md hover:bg-muted"
 			>
 				Documentation
 			</a>
 			<a
 				href="/components"
-				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
+				className="px-3 py-2 text-sm rounded-md hover:bg-muted"
 			>
 				Components
 			</a>
 			<a
 				href="/examples"
-				className="px-3 py-2 text-sm rounded-ds-md hover:bg-ds-muted"
+				className="px-3 py-2 text-sm rounded-md hover:bg-muted"
 			>
 				Examples
 			</a>
@@ -360,9 +357,14 @@ A detail panel that slides in from the right with a form.
 			</div>
 			<div className="flex flex-col gap-1.5">
 				<label className="text-sm font-medium">Visibility</label>
-				<Select placeholder="Select visibility">
-					<SelectItem value="public">Public</SelectItem>
-					<SelectItem value="private">Private</SelectItem>
+				<Select>
+					<SelectTrigger>
+						<SelectValue placeholder="Select visibility" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="public">Public</SelectItem>
+						<SelectItem value="private">Private</SelectItem>
+					</SelectContent>
 				</Select>
 			</div>
 		</div>
@@ -473,21 +475,21 @@ Uses Radix UI's `DialogClose` API. Use `asChild` to render the close action as y
 - **`aria-labelledby`** — Automatically linked to `SheetTitle`.
 - **`aria-describedby`** — Automatically linked to `SheetDescription`.
 - The close button has `aria-label="Close"`.
-- Uses `z-ds-modal` for sheet content and `z-ds-overlay` for the backdrop.
-- Uses `rounded-ds-lg` per project guidelines for sheet panels.
+- Uses `z-modal` for sheet content and `z-overlay` for the backdrop.
+- Uses `rounded-lg` per project guidelines for sheet panels.
 - Slide animations respect `prefers-reduced-motion`.
 
 ## Design Tokens
 
-| Token                       | Usage                                    |
-| --------------------------- | ---------------------------------------- |
-| `--ds-color-surface-raised` | Sheet panel background                   |
-| `--ds-color-overlay`        | Backdrop overlay color                   |
-| `--ds-radius-lg`            | Sheet border radius (inner edge corners) |
-| `--ds-z-modal`              | Z-index for sheet content                |
-| `--ds-z-overlay`            | Z-index for backdrop                     |
-| `--ds-shadow-lg`            | Sheet panel shadow                       |
-| `--ds-duration-normal`      | Slide animation timing                   |
-| `--ds-ease-standard`        | Slide animation easing                   |
+| Token               | Usage                                    |
+| ------------------- | ---------------------------------------- |
+| `--surface-raised`  | Sheet panel background                   |
+| `--overlay`         | Backdrop overlay color                   |
+| `--radius-lg`       | Sheet border radius (inner edge corners) |
+| `--z-modal`         | Z-index for sheet content                |
+| `--z-overlay`       | Z-index for backdrop                     |
+| `--shadow-lg`       | Sheet panel shadow                       |
+| `--duration-normal` | Slide animation timing                   |
+| `--easing-standard` | Slide animation easing                   |
 
 </ComponentPage>

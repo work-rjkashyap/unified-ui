@@ -44,15 +44,15 @@ export type TypographyFont = FontFamilyKey;
 // ---------------------------------------------------------------------------
 // Maps each font family key to the corresponding Tailwind utility class
 // generated from the @theme block in design-system.css. The "inherit"
-// key uses an arbitrary value since there's no --ds-font-inherit in the
+// key uses an arbitrary value since there's no --font-inherit in the
 // Tailwind theme (it's just the CSS keyword).
 // ---------------------------------------------------------------------------
 
 const fontClassMap: Record<TypographyFont, string> = {
-  display: "font-ds-display",
-  sans: "font-ds-sans",
-  serif: "font-ds-serif",
-  mono: "font-ds-mono",
+  display: "font-display",
+  sans: "font-sans",
+  serif: "font-serif",
+  mono: "font-mono",
   inherit: "font-[inherit]",
 };
 
@@ -114,23 +114,23 @@ const defaultElementMap: Record<TypographyVariant, ElementType> = {
 
 const variantClassMap: Record<TypographyVariant, string> = {
   heading1:
-    "text-[30px] leading-[36px] font-bold tracking-tight text-ds-foreground",
+    "text-[30px] leading-[36px] font-bold tracking-tight text-foreground",
   heading2:
-    "text-[24px] leading-[32px] font-semibold tracking-tight text-ds-foreground",
+    "text-[24px] leading-[32px] font-semibold tracking-tight text-foreground",
   heading3:
-    "text-[20px] leading-[28px] font-semibold tracking-normal text-ds-foreground",
+    "text-[20px] leading-[28px] font-semibold tracking-normal text-foreground",
   subheading:
-    "text-[18px] leading-[28px] font-medium tracking-normal text-ds-foreground",
-  body: "text-[16px] leading-[24px] font-normal tracking-normal text-ds-foreground",
+    "text-[18px] leading-[28px] font-medium tracking-normal text-foreground",
+  body: "text-[16px] leading-[24px] font-normal tracking-normal text-foreground",
   bodySm:
-    "text-[14px] leading-[20px] font-normal tracking-normal text-ds-foreground",
+    "text-[14px] leading-[20px] font-normal tracking-normal text-foreground",
   caption:
-    "text-[12px] leading-[16px] font-normal tracking-wide text-ds-muted-foreground",
+    "text-[12px] leading-[16px] font-normal tracking-wide text-muted-foreground",
   label:
-    "text-[14px] leading-[20px] font-medium tracking-normal text-ds-foreground",
+    "text-[14px] leading-[20px] font-medium tracking-normal text-foreground",
   overline:
-    "text-[12px] leading-[16px] font-semibold tracking-wider uppercase text-ds-muted-foreground",
-  code: "text-[14px] leading-[20px] font-normal tracking-normal text-ds-foreground",
+    "text-[12px] leading-[16px] font-semibold tracking-wider uppercase text-muted-foreground",
+  code: "text-[14px] leading-[20px] font-normal tracking-normal text-foreground",
 };
 
 // ---------------------------------------------------------------------------
@@ -142,13 +142,13 @@ const variantClassMap: Record<TypographyVariant, string> = {
 
 const colorClassMap: Record<TypographyColor, string> = {
   default: "",
-  foreground: "text-ds-foreground",
-  muted: "text-ds-muted-foreground",
-  primary: "text-ds-primary",
-  success: "text-ds-success",
-  warning: "text-ds-warning",
-  danger: "text-ds-danger",
-  info: "text-ds-info",
+  foreground: "text-foreground",
+  muted: "text-muted-foreground",
+  primary: "text-primary",
+  success: "text-success",
+  warning: "text-warning",
+  danger: "text-danger",
+  info: "text-info",
   inherit: "text-inherit",
 };
 
@@ -574,7 +574,7 @@ export const InlineCode = forwardRef<HTMLElement, InlineCodeProps>(
       <Typography
         ref={ref}
         variant="code"
-        className={cn("rounded-ds-sm bg-ds-muted px-1.5 py-0.5", className)}
+        className={cn("rounded-sm bg-muted px-1.5 py-0.5", className)}
         {...rest}
       />
     );

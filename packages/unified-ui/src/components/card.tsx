@@ -102,11 +102,11 @@ export const cardVariants = cva(
 		// Layout
 		"flex flex-col",
 		// Shape
-		"rounded-ds-md",
+		"rounded-md",
 		// Overflow
 		"overflow-hidden",
 		// Typography defaults
-		"text-sm text-ds-foreground",
+		"text-sm text-foreground",
 	],
 	{
 		variants: {
@@ -118,22 +118,22 @@ export const cardVariants = cva(
 				 * Default — subtle background with border.
 				 * The most common card style, blends into the page.
 				 */
-				default: ["bg-ds-surface", "border border-ds-border"],
+				default: ["bg-surface", "border border-border"],
 
 				/**
 				 * Outlined — transparent background with stronger border.
 				 * Use when the card sits on a colored or complex background.
 				 */
-				outlined: ["bg-transparent", "border border-ds-border-strong"],
+				outlined: ["bg-transparent", "border border-border-strong"],
 
 				/**
 				 * Elevated — raised card with shadow.
 				 * Use to draw attention or lift content above the page surface.
 				 */
 				elevated: [
-					"bg-ds-surface-raised",
-					"border border-ds-border-muted",
-					"shadow-ds-md",
+					"bg-surface-raised",
+					"border border-border-muted",
+					"shadow-md",
 				],
 
 				/**
@@ -142,17 +142,17 @@ export const cardVariants = cva(
 				 * Renders well as <a>, <button>, or <Link>.
 				 */
 				interactive: [
-					"bg-ds-surface",
-					"border border-ds-border",
+					"bg-surface",
+					"border border-border",
 					// Transition
 					"transition-[border-color,box-shadow,transform]",
-					"duration-ds-normal ease-ds-standard",
+					"duration-normal ease-standard",
 					// Hover
-					"hover:border-ds-border-strong",
-					"hover:shadow-ds-md",
+					"hover:border-border-strong",
+					"hover:shadow-md",
 					"hover:-translate-y-0.5",
 					// Active / press
-					"active:translate-y-0 active:shadow-ds-sm",
+					"active:translate-y-0 active:shadow-sm",
 					// Focus
 					focusRingClasses,
 					// Cursor
@@ -298,7 +298,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
 		<CardContext.Provider value={{ padding }}>
 			<Component
 				ref={ref}
-				className={cn(cardVariants({ variant, fullWidth }), className)}
+				className={cn("not-prose", cardVariants({ variant, fullWidth }), className)}
 				data-ds=""
 				data-ds-component="card"
 				data-ds-variant={variant}
@@ -383,7 +383,7 @@ const alignMap: Record<string, string> = {
  * ```tsx
  * <CardHeader>
  *   <h3 className="text-base font-semibold">Card Title</h3>
- *   <p className="text-ds-muted-foreground text-sm">Subtitle text</p>
+ *   <p className="text-muted-foreground text-sm">Subtitle text</p>
  * </CardHeader>
  *
  * <CardHeader bordered={false}>
@@ -406,7 +406,7 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
 					slotPaddingXMap[padding],
 					slotPaddingTopMap[padding],
 					slotPaddingBottomMap[padding],
-					bordered && "border-b border-ds-border-muted",
+					bordered && "border-b border-border-muted",
 					className,
 				)}
 				data-ds=""
@@ -481,7 +481,7 @@ CardBody.displayName = "CardBody";
  * </CardFooter>
  *
  * <CardFooter align="between">
- *   <span className="text-sm text-ds-muted-foreground">Step 2 of 4</span>
+ *   <span className="text-sm text-muted-foreground">Step 2 of 4</span>
  *   <Button variant="primary" size="sm">Next</Button>
  * </CardFooter>
  *
@@ -505,7 +505,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
 					slotPaddingXMap[padding],
 					slotPaddingTopMap[padding],
 					slotPaddingBottomMap[padding],
-					bordered && "border-t border-ds-border-muted",
+					bordered && "border-t border-border-muted",
 					alignMap[align],
 					className,
 				)}

@@ -162,7 +162,7 @@ const defaultIconMap: Record<AlertVariant, React.FC<{ className?: string }>> = {
 // CVA Variant Definition
 // ---------------------------------------------------------------------------
 // All color values reference design system CSS custom properties via the
-// Tailwind `ds-*` utilities defined in design-system.css. Uses the semantic
+// Tailwind utilities defined in design-system.css. Uses the semantic
 // "muted" color variants for background (subtle) with the corresponding
 // "muted-foreground" for text (higher contrast against the muted bg).
 // ---------------------------------------------------------------------------
@@ -173,7 +173,7 @@ export const alertVariants = cva(
     // Layout
     "relative flex gap-3",
     // Shape
-    "rounded-ds-md",
+    "rounded-md",
     // Padding
     "p-4",
     // Typography
@@ -192,9 +192,9 @@ export const alertVariants = cva(
          * Uses info-muted bg with info-muted-foreground text.
          */
         info: [
-          "bg-ds-info-muted",
-          "text-ds-info-muted-foreground",
-          "border-ds-info/20",
+          "bg-info-muted",
+          "text-info-muted-foreground",
+          "border-info/20",
         ],
 
         /**
@@ -202,9 +202,9 @@ export const alertVariants = cva(
          * Uses success-muted bg with success-muted-foreground text.
          */
         success: [
-          "bg-ds-success-muted",
-          "text-ds-success-muted-foreground",
-          "border-ds-success/20",
+          "bg-success-muted",
+          "text-success-muted-foreground",
+          "border-success/20",
         ],
 
         /**
@@ -212,9 +212,9 @@ export const alertVariants = cva(
          * Uses warning-muted bg with warning-muted-foreground text.
          */
         warning: [
-          "bg-ds-warning-muted",
-          "text-ds-warning-muted-foreground",
-          "border-ds-warning/20",
+          "bg-warning-muted",
+          "text-warning-muted-foreground",
+          "border-warning/20",
         ],
 
         /**
@@ -222,9 +222,9 @@ export const alertVariants = cva(
          * Uses danger-muted bg with danger-muted-foreground text.
          */
         danger: [
-          "bg-ds-danger-muted",
-          "text-ds-danger-muted-foreground",
-          "border-ds-danger/20",
+          "bg-danger-muted",
+          "text-danger-muted-foreground",
+          "border-danger/20",
         ],
       },
     },
@@ -243,10 +243,10 @@ export const alertVariants = cva(
 // ---------------------------------------------------------------------------
 
 const iconColorMap: Record<AlertVariant, string> = {
-  info: "text-ds-info",
-  success: "text-ds-success",
-  warning: "text-ds-warning",
-  danger: "text-ds-danger",
+  info: "text-info",
+  success: "text-success",
+  warning: "text-warning",
+  danger: "text-danger",
 };
 
 // ---------------------------------------------------------------------------
@@ -458,7 +458,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
     <div
       ref={ref}
       role={resolvedRole}
-      className={cn(alertVariants({ variant }), className)}
+      className={cn("not-prose", alertVariants({ variant }), className)}
       data-ds=""
       data-ds-component="alert"
       data-ds-variant={variant}
@@ -488,11 +488,11 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
           className={cn(
             "absolute top-3 right-3",
             "inline-flex items-center justify-center",
-            "size-6 rounded-ds-sm",
+            "size-6 rounded-sm",
             "text-current opacity-50",
             "hover:opacity-100",
-            "transition-opacity duration-ds-fast",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-1",
+            "transition-opacity duration-fast",
+            "focus-visible:outline-none focus-visible:border-current",
           )}
           aria-label={dismissLabel}
         >

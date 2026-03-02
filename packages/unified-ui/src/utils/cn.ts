@@ -20,7 +20,7 @@ import { twMerge } from "tailwind-merge";
 // in design system components.
 //
 // Usage:
-//   cn("px-4 py-2", isActive && "bg-ds-primary", className)
+//   cn("px-4 py-2", isActive && "bg-primary", className)
 //   cn("text-sm font-medium", { "opacity-50": disabled })
 // ---------------------------------------------------------------------------
 
@@ -157,9 +157,11 @@ export function dsStateAttr(
 // styles. Useful when you need dynamic styles that can't be expressed
 // with utility classes alone.
 //
-// Usage:
+// For non-color tokens (radius, shadow, z-index, duration, easing, font):
 //   style={{ gap: dsVar("spacing", "4") }}
-//   → "var(--ds-spacing-4)"
+//   → "var(--spacing-4)"
+//
+// For color tokens, use dsColorVar() instead.
 // ---------------------------------------------------------------------------
 
 /**
@@ -174,24 +176,27 @@ export function dsVar(
   name: string,
   fallback?: string,
 ): string {
-  const varName = `--ds-${category}-${name}`;
+  const varName = `--${category}-${name}`;
   return fallback ? `var(${varName}, ${fallback})` : `var(${varName})`;
 }
 
 /**
- * Returns an `rgb(var(...))` reference for color tokens, supporting
- * optional alpha values.
+ * Returns a `var(...)` reference for color tokens. Colors are stored as
+ * complete oklch() values in CSS custom properties with no prefix.
+ *
+ * For alpha-modified colors, uses `color-mix(in oklch, ...)` for broad
+ * browser support.
  *
  * @example
- *   dsColorVar("primary")       → "rgb(var(--ds-color-primary))"
- *   dsColorVar("primary", 0.5)  → "rgb(var(--ds-color-primary) / 0.5)"
+ *   dsColorVar("primary")       → "var(--primary)"
+ *   dsColorVar("primary", 0.5)  → "color-mix(in oklch, var(--primary) 50%, transparent)"
  */
 export function dsColorVar(name: string, alpha?: number): string {
-  const channels = `var(--ds-color-${name})`;
+  const varRef = `var(--${name})`;
   if (alpha !== undefined) {
-    return `rgb(${channels} / ${alpha})`;
+    return `color-mix(in oklch, ${varRef} ${Math.round(alpha * 100)}%, transparent)`;
   }
-  return `rgb(${channels})`;
+  return varRef;
 }
 
 // ---------------------------------------------------------------------------

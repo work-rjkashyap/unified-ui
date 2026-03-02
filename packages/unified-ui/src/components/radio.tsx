@@ -35,7 +35,7 @@
 //   </RadioGroup>
 // ============================================================================
 
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
+import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -85,22 +85,22 @@ export const radioIndicatorVariants = cva(
 		// Layout
 		"relative shrink-0",
 		// Shape
-		"rounded-ds-full",
+		"rounded-full",
 		// Border
 		"border",
 		// Colors
-		"border-ds-input bg-ds-background",
+		"border-input bg-background",
 		// Transition
 		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-ds-fast ease-ds-standard",
+		"duration-fast ease-standard",
 		// Focus ring — WCAG AA compliant
 		focusRingClasses,
 		// Hover
-		"hover:border-ds-border-strong",
+		"hover:border-border-strong",
 		// Checked state
-		"data-[state=checked]:border-ds-primary data-[state=checked]:bg-ds-primary",
+		"data-[state=checked]:border-primary data-[state=checked]:bg-primary",
 		// Disabled
-		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-ds-disabled",
+		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-disabled",
 	],
 	{
 		variants: {
@@ -127,7 +127,7 @@ export const radioIndicatorVariants = cva(
 const radioInnerDotVariants = cva(
 	[
 		"absolute inset-0 flex items-center justify-center",
-		"after:block after:rounded-ds-full after:bg-ds-primary-foreground",
+		"after:block after:rounded-full after:bg-primary-foreground",
 	],
 	{
 		variants: {
@@ -147,24 +147,24 @@ export const radioCardVariants = cva(
 		// Layout
 		"relative flex items-start gap-3",
 		// Shape
-		"rounded-ds-md",
+		"rounded-md",
 		// Border
-		"border border-ds-input",
+		"border border-input",
 		// Colors
-		"bg-ds-background",
+		"bg-background",
 		// Transition
 		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-ds-fast ease-ds-standard",
+		"duration-fast ease-standard",
 		// Hover
-		"hover:border-ds-border-strong hover:bg-ds-surface",
+		"hover:border-border-strong hover:bg-surface",
 		// Cursor
 		"cursor-pointer",
 		// Checked state
-		"has-[[data-state=checked]]:border-ds-primary has-[[data-state=checked]]:bg-ds-primary-muted",
+		"has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary-muted",
 		// Disabled
 		"has-[[data-disabled]]:pointer-events-none has-[[data-disabled]]:opacity-50 has-[[data-disabled]]:cursor-not-allowed",
 		// Focus within
-		"has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ds-focus-ring has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-ds-background",
+		"has-[:focus-visible]:border-border-strong",
 	],
 	{
 		variants: {
@@ -418,7 +418,7 @@ export const RadioGroupItem = forwardRef<
 							id={labelId}
 							htmlFor={itemId}
 							className={cn(
-								"font-medium leading-5 text-ds-foreground",
+								"font-medium leading-5 text-foreground",
 								"cursor-pointer",
 								isDisabled && "cursor-not-allowed",
 								labelSizeMap[size],
@@ -431,7 +431,7 @@ export const RadioGroupItem = forwardRef<
 						<span
 							id={descriptionId}
 							className={cn(
-								"text-ds-muted-foreground leading-4",
+								"text-muted-foreground leading-4",
 								descriptionSizeMap[size],
 							)}
 						>
@@ -534,7 +534,7 @@ export const RadioCard = forwardRef<
 					<span
 						id={labelId}
 						className={cn(
-							"font-medium leading-5 text-ds-foreground",
+							"font-medium leading-5 text-foreground",
 							labelSizeMap[size],
 						)}
 					>
@@ -545,7 +545,7 @@ export const RadioCard = forwardRef<
 					<span
 						id={descriptionId}
 						className={cn(
-							"text-ds-muted-foreground leading-4",
+							"text-muted-foreground leading-4",
 							descriptionSizeMap[size],
 						)}
 					>

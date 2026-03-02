@@ -14,7 +14,7 @@
 
 - **Token-driven** — Every color, spacing, radius, shadow, and motion value flows from a single source of truth
 - **23+ components** — Production-ready composites built on Radix UI primitives
-- **Tailwind CSS v4** — First-class integration via `@theme` and `ds-*` utility classes
+- **Tailwind CSS v4** — First-class integration via `@theme` with direct utility classes
 - **Framer Motion** — Consistent animation presets with `prefers-reduced-motion` support
 - **Accessible** — WCAG AA contrast, keyboard navigation, ARIA attributes, and focus management
 - **Tree-shakeable** — 7 independent entry points with ESM/CJS dual output and code splitting
@@ -57,7 +57,7 @@ npm install @radix-ui/react-dialog @radix-ui/react-select @radix-ui/react-tabs
 
 ### 1. Import the CSS
 
-Add the stylesheet to your global CSS file **before** any component usage. This registers all `--ds-*` CSS custom properties and Tailwind `@theme` utilities.
+Add the stylesheet to your global CSS file **before** any component usage. This registers all CSS custom properties and Tailwind `@theme` utilities.
 
 ```css
 /* src/app/globals.css */
@@ -183,10 +183,10 @@ Raw design values: colors, spacing, typography, radius, shadows, z-index, and mo
 
 Bridges tokens to runtime via CSS custom properties and React context.
 
-| File           | Contents                                                         |
-| -------------- | ---------------------------------------------------------------- |
-| `contract.ts`  | Maps token keys → CSS variable names (`--ds-*`), `cssVar` helper |
-| `provider.tsx` | `DSThemeProvider` + `useDSTheme` hook                            |
+| File           | Contents                                                    |
+| -------------- | ----------------------------------------------------------- |
+| `contract.ts`  | Maps token keys → CSS variable names, `cssVar` helper       |
+| `provider.tsx` | `DSThemeProvider` + `useDSTheme` hook                       |
 
 ### Layer 3 — Primitives (`primitives/`)
 
@@ -232,33 +232,33 @@ Hooks: `useMotion`, `useMotionProps`, `useMotionSpringConfig`, `useReducedMotion
 
 ## CSS Variable Prefix
 
-All CSS custom properties use the `--ds-` prefix:
+All CSS custom properties use plain `--` prefix with no namespace infix:
 
 ```
---ds-color-primary
---ds-radius-md
---ds-shadow-lg
---ds-duration-normal
---ds-easing-standard
---ds-font-sans
+--primary
+--radius-md
+--shadow-lg
+--duration-normal
+--easing-standard
+--font-sans
 ```
 
 ### Tailwind Utility Classes
 
-After importing the CSS, use `ds-*` prefixed Tailwind utilities anywhere:
+After importing the CSS, use standard Tailwind utilities:
 
 ```html
 <!-- Colors (supports opacity modifier) -->
-<div class="bg-ds-primary text-ds-primary-foreground">Primary</div>
-<div class="bg-ds-muted/50">Semi-transparent muted</div>
+<div class="bg-primary text-primary-foreground">Primary</div>
+<div class="bg-muted/50">Semi-transparent muted</div>
 
 <!-- Radius, shadows, transitions -->
-<div class="rounded-ds-md shadow-ds-lg">Elevated card</div>
-<button class="duration-ds-fast ease-ds-standard">Animated</button>
+<div class="rounded-md shadow-lg">Elevated card</div>
+<button class="duration-fast ease-standard">Animated</button>
 
 <!-- Fonts -->
-<p class="font-ds-serif">Editorial text</p>
-<code class="font-ds-mono">console.log("hello")</code>
+<p class="font-serif">Editorial text</p>
+<code class="font-mono">console.log("hello")</code>
 ```
 
 ### Data Attributes
@@ -351,7 +351,7 @@ console.log(UNIFIED_UI_VERSION); // "0.1.1"
 
 ## Troubleshooting
 
-### `bg-ds-primary` and other Tailwind utilities aren't working
+### `bg-primary` and other Tailwind utilities aren't working
 
 Make sure you import the CSS **after** `@import "tailwindcss"` in your global stylesheet. The `@theme` block must be processed by Tailwind.
 

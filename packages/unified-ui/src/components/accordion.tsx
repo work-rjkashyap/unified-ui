@@ -36,7 +36,7 @@
 //   </Accordion>
 // ============================================================================
 
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import { Accordion as AccordionPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -77,7 +77,7 @@ export const accordionRootVariants = cva(["flex flex-col"], {
 			 * Bordered — each item has a visible border separator.
 			 * Default variant for most use cases.
 			 */
-			bordered: "divide-y divide-ds-border",
+			bordered: "divide-y divide-border",
 
 			/**
 			 * Borderless — no visible borders between items.
@@ -96,20 +96,20 @@ export const accordionTriggerVariants = cva(
 		// Layout
 		"flex flex-1 items-center justify-between w-full",
 		// Typography
-		"font-medium text-ds-foreground",
+		"font-medium text-foreground",
 		// Transition
 		"transition-[color,background-color,opacity]",
-		"duration-ds-fast ease-ds-standard",
+		"duration-fast ease-standard",
 		// Focus ring
 		focusRingClasses,
 		// Hover
-		"hover:text-ds-foreground hover:underline",
+		"hover:text-foreground hover:underline",
 		// Disabled
 		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
 		// Cursor
 		"cursor-pointer",
 		// Chevron rotation on open
-		"[&>svg]:transition-transform [&>svg]:duration-ds-normal [&>svg]:ease-ds-standard",
+		"[&>svg]:transition-transform [&>svg]:duration-normal [&>svg]:ease-standard",
 		"[&[data-state=open]>svg]:rotate-180",
 	],
 	{
@@ -152,7 +152,7 @@ export const accordionContentVariants = cva(
 	},
 );
 
-const accordionContentInnerVariants = cva(["text-ds-muted-foreground"], {
+const accordionContentInnerVariants = cva(["text-muted-foreground"], {
 	variants: {
 		size: {
 			sm: "pb-3",
@@ -319,7 +319,7 @@ export const Accordion = forwardRef<
 			    component boundary via AccordionProps. */}
 			<AccordionPrimitive.Root
 				ref={ref}
-				className={cn(accordionRootVariants({ variant }), className)}
+				className={cn("not-prose", accordionRootVariants({ variant }), className)}
 				data-ds=""
 				data-ds-component="accordion"
 				data-ds-variant={variant}
@@ -406,7 +406,7 @@ export const AccordionTrigger = forwardRef<
 			>
 				{children}
 				{!hideChevron && (
-					<ChevronDownIcon className="size-4 shrink-0 text-ds-muted-foreground" />
+					<ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
 				)}
 			</AccordionPrimitive.Trigger>
 		</AccordionPrimitive.Header>

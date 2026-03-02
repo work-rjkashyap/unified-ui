@@ -278,14 +278,14 @@ function CustomModal({ isOpen, children }) {
           {/* Backdrop */}
           <motion.div
             {...overlayBackdrop}
-            className="fixed inset-0 bg-black/50 z-ds-overlay"
+            className="fixed inset-0 bg-black/50 z-overlay"
           />
           {/* Content */}
           <motion.div
             {...modalContentSpring}
-            className="fixed inset-0 flex items-center justify-center z-ds-modal"
+            className="fixed inset-0 flex items-center justify-center z-modal"
           >
-            <div className="bg-ds-background rounded-ds-lg shadow-ds-lg p-6">
+            <div className="bg-background rounded-lg shadow-lg p-6">
               {children}
             </div>
           </motion.div>
@@ -339,7 +339,7 @@ import { hoverLift, press, tapScale, hoverScale } from "@work-rjkashyap/unified-
 <motion.div
   whileHover={hoverLift.whileHover}
   whileTap={press.whileTap}
-  className="bg-ds-surface-raised rounded-ds-md p-4 border border-ds-border cursor-pointer"
+  className="bg-surface-raised rounded-md p-4 border border-border cursor-pointer"
 >
   Interactive card
 </motion.div>
@@ -348,7 +348,7 @@ import { hoverLift, press, tapScale, hoverScale } from "@work-rjkashyap/unified-
 <motion.button
   whileHover={hoverScale.whileHover}
   whileTap={tapScale.whileTap}
-  className="bg-ds-primary text-ds-primary-foreground px-4 py-2 rounded-ds-md"
+  className="bg-primary text-primary-foreground px-4 py-2 rounded-md"
 >
   Click me
 </motion.button>
@@ -366,10 +366,10 @@ import { motion } from "framer-motion";
 import { pulse, spin } from "@work-rjkashyap/unified-ui";
 
 // Skeleton pulse
-<motion.div {...pulse} className="h-4 w-32 bg-ds-muted rounded-ds-sm" />
+<motion.div {...pulse} className="h-4 w-32 bg-muted rounded-sm" />
 
 // Loading spinner
-<motion.div {...spin} className="size-5 border-2 border-ds-primary border-t-transparent rounded-full" />
+<motion.div {...spin} className="size-5 border-2 border-primary border-t-transparent rounded-full" />
 ```
 
 ---

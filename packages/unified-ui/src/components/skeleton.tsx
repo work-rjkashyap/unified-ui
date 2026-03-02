@@ -48,7 +48,7 @@ export const skeletonVariants = cva(
   // Base styles — shared across all shapes
   [
     // Background
-    "bg-ds-muted",
+    "bg-muted",
     // Animation — gentle pulse
     "animate-pulse",
     // Ensure it doesn't collapse
@@ -65,19 +65,19 @@ export const skeletonVariants = cva(
          * Default height matches body text line-height.
          * Rounded for a softer appearance.
          */
-        text: "h-4 w-full rounded-ds-sm",
+        text: "h-4 w-full rounded-sm",
 
         /**
          * Circle — a circular placeholder for avatars, icons.
          * Uses border-radius: 9999px (full circle).
          */
-        circle: "rounded-ds-full aspect-square",
+        circle: "rounded-full aspect-square",
 
         /**
          * Rect — a rectangular placeholder for images, cards, media.
          * Uses standard border-radius.
          */
-        rect: "rounded-ds-md",
+        rect: "rounded-md",
       },
     },
 
@@ -217,7 +217,7 @@ function resolveDimension(
  * <Skeleton shape="text" animate={false} />
  *
  * // Custom dimensions
- * <Skeleton shape="rect" width="100%" height="8rem" className="rounded-ds-lg" />
+ * <Skeleton shape="rect" width="100%" height="8rem" className="rounded-lg" />
  * ```
  */
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(

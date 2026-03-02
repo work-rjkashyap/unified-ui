@@ -181,7 +181,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
 				htmlFor="email-input"
-				className="text-sm font-medium text-ds-foreground"
+				className="text-sm font-medium text-foreground"
 			>
 				Email
 			</label>
@@ -192,7 +192,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 				placeholder="you@example.com"
 				aria-describedby="email-error"
 			/>
-			<span id="email-error" className="block text-xs text-ds-danger">
+			<span id="email-error" className="block text-xs text-danger">
 				Please enter a valid email address.
 			</span>
 		</div>
@@ -207,7 +207,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
   placeholder="you@example.com"
   aria-describedby="email-error"
 />
-<p id="email-error" className="text-xs text-ds-danger">
+<p id="email-error" className="text-xs text-danger">
   Please enter a valid email address.
 </p>`}
 />
@@ -221,7 +221,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
 				htmlFor="username-input"
-				className="text-sm font-medium text-ds-foreground"
+				className="text-sm font-medium text-foreground"
 			>
 				Username
 			</label>
@@ -234,7 +234,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 			/>
 			<span
 				id="username-success"
-				className="block text-xs text-ds-success"
+				className="block text-xs text-success"
 			>
 				Username is available!
 			</span>
@@ -250,7 +250,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
   value="unified_user"
   aria-describedby="username-success"
 />
-<p id="username-success" className="text-xs text-ds-success">
+<p id="username-success" className="text-xs text-success">
   Username is available!
 </p>`}
 />
@@ -263,7 +263,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-xs">
 			<div className="flex flex-col gap-1.5">
-				<label className="text-sm font-medium text-ds-foreground">
+				<label className="text-sm font-medium text-foreground">
 					Search
 				</label>
 				<Input
@@ -273,7 +273,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 				/>
 			</div>
 			<div className="flex flex-col gap-1.5">
-				<label className="text-sm font-medium text-ds-foreground">
+				<label className="text-sm font-medium text-foreground">
 					Email
 				</label>
 				<Input
@@ -281,12 +281,12 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 					variant="error"
 					placeholder="you@example.com"
 				/>
-				<span className="block text-xs text-ds-danger">
+				<span className="block text-xs text-danger">
 					This email is already taken.
 				</span>
 			</div>
 			<div className="flex flex-col gap-1.5">
-				<label className="text-sm font-medium text-ds-foreground">
+				<label className="text-sm font-medium text-foreground">
 					Website
 				</label>
 				<Input
@@ -305,7 +305,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 {/* Error state with message */}
 
 <Input iconLeft={<Mail />} variant="error" placeholder="you@example.com" />
-<p className="text-xs text-ds-danger">This email is already taken.</p>
+<p className="text-xs text-danger">This email is already taken.</p>
 
 {/* Large success input with both icons */}
 
@@ -361,12 +361,12 @@ The Input uses the following design system tokens:
 
 | Token                            | Usage                            |
 | -------------------------------- | -------------------------------- |
-| `--ds-color-border`              | Default border color             |
-| `--ds-color-danger`              | Error variant border             |
-| `--ds-color-success`             | Success variant border           |
-| `--ds-color-muted-foreground`    | Placeholder and icon color       |
-| `--ds-color-disabled`            | Disabled background              |
-| `--ds-color-disabled-foreground` | Disabled text color              |
-| `--ds-radius-md`                 | Border radius                    |
-| `--ds-duration-fast`             | Transition speed for focus/hover |
-| `--ds-ease-standard`             | Easing curve for transitions     |
+| `--border`              | Default border color             |
+| `--danger`              | Error variant border             |
+| `--success`             | Success variant border           |
+| `--muted-foreground`    | Placeholder and icon color       |
+| `--disabled`            | Disabled background              |
+| `--disabled-foreground` | Disabled text color              |
+| `--radius-md`                 | Border radius                    |
+| `--duration-fast`             | Transition speed for focus/hover |
+| `--easing-standard`             | Easing curve for transitions     |

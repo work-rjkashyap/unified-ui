@@ -29,7 +29,7 @@
 //   <Switch disabled label="Feature locked" />
 // ============================================================================
 
-import * as SwitchPrimitive from "@radix-ui/react-switch";
+import { Switch as SwitchPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
@@ -50,19 +50,19 @@ export const switchTrackVariants = cva(
 		// Layout
 		"relative inline-flex shrink-0 cursor-pointer items-center",
 		// Shape
-		"rounded-ds-full",
+		"rounded-full",
 		// Border
 		"border-2 border-transparent",
 		// Transition
-		"transition-[background-color,box-shadow] duration-ds-fast ease-ds-standard",
+		"transition-[background-color,box-shadow] duration-fast ease-standard",
 		// Focus ring
 		focusRingClasses,
 		// Disabled
 		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
 		// Unchecked state
-		"data-[state=unchecked]:bg-ds-input",
+		"data-[state=unchecked]:bg-input",
 		// Checked state
-		"data-[state=checked]:bg-ds-primary",
+		"data-[state=checked]:bg-primary",
 	],
 	{
 		variants: {
@@ -93,11 +93,11 @@ export const switchTrackVariants = cva(
 export const switchThumbVariants = cva(
 	[
 		// Shape
-		"pointer-events-none block rounded-ds-full",
+		"pointer-events-none block rounded-full",
 		// Color
 		"bg-white",
 		// Shadow
-		"shadow-ds-sm",
+		"shadow-sm",
 	],
 	{
 		variants: {
@@ -361,7 +361,7 @@ export const Switch = forwardRef<
 			<label
 				htmlFor={id}
 				className={cn(
-					"text-sm font-medium leading-5 text-ds-foreground",
+					"text-sm font-medium leading-5 text-foreground",
 					"select-none",
 					disabled && "opacity-50 cursor-not-allowed",
 					!disabled && "cursor-pointer",
@@ -374,7 +374,7 @@ export const Switch = forwardRef<
 				<span
 					id={descriptionId}
 					className={cn(
-						"text-xs leading-4 text-ds-muted-foreground",
+						"text-xs leading-4 text-muted-foreground",
 						disabled && "opacity-50",
 						descriptionClassName,
 					)}

@@ -91,8 +91,11 @@ import { cn } from "@work-rjkashyap/unified-ui/utils";
 
 ### CSS Variable Prefix
 
-All design system CSS custom properties use `--ds-` (e.g. `--ds-color-primary`, `--ds-radius-md`).
-**Decision**: `--ds-` is the permanent prefix. Do not rename it.
+All CSS custom properties use plain `--` prefix with **no namespace infix** (e.g. `--primary`, `--radius-md`, `--shadow-lg`, `--z-modal`, `--duration-fast`, `--easing-standard`, `--font-sans`).
+
+All color values use **oklch()** (e.g. `oklch(0.205 0 0)`).
+
+Tailwind utility classes map directly: `bg-primary`, `text-foreground`, `border-border`, `rounded-md`, `shadow-lg`, `duration-fast`, `ease-standard`, `z-modal`, `font-sans`.
 
 ### Adding a New Component
 

@@ -285,7 +285,10 @@ assertExports("utils", utils, [
 assert("utils: cn is a function", typeof utils.cn === "function");
 assert('utils: cn("a", "b") returns string', typeof utils.cn("a", "b") === "string");
 assert("utils: dsAttr returns data-ds attributes", "data-ds" in utils.dsAttr("button"));
-assert('utils: dsVar("color","primary") returns var()', utils.dsVar("color", "primary") === "var(--ds-color-primary)");
+assert('utils: dsVar("radius","md") returns var()', utils.dsVar("radius", "md") === "var(--ds-radius-md)");
+// NOTE: dsVar produces --ds-<category>-<name> and is intended for non-color tokens
+// (radius, shadow, z, duration, easing, font). For color tokens, use dsColorVar()
+// which produces var(--<name>) with no --ds- prefix.
 console.log();
 
 // ---------------------------------------------------------------------------
@@ -336,7 +339,7 @@ const cssPath = join(__dirname, "styles.css");
 assert("styles.css exists", existsSync(cssPath));
 
 const css = readFileSync(cssPath, "utf-8");
-assert("styles.css contains --ds-color-primary", css.includes("--ds-color-primary"));
+assert("styles.css contains --primary (color var)", css.includes("--primary:"));
 assert("styles.css contains --ds-radius-md", css.includes("--ds-radius-md"));
 assert("styles.css contains --ds-shadow-lg", css.includes("--ds-shadow-lg"));
 assert("styles.css contains @theme block", css.includes("@theme"));
@@ -372,12 +375,12 @@ assert("dsStateAttr(active, false) is empty", Object.keys(utils.dsStateAttr("act
 
 // dsColorVar
 assert(
-  "dsColorVar('primary') returns rgb(var(...))",
-  utils.dsColorVar("primary") === "rgb(var(--ds-color-primary))",
+  "dsColorVar('primary') returns var(--primary)",
+  utils.dsColorVar("primary") === "var(--primary)",
 );
 assert(
-  "dsColorVar('primary', 0.5) includes alpha",
-  utils.dsColorVar("primary", 0.5) === "rgb(var(--ds-color-primary) / 0.5)",
+  "dsColorVar('primary', 0.5) returns color-mix()",
+  utils.dsColorVar("primary", 0.5) === "color-mix(in oklch, var(--primary) 50%, transparent)",
 );
 
 // contrast utilities
@@ -393,7 +396,7 @@ assert("brand palette has 500", "500" in tokens.brand);
 
 // theme contract
 assert("contract has color entries", typeof theme.contract === "object" && Object.keys(theme.contract).length > 0);
-assert("cssVar.color returns rgb(var(--ds-...))", theme.cssVar.color("primary") === "rgb(var(--ds-color-primary))");
+assert("cssVar.color returns var(--primary)", theme.cssVar.color("primary") === "var(--primary)");
 
 // motionProps spread helper
 const spread = motion.motionProps(motion.fadeIn);

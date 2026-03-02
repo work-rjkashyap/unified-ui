@@ -17,7 +17,7 @@ Unified UI is a **token-driven React design system** built with Tailwind CSS v4 
 - **Token-driven** — Every color, spacing value, radius, shadow, and motion timing comes from a single source of truth. No hardcoded values.
 - **Accessible by default** — All components meet WCAG AA standards with proper ARIA attributes, keyboard navigation, and focus management.
 - **Composable** — Small primitives compose into complex components. Use the layer that fits your needs.
-- **Theme-aware** — Light and dark modes via CSS custom properties with a `--ds-` prefix. Switch themes at runtime with zero flash.
+- **Theme-aware** — Light and dark modes via CSS custom properties. Switch themes at runtime with zero flash.
 
 ### Architecture
 
@@ -33,7 +33,7 @@ Tokens → Theme → Primitives → Components
 | Layer          | What it provides                                                                  |
 | -------------- | --------------------------------------------------------------------------------- |
 | **Tokens**     | Raw design values — colors, spacing, typography, radius, shadows, z-index, motion |
-| **Theme**      | CSS variable contract (`--ds-*`), theme provider, light/dark mode                 |
+| **Theme**      | CSS variable contract, theme provider, light/dark mode                            |
 | **Primitives** | Typography, Container, Stack, Grid, Divider                                       |
 | **Components** | 24+ composite components (Button, Dialog, Tabs, Toast, etc.)                      |
 | **Motion**     | Framer Motion animation presets and stagger utilities                             |
@@ -82,7 +82,7 @@ yarn add @work-rjkashyap/unified-ui
 <Step>
 ### Import the CSS
 
-Add the Unified UI stylesheet to your global CSS file. This provides all the `--ds-*` custom properties and Tailwind `@theme` integration.
+Add the Unified UI stylesheet to your global CSS file. This provides all the CSS custom properties and Tailwind `@theme` integration.
 
 ```css title="app/globals.css"
 @import "tailwindcss";

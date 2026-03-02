@@ -150,7 +150,7 @@ function SortNeutralIcon({ className }: { className?: string }) {
 // ---------------------------------------------------------------------------
 
 export const tableRootVariants = cva(
-	["w-full", "caption-bottom", "text-sm", "border-collapse"],
+	["w-full", "caption-bottom", "text-sm", "border-collapse", "m-0"],
 	{
 		variants: {
 			density: {
@@ -170,12 +170,12 @@ export const tableRootVariants = cva(
 
 const densityHeadPadding: Record<TableDensity, string> = {
 	compact: "px-3 py-1.5",
-	comfortable: "px-4 py-3",
+	comfortable: "px-4 py-2.5",
 };
 
 const densityCellPadding: Record<TableDensity, string> = {
 	compact: "px-3 py-1.5",
-	comfortable: "px-4 py-2.5",
+	comfortable: "px-4 py-2",
 };
 
 // ---------------------------------------------------------------------------
@@ -284,8 +284,9 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
 			<table
 				ref={ref}
 				className={cn(
+					"not-prose",
 					tableRootVariants({ density }),
-					bordered && "border border-ds-border",
+					bordered && !responsive && "border border-border rounded-md",
 					className,
 				)}
 				data-ds=""
@@ -302,9 +303,9 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
 		return (
 			<div
 				className={cn(
-					"w-full overflow-x-auto",
-					"rounded-ds-md",
-					!bordered && "border border-ds-border",
+					"not-prose",
+					"w-full overflow-x-auto overflow-y-hidden",
+					"rounded-md border border-border",
 					wrapperClassName,
 				)}
 				data-ds=""
@@ -336,15 +337,12 @@ export const TableHeader = forwardRef<
 	HTMLTableSectionElement,
 	TableHeaderProps
 >(function TableHeader({ className, children, ...rest }, ref) {
-	const { bordered } = useTableContext();
-
 	return (
 		<thead
 			ref={ref}
 			className={cn(
-				"bg-ds-muted/50",
-				bordered && "[&_tr]:border-b [&_tr]:border-ds-border",
-				!bordered && "[&_tr]:border-b [&_tr]:border-ds-border",
+				"bg-muted/50",
+				"[&_tr]:border-b [&_tr]:border-border",
 				className,
 			)}
 			data-ds=""
@@ -378,18 +376,18 @@ export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
 			<tbody
 				ref={ref}
 				className={cn(
-					// Last row doesn't need a bottom border
-					"[&_tr:last-child]:border-0",
+					// Last row: no bottom border (the wrapper/table border handles it)
+					"[&_tr:last-child]:border-b-0",
 					// Row borders
-					"[&_tr]:border-b [&_tr]:border-ds-border-muted",
+					"[&_tr]:border-b [&_tr]:border-border-muted",
 					// Striped rows
-					striped && "**:data-[ds-row-index=odd]:bg-ds-muted/30",
+					striped && "**:data-[ds-row-index=odd]:bg-muted/30",
 					// Hoverable rows
 					hoverable &&
-						"[&_tr]:transition-colors [&_tr]:duration-ds-fast [&_tr:hover]:bg-ds-muted/50",
+						"[&_tr]:transition-colors [&_tr]:duration-fast [&_tr:hover]:bg-muted/50",
 					// Bordered cells
 					bordered &&
-						"[&_td]:border-r [&_td]:border-ds-border-muted [&_td:last-child]:border-r-0",
+						"[&_td]:border-r [&_td]:border-border-muted [&_td:last-child]:border-r-0",
 					className,
 				)}
 				data-ds=""
@@ -424,10 +422,10 @@ export const TableFooter = forwardRef<
 		<tfoot
 			ref={ref}
 			className={cn(
-				"bg-ds-muted/50",
-				"border-t border-ds-border",
+				"bg-muted/50",
+				"border-t border-border",
 				"font-medium",
-				"[&_tr:last-child]:border-b-0",
+				"[&_tr]:border-b-0",
 				className,
 			)}
 			data-ds=""
@@ -465,8 +463,8 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
 			<tr
 				ref={ref}
 				className={cn(
-					"transition-colors duration-ds-fast",
-					selected && "bg-ds-primary-muted",
+					"transition-colors duration-fast",
+					selected && "bg-primary-muted",
 					className,
 				)}
 				data-ds=""
@@ -566,10 +564,10 @@ export const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(
 					"inline-flex items-center gap-1",
 					"w-full",
 					"cursor-pointer select-none",
-					"hover:text-ds-foreground",
-					"transition-colors duration-ds-fast",
+					"hover:text-foreground",
+					"transition-colors duration-fast",
 					focusRingCompactClasses,
-					"rounded-ds-sm",
+					"rounded-sm",
 					align === "right" && "justify-end",
 					align === "center" && "justify-center",
 				)}
@@ -603,13 +601,13 @@ export const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(
 				className={cn(
 					densityHeadPadding[density],
 					alignClassMap[align],
-					"text-ds-muted-foreground",
+					"text-muted-foreground",
 					"font-semibold",
 					"whitespace-nowrap",
 					sticky &&
-						"sticky top-0 z-[var(--ds-z-sticky)] bg-ds-muted/95 backdrop-blur-sm",
+						"sticky top-0 z-[var(--z-sticky)] bg-muted/95 backdrop-blur-sm",
 					bordered &&
-						"border-r border-ds-border-muted last:border-r-0",
+						"border-r border-border-muted last:border-r-0",
 					className,
 				)}
 				data-ds=""
@@ -661,7 +659,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
 				className={cn(
 					densityCellPadding[density],
 					alignClassMap[align],
-					"text-ds-foreground",
+					"text-foreground",
 					className,
 				)}
 				data-ds=""
@@ -699,9 +697,9 @@ export const TableCaption = forwardRef<
 		<caption
 			ref={ref}
 			className={cn(
-				"mt-3 px-4",
+				"mt-2 px-4 pb-0.5",
 				"text-xs leading-5",
-				"text-ds-muted-foreground",
+				"text-muted-foreground",
 				className,
 			)}
 			data-ds=""

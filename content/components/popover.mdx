@@ -28,7 +28,7 @@ import { Callout } from "fumadocs-ui/components/callout";
           <div className="flex flex-col gap-3">
             <div className="space-y-1">
               <h4 className="text-sm font-semibold">Dimensions</h4>
-              <p className="text-xs text-ds-muted-foreground">Set the dimensions for the layer.</p>
+              <p className="text-xs text-muted-foreground">Set the dimensions for the layer.</p>
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
@@ -53,7 +53,7 @@ import { Callout } from "fumadocs-ui/components/callout";
     <div className="flex flex-col gap-3">
       <div className="space-y-1">
         <h4 className="text-sm font-semibold">Dimensions</h4>
-        <p className="text-xs text-ds-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           Set the dimensions for the layer.
         </p>
       </div>
@@ -198,7 +198,7 @@ Set `showClose` on `PopoverContent` to render a close button in the top-right co
 						<h4 className="text-sm font-semibold">
 							Notification settings
 						</h4>
-						<p className="text-xs text-ds-muted-foreground">
+						<p className="text-xs text-muted-foreground">
 							Choose which notifications you'd like to receive.
 						</p>
 					</div>
@@ -212,7 +212,7 @@ Set `showClose` on `PopoverContent` to render a close button in the top-right co
   </PopoverTrigger>
   <PopoverContent showClose>
     <h4 className="text-sm font-semibold">Notification settings</h4>
-    <p className="text-xs text-ds-muted-foreground">
+    <p className="text-xs text-muted-foreground">
       Choose which notifications you'd like to receive.
     </p>
   </PopoverContent>
@@ -245,7 +245,7 @@ Popovers are commonly used for inline editing, quick settings, and small forms.
 		<div className="flex flex-col gap-3">
 			<div className="space-y-1">
 				<h4 className="text-sm font-semibold">Edit display name</h4>
-				<p className="text-xs text-ds-muted-foreground">
+				<p className="text-xs text-muted-foreground">
 					This name will be visible to other users.
 				</p>
 			</div>
@@ -309,7 +309,7 @@ A common pattern using a popover for a color picker or swatch selector.
 <Popover>
 	<PopoverTrigger asChild>
 		<button
-			className="size-8 rounded-ds-md border border-ds-border"
+			className="size-8 rounded-md border border-border"
 			style={{ backgroundColor: color }}
 			aria-label="Choose color"
 		/>
@@ -319,7 +319,7 @@ A common pattern using a popover for a color picker or swatch selector.
 			{colors.map((c) => (
 				<button
 					key={c}
-					className="size-6 rounded-ds-sm border border-ds-border"
+					className="size-6 rounded-sm border border-border"
 					style={{ backgroundColor: c }}
 					onClick={() => setColor(c)}
 					aria-label={c}
@@ -387,18 +387,18 @@ Uses Radix UI's `PopoverClose` API. Use `asChild` to render as your own element.
 - **ARIA attributes** — The trigger has `aria-expanded` and `aria-haspopup`. Content has `role="dialog"`.
 - **Close button** has an accessible `aria-label`.
 - Focus ring is visible on keyboard navigation only (`focus-visible`).
-- Uses `z-ds-popover` z-index token to layer correctly above page content.
+- Uses `z-popover` z-index token to layer correctly above page content.
 - Collision detection automatically repositions the popover to stay within the viewport.
 
 ## Design Tokens
 
 | Token                       | Usage                         |
 | --------------------------- | ----------------------------- |
-| `--ds-color-surface-raised` | Popover panel background      |
-| `--ds-color-border`         | Popover border color          |
-| `--ds-shadow-md`            | Popover elevation shadow      |
-| `--ds-radius-md`            | Popover border radius         |
-| `--ds-z-popover`            | Z-index for the popover layer |
-| `--ds-duration-fast`        | Enter/exit animation timing   |
+| `--surface-raised` | Popover panel background      |
+| `--border`         | Popover border color          |
+| `--shadow-md`            | Popover elevation shadow      |
+| `--radius-md`            | Popover border radius         |
+| `--z-popover`            | Z-index for the popover layer |
+| `--duration-fast`        | Enter/exit animation timing   |
 
 </ComponentPage>

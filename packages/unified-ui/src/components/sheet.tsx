@@ -45,7 +45,7 @@
 //   </Sheet>
 // ============================================================================
 
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Dialog as DialogPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -64,11 +64,11 @@ export const sheetContentVariants = cva(
 		// Layout
 		"fixed flex flex-col",
 		// Z-index — same as dialog/modal
-		"z-[var(--ds-z-modal)]",
+		"z-[var(--z-modal)]",
 		// Visual
-		"bg-ds-background",
-		"border-ds-border",
-		"shadow-ds-xl",
+		"bg-background",
+		"border-border",
+		"shadow-xl",
 		// Focus
 		"outline-none",
 		// Animation base
@@ -391,7 +391,7 @@ const SheetOverlay = forwardRef<
 			ref={ref}
 			className={cn(
 				"fixed inset-0",
-				"z-[var(--ds-z-overlay)]",
+				"z-[var(--z-overlay)]",
 				"bg-black/50",
 				"data-[state=open]:animate-in data-[state=open]:fade-in-0",
 				"data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
@@ -469,7 +469,7 @@ export const SheetContent = forwardRef<
 			<SheetOverlay className={overlayClassName} />
 			<DialogPrimitive.Content
 				ref={ref}
-				className={cn(sheetContentVariants({ side, size }), className)}
+				className={cn("not-prose", sheetContentVariants({ side, size }), className)}
 				data-ds=""
 				data-ds-component="sheet"
 				data-ds-side={side}
@@ -483,9 +483,9 @@ export const SheetContent = forwardRef<
 						className={cn(
 							"absolute right-4 top-4",
 							"inline-flex items-center justify-center",
-							"rounded-ds-sm p-1",
-							"text-ds-muted-foreground hover:text-ds-foreground",
-							"transition-colors duration-ds-fast",
+							"rounded-sm p-1",
+							"text-muted-foreground hover:text-foreground",
+							"transition-colors duration-fast",
 							focusRingClasses,
 						)}
 						aria-label="Close"
@@ -520,7 +520,7 @@ export function SheetHeader({ className, children }: SheetHeaderProps) {
 		<div
 			className={cn(
 				"flex flex-col gap-1.5 px-6 py-4",
-				"border-b border-ds-border",
+				"border-b border-border",
 				className,
 			)}
 			data-ds=""
@@ -555,7 +555,7 @@ export function SheetFooter({ className, children }: SheetFooterProps) {
 		<div
 			className={cn(
 				"flex items-center justify-end gap-2 px-6 py-4",
-				"border-t border-ds-border",
+				"border-t border-border",
 				"mt-auto",
 				className,
 			)}
@@ -591,7 +591,7 @@ export const SheetTitle = forwardRef<
 		<DialogPrimitive.Title
 			ref={ref}
 			className={cn(
-				"text-lg font-semibold leading-6 text-ds-foreground",
+				"text-lg font-semibold leading-6 text-foreground",
 				className,
 			)}
 			data-ds=""
@@ -629,7 +629,7 @@ export const SheetDescription = forwardRef<
 		<DialogPrimitive.Description
 			ref={ref}
 			className={cn(
-				"text-sm leading-5 text-ds-muted-foreground",
+				"text-sm leading-5 text-muted-foreground",
 				className,
 			)}
 			data-ds=""

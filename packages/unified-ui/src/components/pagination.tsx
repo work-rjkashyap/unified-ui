@@ -113,11 +113,11 @@ export const paginationButtonVariants = cva(
 		// Layout
 		"inline-flex items-center justify-center",
 		// Shape
-		"rounded-ds-md",
+		"rounded-md",
 		// Typography
 		"font-medium tabular-nums",
 		// Transitions
-		"transition-colors duration-ds-fast",
+		"transition-colors duration-fast",
 		// Focus
 		focusRingCompactClasses,
 		// Disabled
@@ -133,8 +133,8 @@ export const paginationButtonVariants = cva(
 				md: "h-9 min-w-9 px-2 text-sm gap-1.5",
 			},
 			active: {
-				true: "bg-ds-primary text-ds-primary-foreground hover:bg-ds-primary-hover",
-				false: "bg-transparent text-ds-muted-foreground hover:bg-ds-muted hover:text-ds-foreground",
+				true: "bg-primary text-primary-foreground hover:bg-primary-hover",
+				false: "bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground",
 			},
 		},
 		defaultVariants: {
@@ -434,7 +434,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
 					<span
 						className={cn(
 							"inline-flex items-center justify-center px-3",
-							"text-ds-foreground font-medium tabular-nums",
+							"text-foreground font-medium tabular-nums",
 							size === "sm" ? "text-xs" : "text-sm",
 						)}
 					>
@@ -499,7 +499,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
 								key={item.key}
 								className={cn(
 									"inline-flex items-center justify-center",
-									"text-ds-muted-foreground select-none",
+									"text-muted-foreground select-none",
 									ellipsisSizeMap[size],
 								)}
 								aria-hidden="true"

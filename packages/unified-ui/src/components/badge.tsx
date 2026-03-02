@@ -40,7 +40,7 @@ import { type ElementType, forwardRef, type ReactNode } from "react";
 // CVA Variant Definition
 // ---------------------------------------------------------------------------
 // All color values reference design system CSS custom properties via the
-// Tailwind `ds-*` utilities defined in design-system.css. This ensures
+// Tailwind utilities defined in design-system.css. This ensures
 // automatic light/dark mode support and token compliance.
 // ---------------------------------------------------------------------------
 
@@ -50,12 +50,12 @@ export const badgeVariants = cva(
     // Layout
     "inline-flex items-center gap-1.5",
     // Shape — pill by default
-    "rounded-ds-full",
+    "rounded-full",
     // Typography
     "font-medium leading-none whitespace-nowrap",
     // Transition
     "transition-[color,background-color,border-color,box-shadow,opacity]",
-    "duration-ds-fast ease-ds-standard",
+    "duration-fast ease-standard",
     // Prevent text selection
     "select-none",
     // Shrink protection
@@ -72,7 +72,7 @@ export const badgeVariants = cva(
          * Use for generic labels, tags, and metadata.
          */
         default: [
-          "bg-ds-muted text-ds-foreground",
+          "bg-muted text-foreground",
           "border border-transparent",
         ],
 
@@ -81,7 +81,7 @@ export const badgeVariants = cva(
          * Use for highlighting primary categories or active filters.
          */
         primary: [
-          "bg-ds-primary-muted text-ds-primary-muted-foreground",
+          "bg-primary-muted text-primary-muted-foreground",
           "border border-transparent",
         ],
 
@@ -90,7 +90,7 @@ export const badgeVariants = cva(
          * Use for "active", "complete", "approved" states.
          */
         success: [
-          "bg-ds-success-muted text-ds-success-muted-foreground",
+          "bg-success-muted text-success-muted-foreground",
           "border border-transparent",
         ],
 
@@ -99,7 +99,7 @@ export const badgeVariants = cva(
          * Use for "pending", "review", "expiring" states.
          */
         warning: [
-          "bg-ds-warning-muted text-ds-warning-muted-foreground",
+          "bg-warning-muted text-warning-muted-foreground",
           "border border-transparent",
         ],
 
@@ -108,7 +108,7 @@ export const badgeVariants = cva(
          * Use for "error", "failed", "blocked", "critical" states.
          */
         danger: [
-          "bg-ds-danger-muted text-ds-danger-muted-foreground",
+          "bg-danger-muted text-danger-muted-foreground",
           "border border-transparent",
         ],
 
@@ -117,7 +117,7 @@ export const badgeVariants = cva(
          * Use for "new", "beta", "info", "note" labels.
          */
         info: [
-          "bg-ds-info-muted text-ds-info-muted-foreground",
+          "bg-info-muted text-info-muted-foreground",
           "border border-transparent",
         ],
 
@@ -126,8 +126,8 @@ export const badgeVariants = cva(
          * Use for subtle categorization that doesn't compete with content.
          */
         outline: [
-          "bg-transparent text-ds-foreground",
-          "border border-ds-border",
+          "bg-transparent text-foreground",
+          "border border-border",
         ],
       },
 
@@ -164,13 +164,13 @@ export const badgeVariants = cva(
 // ---------------------------------------------------------------------------
 
 const dotColorMap: Record<BadgeVariant, string> = {
-  default: "bg-ds-muted-foreground",
-  primary: "bg-ds-primary",
-  success: "bg-ds-success",
-  warning: "bg-ds-warning",
-  danger: "bg-ds-danger",
-  info: "bg-ds-info",
-  outline: "bg-ds-foreground",
+  default: "bg-muted-foreground",
+  primary: "bg-primary",
+  success: "bg-success",
+  warning: "bg-warning",
+  danger: "bg-danger",
+  info: "bg-info",
+  outline: "bg-foreground",
 };
 
 // ---------------------------------------------------------------------------
@@ -282,11 +282,11 @@ function RemoveButton({
       onClick={onClick}
       className={cn(
         "inline-flex items-center justify-center shrink-0",
-        "rounded-ds-full",
+        "rounded-full",
         "text-current opacity-60",
         "hover:opacity-100",
-        "transition-opacity duration-ds-fast",
-        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-current",
+        "transition-opacity duration-fast",
+        "focus-visible:outline-none focus-visible:border-current",
         // Slightly negative margin to visually tuck the button in
         "-mr-0.5 ml-0.5",
         size === "sm" ? "size-3" : "size-3.5",
@@ -325,7 +325,7 @@ function DotIndicator({
   return (
     <span
       className={cn(
-        "shrink-0 rounded-ds-full",
+        "shrink-0 rounded-full",
         dotSizeMap[size],
         dotColorMap[variant],
       )}

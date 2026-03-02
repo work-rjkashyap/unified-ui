@@ -11,7 +11,7 @@
 //
 // Font families support multiple typefaces loaded via next/font/google in
 // the root layout. Each font family slot maps to a CSS custom property
-// (--ds-font-*) and a Tailwind utility (font-ds-*).
+// (--font-*) and a Tailwind utility (font-*).
 // ============================================================================
 
 // ---------------------------------------------------------------------------
@@ -22,11 +22,11 @@
 // and referenced through CSS variables (e.g. var(--font-outfit)).
 //
 // At runtime, the CSS custom properties resolve to the loaded fonts:
-//   --ds-font-sans    → var(--font-outfit), system-ui, sans-serif
-//   --ds-font-display → var(--font-inter), system-ui, sans-serif
-//   --ds-font-serif   → var(--font-lora), Georgia, serif
-//   --ds-font-mono    → var(--font-jetbrains), Consolas, monospace
-//   --ds-font-inherit → inherit
+//   --font-sans    → var(--font-outfit), system-ui, sans-serif
+//   --font-display → var(--font-inter), system-ui, sans-serif
+//   --font-serif   → var(--font-lora), Georgia, serif
+//   --font-mono    → var(--font-jetbrains), Consolas, monospace
+//   --font-inherit → inherit
 // ---------------------------------------------------------------------------
 
 export const fontFamily = {
@@ -127,7 +127,7 @@ export const letterSpacing = {
 //
 // The `fontFamily` field specifies which font family key to use by
 // default for each variant. The Typography component maps this to the
-// corresponding Tailwind utility class (e.g. "sans" → "font-ds-sans").
+// corresponding Tailwind utility class (e.g. "sans" → "font-sans").
 // Consumers can override this per-instance via the `font` prop.
 // ---------------------------------------------------------------------------
 

@@ -14,10 +14,10 @@ Unified UI uses a two-tier color system:
 1. **Base palettes** — Raw color ramps from 50 → 950 (inspired by Tailwind's palette structure).
 2. **Semantic mappings** — Intent-based aliases (`primary`, `danger`, `success`, etc.) that map to specific palette stops for light and dark modes.
 
-All color values are stored as **RGB channel strings** (e.g. `"15 23 42"`) so they work with Tailwind's opacity modifier syntax: `bg-ds-primary/50`.
+All color values are stored as **RGB channel strings** (e.g. `"15 23 42"`) so they work with Tailwind's opacity modifier syntax: `bg-primary/50`.
 
 <Callout type="info">
-  Components never reference base palette values directly. They use semantic tokens through CSS custom properties (`--ds-color-primary`, `--ds-color-danger`, etc.), which the theme layer resolves to the correct palette stop for the active mode.
+  Components never reference base palette values directly. They use semantic tokens through CSS custom properties (`--primary`, `--danger`, etc.), which the theme layer resolves to the correct palette stop for the active mode.
 </Callout>
 
 ---
@@ -99,31 +99,31 @@ Semantic colors map **intent** to specific palette stops. This indirection means
 
 | Token                | Source          | Tailwind class             | Use case                      |
 | -------------------- | --------------- | -------------------------- | ----------------------------- |
-| `background`         | `pure.white`    | `bg-ds-background`         | Page background               |
-| `foreground`         | `neutral.950`   | `text-ds-foreground`       | Default text color            |
-| `surface`            | `neutral.50`    | `bg-ds-surface`            | Subtle surface background     |
-| `surfaceRaised`      | `pure.white`    | `bg-ds-surface-raised`     | Cards, elevated surfaces      |
-| `surfaceOverlay`     | `neutral.100`   | `bg-ds-surface-overlay`    | Overlay backgrounds           |
-| `muted`              | `neutral.100`   | `bg-ds-muted`              | Muted backgrounds             |
-| `mutedForeground`    | `neutral.600`   | `text-ds-muted-foreground` | Secondary text                |
+| `background`         | `pure.white`    | `bg-background`         | Page background               |
+| `foreground`         | `neutral.950`   | `text-foreground`       | Default text color            |
+| `surface`            | `neutral.50`    | `bg-surface`            | Subtle surface background     |
+| `surfaceRaised`      | `pure.white`    | `bg-surface-raised`     | Cards, elevated surfaces      |
+| `surfaceOverlay`     | `neutral.100`   | `bg-surface-overlay`    | Overlay backgrounds           |
+| `muted`              | `neutral.100`   | `bg-muted`              | Muted backgrounds             |
+| `mutedForeground`    | `neutral.600`   | `text-muted-foreground` | Secondary text                |
 
 ### Primary (Brand)
 
 | Token                    | Source        | Tailwind class                  | Use case                   |
 | ------------------------ | ------------- | ------------------------------- | -------------------------- |
-| `primary`                | `brand.600`   | `bg-ds-primary`                 | Primary buttons, links     |
-| `primaryForeground`      | `pure.white`  | `text-ds-primary-foreground`    | Text on primary bg         |
+| `primary`                | `brand.600`   | `bg-primary`                 | Primary buttons, links     |
+| `primaryForeground`      | `pure.white`  | `text-primary-foreground`    | Text on primary bg         |
 | `primaryHover`           | `brand.700`   | —                               | Hover state                |
 | `primaryActive`          | `brand.800`   | —                               | Active/pressed state       |
-| `primaryMuted`           | `brand.50`    | `bg-ds-primary-muted`           | Soft primary background    |
-| `primaryMutedForeground` | `brand.700`   | `text-ds-primary-muted-foreground` | Text on muted primary   |
+| `primaryMuted`           | `brand.50`    | `bg-primary-muted`           | Soft primary background    |
+| `primaryMutedForeground` | `brand.700`   | `text-primary-muted-foreground` | Text on muted primary   |
 
 ### Secondary
 
 | Token                  | Source        | Tailwind class                    | Use case                 |
 | ---------------------- | ------------- | --------------------------------- | ------------------------ |
-| `secondary`            | `neutral.100` | `bg-ds-secondary`                 | Secondary buttons        |
-| `secondaryForeground`  | `neutral.900` | `text-ds-secondary-foreground`    | Text on secondary bg     |
+| `secondary`            | `neutral.100` | `bg-secondary`                 | Secondary buttons        |
+| `secondaryForeground`  | `neutral.900` | `text-secondary-foreground`    | Text on secondary bg     |
 | `secondaryHover`       | `neutral.200` | —                                 | Hover state              |
 | `secondaryActive`      | `neutral.300` | —                                 | Active/pressed state     |
 
@@ -140,12 +140,12 @@ Semantic colors map **intent** to specific palette stops. This indirection means
 
 | Token             | Source                  | Tailwind class         | Use case                     |
 | ----------------- | ----------------------- | ---------------------- | ---------------------------- |
-| `border`          | `rgb(188 188 194)`      | `border-ds-border`     | Default borders              |
-| `borderMuted`     | `neutral.100`           | `border-ds-border-muted` | Subtle borders             |
-| `borderStrong`    | `rgb(148 148 157)`      | `border-ds-border-strong` | Emphasized borders        |
-| `focusRing`       | `brand.500`             | `ring-ds-focus-ring`   | Focus indicators             |
-| `input`           | `rgb(148 148 157)`      | `border-ds-input`      | Input field borders          |
-| `inputForeground` | `neutral.900`           | `text-ds-input-foreground` | Input text color         |
+| `border`          | `rgb(188 188 194)`      | `border-border`     | Default borders              |
+| `borderMuted`     | `neutral.100`           | `border-border-muted` | Subtle borders             |
+| `borderStrong`    | `rgb(148 148 157)`      | `border-border-strong` | Emphasized borders        |
+| `focusRing`       | `brand.500`             | `ring-focus-ring`   | Focus indicators             |
+| `input`           | `rgb(148 148 157)`      | `border-input`      | Input field borders          |
+| `inputForeground` | `neutral.900`           | `text-input-foreground` | Input text color         |
 | `inputPlaceholder`| `neutral.500`           | —                      | Placeholder text             |
 
 ### Disabled
@@ -162,31 +162,31 @@ Semantic colors map **intent** to specific palette stops. This indirection means
 
 | Token                | Source          | Tailwind class             | Use case                      |
 | -------------------- | --------------- | -------------------------- | ----------------------------- |
-| `background`         | `neutral.950`   | `bg-ds-background`         | Page background               |
-| `foreground`         | `neutral.50`    | `text-ds-foreground`       | Default text color            |
-| `surface`            | `neutral.900`   | `bg-ds-surface`            | Subtle surface background     |
-| `surfaceRaised`      | `neutral.800`   | `bg-ds-surface-raised`     | Cards, elevated surfaces      |
-| `surfaceOverlay`     | `neutral.800`   | `bg-ds-surface-overlay`    | Overlay backgrounds           |
-| `muted`              | `neutral.800`   | `bg-ds-muted`              | Muted backgrounds             |
-| `mutedForeground`    | `neutral.400`   | `text-ds-muted-foreground` | Secondary text                |
+| `background`         | `neutral.950`   | `bg-background`         | Page background               |
+| `foreground`         | `neutral.50`    | `text-foreground`       | Default text color            |
+| `surface`            | `neutral.900`   | `bg-surface`            | Subtle surface background     |
+| `surfaceRaised`      | `neutral.800`   | `bg-surface-raised`     | Cards, elevated surfaces      |
+| `surfaceOverlay`     | `neutral.800`   | `bg-surface-overlay`    | Overlay backgrounds           |
+| `muted`              | `neutral.800`   | `bg-muted`              | Muted backgrounds             |
+| `mutedForeground`    | `neutral.400`   | `text-muted-foreground` | Secondary text                |
 
 ### Primary (Brand)
 
 | Token                    | Source        | Tailwind class                  | Dark mode note                     |
 | ------------------------ | ------------- | ------------------------------- | ---------------------------------- |
-| `primary`                | `brand.400`   | `bg-ds-primary`                 | Lighter stop for AA contrast (6.67:1) |
-| `primaryForeground`      | `neutral.900` | `text-ds-primary-foreground`    | Dark text on light primary         |
+| `primary`                | `brand.400`   | `bg-primary`                 | Lighter stop for AA contrast (6.67:1) |
+| `primaryForeground`      | `neutral.900` | `text-primary-foreground`    | Dark text on light primary         |
 | `primaryHover`           | `brand.300`   | —                               | Even lighter on hover              |
 | `primaryActive`          | `brand.200`   | —                               | Lightest on active                 |
-| `primaryMuted`           | `brand.950`   | `bg-ds-primary-muted`           | Very dark muted primary            |
-| `primaryMutedForeground` | `brand.300`   | `text-ds-primary-muted-foreground` | Light text on dark muted        |
+| `primaryMuted`           | `brand.950`   | `bg-primary-muted`           | Very dark muted primary            |
+| `primaryMutedForeground` | `brand.300`   | `text-primary-muted-foreground` | Light text on dark muted        |
 
 ### Secondary
 
 | Token                  | Source        | Tailwind class                    | Use case                 |
 | ---------------------- | ------------- | --------------------------------- | ------------------------ |
-| `secondary`            | `neutral.800` | `bg-ds-secondary`                 | Secondary buttons        |
-| `secondaryForeground`  | `neutral.100` | `text-ds-secondary-foreground`    | Text on secondary bg     |
+| `secondary`            | `neutral.800` | `bg-secondary`                 | Secondary buttons        |
+| `secondaryForeground`  | `neutral.100` | `text-secondary-foreground`    | Text on secondary bg     |
 | `secondaryHover`       | `neutral.700` | —                                 | Hover state              |
 | `secondaryActive`      | `neutral.600` | —                                 | Active/pressed state     |
 
@@ -203,12 +203,12 @@ Semantic colors map **intent** to specific palette stops. This indirection means
 
 | Token             | Source                  | Tailwind class         | Use case                     |
 | ----------------- | ----------------------- | ---------------------- | ---------------------------- |
-| `border`          | `neutral.600`           | `border-ds-border`     | Default borders              |
-| `borderMuted`     | `neutral.800`           | `border-ds-border-muted` | Subtle borders             |
-| `borderStrong`    | `neutral.500`           | `border-ds-border-strong` | Emphasized borders        |
-| `focusRing`       | `brand.400`             | `ring-ds-focus-ring`   | Focus indicators             |
-| `input`           | `rgb(96 96 105)`        | `border-ds-input`      | Input field borders          |
-| `inputForeground` | `neutral.50`            | `text-ds-input-foreground` | Input text color         |
+| `border`          | `neutral.600`           | `border-border`     | Default borders              |
+| `borderMuted`     | `neutral.800`           | `border-border-muted` | Subtle borders             |
+| `borderStrong`    | `neutral.500`           | `border-border-strong` | Emphasized borders        |
+| `focusRing`       | `brand.400`             | `ring-focus-ring`   | Focus indicators             |
+| `input`           | `rgb(96 96 105)`        | `border-input`      | Input field borders          |
+| `inputForeground` | `neutral.50`            | `text-input-foreground` | Input text color         |
 | `inputPlaceholder`| `rgb(137 137 145)`      | —                      | Placeholder text             |
 
 ### Disabled
@@ -279,13 +279,13 @@ if (failures.length > 0) {
 
 ```tsx
 // Page background with default text
-<div className="bg-ds-background text-ds-foreground">
+<div className="bg-background text-foreground">
   <h1>Page Title</h1>
-  <p className="text-ds-muted-foreground">Secondary description text</p>
+  <p className="text-muted-foreground">Secondary description text</p>
 </div>
 
 // Card surface
-<div className="bg-ds-surface-raised border border-ds-border rounded-ds-md p-ds-4">
+<div className="bg-surface-raised border border-border rounded-md p-4">
   Card content
 </div>
 ```
@@ -294,17 +294,17 @@ if (failures.length > 0) {
 
 ```tsx
 // Success alert
-<div className="bg-ds-success-muted text-ds-success-muted-foreground">
+<div className="bg-success-muted text-success-muted-foreground">
   Operation completed successfully.
 </div>
 
 // Danger button
-<button className="bg-ds-danger text-ds-danger-foreground hover:bg-ds-danger/90">
+<button className="bg-danger text-danger-foreground hover:bg-danger/90">
   Delete
 </button>
 
 // Warning badge
-<span className="bg-ds-warning-muted text-ds-warning-muted-foreground">
+<span className="bg-warning-muted text-warning-muted-foreground">
   Caution
 </span>
 ```
@@ -315,13 +315,13 @@ Because color values are stored as RGB channels, you can use Tailwind's opacity 
 
 ```tsx
 // 50% opacity primary background
-<div className="bg-ds-primary/50" />
+<div className="bg-primary/50" />
 
 // 20% opacity border
-<div className="border border-ds-border/20" />
+<div className="border border-border/20" />
 
 // 80% opacity text
-<p className="text-ds-foreground/80">Slightly transparent text</p>
+<p className="text-foreground/80">Slightly transparent text</p>
 ```
 
 ### CSS Custom Properties
@@ -330,14 +330,14 @@ All semantic colors are available as CSS variables for use in custom styles:
 
 ```css
 .custom-element {
-  background-color: rgb(var(--ds-color-primary));
-  color: rgb(var(--ds-color-primary-foreground));
-  border-color: rgb(var(--ds-color-border));
+  background-color: rgb(var(--primary));
+  color: rgb(var(--primary-foreground));
+  border-color: rgb(var(--border));
 }
 
 /* With opacity */
 .custom-overlay {
-  background-color: rgb(var(--ds-color-primary) / 0.1);
+  background-color: rgb(var(--primary) / 0.1);
 }
 ```
 
@@ -361,5 +361,5 @@ console.log(neutral[100]); // "244 244 245"
 ```
 
 <Callout type="warn">
-  **Don't use raw palette values in components.** Always use the semantic tokens (`bg-ds-primary`, not `bg-[rgb(79_70_229)]`). Semantic tokens automatically adapt to light/dark mode and can be rebranded without touching component code.
+  **Don't use raw palette values in components.** Always use the semantic tokens (`bg-primary`, not `bg-[rgb(79_70_229)]`). Semantic tokens automatically adapt to light/dark mode and can be rebranded without touching component code.
 </Callout>

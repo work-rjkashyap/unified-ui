@@ -6,16 +6,19 @@ icon: ChevronDown
 
 import {
 	Select,
+	SelectContent,
 	SelectGroup,
 	SelectItem,
 	SelectLabel,
 	SelectSeparator,
+	SelectTrigger,
+	SelectValue,
 	Button,
 } from "@work-rjkashyap/unified-ui";
 
 ## Overview
 
-The `Select` component wraps Radix UI's Select primitive with design system tokens for consistent styling. It supports 3 validation variants, 3 sizes, grouped options, labels, separators, and full keyboard navigation.
+The `Select` component is a composable dropdown built on Radix UI's Select primitive with design system tokens for consistent styling. It supports 3 validation variants, 3 sizes, grouped options, labels, separators, and full keyboard navigation.
 
 ---
 
@@ -24,18 +27,24 @@ The `Select` component wraps Radix UI's Select primitive with design system toke
 ```tsx
 import {
 	Select,
+	SelectContent,
 	SelectGroup,
 	SelectItem,
 	SelectLabel,
 	SelectSeparator,
+	SelectTrigger,
+	SelectValue,
 } from "@work-rjkashyap/unified-ui";
 // or
 import {
 	Select,
+	SelectContent,
 	SelectGroup,
 	SelectItem,
 	SelectLabel,
 	SelectSeparator,
+	SelectTrigger,
+	SelectValue,
 } from "@work-rjkashyap/unified-ui/components";
 ```
 
@@ -50,21 +59,31 @@ import {
 	description="A simple dropdown with placeholder and selectable options."
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
-			<Select placeholder="Select a fruit...">
-				<SelectItem value="apple">Apple</SelectItem>
-				<SelectItem value="banana">Banana</SelectItem>
-				<SelectItem value="cherry">Cherry</SelectItem>
-				<SelectItem value="grape">Grape</SelectItem>
-				<SelectItem value="orange">Orange</SelectItem>
+			<Select>
+				<SelectTrigger>
+					<SelectValue placeholder="Select a fruit..." />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="apple">Apple</SelectItem>
+					<SelectItem value="banana">Banana</SelectItem>
+					<SelectItem value="cherry">Cherry</SelectItem>
+					<SelectItem value="grape">Grape</SelectItem>
+					<SelectItem value="orange">Orange</SelectItem>
+				</SelectContent>
 			</Select>
 		</div>
 	}
-	code={`<Select placeholder="Select a fruit...">
-  <SelectItem value="apple">Apple</SelectItem>
-  <SelectItem value="banana">Banana</SelectItem>
-  <SelectItem value="cherry">Cherry</SelectItem>
-  <SelectItem value="grape">Grape</SelectItem>
-  <SelectItem value="orange">Orange</SelectItem>
+	code={`<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a fruit..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">Apple</SelectItem>
+    <SelectItem value="banana">Banana</SelectItem>
+    <SelectItem value="cherry">Cherry</SelectItem>
+    <SelectItem value="grape">Grape</SelectItem>
+    <SelectItem value="orange">Orange</SelectItem>
+  </SelectContent>
 </Select>`}
 />
 
@@ -75,30 +94,60 @@ import {
 	description="Three visual variants to indicate validation state. Mirrors the Input component for consistent form styling."
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
-			<Select placeholder="Default" variant="default">
-				<SelectItem value="a">Option A</SelectItem>
-				<SelectItem value="b">Option B</SelectItem>
+			<Select>
+				<SelectTrigger variant="default">
+					<SelectValue placeholder="Default" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Option A</SelectItem>
+					<SelectItem value="b">Option B</SelectItem>
+				</SelectContent>
 			</Select>
-			<Select placeholder="Error state" variant="error">
-				<SelectItem value="a">Option A</SelectItem>
-				<SelectItem value="b">Option B</SelectItem>
+			<Select>
+				<SelectTrigger variant="error">
+					<SelectValue placeholder="Error state" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Option A</SelectItem>
+					<SelectItem value="b">Option B</SelectItem>
+				</SelectContent>
 			</Select>
-			<Select placeholder="Success state" variant="success">
-				<SelectItem value="a">Option A</SelectItem>
-				<SelectItem value="b">Option B</SelectItem>
+			<Select>
+				<SelectTrigger variant="success">
+					<SelectValue placeholder="Success state" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Option A</SelectItem>
+					<SelectItem value="b">Option B</SelectItem>
+				</SelectContent>
 			</Select>
 		</div>
 	}
-	code={`<Select placeholder="Default" variant="default">
-  <SelectItem value="a">Option A</SelectItem>
+	code={`<Select>
+  <SelectTrigger variant="default">
+    <SelectValue placeholder="Default" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
 </Select>
 
-<Select placeholder="Error state" variant="error">
-	<SelectItem value="a">Option A</SelectItem>
+<Select>
+	<SelectTrigger variant="error">
+		<SelectValue placeholder="Error state" />
+	</SelectTrigger>
+	<SelectContent>
+		<SelectItem value="a">Option A</SelectItem>
+	</SelectContent>
 </Select>
 
-<Select placeholder="Success state" variant="success">
-  <SelectItem value="a">Option A</SelectItem>
+<Select>
+  <SelectTrigger variant="success">
+    <SelectValue placeholder="Success state" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
 </Select>`}
 />
 
@@ -109,23 +158,55 @@ import {
 	description="Three sizes that match the Button and Input height scale for consistent form layouts."
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
-			<Select placeholder="Small (h-8)" size="sm">
-				<SelectItem value="a">Option A</SelectItem>
-				<SelectItem value="b">Option B</SelectItem>
+			<Select>
+				<SelectTrigger size="sm">
+					<SelectValue placeholder="Small (h-8)" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Option A</SelectItem>
+					<SelectItem value="b">Option B</SelectItem>
+				</SelectContent>
 			</Select>
-			<Select placeholder="Medium (h-9)" size="md">
-				<SelectItem value="a">Option A</SelectItem>
-				<SelectItem value="b">Option B</SelectItem>
+			<Select>
+				<SelectTrigger size="md">
+					<SelectValue placeholder="Medium (h-9)" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Option A</SelectItem>
+					<SelectItem value="b">Option B</SelectItem>
+				</SelectContent>
 			</Select>
-			<Select placeholder="Large (h-10)" size="lg">
-				<SelectItem value="a">Option A</SelectItem>
-				<SelectItem value="b">Option B</SelectItem>
+			<Select>
+				<SelectTrigger size="lg">
+					<SelectValue placeholder="Large (h-10)" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Option A</SelectItem>
+					<SelectItem value="b">Option B</SelectItem>
+				</SelectContent>
 			</Select>
 		</div>
 	}
-	code={`<Select placeholder="Small (h-8)" size="sm">...</Select>
-<Select placeholder="Medium (h-9)" size="md">...</Select>
-<Select placeholder="Large (h-10)" size="lg">...</Select>`}
+	code={`<Select>
+  <SelectTrigger size="sm">
+    <SelectValue placeholder="Small (h-8)" />
+  </SelectTrigger>
+  <SelectContent>...</SelectContent>
+</Select>
+
+<Select>
+	<SelectTrigger size="md">
+		<SelectValue placeholder="Medium (h-9)" />
+	</SelectTrigger>
+	<SelectContent>...</SelectContent>
+</Select>
+
+<Select>
+  <SelectTrigger size="lg">
+    <SelectValue placeholder="Large (h-10)" />
+  </SelectTrigger>
+  <SelectContent>...</SelectContent>
+</Select>`}
 />
 
 | Size | Height | Font Size |
@@ -141,37 +222,47 @@ import {
 	description="Use SelectGroup and SelectLabel to organize options into labeled sections. Use SelectSeparator for visual dividers."
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
-			<Select placeholder="Select a food...">
-				<SelectGroup>
-					<SelectLabel>Fruits</SelectLabel>
-					<SelectItem value="apple">Apple</SelectItem>
-					<SelectItem value="banana">Banana</SelectItem>
-					<SelectItem value="cherry">Cherry</SelectItem>
-				</SelectGroup>
-				<SelectSeparator />
-				<SelectGroup>
-					<SelectLabel>Vegetables</SelectLabel>
-					<SelectItem value="carrot">Carrot</SelectItem>
-					<SelectItem value="broccoli">Broccoli</SelectItem>
-					<SelectItem value="spinach">Spinach</SelectItem>
-				</SelectGroup>
+			<Select>
+				<SelectTrigger>
+					<SelectValue placeholder="Select a food..." />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectGroup>
+						<SelectLabel>Fruits</SelectLabel>
+						<SelectItem value="apple">Apple</SelectItem>
+						<SelectItem value="banana">Banana</SelectItem>
+						<SelectItem value="cherry">Cherry</SelectItem>
+					</SelectGroup>
+					<SelectSeparator />
+					<SelectGroup>
+						<SelectLabel>Vegetables</SelectLabel>
+						<SelectItem value="carrot">Carrot</SelectItem>
+						<SelectItem value="broccoli">Broccoli</SelectItem>
+						<SelectItem value="spinach">Spinach</SelectItem>
+					</SelectGroup>
+				</SelectContent>
 			</Select>
 		</div>
 	}
-	code={`<Select placeholder="Select a food...">
-  <SelectGroup>
-    <SelectLabel>Fruits</SelectLabel>
-    <SelectItem value="apple">Apple</SelectItem>
-    <SelectItem value="banana">Banana</SelectItem>
-    <SelectItem value="cherry">Cherry</SelectItem>
-  </SelectGroup>
-  <SelectSeparator />
-  <SelectGroup>
-    <SelectLabel>Vegetables</SelectLabel>
-    <SelectItem value="carrot">Carrot</SelectItem>
-    <SelectItem value="broccoli">Broccoli</SelectItem>
-    <SelectItem value="spinach">Spinach</SelectItem>
-  </SelectGroup>
+	code={`<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a food..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>Fruits</SelectLabel>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="cherry">Cherry</SelectItem>
+    </SelectGroup>
+    <SelectSeparator />
+    <SelectGroup>
+      <SelectLabel>Vegetables</SelectLabel>
+      <SelectItem value="carrot">Carrot</SelectItem>
+      <SelectItem value="broccoli">Broccoli</SelectItem>
+      <SelectItem value="spinach">Spinach</SelectItem>
+    </SelectGroup>
+  </SelectContent>
 </Select>`}
 />
 
@@ -182,29 +273,49 @@ import {
 	description="The entire select or individual items can be disabled."
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
-			<Select placeholder="Disabled select" disabled>
-				<SelectItem value="a">Option A</SelectItem>
+			<Select disabled>
+				<SelectTrigger>
+					<SelectValue placeholder="Disabled select" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Option A</SelectItem>
+				</SelectContent>
 			</Select>
-			<Select placeholder="Some items disabled">
-				<SelectItem value="a">Available</SelectItem>
-				<SelectItem value="b" disabled>
-					Unavailable
-				</SelectItem>
-				<SelectItem value="c">Available</SelectItem>
+			<Select>
+				<SelectTrigger>
+					<SelectValue placeholder="Some items disabled" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="a">Available</SelectItem>
+					<SelectItem value="b" disabled>
+						Unavailable
+					</SelectItem>
+					<SelectItem value="c">Available</SelectItem>
+				</SelectContent>
 			</Select>
 		</div>
 	}
 	code={`{/* Entire select disabled */}
-<Select placeholder="Disabled select" disabled>
-  <SelectItem value="a">Option A</SelectItem>
+<Select disabled>
+  <SelectTrigger>
+    <SelectValue placeholder="Disabled select" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
 </Select>
 
 {/* Individual items disabled */}
 
-<Select placeholder="Some items disabled">
-  <SelectItem value="a">Available</SelectItem>
-  <SelectItem value="b" disabled>Unavailable</SelectItem>
-  <SelectItem value="c">Available</SelectItem>
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Some items disabled" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Available</SelectItem>
+    <SelectItem value="b" disabled>Unavailable</SelectItem>
+    <SelectItem value="c">Available</SelectItem>
+  </SelectContent>
 </Select>`}
 />
 
@@ -221,10 +332,15 @@ import {
 			>
 				Role
 			</label>
-			<Select placeholder="Select a role..." variant="error">
-				<SelectItem value="admin">Admin</SelectItem>
-				<SelectItem value="editor">Editor</SelectItem>
-				<SelectItem value="viewer">Viewer</SelectItem>
+			<Select>
+				<SelectTrigger variant="error">
+					<SelectValue placeholder="Select a role..." />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="admin">Admin</SelectItem>
+					<SelectItem value="editor">Editor</SelectItem>
+					<SelectItem value="viewer">Viewer</SelectItem>
+				</SelectContent>
 			</Select>
 			<span className="block text-xs text-red-500">
 				Please select a role to continue.
@@ -234,12 +350,17 @@ import {
 	code={`<label htmlFor="role-select" className="text-sm font-medium">
   Role
 </label>
-<Select placeholder="Select a role..." variant="error">
-  <SelectItem value="admin">Admin</SelectItem>
-  <SelectItem value="editor">Editor</SelectItem>
-  <SelectItem value="viewer">Viewer</SelectItem>
+<Select>
+  <SelectTrigger variant="error">
+    <SelectValue placeholder="Select a role..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="admin">Admin</SelectItem>
+    <SelectItem value="editor">Editor</SelectItem>
+    <SelectItem value="viewer">Viewer</SelectItem>
+  </SelectContent>
 </Select>
-<p className="text-xs text-ds-danger">
+<p className="text-xs text-danger">
   Please select a role to continue.
 </p>`}
 />
@@ -253,11 +374,39 @@ Use `value` and `onValueChange` for controlled usage.
 ```tsx
 const [value, setValue] = useState("");
 
-<Select placeholder="Choose..." value={value} onValueChange={setValue}>
-	<SelectItem value="react">React</SelectItem>
-	<SelectItem value="vue">Vue</SelectItem>
-	<SelectItem value="svelte">Svelte</SelectItem>
+<Select value={value} onValueChange={setValue}>
+	<SelectTrigger>
+		<SelectValue placeholder="Choose..." />
+	</SelectTrigger>
+	<SelectContent>
+		<SelectItem value="react">React</SelectItem>
+		<SelectItem value="vue">Vue</SelectItem>
+		<SelectItem value="svelte">Svelte</SelectItem>
+	</SelectContent>
 </Select>;
+```
+
+---
+
+## Anatomy
+
+The Select is fully composable — each sub-component can be styled and positioned independently.
+
+```tsx
+<Select>
+	<SelectTrigger variant="default" size="md">
+		<SelectValue placeholder="Pick one…" />
+	</SelectTrigger>
+	<SelectContent>
+		<SelectGroup>
+			<SelectLabel>Group label</SelectLabel>
+			<SelectItem value="a">Option A</SelectItem>
+			<SelectItem value="b">Option B</SelectItem>
+		</SelectGroup>
+		<SelectSeparator />
+		<SelectItem value="c">Option C</SelectItem>
+	</SelectContent>
+</Select>
 ```
 
 ---
@@ -266,17 +415,45 @@ const [value, setValue] = useState("");
 
 ### Select
 
-| Prop            | Type                                | Default     | Description                                        |
-| --------------- | ----------------------------------- | ----------- | -------------------------------------------------- |
-| `placeholder`   | `string`                            | —           | Placeholder text when no value is selected.        |
-| `variant`       | `"default" \| "error" \| "success"` | `"default"` | Visual variant for validation state.               |
-| `size`          | `"sm" \| "md" \| "lg"`              | `"md"`      | Size of the trigger. Matches Button/Input heights. |
-| `value`         | `string`                            | —           | Controlled selected value.                         |
-| `defaultValue`  | `string`                            | —           | Default value for uncontrolled usage.              |
-| `onValueChange` | `(value: string) => void`           | —           | Callback when value changes.                       |
-| `disabled`      | `boolean`                           | `false`     | Disables the entire select.                        |
-| `label`         | `string`                            | —           | Accessible label for the select.                   |
-| `className`     | `string`                            | —           | Additional CSS classes for the trigger.            |
+Wraps `Radix.Select.Root`. All root props are forwarded.
+
+| Prop            | Type                      | Default | Description                                  |
+| --------------- | ------------------------- | ------- | -------------------------------------------- |
+| `value`         | `string`                  | —       | Controlled selected value.                   |
+| `defaultValue`  | `string`                  | —       | Default value for uncontrolled usage.        |
+| `onValueChange` | `(value: string) => void` | —       | Callback when value changes.                 |
+| `disabled`      | `boolean`                 | `false` | Disables the entire select.                  |
+| `open`          | `boolean`                 | —       | Controlled open state.                       |
+| `onOpenChange`  | `(open: boolean) => void` | —       | Callback when open state changes.            |
+| `name`          | `string`                  | —       | Name for the hidden input (form submission). |
+| `required`      | `boolean`                 | `false` | Marks the select as required.                |
+
+### SelectTrigger
+
+The button that opens the dropdown. Variant and size are set here.
+
+| Prop        | Type                                | Default     | Description                                        |
+| ----------- | ----------------------------------- | ----------- | -------------------------------------------------- |
+| `variant`   | `"default" \| "error" \| "success"` | `"default"` | Visual variant for validation state.               |
+| `size`      | `"sm" \| "md" \| "lg"`              | `"md"`      | Size of the trigger. Matches Button/Input heights. |
+| `className` | `string`                            | —           | Additional CSS classes.                            |
+
+### SelectValue
+
+Renders the selected value or placeholder text inside the trigger.
+
+| Prop          | Type     | Default | Description                                 |
+| ------------- | -------- | ------- | ------------------------------------------- |
+| `placeholder` | `string` | —       | Placeholder text when no value is selected. |
+
+### SelectContent
+
+The dropdown panel. Wraps items in a Portal for correct stacking.
+
+| Prop        | Type                         | Default    | Description                            |
+| ----------- | ---------------------------- | ---------- | -------------------------------------- |
+| `position`  | `"popper" \| "item-aligned"` | `"popper"` | Positioning strategy for the dropdown. |
+| `className` | `string`                     | —          | Additional CSS classes.                |
 
 ### SelectItem
 

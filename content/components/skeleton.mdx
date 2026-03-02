@@ -77,15 +77,15 @@ Renders one or more text-line placeholders. Use the `lines` prop to control the 
 	preview={
 		<div className="flex flex-col gap-6 max-w-sm w-full">
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2">1 line</p>
+				<p className="text-xs text-muted-foreground mb-2">1 line</p>
 				<SkeletonText lines={1} />
 			</div>
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2">3 lines</p>
+				<p className="text-xs text-muted-foreground mb-2">3 lines</p>
 				<SkeletonText lines={3} />
 			</div>
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2">5 lines</p>
+				<p className="text-xs text-muted-foreground mb-2">5 lines</p>
 				<SkeletonText lines={5} />
 			</div>
 		</div>
@@ -105,11 +105,11 @@ Two sizes control the height of each text line to match your typography scale.
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2">Small</p>
+				<p className="text-xs text-muted-foreground mb-2">Small</p>
 				<SkeletonText lines={2} size="sm" />
 			</div>
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2">
+				<p className="text-xs text-muted-foreground mb-2">
 					Medium (default)
 				</p>
 				<SkeletonText lines={2} size="md" />
@@ -180,7 +180,7 @@ A common loading pattern for user profile cards.
 	title="User Card Skeleton"
 	description="A common loading pattern for user profile cards with avatar, name, and body text."
 	preview={
-		<div className="max-w-sm w-full border border-ds-border rounded-ds-md p-4">
+		<div className="max-w-sm w-full border border-border rounded-md p-4">
 			<div className="flex items-center gap-3 mb-4">
 				<SkeletonCircle size="lg" />
 				<div className="flex flex-col gap-2 flex-1">
@@ -335,8 +335,8 @@ The skeleton pulse animation is defined via `animate-pulse` in Tailwind, which i
 
 | Token              | Usage                            |
 | ------------------ | -------------------------------- |
-| `--ds-color-muted` | Skeleton placeholder background  |
-| `--ds-radius-sm`   | Text line and rect border radius |
-| `--ds-radius-full` | Circle shape border radius       |
+| `--muted` | Skeleton placeholder background  |
+| `--radius-sm`   | Text line and rect border radius |
+| `--radius-full` | Circle shape border radius       |
 
 </ComponentPage>

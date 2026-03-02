@@ -14,7 +14,7 @@
 //   - Max width constraint (default 220px)
 //   - Fade + scale animation (CSS-based for performance)
 //   - Configurable delay
-//   - Uses z-ds-tooltip z-index token
+//   - Uses z-tooltip z-index token
 //   - WCAG AA accessible: keyboard accessible, proper ARIA attributes
 //
 // All visual values (colors, radii, spacing, transitions) come from the
@@ -34,7 +34,7 @@
 //   </Tooltip>
 // ============================================================================
 
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { Tooltip as TooltipPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import {
   type ComponentPropsWithoutRef,
@@ -187,14 +187,14 @@ const TooltipContent = forwardRef<
       sideOffset={sideOffset}
       className={cn(
         // Layout
-        "z-[var(--ds-z-tooltip)]",
+        "z-[var(--z-tooltip)]",
         "px-3 py-1.5",
         "overflow-hidden",
         // Visual
-        "rounded-ds-md",
-        "border border-ds-border",
-        "bg-ds-foreground text-ds-background",
-        "shadow-ds-md",
+        "rounded-md",
+        "border border-border",
+        "bg-foreground text-background",
+        "shadow-md",
         // Typography
         "text-xs leading-4",
         // Animation
@@ -214,7 +214,7 @@ const TooltipContent = forwardRef<
       {children}
       {showArrow && (
         <TooltipPrimitive.Arrow
-          className="fill-ds-foreground"
+          className="fill-foreground"
           width={8}
           height={4}
         />

@@ -115,7 +115,7 @@ export type PolymorphicComponent<
 // style overrides, or be replaced entirely with a custom render function.
 //
 // Example:
-//   <Card slots={{ header: { className: "bg-ds-primary" } }}>
+//   <Card slots={{ header: { className: "bg-primary" } }}>
 //     ...
 //   </Card>
 // ---------------------------------------------------------------------------

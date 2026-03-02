@@ -33,7 +33,7 @@
 //   </CheckboxGroup>
 // ============================================================================
 
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import { Checkbox as CheckboxPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -55,24 +55,24 @@ export const checkboxVariants = cva(
 		// Layout
 		"inline-flex shrink-0 items-center justify-center",
 		// Shape
-		"rounded-ds-sm",
+		"rounded-sm",
 		// Border
 		"border",
 		// Colors — unchecked state
-		"border-ds-input bg-ds-background",
+		"border-input bg-background",
 		// Transition
 		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-ds-fast ease-ds-standard",
+		"duration-fast ease-standard",
 		// Focus ring — WCAG AA compliant
 		focusRingClasses,
 		// Hover
-		"hover:border-ds-border-strong",
+		"hover:border-border-strong",
 		// Checked state
-		"data-[state=checked]:bg-ds-primary data-[state=checked]:border-ds-primary data-[state=checked]:text-ds-primary-foreground",
-		"data-[state=checked]:hover:bg-ds-primary-hover data-[state=checked]:hover:border-ds-primary-hover",
+		"data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:text-primary-foreground",
+		"data-[state=checked]:hover:bg-primary-hover data-[state=checked]:hover:border-primary-hover",
 		// Indeterminate state
-		"data-[state=indeterminate]:bg-ds-primary data-[state=indeterminate]:border-ds-primary data-[state=indeterminate]:text-ds-primary-foreground",
-		"data-[state=indeterminate]:hover:bg-ds-primary-hover data-[state=indeterminate]:hover:border-ds-primary-hover",
+		"data-[state=indeterminate]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:text-primary-foreground",
+		"data-[state=indeterminate]:hover:bg-primary-hover data-[state=indeterminate]:hover:border-primary-hover",
 		// Disabled
 		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
 		// Cursor
@@ -104,9 +104,9 @@ export const checkboxVariants = cva(
 			// -----------------------------------------------------------------
 			error: {
 				true: [
-					"border-ds-danger",
-					"data-[state=unchecked]:border-ds-danger",
-					"focus-visible:ring-ds-danger",
+					"border-danger",
+					"data-[state=unchecked]:border-danger",
+					"focus-visible:border-danger",
 				],
 				false: "",
 			},
@@ -365,10 +365,10 @@ export const Checkbox = forwardRef<
 							className={cn(
 								labelTextClass,
 								"leading-5 font-medium",
-								"text-ds-foreground",
+								"text-foreground",
 								"cursor-pointer select-none",
 								"peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-								error && "text-ds-danger",
+								error && "text-danger",
 								labelClassName,
 							)}
 						>
@@ -380,7 +380,7 @@ export const Checkbox = forwardRef<
 							id={descriptionId}
 							className={cn(
 								descriptionTextClass,
-								"leading-4 text-ds-muted-foreground",
+								"leading-4 text-muted-foreground",
 							)}
 						>
 							{description}
@@ -546,8 +546,8 @@ export function CheckboxGroup({
 					<legend
 						id={labelId}
 						className={cn(
-							"text-sm font-medium leading-5 text-ds-foreground",
-							error && "text-ds-danger",
+							"text-sm font-medium leading-5 text-foreground",
+							error && "text-danger",
 						)}
 					>
 						{label}
@@ -558,7 +558,7 @@ export function CheckboxGroup({
 				{description && (
 					<span
 						id={descriptionId}
-						className="text-xs leading-4 text-ds-muted-foreground"
+						className="text-xs leading-4 text-muted-foreground"
 					>
 						{description}
 					</span>
@@ -580,7 +580,7 @@ export function CheckboxGroup({
 				{error && errorMessage && (
 					<span
 						id={errorId}
-						className="text-xs leading-4 text-ds-danger"
+						className="text-xs leading-4 text-danger"
 						role="alert"
 					>
 						{errorMessage}

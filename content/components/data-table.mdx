@@ -214,10 +214,10 @@ Stack multiple fields into a single cell for a compact layout:
 	header: "User",
 	cell: ({ row }) => (
 		<div className="flex flex-col">
-			<span className="font-medium text-ds-foreground">
+			<span className="font-medium text-foreground">
 				{row.original.name}
 			</span>
-			<span className="text-xs text-ds-muted-foreground">
+			<span className="text-xs text-muted-foreground">
 				{row.original.email}
 			</span>
 		</div>
@@ -262,7 +262,7 @@ Stack multiple fields into a single cell for a compact layout:
 			<span className={`font-mono text-sm tabular-nums ${
 				amount >= 2000
 					? "text-green-600 dark:text-green-400"
-					: "text-ds-foreground"
+					: "text-foreground"
 			}`}>
 				${amount.toLocaleString()}
 			</span>
@@ -736,13 +736,13 @@ The `density` prop controls the vertical padding on all rows. Three options are 
 
 <div className="flex flex-col gap-6 w-full max-w-3xl mt-4">
 	<div>
-		<span className="block text-xs font-medium text-ds-muted-foreground mb-2">
+		<span className="block text-xs font-medium text-muted-foreground mb-2">
 			compact
 		</span>
 		<DataTableDemo variant="density-compact" />
 	</div>
 	<div>
-		<span className="block text-xs font-medium text-ds-muted-foreground mb-2">
+		<span className="block text-xs font-medium text-muted-foreground mb-2">
 			comfortable (default)
 		</span>
 		<DataTableDemo variant="density-comfortable" />
@@ -769,11 +769,11 @@ The `density` prop controls the vertical padding on all rows. Three options are 
 <DataTable data={users} columns={columns} striped bordered hoverable />
 ```
 
-| Prop        | Effect                                                            |
-| ----------- | ----------------------------------------------------------------- |
-| `striped`   | Alternating row background using `--ds-color-muted` on even rows  |
-| `bordered`  | Visible borders between all cells using `--ds-color-border-muted` |
-| `hoverable` | Row background highlight on hover (enabled by default)            |
+| Prop        | Effect                                                   |
+| ----------- | -------------------------------------------------------- |
+| `striped`   | Alternating row background using `--muted` on even rows  |
+| `bordered`  | Visible borders between all cells using `--border-muted` |
+| `hoverable` | Row background highlight on hover (enabled by default)   |
 
 ### Combining Appearance Props
 
@@ -907,10 +907,10 @@ If `emptyState` is not provided, a default **"No results."** message is displaye
 	showGlobalFilter
 	emptyState={
 		<div className="flex flex-col items-center gap-3 py-8">
-			<SearchX className="size-8 text-ds-muted-foreground" />
+			<SearchX className="size-8 text-muted-foreground" />
 			<div className="text-center">
 				<p className="text-sm font-medium">No matching results</p>
-				<p className="text-xs text-ds-muted-foreground mt-1">
+				<p className="text-xs text-muted-foreground mt-1">
 					Try a different search term or clear your filters.
 				</p>
 			</div>
@@ -940,7 +940,7 @@ Add an accessible caption that describes the table content. The caption renders 
 />
 ```
 
-The caption is rendered visually below the table body, styled with `text-ds-muted-foreground`. It also accepts `ReactNode`:
+The caption is rendered visually below the table body, styled with `text-muted-foreground`. It also accepts `ReactNode`:
 
 ```tsx
 <DataTable
@@ -1005,7 +1005,7 @@ The toolbar renders above the table, in the same row as the global filter and co
 		const selected = table.getFilteredSelectedRowModel().rows;
 		return selected.length > 0 ? (
 			<div className="flex items-center gap-2">
-				<span className="text-xs text-ds-muted-foreground">
+				<span className="text-xs text-muted-foreground">
 					{selected.length} selected
 				</span>
 				<Button
@@ -1057,7 +1057,7 @@ The footer renders below the table (and below the pagination bar, if enabled):
 	columns={columns}
 	pagination
 	footer={(table) => (
-		<div className="flex items-center justify-between px-2 text-xs text-ds-muted-foreground">
+		<div className="flex items-center justify-between px-2 text-xs text-muted-foreground">
 			<span>
 				Showing {table.getRowModel().rows.length} of{" "}
 				{table.getFilteredRowModel().rows.length} rows
@@ -1182,7 +1182,7 @@ function UsersPage({ data }: { data: User[] }) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <span className="text-sm text-ds-muted-foreground">
+        <span className="text-sm text-muted-foreground">
           {Object.keys(rowSelection).length} selected
         </span>
         <Button variant="ghost" size="sm" onClick={reset}>
@@ -1365,7 +1365,7 @@ All features enabled simultaneously:
 		) : null;
 	}}
 	footer={(table) => (
-		<p className="text-xs text-ds-muted-foreground px-2">
+		<p className="text-xs text-muted-foreground px-2">
 			{table.getFilteredRowModel().rows.length} total records
 		</p>
 	)}
@@ -1620,7 +1620,7 @@ const paginationBar = container.querySelector('[data-ds-component="data-table-pa
 - **Sort indicators** — Sortable column headers include `aria-sort` attributes (`ascending`, `descending`, `none`). Sort toggle buttons have descriptive `aria-label` text.
 - **Selection checkboxes** — Each row checkbox has an `aria-label` (e.g. "Select row 3"). The header checkbox is labeled "Select all rows". Indeterminate state is correctly set when some (but not all) rows are selected.
 - **Selected rows** — Active selections are marked with `aria-selected="true"` on the row.
-- **Focus rings** — All interactive elements (checkboxes, pagination buttons, filter inputs, column toggle, sort headers) display visible focus rings using `--ds-color-focus-ring`.
+- **Focus rings** — All interactive elements (checkboxes, pagination buttons, filter inputs, column toggle, sort headers) display visible focus rings using `--focus-ring`.
 - **Keyboard navigation** — Tab through interactive elements in reading order. Sort headers respond to Enter/Space. The column visibility dropdown closes on Escape.
 - **Caption** — The `caption` prop renders a native `<caption>` element for table description.
 - **Column visibility menu** — Uses `role="menu"` with keyboard-dismissable overlay.
@@ -1632,33 +1632,33 @@ const paginationBar = container.querySelector('[data-ds-component="data-table-pa
 
 Every visual property in DataTable comes from CSS custom properties. Override these tokens to restyle the entire component without touching its source.
 
-| Token                           | Usage                                               |
-| ------------------------------- | --------------------------------------------------- |
-| `--ds-color-primary`            | Checkbox accent color, focus ring base              |
-| `--ds-color-border`             | Table borders, input borders, pagination buttons    |
-| `--ds-color-border-muted`       | Row dividers, column filter input borders           |
-| `--ds-color-muted`              | Striped row background, header background, skeleton |
-| `--ds-color-foreground`         | Cell text, button text, header text                 |
-| `--ds-color-muted-foreground`   | Caption, pagination info, placeholder text          |
-| `--ds-color-background`         | Input backgrounds, button backgrounds               |
-| `--ds-color-popover`            | Column visibility dropdown background               |
-| `--ds-color-popover-foreground` | Column visibility dropdown text                     |
-| `--ds-color-primary-muted`      | Selected row background highlight                   |
-| `--ds-color-focus-ring`         | Focus ring on all interactive elements              |
-| `--ds-radius-sm`                | Filter inputs, checkboxes, skeleton bars            |
-| `--ds-radius-md`                | Search input, pagination buttons, dropdown          |
-| `--ds-shadow-md`                | Column visibility dropdown shadow                   |
-| `--ds-duration-fast`            | Hover and focus transition speed                    |
-| `--ds-z-dropdown`               | Column visibility dropdown z-index (default: 40)    |
+| Token                  | Usage                                               |
+| ---------------------- | --------------------------------------------------- |
+| `--primary`            | Checkbox accent color, focus ring base              |
+| `--border`             | Table borders, input borders, pagination buttons    |
+| `--border-muted`       | Row dividers, column filter input borders           |
+| `--muted`              | Striped row background, header background, skeleton |
+| `--foreground`         | Cell text, button text, header text                 |
+| `--muted-foreground`   | Caption, pagination info, placeholder text          |
+| `--background`         | Input backgrounds, button backgrounds               |
+| `--popover`            | Column visibility dropdown background               |
+| `--popover-foreground` | Column visibility dropdown text                     |
+| `--primary-muted`      | Selected row background highlight                   |
+| `--focus-ring`         | Focus ring on all interactive elements              |
+| `--radius-sm`       | Filter inputs, checkboxes, skeleton bars            |
+| `--radius-md`       | Search input, pagination buttons, dropdown          |
+| `--shadow-md`       | Column visibility dropdown shadow                   |
+| `--duration-fast`   | Hover and focus transition speed                    |
+| `--z-dropdown`      | Column visibility dropdown z-index (default: 40)    |
 
 ### Scoped Token Override Example
 
 ```css
 /* Make DataTable use a blue accent instead of the global primary */
 [data-ds-component="data-table"] {
-	--ds-color-primary: 37 99 235;
-	--ds-color-primary-muted: 219 234 254;
-	--ds-color-focus-ring: 59 130 246;
+	--primary: oklch(0.546 0.245 262.881);
+	--primary-muted: oklch(0.932 0.032 255.585);
+	--focus-ring: oklch(0.623 0.214 259.815);
 }
 ```
 

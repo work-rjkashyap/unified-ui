@@ -19,6 +19,27 @@
 			"@/*": ["./src/*"],
 			"@unified-ui": ["./packages/unified-ui/src/index.ts"],
 			"@unified-ui/*": ["./packages/unified-ui/src/*"],
+			"@work-rjkashyap/unified-ui": [
+				"./packages/unified-ui/src/index.ts",
+			],
+			"@work-rjkashyap/unified-ui/tokens": [
+				"./packages/unified-ui/src/tokens/index.ts",
+			],
+			"@work-rjkashyap/unified-ui/theme": [
+				"./packages/unified-ui/src/theme/index.ts",
+			],
+			"@work-rjkashyap/unified-ui/primitives": [
+				"./packages/unified-ui/src/primitives/index.ts",
+			],
+			"@work-rjkashyap/unified-ui/components": [
+				"./packages/unified-ui/src/components/index.ts",
+			],
+			"@work-rjkashyap/unified-ui/motion": [
+				"./packages/unified-ui/src/motion/index.ts",
+			],
+			"@work-rjkashyap/unified-ui/utils": [
+				"./packages/unified-ui/src/utils/index.ts",
+			],
 			"fumadocs-mdx:collections/*": [".source/*"],
 		},
 		"plugins": [

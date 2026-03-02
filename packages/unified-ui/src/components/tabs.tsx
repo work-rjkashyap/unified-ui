@@ -34,7 +34,7 @@
 //   </Tabs>
 // ============================================================================
 
-import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { Tabs as TabsPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva } from "class-variance-authority";
@@ -77,9 +77,9 @@ function useTabsContext(): TabsContextValue {
 export const tabsListVariants = cva(["inline-flex items-center", "shrink-0"], {
 	variants: {
 		variant: {
-			underline: ["border-b border-ds-border", "gap-0"],
-			pills: ["gap-1", "rounded-ds-md", "bg-ds-muted", "p-1"],
-			enclosed: ["border-b border-ds-border", "gap-0"],
+			underline: ["border-b border-border", "gap-0"],
+			pills: ["gap-1", "rounded-md", "bg-muted", "p-1"],
+			enclosed: ["border-b border-border", "gap-0"],
 		},
 		orientation: {
 			horizontal: "flex-row w-full",
@@ -95,12 +95,12 @@ export const tabsListVariants = cva(["inline-flex items-center", "shrink-0"], {
 		{
 			variant: "underline",
 			orientation: "vertical",
-			className: "border-b-0 border-r border-ds-border",
+			className: "border-b-0 border-r border-border",
 		},
 		{
 			variant: "enclosed",
 			orientation: "vertical",
-			className: "border-b-0 border-r border-ds-border",
+			className: "border-b-0 border-r border-border",
 		},
 	],
 	defaultVariants: {
@@ -118,7 +118,7 @@ export const tabsTriggerVariants = cva(
 		"font-medium leading-5 whitespace-nowrap",
 		// Transition
 		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-ds-fast ease-ds-standard",
+		"duration-fast ease-standard",
 		// Focus ring
 		focusRingClasses,
 		// Disabled
@@ -131,26 +131,26 @@ export const tabsTriggerVariants = cva(
 			variant: {
 				underline: [
 					"bg-transparent",
-					"text-ds-muted-foreground",
-					"hover:text-ds-foreground",
-					"data-[state=active]:text-ds-foreground",
+					"text-muted-foreground",
+					"hover:text-foreground",
+					"data-[state=active]:text-foreground",
 					// Bottom border space for the active indicator
 					"border-b-2 border-transparent -mb-px",
 				],
 				pills: [
-					"rounded-ds-sm",
-					"text-ds-muted-foreground",
-					"hover:text-ds-foreground hover:bg-ds-background/60",
-					"data-[state=active]:text-ds-foreground",
+					"rounded-sm",
+					"text-muted-foreground",
+					"hover:text-foreground hover:bg-background/60",
+					"data-[state=active]:text-foreground",
 				],
 				enclosed: [
 					"bg-transparent",
-					"text-ds-muted-foreground",
+					"text-muted-foreground",
 					"border border-transparent",
-					"hover:text-ds-foreground",
-					"data-[state=active]:text-ds-foreground",
-					"data-[state=active]:bg-ds-background",
-					"data-[state=active]:border-ds-border",
+					"hover:text-foreground",
+					"data-[state=active]:text-foreground",
+					"data-[state=active]:bg-background",
+					"data-[state=active]:border-border",
 					"data-[state=active]:border-b-transparent",
 					"-mb-px",
 				],
@@ -167,7 +167,7 @@ export const tabsTriggerVariants = cva(
 	},
 );
 
-const tabsContentVariants = cva(["mt-2", focusRingClasses, "rounded-ds-sm"], {
+const tabsContentVariants = cva(["mt-2", focusRingClasses, "rounded-sm"], {
 	variants: {
 		orientation: {
 			horizontal: "mt-2",
@@ -288,8 +288,8 @@ function ActiveIndicator({
 				layoutId={layoutId}
 				className={cn(
 					"absolute bottom-0 left-0 right-0 h-0.5",
-					"bg-ds-primary",
-					"rounded-ds-full",
+					"bg-primary",
+					"rounded-full",
 				)}
 				transition={transition}
 			/>
@@ -302,9 +302,9 @@ function ActiveIndicator({
 			layoutId={layoutId}
 			className={cn(
 				"absolute inset-0",
-				"bg-ds-background",
-				"rounded-ds-sm",
-				"shadow-ds-sm",
+				"bg-background",
+				"rounded-sm",
+				"shadow-sm",
 			)}
 			transition={transition}
 		/>
@@ -393,6 +393,7 @@ export const Tabs = forwardRef<
 				ref={ref}
 				orientation={orientation}
 				className={cn(
+					"not-prose",
 					orientation === "vertical" && "flex flex-row",
 					className,
 				)}

@@ -71,8 +71,8 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(function Divider(
       className={cn(
         "border-none shrink-0",
         isVertical
-          ? cn("w-px self-stretch bg-ds-border", spacingXMap[spacing] ?? "mx-4")
-          : cn("h-px w-full bg-ds-border", spacingYMap[spacing] ?? "my-4"),
+          ? cn("w-px self-stretch bg-border", spacingXMap[spacing] ?? "mx-4")
+          : cn("h-px w-full bg-border", spacingYMap[spacing] ?? "my-4"),
         className,
       )}
       data-ds=""

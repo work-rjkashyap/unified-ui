@@ -17,8 +17,8 @@
 //   - Close on Escape (Radix handles this)
 //   - Scroll lock on body (Radix handles this)
 //   - Optional close button
-//   - Uses z-ds-modal (content) and z-ds-overlay (backdrop)
-//   - rounded-ds-lg per project guideline for dialogs
+//   - Uses z-modal (content) and z-overlay (backdrop)
+//   - rounded-lg per project guideline for dialogs
 //   - WCAG AA accessible: focus management, aria-labelledby, aria-describedby
 //
 // All visual values (colors, radii, spacing, transitions) come from the
@@ -53,7 +53,7 @@
 //   </Dialog>
 // ============================================================================
 
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Dialog as DialogPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva } from "class-variance-authority";
@@ -73,15 +73,15 @@ export const dialogContentVariants = cva(
 		// Positioning
 		"fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
 		// Z-index
-		"z-[var(--ds-z-modal)]",
+		"z-[var(--z-modal)]",
 		// Layout
 		"flex flex-col",
 		"w-full",
 		// Visual
-		"rounded-ds-lg",
-		"border border-ds-border",
-		"bg-ds-background",
-		"shadow-ds-xl",
+		"rounded-lg",
+		"border border-border",
+		"bg-background",
+		"shadow-xl",
 		// Overflow
 		"max-h-[85vh]",
 		// Animation
@@ -232,7 +232,7 @@ const DialogOverlay = forwardRef<
 			ref={ref}
 			className={cn(
 				"fixed inset-0",
-				"z-[var(--ds-z-overlay)]",
+				"z-[var(--z-overlay)]",
 				"bg-black/50",
 				"data-[state=open]:animate-in data-[state=open]:fade-in-0",
 				"data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
@@ -267,7 +267,7 @@ export const DialogContent = forwardRef<
 			<DialogOverlay className={overlayClassName} />
 			<DialogPrimitive.Content
 				ref={ref}
-				className={cn(dialogContentVariants({ size }), className)}
+				className={cn("not-prose", dialogContentVariants({ size }), className)}
 				data-ds=""
 				data-ds-component="dialog"
 				data-ds-size={size}
@@ -279,9 +279,9 @@ export const DialogContent = forwardRef<
 						className={cn(
 							"absolute right-4 top-4",
 							"inline-flex items-center justify-center",
-							"rounded-ds-sm p-1",
-							"text-ds-muted-foreground hover:text-ds-foreground",
-							"transition-colors duration-ds-fast",
+							"rounded-sm p-1",
+							"text-muted-foreground hover:text-foreground",
+							"transition-colors duration-fast",
 							focusRingClasses,
 						)}
 						aria-label="Close"
@@ -364,7 +364,7 @@ export const DialogTitle = forwardRef<
 		<DialogPrimitive.Title
 			ref={ref}
 			className={cn(
-				"text-lg font-semibold leading-6 text-ds-foreground",
+				"text-lg font-semibold leading-6 text-foreground",
 				className,
 			)}
 			data-ds=""
@@ -385,7 +385,7 @@ export const DialogDescription = forwardRef<
 		<DialogPrimitive.Description
 			ref={ref}
 			className={cn(
-				"text-sm leading-5 text-ds-muted-foreground",
+				"text-sm leading-5 text-muted-foreground",
 				className,
 			)}
 			data-ds=""

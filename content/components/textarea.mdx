@@ -156,7 +156,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
 				htmlFor="bio-textarea"
-				className="text-sm font-medium text-ds-foreground"
+				className="text-sm font-medium text-foreground"
 			>
 				Bio
 			</label>
@@ -166,7 +166,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 				placeholder="Tell us about yourself..."
 				aria-describedby="bio-error"
 			/>
-			<span id="bio-error" className="block text-xs text-ds-danger">
+			<span id="bio-error" className="block text-xs text-danger">
 				Bio must be at least 20 characters long.
 			</span>
 		</div>
@@ -180,7 +180,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
   placeholder="Tell us about yourself..."
   aria-describedby="bio-error"
 />
-<p id="bio-error" className="text-xs text-ds-danger">
+<p id="bio-error" className="text-xs text-danger">
   Bio must be at least 20 characters long.
 </p>`}
 />
@@ -194,7 +194,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
 				htmlFor="bio-success"
-				className="text-sm font-medium text-ds-foreground"
+				className="text-sm font-medium text-foreground"
 			>
 				Bio
 			</label>
@@ -206,7 +206,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 			/>
 			<span
 				id="bio-success-msg"
-				className="block text-xs text-ds-success"
+				className="block text-xs text-success"
 			>
 				Bio looks great!
 			</span>
@@ -221,7 +221,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
   value="Full-stack developer passionate about design systems..."
   aria-describedby="bio-success-msg"
 />
-<p id="bio-success-msg" className="text-xs text-ds-success">
+<p id="bio-success-msg" className="text-xs text-success">
   Bio looks great!
 </p>`}
 />
@@ -234,7 +234,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-sm">
 			<div className="flex flex-col gap-1.5">
-				<label className="text-sm font-medium text-ds-foreground">
+				<label className="text-sm font-medium text-foreground">
 					Quick Note
 				</label>
 				<Textarea
@@ -244,7 +244,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 				/>
 			</div>
 			<div className="flex flex-col gap-1.5">
-				<label className="text-sm font-medium text-ds-foreground">
+				<label className="text-sm font-medium text-foreground">
 					Description
 				</label>
 				<Textarea
@@ -255,7 +255,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 				/>
 			</div>
 			<div className="flex flex-col gap-1.5">
-				<label className="text-sm font-medium text-ds-foreground">
+				<label className="text-sm font-medium text-foreground">
 					Feedback
 				</label>
 				<Textarea
@@ -266,7 +266,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 					placeholder="What could be improved?"
 					aria-describedby="feedback-error"
 				/>
-				<span className="block text-xs text-ds-danger">
+				<span className="block text-xs text-danger">
 					Feedback must be at least 10 characters.
 				</span>
 			</div>
@@ -293,7 +293,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
   maxLength={300}
   placeholder="What could be improved?"
 />
-<p className="text-xs text-ds-danger">
+<p className="text-xs text-danger">
   Feedback must be at least 10 characters.
 </p>`}
 />
@@ -341,12 +341,12 @@ The Textarea uses the following design system tokens:
 
 | Token                            | Usage                            |
 | -------------------------------- | -------------------------------- |
-| `--ds-color-border`              | Default border color             |
-| `--ds-color-danger`              | Error variant border             |
-| `--ds-color-success`             | Success variant border           |
-| `--ds-color-muted-foreground`    | Placeholder text color           |
-| `--ds-color-disabled`            | Disabled background              |
-| `--ds-color-disabled-foreground` | Disabled text color              |
-| `--ds-radius-md`                 | Border radius                    |
-| `--ds-duration-fast`             | Transition speed for focus/hover |
-| `--ds-ease-standard`             | Easing curve for transitions     |
+| `--border`              | Default border color             |
+| `--danger`              | Error variant border             |
+| `--success`             | Success variant border           |
+| `--muted-foreground`    | Placeholder text color           |
+| `--disabled`            | Disabled background              |
+| `--disabled-foreground` | Disabled text color              |
+| `--radius-md`                 | Border radius                    |
+| `--duration-fast`             | Transition speed for focus/hover |
+| `--easing-standard`             | Easing curve for transitions     |

@@ -441,7 +441,7 @@ export const DS_LIGHT_CRITICAL_PAIRS: ColorPair[] = [
 	},
 	// Secondary
 	{ label: "secondary-fg on secondary", fg: "24 24 27", bg: "244 244 245" },
-	// Muted (zinc.600 = 82 82 91 — matches CSS --ds-color-muted-foreground)
+	// Muted (zinc.600 = 82 82 91 — matches CSS --muted-foreground)
 	{ label: "muted-fg on background", fg: "82 82 91", bg: "255 255 255" },
 	{ label: "muted-fg on muted", fg: "82 82 91", bg: "244 244 245" },
 	// Semantic — foreground on solid bg (dark text on bright semantic colors)

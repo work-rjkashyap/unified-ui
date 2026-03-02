@@ -245,7 +245,7 @@ export default function RootLayout({ children }) {
 			</TooltipProvider>
 		</div>
 	}
-	code={`<div className="flex items-center gap-1 p-1 border border-ds-border rounded-ds-md">
+	code={`<div className="flex items-center gap-1 p-1 border border-border rounded-md">
   <Tooltip content="Bold (Ctrl+B)">
     <Button variant="ghost" size="sm" iconOnly aria-label="Bold">
       <BoldIcon className="size-4" />
@@ -327,9 +327,9 @@ The `content` prop accepts any `ReactNode`, so you can render rich tooltip conte
 	content={
 		<div className="flex flex-col gap-1">
 			<p className="font-semibold text-xs">Keyboard Shortcut</p>
-			<p className="text-xs text-ds-muted-foreground">
+			<p className="text-xs text-muted-foreground">
 				Press{" "}
-				<kbd className="px-1 py-0.5 bg-ds-muted rounded text-[10px]">
+				<kbd className="px-1 py-0.5 bg-muted rounded text-[10px]">
 					Ctrl+S
 				</kbd>{" "}
 				to save
@@ -395,7 +395,7 @@ Tooltips have a default max width of 220px to keep content readable. Override wi
 - **No focus steal** — Tooltips don't trap focus. They supplement existing content without blocking interaction.
 - **Hover intent** — Configurable delay prevents tooltips from flickering during normal mouse movement.
 - **Skip delay** — After viewing one tooltip, subsequent tooltips open faster (controlled by `skipDelayDuration`).
-- The tooltip uses `z-ds-tooltip` for proper layering above page content.
+- The tooltip uses `z-tooltip` for proper layering above page content.
 - Animations are CSS-based (fade + scale) and respect `prefers-reduced-motion`.
 
 ---
@@ -404,9 +404,9 @@ Tooltips have a default max width of 220px to keep content readable. Override wi
 
 | Token                   | Usage                           |
 | ----------------------- | ------------------------------- |
-| `--ds-color-foreground` | Tooltip text color              |
-| `--ds-color-popover`    | Tooltip background              |
-| `--ds-radius-md`        | Tooltip border radius           |
-| `--ds-z-tooltip`        | Z-index for tooltip layer       |
-| `--ds-shadow-sm`        | Tooltip elevation shadow        |
-| `--ds-duration-fast`    | Animation timing for enter/exit |
+| `--foreground` | Tooltip text color              |
+| `--popover`    | Tooltip background              |
+| `--radius-md`        | Tooltip border radius           |
+| `--z-tooltip`        | Z-index for tooltip layer       |
+| `--shadow-sm`        | Tooltip elevation shadow        |
+| `--duration-fast`    | Animation timing for enter/exit |

@@ -33,7 +33,7 @@ import { Callout } from "fumadocs-ui/components/callout";
         <AccordionItem value="item-3">
           <AccordionTrigger>Can I customize the theme?</AccordionTrigger>
           <AccordionContent>
-            Absolutely. All visual values come from CSS custom properties with the --ds- prefix, making theming straightforward.
+            Absolutely. All visual values come from CSS custom properties, making theming straightforward.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -57,8 +57,8 @@ import { Callout } from "fumadocs-ui/components/callout";
   <AccordionItem value="item-3">
     <AccordionTrigger>Can I customize the theme?</AccordionTrigger>
     <AccordionContent>
-      Absolutely. All visual values come from CSS custom properties
-      with the --ds- prefix, making theming straightforward.
+      Absolutely. All visual values come from CSS custom properties,
+      making theming straightforward.
     </AccordionContent>
   </AccordionItem>
 </Accordion>`}
@@ -248,7 +248,7 @@ Two sizes are available for different content density needs.
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Small</p>
+				<p className="text-xs text-muted-foreground mb-2 font-medium">Small</p>
 				<Accordion type="single" collapsible size="sm">
 					<AccordionItem value="item-1">
 						<AccordionTrigger>Small accordion</AccordionTrigger>
@@ -257,7 +257,7 @@ Two sizes are available for different content density needs.
 				</Accordion>
 			</div>
 			<div>
-				<p className="text-xs text-ds-muted-foreground mb-2 font-medium">Medium (default)</p>
+				<p className="text-xs text-muted-foreground mb-2 font-medium">Medium (default)</p>
 				<Accordion type="single" collapsible size="md">
 					<AccordionItem value="item-1">
 						<AccordionTrigger>Medium accordion (default)</AccordionTrigger>
@@ -378,9 +378,9 @@ A common pattern for FAQ sections.
 						How do I install Unified UI?
 					</AccordionTrigger>
 					<AccordionContent>
-						<p className="text-sm text-ds-muted-foreground">
+						<p className="text-sm text-muted-foreground">
 							Install via npm with{" "}
-							<code className="text-xs bg-ds-muted px-1 py-0.5 rounded">
+							<code className="text-xs bg-muted px-1 py-0.5 rounded">
 								npm install @work-rjkashyap/unified-ui
 							</code>
 							, then import the stylesheet and components in your
@@ -393,7 +393,7 @@ A common pattern for FAQ sections.
 						Does it support dark mode?
 					</AccordionTrigger>
 					<AccordionContent>
-						<p className="text-sm text-ds-muted-foreground">
+						<p className="text-sm text-muted-foreground">
 							Yes! All components use CSS custom properties that
 							automatically adapt when the .dark class is applied.
 						</p>
@@ -404,7 +404,7 @@ A common pattern for FAQ sections.
 						Can I use it with Next.js?
 					</AccordionTrigger>
 					<AccordionContent>
-						<p className="text-sm text-ds-muted-foreground">
+						<p className="text-sm text-muted-foreground">
 							Absolutely. Unified UI works seamlessly with Next.js
 							App Router and Pages Router. All interactive
 							components include the "use client" directive.
@@ -490,12 +490,12 @@ A common pattern for FAQ sections.
 
 ## Design Tokens
 
-| Token                         | Usage                                  |
-| ----------------------------- | -------------------------------------- |
-| `--ds-color-foreground`       | Trigger text color                     |
-| `--ds-color-muted-foreground` | Trigger hover and content text         |
-| `--ds-color-border`           | Bordered variant dividers              |
-| `--ds-duration-normal`        | Chevron rotation and content animation |
-| `--ds-ease-standard`          | Animation easing curve                 |
+| Token                | Usage                                  |
+| -------------------- | -------------------------------------- |
+| `--foreground`       | Trigger text color                     |
+| `--muted-foreground` | Trigger hover and content text         |
+| `--border`           | Bordered variant dividers              |
+| `--duration-normal`  | Chevron rotation and content animation |
+| `--easing-standard`  | Animation easing curve                 |
 
 </ComponentPage>
