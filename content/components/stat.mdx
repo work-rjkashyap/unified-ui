@@ -1,0 +1,361 @@
+---
+title: Stat
+description: A KPI card with animated count-up value, label, trend indicator, and sparkline slot. Built for dashboards and metrics displays.
+icon: ChartBar
+---
+
+import { Stat } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Stat"
+  description="A KPI metric card with animated count-up value, label, trend indicator (up/down/neutral), and an optional sparkline slot."
+  preview={
+    <div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
+      <Stat
+        label="Total Revenue"
+        value={84200}
+        prefix="$"
+        trend="up"
+        trendLabel="+12% this month"
+      />
+      <Stat
+        label="Active Users"
+        value={4310}
+        trend="up"
+        trendLabel="+8% vs last week"
+      />
+      <Stat
+        label="Churn Rate"
+        value={2.4}
+        suffix="%"
+        trend="down"
+        trendLabel="-0.3% this month"
+      />
+    </div>
+  }
+  code={`<Stat
+  label="Total Revenue"
+  value={84200}
+  prefix="$"
+  trend="up"
+  trendLabel="+12% this month"
+/>
+
+<Stat
+	label="Active Users"
+	value={4310}
+	trend="up"
+	trendLabel="+8% vs last week"
+/>
+
+<Stat
+  label="Churn Rate"
+  value={2.4}
+  suffix="%"
+  trend="down"
+  trendLabel="-0.3% this month"
+/>`}
+>
+
+## Import
+
+```tsx
+import { Stat } from "@work-rjkashyap/unified-ui";
+// or
+import { Stat } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Pass a `label` and `value` to render a minimal stat card. Numeric values get the count-up animation automatically.
+
+```tsx
+<Stat label="Total Users" value={12430} />
+<Stat label="Revenue" value={84200} prefix="$" />
+<Stat label="Uptime" value={99.9} suffix="%" />
+```
+
+## Trend Indicator
+
+Use `trend` to show a directional arrow icon and `trendLabel` for the description text. `up` renders green, `down` renders red, and `neutral` renders muted.
+
+<ComponentPage
+  title="Trend Variants"
+  description="Three trend states: up (green), down (red), and neutral (muted)."
+  preview={
+    <div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
+      <Stat
+        label="Monthly Revenue"
+        value={52400}
+        prefix="$"
+        trend="up"
+        trendLabel="+18% vs last month"
+      />
+      <Stat
+        label="Avg. Session"
+        value={3.2}
+        suffix=" min"
+        trend="neutral"
+        trendLabel="No change"
+      />
+      <Stat
+        label="Error Rate"
+        value={0.8}
+        suffix="%"
+        trend="down"
+        trendLabel="-0.2% this week"
+      />
+    </div>
+  }
+  code={`<Stat
+  label="Monthly Revenue"
+  value={52400}
+  prefix="$"
+  trend="up"
+  trendLabel="+18% vs last month"
+/>
+
+<Stat
+	label="Avg. Session"
+	value={3.2}
+	suffix=" min"
+	trend="neutral"
+	trendLabel="No change"
+/>
+
+<Stat
+  label="Error Rate"
+  value={0.8}
+  suffix="%"
+  trend="down"
+  trendLabel="-0.2% this week"
+/>`}
+/>
+
+| Trend     | Icon         | Color        | Use Case                         |
+| --------- | ------------ | ------------ | -------------------------------- |
+| `up`      | Trend Up ↗   | `--success`  | Revenue, users, positive metrics |
+| `down`    | Trend Down ↘ | `--danger`   | Errors, churn, negative metrics  |
+| `neutral` | —            | `--muted-fg` | Unchanged metrics, no change     |
+
+## Prefix & Suffix
+
+Add a `prefix` for currency symbols or a `suffix` for units. Both are rendered as part of the animated count-up value.
+
+<ComponentPage
+	title="Prefix & Suffix"
+	description="Add currency symbols, units, or other text around the animated value."
+	preview={
+		<div className="grid grid-cols-2 gap-4 w-full max-w-md">
+			<Stat
+				label="Revenue"
+				value={9800}
+				prefix="$"
+				trend="up"
+				trendLabel="+5%"
+			/>
+			<Stat
+				label="Conversion"
+				value={3.7}
+				suffix="%"
+				trend="up"
+				trendLabel="+0.4%"
+			/>
+		</div>
+	}
+	code={`<Stat label="Revenue" value={9800} prefix="$" />
+<Stat label="Conversion" value={3.7} suffix="%" />`}
+/>
+
+## String Values
+
+When `value` is a string, no count-up animation plays — the value is rendered as-is. This is useful for non-numeric KPIs.
+
+<ComponentPage
+	title="String Values"
+	description="String values are rendered statically without animation."
+	preview={
+		<div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
+			<Stat label="Plan" value="Pro" />
+			<Stat label="Region" value="US East" />
+			<Stat
+				label="Status"
+				value="Healthy"
+				trend="up"
+				trendLabel="All systems go"
+			/>
+		</div>
+	}
+	code={`<Stat label="Plan" value="Pro" />
+<Stat label="Region" value="US East" />
+<Stat label="Status" value="Healthy" trend="up" trendLabel="All systems go" />`}
+/>
+
+## Sparkline Slot
+
+Pass any `ReactNode` to the `sparkline` prop to render a chart or visual in the top-right corner of the card. The slot is 32px tall and right-aligned.
+
+<ComponentPage
+	title="Sparkline Slot"
+	description="Render a mini chart or visual in the card's top-right corner."
+	preview={
+		<div className="grid grid-cols-2 gap-4 w-full max-w-md">
+			<Stat
+				label="Weekly Signups"
+				value={284}
+				trend="up"
+				trendLabel="+34 this week"
+				sparkline={
+					<svg
+						viewBox="0 0 64 32"
+						className="h-8 w-16 text-success"
+						fill="none"
+					>
+						<polyline
+							points="0,28 10,22 20,26 32,14 42,18 52,8 64,4"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
+				}
+			/>
+			<Stat
+				label="Errors"
+				value={12}
+				trend="down"
+				trendLabel="-3 vs yesterday"
+				sparkline={
+					<svg
+						viewBox="0 0 64 32"
+						className="h-8 w-16 text-danger"
+						fill="none"
+					>
+						<polyline
+							points="0,8 10,12 20,6 32,16 42,10 52,20 64,24"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
+				}
+			/>
+		</div>
+	}
+	code={`<Stat
+  label="Weekly Signups"
+  value={284}
+  trend="up"
+  trendLabel="+34 this week"
+  sparkline={
+    <svg viewBox="0 0 64 32" className="h-8 w-16 text-success" fill="none">
+      <polyline
+        points="0,28 10,22 20,26 32,14 42,18 52,8 64,4"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  }
+/>`}
+/>
+
+## Without Animation
+
+Set `animated={false}` to disable the count-up and slide animations entirely.
+
+```tsx
+<Stat
+	label="Total Users"
+	value={12430}
+	trend="up"
+	trendLabel="+120 today"
+	animated={false}
+/>
+```
+
+## Dashboard Grid
+
+A typical 4-up KPI grid layout.
+
+```tsx
+const stats = [
+	{
+		label: "Total Revenue",
+		value: 128400,
+		prefix: "$",
+		trend: "up",
+		trendLabel: "+12% this month",
+	},
+	{
+		label: "Active Users",
+		value: 8230,
+		trend: "up",
+		trendLabel: "+340 this week",
+	},
+	{
+		label: "Avg. Order Value",
+		value: 72,
+		prefix: "$",
+		trend: "up",
+		trendLabel: "+$4 vs last month",
+	},
+	{
+		label: "Churn Rate",
+		value: 1.8,
+		suffix: "%",
+		trend: "down",
+		trendLabel: "-0.2% this month",
+	},
+];
+
+<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+	{stats.map((stat) => (
+		<Stat key={stat.label} {...stat} />
+	))}
+</div>;
+```
+
+## Props
+
+| Prop            | Type                          | Default | Description                                                     |
+| --------------- | ----------------------------- | ------- | --------------------------------------------------------------- |
+| `label`         | `ReactNode`                   | —       | **Required.** The metric label rendered above the value.        |
+| `value`         | `string \| number`            | —       | **Required.** The metric value. Numbers get count-up animation. |
+| `previousValue` | `number`                      | —       | Previous value (reserved for future delta calculation).         |
+| `trend`         | `"up" \| "down" \| "neutral"` | —       | Directional trend indicator.                                    |
+| `trendLabel`    | `ReactNode`                   | —       | Descriptive text rendered next to the trend icon.               |
+| `sparkline`     | `ReactNode`                   | —       | Optional mini chart slot rendered in the top-right corner.      |
+| `prefix`        | `string`                      | —       | Text prepended to the value (e.g., `"$"`).                      |
+| `suffix`        | `string`                      | —       | Text appended to the value (e.g., `"%"`, `" users"`).           |
+| `animated`      | `boolean`                     | `true`  | Whether to enable count-up and entrance animations.             |
+| `className`     | `string`                      | —       | Additional CSS classes on the root card element.                |
+
+## Motion
+
+- **Count-up** — Numeric values animate from `0` to the target using `framer-motion`'s `animate()` with a 1s ease-out curve (`[0.4, 0, 0.2, 1]`). The displayed integer is derived from `useMotionValue` + `useTransform`.
+- **Value entrance** — The value block uses the `countUp` preset (`y: 12 → 0`, `opacity: 0 → 1`).
+- **Trend entrance** — The trend row uses `slideUpSm` with a 300ms delay, staggering after the value.
+- **Reduced motion** — All animations are disabled when `prefers-reduced-motion` is active. The final value is displayed immediately.
+
+## Accessibility
+
+- The animated count-up span is wrapped in `aria-live="polite"` and `aria-atomic="true"` so screen readers announce the final value after animation completes.
+- Trend icons are `aria-hidden="true"` — context is conveyed via `trendLabel` text.
+- The card element is a plain `<div>` — wrap in a `<section>` or add `aria-label` when used in a landmark region.
+
+## Design Tokens
+
+| Token         | Usage                             |
+| ------------- | --------------------------------- |
+| `--card`      | Card background                   |
+| `--border`    | Card border                       |
+| `--success`   | Upward trend color                |
+| `--danger`    | Downward trend color              |
+| `--muted-fg`  | Label and neutral trend color     |
+| `--radius-lg` | Card border radius (`rounded-lg`) |
+
+</ComponentPage>

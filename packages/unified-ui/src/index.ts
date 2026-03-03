@@ -50,17 +50,30 @@ export {
   alertVariants,
 } from "./components/alert";
 // ---------------------------------------------------------------------------
-// Collapsible
+// Phase 10 — Extended Components
 // ---------------------------------------------------------------------------
 export {
-  Collapsible,
-  CollapsibleContent,
-  type CollapsibleContentProps,
-  type CollapsibleProps,
-  CollapsibleTrigger,
-  type CollapsibleTriggerProps,
-  useCollapsibleContext,
-} from "./components/collapsible";
+  AlertDialog,
+  AlertDialogAction,
+  type AlertDialogActionProps,
+  AlertDialogCancel,
+  type AlertDialogCancelProps,
+  AlertDialogContent,
+  type AlertDialogContentProps,
+  AlertDialogDescription,
+  type AlertDialogDescriptionProps,
+  AlertDialogFooter,
+  type AlertDialogFooterProps,
+  AlertDialogHeader,
+  type AlertDialogHeaderProps,
+  AlertDialogOverlay,
+  type AlertDialogOverlayProps,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  type AlertDialogTitleProps,
+  AlertDialogTrigger,
+} from "./components/alert-dialog";
+export { AspectRatio, type AspectRatioProps } from "./components/aspect-ratio";
 export {
   Avatar,
   AvatarGroup,
@@ -78,6 +91,13 @@ export {
   type BadgeVariant,
   badgeVariants,
 } from "./components/badge";
+export {
+  Banner,
+  type BannerPosition,
+  type BannerProps,
+  type BannerVariant,
+  bannerVariants,
+} from "./components/banner";
 export {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -98,25 +118,6 @@ export {
   type BreadcrumbSeparatorProps,
 } from "./components/breadcrumb";
 // ---------------------------------------------------------------------------
-// FormField
-// ---------------------------------------------------------------------------
-export {
-  FormField,
-  type FormFieldControlProps,
-  type FormFieldOrientation,
-  type FormFieldProps,
-  type FormFieldSize,
-} from "./components/form-field";
-// ---------------------------------------------------------------------------
-// FormLabel (component-layer Label — distinct from primitives/typography Label)
-// ---------------------------------------------------------------------------
-export {
-  Label as FormLabel,
-  type LabelProps as FormLabelProps,
-  type LabelSize as FormLabelSize,
-  labelVariants as formLabelVariants,
-} from "./components/label";
-// ---------------------------------------------------------------------------
 // Layer 4: Composite Components
 // ---------------------------------------------------------------------------
 // Higher-level Unified UI components built from primitives. These implement
@@ -131,6 +132,19 @@ export {
   buttonVariants,
 } from "./components/button";
 export {
+  Calendar,
+  type CalendarMode,
+  type CalendarProps,
+  calendarDayVariants,
+  type DateRange,
+} from "./components/calendar";
+export {
+  Callout,
+  type CalloutProps,
+  type CalloutVariant,
+  calloutVariants,
+} from "./components/callout";
+export {
   Card,
   CardBody,
   type CardBodyProps,
@@ -143,6 +157,11 @@ export {
   cardVariants,
 } from "./components/card";
 export {
+  Carousel,
+  type CarouselProps,
+  useCarouselContext,
+} from "./components/carousel";
+export {
   Checkbox,
   CheckboxGroup,
   type CheckboxGroupOrientation,
@@ -152,6 +171,131 @@ export {
   checkboxVariants,
   useCheckboxGroupContext,
 } from "./components/checkbox";
+export {
+  CodeBlock,
+  type CodeBlockProps,
+  type CodeVariant,
+  codeBlockVariants,
+  InlineCode as CodeInline,
+  type InlineCodeProps as CodeInlineProps,
+  inlineCodeVariants,
+} from "./components/code";
+// ---------------------------------------------------------------------------
+// Collapsible
+// ---------------------------------------------------------------------------
+export {
+  Collapsible,
+  CollapsibleContent,
+  type CollapsibleContentProps,
+  type CollapsibleProps,
+  CollapsibleTrigger,
+  type CollapsibleTriggerProps,
+  useCollapsibleContext,
+} from "./components/collapsible";
+export {
+  Combobox,
+  type ComboboxGroup,
+  type ComboboxOption,
+  type ComboboxProps,
+  type ComboboxSize,
+  type ComboboxVariant,
+  comboboxTriggerVariants,
+} from "./components/combobox";
+// ---------------------------------------------------------------------------
+// Command
+// ---------------------------------------------------------------------------
+export {
+  Command,
+  type CommandGroup,
+  type CommandItem,
+  type CommandProps,
+  CommandTrigger,
+  type CommandTriggerProps,
+} from "./components/command";
+export {
+  ConfirmDialog,
+  type ConfirmDialogProps,
+  type ConfirmDialogVariant,
+} from "./components/confirm-dialog";
+// ---------------------------------------------------------------------------
+// ContextMenu
+// ---------------------------------------------------------------------------
+export {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  type ContextMenuCheckboxItemProps,
+  ContextMenuContent,
+  type ContextMenuContentProps,
+  ContextMenuGroup,
+  type ContextMenuGroupProps,
+  ContextMenuItem,
+  type ContextMenuItemProps,
+  type ContextMenuItemVariant,
+  ContextMenuLabel,
+  type ContextMenuLabelProps,
+  type ContextMenuProps,
+  ContextMenuRadioGroup,
+  type ContextMenuRadioGroupProps,
+  ContextMenuRadioItem,
+  type ContextMenuRadioItemProps,
+  ContextMenuSeparator,
+  type ContextMenuSeparatorProps,
+  ContextMenuShortcut,
+  type ContextMenuShortcutProps,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  type ContextMenuSubContentProps,
+  type ContextMenuSubProps,
+  ContextMenuSubTrigger,
+  type ContextMenuSubTriggerProps,
+  ContextMenuTrigger,
+  type ContextMenuTriggerProps,
+} from "./components/context-menu";
+export {
+  CopyButton,
+  type CopyButtonProps,
+  type CopyButtonSize,
+  type CopyButtonVariant,
+  copyButtonVariants,
+} from "./components/copy-button";
+export {
+  DataList,
+  DataListDetail,
+  type DataListDetailProps,
+  type DataListItem,
+  type DataListOrientation,
+  type DataListProps,
+  type DataListSize,
+  DataListTerm,
+  type DataListTermProps,
+  dataListVariants,
+} from "./components/data-list";
+// ---------------------------------------------------------------------------
+// DataTable (TanStack Table powered)
+// ---------------------------------------------------------------------------
+export {
+  type ColumnDef,
+  type ColumnFiltersState,
+  createColumnHelper,
+  DataTable,
+  type DataTableColumnMeta,
+  type DataTableFacetedFilter,
+  type DataTableProps,
+  type PaginationState,
+  type Row,
+  type RowSelectionState,
+  type SortingState,
+  type UseDataTableOptions,
+  type UseDataTableReturn,
+  useDataTable,
+  type VisibilityState,
+} from "./components/data-table";
+export {
+  DatePicker,
+  type DatePickerMode,
+  type DatePickerProps,
+  type DatePickerSize,
+} from "./components/date-picker";
 export {
   Dialog,
   DialogBody,
@@ -205,6 +349,32 @@ export {
   DropdownMenuTrigger,
   type DropdownMenuTriggerProps,
 } from "./components/dropdown-menu";
+export { EmptyState, type EmptyStateProps } from "./components/empty-state";
+export {
+  FileUpload,
+  type FileUploadItem,
+  type FileUploadProps,
+  type FileUploadSize,
+  fileUploadZoneVariants,
+} from "./components/file-upload";
+// ---------------------------------------------------------------------------
+// FormField
+// ---------------------------------------------------------------------------
+export {
+  FormField,
+  type FormFieldControlProps,
+  type FormFieldOrientation,
+  type FormFieldProps,
+  type FormFieldSize,
+} from "./components/form-field";
+export {
+  HoverCard,
+  HoverCardContent,
+  type HoverCardContentProps,
+  type HoverCardProps,
+  HoverCardTrigger,
+  type HoverCardTriggerProps,
+} from "./components/hover-card";
 export {
   Input,
   type InputProps,
@@ -213,287 +383,26 @@ export {
   inputVariants,
 } from "./components/input";
 export {
-  Pagination,
-  type PaginationProps,
-  type PaginationSize,
-  type PaginationVariant,
-  paginationButtonVariants,
-} from "./components/pagination";
-// ---------------------------------------------------------------------------
-// Progress
-// ---------------------------------------------------------------------------
+  InputGroup,
+  type InputGroupProps,
+  type InputGroupSize,
+  type InputGroupVariant,
+} from "./components/input-group";
 export {
-  Progress,
-  type ProgressProps,
-  type ProgressSize,
-  type ProgressVariant,
-  progressIndicatorVariants,
-  progressTrackVariants,
-} from "./components/progress";
-export {
-  Popover,
-  PopoverArrow,
-  type PopoverArrowProps,
-  PopoverClose,
-  type PopoverCloseProps,
-  PopoverContent,
-  type PopoverContentProps,
-  type PopoverProps,
-  PopoverTrigger,
-  type PopoverTriggerProps,
-} from "./components/popover";
-export {
-  RadioCard,
-  type RadioCardProps,
-  RadioGroup,
-  RadioGroupItem,
-  type RadioGroupItemProps,
-  type RadioGroupProps,
-  type RadioOrientation,
-  type RadioSize,
-  radioCardVariants,
-  radioGroupVariants,
-  radioIndicatorVariants,
-} from "./components/radio";
+  Kbd,
+  type KbdProps,
+  type KbdSize,
+  kbdVariants,
+} from "./components/kbd";
 // ---------------------------------------------------------------------------
-// ScrollArea
+// FormLabel (component-layer Label — distinct from primitives/typography Label)
 // ---------------------------------------------------------------------------
 export {
-  ScrollArea,
-  type ScrollAreaProps,
-  type ScrollAreaType,
-  ScrollBar,
-  type ScrollBarOrientation,
-  type ScrollBarProps,
-  type ScrollBarSize,
-  scrollbarThumbVariants,
-  scrollbarVariants,
-} from "./components/scroll-area";
-export {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-  type SelectSize,
-  type SelectVariant,
-  selectTriggerVariants,
-} from "./components/select";
-export {
-  Sheet,
-  SheetClose,
-  type SheetCloseProps,
-  SheetContent,
-  type SheetContentProps,
-  SheetDescription,
-  type SheetDescriptionProps,
-  SheetFooter,
-  type SheetFooterProps,
-  SheetHeader,
-  type SheetHeaderProps,
-  type SheetProps,
-  type SheetSide,
-  type SheetSize,
-  SheetTitle,
-  type SheetTitleProps,
-  SheetTrigger,
-  type SheetTriggerProps,
-  sheetContentVariants,
-} from "./components/sheet";
-export {
-  Skeleton,
-  SkeletonCircle,
-  type SkeletonCircleProps,
-  type SkeletonProps,
-  SkeletonRect,
-  type SkeletonRectProps,
-  type SkeletonSize,
-  SkeletonText,
-  type SkeletonTextProps,
-  type SkeletonTextSize,
-  skeletonVariants,
-} from "./components/skeleton";
-// ---------------------------------------------------------------------------
-// Spinner
-// ---------------------------------------------------------------------------
-export {
-  Spinner,
-  type SpinnerProps,
-  type SpinnerSize,
-  type SpinnerVariant,
-  spinnerVariants,
-} from "./components/spinner";
-export {
-  Switch,
-  type SwitchLabelPosition,
-  type SwitchProps,
-  type SwitchSize,
-  switchThumbVariants,
-  switchTrackVariants,
-} from "./components/switch";
-export {
-  Table,
-  type TableAlign,
-  TableBody,
-  type TableBodyProps,
-  TableCaption,
-  type TableCaptionProps,
-  TableCell,
-  type TableCellProps,
-  type TableDensity,
-  TableFooter,
-  type TableFooterProps,
-  TableHead,
-  TableHeader,
-  type TableHeaderProps,
-  type TableHeadProps,
-  type TableProps,
-  TableRow,
-  type TableRowProps,
-  type TableSortDirection,
-  tableRootVariants,
-} from "./components/table";
-// ---------------------------------------------------------------------------
-// Toggle
-// ---------------------------------------------------------------------------
-export {
-  Toggle,
-  type ToggleProps,
-  type ToggleSize,
-  type ToggleVariant,
-  toggleVariants,
-} from "./components/toggle";
-// ---------------------------------------------------------------------------
-// ToggleGroup
-// ---------------------------------------------------------------------------
-export {
-  ToggleGroup,
-  ToggleGroupItem,
-  type ToggleGroupItemProps,
-  type ToggleGroupMultipleProps,
-  type ToggleGroupOrientation,
-  type ToggleGroupProps,
-  type ToggleGroupSingleProps,
-  type ToggleGroupSize,
-  type ToggleGroupVariant,
-  toggleGroupItemVariants,
-  toggleGroupVariants,
-  useToggleGroupContext,
-} from "./components/toggle-group";
-// ---------------------------------------------------------------------------
-// DataTable (TanStack Table powered)
-// ---------------------------------------------------------------------------
-export {
-  DataTable,
-  type DataTableColumnMeta,
-  type DataTableFacetedFilter,
-  type DataTableProps,
-  type UseDataTableOptions,
-  type UseDataTableReturn,
-  useDataTable,
-  createColumnHelper,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type PaginationState,
-  type Row,
-  type RowSelectionState,
-  type SortingState,
-  type VisibilityState,
-} from "./components/data-table";
-export {
-  Tabs,
-  TabsContent,
-  type TabsContentProps,
-  TabsList,
-  type TabsListProps,
-  type TabsOrientation,
-  type TabsProps,
-  type TabsSize,
-  TabsTrigger,
-  type TabsTriggerProps,
-  type TabsVariant,
-  tabsListVariants,
-  tabsTriggerVariants,
-} from "./components/tabs";
-export {
-  Textarea,
-  type TextareaProps,
-  type TextareaSize,
-  type TextareaVariant,
-  textareaVariants,
-} from "./components/textarea";
-export {
-  type ToastAction,
-  type ToastAPI,
-  type ToastData,
-  ToastItem,
-  type ToastItemProps,
-  type ToastOptions,
-  type ToastPosition,
-  ToastProvider,
-  type ToastProviderProps,
-  type ToastVariant,
-  toastVariants,
-  useToast,
-} from "./components/toast";
-export {
-  Tooltip,
-  type TooltipAlign,
-  type TooltipProps,
-  TooltipProvider,
-  type TooltipProviderProps,
-  type TooltipSide,
-} from "./components/tooltip";
-// ---------------------------------------------------------------------------
-// Command
-// ---------------------------------------------------------------------------
-export {
-  Command,
-  type CommandGroup,
-  type CommandItem,
-  type CommandProps,
-  CommandTrigger,
-  type CommandTriggerProps,
-} from "./components/command";
-// ---------------------------------------------------------------------------
-// ContextMenu
-// ---------------------------------------------------------------------------
-export {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  type ContextMenuCheckboxItemProps,
-  ContextMenuContent,
-  type ContextMenuContentProps,
-  ContextMenuGroup,
-  type ContextMenuGroupProps,
-  ContextMenuItem,
-  type ContextMenuItemProps,
-  type ContextMenuItemVariant,
-  ContextMenuLabel,
-  type ContextMenuLabelProps,
-  type ContextMenuProps,
-  ContextMenuRadioGroup,
-  type ContextMenuRadioGroupProps,
-  ContextMenuRadioItem,
-  type ContextMenuRadioItemProps,
-  ContextMenuSeparator,
-  type ContextMenuSeparatorProps,
-  ContextMenuShortcut,
-  type ContextMenuShortcutProps,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  type ContextMenuSubContentProps,
-  type ContextMenuSubProps,
-  ContextMenuSubTrigger,
-  type ContextMenuSubTriggerProps,
-  ContextMenuTrigger,
-  type ContextMenuTriggerProps,
-} from "./components/context-menu";
+  Label as FormLabel,
+  type LabelProps as FormLabelProps,
+  type LabelSize as FormLabelSize,
+  labelVariants as formLabelVariants,
+} from "./components/label";
 // ---------------------------------------------------------------------------
 // Menubar
 // ---------------------------------------------------------------------------
@@ -553,18 +462,325 @@ export {
   NavigationMenuViewport,
   type NavigationMenuViewportProps,
 } from "./components/navigation-menu";
+export {
+  NumberInput,
+  type NumberInputProps,
+  type NumberInputSize,
+  type NumberInputVariant,
+  numberInputVariants,
+} from "./components/number-input";
+export {
+  Pagination,
+  type PaginationProps,
+  type PaginationSize,
+  type PaginationVariant,
+  paginationButtonVariants,
+} from "./components/pagination";
+export {
+  PinInput,
+  type PinInputProps,
+  type PinInputSize,
+  type PinInputType,
+  type PinInputVariant,
+  pinCellVariants,
+} from "./components/pin-input";
+export {
+  Popover,
+  PopoverArrow,
+  type PopoverArrowProps,
+  PopoverClose,
+  type PopoverCloseProps,
+  PopoverContent,
+  type PopoverContentProps,
+  type PopoverProps,
+  PopoverTrigger,
+  type PopoverTriggerProps,
+} from "./components/popover";
+// ---------------------------------------------------------------------------
+// Progress
+// ---------------------------------------------------------------------------
+export {
+  Progress,
+  type ProgressProps,
+  type ProgressSize,
+  type ProgressVariant,
+  progressIndicatorVariants,
+  progressTrackVariants,
+} from "./components/progress";
+export {
+  RadioCard,
+  type RadioCardProps,
+  RadioGroup,
+  RadioGroupItem,
+  type RadioGroupItemProps,
+  type RadioGroupProps,
+  type RadioOrientation,
+  type RadioSize,
+  radioCardVariants,
+  radioGroupVariants,
+  radioIndicatorVariants,
+} from "./components/radio";
+export {
+  ResizableHandle,
+  type ResizableHandleProps,
+  ResizablePanel,
+  ResizablePanelGroup,
+  type ResizablePanelGroupProps,
+  type ResizablePanelProps,
+} from "./components/resizable";
+// ---------------------------------------------------------------------------
+// ScrollArea
+// ---------------------------------------------------------------------------
+export {
+  ScrollArea,
+  type ScrollAreaProps,
+  type ScrollAreaType,
+  ScrollBar,
+  type ScrollBarOrientation,
+  type ScrollBarProps,
+  type ScrollBarSize,
+  scrollbarThumbVariants,
+  scrollbarVariants,
+} from "./components/scroll-area";
+export {
+  SearchInput,
+  type SearchInputProps,
+  type SearchInputSize,
+  type SearchInputVariant,
+  searchInputVariants,
+} from "./components/search-input";
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  type SelectSize,
+  SelectTrigger,
+  SelectValue,
+  type SelectVariant,
+  selectTriggerVariants,
+} from "./components/select";
+export {
+  Sheet,
+  SheetClose,
+  type SheetCloseProps,
+  SheetContent,
+  type SheetContentProps,
+  SheetDescription,
+  type SheetDescriptionProps,
+  SheetFooter,
+  type SheetFooterProps,
+  SheetHeader,
+  type SheetHeaderProps,
+  type SheetProps,
+  type SheetSide,
+  type SheetSize,
+  SheetTitle,
+  type SheetTitleProps,
+  SheetTrigger,
+  type SheetTriggerProps,
+  sheetContentVariants,
+} from "./components/sheet";
+export {
+  Sidebar,
+  SidebarContent,
+  type SidebarContentProps,
+  SidebarFooter,
+  type SidebarFooterProps,
+  SidebarHeader,
+  type SidebarHeaderProps,
+  SidebarItem,
+  type SidebarItemProps,
+  SidebarMobileOverlay,
+  type SidebarMobileOverlayProps,
+  type SidebarProps,
+  SidebarProvider,
+  type SidebarProviderProps,
+  SidebarSection,
+  type SidebarSectionProps,
+  SidebarToggle,
+  type SidebarToggleProps,
+  useSidebarContext,
+} from "./components/sidebar";
+export {
+  Skeleton,
+  SkeletonCircle,
+  type SkeletonCircleProps,
+  type SkeletonProps,
+  SkeletonRect,
+  type SkeletonRectProps,
+  type SkeletonSize,
+  SkeletonText,
+  type SkeletonTextProps,
+  type SkeletonTextSize,
+  skeletonVariants,
+} from "./components/skeleton";
+export {
+  Slider,
+  type SliderMark,
+  type SliderOrientation,
+  type SliderProps,
+  type SliderSize,
+  type SliderVariant,
+  sliderRangeVariants,
+  sliderThumbVariants,
+  sliderTrackVariants,
+} from "./components/slider";
+// ---------------------------------------------------------------------------
+// Spinner
+// ---------------------------------------------------------------------------
+export {
+  Spinner,
+  type SpinnerProps,
+  type SpinnerSize,
+  type SpinnerVariant,
+  spinnerVariants,
+} from "./components/spinner";
+export {
+  Stat,
+  type StatProps,
+  type StatTrend,
+  statVariants,
+} from "./components/stat";
 // ---------------------------------------------------------------------------
 // Steps
 // ---------------------------------------------------------------------------
 export {
   Step,
   type StepProps,
+  type StepStatus,
   Steps,
   type StepsOrientation,
   type StepsProps,
   type StepsVariant,
-  type StepStatus,
 } from "./components/steps";
+export {
+  Switch,
+  type SwitchLabelPosition,
+  type SwitchProps,
+  type SwitchSize,
+  switchThumbVariants,
+  switchTrackVariants,
+} from "./components/switch";
+export {
+  Table,
+  type TableAlign,
+  TableBody,
+  type TableBodyProps,
+  TableCaption,
+  type TableCaptionProps,
+  TableCell,
+  type TableCellProps,
+  type TableDensity,
+  TableFooter,
+  type TableFooterProps,
+  TableHead,
+  TableHeader,
+  type TableHeaderProps,
+  type TableHeadProps,
+  type TableProps,
+  TableRow,
+  type TableRowProps,
+  type TableSortDirection,
+  tableRootVariants,
+} from "./components/table";
+export {
+  Tabs,
+  TabsContent,
+  type TabsContentProps,
+  TabsList,
+  type TabsListProps,
+  type TabsOrientation,
+  type TabsProps,
+  type TabsSize,
+  TabsTrigger,
+  type TabsTriggerProps,
+  type TabsVariant,
+  tabsListVariants,
+  tabsTriggerVariants,
+} from "./components/tabs";
+export {
+  Tag,
+  type TagProps,
+  type TagSize,
+  type TagVariant,
+  tagVariants,
+} from "./components/tag";
+export {
+  Textarea,
+  type TextareaProps,
+  type TextareaSize,
+  type TextareaVariant,
+  textareaVariants,
+} from "./components/textarea";
+export {
+  Timeline,
+  type TimelineAlign,
+  TimelineItem,
+  type TimelineItemData,
+  type TimelineItemProps,
+  type TimelineItemStatus,
+  type TimelineProps,
+  type TimelineSize,
+  type TimelineVariant,
+} from "./components/timeline";
+export {
+  type ToastAction,
+  type ToastAPI,
+  type ToastData,
+  ToastItem,
+  type ToastItemProps,
+  type ToastOptions,
+  type ToastPosition,
+  ToastProvider,
+  type ToastProviderProps,
+  type ToastVariant,
+  toastVariants,
+  useToast,
+} from "./components/toast";
+// ---------------------------------------------------------------------------
+// Toggle
+// ---------------------------------------------------------------------------
+export {
+  Toggle,
+  type ToggleProps,
+  type ToggleSize,
+  type ToggleVariant,
+  toggleVariants,
+} from "./components/toggle";
+// ---------------------------------------------------------------------------
+// ToggleGroup
+// ---------------------------------------------------------------------------
+export {
+  ToggleGroup,
+  ToggleGroupItem,
+  type ToggleGroupItemProps,
+  type ToggleGroupMultipleProps,
+  type ToggleGroupOrientation,
+  type ToggleGroupProps,
+  type ToggleGroupSingleProps,
+  type ToggleGroupSize,
+  type ToggleGroupVariant,
+  toggleGroupItemVariants,
+  toggleGroupVariants,
+  useToggleGroupContext,
+} from "./components/toggle-group";
+export {
+  Tooltip,
+  type TooltipAlign,
+  type TooltipProps,
+  TooltipProvider,
+  type TooltipProviderProps,
+  type TooltipSide,
+} from "./components/tooltip";
+export {
+  VisuallyHidden,
+  type VisuallyHiddenProps,
+} from "./components/visually-hidden";
 // ---------------------------------------------------------------------------
 // Layer 5: Motion System
 // ---------------------------------------------------------------------------
@@ -638,7 +854,23 @@ export {
   useReducedMotion,
   withReducedMotion,
 } from "./motion";
-
+// ---------------------------------------------------------------------------
+// Phase 11 — New motion presets (re-exported from motion layer)
+// ---------------------------------------------------------------------------
+export {
+  countUp,
+  crossfade,
+  dragDismiss,
+  numberRoll,
+  revealMask,
+  shakeX,
+  slidePanelBottom,
+  slidePanelLeft,
+  slidePanelRight,
+  slidePanelTop,
+  springHover,
+  springPress,
+} from "./motion/presets";
 // ---------------------------------------------------------------------------
 // Layer 3: Primitive Components
 // ---------------------------------------------------------------------------
@@ -698,37 +930,29 @@ export {
   buildDarkThemeVars,
   buildLightThemeVars,
   buildThemeCSS,
-  type ColorVarName,
-  // Theme contract & CSS variable utilities
-  contract,
-  cssVar,
-  type DSThemeContextValue,
-  // Theme provider & hook
-  DSThemeProvider,
-  type DSThemeProviderProps,
-  type DurationVarName,
-  type EasingVarName,
-  type FontFamilyVarName,
-  type RadiusVarName,
-  type ResolvedTheme,
-  type ShadowVarName,
-  // Theme types
-  type ThemeMode,
-  type ThemeVars,
-  useDSTheme,
-  type ZIndexVarName,
   // Theme Presets & Configuration
   buildThemeOverrides,
   COLOR_PRESET_KEYS,
   COLOR_PRESETS,
   type ColorPreset,
   type ColorPresetKey,
+  type ColorVarName,
+  // Theme contract & CSS variable utilities
+  contract,
+  cssVar,
   DEFAULT_FONT_KEY,
   DEFAULT_RADIUS_KEY,
   DEFAULT_SHADOW_KEY,
   DEFAULT_SURFACE_STYLE_KEY,
   DEFAULT_THEME_CONFIG,
+  type DSThemeContextValue,
+  // Theme provider & hook
+  DSThemeProvider,
+  type DSThemeProviderProps,
+  type DurationVarName,
+  type EasingVarName,
   FONT_PRESETS,
+  type FontFamilyVarName,
   type FontPreset,
   generateThemeCSS,
   getColorPreset,
@@ -738,19 +962,27 @@ export {
   type PresetSemanticColors,
   RADIUS_PRESETS,
   type RadiusPreset,
+  type RadiusVarName,
+  type ResolvedTheme,
   SHADOW_PRESETS,
   type ShadowPreset,
+  type ShadowVarName,
   SURFACE_STYLE_PRESETS,
   type SurfaceStylePreset,
   type ThemeConfig,
-  // Theme Customizer Store (Context + Provider + Hook)
-  type ThemeCustomizerContextValue,
-  ThemeCustomizerProvider,
-  type ThemeCustomizerProviderProps,
-  useThemeCustomizer,
   // Theme Customizer UI Component
   ThemeCustomizer,
+  // Theme Customizer Store (Context + Provider + Hook)
+  type ThemeCustomizerContextValue,
   type ThemeCustomizerProps,
+  ThemeCustomizerProvider,
+  type ThemeCustomizerProviderProps,
+  // Theme types
+  type ThemeMode,
+  type ThemeVars,
+  useDSTheme,
+  useThemeCustomizer,
+  type ZIndexVarName,
 } from "./theme";
 // ---------------------------------------------------------------------------
 // Layer 1: Design Tokens
@@ -822,7 +1054,6 @@ export {
   zIndex,
   zinc,
 } from "./tokens";
-
 // ---------------------------------------------------------------------------
 // Layer 6: Utilities
 // ---------------------------------------------------------------------------
@@ -873,7 +1104,6 @@ export {
   WCAG_AAA_NORMAL,
   WCAG_NON_TEXT_AA,
 } from "./utils/contrast";
-
 // ---------------------------------------------------------------------------
 // Layer 7: Focus Ring Utilities
 // ---------------------------------------------------------------------------

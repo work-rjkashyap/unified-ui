@@ -1,0 +1,386 @@
+---
+title: Code
+description: Inline code and block code display components with syntax highlighting support, copy button, line numbers, filename label, and a dark variant.
+icon: Code
+---
+
+import { InlineCode, CodeBlock, CopyButton } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Code"
+  description="Two composable code display components: InlineCode for short snippets within prose, and CodeBlock for multi-line code with copy button, line numbers, filename label, and dark/light variants."
+  preview={
+    <div className="flex flex-col gap-4 w-full max-w-lg">
+      <p className="text-sm text-muted-foreground">
+        Run <InlineCode>npm install @work-rjkashyap/unified-ui</InlineCode> to get started.
+      </p>
+      <CodeBlock language="tsx" filename="Button.tsx" showCopyButton>
+        {`import { Button } from "@work-rjkashyap/unified-ui";
+
+export function App() {
+  return <Button variant="primary">Click me</Button>;
+}`}
+      </CodeBlock>
+    </div>
+  }
+  code={`{/* Inline */}
+<p>
+  Run <InlineCode>npm install @work-rjkashyap/unified-ui</InlineCode> to get started.
+</p>
+
+{/* Block */}
+
+<CodeBlock language="tsx" filename="Button.tsx" showCopyButton>
+  {\`import { Button } from "@work-rjkashyap/unified-ui";
+
+export function App() {
+  return <Button variant="primary">Click me</Button>;
+}\`}
+</CodeBlock>`}
+>
+
+## Import
+
+```tsx
+import { InlineCode, CodeBlock } from "@work-rjkashyap/unified-ui";
+// or
+import { InlineCode, CodeBlock } from "@work-rjkashyap/unified-ui/components";
+```
+
+## InlineCode
+
+`InlineCode` renders a short code snippet as a styled `<code>` element — suitable for use within sentences and paragraphs.
+
+### Basic Usage
+
+```tsx
+<p>
+  Import with <InlineCode>import {"{"} Button {"}"} from "@work-rjkashyap/unified-ui"</InlineCode>.
+</p>
+
+<p>
+  Set <InlineCode>variant="primary"</InlineCode> for the brand color.
+</p>
+```
+
+### In Context
+
+<ComponentPage
+  title="InlineCode in Prose"
+  description="InlineCode is an inline element that flows naturally within text content."
+  preview={
+    <div className="flex flex-col gap-3 max-w-md text-sm leading-6 text-foreground">
+      <p>
+        Use the <InlineCode>cn()</InlineCode> utility from <InlineCode>@unified-ui/utils/cn</InlineCode> to merge Tailwind classes safely.
+      </p>
+      <p>
+        All components forward refs — access the DOM node via <InlineCode>ref</InlineCode> on any component.
+      </p>
+      <p>
+        The <InlineCode>variant</InlineCode> prop accepts <InlineCode>"primary"</InlineCode>, <InlineCode>"secondary"</InlineCode>, <InlineCode>"ghost"</InlineCode>, or <InlineCode>"danger"</InlineCode>.
+      </p>
+    </div>
+  }
+  code={`<p>
+  Use the <InlineCode>cn()</InlineCode> utility from{" "}
+  <InlineCode>@unified-ui/utils/cn</InlineCode> to merge Tailwind classes.
+</p>
+
+<p>
+  The <InlineCode>variant</InlineCode> prop accepts{" "}
+  <InlineCode>"primary"</InlineCode>, <InlineCode>"secondary"</InlineCode>,{" "}
+  <InlineCode>"ghost"</InlineCode>, or <InlineCode>"danger"</InlineCode>.
+</p>`}
+/>
+
+### InlineCode Props
+
+| Prop        | Type        | Default | Description             |
+| ----------- | ----------- | ------- | ----------------------- |
+| `className` | `string`    | —       | Additional CSS classes. |
+| `children`  | `ReactNode` | —       | The code content.       |
+
+All standard `<code>` HTML attributes are also accepted.
+
+---
+
+## CodeBlock
+
+`CodeBlock` renders a multi-line code snippet with an optional header bar showing the filename, language badge, and copy button.
+
+### Basic Usage
+
+```tsx
+<CodeBlock>
+	{`const greeting = "Hello, world!";
+console.log(greeting);`}
+</CodeBlock>
+```
+
+### With Filename and Language
+
+<ComponentPage
+  title="Filename & Language"
+  description="The header bar shows the filename on the left and the language badge on the right."
+  preview={
+    <div className="w-full max-w-lg">
+      <CodeBlock language="tsx" filename="slider.tsx">
+        {`import { Slider } from "@work-rjkashyap/unified-ui";
+
+export function VolumeControl() {
+  const [volume, setVolume] = useState([50]);
+
+return (
+<Slider
+value={volume}
+onValueChange={setVolume}
+min={0}
+max={100}
+showTooltip
+formatTooltip={(v) => \`\${v}%\`}
+/>
+);
+}`}
+      </CodeBlock>
+    </div>
+  }
+  code={`<CodeBlock language="tsx" filename="slider.tsx">
+{\`import { Slider } from "@work-rjkashyap/unified-ui";
+
+export function VolumeControl() {
+  const [volume, setVolume] = useState([50]);
+  return (
+    <Slider value={volume} onValueChange={setVolume} showTooltip />
+  );
+}\`}
+</CodeBlock>`}
+/>
+
+### With Copy Button
+
+Set `showCopyButton` (default `true`) to render a copy button in the header bar.
+
+<ComponentPage
+  title="Copy Button"
+  description="The built-in copy button shows a Copied! confirmation after a successful clipboard write."
+  preview={
+    <div className="w-full max-w-lg">
+      <CodeBlock language="bash" showCopyButton>
+        {`npm install @work-rjkashyap/unified-ui framer-motion`}
+      </CodeBlock>
+    </div>
+  }
+  code={`<CodeBlock language="bash" showCopyButton>
+  {\`npm install @work-rjkashyap/unified-ui framer-motion\`}
+</CodeBlock>
+
+{/* Hide copy button */}
+
+<CodeBlock language="tsx" showCopyButton={false}>
+  {\`// no copy button\`}
+</CodeBlock>`}
+/>
+
+### With Line Numbers
+
+Set `showLineNumbers` to render gutter line numbers on the left side.
+
+<ComponentPage
+  title="Line Numbers"
+  description="Line numbers are rendered in the gutter alongside the code."
+  preview={
+    <div className="w-full max-w-lg">
+      <CodeBlock language="tsx" showLineNumbers filename="theme-provider.tsx">
+        {`import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+import "@work-rjkashyap/unified-ui/styles.css";
+
+export default function RootLayout({ children }) {
+  return (
+    <DSThemeProvider defaultTheme="system">
+      {children}
+    </DSThemeProvider>
+  );
+}`}
+      </CodeBlock>
+    </div>
+  }
+  code={`<CodeBlock language="tsx" showLineNumbers filename="theme-provider.tsx">
+  {\`import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+
+export default function RootLayout({ children }) {
+  return (
+    <DSThemeProvider defaultTheme="system">
+      {children}
+    </DSThemeProvider>
+  );
+}\`}
+</CodeBlock>`}
+/>
+
+### Dark Variant
+
+The `dark` variant uses a near-black background with light text — ideal for embedding code examples in dark-themed sections or marketing pages.
+
+<ComponentPage
+  title="Dark Variant"
+  description="A high-contrast dark code block for dark-themed sections or prominent code display."
+  preview={
+    <div className="w-full max-w-lg">
+      <CodeBlock variant="dark" language="tsx" filename="App.tsx" showCopyButton>
+        {`import { Button, Card, Badge } from "@work-rjkashyap/unified-ui";
+import "@work-rjkashyap/unified-ui/styles.css";
+
+export function App() {
+  return (
+    <Card>
+      <Button variant="primary">
+        Get Started
+      </Button>
+      <Badge variant="success">Live</Badge>
+    </Card>
+  );
+}`}
+      </CodeBlock>
+    </div>
+  }
+  code={`<CodeBlock variant="dark" language="tsx" filename="App.tsx" showCopyButton>
+  {\`import { Button, Card, Badge } from "@work-rjkashyap/unified-ui";
+
+export function App() {
+  return (
+    <Card>
+      <Button variant="primary">Get Started</Button>
+      <Badge variant="success">Live</Badge>
+    </Card>
+  );
+}\`}
+</CodeBlock>`}
+/>
+
+### Header Only
+
+Combine `filename` with no language to show just the filename label without a language badge.
+
+```tsx
+<CodeBlock filename=".env.local">
+	{`NEXT_PUBLIC_API_URL=https://api.example.com
+DATABASE_URL=postgresql://localhost:5432/mydb
+JWT_SECRET=your-secret-key`}
+</CodeBlock>
+```
+
+### No Header
+
+Omit all header props to render a minimal code block with no header bar.
+
+```tsx
+<CodeBlock showCopyButton={false}>
+	{`const x = 42;
+const y = x * 2;
+console.log(y); // 84`}
+</CodeBlock>
+```
+
+### CodeBlock Props
+
+| Prop              | Type                  | Default     | Description                                                             |
+| ----------------- | --------------------- | ----------- | ----------------------------------------------------------------------- |
+| `variant`         | `"default" \| "dark"` | `"default"` | Color scheme — light muted background or near-black dark.               |
+| `language`        | `string`              | —           | Language label displayed in the header badge (e.g., `"tsx"`, `"bash"`). |
+| `filename`        | `string`              | —           | Filename shown on the left side of the header bar.                      |
+| `showLineNumbers` | `boolean`             | `false`     | Whether to render gutter line numbers.                                  |
+| `showCopyButton`  | `boolean`             | `true`      | Whether to show the copy button in the header bar.                      |
+| `className`       | `string`              | —           | Additional CSS classes on the root wrapper element.                     |
+| `children`        | `ReactNode`           | —           | The code string to display. Strings enable line numbers and copy.       |
+
+All standard `<pre>` HTML attributes are also accepted and forwarded to the inner `<pre>` element.
+
+---
+
+## Side-by-Side: InlineCode vs CodeBlock
+
+| Feature        | `InlineCode`          | `CodeBlock`              |
+| -------------- | --------------------- | ------------------------ |
+| Element        | `<code>` (inline)     | `<pre><code>` (block)    |
+| Use case       | Within prose / labels | Multi-line code examples |
+| Copy button    | No                    | Yes (optional)           |
+| Line numbers   | No                    | Yes (optional)           |
+| Filename label | No                    | Yes (optional)           |
+| Language badge | No                    | Yes (optional)           |
+| Dark variant   | No                    | Yes (`variant="dark"`)   |
+
+---
+
+## Pairing with CopyButton
+
+For cases where you need a standalone copy button next to an inline code snippet, compose `InlineCode` with `CopyButton`.
+
+<ComponentPage
+	title="InlineCode + CopyButton"
+	description="Combine InlineCode with a standalone CopyButton for copyable inline snippets."
+	preview={
+		<div className="flex flex-col gap-3 max-w-md">
+			<div className="flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-muted/30">
+				<code className="flex-1 text-xs font-mono text-muted-foreground">
+					npm install @work-rjkashyap/unified-ui
+				</code>
+				<CopyButton
+					text="npm install @work-rjkashyap/unified-ui"
+					tooltip="Copy"
+					variant="ghost"
+					size="sm"
+				/>
+			</div>
+			<div className="flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-muted/30">
+				<code className="flex-1 text-xs font-mono text-muted-foreground">
+					sk_live_••••••••4242
+				</code>
+				<CopyButton
+					text="sk_live_real_key_here"
+					tooltip="Copy API key"
+					variant="ghost"
+					size="sm"
+				/>
+			</div>
+		</div>
+	}
+	code={`<div className="flex items-center gap-2 px-3 py-2 rounded-md border border-border">
+  <code className="flex-1 text-xs font-mono text-muted-foreground">
+    npm install @work-rjkashyap/unified-ui
+  </code>
+  <CopyButton
+    text="npm install @work-rjkashyap/unified-ui"
+    tooltip="Copy"
+    variant="ghost"
+    size="sm"
+  />
+</div>`}
+/>
+
+---
+
+## Motion
+
+- **Copy feedback** — The copy button inside `CodeBlock` uses `AnimatePresence` to cross-fade between the copy icon and "Copied!" text via the `fadeInFast` preset.
+- Animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- `InlineCode` renders as a semantic `<code>` element — screen readers announce it as code context.
+- `CodeBlock` renders as `<pre>` + `<code>` — the standard HTML pairing for preformatted code.
+- Line numbers are `aria-hidden="true"` and use `select-none` so they are not included when copying text.
+- The copy button inside `CodeBlock` has `aria-label` that dynamically updates (`"Copy code"` → `"Copied!"`).
+- Both components pass `data-ds-component` attributes for debugging and automated testing.
+
+## Design Tokens
+
+| Token         | Usage                                  |
+| ------------- | -------------------------------------- |
+| `--muted`     | InlineCode and CodeBlock background    |
+| `--muted-fg`  | InlineCode text color                  |
+| `--border`    | InlineCode border and CodeBlock border |
+| `--radius-md` | InlineCode border radius               |
+| `--radius-lg` | CodeBlock border radius                |
+| `--font-mono` | Monospaced font for all code elements  |
+
+</ComponentPage>

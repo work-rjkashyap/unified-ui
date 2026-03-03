@@ -27,19 +27,22 @@ export {
   type ThemeVars,
   type ZIndexVarName,
 } from "./contract";
-
 // ---------------------------------------------------------------------------
-// Theme Provider & Hook
+// Theme Customizer UI Component
 // ---------------------------------------------------------------------------
 export {
-  type DSThemeContextValue,
-  DSThemeProvider,
-  type DSThemeProviderProps,
-  type ResolvedTheme,
-  type ThemeMode,
-  useDSTheme,
-} from "./provider";
-
+  ThemeCustomizer,
+  type ThemeCustomizerProps,
+} from "./customizer";
+// ---------------------------------------------------------------------------
+// Theme Customizer Store (Context + Provider + Hook)
+// ---------------------------------------------------------------------------
+export {
+  type ThemeCustomizerContextValue,
+  ThemeCustomizerProvider,
+  type ThemeCustomizerProviderProps,
+  useThemeCustomizer,
+} from "./customizer-store";
 // ---------------------------------------------------------------------------
 // Theme Presets & Configuration
 // ---------------------------------------------------------------------------
@@ -70,21 +73,14 @@ export {
   type SurfaceStylePreset,
   type ThemeConfig,
 } from "./presets";
-
 // ---------------------------------------------------------------------------
-// Theme Customizer Store (Context + Provider + Hook)
-// ---------------------------------------------------------------------------
-export {
-  type ThemeCustomizerContextValue,
-  ThemeCustomizerProvider,
-  type ThemeCustomizerProviderProps,
-  useThemeCustomizer,
-} from "./customizer-store";
-
-// ---------------------------------------------------------------------------
-// Theme Customizer UI Component
+// Theme Provider & Hook
 // ---------------------------------------------------------------------------
 export {
-  ThemeCustomizer,
-  type ThemeCustomizerProps,
-} from "./customizer";
+  type DSThemeContextValue,
+  DSThemeProvider,
+  type DSThemeProviderProps,
+  type ResolvedTheme,
+  type ThemeMode,
+  useDSTheme,
+} from "./provider";

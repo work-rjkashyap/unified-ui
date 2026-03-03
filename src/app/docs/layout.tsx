@@ -6,6 +6,7 @@ import { DocsLayout } from "@/components/layout/notebook";
 import { DocsSidebar } from "@/components/layout/notebook/sidebar-content";
 import { SIDEBAR_TABS } from "@/lib/sidebar";
 import { source } from "@/lib/source";
+
 const DOCS_LAYOUT_PROPS = {
   ...baseOptions,
   tree: source.getPageTree(),

@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { type ComponentProps, useEffect, useState } from "react";
 import { cn } from "../../lib/cn";
 
-const itemVariants = cva("size-7 p-1.5 transition-all duration-300", {
+const _itemVariants = cva("size-7 p-1.5 transition-all duration-300", {
   variants: {
     active: {
       true: "bg-background text-foreground shadow-sm",
@@ -14,7 +14,7 @@ const itemVariants = cva("size-7 p-1.5 transition-all duration-300", {
   },
 });
 
-const full = [
+const _full = [
   ["light", Sun] as const,
   ["dark", Moon] as const,
   ["system", Airplay] as const,
@@ -51,7 +51,10 @@ export function ThemeToggle({
       onClick={() => {
         if (mode === "light-dark-system") {
           const modes = ["light", "dark", "system"] as const;
-          const next = modes[(modes.indexOf(theme as any) + 1) % 3];
+          const next =
+            modes[
+              (modes.indexOf(theme as "light" | "dark" | "system") + 1) % 3
+            ];
           setTheme(next);
         } else {
           setTheme(resolvedTheme === "light" ? "dark" : "light");

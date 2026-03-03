@@ -10,8 +10,8 @@
 // ============================================================================
 
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
@@ -77,7 +77,10 @@ assertExports("index", index, [
   "duration",
   "easing",
 ]);
-assert("index: UNIFIED_UI_VERSION is '0.1.0'", index.UNIFIED_UI_VERSION === "0.1.0");
+assert(
+  "index: UNIFIED_UI_VERSION is '0.1.0'",
+  index.UNIFIED_UI_VERSION === "0.1.0",
+);
 console.log();
 
 // --- Tokens ---
@@ -124,8 +127,14 @@ assertExports("theme", theme, [
   "useDSTheme",
 ]);
 assert("theme: contract is an object", typeof theme.contract === "object");
-assert("theme: cssVar is an object with methods", typeof theme.cssVar === "object" && typeof theme.cssVar.color === "function");
-assert("theme: DSThemeProvider is a function", typeof theme.DSThemeProvider === "function");
+assert(
+  "theme: cssVar is an object with methods",
+  typeof theme.cssVar === "object" && typeof theme.cssVar.color === "function",
+);
+assert(
+  "theme: DSThemeProvider is a function",
+  typeof theme.DSThemeProvider === "function",
+);
 console.log();
 
 // --- Primitives ---
@@ -145,8 +154,16 @@ assertExports("primitives", primitives, [
   "Grid",
   "Divider",
 ]);
-assert("primitives: Typography is a component", typeof primitives.Typography === "object" || typeof primitives.Typography === "function");
-assert("primitives: Stack is a component", typeof primitives.Stack === "object" || typeof primitives.Stack === "function");
+assert(
+  "primitives: Typography is a component",
+  typeof primitives.Typography === "object" ||
+    typeof primitives.Typography === "function",
+);
+assert(
+  "primitives: Stack is a component",
+  typeof primitives.Stack === "object" ||
+    typeof primitives.Stack === "function",
+);
 console.log();
 
 // --- Components ---
@@ -207,8 +224,15 @@ assertExports("components", components, [
   "ToastProvider",
   "useToast",
 ]);
-assert("components: Button is a component", typeof components.Button === "object" || typeof components.Button === "function");
-assert("components: buttonVariants is a function", typeof components.buttonVariants === "function");
+assert(
+  "components: Button is a component",
+  typeof components.Button === "object" ||
+    typeof components.Button === "function",
+);
+assert(
+  "components: buttonVariants is a function",
+  typeof components.buttonVariants === "function",
+);
 console.log();
 
 // --- Motion ---
@@ -253,8 +277,16 @@ assertExports("motion", motion, [
   "useReducedMotion",
   "MotionSafe",
 ]);
-assert("motion: fadeIn has variants with initial/animate/exit", "variants" in motion.fadeIn && "initial" in motion.fadeIn.variants && "animate" in motion.fadeIn.variants);
-assert("motion: motionProps is a function", typeof motion.motionProps === "function");
+assert(
+  "motion: fadeIn has variants with initial/animate/exit",
+  "variants" in motion.fadeIn &&
+    "initial" in motion.fadeIn.variants &&
+    "animate" in motion.fadeIn.variants,
+);
+assert(
+  "motion: motionProps is a function",
+  typeof motion.motionProps === "function",
+);
 console.log();
 
 // --- Utils ---
@@ -283,9 +315,18 @@ assertExports("utils", utils, [
   "auditContrast",
 ]);
 assert("utils: cn is a function", typeof utils.cn === "function");
-assert('utils: cn("a", "b") returns string', typeof utils.cn("a", "b") === "string");
-assert("utils: dsAttr returns data-ds attributes", "data-ds" in utils.dsAttr("button"));
-assert('utils: dsVar("radius","md") returns var()', utils.dsVar("radius", "md") === "var(--ds-radius-md)");
+assert(
+  'utils: cn("a", "b") returns string',
+  typeof utils.cn("a", "b") === "string",
+);
+assert(
+  "utils: dsAttr returns data-ds attributes",
+  "data-ds" in utils.dsAttr("button"),
+);
+assert(
+  'utils: dsVar("radius","md") returns var()',
+  utils.dsVar("radius", "md") === "var(--ds-radius-md)",
+);
 // NOTE: dsVar produces --ds-<category>-<name> and is intended for non-color tokens
 // (radius, shadow, z, duration, easing, font). For color tokens, use dsColorVar()
 // which produces var(--<name>) with no --ds- prefix.
@@ -298,12 +339,23 @@ console.log();
 console.log("▸ CJS Entry Points");
 console.log();
 
-const cjsEntries = ["index", "tokens", "theme", "primitives", "components", "motion", "utils"];
+const cjsEntries = [
+  "index",
+  "tokens",
+  "theme",
+  "primitives",
+  "components",
+  "motion",
+  "utils",
+];
 for (const entry of cjsEntries) {
   try {
     const mod = require(join(__dirname, `dist/${entry}.cjs`));
     const keyCount = Object.keys(mod).length;
-    assert(`CJS ${entry}: loads successfully (${keyCount} exports)`, keyCount > 0);
+    assert(
+      `CJS ${entry}: loads successfully (${keyCount} exports)`,
+      keyCount > 0,
+    );
   } catch (err) {
     assert(`CJS ${entry}: loads successfully`, false);
     console.error(`    Error: ${err.message}`);
@@ -321,8 +373,14 @@ console.log();
 import { existsSync } from "node:fs";
 
 for (const entry of cjsEntries) {
-  assert(`${entry}.d.ts exists`, existsSync(join(__dirname, `dist/${entry}.d.ts`)));
-  assert(`${entry}.d.cts exists`, existsSync(join(__dirname, `dist/${entry}.d.cts`)));
+  assert(
+    `${entry}.d.ts exists`,
+    existsSync(join(__dirname, `dist/${entry}.d.ts`)),
+  );
+  assert(
+    `${entry}.d.cts exists`,
+    existsSync(join(__dirname, `dist/${entry}.d.cts`)),
+  );
 }
 console.log();
 
@@ -361,17 +419,29 @@ const merged = utils.mergeSlots(
   { root: "flex items-center", icon: "size-4" },
   { root: "gap-2" },
 );
-assert("mergeSlots merges root slot", merged.root.includes("flex") && merged.root.includes("gap-2"));
+assert(
+  "mergeSlots merges root slot",
+  merged.root.includes("flex") && merged.root.includes("gap-2"),
+);
 assert("mergeSlots preserves icon slot", merged.icon.includes("size-4"));
 
 // dsAttr produces correct attributes
 const attrs = utils.dsAttr("button");
 assert('dsAttr: data-ds is ""', attrs["data-ds"] === "");
-assert('dsAttr: data-ds-component is "button"', attrs["data-ds-component"] === "button");
+assert(
+  'dsAttr: data-ds-component is "button"',
+  attrs["data-ds-component"] === "button",
+);
 
 // dsStateAttr conditional
-assert("dsStateAttr(active, true) sets attr", "data-ds-active" in utils.dsStateAttr("active", true));
-assert("dsStateAttr(active, false) is empty", Object.keys(utils.dsStateAttr("active", false)).length === 0);
+assert(
+  "dsStateAttr(active, true) sets attr",
+  "data-ds-active" in utils.dsStateAttr("active", true),
+);
+assert(
+  "dsStateAttr(active, false) is empty",
+  Object.keys(utils.dsStateAttr("active", false)).length === 0,
+);
 
 // dsColorVar
 assert(
@@ -380,11 +450,15 @@ assert(
 );
 assert(
   "dsColorVar('primary', 0.5) returns color-mix()",
-  utils.dsColorVar("primary", 0.5) === "color-mix(in oklch, var(--primary) 50%, transparent)",
+  utils.dsColorVar("primary", 0.5) ===
+    "color-mix(in oklch, var(--primary) 50%, transparent)",
 );
 
 // contrast utilities
-assert("contrastRatio(white, black) ≈ 21", Math.abs(utils.contrastRatio([255, 255, 255], [0, 0, 0]) - 21) < 0.1);
+assert(
+  "contrastRatio(white, black) ≈ 21",
+  Math.abs(utils.contrastRatio([255, 255, 255], [0, 0, 0]) - 21) < 0.1,
+);
 assert("meetsAA(21) is true", utils.meetsAA(21));
 assert("meetsAAA(21) is true", utils.meetsAAA(21));
 assert("meetsAA(3) is false", !utils.meetsAA(3));
@@ -395,8 +469,14 @@ assert("radius has 'md' key", "md" in tokens.radius);
 assert("brand palette has 500", "500" in tokens.brand);
 
 // theme contract
-assert("contract has color entries", typeof theme.contract === "object" && Object.keys(theme.contract).length > 0);
-assert("cssVar.color returns var(--primary)", theme.cssVar.color("primary") === "var(--primary)");
+assert(
+  "contract has color entries",
+  typeof theme.contract === "object" && Object.keys(theme.contract).length > 0,
+);
+assert(
+  "cssVar.color returns var(--primary)",
+  theme.cssVar.color("primary") === "var(--primary)",
+);
 
 // motionProps spread helper
 const spread = motion.motionProps(motion.fadeIn);

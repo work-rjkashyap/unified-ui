@@ -46,16 +46,16 @@
 //   </ToggleGroup>
 // ============================================================================
 
-import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui";
 import {
-	createContext,
-	type ComponentPropsWithoutRef,
-	forwardRef,
-	type ReactNode,
-	useContext,
+  type ComponentPropsWithoutRef,
+  createContext,
+  forwardRef,
+  type ReactNode,
+  useContext,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -63,17 +63,17 @@ import {
 // ---------------------------------------------------------------------------
 
 interface ToggleGroupContextValue {
-	variant: ToggleGroupVariant;
-	size: ToggleGroupSize;
+  variant: ToggleGroupVariant;
+  size: ToggleGroupSize;
 }
 
 const ToggleGroupContext = createContext<ToggleGroupContextValue>({
-	variant: "default",
-	size: "md",
+  variant: "default",
+  size: "md",
 });
 
 function useToggleGroupContext() {
-	return useContext(ToggleGroupContext);
+  return useContext(ToggleGroupContext);
 }
 
 // ---------------------------------------------------------------------------
@@ -81,27 +81,27 @@ function useToggleGroupContext() {
 // ---------------------------------------------------------------------------
 
 export const toggleGroupVariants = cva(
-	// Base styles — shared across all orientations
-	[
-		// Layout
-		"inline-flex items-center",
-		// Gap between items
-		"gap-1",
-	],
-	{
-		variants: {
-			// -----------------------------------------------------------------
-			// Orientation Variants
-			// -----------------------------------------------------------------
-			orientation: {
-				horizontal: "flex-row",
-				vertical: "flex-col",
-			},
-		},
-		defaultVariants: {
-			orientation: "horizontal",
-		},
-	},
+  // Base styles — shared across all orientations
+  [
+    // Layout
+    "inline-flex items-center",
+    // Gap between items
+    "gap-1",
+  ],
+  {
+    variants: {
+      // -----------------------------------------------------------------
+      // Orientation Variants
+      // -----------------------------------------------------------------
+      orientation: {
+        horizontal: "flex-row",
+        vertical: "flex-col",
+      },
+    },
+    defaultVariants: {
+      orientation: "horizontal",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -113,93 +113,93 @@ export const toggleGroupVariants = cva(
 // ---------------------------------------------------------------------------
 
 export const toggleGroupItemVariants = cva(
-	// Base styles — shared across all variants and sizes
-	[
-		// Layout
-		"inline-flex items-center justify-center gap-2",
-		// Typography
-		"text-sm font-medium leading-5",
-		// Shape
-		"rounded-md",
-		// Transition (uses design system motion tokens)
-		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-fast ease-standard",
-		// Focus ring — WCAG AA compliant, visible on keyboard navigation only
-		focusRingClasses,
-		// Disabled — consistent across all variants
-		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
-		// Cursor
-		"cursor-pointer",
-		// Prevent text selection on rapid clicks
-		"select-none",
-		// Shrink protection
-		"shrink-0",
-	],
-	{
-		variants: {
-			// -----------------------------------------------------------------
-			// Visual Variants
-			// -----------------------------------------------------------------
-			variant: {
-				/**
-				 * Default — transparent background, fills on press.
-				 */
-				default: [
-					"bg-transparent text-muted-foreground",
-					"hover:bg-muted hover:text-foreground",
-					"data-[state=on]:bg-secondary data-[state=on]:text-foreground",
-				],
+  // Base styles — shared across all variants and sizes
+  [
+    // Layout
+    "inline-flex items-center justify-center gap-2",
+    // Typography
+    "text-sm font-medium leading-5",
+    // Shape
+    "rounded-md",
+    // Transition (uses design system motion tokens)
+    "transition-[color,background-color,border-color,box-shadow,opacity]",
+    "duration-fast ease-standard",
+    // Focus ring — WCAG AA compliant, visible on keyboard navigation only
+    focusRingClasses,
+    // Disabled — consistent across all variants
+    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
+    // Cursor
+    "cursor-pointer",
+    // Prevent text selection on rapid clicks
+    "select-none",
+    // Shrink protection
+    "shrink-0",
+  ],
+  {
+    variants: {
+      // -----------------------------------------------------------------
+      // Visual Variants
+      // -----------------------------------------------------------------
+      variant: {
+        /**
+         * Default — transparent background, fills on press.
+         */
+        default: [
+          "bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-secondary data-[state=on]:text-foreground",
+        ],
 
-				/**
-				 * Outline — bordered item with visible boundary.
-				 */
-				outline: [
-					"border border-border",
-					"bg-transparent text-muted-foreground",
-					"hover:bg-muted hover:text-foreground",
-					"data-[state=on]:bg-secondary data-[state=on]:text-foreground",
-					"data-[state=on]:border-border-strong",
-				],
+        /**
+         * Outline — bordered item with visible boundary.
+         */
+        outline: [
+          "border border-border",
+          "bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-secondary data-[state=on]:text-foreground",
+          "data-[state=on]:border-border-strong",
+        ],
 
-				/**
-				 * Ghost — minimal visual weight.
-				 */
-				ghost: [
-					"bg-transparent text-muted-foreground",
-					"hover:bg-muted hover:text-foreground",
-					"data-[state=on]:bg-transparent data-[state=on]:text-foreground",
-				],
-			},
+        /**
+         * Ghost — minimal visual weight.
+         */
+        ghost: [
+          "bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-transparent data-[state=on]:text-foreground",
+        ],
+      },
 
-			// -----------------------------------------------------------------
-			// Size Variants
-			// -----------------------------------------------------------------
-			size: {
-				/**
-				 * Small — compact for dense UIs, toolbars.
-				 * Height: 32px (h-8)
-				 */
-				sm: "h-8 px-2 text-xs gap-1.5",
+      // -----------------------------------------------------------------
+      // Size Variants
+      // -----------------------------------------------------------------
+      size: {
+        /**
+         * Small — compact for dense UIs, toolbars.
+         * Height: 32px (h-8)
+         */
+        sm: "h-8 px-2 text-xs gap-1.5",
 
-				/**
-				 * Medium — default size for most toggle groups.
-				 * Height: 36px (h-9)
-				 */
-				md: "h-9 px-3 text-sm gap-2",
+        /**
+         * Medium — default size for most toggle groups.
+         * Height: 36px (h-9)
+         */
+        md: "h-9 px-3 text-sm gap-2",
 
-				/**
-				 * Large — prominent for larger touch targets.
-				 * Height: 40px (h-10)
-				 */
-				lg: "h-10 px-4 text-sm gap-2",
-			},
-		},
+        /**
+         * Large — prominent for larger touch targets.
+         * Height: 40px (h-10)
+         */
+        lg: "h-10 px-4 text-sm gap-2",
+      },
+    },
 
-		defaultVariants: {
-			variant: "default",
-			size: "md",
-		},
-	},
+    defaultVariants: {
+      variant: "default",
+      size: "md",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -213,148 +213,148 @@ export type ToggleGroupOrientation = "horizontal" | "vertical";
 // --- Single mode ---
 
 export interface ToggleGroupSingleProps
-	extends Omit<
-		ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root>,
-		"type" | "asChild" | "rovingFocus" | "orientation"
-	> {
-	/**
-	 * Selection mode: only one item can be active at a time.
-	 */
-	type: "single";
+  extends Omit<
+    ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root>,
+    "type" | "asChild" | "rovingFocus" | "orientation"
+  > {
+  /**
+   * Selection mode: only one item can be active at a time.
+   */
+  type: "single";
 
-	/**
-	 * The controlled value of the active item.
-	 */
-	value?: string;
+  /**
+   * The controlled value of the active item.
+   */
+  value?: string;
 
-	/**
-	 * The default value for uncontrolled usage.
-	 */
-	defaultValue?: string;
+  /**
+   * The default value for uncontrolled usage.
+   */
+  defaultValue?: string;
 
-	/**
-	 * Callback fired when the active item changes.
-	 */
-	onValueChange?: (value: string) => void;
+  /**
+   * Callback fired when the active item changes.
+   */
+  onValueChange?: (value: string) => void;
 
-	/**
-	 * Visual variant applied to all items in the group.
-	 * @default "default"
-	 */
-	variant?: ToggleGroupVariant;
+  /**
+   * Visual variant applied to all items in the group.
+   * @default "default"
+   */
+  variant?: ToggleGroupVariant;
 
-	/**
-	 * Size applied to all items in the group.
-	 * @default "md"
-	 */
-	size?: ToggleGroupSize;
+  /**
+   * Size applied to all items in the group.
+   * @default "md"
+   */
+  size?: ToggleGroupSize;
 
-	/**
-	 * Orientation of the toggle group.
-	 * @default "horizontal"
-	 */
-	orientation?: ToggleGroupOrientation;
+  /**
+   * Orientation of the toggle group.
+   * @default "horizontal"
+   */
+  orientation?: ToggleGroupOrientation;
 
-	/**
-	 * Whether the group is disabled.
-	 * @default false
-	 */
-	disabled?: boolean;
+  /**
+   * Whether the group is disabled.
+   * @default false
+   */
+  disabled?: boolean;
 
-	/** Content to render inside the group (ToggleGroupItem children). */
-	children: ReactNode;
+  /** Content to render inside the group (ToggleGroupItem children). */
+  children: ReactNode;
 
-	/** Additional CSS classes to merge. */
-	className?: string;
+  /** Additional CSS classes to merge. */
+  className?: string;
 }
 
 // --- Multiple mode ---
 
 export interface ToggleGroupMultipleProps
-	extends Omit<
-		ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root>,
-		"type" | "asChild" | "rovingFocus" | "orientation"
-	> {
-	/**
-	 * Selection mode: multiple items can be active simultaneously.
-	 */
-	type: "multiple";
+  extends Omit<
+    ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root>,
+    "type" | "asChild" | "rovingFocus" | "orientation"
+  > {
+  /**
+   * Selection mode: multiple items can be active simultaneously.
+   */
+  type: "multiple";
 
-	/**
-	 * The controlled value of the active items.
-	 */
-	value?: string[];
+  /**
+   * The controlled value of the active items.
+   */
+  value?: string[];
 
-	/**
-	 * The default value for uncontrolled usage.
-	 */
-	defaultValue?: string[];
+  /**
+   * The default value for uncontrolled usage.
+   */
+  defaultValue?: string[];
 
-	/**
-	 * Callback fired when the active items change.
-	 */
-	onValueChange?: (value: string[]) => void;
+  /**
+   * Callback fired when the active items change.
+   */
+  onValueChange?: (value: string[]) => void;
 
-	/**
-	 * Visual variant applied to all items in the group.
-	 * @default "default"
-	 */
-	variant?: ToggleGroupVariant;
+  /**
+   * Visual variant applied to all items in the group.
+   * @default "default"
+   */
+  variant?: ToggleGroupVariant;
 
-	/**
-	 * Size applied to all items in the group.
-	 * @default "md"
-	 */
-	size?: ToggleGroupSize;
+  /**
+   * Size applied to all items in the group.
+   * @default "md"
+   */
+  size?: ToggleGroupSize;
 
-	/**
-	 * Orientation of the toggle group.
-	 * @default "horizontal"
-	 */
-	orientation?: ToggleGroupOrientation;
+  /**
+   * Orientation of the toggle group.
+   * @default "horizontal"
+   */
+  orientation?: ToggleGroupOrientation;
 
-	/**
-	 * Whether the group is disabled.
-	 * @default false
-	 */
-	disabled?: boolean;
+  /**
+   * Whether the group is disabled.
+   * @default false
+   */
+  disabled?: boolean;
 
-	/** Content to render inside the group (ToggleGroupItem children). */
-	children: ReactNode;
+  /** Content to render inside the group (ToggleGroupItem children). */
+  children: ReactNode;
 
-	/** Additional CSS classes to merge. */
-	className?: string;
+  /** Additional CSS classes to merge. */
+  className?: string;
 }
 
 export type ToggleGroupProps =
-	| ToggleGroupSingleProps
-	| ToggleGroupMultipleProps;
+  | ToggleGroupSingleProps
+  | ToggleGroupMultipleProps;
 
 export interface ToggleGroupItemProps
-	extends Omit<
-		ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item>,
-		"asChild"
-	> {
-	/**
-	 * The unique value for this item.
-	 */
-	value: string;
+  extends Omit<
+    ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item>,
+    "asChild"
+  > {
+  /**
+   * The unique value for this item.
+   */
+  value: string;
 
-	/**
-	 * Override the group-level variant for this specific item.
-	 */
-	variant?: ToggleGroupVariant;
+  /**
+   * Override the group-level variant for this specific item.
+   */
+  variant?: ToggleGroupVariant;
 
-	/**
-	 * Override the group-level size for this specific item.
-	 */
-	size?: ToggleGroupSize;
+  /**
+   * Override the group-level size for this specific item.
+   */
+  size?: ToggleGroupSize;
 
-	/** Content to render inside the toggle item. */
-	children?: ReactNode;
+  /** Content to render inside the toggle item. */
+  children?: ReactNode;
 
-	/** Additional CSS classes to merge. */
-	className?: string;
+  /** Additional CSS classes to merge. */
+  className?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -423,36 +423,36 @@ export interface ToggleGroupItemProps
  * ```
  */
 export const ToggleGroup = forwardRef<
-	React.ComponentRef<typeof ToggleGroupPrimitive.Root>,
-	ToggleGroupProps
+  React.ComponentRef<typeof ToggleGroupPrimitive.Root>,
+  ToggleGroupProps
 >(function ToggleGroup(
-	{
-		variant = "default",
-		size = "md",
-		orientation = "horizontal",
-		className,
-		children,
-		...rest
-	},
-	ref,
+  {
+    variant = "default",
+    size = "md",
+    orientation = "horizontal",
+    className,
+    children,
+    ...rest
+  },
+  ref,
 ) {
-	return (
-		<ToggleGroupContext.Provider value={{ variant, size }}>
-			<ToggleGroupPrimitive.Root
-				ref={ref}
-				orientation={orientation}
-				className={cn(toggleGroupVariants({ orientation }), className)}
-				data-ds=""
-				data-ds-component="toggle-group"
-				data-ds-variant={variant}
-				data-ds-size={size}
-				data-ds-orientation={orientation}
-				{...rest}
-			>
-				{children}
-			</ToggleGroupPrimitive.Root>
-		</ToggleGroupContext.Provider>
-	);
+  return (
+    <ToggleGroupContext.Provider value={{ variant, size }}>
+      <ToggleGroupPrimitive.Root
+        ref={ref}
+        orientation={orientation}
+        className={cn(toggleGroupVariants({ orientation }), className)}
+        data-ds=""
+        data-ds-component="toggle-group"
+        data-ds-variant={variant}
+        data-ds-size={size}
+        data-ds-orientation={orientation}
+        {...rest}
+      >
+        {children}
+      </ToggleGroupPrimitive.Root>
+    </ToggleGroupContext.Provider>
+  );
 });
 
 ToggleGroup.displayName = "ToggleGroup";
@@ -489,43 +489,36 @@ ToggleGroup.displayName = "ToggleGroup";
  * ```
  */
 export const ToggleGroupItem = forwardRef<
-	React.ComponentRef<typeof ToggleGroupPrimitive.Item>,
-	ToggleGroupItemProps
+  React.ComponentRef<typeof ToggleGroupPrimitive.Item>,
+  ToggleGroupItemProps
 >(function ToggleGroupItem(
-	{
-		variant: variantProp,
-		size: sizeProp,
-		className,
-		children,
-		...rest
-	},
-	ref,
+  { variant: variantProp, size: sizeProp, className, children, ...rest },
+  ref,
 ) {
-	const context = useToggleGroupContext();
-	const variant = variantProp ?? context.variant;
-	const size = sizeProp ?? context.size;
+  const context = useToggleGroupContext();
+  const variant = variantProp ?? context.variant;
+  const size = sizeProp ?? context.size;
 
-	// Icon sizing classes based on item size
-	const iconSizeClass =
-		size === "sm" ? "[&>svg]:size-3.5" : "[&>svg]:size-4";
+  // Icon sizing classes based on item size
+  const iconSizeClass = size === "sm" ? "[&>svg]:size-3.5" : "[&>svg]:size-4";
 
-	return (
-		<ToggleGroupPrimitive.Item
-			ref={ref}
-			className={cn(
-				toggleGroupItemVariants({ variant, size }),
-				iconSizeClass,
-				className,
-			)}
-			data-ds=""
-			data-ds-component="toggle-group-item"
-			data-ds-variant={variant}
-			data-ds-size={size}
-			{...rest}
-		>
-			{children}
-		</ToggleGroupPrimitive.Item>
-	);
+  return (
+    <ToggleGroupPrimitive.Item
+      ref={ref}
+      className={cn(
+        toggleGroupItemVariants({ variant, size }),
+        iconSizeClass,
+        className,
+      )}
+      data-ds=""
+      data-ds-component="toggle-group-item"
+      data-ds-variant={variant}
+      data-ds-size={size}
+      {...rest}
+    >
+      {children}
+    </ToggleGroupPrimitive.Item>
+  );
 });
 
 ToggleGroupItem.displayName = "ToggleGroupItem";

@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
+import { FooterSection } from "@/components/home/footer-section";
 import { HomeLayout } from "@/components/layout/home";
 import { Nav } from "@/components/layout/nav";
-import { FooterSection } from "@/components/home/footer-section";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (

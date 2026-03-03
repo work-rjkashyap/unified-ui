@@ -434,6 +434,15 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
   const initials = name ? getInitials(name) : "";
   const resolvedAlt = alt ?? name ?? "Avatar";
 
+  const imgEl = showImage ? (
+    <img
+      src={src}
+      alt={resolvedAlt}
+      className="size-full object-cover"
+      draggable={false}
+    />
+  ) : null;
+
   return (
     <span
       ref={ref}
@@ -455,12 +464,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
           children
         ) : showImage ? (
           /* Priority 2: Loaded image */
-          <img
-            src={src}
-            alt={resolvedAlt}
-            className="size-full object-cover"
-            draggable={false}
-          />
+          imgEl
         ) : initials ? (
           /* Priority 3: Initials from name */
           <span role="img" aria-label={resolvedAlt}>

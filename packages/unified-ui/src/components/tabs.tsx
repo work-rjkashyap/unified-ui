@@ -34,40 +34,44 @@
 //   </Tabs>
 // ============================================================================
 
-import { Tabs as TabsPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva } from "class-variance-authority";
 import { motion, useReducedMotion } from "framer-motion";
+import { Tabs as TabsPrimitive } from "radix-ui";
 import {
-	type ComponentPropsWithoutRef,
-	createContext,
-	forwardRef,
-	type ReactNode,
-	useContext,
-	useId,
+  type ComponentPropsWithoutRef,
+  createContext,
+  forwardRef,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useId,
+  useState,
 } from "react";
 
 // ---------------------------------------------------------------------------
-// Context — shares variant/size/orientation across subcomponents
+// Context — shares variant/size/orientation/activeValue across subcomponents
 // ---------------------------------------------------------------------------
 
 interface TabsContextValue {
-	variant: TabsVariant;
-	size: TabsSize;
-	orientation: TabsOrientation;
-	layoutId: string;
+  variant: TabsVariant;
+  size: TabsSize;
+  orientation: TabsOrientation;
+  layoutId: string;
+  activeValue: string;
 }
 
 const TabsContext = createContext<TabsContextValue>({
-	variant: "underline",
-	size: "md",
-	orientation: "horizontal",
-	layoutId: "",
+  variant: "underline",
+  size: "md",
+  orientation: "horizontal",
+  layoutId: "",
+  activeValue: "",
 });
 
 function useTabsContext(): TabsContextValue {
-	return useContext(TabsContext);
+  return useContext(TabsContext);
 }
 
 // ---------------------------------------------------------------------------
@@ -75,108 +79,108 @@ function useTabsContext(): TabsContextValue {
 // ---------------------------------------------------------------------------
 
 export const tabsListVariants = cva(["inline-flex items-center", "shrink-0"], {
-	variants: {
-		variant: {
-			underline: ["border-b border-border", "gap-0"],
-			pills: ["gap-1", "rounded-md", "bg-muted", "p-1"],
-			enclosed: ["border-b border-border", "gap-0"],
-		},
-		orientation: {
-			horizontal: "flex-row w-full",
-			vertical: "flex-col w-auto border-b-0",
-		},
-		fullWidth: {
-			true: "",
-			false: "",
-		},
-	},
-	compoundVariants: [
-		// Vertical orientation adjustments
-		{
-			variant: "underline",
-			orientation: "vertical",
-			className: "border-b-0 border-r border-border",
-		},
-		{
-			variant: "enclosed",
-			orientation: "vertical",
-			className: "border-b-0 border-r border-border",
-		},
-	],
-	defaultVariants: {
-		variant: "underline",
-		orientation: "horizontal",
-		fullWidth: false,
-	},
+  variants: {
+    variant: {
+      underline: ["border-b border-border", "gap-0"],
+      pills: ["gap-1", "rounded-md", "bg-muted", "p-1"],
+      enclosed: ["border-b border-border", "gap-0"],
+    },
+    orientation: {
+      horizontal: "flex-row w-full",
+      vertical: "flex-col w-auto border-b-0",
+    },
+    fullWidth: {
+      true: "",
+      false: "",
+    },
+  },
+  compoundVariants: [
+    // Vertical orientation adjustments
+    {
+      variant: "underline",
+      orientation: "vertical",
+      className: "border-b-0 border-r border-border",
+    },
+    {
+      variant: "enclosed",
+      orientation: "vertical",
+      className: "border-b-0 border-r border-border",
+    },
+  ],
+  defaultVariants: {
+    variant: "underline",
+    orientation: "horizontal",
+    fullWidth: false,
+  },
 });
 
 export const tabsTriggerVariants = cva(
-	[
-		// Layout
-		"relative inline-flex items-center justify-center gap-1.5",
-		// Typography
-		"font-medium leading-5 whitespace-nowrap",
-		// Transition
-		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-fast ease-standard",
-		// Focus ring
-		focusRingClasses,
-		// Disabled
-		"disabled:pointer-events-none disabled:opacity-50",
-		// Cursor
-		"cursor-pointer select-none",
-	],
-	{
-		variants: {
-			variant: {
-				underline: [
-					"bg-transparent",
-					"text-muted-foreground",
-					"hover:text-foreground",
-					"data-[state=active]:text-foreground",
-					// Bottom border space for the active indicator
-					"border-b-2 border-transparent -mb-px",
-				],
-				pills: [
-					"rounded-sm",
-					"text-muted-foreground",
-					"hover:text-foreground hover:bg-background/60",
-					"data-[state=active]:text-foreground",
-				],
-				enclosed: [
-					"bg-transparent",
-					"text-muted-foreground",
-					"border border-transparent",
-					"hover:text-foreground",
-					"data-[state=active]:text-foreground",
-					"data-[state=active]:bg-background",
-					"data-[state=active]:border-border",
-					"data-[state=active]:border-b-transparent",
-					"-mb-px",
-				],
-			},
-			size: {
-				sm: "text-xs px-3 py-1.5",
-				md: "text-sm px-4 py-2",
-			},
-		},
-		defaultVariants: {
-			variant: "underline",
-			size: "md",
-		},
-	},
+  [
+    // Layout
+    "relative inline-flex items-center justify-center gap-1.5",
+    // Typography
+    "font-medium leading-5 whitespace-nowrap",
+    // Transition
+    "transition-[color,background-color,border-color,box-shadow,opacity]",
+    "duration-fast ease-standard",
+    // Focus ring
+    focusRingClasses,
+    // Disabled
+    "disabled:pointer-events-none disabled:opacity-50",
+    // Cursor
+    "cursor-pointer select-none",
+  ],
+  {
+    variants: {
+      variant: {
+        underline: [
+          "bg-transparent",
+          "text-muted-foreground",
+          "hover:text-foreground",
+          "data-[state=active]:text-foreground",
+          // Bottom border space for the active indicator
+          "border-b-2 border-transparent -mb-px",
+        ],
+        pills: [
+          "rounded-sm",
+          "text-muted-foreground",
+          "hover:text-foreground hover:bg-background/60",
+          "data-[state=active]:text-foreground",
+        ],
+        enclosed: [
+          "bg-transparent",
+          "text-muted-foreground",
+          "border border-transparent",
+          "hover:text-foreground",
+          "data-[state=active]:text-foreground",
+          "data-[state=active]:bg-background",
+          "data-[state=active]:border-border",
+          "data-[state=active]:border-b-transparent",
+          "-mb-px",
+        ],
+      },
+      size: {
+        sm: "text-xs px-3 py-1.5",
+        md: "text-sm px-4 py-2",
+      },
+    },
+    defaultVariants: {
+      variant: "underline",
+      size: "md",
+    },
+  },
 );
 
 const tabsContentVariants = cva(["mt-2", focusRingClasses, "rounded-sm"], {
-	variants: {
-		orientation: {
-			horizontal: "mt-2",
-			vertical: "mt-0 ml-4",
-		},
-	},
-	defaultVariants: {
-		orientation: "horizontal",
-	},
+  variants: {
+    orientation: {
+      horizontal: "mt-2",
+      vertical: "mt-0 ml-4",
+    },
+  },
+  defaultVariants: {
+    orientation: "horizontal",
+  },
 });
 
 // ---------------------------------------------------------------------------
@@ -187,60 +191,58 @@ export type TabsVariant = "underline" | "pills" | "enclosed";
 export type TabsSize = "sm" | "md";
 export type TabsOrientation = "horizontal" | "vertical";
 
-export interface TabsProps extends Omit<
-	ComponentPropsWithoutRef<typeof TabsPrimitive.Root>,
-	"orientation"
-> {
-	/** Visual variant of the tab list. @default "underline" */
-	variant?: TabsVariant;
+export interface TabsProps
+  extends Omit<
+    ComponentPropsWithoutRef<typeof TabsPrimitive.Root>,
+    "orientation"
+  > {
+  /** Visual variant of the tab list. @default "underline" */
+  variant?: TabsVariant;
 
-	/** Size of the tab triggers. @default "md" */
-	size?: TabsSize;
+  /** Size of the tab triggers. @default "md" */
+  size?: TabsSize;
 
-	/** Layout orientation. @default "horizontal" */
-	orientation?: TabsOrientation;
+  /** Layout orientation. @default "horizontal" */
+  orientation?: TabsOrientation;
 
-	/** Additional CSS classes. */
-	className?: string;
+  /** Additional CSS classes. */
+  className?: string;
 
-	/** Tab content. */
-	children?: ReactNode;
+  /** Tab content. */
+  children?: ReactNode;
 }
 
-export interface TabsListProps extends ComponentPropsWithoutRef<
-	typeof TabsPrimitive.List
-> {
-	/** Whether tabs stretch to fill the available width. @default false */
-	fullWidth?: boolean;
+export interface TabsListProps
+  extends ComponentPropsWithoutRef<typeof TabsPrimitive.List> {
+  /** Whether tabs stretch to fill the available width. @default false */
+  fullWidth?: boolean;
 
-	/** Additional CSS classes. */
-	className?: string;
+  /** Additional CSS classes. */
+  className?: string;
 
-	/** Tab triggers. */
-	children?: ReactNode;
+  /** Tab triggers. */
+  children?: ReactNode;
 }
 
-export interface TabsTriggerProps extends ComponentPropsWithoutRef<
-	typeof TabsPrimitive.Trigger
-> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface TabsTriggerProps
+  extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
+  /** Additional CSS classes. */
+  className?: string;
 
-	/** Optional icon to display before the label. */
-	icon?: ReactNode;
+  /** Optional icon to display before the label. */
+  icon?: ReactNode;
 
-	/** The trigger label. */
-	children?: ReactNode;
+  /** The trigger label. */
+  children?: ReactNode;
 }
 
-export interface TabsContentProps extends ComponentPropsWithoutRef<
-	typeof TabsPrimitive.Content
-> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface TabsContentProps
+  extends ComponentPropsWithoutRef<typeof TabsPrimitive.Content> {
+  /** Additional CSS classes. */
+  className?: string;
 
-	/** The panel content. */
-	children?: ReactNode;
+  /** The panel content. */
+  children?: ReactNode;
 }
 
 // ---------------------------------------------------------------------------
@@ -251,64 +253,64 @@ const MotionSpan = motion.create("span");
 
 // Spring config for the active indicator animation.
 const indicatorSpringConfig = {
-	type: "spring" as const,
-	stiffness: 500,
-	damping: 35,
-	mass: 0.5,
+  type: "spring" as const,
+  stiffness: 500,
+  damping: 35,
+  mass: 0.5,
 };
 
 // Instant transition for users who prefer reduced motion.
 // Uses a very short duration so the indicator snaps into place
 // without any visible animation.
 const indicatorInstantConfig = {
-	type: "tween" as const,
-	duration: 0,
+  type: "tween" as const,
+  duration: 0,
 };
 
 function ActiveIndicator({
-	variant,
-	layoutId,
+  variant,
+  layoutId,
 }: {
-	variant: TabsVariant;
-	layoutId: string;
+  variant: TabsVariant;
+  layoutId: string;
 }) {
-	const prefersReduced = useReducedMotion();
-	const transition = prefersReduced
-		? indicatorInstantConfig
-		: indicatorSpringConfig;
+  const prefersReduced = useReducedMotion();
+  const transition = prefersReduced
+    ? indicatorInstantConfig
+    : indicatorSpringConfig;
 
-	if (variant === "enclosed") {
-		// Enclosed variant uses data-state styling, no motion indicator
-		return null;
-	}
+  if (variant === "enclosed") {
+    // Enclosed variant uses data-state styling, no motion indicator
+    return null;
+  }
 
-	if (variant === "underline") {
-		return (
-			<MotionSpan
-				layoutId={layoutId}
-				className={cn(
-					"absolute bottom-0 left-0 right-0 h-0.5",
-					"bg-primary",
-					"rounded-full",
-				)}
-				transition={transition}
-			/>
-		);
-	}
+  if (variant === "underline") {
+    return (
+      <MotionSpan
+        layoutId={layoutId}
+        className={cn(
+          "absolute bottom-0 left-0 right-0 h-0.5",
+          "bg-primary",
+          "rounded-full",
+        )}
+        transition={transition}
+      />
+    );
+  }
 
-	// Pills variant
-	return (
-		<MotionSpan
-			layoutId={layoutId}
-			className={cn(
-				"absolute inset-0",
-				"bg-background",
-				"rounded-sm",
-				"shadow-sm",
-			)}
-			transition={transition}
-		/>
-	);
+  // Pills variant
+  return (
+    <MotionSpan
+      layoutId={layoutId}
+      className={cn(
+        "absolute inset-0",
+        "bg-background",
+        "rounded-sm",
+        "shadow-sm",
+      )}
+      transition={transition}
+    />
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -371,43 +373,73 @@ function ActiveIndicator({
  * ```
  */
 export const Tabs = forwardRef<
-	React.ComponentRef<typeof TabsPrimitive.Root>,
-	TabsProps
+  React.ComponentRef<typeof TabsPrimitive.Root>,
+  TabsProps
 >(function Tabs(
-	{
-		variant = "underline",
-		size = "md",
-		orientation = "horizontal",
-		className,
-		children,
-		...rest
-	},
-	ref,
+  {
+    variant = "underline",
+    size = "md",
+    orientation = "horizontal",
+    className,
+    children,
+    value: controlledValue,
+    defaultValue,
+    onValueChange,
+    ...rest
+  },
+  ref,
 ) {
-	const autoId = useId();
-	const layoutId = `tabs-indicator-${autoId}`;
+  const autoId = useId();
+  const layoutId = `tabs-indicator-${autoId}`;
 
-	return (
-		<TabsContext.Provider value={{ variant, size, orientation, layoutId }}>
-			<TabsPrimitive.Root
-				ref={ref}
-				orientation={orientation}
-				className={cn(
-					"not-prose",
-					orientation === "vertical" && "flex flex-row",
-					className,
-				)}
-				data-ds=""
-				data-ds-component="tabs"
-				data-ds-variant={variant}
-				data-ds-size={size}
-				data-ds-orientation={orientation}
-				{...rest}
-			>
-				{children}
-			</TabsPrimitive.Root>
-		</TabsContext.Provider>
-	);
+  // Track the active value so child TabsTrigger components can
+  // conditionally render the motion indicator only when active.
+  // This is critical for Framer Motion's layoutId — only ONE element
+  // with a given layoutId should be mounted at a time.
+  const [internalValue, setInternalValue] = useState(
+    controlledValue ?? defaultValue ?? "",
+  );
+
+  // Determine the real active value: prefer controlled, fall back to internal.
+  const activeValue =
+    controlledValue !== undefined ? controlledValue : internalValue;
+
+  const handleValueChange = useCallback(
+    (newValue: string) => {
+      if (controlledValue === undefined) {
+        setInternalValue(newValue);
+      }
+      onValueChange?.(newValue);
+    },
+    [controlledValue, onValueChange],
+  );
+
+  return (
+    <TabsContext.Provider
+      value={{ variant, size, orientation, layoutId, activeValue }}
+    >
+      <TabsPrimitive.Root
+        ref={ref}
+        orientation={orientation}
+        value={controlledValue}
+        defaultValue={controlledValue !== undefined ? undefined : defaultValue}
+        onValueChange={handleValueChange}
+        className={cn(
+          "not-prose",
+          orientation === "vertical" && "flex flex-row",
+          className,
+        )}
+        data-ds=""
+        data-ds-component="tabs"
+        data-ds-variant={variant}
+        data-ds-size={size}
+        data-ds-orientation={orientation}
+        {...rest}
+      >
+        {children}
+      </TabsPrimitive.Root>
+    </TabsContext.Provider>
+  );
 });
 
 Tabs.displayName = "Tabs";
@@ -434,26 +466,26 @@ Tabs.displayName = "Tabs";
  * ```
  */
 export const TabsList = forwardRef<
-	React.ComponentRef<typeof TabsPrimitive.List>,
-	TabsListProps
+  React.ComponentRef<typeof TabsPrimitive.List>,
+  TabsListProps
 >(function TabsList({ fullWidth = false, className, children, ...rest }, ref) {
-	const { variant, orientation } = useTabsContext();
+  const { variant, orientation } = useTabsContext();
 
-	return (
-		<TabsPrimitive.List
-			ref={ref}
-			className={cn(
-				tabsListVariants({ variant, orientation, fullWidth }),
-				fullWidth && orientation === "horizontal" && "[&>*]:flex-1",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="tabs-list"
-			{...rest}
-		>
-			{children}
-		</TabsPrimitive.List>
-	);
+  return (
+    <TabsPrimitive.List
+      ref={ref}
+      className={cn(
+        tabsListVariants({ variant, orientation, fullWidth }),
+        fullWidth && orientation === "horizontal" && "[&>*]:flex-1",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="tabs-list"
+      {...rest}
+    >
+      {children}
+    </TabsPrimitive.List>
+  );
 });
 
 TabsList.displayName = "TabsList";
@@ -466,7 +498,9 @@ TabsList.displayName = "TabsList";
  * TabsTrigger — an individual tab button within the TabsList.
  *
  * Renders a Framer Motion active indicator when the tab is selected,
- * creating a smooth sliding animation between active tabs.
+ * creating a smooth sliding animation between active tabs. The indicator
+ * is only mounted on the currently active trigger so that Framer Motion's
+ * layoutId animation works correctly (only one element per layoutId).
  *
  * @example
  * ```tsx
@@ -476,91 +510,59 @@ TabsList.displayName = "TabsList";
  * ```
  */
 export const TabsTrigger = forwardRef<
-	React.ComponentRef<typeof TabsPrimitive.Trigger>,
-	TabsTriggerProps
->(function TabsTrigger({ className, icon, children, disabled, ...rest }, ref) {
-	const { variant, size, layoutId } = useTabsContext();
+  React.ComponentRef<typeof TabsPrimitive.Trigger>,
+  TabsTriggerProps
+>(function TabsTrigger(
+  { className, icon, children, disabled, value, ...rest },
+  ref,
+) {
+  const { variant, size, layoutId, activeValue } = useTabsContext();
 
-	const iconSizeClass = size === "sm" ? "[&>svg]:size-3.5" : "[&>svg]:size-4";
+  const iconSizeClass = size === "sm" ? "[&>svg]:size-3.5" : "[&>svg]:size-4";
 
-	return (
-		<TabsPrimitive.Trigger
-			ref={ref}
-			disabled={disabled}
-			className={cn(
-				tabsTriggerVariants({ variant, size }),
-				iconSizeClass,
-				// For underline variant, make border transparent — the motion indicator handles the active line
-				variant === "underline" &&
-					"data-[state=active]:border-transparent",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="tabs-trigger"
-			{...rest}
-		>
-			{/* Active indicator (motion animated) */}
-			{variant !== "enclosed" && (
-				<TabsPrimitive.Trigger asChild {...rest} disabled={disabled}>
-					<span className="absolute inset-0 pointer-events-none">
-						{/* This wrapper receives data-state from Radix, we check it manually */}
-					</span>
-				</TabsPrimitive.Trigger>
-			)}
+  // Determine if this trigger is the active one by comparing its value
+  // to the tracked active value from context.
+  const isActive = value === activeValue;
 
-			{/* We render the indicator via a data-state check */}
-			<ActiveIndicatorWrapper variant={variant} layoutId={layoutId} />
+  return (
+    <TabsPrimitive.Trigger
+      ref={ref}
+      value={value}
+      disabled={disabled}
+      className={cn(
+        tabsTriggerVariants({ variant, size }),
+        iconSizeClass,
+        // For underline variant, make border transparent — the motion indicator handles the active line
+        variant === "underline" && "data-[state=active]:border-transparent",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="tabs-trigger"
+      {...rest}
+    >
+      {/* Active indicator — only mounted on the active trigger.
+          This ensures exactly one element with the layoutId exists at a time,
+          which is required for Framer Motion's layout animation to work. */}
+      {variant !== "enclosed" && isActive && (
+        <span className="absolute inset-0 pointer-events-none">
+          <ActiveIndicator variant={variant} layoutId={layoutId} />
+        </span>
+      )}
 
-			{/* Content (positioned above the indicator for pills) */}
-			<span
-				className={cn(
-					"relative z-[1] inline-flex items-center gap-1.5",
-				)}
-			>
-				{icon && (
-					<span className="shrink-0" aria-hidden="true">
-						{icon}
-					</span>
-				)}
-				{children}
-			</span>
-		</TabsPrimitive.Trigger>
-	);
+      {/* Content (positioned above the indicator for pills) */}
+      <span className={cn("relative z-[1] inline-flex items-center gap-1.5")}>
+        {icon && (
+          <span className="shrink-0" aria-hidden="true">
+            {icon}
+          </span>
+        )}
+        {children}
+      </span>
+    </TabsPrimitive.Trigger>
+  );
 });
 
 TabsTrigger.displayName = "TabsTrigger";
-
-// ---------------------------------------------------------------------------
-// ActiveIndicatorWrapper — renders indicator only when active
-// ---------------------------------------------------------------------------
-// Radix sets `data-state="active"` on the trigger. We use a CSS-driven
-// approach: the indicator is always rendered but only visible when active
-// via the parent's data-state attribute.
-// ---------------------------------------------------------------------------
-
-function ActiveIndicatorWrapper({
-	variant,
-	layoutId,
-}: {
-	variant: TabsVariant;
-	layoutId: string;
-}) {
-	if (variant === "enclosed") {
-		return null;
-	}
-
-	return (
-		<span
-			className={cn(
-				"absolute inset-0 pointer-events-none",
-				// Only show when parent trigger has data-state=active
-				"hidden [[data-state=active]>&]:block",
-			)}
-		>
-			<ActiveIndicator variant={variant} layoutId={layoutId} />
-		</span>
-	);
-}
 
 // ---------------------------------------------------------------------------
 // TabsContent — Tab Panel
@@ -577,22 +579,22 @@ function ActiveIndicatorWrapper({
  * ```
  */
 export const TabsContent = forwardRef<
-	React.ComponentRef<typeof TabsPrimitive.Content>,
-	TabsContentProps
+  React.ComponentRef<typeof TabsPrimitive.Content>,
+  TabsContentProps
 >(function TabsContent({ className, children, ...rest }, ref) {
-	const { orientation } = useTabsContext();
+  const { orientation } = useTabsContext();
 
-	return (
-		<TabsPrimitive.Content
-			ref={ref}
-			className={cn(tabsContentVariants({ orientation }), className)}
-			data-ds=""
-			data-ds-component="tabs-content"
-			{...rest}
-		>
-			{children}
-		</TabsPrimitive.Content>
-	);
+  return (
+    <TabsPrimitive.Content
+      ref={ref}
+      className={cn(tabsContentVariants({ orientation }), className)}
+      data-ds=""
+      data-ds-component="tabs-content"
+      {...rest}
+    >
+      {children}
+    </TabsPrimitive.Content>
+  );
 });
 
 TabsContent.displayName = "TabsContent";

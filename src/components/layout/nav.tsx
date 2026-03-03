@@ -1,15 +1,15 @@
 "use client";
+import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { CommandIcon, Menu, Search } from "lucide-react";
 import Link from "next/link";
+import { baseOptions } from "@/app/layout.config";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
-import { LayoutHeader } from "./notebook/client";
-import { ThemeToggle } from "./theme-toggle";
-import { useSearchContext } from "fumadocs-ui/contexts/search";
-import { useSidebar } from "./sidebar/base";
-import { baseOptions } from "@/app/layout.config";
-import { renderTitleNav, useLinkItems } from "./shared";
 import { LinkItem } from "./link-item";
+import { LayoutHeader } from "./notebook/client";
+import { renderTitleNav, useLinkItems } from "./shared";
+import { useSidebar } from "./sidebar/base";
+import { ThemeToggle } from "./theme-toggle";
 
 export const Nav = () => {
   const { setOpenSearch } = useSearchContext();

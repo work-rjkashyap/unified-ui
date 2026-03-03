@@ -1,7 +1,7 @@
 "use client";
 'use strict';
 
-var chunk7ITQSRGX_cjs = require('./chunk-7ITQSRGX.cjs');
+var chunkFUWXGHWQ_cjs = require('./chunk-FUWXGHWQ.cjs');
 require('./chunk-ECIGDEAH.cjs');
 require('./chunk-4ON3M3OM.cjs');
 
@@ -9,49 +9,49 @@ require('./chunk-4ON3M3OM.cjs');
 
 Object.defineProperty(exports, "Body", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Body; }
+  get: function () { return chunkFUWXGHWQ_cjs.Body; }
 });
 Object.defineProperty(exports, "Caption", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Caption; }
+  get: function () { return chunkFUWXGHWQ_cjs.Caption; }
 });
 Object.defineProperty(exports, "Container", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Container; }
+  get: function () { return chunkFUWXGHWQ_cjs.Container; }
 });
 Object.defineProperty(exports, "Divider", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Divider; }
+  get: function () { return chunkFUWXGHWQ_cjs.Divider; }
 });
 Object.defineProperty(exports, "Grid", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Grid; }
+  get: function () { return chunkFUWXGHWQ_cjs.Grid; }
 });
 Object.defineProperty(exports, "Heading", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Heading; }
+  get: function () { return chunkFUWXGHWQ_cjs.Heading; }
 });
 Object.defineProperty(exports, "InlineCode", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.InlineCode; }
+  get: function () { return chunkFUWXGHWQ_cjs.InlineCode; }
 });
 Object.defineProperty(exports, "Label", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Label; }
+  get: function () { return chunkFUWXGHWQ_cjs.Label; }
 });
 Object.defineProperty(exports, "Overline", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Overline; }
+  get: function () { return chunkFUWXGHWQ_cjs.Overline; }
 });
 Object.defineProperty(exports, "Stack", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Stack; }
+  get: function () { return chunkFUWXGHWQ_cjs.Stack; }
 });
 Object.defineProperty(exports, "Subheading", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Subheading; }
+  get: function () { return chunkFUWXGHWQ_cjs.Subheading; }
 });
 Object.defineProperty(exports, "Typography", {
   enumerable: true,
-  get: function () { return chunk7ITQSRGX_cjs.Typography; }
+  get: function () { return chunkFUWXGHWQ_cjs.Typography; }
 });

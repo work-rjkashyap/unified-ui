@@ -1,8 +1,4 @@
 {
-	"title": "Documentation",
-	"pages": [
-		"index",
-		"---Design System---",
-		"design-system"
-	]
+  "title": "Documentation",
+  "pages": ["index", "---Design System---", "design-system"]
 }

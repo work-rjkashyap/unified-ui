@@ -92,7 +92,6 @@ var Divider = react.forwardRef(function Divider2({ spacing = 4, orientation = "h
     "hr",
     {
       ref,
-      role: "separator",
       "aria-orientation": orientation,
       className: chunk4ON3M3OM_cjs.cn(
         "border-none shrink-0",

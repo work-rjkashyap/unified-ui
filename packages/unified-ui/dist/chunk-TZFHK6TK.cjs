@@ -1,9 +1,11 @@
-import { blue, red, amber, green, zinc, slate, gray, teal, brand, zIndex, shadow, radius, semanticLight, shadowDark, semanticDark } from './chunk-TVCJRD3S.mjs';
-import { fontFamily } from './chunk-ITBG42M5.mjs';
-import { easingCSS, durationCSS } from './chunk-EZ2L3XPS.mjs';
-import { cn } from './chunk-ZT3PCXDF.mjs';
-import { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
+'use strict';
+
+var chunkQEFOXYBO_cjs = require('./chunk-QEFOXYBO.cjs');
+var chunkECIGDEAH_cjs = require('./chunk-ECIGDEAH.cjs');
+var chunkXCKK6P46_cjs = require('./chunk-XCKK6P46.cjs');
+var chunk4ON3M3OM_cjs = require('./chunk-4ON3M3OM.cjs');
+var react = require('react');
+var jsxRuntime = require('react/jsx-runtime');
 
 // src/theme/contract.ts
 var colorVarNames = {
@@ -136,24 +138,24 @@ function mapRecord(varNames, values) {
 }
 function buildLightThemeVars() {
   return {
-    ...mapRecord(colorVarNames, semanticLight),
-    ...mapRecord(radiusVarNames, radius),
-    ...mapRecord(shadowVarNames, shadow),
-    ...mapRecord(zIndexVarNames, zIndex),
-    ...mapRecord(durationVarNames, durationCSS),
-    ...mapRecord(easingVarNames, easingCSS),
-    ...mapRecord(fontFamilyVarNames, fontFamily)
+    ...mapRecord(colorVarNames, chunkQEFOXYBO_cjs.semanticLight),
+    ...mapRecord(radiusVarNames, chunkQEFOXYBO_cjs.radius),
+    ...mapRecord(shadowVarNames, chunkQEFOXYBO_cjs.shadow),
+    ...mapRecord(zIndexVarNames, chunkQEFOXYBO_cjs.zIndex),
+    ...mapRecord(durationVarNames, chunkXCKK6P46_cjs.durationCSS),
+    ...mapRecord(easingVarNames, chunkXCKK6P46_cjs.easingCSS),
+    ...mapRecord(fontFamilyVarNames, chunkECIGDEAH_cjs.fontFamily)
   };
 }
 function buildDarkThemeVars() {
   return {
-    ...mapRecord(colorVarNames, semanticDark),
-    ...mapRecord(radiusVarNames, radius),
-    ...mapRecord(shadowVarNames, shadowDark),
-    ...mapRecord(zIndexVarNames, zIndex),
-    ...mapRecord(durationVarNames, durationCSS),
-    ...mapRecord(easingVarNames, easingCSS),
-    ...mapRecord(fontFamilyVarNames, fontFamily)
+    ...mapRecord(colorVarNames, chunkQEFOXYBO_cjs.semanticDark),
+    ...mapRecord(radiusVarNames, chunkQEFOXYBO_cjs.radius),
+    ...mapRecord(shadowVarNames, chunkQEFOXYBO_cjs.shadowDark),
+    ...mapRecord(zIndexVarNames, chunkQEFOXYBO_cjs.zIndex),
+    ...mapRecord(durationVarNames, chunkXCKK6P46_cjs.durationCSS),
+    ...mapRecord(easingVarNames, chunkXCKK6P46_cjs.easingCSS),
+    ...mapRecord(fontFamilyVarNames, chunkECIGDEAH_cjs.fontFamily)
   };
 }
 function varsToCSS(vars) {
@@ -210,141 +212,51 @@ var cssVar = {
   /** Returns the raw `var(--<key>)` — same as color() since values are complete oklch */
   colorChannels: (key) => `var(${colorVarNames[key]})`
 };
-var DSThemeContext = createContext(null);
-function useDSTheme() {
-  const ctx = useContext(DSThemeContext);
-  if (!ctx) {
-    throw new Error(
-      "useDSTheme must be used within a <DSThemeProvider>. Wrap your application (or layout) with <DSThemeProvider>."
-    );
-  }
-  return ctx;
-}
-function getSystemPreference() {
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
-function resolveTheme(theme) {
-  if (theme === "system") return getSystemPreference();
-  return theme;
-}
-var STORAGE_KEY = "ds-theme-preference";
-function getStoredTheme() {
-  if (typeof window === "undefined") return "system";
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "light" || stored === "dark" || stored === "system") {
-      return stored;
-    }
-  } catch {
-  }
-  return "system";
-}
-function storeTheme(theme) {
-  try {
-    localStorage.setItem(STORAGE_KEY, theme);
-  } catch {
-  }
-}
-function DSThemeProvider({
-  children,
-  defaultTheme,
-  manageHtmlClass = false
-}) {
-  const [theme, setThemeState] = useState(
-    () => defaultTheme ?? getStoredTheme()
-  );
-  const [systemPreference, setSystemPreference] = useState("light");
-  useEffect(() => {
-    setSystemPreference(getSystemPreference());
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = (e) => {
-      setSystemPreference(e.matches ? "dark" : "light");
-    };
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
-  const resolvedTheme = useMemo(
-    () => theme === "system" ? systemPreference : theme,
-    [theme, systemPreference]
-  );
-  useEffect(() => {
-    if (!manageHtmlClass) return;
-    const root = document.documentElement;
-    if (resolvedTheme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  }, [resolvedTheme, manageHtmlClass]);
-  const setTheme = useCallback((newTheme) => {
-    setThemeState(newTheme);
-    storeTheme(newTheme);
-  }, []);
-  const toggleTheme = useCallback(() => {
-    setThemeState((current) => {
-      const resolved = resolveTheme(current);
-      const next = resolved === "dark" ? "light" : "dark";
-      storeTheme(next);
-      return next;
-    });
-  }, []);
-  const value = useMemo(
-    () => ({
-      theme,
-      resolvedTheme,
-      setTheme,
-      toggleTheme
-    }),
-    [theme, resolvedTheme, setTheme, toggleTheme]
-  );
-  return /* @__PURE__ */ jsx(DSThemeContext.Provider, { value, children });
-}
 
 // src/theme/presets.ts
 var STATUS_LIGHT = {
-  success: green[600],
+  success: chunkQEFOXYBO_cjs.green[600],
   successForeground: "oklch(0.145 0 0)",
-  successMuted: green[50],
-  successMutedForeground: green[700],
-  warning: amber[500],
+  successMuted: chunkQEFOXYBO_cjs.green[50],
+  successMutedForeground: chunkQEFOXYBO_cjs.green[700],
+  warning: chunkQEFOXYBO_cjs.amber[500],
   warningForeground: "oklch(0.145 0 0)",
-  warningMuted: amber[50],
-  warningMutedForeground: amber[700],
-  danger: red[600],
+  warningMuted: chunkQEFOXYBO_cjs.amber[50],
+  warningMutedForeground: chunkQEFOXYBO_cjs.amber[700],
+  danger: chunkQEFOXYBO_cjs.red[600],
   dangerForeground: "oklch(0.985 0 0)",
-  dangerHover: red[700],
-  dangerActive: red[800],
-  dangerMuted: red[50],
-  dangerMutedForeground: red[700],
-  destructive: red[600],
+  dangerHover: chunkQEFOXYBO_cjs.red[700],
+  dangerActive: chunkQEFOXYBO_cjs.red[800],
+  dangerMuted: chunkQEFOXYBO_cjs.red[50],
+  dangerMutedForeground: chunkQEFOXYBO_cjs.red[700],
+  destructive: chunkQEFOXYBO_cjs.red[600],
   destructiveForeground: "oklch(0.985 0 0)",
-  info: blue[600],
+  info: chunkQEFOXYBO_cjs.blue[600],
   infoForeground: "oklch(0.985 0 0)",
-  infoMuted: blue[50],
-  infoMutedForeground: blue[700]
+  infoMuted: chunkQEFOXYBO_cjs.blue[50],
+  infoMutedForeground: chunkQEFOXYBO_cjs.blue[700]
 };
 var STATUS_DARK = {
-  success: green[500],
+  success: chunkQEFOXYBO_cjs.green[500],
   successForeground: "oklch(0.145 0 0)",
-  successMuted: green[950],
-  successMutedForeground: green[300],
-  warning: amber[400],
+  successMuted: chunkQEFOXYBO_cjs.green[950],
+  successMutedForeground: chunkQEFOXYBO_cjs.green[300],
+  warning: chunkQEFOXYBO_cjs.amber[400],
   warningForeground: "oklch(0.145 0 0)",
-  warningMuted: amber[950],
-  warningMutedForeground: amber[300],
-  danger: red[500],
+  warningMuted: chunkQEFOXYBO_cjs.amber[950],
+  warningMutedForeground: chunkQEFOXYBO_cjs.amber[300],
+  danger: chunkQEFOXYBO_cjs.red[500],
   dangerForeground: "oklch(0.985 0 0)",
-  dangerHover: red[400],
-  dangerActive: red[300],
-  dangerMuted: red[950],
-  dangerMutedForeground: red[300],
-  destructive: red[500],
+  dangerHover: chunkQEFOXYBO_cjs.red[400],
+  dangerActive: chunkQEFOXYBO_cjs.red[300],
+  dangerMuted: chunkQEFOXYBO_cjs.red[950],
+  dangerMutedForeground: chunkQEFOXYBO_cjs.red[300],
+  destructive: chunkQEFOXYBO_cjs.red[500],
   destructiveForeground: "oklch(0.985 0 0)",
-  info: blue[400],
+  info: chunkQEFOXYBO_cjs.blue[400],
   infoForeground: "oklch(0.145 0 0)",
-  infoMuted: blue[950],
-  infoMutedForeground: blue[300]
+  infoMuted: chunkQEFOXYBO_cjs.blue[950],
+  infoMutedForeground: chunkQEFOXYBO_cjs.blue[300]
 };
 var CHART_LIGHT = {
   chart1: "oklch(0.646 0.222 41.116)",
@@ -504,7 +416,7 @@ function buildNeutralPreset(name, key, palette) {
       disabledForeground: palette[600],
       sidebar: palette[900],
       sidebarForeground: palette[50],
-      sidebarPrimary: blue[600],
+      sidebarPrimary: chunkQEFOXYBO_cjs.blue[600],
       sidebarPrimaryForeground: palette[50],
       sidebarAccent: palette[800],
       sidebarAccentForeground: palette[50],
@@ -513,7 +425,7 @@ function buildNeutralPreset(name, key, palette) {
     }
   };
 }
-function buildChromaticPreset(name, key, primary, surface = zinc) {
+function buildChromaticPreset(name, key, primary, surface = chunkQEFOXYBO_cjs.zinc) {
   return {
     name,
     key,
@@ -615,16 +527,16 @@ var COLOR_PRESETS = [
   // Neutral Presets (achromatic primaries)
   // -------------------------------------------------------------------------
   {
-    swatch: zinc[900],
-    ...buildNeutralPreset("Zinc", "zinc", zinc)
+    swatch: chunkQEFOXYBO_cjs.zinc[900],
+    ...buildNeutralPreset("Zinc", "zinc", chunkQEFOXYBO_cjs.zinc)
   },
   {
-    swatch: slate[900],
-    ...buildNeutralPreset("Slate", "slate", slate)
+    swatch: chunkQEFOXYBO_cjs.slate[900],
+    ...buildNeutralPreset("Slate", "slate", chunkQEFOXYBO_cjs.slate)
   },
   {
-    swatch: gray[900],
-    ...buildNeutralPreset("Gray", "gray", gray)
+    swatch: chunkQEFOXYBO_cjs.gray[900],
+    ...buildNeutralPreset("Gray", "gray", chunkQEFOXYBO_cjs.gray)
   },
   {
     swatch: stone[900],
@@ -638,12 +550,12 @@ var COLOR_PRESETS = [
   // Chromatic Presets (colored primaries)
   // -------------------------------------------------------------------------
   {
-    swatch: blue[600],
-    ...buildChromaticPreset("Blue", "blue", blue)
+    swatch: chunkQEFOXYBO_cjs.blue[600],
+    ...buildChromaticPreset("Blue", "blue", chunkQEFOXYBO_cjs.blue)
   },
   {
-    swatch: green[600],
-    ...buildChromaticPreset("Green", "green", green)
+    swatch: chunkQEFOXYBO_cjs.green[600],
+    ...buildChromaticPreset("Green", "green", chunkQEFOXYBO_cjs.green)
   },
   {
     swatch: violet[600],
@@ -658,16 +570,16 @@ var COLOR_PRESETS = [
     ...buildChromaticPreset("Orange", "orange", orange)
   },
   {
-    swatch: red[600],
-    ...buildChromaticPreset("Red", "red", red)
+    swatch: chunkQEFOXYBO_cjs.red[600],
+    ...buildChromaticPreset("Red", "red", chunkQEFOXYBO_cjs.red)
   },
   {
-    swatch: teal[600],
-    ...buildChromaticPreset("Teal", "teal", teal)
+    swatch: chunkQEFOXYBO_cjs.teal[600],
+    ...buildChromaticPreset("Teal", "teal", chunkQEFOXYBO_cjs.teal)
   },
   {
-    swatch: brand[600],
-    ...buildChromaticPreset("Brand", "brand", brand)
+    swatch: chunkQEFOXYBO_cjs.brand[600],
+    ...buildChromaticPreset("Brand", "brand", chunkQEFOXYBO_cjs.brand)
   }
 ];
 function getColorPreset(key) {
@@ -961,11 +873,11 @@ function generateThemeCSS(config) {
     "}"
   ].join("\n");
 }
-var STORAGE_KEY2 = "ds-theme-customizer";
+var STORAGE_KEY = "ds-theme-customizer";
 var STYLE_ELEMENT_ID = "ds-theme-customizer";
-var ThemeCustomizerContext = createContext(null);
+var ThemeCustomizerContext = react.createContext(null);
 function useThemeCustomizer() {
-  const ctx = useContext(ThemeCustomizerContext);
+  const ctx = react.useContext(ThemeCustomizerContext);
   if (!ctx) {
     throw new Error(
       "useThemeCustomizer must be used within a <ThemeCustomizerProvider>. Wrap your application (or layout) with <ThemeCustomizerProvider>."
@@ -976,7 +888,7 @@ function useThemeCustomizer() {
 function loadConfig() {
   if (typeof window === "undefined") return DEFAULT_THEME_CONFIG;
   try {
-    const raw = localStorage.getItem(STORAGE_KEY2);
+    const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_THEME_CONFIG;
     const parsed = JSON.parse(raw);
     return {
@@ -995,7 +907,7 @@ function loadConfig() {
 function saveConfig(config) {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(STORAGE_KEY2, JSON.stringify(config));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
   } catch {
   }
 }
@@ -1005,7 +917,9 @@ function getResolvedMode() {
 }
 function injectStyles(config) {
   if (typeof document === "undefined") return;
-  let styleEl = document.getElementById(STYLE_ELEMENT_ID);
+  let styleEl = document.getElementById(
+    STYLE_ELEMENT_ID
+  );
   if (!styleEl) {
     styleEl = document.createElement("style");
     styleEl.id = STYLE_ELEMENT_ID;
@@ -1035,13 +949,13 @@ function ThemeCustomizerProvider({
   defaultConfig,
   applyStyles = true
 }) {
-  const [config, setConfigState] = useState(
+  const [config, setConfigState] = react.useState(
     () => defaultConfig ?? loadConfig()
   );
-  const [resolvedMode, setResolvedMode] = useState("light");
-  const configRef = useRef(config);
+  const [_resolvedMode, setResolvedMode] = react.useState("light");
+  const configRef = react.useRef(config);
   configRef.current = config;
-  useEffect(() => {
+  react.useEffect(() => {
     setResolvedMode(getResolvedMode());
     const observer = new MutationObserver(() => {
       const newMode = getResolvedMode();
@@ -1056,24 +970,24 @@ function ThemeCustomizerProvider({
     });
     return () => observer.disconnect();
   }, []);
-  useEffect(() => {
+  react.useEffect(() => {
     if (applyStyles) {
       injectStyles(config);
     }
-  }, [config, resolvedMode, applyStyles]);
-  useEffect(() => {
+  }, [config, applyStyles]);
+  react.useEffect(() => {
     saveConfig(config);
   }, [config]);
-  useEffect(() => {
+  react.useEffect(() => {
     return () => {
       if (applyStyles) {
         removeStyles();
       }
     };
   }, [applyStyles]);
-  useEffect(() => {
+  react.useEffect(() => {
     const handleStorage = (e) => {
-      if (e.key === STORAGE_KEY2 && e.newValue) {
+      if (e.key === STORAGE_KEY && e.newValue) {
         try {
           const parsed = JSON.parse(e.newValue);
           setConfigState((prev) => {
@@ -1087,47 +1001,47 @@ function ThemeCustomizerProvider({
     window.addEventListener("storage", handleStorage);
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
-  const setConfig = useCallback((newConfig) => {
+  const setConfig = react.useCallback((newConfig) => {
     setConfigState(newConfig);
   }, []);
-  const setColorPreset = useCallback((key) => {
+  const setColorPreset = react.useCallback((key) => {
     setConfigState((prev) => {
       if (prev.colorPreset === key) return prev;
       return { ...prev, colorPreset: key };
     });
   }, []);
-  const setRadius = useCallback((key) => {
+  const setRadius = react.useCallback((key) => {
     setConfigState((prev) => {
       if (prev.radius === key) return prev;
       return { ...prev, radius: key };
     });
   }, []);
-  const setFont = useCallback((key) => {
+  const setFont = react.useCallback((key) => {
     setConfigState((prev) => {
       if (prev.font === key) return prev;
       return { ...prev, font: key };
     });
   }, []);
-  const setShadow = useCallback((key) => {
+  const setShadow = react.useCallback((key) => {
     setConfigState((prev) => {
       if (prev.shadow === key) return prev;
       return { ...prev, shadow: key };
     });
   }, []);
-  const setSurfaceStyle = useCallback((key) => {
+  const setSurfaceStyle = react.useCallback((key) => {
     setConfigState((prev) => {
       if (prev.surfaceStyle === key) return prev;
       return { ...prev, surfaceStyle: key };
     });
   }, []);
-  const resetConfig = useCallback(() => {
+  const resetConfig = react.useCallback(() => {
     setConfigState(DEFAULT_THEME_CONFIG);
   }, []);
   const isDefault = configsEqual(config, DEFAULT_THEME_CONFIG);
-  const generateCSSFn = useCallback(() => {
+  const generateCSSFn = react.useCallback(() => {
     return generateThemeCSS(config);
   }, [config]);
-  const value = useMemo(
+  const value = react.useMemo(
     () => ({
       config,
       setConfig,
@@ -1153,23 +1067,23 @@ function ThemeCustomizerProvider({
       generateCSSFn
     ]
   );
-  return /* @__PURE__ */ jsx(ThemeCustomizerContext.Provider, { value, children });
+  return /* @__PURE__ */ jsxRuntime.jsx(ThemeCustomizerContext.Provider, { value, children });
 }
 function Section({
   title,
   children,
   className
 }) {
-  return /* @__PURE__ */ jsxs("div", { className: cn("space-y-2", className), children: [
-    /* @__PURE__ */ jsx("h4", { className: "text-xs font-semibold uppercase tracking-wider text-muted-foreground", children: title }),
+  return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: chunk4ON3M3OM_cjs.cn("space-y-2", className), children: [
+    /* @__PURE__ */ jsxRuntime.jsx("h4", { className: "text-xs font-semibold uppercase tracking-wider text-muted-foreground", children: title }),
     children
   ] });
 }
 function CheckIcon({ className }) {
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxRuntime.jsx(
     "svg",
     {
-      className: cn("size-4 shrink-0", className),
+      className: chunk4ON3M3OM_cjs.cn("size-4 shrink-0", className),
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       fill: "none",
@@ -1178,7 +1092,7 @@ function CheckIcon({ className }) {
       strokeLinecap: "round",
       strokeLinejoin: "round",
       "aria-hidden": "true",
-      children: /* @__PURE__ */ jsx("path", { d: "M20 6 9 17l-5-5" })
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M20 6 9 17l-5-5" })
     }
   );
 }
@@ -1187,12 +1101,12 @@ function ColorSwatch({
   isActive,
   onClick
 }) {
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ jsxRuntime.jsxs(
     "button",
     {
       type: "button",
       onClick,
-      className: cn(
+      className: chunk4ON3M3OM_cjs.cn(
         "group relative flex items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
         "hover:border-border-strong hover:bg-muted/50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -1200,10 +1114,10 @@ function ColorSwatch({
       ),
       title: preset.name,
       children: [
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(
           "span",
           {
-            className: cn(
+            className: chunk4ON3M3OM_cjs.cn(
               "size-5 shrink-0 rounded-full border shadow-xs",
               isActive ? "border-primary/50 ring-2 ring-primary/20" : "border-border"
             ),
@@ -1211,17 +1125,17 @@ function ColorSwatch({
             "aria-hidden": "true"
           }
         ),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(
           "span",
           {
-            className: cn(
+            className: chunk4ON3M3OM_cjs.cn(
               "text-sm font-medium",
               isActive ? "text-foreground" : "text-muted-foreground"
             ),
             children: preset.name
           }
         ),
-        isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "ml-auto text-primary" })
+        isActive && /* @__PURE__ */ jsxRuntime.jsx(CheckIcon, { className: "ml-auto text-primary" })
       ]
     }
   );
@@ -1231,20 +1145,20 @@ function RadiusOption({
   isActive,
   onClick
 }) {
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ jsxRuntime.jsxs(
     "button",
     {
       type: "button",
       onClick,
-      className: cn(
+      className: chunk4ON3M3OM_cjs.cn(
         "flex flex-col items-center justify-center gap-1 rounded-md border px-3 py-2 text-center transition-all duration-fast ease-standard",
         "hover:border-border-strong hover:bg-muted/50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         isActive ? "border-primary bg-muted/60 shadow-sm" : "border-border bg-transparent"
       ),
-      title: preset.name + " (" + preset.label + ")",
+      title: `${preset.name} (${preset.label})`,
       children: [
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(
           "span",
           {
             className: "size-8 border-2 border-foreground/30 bg-muted",
@@ -1252,10 +1166,10 @@ function RadiusOption({
             "aria-hidden": "true"
           }
         ),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(
           "span",
           {
-            className: cn(
+            className: chunk4ON3M3OM_cjs.cn(
               "text-[11px] font-medium leading-none",
               isActive ? "text-foreground" : "text-muted-foreground"
             ),
@@ -1271,12 +1185,12 @@ function FontOption({
   isActive,
   onClick
 }) {
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ jsxRuntime.jsxs(
     "button",
     {
       type: "button",
       onClick,
-      className: cn(
+      className: chunk4ON3M3OM_cjs.cn(
         "flex items-center gap-2 rounded-md border px-3 py-2 text-left transition-all duration-fast ease-standard",
         "hover:border-border-strong hover:bg-muted/50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -1284,10 +1198,10 @@ function FontOption({
       ),
       title: preset.name,
       children: [
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(
           "span",
           {
-            className: cn(
+            className: chunk4ON3M3OM_cjs.cn(
               "text-base font-semibold leading-none",
               isActive ? "text-foreground" : "text-muted-foreground"
             ),
@@ -1295,17 +1209,17 @@ function FontOption({
             children: preset.sample
           }
         ),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(
           "span",
           {
-            className: cn(
+            className: chunk4ON3M3OM_cjs.cn(
               "text-sm",
               isActive ? "text-foreground font-medium" : "text-muted-foreground"
             ),
             children: preset.name
           }
         ),
-        isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "ml-auto text-primary" })
+        isActive && /* @__PURE__ */ jsxRuntime.jsx(CheckIcon, { className: "ml-auto text-primary" })
       ]
     }
   );
@@ -1316,12 +1230,12 @@ function PillToggle({
   onClick,
   description
 }) {
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxRuntime.jsx(
     "button",
     {
       type: "button",
       onClick,
-      className: cn(
+      className: chunk4ON3M3OM_cjs.cn(
         "rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
         "hover:border-border-strong hover:bg-muted/50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -1337,9 +1251,9 @@ function CopyButton({
   className,
   children
 }) {
-  const [copied, setCopied] = useState(false);
-  const timeoutRef = useRef(null);
-  const handleCopy = useCallback(() => {
+  const [copied, setCopied] = react.useState(false);
+  const timeoutRef = react.useRef(null);
+  const handleCopy = react.useCallback(() => {
     const text = getText();
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
@@ -1347,27 +1261,27 @@ function CopyButton({
       timeoutRef.current = setTimeout(() => setCopied(false), 2e3);
     });
   }, [getText]);
-  useEffect(() => {
+  react.useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxRuntime.jsx(
     "button",
     {
       type: "button",
       onClick: handleCopy,
-      className: cn(
+      className: chunk4ON3M3OM_cjs.cn(
         "inline-flex items-center justify-center gap-2 rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-all duration-fast ease-standard",
         "hover:bg-secondary-hover active:bg-secondary-active",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className
       ),
-      children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
-        /* @__PURE__ */ jsx(CheckIcon, { className: "text-success" }),
-        /* @__PURE__ */ jsx("span", { children: "Copied!" })
-      ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-        /* @__PURE__ */ jsxs(
+      children: copied ? /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntime.jsx(CheckIcon, { className: "text-success" }),
+        /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Copied!" })
+      ] }) : /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(
           "svg",
           {
             className: "size-4",
@@ -1380,12 +1294,12 @@ function CopyButton({
             strokeLinejoin: "round",
             "aria-hidden": "true",
             children: [
-              /* @__PURE__ */ jsx("rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2" }),
-              /* @__PURE__ */ jsx("path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" })
+              /* @__PURE__ */ jsxRuntime.jsx("rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2" }),
+              /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" })
             ]
           }
         ),
-        /* @__PURE__ */ jsx("span", { children: children ?? "Copy CSS" })
+        /* @__PURE__ */ jsxRuntime.jsx("span", { children: children ?? "Copy CSS" })
       ] })
     }
   );
@@ -1406,14 +1320,14 @@ function ThemeCustomizer({
     isDefault,
     generateCSS
   } = useThemeCustomizer();
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ jsxRuntime.jsxs(
     "div",
     {
-      className: cn("space-y-6", className),
+      className: chunk4ON3M3OM_cjs.cn("space-y-6", className),
       "data-ds": "",
       "data-ds-component": "theme-customizer",
       children: [
-        /* @__PURE__ */ jsx(Section, { title: "Color", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 gap-2", children: COLOR_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Color", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "grid grid-cols-2 gap-2", children: COLOR_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
           ColorSwatch,
           {
             preset,
@@ -1422,7 +1336,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsx(Section, { title: "Radius", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: RADIUS_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Radius", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: RADIUS_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
           RadiusOption,
           {
             preset,
@@ -1431,7 +1345,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsx(Section, { title: "Font", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 gap-2", children: FONT_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Font", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "grid grid-cols-2 gap-2", children: FONT_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
           FontOption,
           {
             preset,
@@ -1440,7 +1354,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsx(Section, { title: "Shadow", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: SHADOW_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Shadow", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: SHADOW_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
           PillToggle,
           {
             label: preset.name,
@@ -1450,7 +1364,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsx(Section, { title: "Surface", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: SURFACE_STYLE_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Surface", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: SURFACE_STYLE_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
           PillToggle,
           {
             label: preset.name,
@@ -1460,20 +1374,20 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        (showCopyButton || showResetButton) && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 border-t border-border pt-4", children: [
-          showCopyButton && /* @__PURE__ */ jsx(CopyButton, { getText: generateCSS, className: "flex-1" }),
-          showResetButton && !isDefault && /* @__PURE__ */ jsxs(
+        (showCopyButton || showResetButton) && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2 border-t border-border pt-4", children: [
+          showCopyButton && /* @__PURE__ */ jsxRuntime.jsx(CopyButton, { getText: generateCSS, className: "flex-1" }),
+          showResetButton && !isDefault && /* @__PURE__ */ jsxRuntime.jsxs(
             "button",
             {
               type: "button",
               onClick: resetConfig,
-              className: cn(
+              className: chunk4ON3M3OM_cjs.cn(
                 "inline-flex items-center justify-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-fast ease-standard",
                 "hover:bg-muted hover:text-foreground",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               ),
               children: [
-                /* @__PURE__ */ jsxs(
+                /* @__PURE__ */ jsxRuntime.jsxs(
                   "svg",
                   {
                     className: "size-4",
@@ -1486,12 +1400,12 @@ function ThemeCustomizer({
                     strokeLinejoin: "round",
                     "aria-hidden": "true",
                     children: [
-                      /* @__PURE__ */ jsx("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }),
-                      /* @__PURE__ */ jsx("path", { d: "M3 3v5h5" })
+                      /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }),
+                      /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M3 3v5h5" })
                     ]
                   }
                 ),
-                /* @__PURE__ */ jsx("span", { children: "Reset" })
+                /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Reset" })
               ]
             }
           )
@@ -1501,5 +1415,121 @@ function ThemeCustomizer({
   );
 }
 ThemeCustomizer.displayName = "ThemeCustomizer";
+var DSThemeContext = react.createContext(null);
+function useDSTheme() {
+  const ctx = react.useContext(DSThemeContext);
+  if (!ctx) {
+    throw new Error(
+      "useDSTheme must be used within a <DSThemeProvider>. Wrap your application (or layout) with <DSThemeProvider>."
+    );
+  }
+  return ctx;
+}
+function getSystemPreference() {
+  if (typeof window === "undefined") return "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+function resolveTheme(theme) {
+  if (theme === "system") return getSystemPreference();
+  return theme;
+}
+var STORAGE_KEY2 = "ds-theme-preference";
+function getStoredTheme() {
+  if (typeof window === "undefined") return "system";
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY2);
+    if (stored === "light" || stored === "dark" || stored === "system") {
+      return stored;
+    }
+  } catch {
+  }
+  return "system";
+}
+function storeTheme(theme) {
+  try {
+    localStorage.setItem(STORAGE_KEY2, theme);
+  } catch {
+  }
+}
+function DSThemeProvider({
+  children,
+  defaultTheme,
+  manageHtmlClass = false
+}) {
+  const [theme, setThemeState] = react.useState(
+    () => defaultTheme ?? getStoredTheme()
+  );
+  const [systemPreference, setSystemPreference] = react.useState("light");
+  react.useEffect(() => {
+    setSystemPreference(getSystemPreference());
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = (e) => {
+      setSystemPreference(e.matches ? "dark" : "light");
+    };
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+  const resolvedTheme = react.useMemo(
+    () => theme === "system" ? systemPreference : theme,
+    [theme, systemPreference]
+  );
+  react.useEffect(() => {
+    if (!manageHtmlClass) return;
+    const root = document.documentElement;
+    if (resolvedTheme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [resolvedTheme, manageHtmlClass]);
+  const setTheme = react.useCallback((newTheme) => {
+    setThemeState(newTheme);
+    storeTheme(newTheme);
+  }, []);
+  const toggleTheme = react.useCallback(() => {
+    setThemeState((current) => {
+      const resolved = resolveTheme(current);
+      const next = resolved === "dark" ? "light" : "dark";
+      storeTheme(next);
+      return next;
+    });
+  }, []);
+  const value = react.useMemo(
+    () => ({
+      theme,
+      resolvedTheme,
+      setTheme,
+      toggleTheme
+    }),
+    [theme, resolvedTheme, setTheme, toggleTheme]
+  );
+  return /* @__PURE__ */ jsxRuntime.jsx(DSThemeContext.Provider, { value, children });
+}
 
-export { COLOR_PRESETS, COLOR_PRESET_KEYS, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, DSThemeProvider, FONT_PRESETS, RADIUS_PRESETS, SHADOW_PRESETS, SURFACE_STYLE_PRESETS, ThemeCustomizer, ThemeCustomizerProvider, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, useDSTheme, useThemeCustomizer };
+exports.COLOR_PRESETS = COLOR_PRESETS;
+exports.COLOR_PRESET_KEYS = COLOR_PRESET_KEYS;
+exports.DEFAULT_FONT_KEY = DEFAULT_FONT_KEY;
+exports.DEFAULT_RADIUS_KEY = DEFAULT_RADIUS_KEY;
+exports.DEFAULT_SHADOW_KEY = DEFAULT_SHADOW_KEY;
+exports.DEFAULT_SURFACE_STYLE_KEY = DEFAULT_SURFACE_STYLE_KEY;
+exports.DEFAULT_THEME_CONFIG = DEFAULT_THEME_CONFIG;
+exports.DSThemeProvider = DSThemeProvider;
+exports.FONT_PRESETS = FONT_PRESETS;
+exports.RADIUS_PRESETS = RADIUS_PRESETS;
+exports.SHADOW_PRESETS = SHADOW_PRESETS;
+exports.SURFACE_STYLE_PRESETS = SURFACE_STYLE_PRESETS;
+exports.ThemeCustomizer = ThemeCustomizer;
+exports.ThemeCustomizerProvider = ThemeCustomizerProvider;
+exports.buildDarkThemeVars = buildDarkThemeVars;
+exports.buildLightThemeVars = buildLightThemeVars;
+exports.buildThemeCSS = buildThemeCSS;
+exports.buildThemeOverrides = buildThemeOverrides;
+exports.contract = contract;
+exports.cssVar = cssVar;
+exports.generateThemeCSS = generateThemeCSS;
+exports.getColorPreset = getColorPreset;
+exports.getFontPreset = getFontPreset;
+exports.getRadiusPreset = getRadiusPreset;
+exports.getShadowPreset = getShadowPreset;
+exports.useDSTheme = useDSTheme;
+exports.useThemeCustomizer = useThemeCustomizer;

@@ -146,6 +146,7 @@ function TOCItem({
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
           className="absolute -top-1.5 start-0 size-4 rtl:-scale-x-100"
+          aria-hidden="true"
         >
           <line
             x1={upperOffset}

@@ -34,8 +34,8 @@
 //   </Tooltip>
 // ============================================================================
 
-import { Tooltip as TooltipPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
+import { Tooltip as TooltipPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
   forwardRef,

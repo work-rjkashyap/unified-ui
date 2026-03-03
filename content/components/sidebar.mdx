@@ -1,0 +1,471 @@
+---
+title: Sidebar
+description: A collapsible application sidebar with sections, icons, nested items, and animated width transitions. Supports controlled and uncontrolled collapse, mobile overlay, and header/content/footer slots.
+icon: PanelLeft
+---
+
+import {
+	SidebarProvider,
+	Sidebar,
+	SidebarToggle,
+	SidebarHeader,
+	SidebarContent,
+	SidebarFooter,
+	SidebarSection,
+	SidebarItem,
+} from "@work-rjkashyap/unified-ui/components";
+import { Home, Settings, Users, FileText, BarChart3, Mail, Bell, Search, HelpCircle, LogOut } from "lucide-react";
+
+<ComponentPage
+	title="Sidebar"
+	description="A collapsible application sidebar with sections, icons, nested items, and animated spring-based width transitions. Includes header/content/footer slots, mobile overlay, and a toggle button."
+	preview={
+		<div className="w-full max-w-lg h-72 rounded-lg border border-border overflow-hidden">
+			<SidebarProvider>
+				<div className="flex h-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarToggle />
+							<span className="text-sm font-semibold truncate">Acme Inc</span>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarSection title="Main">
+								<SidebarItem icon={<Home className="size-4" />} label="Dashboard" active />
+								<SidebarItem icon={<Users className="size-4" />} label="Team" />
+								<SidebarItem icon={<FileText className="size-4" />} label="Documents" />
+								<SidebarItem icon={<BarChart3 className="size-4" />} label="Analytics" />
+							</SidebarSection>
+							<SidebarSection title="Settings">
+								<SidebarItem icon={<Settings className="size-4" />} label="Preferences" />
+								<SidebarItem icon={<HelpCircle className="size-4" />} label="Help" />
+							</SidebarSection>
+						</SidebarContent>
+						<SidebarFooter>
+							<SidebarItem icon={<LogOut className="size-4" />} label="Log out" />
+						</SidebarFooter>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground bg-muted/20">
+						Main Content
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider>
+  <div className="flex h-screen">
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarToggle />
+        <span className="text-sm font-semibold">Acme Inc</span>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarSection title="Main">
+          <SidebarItem icon={<Home />} label="Dashboard" active />
+          <SidebarItem icon={<Users />} label="Team" />
+          <SidebarItem icon={<FileText />} label="Documents" />
+        </SidebarSection>
+      </SidebarContent>
+      <SidebarFooter>
+        <SidebarItem icon={<LogOut />} label="Log out" />
+      </SidebarFooter>
+    </Sidebar>
+    <main className="flex-1">Content</main>
+  </div>
+</SidebarProvider>`}
+>
+
+## Import
+
+```tsx
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarToggle,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarSection,
+  SidebarItem,
+  SidebarMobileOverlay,
+  useSidebarContext,
+} from "@work-rjkashyap/unified-ui/components";
+// or
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarToggle,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarSection,
+  SidebarItem,
+  SidebarMobileOverlay,
+  useSidebarContext,
+} from "@work-rjkashyap/unified-ui";
+```
+
+## Architecture
+
+The Sidebar is a compound component composed of multiple parts:
+
+| Sub-component          | Purpose                                                           |
+| ---------------------- | ----------------------------------------------------------------- |
+| `SidebarProvider`      | Context provider — manages collapsed/expanded state.              |
+| `Sidebar`             | The sidebar `<aside>` element with animated width.                |
+| `SidebarToggle`       | Button to toggle collapse/expand.                                 |
+| `SidebarHeader`       | Fixed top area (logo, brand, toggle).                             |
+| `SidebarContent`      | Scrollable middle area for sections and items.                    |
+| `SidebarFooter`       | Fixed bottom area (user profile, log out).                        |
+| `SidebarSection`      | Grouping with an optional title that hides when collapsed.        |
+| `SidebarItem`         | Individual navigation link/button with icon, label, badge.        |
+| `SidebarMobileOverlay`| Backdrop overlay for mobile sidebar drawer.                       |
+
+## Basic Usage
+
+Wrap your layout in `SidebarProvider` to provide collapse state context. Place the `Sidebar` alongside your main content in a flex container.
+
+```tsx
+<SidebarProvider>
+  <div className="flex h-screen">
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarToggle />
+        <span className="font-semibold">My App</span>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarSection>
+          <SidebarItem icon={<Home />} label="Home" active />
+          <SidebarItem icon={<Settings />} label="Settings" />
+        </SidebarSection>
+      </SidebarContent>
+    </Sidebar>
+    <main className="flex-1 overflow-auto">
+      {/* Page content */}
+    </main>
+  </div>
+</SidebarProvider>
+```
+
+## Collapsed State
+
+When collapsed, the sidebar shrinks to icon-only width (default `64px`). Section titles and item labels are hidden with fade animations. Item icons remain visible and show a `title` tooltip on hover.
+
+<ComponentPage
+	title="Collapsed"
+	description="The sidebar can start collapsed. Toggle it with the SidebarToggle button or by pressing the toggle programmatically."
+	preview={
+		<div className="w-full max-w-lg h-56 rounded-lg border border-border overflow-hidden">
+			<SidebarProvider defaultCollapsed>
+				<div className="flex h-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarToggle />
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarSection>
+								<SidebarItem icon={<Home className="size-4" />} label="Dashboard" active />
+								<SidebarItem icon={<Users className="size-4" />} label="Team" />
+								<SidebarItem icon={<Mail className="size-4" />} label="Messages" />
+								<SidebarItem icon={<Settings className="size-4" />} label="Settings" />
+							</SidebarSection>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground bg-muted/20">
+						Main Content
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider defaultCollapsed>
+  <div className="flex h-screen">
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarToggle />
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarSection>
+          <SidebarItem icon={<Home />} label="Dashboard" active />
+          <SidebarItem icon={<Users />} label="Team" />
+          <SidebarItem icon={<Mail />} label="Messages" />
+          <SidebarItem icon={<Settings />} label="Settings" />
+        </SidebarSection>
+      </SidebarContent>
+    </Sidebar>
+    <main>Content</main>
+  </div>
+</SidebarProvider>`}
+/>
+
+## Sections with Titles
+
+Group related items under titled sections. Section titles automatically hide when the sidebar is collapsed.
+
+```tsx
+<SidebarContent>
+  <SidebarSection title="Main">
+    <SidebarItem icon={<Home />} label="Dashboard" active />
+    <SidebarItem icon={<Users />} label="Team" />
+  </SidebarSection>
+  <SidebarSection title="Settings">
+    <SidebarItem icon={<Settings />} label="Preferences" />
+    <SidebarItem icon={<HelpCircle />} label="Help & Support" />
+  </SidebarSection>
+</SidebarContent>
+```
+
+## Item with Badge
+
+Pass a `badge` prop to show a notification indicator or count next to the label:
+
+```tsx
+<SidebarItem
+  icon={<Mail />}
+  label="Messages"
+  badge={<Badge variant="primary" size="sm">5</Badge>}
+/>
+<SidebarItem
+  icon={<Bell />}
+  label="Notifications"
+  badge={<Badge variant="danger" size="sm">12</Badge>}
+/>
+```
+
+## Item as Link
+
+Pass `href` to render the item as an `<a>` tag instead of a `<button>`:
+
+```tsx
+<SidebarItem icon={<Home />} label="Dashboard" href="/dashboard" active />
+<SidebarItem icon={<Users />} label="Team" href="/team" />
+<SidebarItem icon={<FileText />} label="Docs" href="/docs" />
+```
+
+## Disabled Items
+
+```tsx
+<SidebarItem icon={<BarChart3 />} label="Analytics" disabled />
+```
+
+## Right Side
+
+Place the sidebar on the right side of the layout with `side="right"`:
+
+```tsx
+<Sidebar side="right">
+  {/* ... */}
+</Sidebar>
+```
+
+## Custom Widths
+
+Override the collapsed and expanded widths:
+
+```tsx
+<Sidebar collapsedWidth="48px" expandedWidth="280px">
+  {/* ... */}
+</Sidebar>
+```
+
+## Controlled Collapse
+
+Control the collapsed state externally using `collapsed` and `onCollapsedChange`:
+
+```tsx
+const [collapsed, setCollapsed] = useState(false);
+
+<SidebarProvider collapsed={collapsed} onCollapsedChange={setCollapsed}>
+  <Sidebar>{/* ... */}</Sidebar>
+</SidebarProvider>;
+
+{/* External toggle */}
+<Button onClick={() => setCollapsed((c) => !c)}>
+  Toggle Sidebar
+</Button>
+```
+
+## useSidebarContext Hook
+
+Access sidebar state from any descendant component:
+
+```tsx
+function SidebarBrand() {
+  const { collapsed, setCollapsed } = useSidebarContext();
+
+  return (
+    <div className="flex items-center gap-2">
+      <Logo />
+      {!collapsed && <span className="font-semibold">Acme Inc</span>}
+    </div>
+  );
+}
+```
+
+### Hook Return Values
+
+| Property         | Type                      | Description                                  |
+| ---------------- | ------------------------- | -------------------------------------------- |
+| `collapsed`      | `boolean`                 | Whether the sidebar is currently collapsed.  |
+| `setCollapsed`   | `(v: boolean) => void`    | Set collapsed state.                         |
+| `isMobile`       | `boolean`                 | Whether the layout is in mobile mode.        |
+| `mobileOpen`     | `boolean`                 | Whether the mobile sidebar is open.          |
+| `setMobileOpen`  | `(v: boolean) => void`    | Set mobile sidebar open state.               |
+
+## Mobile Overlay
+
+Use `SidebarMobileOverlay` to render a backdrop when the sidebar is open on mobile:
+
+```tsx
+<SidebarProvider>
+  <SidebarMobileOverlay />
+  <div className="flex h-screen">
+    <Sidebar>
+      {/* ... */}
+    </Sidebar>
+    <main className="flex-1">{/* ... */}</main>
+  </div>
+</SidebarProvider>
+```
+
+## Full App Layout Example
+
+```tsx
+<SidebarProvider>
+  <SidebarMobileOverlay />
+  <div className="flex h-screen bg-background">
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarToggle />
+        <span className="text-sm font-bold truncate">Acme Inc</span>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <SidebarSection title="Navigation">
+          <SidebarItem icon={<Home />} label="Dashboard" href="/" active />
+          <SidebarItem icon={<Users />} label="Team" href="/team" />
+          <SidebarItem icon={<FileText />} label="Documents" href="/docs" />
+          <SidebarItem
+            icon={<Mail />}
+            label="Messages"
+            href="/messages"
+            badge={<Badge variant="primary" size="sm">3</Badge>}
+          />
+          <SidebarItem icon={<BarChart3 />} label="Analytics" href="/analytics" />
+        </SidebarSection>
+
+        <SidebarSection title="Account">
+          <SidebarItem icon={<Settings />} label="Settings" href="/settings" />
+          <SidebarItem icon={<HelpCircle />} label="Help" href="/help" />
+        </SidebarSection>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <SidebarItem icon={<LogOut />} label="Log out" />
+      </SidebarFooter>
+    </Sidebar>
+
+    <main className="flex-1 overflow-auto p-6">
+      {children}
+    </main>
+  </div>
+</SidebarProvider>
+```
+
+## Props
+
+### SidebarProvider
+
+| Prop                | Type                      | Default  | Description                                              |
+| ------------------- | ------------------------- | -------- | -------------------------------------------------------- |
+| `defaultCollapsed`  | `boolean`                 | `false`  | Initial collapsed state (uncontrolled).                  |
+| `collapsed`         | `boolean`                 | —        | Controlled collapsed state.                              |
+| `onCollapsedChange` | `(v: boolean) => void`    | —        | Called when collapsed state changes.                     |
+| `children`          | `ReactNode`               | —        | App content (should contain `Sidebar` + main content).   |
+
+### Sidebar
+
+| Prop             | Type                    | Default    | Description                                           |
+| ---------------- | ----------------------- | ---------- | ----------------------------------------------------- |
+| `side`           | `"left" \| "right"`    | `"left"`   | Which side the sidebar appears on.                    |
+| `collapsedWidth` | `string`                | `"64px"`   | Width when collapsed.                                 |
+| `expandedWidth`  | `string`                | `"240px"`  | Width when expanded.                                  |
+| `className`      | `string`                | —          | Additional CSS classes on the `<aside>` element.      |
+| `children`       | `ReactNode`             | —          | Header, content, and footer sub-components.           |
+
+### SidebarToggle
+
+| Prop        | Type        | Default | Description                                           |
+| ----------- | ----------- | ------- | ----------------------------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes on the toggle button.          |
+| `children`  | `ReactNode` | —       | Custom toggle icon (defaults to chevron icons).       |
+
+All standard `<button>` HTML attributes are also forwarded.
+
+### SidebarHeader / SidebarContent / SidebarFooter
+
+| Prop        | Type        | Default | Description                               |
+| ----------- | ----------- | ------- | ----------------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.                   |
+| `children`  | `ReactNode` | —       | Section content.                          |
+
+All standard `<div>` HTML attributes are also forwarded.
+
+### SidebarSection
+
+| Prop        | Type        | Default | Description                                              |
+| ----------- | ----------- | ------- | -------------------------------------------------------- |
+| `title`     | `string`    | —       | Section heading (hidden when sidebar is collapsed).      |
+| `className` | `string`    | —       | Additional CSS classes.                                  |
+| `children`  | `ReactNode` | —       | `SidebarItem` children.                                  |
+
+### SidebarItem
+
+| Prop        | Type        | Default | Description                                              |
+| ----------- | ----------- | ------- | -------------------------------------------------------- |
+| `icon`      | `ReactNode` | —       | Leading icon element.                                    |
+| `label`     | `ReactNode` | —       | Item label text (hidden when collapsed, shown as title). |
+| `active`    | `boolean`   | `false` | Whether this item is the current/active route.           |
+| `disabled`  | `boolean`   | `false` | Disables the item.                                       |
+| `badge`     | `ReactNode` | —       | Trailing badge element (hidden when collapsed).          |
+| `href`      | `string`    | —       | If provided, renders as `<a>` instead of `<button>`.     |
+| `className` | `string`    | —       | Additional CSS classes.                                  |
+| `children`  | `ReactNode` | —       | Alternative to `label` for custom content.               |
+
+### SidebarMobileOverlay
+
+| Prop        | Type     | Default | Description                                    |
+| ----------- | -------- | ------- | ---------------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes on the overlay backdrop. |
+
+## Motion
+
+- **Sidebar width** — Animated with a spring transition (`stiffness: 300, damping: 30, mass: 0.8`) when toggling between collapsed and expanded states.
+- **Section titles** — Fade in/out with `AnimatePresence` when collapsing/expanding.
+- **Item labels** — Animate opacity and width with `AnimatePresence` for a smooth collapse transition.
+- **Mobile overlay** — Uses the `overlayBackdrop` motion preset for a backdrop blur fade.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- The sidebar renders as a semantic `<aside>` element.
+- The `SidebarToggle` button has `aria-label` ("Expand sidebar" / "Collapse sidebar") and `aria-expanded`.
+- Active items use `aria-current="page"` for assistive technologies.
+- Disabled items have `disabled` forwarded and are excluded from tab order.
+- When collapsed, items show a native `title` tooltip with the label text.
+- The mobile overlay dismisses the sidebar on click.
+- All interactive elements use the design system focus ring for visible keyboard focus.
+
+## Design Tokens
+
+| Token                | Usage                                    |
+| -------------------- | ---------------------------------------- |
+| `--background`       | Sidebar background color                 |
+| `--border`           | Sidebar border, header/footer borders    |
+| `--accent`           | Active item background, hover state      |
+| `--accent-foreground`| Active item text color                   |
+| `--muted-foreground` | Inactive item text, section titles       |
+| `--foreground`       | Item text on hover                       |
+| `--ring`             | Focus ring color                         |
+| `--duration-fast`    | Hover/focus transition speed             |
+
+</ComponentPage>

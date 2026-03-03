@@ -347,7 +347,7 @@ var spin = {
   },
   transition: {}
 };
-function reduceMotion(preset) {
+function reduceMotion(_preset) {
   return {
     variants: {
       initial: { opacity: 0 },
@@ -360,6 +360,120 @@ function reduceMotion(preset) {
     }
   };
 }
+var shakeX = {
+  variants: {
+    initial: { x: 0, opacity: 1 },
+    animate: {
+      x: [0, -8, 8, -6, 6, -4, 4, 0],
+      opacity: 1,
+      transition: {
+        duration: durationSeconds.slow,
+        ease: [...easing.standard]
+      }
+    },
+    exit: { x: 0, opacity: 1 }
+  },
+  transition: {
+    duration: durationSeconds.slow,
+    ease: [...easing.standard]
+  }
+};
+var numberRoll = {
+  variants: {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -12 }
+  },
+  transition: {
+    duration: durationSeconds.normal,
+    ease: [...easing.decelerate]
+  }
+};
+var crossfade = {
+  variants: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
+  },
+  transition: {
+    duration: durationSeconds.fast,
+    ease: [...easing.standard]
+  }
+};
+var slidePanelRight = {
+  variants: {
+    initial: { x: "100%", opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: "100%", opacity: 0 }
+  },
+  transition: spring.gentle
+};
+var slidePanelLeft = {
+  variants: {
+    initial: { x: "-100%", opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: "-100%", opacity: 0 }
+  },
+  transition: spring.gentle
+};
+var slidePanelBottom = {
+  variants: {
+    initial: { y: "100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: "100%", opacity: 0 }
+  },
+  transition: spring.gentle
+};
+var slidePanelTop = {
+  variants: {
+    initial: { y: "-100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: "-100%", opacity: 0 }
+  },
+  transition: spring.gentle
+};
+var dragDismiss = {
+  variants: {
+    initial: { y: "100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: {
+      y: "100%",
+      opacity: 0,
+      transition: { duration: durationSeconds.fast }
+    }
+  },
+  transition: spring.gentle
+};
+var countUp = {
+  variants: {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 }
+  },
+  transition: {
+    duration: durationSeconds.normal,
+    ease: [...easing.decelerate]
+  }
+};
+var revealMask = {
+  variants: {
+    initial: { clipPath: "inset(0 100% 0 0)", opacity: 1 },
+    animate: { clipPath: "inset(0 0% 0 0)", opacity: 1 },
+    exit: { clipPath: "inset(0 100% 0 0)", opacity: 0 }
+  },
+  transition: {
+    duration: durationSeconds.slow,
+    ease: [...easing.decelerate]
+  }
+};
+var springPress = {
+  scale: 0.97,
+  transition: spring.snappy
+};
+var springHover = {
+  y: -2,
+  transition: spring.gentle
+};
 function withReducedMotion(preset, prefersReduced) {
   if (prefersReduced) {
     return reduceMotion();
@@ -429,4 +543,4 @@ function MotionSafe({ children, fallback }) {
   return children;
 }
 
-export { MotionSafe, blurIn, blurInSubtle, expandHeight, expandHeightSlow, fadeIn, fadeInFast, fadeInSlow, hoverLift, hoverScale, modalContent, modalContentSpring, motionProps, overlayBackdrop, pop, popSubtle, press, pulse, reduceMotion, scaleIn, scaleInLg, scaleInSpring, slideDown, slideDownSm, slideInFromBottom, slideInFromLeft, slideInFromRight, slideLeft, slideRight, slideUp, slideUpLg, slideUpSm, slideUpSpring, spin, staggerContainer, staggerContainerFast, staggerContainerSlow, tapScale, toastSlideIn, toastSlideUp, useMotion, useMotionProps, useMotionSpringConfig, useReducedMotion, withReducedMotion };
+export { MotionSafe, blurIn, blurInSubtle, countUp, crossfade, dragDismiss, expandHeight, expandHeightSlow, fadeIn, fadeInFast, fadeInSlow, hoverLift, hoverScale, modalContent, modalContentSpring, motionProps, numberRoll, overlayBackdrop, pop, popSubtle, press, pulse, reduceMotion, revealMask, scaleIn, scaleInLg, scaleInSpring, shakeX, slideDown, slideDownSm, slideInFromBottom, slideInFromLeft, slideInFromRight, slideLeft, slidePanelBottom, slidePanelLeft, slidePanelRight, slidePanelTop, slideRight, slideUp, slideUpLg, slideUpSm, slideUpSpring, spin, springHover, springPress, staggerContainer, staggerContainerFast, staggerContainerSlow, tapScale, toastSlideIn, toastSlideUp, useMotion, useMotionProps, useMotionSpringConfig, useReducedMotion, withReducedMotion };

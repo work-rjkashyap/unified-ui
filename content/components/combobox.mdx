@@ -1,0 +1,492 @@
+---
+title: Combobox
+description: A searchable select / autocomplete with single and multi-select modes, grouped options, async filtering, and animated dropdown.
+icon: ChevronsUpDown
+---
+
+import { Combobox } from "@work-rjkashyap/unified-ui/components";
+
+<ComponentPage
+	title="Combobox"
+	description="A production-ready searchable select / autocomplete built by composing Popover + Command primitives with Framer Motion animation. Supports single and multi-select, grouped options, custom rendering, and keyboard navigation."
+	preview={
+		<div className="w-full max-w-sm">
+			<Combobox
+				options={[
+					{ value: "react", label: "React" },
+					{ value: "vue", label: "Vue" },
+					{ value: "angular", label: "Angular" },
+					{ value: "svelte", label: "Svelte" },
+					{ value: "solid", label: "SolidJS" },
+				]}
+				placeholder="Select framework..."
+			/>
+		</div>
+	}
+	code={`<Combobox
+  options={[
+    { value: "react", label: "React" },
+    { value: "vue", label: "Vue" },
+    { value: "angular", label: "Angular" },
+    { value: "svelte", label: "Svelte" },
+    { value: "solid", label: "SolidJS" },
+  ]}
+  placeholder="Select framework..."
+/>`}
+>
+
+## Import
+
+```tsx
+import { Combobox } from "@work-rjkashyap/unified-ui/components";
+// or
+import { Combobox } from "@work-rjkashyap/unified-ui";
+```
+
+## Basic Usage
+
+Pass an array of `options` with `value` and `label` fields. The component manages its own open/close and search state internally.
+
+```tsx
+const frameworks = [
+  { value: "react", label: "React" },
+  { value: "vue", label: "Vue" },
+  { value: "angular", label: "Angular" },
+];
+
+<Combobox options={frameworks} placeholder="Select framework..." />
+```
+
+## Sizes
+
+<ComponentPage
+	title="Sizes"
+	description="Three sizes designed to match Input, Button, and Select heights."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-3">
+			<Combobox
+				options={[
+					{ value: "sm", label: "Small option" },
+					{ value: "md", label: "Medium option" },
+				]}
+				placeholder="Small"
+				size="sm"
+			/>
+			<Combobox
+				options={[
+					{ value: "sm", label: "Small option" },
+					{ value: "md", label: "Medium option" },
+				]}
+				placeholder="Medium (default)"
+				size="md"
+			/>
+			<Combobox
+				options={[
+					{ value: "sm", label: "Small option" },
+					{ value: "lg", label: "Large option" },
+				]}
+				placeholder="Large"
+				size="lg"
+			/>
+		</div>
+	}
+	code={`<Combobox options={options} placeholder="Small" size="sm" />
+<Combobox options={options} placeholder="Medium (default)" size="md" />
+<Combobox options={options} placeholder="Large" size="lg" />`}
+/>
+
+| Size | Height | Use Case                    |
+| ---- | ------ | --------------------------- |
+| `sm` | 32px   | Compact toolbars, sidebars  |
+| `md` | 36px   | Default — most contexts     |
+| `lg` | 40px   | Prominent forms, hero areas |
+
+## Variants
+
+<ComponentPage
+	title="Variants"
+	description="Default uses a standard border; primary uses a tinted primary border."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-3">
+			<Combobox
+				options={[
+					{ value: "a", label: "Option A" },
+					{ value: "b", label: "Option B" },
+				]}
+				placeholder="Default variant"
+				variant="default"
+			/>
+			<Combobox
+				options={[
+					{ value: "a", label: "Option A" },
+					{ value: "b", label: "Option B" },
+				]}
+				placeholder="Primary variant"
+				variant="primary"
+			/>
+		</div>
+	}
+	code={`<Combobox options={options} placeholder="Default variant" variant="default" />
+<Combobox options={options} placeholder="Primary variant" variant="primary" />`}
+/>
+
+## Multi-Select
+
+Enable multi-select mode with the `multi` prop. Selected items appear as removable tags in the trigger.
+
+<ComponentPage
+	title="Multi-Select"
+	description="Select multiple options. Chosen items appear as removable tags in the trigger area."
+	preview={
+		<div className="w-full max-w-sm">
+			<Combobox
+				multi
+				options={[
+					{ value: "react", label: "React" },
+					{ value: "vue", label: "Vue" },
+					{ value: "angular", label: "Angular" },
+					{ value: "svelte", label: "Svelte" },
+					{ value: "solid", label: "SolidJS" },
+					{ value: "next", label: "Next.js" },
+				]}
+				placeholder="Select frameworks..."
+			/>
+		</div>
+	}
+	code={`<Combobox
+  multi
+  options={[
+    { value: "react", label: "React" },
+    { value: "vue", label: "Vue" },
+    { value: "angular", label: "Angular" },
+    { value: "svelte", label: "Svelte" },
+    { value: "solid", label: "SolidJS" },
+    { value: "next", label: "Next.js" },
+  ]}
+  placeholder="Select frameworks..."
+/>`}
+/>
+
+## Grouped Options
+
+Organize options into visual groups using the `group` property on options and the `groups` prop for section labels.
+
+<ComponentPage
+	title="Grouped Options"
+	description="Options are organized into labeled sections for better scannability."
+	preview={
+		<div className="w-full max-w-sm">
+			<Combobox
+				groups={[
+					{ value: "frontend", label: "Frontend" },
+					{ value: "backend", label: "Backend" },
+				]}
+				options={[
+					{ value: "react", label: "React", group: "frontend" },
+					{ value: "vue", label: "Vue", group: "frontend" },
+					{ value: "angular", label: "Angular", group: "frontend" },
+					{ value: "node", label: "Node.js", group: "backend" },
+					{ value: "python", label: "Python", group: "backend" },
+					{ value: "go", label: "Go", group: "backend" },
+				]}
+				placeholder="Select technology..."
+			/>
+		</div>
+	}
+	code={`<Combobox
+  groups={[
+    { value: "frontend", label: "Frontend" },
+    { value: "backend", label: "Backend" },
+  ]}
+  options={[
+    { value: "react", label: "React", group: "frontend" },
+    { value: "vue", label: "Vue", group: "frontend" },
+    { value: "node", label: "Node.js", group: "backend" },
+    { value: "python", label: "Python", group: "backend" },
+  ]}
+  placeholder="Select technology..."
+/>`}
+/>
+
+## Option with Description and Icon
+
+Options can include `description` text and a leading `icon` element for richer display.
+
+```tsx
+<Combobox
+  options={[
+    {
+      value: "react",
+      label: "React",
+      description: "A JavaScript library for building user interfaces",
+      icon: <ReactIcon className="size-4" />,
+    },
+    {
+      value: "vue",
+      label: "Vue",
+      description: "The progressive JavaScript framework",
+      icon: <VueIcon className="size-4" />,
+    },
+  ]}
+  placeholder="Select framework..."
+/>
+```
+
+## Disabled Options
+
+Individual options can be disabled by setting `disabled: true`:
+
+```tsx
+<Combobox
+  options={[
+    { value: "react", label: "React" },
+    { value: "vue", label: "Vue", disabled: true },
+    { value: "angular", label: "Angular" },
+  ]}
+  placeholder="Select..."
+/>
+```
+
+## Non-Searchable
+
+Disable the search input to use the component as a styled select:
+
+<ComponentPage
+	title="Non-Searchable"
+	description="Behaves like a traditional select dropdown without the search input."
+	preview={
+		<div className="w-full max-w-sm">
+			<Combobox
+				searchable={false}
+				options={[
+					{ value: "low", label: "Low" },
+					{ value: "medium", label: "Medium" },
+					{ value: "high", label: "High" },
+					{ value: "critical", label: "Critical" },
+				]}
+				placeholder="Select priority..."
+			/>
+		</div>
+	}
+	code={`<Combobox
+  searchable={false}
+  options={[
+    { value: "low", label: "Low" },
+    { value: "medium", label: "Medium" },
+    { value: "high", label: "High" },
+    { value: "critical", label: "Critical" },
+  ]}
+  placeholder="Select priority..."
+/>`}
+/>
+
+## Clearable
+
+By default, a clear button appears when a value is selected. Set `clearable={false}` to disable it.
+
+<ComponentPage
+	title="Clearable"
+	description="Control whether the clear button is shown after selection."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-3">
+			<Combobox
+				options={[
+					{ value: "react", label: "React" },
+					{ value: "vue", label: "Vue" },
+				]}
+				placeholder="With clear (default)"
+				clearable
+			/>
+			<Combobox
+				options={[
+					{ value: "react", label: "React" },
+					{ value: "vue", label: "Vue" },
+				]}
+				placeholder="Without clear"
+				clearable={false}
+			/>
+		</div>
+	}
+	code={`<Combobox options={options} placeholder="With clear (default)" />
+<Combobox options={options} placeholder="Without clear" clearable={false} />`}
+/>
+
+## Controlled
+
+Use `value` and `onSelect` for single-select, or `values` and `onMultiSelect` for multi-select.
+
+```tsx
+// Single
+const [value, setValue] = useState<string | null>(null);
+
+<Combobox
+  options={options}
+  value={value}
+  onSelect={setValue}
+  placeholder="Select..."
+/>;
+
+// Multi
+const [values, setValues] = useState<string[]>([]);
+
+<Combobox
+  multi
+  options={options}
+  values={values}
+  onMultiSelect={setValues}
+  placeholder="Select..."
+/>;
+```
+
+## Custom Filter
+
+Override the default case-insensitive label match with a custom filter function:
+
+```tsx
+<Combobox
+  options={options}
+  filterOption={(option, query) =>
+    option.label.toLowerCase().startsWith(query.toLowerCase())
+  }
+  placeholder="Starts-with filter..."
+/>
+```
+
+## Custom Rendering
+
+Use `renderOption` to customize how each option is displayed, and `renderValue` to customize the trigger display:
+
+```tsx
+<Combobox
+  options={users}
+  renderOption={(option, isSelected) => (
+    <div className="flex items-center gap-2">
+      <Avatar size="xs" src={option.icon} />
+      <div>
+        <p className="text-sm font-medium">{option.label}</p>
+        <p className="text-xs text-muted-foreground">{option.description}</p>
+      </div>
+    </div>
+  )}
+  renderValue={(selected) =>
+    selected ? (
+      <div className="flex items-center gap-2">
+        <Avatar size="xs" src={selected.icon} />
+        <span>{selected.label}</span>
+      </div>
+    ) : null
+  }
+  placeholder="Select user..."
+/>
+```
+
+## In a Form
+
+```tsx
+<FormField label="Assignee" description="Choose the team member to assign.">
+  <Combobox
+    options={teamMembers}
+    value={assignee}
+    onSelect={setAssignee}
+    placeholder="Select assignee..."
+  />
+</FormField>
+```
+
+## Props
+
+| Prop                | Type                                                            | Default           | Description                                                          |
+| ------------------- | --------------------------------------------------------------- | ------------------ | -------------------------------------------------------------------- |
+| `options`           | `ComboboxOption[]`                                              | —                  | The list of options to display.                                      |
+| `groups`            | `ComboboxGroup[]`                                               | —                  | Grouped section definitions.                                         |
+| `value`             | `string`                                                        | —                  | Selected value (single mode, controlled).                            |
+| `values`            | `string[]`                                                      | —                  | Selected values (multi mode, controlled).                            |
+| `defaultValue`      | `string`                                                        | —                  | Default value (single mode, uncontrolled).                           |
+| `defaultValues`     | `string[]`                                                      | —                  | Default values (multi mode, uncontrolled).                           |
+| `onSelect`          | `(value: string \| null) => void`                               | —                  | Called when a single value is selected/deselected.                   |
+| `onMultiSelect`     | `(values: string[]) => void`                                    | —                  | Called when multi-select values change.                              |
+| `multi`             | `boolean`                                                       | `false`            | Enable multi-select mode.                                            |
+| `searchable`        | `boolean`                                                       | `true`             | Enable search / filter input.                                        |
+| `placeholder`       | `string`                                                        | `"Select..."`      | Placeholder text on the trigger.                                     |
+| `searchPlaceholder` | `string`                                                        | `"Search..."`      | Placeholder text in the search input.                                |
+| `emptyMessage`      | `string`                                                        | `"No results found."` | Message shown when no options match the query.                    |
+| `variant`           | `"default" \| "primary"`                                        | `"default"`        | Visual variant.                                                      |
+| `size`              | `"sm" \| "md" \| "lg"`                                          | `"md"`             | Size variant — matches Input/Button/Select heights.                  |
+| `disabled`          | `boolean`                                                       | `false`            | Disables the combobox.                                               |
+| `clearable`         | `boolean`                                                       | `true`             | Show a clear button when a value is selected.                        |
+| `maxHeight`         | `string`                                                        | `"240px"`          | Max height of the dropdown list (CSS value).                         |
+| `filterOption`      | `(option: ComboboxOption, query: string) => boolean`            | Case-insensitive   | Custom filter function.                                              |
+| `renderOption`      | `(option: ComboboxOption, isSelected: boolean) => ReactNode`    | —                  | Custom render for option items.                                      |
+| `renderValue`       | `(selected: ComboboxOption \| ComboboxOption[] \| null) => ReactNode` | —            | Custom render for the trigger value display.                         |
+| `align`             | `"start" \| "center" \| "end"`                                  | `"start"`          | Alignment of the dropdown relative to the trigger.                   |
+| `matchWidth`        | `boolean`                                                       | `true`             | Whether the dropdown width matches the trigger width.                |
+| `className`         | `string`                                                        | —                  | Additional CSS classes on the trigger.                               |
+| `contentClassName`  | `string`                                                        | —                  | Additional CSS classes on the dropdown content.                      |
+
+### ComboboxOption
+
+| Property      | Type        | Description                                               |
+| ------------- | ----------- | --------------------------------------------------------- |
+| `value`       | `string`    | Unique key for this option.                               |
+| `label`       | `string`    | Display label.                                            |
+| `description` | `string?`   | Optional description shown below the label.               |
+| `icon`        | `ReactNode?`| Optional leading icon/element.                            |
+| `disabled`    | `boolean?`  | Whether this option is disabled.                          |
+| `group`       | `string?`   | Group key — options with the same group render together.  |
+
+### ComboboxGroup
+
+| Property | Type     | Description          |
+| -------- | -------- | -------------------- |
+| `value`  | `string` | Group key.           |
+| `label`  | `string` | Group section label. |
+
+## Motion
+
+- **Dropdown open/close** — Uses the `scaleIn` preset (scale + opacity) via `AnimatePresence` for smooth enter/exit.
+- **Results list** — Stagger animation with `staggerContainerFast` and `slideUpSm` per item for a cascading reveal.
+- **Empty state** — Fades in with the `fadeIn` preset when no results match.
+- **Multi-select tags** — Animate in/out with scale transitions on add/remove.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Keyboard Navigation
+
+| Key              | Action                                                   |
+| ---------------- | -------------------------------------------------------- |
+| `Enter / Space`  | Open dropdown (when trigger is focused).                 |
+| `Escape`         | Close dropdown.                                          |
+| `ArrowDown`      | Move highlight to next option.                           |
+| `ArrowUp`        | Move highlight to previous option.                       |
+| `Enter`          | Select the highlighted option.                           |
+| `Home`           | Move highlight to first option.                          |
+| `End`            | Move highlight to last option.                           |
+| `Backspace`      | Remove last selected tag (multi mode, empty search).     |
+| Typing           | Filters the visible options in real-time.                |
+
+## Accessibility
+
+- The trigger uses `role="combobox"` with `aria-expanded`, `aria-haspopup="listbox"`, and `aria-controls`.
+- The dropdown uses `role="listbox"` with `aria-label`.
+- Each option uses `role="option"` with `aria-selected` and `aria-disabled`.
+- Active descendant tracking via `aria-activedescendant`.
+- Disabled options are excluded from keyboard navigation.
+- The search input is labeled with an `aria-label`.
+- The clear button has `aria-label="Clear selection"`.
+- Multi-select tags have `aria-label` for their remove button.
+
+## Design Tokens
+
+| Token             | Usage                                    |
+| ----------------- | ---------------------------------------- |
+| `--input`         | Trigger border color (default variant)   |
+| `--primary`       | Trigger border color (primary variant)   |
+| `--ring`          | Focus ring and open-state border         |
+| `--border`        | Dropdown border, separator lines         |
+| `--background`    | Trigger and dropdown background          |
+| `--accent`        | Option hover/active highlight            |
+| `--muted`         | Search input background                  |
+| `--radius-md`     | Trigger and option border radius         |
+| `--radius-lg`     | Dropdown border radius                   |
+| `--duration-fast` | Transition speed                         |
+
+</ComponentPage>

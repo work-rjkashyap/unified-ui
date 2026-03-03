@@ -1,0 +1,261 @@
+---
+title: Kbd
+description: A keyboard shortcut display component for rendering key combinations in a monospaced, styled element.
+icon: Keyboard
+---
+
+import { Kbd } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Kbd"
+  description="Displays keyboard keys and shortcuts in a styled, monospaced element with a tactile inset shadow."
+  preview={
+    <div className="flex flex-wrap gap-4 items-center justify-center">
+      <div className="flex items-center gap-1">
+        <Kbd>⌘</Kbd>
+        <span className="text-muted-foreground text-sm">+</span>
+        <Kbd>K</Kbd>
+      </div>
+      <div className="flex items-center gap-1">
+        <Kbd>Ctrl</Kbd>
+        <span className="text-muted-foreground text-sm">+</span>
+        <Kbd>S</Kbd>
+      </div>
+      <div className="flex items-center gap-1">
+        <Kbd>Shift</Kbd>
+        <span className="text-muted-foreground text-sm">+</span>
+        <Kbd>Enter</Kbd>
+      </div>
+    </div>
+  }
+  code={`<div className="flex items-center gap-1">
+  <Kbd>⌘</Kbd>
+  <span>+</span>
+  <Kbd>K</Kbd>
+</div>
+
+<div className="flex items-center gap-1">
+  <Kbd>Ctrl</Kbd>
+  <span>+</span>
+  <Kbd>S</Kbd>
+</div>`}
+>
+
+## Import
+
+```tsx
+import { Kbd } from "@work-rjkashyap/unified-ui";
+// or
+import { Kbd } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Wrap any key name or symbol in `<Kbd>` to render it as a styled keyboard key.
+
+```tsx
+<Kbd>Enter</Kbd>
+<Kbd>Escape</Kbd>
+<Kbd>⌘</Kbd>
+<Kbd>⇧</Kbd>
+<Kbd>Tab</Kbd>
+```
+
+## Sizes
+
+Three sizes are available. The default is `md`.
+
+<ComponentPage
+  title="Sizes"
+  description="Three size variants for different contexts."
+  preview={
+    <div className="flex items-end gap-4 justify-center">
+      <div className="flex items-center gap-1">
+        <Kbd size="sm">⌘</Kbd>
+        <span className="text-muted-foreground text-xs">+</span>
+        <Kbd size="sm">K</Kbd>
+      </div>
+      <div className="flex items-center gap-1">
+        <Kbd size="md">⌘</Kbd>
+        <span className="text-muted-foreground text-sm">+</span>
+        <Kbd size="md">K</Kbd>
+      </div>
+      <div className="flex items-center gap-1">
+        <Kbd size="lg">⌘</Kbd>
+        <span className="text-muted-foreground text-base">+</span>
+        <Kbd size="lg">K</Kbd>
+      </div>
+    </div>
+  }
+  code={`<Kbd size="sm">⌘</Kbd>
+<Kbd size="md">⌘</Kbd>
+<Kbd size="lg">⌘</Kbd>`}
+/>
+
+| Size | Font Size | Padding        |
+| ---- | --------- | -------------- |
+| `sm` | 10px      | `px-1.5 py-0.5` |
+| `md` | 12px      | `px-2 py-1`    |
+| `lg` | 14px      | `px-2.5 py-1`  |
+
+## Key Combinations
+
+Chain multiple `Kbd` components with a separator to show shortcuts.
+
+<ComponentPage
+  title="Key Combinations"
+  description="Multi-key shortcuts using separator characters between Kbd elements."
+  preview={
+    <div className="flex flex-col gap-3 items-start">
+      <div className="flex items-center gap-1.5">
+        <span className="text-sm text-muted-foreground w-28">Command palette</span>
+        <div className="flex items-center gap-1">
+          <Kbd>⌘</Kbd>
+          <span className="text-muted-foreground text-xs">+</span>
+          <Kbd>K</Kbd>
+        </div>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-sm text-muted-foreground w-28">Save file</span>
+        <div className="flex items-center gap-1">
+          <Kbd>Ctrl</Kbd>
+          <span className="text-muted-foreground text-xs">+</span>
+          <Kbd>S</Kbd>
+        </div>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-sm text-muted-foreground w-28">Select all</span>
+        <div className="flex items-center gap-1">
+          <Kbd>⌘</Kbd>
+          <span className="text-muted-foreground text-xs">+</span>
+          <Kbd>A</Kbd>
+        </div>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-sm text-muted-foreground w-28">Undo</span>
+        <div className="flex items-center gap-1">
+          <Kbd>⌘</Kbd>
+          <span className="text-muted-foreground text-xs">+</span>
+          <Kbd>Z</Kbd>
+        </div>
+      </div>
+    </div>
+  }
+  code={`{/* Command palette */}
+<div className="flex items-center gap-1">
+  <Kbd>⌘</Kbd>
+  <span>+</span>
+  <Kbd>K</Kbd>
+</div>
+
+{/* Save file */}
+<div className="flex items-center gap-1">
+  <Kbd>Ctrl</Kbd>
+  <span>+</span>
+  <Kbd>S</Kbd>
+</div>
+
+{/* Three-key combo */}
+<div className="flex items-center gap-1">
+  <Kbd>Ctrl</Kbd>
+  <span>+</span>
+  <Kbd>Shift</Kbd>
+  <span>+</span>
+  <Kbd>I</Kbd>
+</div>`}
+/>
+
+## Inline Usage
+
+`Kbd` is an inline element — it works naturally inside paragraphs and labels.
+
+```tsx
+<p className="text-sm text-muted-foreground">
+  Press <Kbd>⌘</Kbd> + <Kbd>K</Kbd> to open the command palette.
+</p>
+
+<p className="text-sm text-muted-foreground">
+  Use <Kbd>Tab</Kbd> to move focus between fields and <Kbd>Enter</Kbd> to submit.
+</p>
+```
+
+## Shortcuts Table
+
+A common pattern is a keyboard shortcuts reference table.
+
+<ComponentPage
+  title="Shortcuts Table"
+  description="Listing keyboard shortcuts in a reference table."
+  preview={
+    <div className="w-full max-w-sm border border-border rounded-md overflow-hidden text-sm">
+      <div className="px-4 py-3 bg-muted border-b border-border font-medium text-xs text-muted-foreground uppercase tracking-wide">Keyboard Shortcuts</div>
+      {[
+        { label: "Command palette", keys: ["⌘", "K"] },
+        { label: "Quick search", keys: ["⌘", "P"] },
+        { label: "Save", keys: ["⌘", "S"] },
+        { label: "Undo", keys: ["⌘", "Z"] },
+        { label: "Redo", keys: ["⌘", "⇧", "Z"] },
+      ].map(({ label, keys }) => (
+        <div key={label} className="flex items-center justify-between px-4 py-2.5 border-b border-border last:border-0">
+          <span className="text-foreground">{label}</span>
+          <div className="flex items-center gap-1">
+            {keys.map((k, i) => (
+              <span key={i} className="flex items-center gap-1">
+                {i > 0 && <span className="text-muted-foreground text-xs">+</span>}
+                <Kbd size="sm">{k}</Kbd>
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  }
+  code={`<table>
+  <tbody>
+    <tr>
+      <td>Command palette</td>
+      <td>
+        <Kbd size="sm">⌘</Kbd>
+        <span>+</span>
+        <Kbd size="sm">K</Kbd>
+      </td>
+    </tr>
+    <tr>
+      <td>Save</td>
+      <td>
+        <Kbd size="sm">⌘</Kbd>
+        <span>+</span>
+        <Kbd size="sm">S</Kbd>
+      </td>
+    </tr>
+  </tbody>
+</table>`}
+/>
+
+## Props
+
+| Prop        | Type                    | Default | Description             |
+| ----------- | ----------------------- | ------- | ----------------------- |
+| `size`      | `"sm" \| "md" \| "lg"` | `"md"`  | Size of the key badge.  |
+| `className` | `string`                | —       | Additional CSS classes. |
+| `children`  | `ReactNode`             | —       | Key label or symbol.    |
+
+All standard `<kbd>` HTML attributes are also accepted.
+
+## Accessibility
+
+- Renders as a semantic `<kbd>` HTML element, which screen readers announce as "keyboard input."
+- `select-none` prevents accidental text selection.
+- Works with `aria-label` or surrounding text context for screen reader descriptions.
+- For interactive shortcut hints (e.g., in a search bar), wrap the hint in an `aria-hidden` container and provide a separate screen-reader description.
+
+## Design Tokens
+
+| Token          | Usage                              |
+| -------------- | ---------------------------------- |
+| `--muted`      | Key background                     |
+| `--border`     | Key border and inset shadow        |
+| `--radius-md`  | Border radius                      |
+| `--font-mono`  | Monospaced font for key labels     |
+
+</ComponentPage>

@@ -1,14 +1,14 @@
 {
-	"title": "Design System",
-	"icon": "Palette",
-	"pages": [
-		"index",
-		"tokens",
-		"colors",
-		"typography",
-		"spacing",
-		"theming",
-		"motion",
-		"accessibility"
-	]
+  "title": "Design System",
+  "icon": "Palette",
+  "pages": [
+    "index",
+    "tokens",
+    "colors",
+    "typography",
+    "spacing",
+    "theming",
+    "motion",
+    "accessibility"
+  ]
 }

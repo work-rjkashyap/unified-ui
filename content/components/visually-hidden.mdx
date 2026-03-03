@@ -1,0 +1,195 @@
+---
+title: Visually Hidden
+description: A screen-reader-only content wrapper that visually hides elements while keeping them accessible to assistive technologies. Built on Radix UI.
+icon: EyeOff
+---
+
+import { VisuallyHidden } from "@work-rjkashyap/unified-ui/components";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+	title="Visually Hidden"
+	description="A screen-reader-only content wrapper using Radix UI VisuallyHidden. Renders content that is invisible to sighted users but fully accessible to screen readers and other assistive technologies."
+	preview={
+		<div className="w-full max-w-sm flex flex-col items-center gap-3">
+			<p className="text-sm text-muted-foreground">
+				There is hidden text below this line (inspect the DOM to see it):
+			</p>
+			<div className="flex items-center gap-2 rounded-md border border-border px-3 py-2">
+				<span className="text-sm">🔒</span>
+				<VisuallyHidden>This text is only visible to screen readers</VisuallyHidden>
+				<span className="text-sm text-foreground">Secured</span>
+			</div>
+		</div>
+	}
+	code={`<div className="flex items-center gap-2">
+  <span>🔒</span>
+  <VisuallyHidden>This text is only visible to screen readers</VisuallyHidden>
+  <span>Secured</span>
+</div>`}
+>
+
+## Import
+
+```tsx
+import { VisuallyHidden } from "@work-rjkashyap/unified-ui/components";
+// or
+import { VisuallyHidden } from "@work-rjkashyap/unified-ui";
+```
+
+## Overview
+
+`VisuallyHidden` is a utility component that hides its children from the visual rendering while keeping them in the DOM for screen readers. This is essential for providing context to assistive technologies without affecting the visual design.
+
+<Callout type="info">
+	This component uses Radix UI's `VisuallyHidden` primitive under the hood, which applies CSS that hides the element visually without using `display: none` or `visibility: hidden` — both of which would also hide content from screen readers.
+</Callout>
+
+## Basic Usage
+
+Wrap any text or element in `VisuallyHidden` to make it invisible but accessible:
+
+```tsx
+<VisuallyHidden>
+  This text is only announced by screen readers
+</VisuallyHidden>
+```
+
+## Common Patterns
+
+### Icon-Only Buttons
+
+When a button only contains an icon, add a `VisuallyHidden` label so screen readers can announce its purpose:
+
+```tsx
+<button type="button">
+  <TrashIcon className="size-4" />
+  <VisuallyHidden>Delete item</VisuallyHidden>
+</button>
+```
+
+### Decorative Elements with Context
+
+Provide additional context for decorative elements:
+
+```tsx
+<div className="flex items-center gap-2">
+  <span className="size-2 rounded-full bg-green-500" />
+  <VisuallyHidden>Status: Online</VisuallyHidden>
+  <span>John Doe</span>
+</div>
+```
+
+### Skip Navigation Links
+
+Create a skip-to-content link that only appears for keyboard and screen reader users:
+
+```tsx
+<VisuallyHidden>
+  <a href="#main-content">Skip to main content</a>
+</VisuallyHidden>
+```
+
+### Form Labels
+
+When a visual label is not desired but accessibility requires one:
+
+```tsx
+<div>
+  <VisuallyHidden>
+    <label htmlFor="search">Search</label>
+  </VisuallyHidden>
+  <input id="search" type="search" placeholder="Search..." />
+</div>
+```
+
+### Table Captions
+
+Add an accessible caption to a table without showing it visually:
+
+```tsx
+<table>
+  <VisuallyHidden as="caption">
+    Monthly revenue breakdown by product category
+  </VisuallyHidden>
+  <thead>{/* ... */}</thead>
+  <tbody>{/* ... */}</tbody>
+</table>
+```
+
+### Announcements
+
+Provide context for dynamic content updates:
+
+```tsx
+<VisuallyHidden role="status" aria-live="polite">
+  {results.length} search results found
+</VisuallyHidden>
+```
+
+## When to Use
+
+| Scenario                              | Use `VisuallyHidden`? |
+| ------------------------------------- | --------------------- |
+| Icon-only button needs a label        | ✅ Yes                |
+| Decorative image needs alt text       | ❌ Use `alt` prop     |
+| Form input needs a visible label      | ❌ Use `<Label>`      |
+| Form input needs a hidden label       | ✅ Yes                |
+| Providing context for status badges   | ✅ Yes                |
+| Hiding content from everyone          | ❌ Use `display: none`|
+| Skip navigation link                  | ✅ Yes                |
+| Additional context for screen readers | ✅ Yes                |
+
+## Comparison with Alternatives
+
+| Method                | Visible | Screen Reader | Use Case                     |
+| --------------------- | ------- | ------------- | ---------------------------- |
+| `VisuallyHidden`      | ❌      | ✅            | SR-only labels and context   |
+| `display: none`       | ❌      | ❌            | Fully hidden content         |
+| `visibility: hidden`  | ❌      | ❌            | Fully hidden (keeps layout)  |
+| `aria-hidden="true"`  | ✅      | ❌            | Decorative visual elements   |
+| `opacity: 0`          | ❌      | ✅            | Animation targets            |
+
+## Props
+
+| Prop       | Type              | Default | Description                                     |
+| ---------- | ----------------- | ------- | ----------------------------------------------- |
+| `children` | `React.ReactNode` | —       | Content to render (hidden visually).            |
+| `asChild`  | `boolean`         | `false` | Merge props onto the child element via Radix.   |
+
+All standard HTML attributes are forwarded to the underlying `<span>` element, including `role`, `aria-live`, `aria-label`, and `id`.
+
+## How It Works
+
+The component applies a carefully crafted set of CSS properties that remove the element from visual flow while keeping it accessible:
+
+```tsx
+// Simplified version of what Radix applies:
+{
+  position: "absolute",
+  border: 0,
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  whiteSpace: "nowrap",
+  wordWrap: "normal",
+}
+```
+
+This technique is widely recognized as the correct way to hide content visually while maintaining screen reader accessibility, preferred over `display: none` or `visibility: hidden`.
+
+## Accessibility
+
+- Content is fully accessible to screen readers and other assistive technologies.
+- Content is not visible to sighted users and does not affect layout.
+- Content is still part of the DOM and can be targeted by `aria-describedby` and `aria-labelledby`.
+- Focusable elements inside `VisuallyHidden` (like links) will still receive focus and may become briefly visible in some browsers — this is expected behavior for skip links.
+
+## Design Tokens
+
+This component does not use any design tokens — it is a pure utility wrapper that applies screen-reader-only CSS styles.
+
+</ComponentPage>

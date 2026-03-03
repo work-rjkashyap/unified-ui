@@ -1,0 +1,386 @@
+---
+title: Input Group
+description: A composed input field with prefix/suffix icons, left/right text addons, and inline action buttons. Fully styled and size-consistent with the Input component.
+icon: TextCursorInput
+---
+
+import {
+  InputGroup,
+  Button,
+} from "@work-rjkashyap/unified-ui";
+import { Search, Mail, Globe, Lock, DollarSign, AtSign, Eye } from "lucide-react";
+
+<ComponentPage
+  title="Input Group"
+  description="A composed input with prefix/suffix icon slots and left/right text addons. Maintains consistent height with Input, Select, and Button."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <InputGroup
+        prefix={<Search className="size-4" />}
+        inputProps={{ placeholder: "Search projects..." }}
+      />
+      <InputGroup
+        addonLeft="https://"
+        inputProps={{ placeholder: "your-domain.com" }}
+      />
+      <InputGroup
+        prefix={<DollarSign className="size-4" />}
+        addonRight="USD"
+        inputProps={{ placeholder: "0.00", type: "number" }}
+      />
+    </div>
+  }
+  code={`{/* Search with prefix icon */}
+<InputGroup
+  prefix={<Search className="size-4" />}
+  inputProps={{ placeholder: "Search projects..." }}
+/>
+
+{/* URL with left addon */}
+<InputGroup
+  addonLeft="https://"
+  inputProps={{ placeholder: "your-domain.com" }}
+/>
+
+{/* Currency with icon + right addon */}
+<InputGroup
+  prefix={<DollarSign className="size-4" />}
+  addonRight="USD"
+  inputProps={{ placeholder: "0.00", type: "number" }}
+/>`}
+>
+
+## Import
+
+```tsx
+import { InputGroup } from "@work-rjkashyap/unified-ui";
+// or
+import { InputGroup } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+`InputGroup` wraps a standard `<input>` with optional leading/trailing content. Pass native input attributes via `inputProps`.
+
+```tsx
+<InputGroup
+  prefix={<Search className="size-4" />}
+  inputProps={{ placeholder: "Search...", type: "search" }}
+/>
+```
+
+## Prefix & Suffix Icons
+
+Use `prefix` and `suffix` for inline icon slots. These sit inside the input border without a divider.
+
+<ComponentPage
+  title="Prefix & Suffix Icons"
+  description="Icon slots positioned inside the input border, on the left or right of the field."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <InputGroup
+        prefix={<Mail className="size-4" />}
+        inputProps={{ placeholder: "you@example.com", type: "email" }}
+      />
+      <InputGroup
+        prefix={<Lock className="size-4" />}
+        suffix={<Eye className="size-4" />}
+        inputProps={{ placeholder: "Password", type: "password" }}
+      />
+      <InputGroup
+        prefix={<AtSign className="size-4" />}
+        inputProps={{ placeholder: "username" }}
+      />
+    </div>
+  }
+  code={`import { Mail, Lock, Eye, AtSign } from "lucide-react";
+
+{/* Prefix only */}
+<InputGroup
+  prefix={<Mail className="size-4" />}
+  inputProps={{ placeholder: "you@example.com", type: "email" }}
+/>
+
+{/* Prefix + Suffix */}
+<InputGroup
+  prefix={<Lock className="size-4" />}
+  suffix={<Eye className="size-4" />}
+  inputProps={{ placeholder: "Password", type: "password" }}
+/>
+
+{/* At-sign prefix */}
+<InputGroup
+  prefix={<AtSign className="size-4" />}
+  inputProps={{ placeholder: "username" }}
+/>`}
+/>
+
+## Left & Right Addons
+
+Addons render outside the text field with a distinct background and a dividing border. Use them for units, labels, or fixed text like `http://`.
+
+<ComponentPage
+  title="Left & Right Addons"
+  description="Styled addon segments attached to either side of the input with a dividing border."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <InputGroup
+        addonLeft="https://"
+        inputProps={{ placeholder: "your-domain.com" }}
+      />
+      <InputGroup
+        inputProps={{ placeholder: "0.00" }}
+        addonRight="USD"
+      />
+      <InputGroup
+        addonLeft="+1"
+        inputProps={{ placeholder: "Phone number", type: "tel" }}
+      />
+      <InputGroup
+        addonLeft="From"
+        inputProps={{ placeholder: "start date" }}
+        addonRight="To"
+      />
+    </div>
+  }
+  code={`{/* URL prefix */}
+<InputGroup
+  addonLeft="https://"
+  inputProps={{ placeholder: "your-domain.com" }}
+/>
+
+{/* Currency suffix */}
+<InputGroup
+  inputProps={{ placeholder: "0.00" }}
+  addonRight="USD"
+/>
+
+{/* Phone prefix */}
+<InputGroup
+  addonLeft="+1"
+  inputProps={{ placeholder: "Phone number", type: "tel" }}
+/>
+
+{/* Both sides */}
+<InputGroup
+  addonLeft="From"
+  inputProps={{ placeholder: "start date" }}
+  addonRight="To"
+/>`}
+/>
+
+## Combined: Icon + Addon
+
+Mix icon prefixes/suffixes with addons for rich composed inputs.
+
+<ComponentPage
+  title="Combined Icon + Addon"
+  description="Combine prefix icons with text addons for real-world form fields."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <InputGroup
+        prefix={<Globe className="size-4" />}
+        addonRight=".com"
+        inputProps={{ placeholder: "your-site" }}
+      />
+      <InputGroup
+        addonLeft="$"
+        inputProps={{ placeholder: "0.00", type: "number" }}
+        addonRight="per month"
+      />
+      <InputGroup
+        prefix={<DollarSign className="size-4" />}
+        inputProps={{ placeholder: "Amount" }}
+        addonRight="USD"
+      />
+    </div>
+  }
+  code={`import { Globe, DollarSign } from "lucide-react";
+
+<InputGroup
+  prefix={<Globe className="size-4" />}
+  addonRight=".com"
+  inputProps={{ placeholder: "your-site" }}
+/>
+
+<InputGroup
+  addonLeft="$"
+  inputProps={{ placeholder: "0.00", type: "number" }}
+  addonRight="per month"
+/>
+
+<InputGroup
+  prefix={<DollarSign className="size-4" />}
+  inputProps={{ placeholder: "Amount" }}
+  addonRight="USD"
+/>`}
+/>
+
+## Sizes
+
+<ComponentPage
+  title="Sizes"
+  description="Three sizes that align perfectly with Button, Input, and Select heights."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <InputGroup
+        size="sm"
+        prefix={<Search className="size-3.5" />}
+        inputProps={{ placeholder: "Small (h-8)" }}
+      />
+      <InputGroup
+        size="md"
+        prefix={<Search className="size-4" />}
+        inputProps={{ placeholder: "Medium (h-9)" }}
+      />
+      <InputGroup
+        size="lg"
+        prefix={<Search className="size-4" />}
+        inputProps={{ placeholder: "Large (h-10)" }}
+      />
+    </div>
+  }
+  code={`<InputGroup size="sm" prefix={<Search />} inputProps={{ placeholder: "Small" }} />
+<InputGroup size="md" prefix={<Search />} inputProps={{ placeholder: "Medium" }} />
+<InputGroup size="lg" prefix={<Search />} inputProps={{ placeholder: "Large" }} />`}
+/>
+
+| Size | Height | Use Case                        |
+| ---- | ------ | ------------------------------- |
+| `sm` | 32px   | Compact toolbars, dense tables  |
+| `md` | 36px   | Default — most form contexts    |
+| `lg` | 40px   | Prominent inputs, hero forms    |
+
+## Variants
+
+<ComponentPage
+  title="Variants"
+  description="Default uses a bordered style; filled uses a muted background with no border."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <InputGroup
+        variant="default"
+        prefix={<Mail className="size-4" />}
+        inputProps={{ placeholder: "Default variant" }}
+      />
+      <InputGroup
+        variant="filled"
+        prefix={<Mail className="size-4" />}
+        inputProps={{ placeholder: "Filled variant" }}
+      />
+    </div>
+  }
+  code={`<InputGroup variant="default" prefix={<Mail />} inputProps={{ placeholder: "Default" }} />
+<InputGroup variant="filled" prefix={<Mail />} inputProps={{ placeholder: "Filled" }} />`}
+/>
+
+## Error State
+
+<ComponentPage
+  title="Error State"
+  description="Red border and focus ring when the field has a validation error."
+  preview={
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <InputGroup
+        error
+        prefix={<Mail className="size-4" />}
+        inputProps={{ placeholder: "Invalid email", value: "not-an-email" }}
+      />
+      <InputGroup
+        error
+        addonLeft="https://"
+        inputProps={{ placeholder: "invalid-url" }}
+      />
+    </div>
+  }
+  code={`<InputGroup
+  error
+  prefix={<Mail className="size-4" />}
+  inputProps={{ placeholder: "Invalid email" }}
+/>
+
+<InputGroup
+  error
+  addonLeft="https://"
+  inputProps={{ placeholder: "invalid-url" }}
+/>`}
+/>
+
+## Disabled
+
+```tsx
+<InputGroup
+  disabled
+  prefix={<Lock className="size-4" />}
+  inputProps={{ placeholder: "Disabled field", value: "read-only value" }}
+/>
+```
+
+## Inline Action Button
+
+Pass a `Button` (or any element) as `children` to replace the default `<input>` slot with a fully custom layout. This is useful for search bars with an attached submit button.
+
+```tsx
+<InputGroup addonLeft="Search">
+  <input
+    className="flex-1 h-full bg-transparent outline-none text-sm px-3 text-foreground placeholder:text-muted-foreground"
+    placeholder="Type to search..."
+  />
+  <Button variant="primary" size="sm" className="m-1 shrink-0">
+    Go
+  </Button>
+</InputGroup>
+```
+
+## Custom Children Slot
+
+When `children` is provided, it replaces the built-in `<input>`. Use this to compose any input-like element (e.g., a `Select`, `Combobox`, or custom control) inside the group's styled container.
+
+```tsx
+<InputGroup addonLeft="Country" addonRight={<Globe className="size-4" />}>
+  <select className="flex-1 h-full bg-transparent outline-none text-sm px-3 text-foreground">
+    <option>United States</option>
+    <option>United Kingdom</option>
+    <option>Germany</option>
+  </select>
+</InputGroup>
+```
+
+## Props
+
+| Prop             | Type                          | Default     | Description                                                        |
+| ---------------- | ----------------------------- | ----------- | ------------------------------------------------------------------ |
+| `size`           | `"sm" \| "md" \| "lg"`        | `"md"`      | Height variant — aligns with Button and Input sizes.               |
+| `variant`        | `"default" \| "filled"`       | `"default"` | Visual style — bordered or muted-filled background.                |
+| `prefix`         | `ReactNode`                   | —           | Icon or content rendered inside the input on the left (no border). |
+| `suffix`         | `ReactNode`                   | —           | Icon or content rendered inside the input on the right (no border).|
+| `addonLeft`      | `ReactNode`                   | —           | Text or element attached to the left with a distinct background.   |
+| `addonRight`     | `ReactNode`                   | —           | Text or element attached to the right with a distinct background.  |
+| `disabled`       | `boolean`                     | `false`     | Disables pointer events and reduces opacity for the whole group.   |
+| `error`          | `boolean`                     | `false`     | Applies danger-colored border and focus ring.                      |
+| `inputProps`     | `InputHTMLAttributes<HTMLInputElement>` | — | Props spread onto the internal `<input>` element.                  |
+| `inputClassName` | `string`                      | —           | Additional CSS classes applied only to the inner `<input>`.        |
+| `children`       | `ReactNode`                   | —           | Replaces the default `<input>` with a custom element.              |
+| `className`      | `string`                      | —           | Additional CSS classes on the container element.                   |
+
+## Accessibility
+
+- The internal `<input>` is a native HTML element — all standard accessibility features apply.
+- Use `inputProps={{ "aria-label": "..." }}` when no visible `<label>` accompanies the group.
+- Addon text (`addonLeft`, `addonRight`) is decorative — it is not programmatically associated with the input. Use `aria-label` or a visible label to describe the full field.
+- The `disabled` prop applies `pointer-events-none` and `opacity-50` on the whole group via the CSS `has-[:disabled]` selector — no JS required.
+- Focus ring appears on `focus-within` using the standard `--ring` token.
+
+## Design Tokens
+
+| Token            | Usage                              |
+| ---------------- | ---------------------------------- |
+| `--input`        | Container border (default variant) |
+| `--muted`        | Addon background + filled variant  |
+| `--border`       | Addon divider border               |
+| `--ring`         | Focus ring                         |
+| `--danger`       | Error state border and ring        |
+| `--radius-md`    | Container border radius            |
+| `--duration-fast`| Transition speed                   |
+
+</ComponentPage>

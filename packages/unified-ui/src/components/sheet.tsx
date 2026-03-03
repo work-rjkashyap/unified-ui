@@ -45,14 +45,14 @@
 //   </Sheet>
 // ============================================================================
 
-import { Dialog as DialogPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Dialog as DialogPrimitive } from "radix-ui";
 import {
-	type ComponentPropsWithoutRef,
-	forwardRef,
-	type ReactNode,
+  type ComponentPropsWithoutRef,
+  forwardRef,
+  type ReactNode,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -60,150 +60,150 @@ import {
 // ---------------------------------------------------------------------------
 
 export const sheetContentVariants = cva(
-	[
-		// Layout
-		"fixed flex flex-col",
-		// Z-index — same as dialog/modal
-		"z-[var(--z-modal)]",
-		// Visual
-		"bg-background",
-		"border-border",
-		"shadow-xl",
-		// Focus
-		"outline-none",
-		// Animation base
-		"data-[state=open]:animate-in data-[state=closed]:animate-out",
-		"data-[state=open]:duration-300 data-[state=closed]:duration-200",
-	],
-	{
-		variants: {
-			side: {
-				/**
-				 * Left — slides in from the left edge.
-				 */
-				left: [
-					"inset-y-0 left-0",
-					"border-r",
-					"data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
-				],
+  [
+    // Layout
+    "fixed flex flex-col",
+    // Z-index — same as dialog/modal
+    "z-[var(--z-modal)]",
+    // Visual
+    "bg-background",
+    "border-border",
+    "shadow-xl",
+    // Focus
+    "outline-none",
+    // Animation base
+    "data-[state=open]:animate-in data-[state=closed]:animate-out",
+    "data-[state=open]:duration-300 data-[state=closed]:duration-200",
+  ],
+  {
+    variants: {
+      side: {
+        /**
+         * Left — slides in from the left edge.
+         */
+        left: [
+          "inset-y-0 left-0",
+          "border-r",
+          "data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
+        ],
 
-				/**
-				 * Right — slides in from the right edge (most common).
-				 */
-				right: [
-					"inset-y-0 right-0",
-					"border-l",
-					"data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
-				],
+        /**
+         * Right — slides in from the right edge (most common).
+         */
+        right: [
+          "inset-y-0 right-0",
+          "border-l",
+          "data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
+        ],
 
-				/**
-				 * Top — slides in from the top edge.
-				 */
-				top: [
-					"inset-x-0 top-0",
-					"border-b",
-					"data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
-				],
+        /**
+         * Top — slides in from the top edge.
+         */
+        top: [
+          "inset-x-0 top-0",
+          "border-b",
+          "data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
+        ],
 
-				/**
-				 * Bottom — slides in from the bottom edge.
-				 */
-				bottom: [
-					"inset-x-0 bottom-0",
-					"border-t",
-					"data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-				],
-			},
+        /**
+         * Bottom — slides in from the bottom edge.
+         */
+        bottom: [
+          "inset-x-0 bottom-0",
+          "border-t",
+          "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
+        ],
+      },
 
-			size: {
-				/**
-				 * Small — compact panel (320px).
-				 * Good for navigation menus, simple forms.
-				 */
-				sm: "",
+      size: {
+        /**
+         * Small — compact panel (320px).
+         * Good for navigation menus, simple forms.
+         */
+        sm: "",
 
-				/**
-				 * Medium — default size (420px).
-				 * Good for settings panels, detail views.
-				 */
-				md: "",
+        /**
+         * Medium — default size (420px).
+         * Good for settings panels, detail views.
+         */
+        md: "",
 
-				/**
-				 * Large — wide panel (560px).
-				 * Good for complex forms, preview panels.
-				 */
-				lg: "",
-			},
-		},
-		compoundVariants: [
-			// Horizontal sheets (left/right) — width-based sizing
-			{
-				side: "left",
-				size: "sm",
-				className: "w-[320px] max-w-[calc(100vw-2rem)]",
-			},
-			{
-				side: "left",
-				size: "md",
-				className: "w-[420px] max-w-[calc(100vw-2rem)]",
-			},
-			{
-				side: "left",
-				size: "lg",
-				className: "w-[560px] max-w-[calc(100vw-2rem)]",
-			},
-			{
-				side: "right",
-				size: "sm",
-				className: "w-[320px] max-w-[calc(100vw-2rem)]",
-			},
-			{
-				side: "right",
-				size: "md",
-				className: "w-[420px] max-w-[calc(100vw-2rem)]",
-			},
-			{
-				side: "right",
-				size: "lg",
-				className: "w-[560px] max-w-[calc(100vw-2rem)]",
-			},
-			// Vertical sheets (top/bottom) — height-based sizing
-			{
-				side: "top",
-				size: "sm",
-				className: "h-[320px] max-h-[calc(100vh-2rem)]",
-			},
-			{
-				side: "top",
-				size: "md",
-				className: "h-[420px] max-h-[calc(100vh-2rem)]",
-			},
-			{
-				side: "top",
-				size: "lg",
-				className: "h-[560px] max-h-[calc(100vh-2rem)]",
-			},
-			{
-				side: "bottom",
-				size: "sm",
-				className: "h-[320px] max-h-[calc(100vh-2rem)]",
-			},
-			{
-				side: "bottom",
-				size: "md",
-				className: "h-[420px] max-h-[calc(100vh-2rem)]",
-			},
-			{
-				side: "bottom",
-				size: "lg",
-				className: "h-[560px] max-h-[calc(100vh-2rem)]",
-			},
-		],
-		defaultVariants: {
-			side: "right",
-			size: "md",
-		},
-	},
+        /**
+         * Large — wide panel (560px).
+         * Good for complex forms, preview panels.
+         */
+        lg: "",
+      },
+    },
+    compoundVariants: [
+      // Horizontal sheets (left/right) — width-based sizing
+      {
+        side: "left",
+        size: "sm",
+        className: "w-[320px] max-w-[calc(100vw-2rem)]",
+      },
+      {
+        side: "left",
+        size: "md",
+        className: "w-[420px] max-w-[calc(100vw-2rem)]",
+      },
+      {
+        side: "left",
+        size: "lg",
+        className: "w-[560px] max-w-[calc(100vw-2rem)]",
+      },
+      {
+        side: "right",
+        size: "sm",
+        className: "w-[320px] max-w-[calc(100vw-2rem)]",
+      },
+      {
+        side: "right",
+        size: "md",
+        className: "w-[420px] max-w-[calc(100vw-2rem)]",
+      },
+      {
+        side: "right",
+        size: "lg",
+        className: "w-[560px] max-w-[calc(100vw-2rem)]",
+      },
+      // Vertical sheets (top/bottom) — height-based sizing
+      {
+        side: "top",
+        size: "sm",
+        className: "h-[320px] max-h-[calc(100vh-2rem)]",
+      },
+      {
+        side: "top",
+        size: "md",
+        className: "h-[420px] max-h-[calc(100vh-2rem)]",
+      },
+      {
+        side: "top",
+        size: "lg",
+        className: "h-[560px] max-h-[calc(100vh-2rem)]",
+      },
+      {
+        side: "bottom",
+        size: "sm",
+        className: "h-[320px] max-h-[calc(100vh-2rem)]",
+      },
+      {
+        side: "bottom",
+        size: "md",
+        className: "h-[420px] max-h-[calc(100vh-2rem)]",
+      },
+      {
+        side: "bottom",
+        size: "lg",
+        className: "h-[560px] max-h-[calc(100vh-2rem)]",
+      },
+    ],
+    defaultVariants: {
+      side: "right",
+      size: "md",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -214,87 +214,82 @@ export type SheetSide = "left" | "right" | "top" | "bottom";
 export type SheetSize = "sm" | "md" | "lg";
 
 export interface SheetProps extends DialogPrimitive.DialogProps {
-	/** Sheet children (trigger + content). */
-	children: ReactNode;
+  /** Sheet children (trigger + content). */
+  children: ReactNode;
 }
 
-export interface SheetTriggerProps extends ComponentPropsWithoutRef<
-	typeof DialogPrimitive.Trigger
-> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface SheetTriggerProps
+  extends ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger> {
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 export interface SheetContentProps
-	extends
-		Omit<
-			ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
-			"asChild"
-		>,
-		VariantProps<typeof sheetContentVariants> {
-	/**
-	 * The side the sheet slides in from.
-	 * @default "right"
-	 */
-	side?: SheetSide;
+  extends Omit<
+      ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+      "asChild"
+    >,
+    VariantProps<typeof sheetContentVariants> {
+  /**
+   * The side the sheet slides in from.
+   * @default "right"
+   */
+  side?: SheetSide;
 
-	/**
-	 * The width/height of the sheet panel.
-	 * @default "md"
-	 */
-	size?: SheetSize;
+  /**
+   * The width/height of the sheet panel.
+   * @default "md"
+   */
+  size?: SheetSize;
 
-	/**
-	 * Whether to show the default close button (X) in the top-right.
-	 * @default true
-	 */
-	showClose?: boolean;
+  /**
+   * Whether to show the default close button (X) in the top-right.
+   * @default true
+   */
+  showClose?: boolean;
 
-	/**
-	 * Additional CSS classes for the overlay backdrop.
-	 */
-	overlayClassName?: string;
+  /**
+   * Additional CSS classes for the overlay backdrop.
+   */
+  overlayClassName?: string;
 
-	/** Additional CSS classes for the content panel. */
-	className?: string;
+  /** Additional CSS classes for the content panel. */
+  className?: string;
 
-	/** The sheet body content. */
-	children: ReactNode;
+  /** The sheet body content. */
+  children: ReactNode;
 }
 
 export interface SheetHeaderProps {
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
 export interface SheetFooterProps {
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
-export interface SheetTitleProps extends ComponentPropsWithoutRef<
-	typeof DialogPrimitive.Title
-> {
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+export interface SheetTitleProps
+  extends ComponentPropsWithoutRef<typeof DialogPrimitive.Title> {
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
-export interface SheetDescriptionProps extends ComponentPropsWithoutRef<
-	typeof DialogPrimitive.Description
-> {
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+export interface SheetDescriptionProps
+  extends ComponentPropsWithoutRef<typeof DialogPrimitive.Description> {
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
-export interface SheetCloseProps extends ComponentPropsWithoutRef<
-	typeof DialogPrimitive.Close
-> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface SheetCloseProps
+  extends ComponentPropsWithoutRef<typeof DialogPrimitive.Close> {
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -302,22 +297,22 @@ export interface SheetCloseProps extends ComponentPropsWithoutRef<
 // ---------------------------------------------------------------------------
 
 function CloseIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			className={className}
-			aria-hidden="true"
-		>
-			<path d="M18 6 6 18" />
-			<path d="m6 6 12 12" />
-		</svg>
-	);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -340,7 +335,7 @@ function CloseIcon({ className }: { className?: string }) {
  * ```
  */
 export function Sheet({ children, ...rest }: SheetProps) {
-	return <DialogPrimitive.Root {...rest}>{children}</DialogPrimitive.Root>;
+  return <DialogPrimitive.Root {...rest}>{children}</DialogPrimitive.Root>;
 }
 
 Sheet.displayName = "Sheet";
@@ -362,18 +357,18 @@ Sheet.displayName = "Sheet";
  * ```
  */
 export const SheetTrigger = forwardRef<
-	React.ComponentRef<typeof DialogPrimitive.Trigger>,
-	SheetTriggerProps
+  React.ComponentRef<typeof DialogPrimitive.Trigger>,
+  SheetTriggerProps
 >(function SheetTrigger({ className, ...rest }, ref) {
-	return (
-		<DialogPrimitive.Trigger
-			ref={ref}
-			className={className}
-			data-ds=""
-			data-ds-component="sheet-trigger"
-			{...rest}
-		/>
-	);
+  return (
+    <DialogPrimitive.Trigger
+      ref={ref}
+      className={className}
+      data-ds=""
+      data-ds-component="sheet-trigger"
+      {...rest}
+    />
+  );
 });
 
 SheetTrigger.displayName = "SheetTrigger";
@@ -383,23 +378,23 @@ SheetTrigger.displayName = "SheetTrigger";
 // ---------------------------------------------------------------------------
 
 const SheetOverlay = forwardRef<
-	React.ComponentRef<typeof DialogPrimitive.Overlay>,
-	ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+  React.ComponentRef<typeof DialogPrimitive.Overlay>,
+  ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(function SheetOverlay({ className, ...rest }, ref) {
-	return (
-		<DialogPrimitive.Overlay
-			ref={ref}
-			className={cn(
-				"fixed inset-0",
-				"z-[var(--z-overlay)]",
-				"bg-black/50",
-				"data-[state=open]:animate-in data-[state=open]:fade-in-0",
-				"data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-				className,
-			)}
-			{...rest}
-		/>
-	);
+  return (
+    <DialogPrimitive.Overlay
+      ref={ref}
+      className={cn(
+        "fixed inset-0",
+        "z-[var(--z-overlay)]",
+        "bg-black/50",
+        "data-[state=open]:animate-in data-[state=open]:fade-in-0",
+        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
+        className,
+      )}
+      {...rest}
+    />
+  );
 });
 
 SheetOverlay.displayName = "SheetOverlay";
@@ -450,52 +445,56 @@ SheetOverlay.displayName = "SheetOverlay";
  * ```
  */
 export const SheetContent = forwardRef<
-	React.ComponentRef<typeof DialogPrimitive.Content>,
-	SheetContentProps
+  React.ComponentRef<typeof DialogPrimitive.Content>,
+  SheetContentProps
 >(function SheetContent(
-	{
-		side = "right",
-		size = "md",
-		showClose = true,
-		overlayClassName,
-		className,
-		children,
-		...rest
-	},
-	ref,
+  {
+    side = "right",
+    size = "md",
+    showClose = true,
+    overlayClassName,
+    className,
+    children,
+    ...rest
+  },
+  ref,
 ) {
-	return (
-		<DialogPrimitive.Portal>
-			<SheetOverlay className={overlayClassName} />
-			<DialogPrimitive.Content
-				ref={ref}
-				className={cn("not-prose", sheetContentVariants({ side, size }), className)}
-				data-ds=""
-				data-ds-component="sheet"
-				data-ds-side={side}
-				data-ds-size={size}
-				{...rest}
-			>
-				{children}
+  return (
+    <DialogPrimitive.Portal>
+      <SheetOverlay className={overlayClassName} />
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          "not-prose",
+          sheetContentVariants({ side, size }),
+          className,
+        )}
+        data-ds=""
+        data-ds-component="sheet"
+        data-ds-side={side}
+        data-ds-size={size}
+        {...rest}
+      >
+        {children}
 
-				{showClose && (
-					<DialogPrimitive.Close
-						className={cn(
-							"absolute right-4 top-4",
-							"inline-flex items-center justify-center",
-							"rounded-sm p-1",
-							"text-muted-foreground hover:text-foreground",
-							"transition-colors duration-fast",
-							focusRingClasses,
-						)}
-						aria-label="Close"
-					>
-						<CloseIcon className="size-4" />
-					</DialogPrimitive.Close>
-				)}
-			</DialogPrimitive.Content>
-		</DialogPrimitive.Portal>
-	);
+        {showClose && (
+          <DialogPrimitive.Close
+            className={cn(
+              "absolute right-4 top-4",
+              "inline-flex items-center justify-center",
+              "rounded-sm p-1",
+              "text-muted-foreground hover:text-foreground",
+              "transition-colors duration-fast",
+              focusRingClasses,
+            )}
+            aria-label="Close"
+          >
+            <CloseIcon className="size-4" />
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  );
 });
 
 SheetContent.displayName = "SheetContent";
@@ -516,19 +515,19 @@ SheetContent.displayName = "SheetContent";
  * ```
  */
 export function SheetHeader({ className, children }: SheetHeaderProps) {
-	return (
-		<div
-			className={cn(
-				"flex flex-col gap-1.5 px-6 py-4",
-				"border-b border-border",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="sheet-header"
-		>
-			{children}
-		</div>
-	);
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-1.5 px-6 py-4",
+        "border-b border-border",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="sheet-header"
+    >
+      {children}
+    </div>
+  );
 }
 
 SheetHeader.displayName = "SheetHeader";
@@ -551,20 +550,20 @@ SheetHeader.displayName = "SheetHeader";
  * ```
  */
 export function SheetFooter({ className, children }: SheetFooterProps) {
-	return (
-		<div
-			className={cn(
-				"flex items-center justify-end gap-2 px-6 py-4",
-				"border-t border-border",
-				"mt-auto",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="sheet-footer"
-		>
-			{children}
-		</div>
-	);
+  return (
+    <div
+      className={cn(
+        "flex items-center justify-end gap-2 px-6 py-4",
+        "border-t border-border",
+        "mt-auto",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="sheet-footer"
+    >
+      {children}
+    </div>
+  );
 }
 
 SheetFooter.displayName = "SheetFooter";
@@ -584,23 +583,23 @@ SheetFooter.displayName = "SheetFooter";
  * ```
  */
 export const SheetTitle = forwardRef<
-	React.ComponentRef<typeof DialogPrimitive.Title>,
-	SheetTitleProps
+  React.ComponentRef<typeof DialogPrimitive.Title>,
+  SheetTitleProps
 >(function SheetTitle({ className, children, ...rest }, ref) {
-	return (
-		<DialogPrimitive.Title
-			ref={ref}
-			className={cn(
-				"text-lg font-semibold leading-6 text-foreground",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="sheet-title"
-			{...rest}
-		>
-			{children}
-		</DialogPrimitive.Title>
-	);
+  return (
+    <DialogPrimitive.Title
+      ref={ref}
+      className={cn(
+        "text-lg font-semibold leading-6 text-foreground",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="sheet-title"
+      {...rest}
+    >
+      {children}
+    </DialogPrimitive.Title>
+  );
 });
 
 SheetTitle.displayName = "SheetTitle";
@@ -622,23 +621,20 @@ SheetTitle.displayName = "SheetTitle";
  * ```
  */
 export const SheetDescription = forwardRef<
-	React.ComponentRef<typeof DialogPrimitive.Description>,
-	SheetDescriptionProps
+  React.ComponentRef<typeof DialogPrimitive.Description>,
+  SheetDescriptionProps
 >(function SheetDescription({ className, children, ...rest }, ref) {
-	return (
-		<DialogPrimitive.Description
-			ref={ref}
-			className={cn(
-				"text-sm leading-5 text-muted-foreground",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="sheet-description"
-			{...rest}
-		>
-			{children}
-		</DialogPrimitive.Description>
-	);
+  return (
+    <DialogPrimitive.Description
+      ref={ref}
+      className={cn("text-sm leading-5 text-muted-foreground", className)}
+      data-ds=""
+      data-ds-component="sheet-description"
+      {...rest}
+    >
+      {children}
+    </DialogPrimitive.Description>
+  );
 });
 
 SheetDescription.displayName = "SheetDescription";
@@ -664,18 +660,18 @@ SheetDescription.displayName = "SheetDescription";
  * ```
  */
 export const SheetClose = forwardRef<
-	React.ComponentRef<typeof DialogPrimitive.Close>,
-	SheetCloseProps
+  React.ComponentRef<typeof DialogPrimitive.Close>,
+  SheetCloseProps
 >(function SheetClose({ className, ...rest }, ref) {
-	return (
-		<DialogPrimitive.Close
-			ref={ref}
-			className={className}
-			data-ds=""
-			data-ds-component="sheet-close"
-			{...rest}
-		/>
-	);
+  return (
+    <DialogPrimitive.Close
+      ref={ref}
+      className={className}
+      data-ds=""
+      data-ds-component="sheet-close"
+      {...rest}
+    />
+  );
 });
 
 SheetClose.displayName = "SheetClose";

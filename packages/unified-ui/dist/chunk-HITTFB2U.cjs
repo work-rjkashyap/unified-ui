@@ -349,7 +349,7 @@ var spin = {
   },
   transition: {}
 };
-function reduceMotion(preset) {
+function reduceMotion(_preset) {
   return {
     variants: {
       initial: { opacity: 0 },
@@ -362,6 +362,120 @@ function reduceMotion(preset) {
     }
   };
 }
+var shakeX = {
+  variants: {
+    initial: { x: 0, opacity: 1 },
+    animate: {
+      x: [0, -8, 8, -6, 6, -4, 4, 0],
+      opacity: 1,
+      transition: {
+        duration: chunkXCKK6P46_cjs.durationSeconds.slow,
+        ease: [...chunkXCKK6P46_cjs.easing.standard]
+      }
+    },
+    exit: { x: 0, opacity: 1 }
+  },
+  transition: {
+    duration: chunkXCKK6P46_cjs.durationSeconds.slow,
+    ease: [...chunkXCKK6P46_cjs.easing.standard]
+  }
+};
+var numberRoll = {
+  variants: {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -12 }
+  },
+  transition: {
+    duration: chunkXCKK6P46_cjs.durationSeconds.normal,
+    ease: [...chunkXCKK6P46_cjs.easing.decelerate]
+  }
+};
+var crossfade = {
+  variants: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
+  },
+  transition: {
+    duration: chunkXCKK6P46_cjs.durationSeconds.fast,
+    ease: [...chunkXCKK6P46_cjs.easing.standard]
+  }
+};
+var slidePanelRight = {
+  variants: {
+    initial: { x: "100%", opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: "100%", opacity: 0 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.gentle
+};
+var slidePanelLeft = {
+  variants: {
+    initial: { x: "-100%", opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: "-100%", opacity: 0 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.gentle
+};
+var slidePanelBottom = {
+  variants: {
+    initial: { y: "100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: "100%", opacity: 0 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.gentle
+};
+var slidePanelTop = {
+  variants: {
+    initial: { y: "-100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: "-100%", opacity: 0 }
+  },
+  transition: chunkXCKK6P46_cjs.spring.gentle
+};
+var dragDismiss = {
+  variants: {
+    initial: { y: "100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: {
+      y: "100%",
+      opacity: 0,
+      transition: { duration: chunkXCKK6P46_cjs.durationSeconds.fast }
+    }
+  },
+  transition: chunkXCKK6P46_cjs.spring.gentle
+};
+var countUp = {
+  variants: {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 }
+  },
+  transition: {
+    duration: chunkXCKK6P46_cjs.durationSeconds.normal,
+    ease: [...chunkXCKK6P46_cjs.easing.decelerate]
+  }
+};
+var revealMask = {
+  variants: {
+    initial: { clipPath: "inset(0 100% 0 0)", opacity: 1 },
+    animate: { clipPath: "inset(0 0% 0 0)", opacity: 1 },
+    exit: { clipPath: "inset(0 100% 0 0)", opacity: 0 }
+  },
+  transition: {
+    duration: chunkXCKK6P46_cjs.durationSeconds.slow,
+    ease: [...chunkXCKK6P46_cjs.easing.decelerate]
+  }
+};
+var springPress = {
+  scale: 0.97,
+  transition: chunkXCKK6P46_cjs.spring.snappy
+};
+var springHover = {
+  y: -2,
+  transition: chunkXCKK6P46_cjs.spring.gentle
+};
 function withReducedMotion(preset, prefersReduced) {
   if (prefersReduced) {
     return reduceMotion();
@@ -434,6 +548,9 @@ function MotionSafe({ children, fallback }) {
 exports.MotionSafe = MotionSafe;
 exports.blurIn = blurIn;
 exports.blurInSubtle = blurInSubtle;
+exports.countUp = countUp;
+exports.crossfade = crossfade;
+exports.dragDismiss = dragDismiss;
 exports.expandHeight = expandHeight;
 exports.expandHeightSlow = expandHeightSlow;
 exports.fadeIn = fadeIn;
@@ -444,27 +561,36 @@ exports.hoverScale = hoverScale;
 exports.modalContent = modalContent;
 exports.modalContentSpring = modalContentSpring;
 exports.motionProps = motionProps;
+exports.numberRoll = numberRoll;
 exports.overlayBackdrop = overlayBackdrop;
 exports.pop = pop;
 exports.popSubtle = popSubtle;
 exports.press = press;
 exports.pulse = pulse;
 exports.reduceMotion = reduceMotion;
+exports.revealMask = revealMask;
 exports.scaleIn = scaleIn;
 exports.scaleInLg = scaleInLg;
 exports.scaleInSpring = scaleInSpring;
+exports.shakeX = shakeX;
 exports.slideDown = slideDown;
 exports.slideDownSm = slideDownSm;
 exports.slideInFromBottom = slideInFromBottom;
 exports.slideInFromLeft = slideInFromLeft;
 exports.slideInFromRight = slideInFromRight;
 exports.slideLeft = slideLeft;
+exports.slidePanelBottom = slidePanelBottom;
+exports.slidePanelLeft = slidePanelLeft;
+exports.slidePanelRight = slidePanelRight;
+exports.slidePanelTop = slidePanelTop;
 exports.slideRight = slideRight;
 exports.slideUp = slideUp;
 exports.slideUpLg = slideUpLg;
 exports.slideUpSm = slideUpSm;
 exports.slideUpSpring = slideUpSpring;
 exports.spin = spin;
+exports.springHover = springHover;
+exports.springPress = springPress;
 exports.staggerContainer = staggerContainer;
 exports.staggerContainerFast = staggerContainerFast;
 exports.staggerContainerSlow = staggerContainerSlow;

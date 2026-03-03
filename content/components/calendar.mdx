@@ -1,0 +1,224 @@
+---
+title: Calendar
+description: A month/year grid calendar with single and range date selection, keyboard navigation, disabled dates, and animated month transitions.
+icon: Calendar
+---
+
+import { Calendar } from "@work-rjkashyap/unified-ui/components";
+
+<ComponentPage
+	title="Calendar"
+	description="A full-featured month calendar with single date selection, range selection, keyboard navigation, and smooth animated month transitions."
+	preview={
+		<div className="w-full max-w-xs">
+			<Calendar />
+		</div>
+	}
+	code={`<Calendar />`}
+>
+
+## Import
+
+```tsx
+import { Calendar } from "@work-rjkashyap/unified-ui/components";
+// or
+import { Calendar } from "@work-rjkashyap/unified-ui";
+```
+
+## Basic Usage
+
+Drop `Calendar` anywhere you need a date picker grid. It manages its own internal state by default (uncontrolled).
+
+```tsx
+<Calendar onSelect={(date) => console.log(date)} />
+```
+
+## Single Date Selection
+
+The default mode selects a single date. Pass `onSelect` to receive the selected date.
+
+<ComponentPage
+	title="Single Selection"
+	description="Click a day to select it. The selected date is highlighted with a primary background."
+	preview={
+		<div className="w-full max-w-xs">
+			<Calendar mode="single" />
+		</div>
+	}
+	code={`const [date, setDate] = useState<Date | null>(null);
+
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+/>`}
+/>
+
+## Range Selection
+
+Set `mode="range"` to allow selecting a date range. Click once for the start date, then again for the end date.
+
+<ComponentPage
+	title="Range Selection"
+	description="Select a start and end date. The range is visually highlighted between both endpoints."
+	preview={
+		<div className="w-full max-w-xs">
+			<Calendar mode="range" />
+		</div>
+	}
+	code={`const [range, setRange] = useState<DateRange | null>(null);
+
+<Calendar
+  mode="range"
+  selectedRange={range}
+  onSelectRange={setRange}
+/>`}
+/>
+
+## Week Numbers
+
+Show ISO week numbers in a leading column with `showWeekNumbers`.
+
+<ComponentPage
+	title="Week Numbers"
+	description="Displays the ISO week number alongside each row of dates."
+	preview={
+		<div className="w-full max-w-xs">
+			<Calendar showWeekNumbers />
+		</div>
+	}
+	code={`<Calendar showWeekNumbers />`}
+/>
+
+## Disabled Dates
+
+Use the `disabledDate` function to disable specific dates, or pass `minDate` / `maxDate` to restrict the selectable range.
+
+```tsx
+// Disable weekends
+<Calendar
+  disabledDate={(date) => date.getDay() === 0 || date.getDay() === 6}
+/>
+
+// Restrict to a date range
+<Calendar
+  minDate={new Date(2025, 0, 1)}
+  maxDate={new Date(2025, 11, 31)}
+/>
+
+// Disable specific dates
+const holidays = [new Date(2025, 11, 25), new Date(2025, 0, 1)];
+<Calendar
+  disabledDates={holidays}
+/>
+```
+
+## Controlled Month
+
+Control which month is displayed using the `month` and `onMonthChange` props.
+
+```tsx
+const [month, setMonth] = useState(new Date(2025, 5));
+
+<Calendar
+  month={month}
+  onMonthChange={setMonth}
+/>
+```
+
+## Default Month
+
+Set the initially displayed month without controlling it:
+
+```tsx
+<Calendar defaultMonth={new Date(2025, 11)} />
+```
+
+## With DatePicker
+
+Calendar is the core building block for the `DatePicker` component, which wraps it in a popover with a trigger input:
+
+```tsx
+import { DatePicker } from "@work-rjkashyap/unified-ui/components";
+
+<DatePicker
+  onSelect={(date) => setDate(date)}
+  placeholder="Pick a date"
+/>
+```
+
+## Props
+
+| Prop             | Type                            | Default        | Description                                                      |
+| ---------------- | ------------------------------- | -------------- | ---------------------------------------------------------------- |
+| `mode`           | `"single" \| "range"`          | `"single"`     | Selection mode — single date or date range.                      |
+| `selected`       | `Date \| null`                  | —              | The currently selected date (single mode, controlled).           |
+| `selectedRange`  | `DateRange \| null`             | —              | The currently selected range (range mode, controlled).           |
+| `onSelect`       | `(date: Date) => void`          | —              | Callback when a date is selected (single mode).                  |
+| `onSelectRange`  | `(range: DateRange) => void`    | —              | Callback when a range is selected (range mode).                  |
+| `defaultMonth`   | `Date`                          | Current month  | The month/year to display initially.                             |
+| `month`          | `Date`                          | —              | Controlled displayed month.                                      |
+| `onMonthChange`  | `(month: Date) => void`         | —              | Called when the displayed month changes.                         |
+| `disabledDate`   | `(date: Date) => boolean`       | —              | Function returning `true` for dates that should be disabled.     |
+| `disabledDates`  | `Date[]`                        | —              | Array of individually disabled dates.                            |
+| `minDate`        | `Date`                          | —              | Minimum selectable date.                                         |
+| `maxDate`        | `Date`                          | —              | Maximum selectable date.                                         |
+| `showWeekNumbers`| `boolean`                       | `false`        | Show the ISO week number column.                                 |
+| `className`      | `string`                        | —              | Additional CSS classes on the calendar wrapper.                  |
+
+## Day States
+
+The calendar uses CVA variants for day cell styling:
+
+| State          | Description                                    |
+| -------------- | ---------------------------------------------- |
+| `default`      | Normal selectable day.                         |
+| `today`        | Current date — subtle ring highlight.          |
+| `selected`     | Selected date (single mode) — primary fill.    |
+| `rangeStart`   | First date in a range — primary fill.          |
+| `rangeEnd`     | Last date in a range — primary fill.           |
+| `rangeMiddle`  | Dates between range start/end — accent fill.   |
+| `outsideMonth` | Days from adjacent months — dimmed text.       |
+| `disabled`     | Non-selectable — reduced opacity.              |
+
+## Motion
+
+- **Month transitions** — Animated slide left/right with opacity fade when navigating months. Direction-aware: sliding left for "next" and right for "previous".
+- **Day selection** — Subtle spring scale animation on the selected day cell.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Keyboard Navigation
+
+| Key           | Action                                         |
+| ------------- | ---------------------------------------------- |
+| `ArrowLeft`   | Move focus to the previous day.                |
+| `ArrowRight`  | Move focus to the next day.                    |
+| `ArrowUp`     | Move focus to the same day in the previous week.|
+| `ArrowDown`   | Move focus to the same day in the next week.   |
+| `Home`        | Move focus to the first day of the week.       |
+| `End`         | Move focus to the last day of the week.        |
+| `PageUp`      | Navigate to the previous month.                |
+| `PageDown`    | Navigate to the next month.                    |
+| `Enter/Space` | Select the focused date.                       |
+
+## Accessibility
+
+- Each day cell is a focusable `<button>` with a complete `aria-label` including weekday, month, day, and year.
+- Disabled dates have `aria-disabled="true"` and are skipped during keyboard navigation.
+- The month navigation buttons have descriptive `aria-label` values (`"Previous month"`, `"Next month"`).
+- The calendar grid uses `role="grid"` semantics.
+- Selected dates have `aria-selected="true"`.
+
+## Design Tokens
+
+| Token             | Usage                                      |
+| ----------------- | ------------------------------------------ |
+| `--primary`       | Selected day background, range endpoints   |
+| `--accent`        | Range middle background, hover state       |
+| `--border`        | Calendar container border                  |
+| `--ring`          | Today indicator ring, focus ring           |
+| `--radius-md`     | Day cell border radius                     |
+| `--radius-lg`     | Calendar container border radius           |
+| `--duration-fast` | Month transition speed                     |
+
+</ComponentPage>

@@ -24,12 +24,12 @@ declare function buildDarkThemeVars(): Record<string, string>;
 /** Returns the complete CSS text for both :root (light) and .dark themes */
 declare function buildThemeCSS(): string;
 declare const contract: {
-    readonly color: Record<"input" | "popover" | "disabled" | "info" | "success" | "warning" | "danger" | "border" | "background" | "primary" | "secondary" | "card" | "muted" | "foreground" | "focusRing" | "surface" | "surfaceRaised" | "surfaceOverlay" | "cardForeground" | "popoverForeground" | "mutedForeground" | "primaryForeground" | "primaryHover" | "primaryActive" | "primaryMuted" | "primaryMutedForeground" | "secondaryForeground" | "secondaryHover" | "secondaryActive" | "accent" | "accentForeground" | "successForeground" | "successMuted" | "successMutedForeground" | "warningForeground" | "warningMuted" | "warningMutedForeground" | "dangerForeground" | "dangerHover" | "dangerActive" | "dangerMuted" | "dangerMutedForeground" | "destructive" | "destructiveForeground" | "infoForeground" | "infoMuted" | "infoMutedForeground" | "borderMuted" | "borderStrong" | "ring" | "inputForeground" | "inputPlaceholder" | "disabledForeground" | "chart1" | "chart2" | "chart3" | "chart4" | "chart5" | "sidebar" | "sidebarForeground" | "sidebarPrimary" | "sidebarPrimaryForeground" | "sidebarAccent" | "sidebarAccentForeground" | "sidebarBorder" | "sidebarRing", string>;
+    readonly color: Record<"input" | "popover" | "disabled" | "info" | "success" | "warning" | "danger" | "border" | "background" | "primary" | "secondary" | "card" | "sidebar" | "muted" | "foreground" | "focusRing" | "surface" | "surfaceRaised" | "surfaceOverlay" | "cardForeground" | "popoverForeground" | "mutedForeground" | "primaryForeground" | "primaryHover" | "primaryActive" | "primaryMuted" | "primaryMutedForeground" | "secondaryForeground" | "secondaryHover" | "secondaryActive" | "accent" | "accentForeground" | "successForeground" | "successMuted" | "successMutedForeground" | "warningForeground" | "warningMuted" | "warningMutedForeground" | "dangerForeground" | "dangerHover" | "dangerActive" | "dangerMuted" | "dangerMutedForeground" | "destructive" | "destructiveForeground" | "infoForeground" | "infoMuted" | "infoMutedForeground" | "borderMuted" | "borderStrong" | "ring" | "inputForeground" | "inputPlaceholder" | "disabledForeground" | "chart1" | "chart2" | "chart3" | "chart4" | "chart5" | "sidebarForeground" | "sidebarPrimary" | "sidebarPrimaryForeground" | "sidebarAccent" | "sidebarAccentForeground" | "sidebarBorder" | "sidebarRing", string>;
     readonly radius: Record<"sm" | "md" | "none" | "lg" | "xl" | "full", string>;
     readonly shadow: Record<"sm" | "md" | "none" | "xs" | "lg" | "xl" | "2xl" | "focusRing", string>;
-    readonly zIndex: Record<"base" | "popover" | "tooltip" | "max" | "overlay" | "modal" | "sticky" | "toast" | "dropdown", string>;
-    readonly duration: Record<"normal" | "instant" | "fast" | "moderate" | "slow" | "slower" | "slowest", string>;
-    readonly easing: Record<"linear" | "decelerate" | "standard" | "accelerate" | "emphasize" | "snap", string>;
+    readonly zIndex: Record<"base" | "popover" | "tooltip" | "max" | "modal" | "overlay" | "sticky" | "toast" | "dropdown", string>;
+    readonly duration: Record<"instant" | "fast" | "moderate" | "normal" | "slow" | "slower" | "slowest", string>;
+    readonly easing: Record<"standard" | "decelerate" | "accelerate" | "emphasize" | "linear" | "snap", string>;
     readonly fontFamily: Record<"inherit" | "display" | "serif" | "sans" | "mono", string>;
 };
 declare const cssVar: {
@@ -72,58 +72,15 @@ type DurationVarName = (typeof durationVarNames)[DurationKey];
 type EasingVarName = (typeof easingVarNames)[EasingKey];
 type FontFamilyVarName = (typeof fontFamilyVarNames)[FontFamilyKey];
 
-type ThemeMode = "light" | "dark" | "system";
-type ResolvedTheme = "light" | "dark";
-interface DSThemeContextValue {
-    /** The user's chosen preference: "light" | "dark" | "system" */
-    theme: ThemeMode;
-    /** The actual resolved theme after evaluating system preference */
-    resolvedTheme: ResolvedTheme;
-    /** Set the theme explicitly */
-    setTheme: (theme: ThemeMode) => void;
-    /** Toggle between light and dark (ignores system) */
-    toggleTheme: () => void;
+interface ThemeCustomizerProps {
+    className?: string;
+    showCopyButton?: boolean;
+    showResetButton?: boolean;
 }
-/**
- * Access the design system theme context.
- *
- * Must be used within a `<DSThemeProvider>`. Throws if used outside.
- *
- * @example
- * ```tsx
- * const { resolvedTheme, toggleTheme } = useDSTheme();
- * ```
- */
-declare function useDSTheme(): DSThemeContextValue;
-interface DSThemeProviderProps {
-    children: ReactNode;
-    /** Override the initial theme (useful for testing or SSR) */
-    defaultTheme?: ThemeMode;
-    /**
-     * If true, the provider will also manage the `.dark` class on <html>.
-     * Set to false if next-themes is already handling this (default: false).
-     */
-    manageHtmlClass?: boolean;
+declare function ThemeCustomizer({ className, showCopyButton, showResetButton, }: ThemeCustomizerProps): react_jsx_runtime.JSX.Element;
+declare namespace ThemeCustomizer {
+    var displayName: string;
 }
-/**
- * Design system theme provider.
- *
- * Provides theme state and a toggle mechanism to all descendant components.
- * By default, it defers `.dark` class management to `next-themes` and only
- * provides the React context. Set `manageHtmlClass={true}` if you want this
- * provider to also toggle the class on `<html>`.
- *
- * @example
- * ```tsx
- * // Root layout
- * <RootProvider>          {/* next-themes *\/}
- *   <DSThemeProvider>     {/* design system *\/}
- *     {children}
- *   </DSThemeProvider>
- * </RootProvider>
- * ```
- */
-declare function DSThemeProvider({ children, defaultTheme, manageHtmlClass, }: DSThemeProviderProps): react_jsx_runtime.JSX.Element;
 
 type PresetSemanticColors = {
     background: string;
@@ -363,14 +320,57 @@ interface ThemeCustomizerProviderProps {
  */
 declare function ThemeCustomizerProvider({ children, defaultConfig, applyStyles, }: ThemeCustomizerProviderProps): react_jsx_runtime.JSX.Element;
 
-interface ThemeCustomizerProps {
-    className?: string;
-    showCopyButton?: boolean;
-    showResetButton?: boolean;
+type ThemeMode = "light" | "dark" | "system";
+type ResolvedTheme = "light" | "dark";
+interface DSThemeContextValue {
+    /** The user's chosen preference: "light" | "dark" | "system" */
+    theme: ThemeMode;
+    /** The actual resolved theme after evaluating system preference */
+    resolvedTheme: ResolvedTheme;
+    /** Set the theme explicitly */
+    setTheme: (theme: ThemeMode) => void;
+    /** Toggle between light and dark (ignores system) */
+    toggleTheme: () => void;
 }
-declare function ThemeCustomizer({ className, showCopyButton, showResetButton, }: ThemeCustomizerProps): react_jsx_runtime.JSX.Element;
-declare namespace ThemeCustomizer {
-    var displayName: string;
+/**
+ * Access the design system theme context.
+ *
+ * Must be used within a `<DSThemeProvider>`. Throws if used outside.
+ *
+ * @example
+ * ```tsx
+ * const { resolvedTheme, toggleTheme } = useDSTheme();
+ * ```
+ */
+declare function useDSTheme(): DSThemeContextValue;
+interface DSThemeProviderProps {
+    children: ReactNode;
+    /** Override the initial theme (useful for testing or SSR) */
+    defaultTheme?: ThemeMode;
+    /**
+     * If true, the provider will also manage the `.dark` class on <html>.
+     * Set to false if next-themes is already handling this (default: false).
+     */
+    manageHtmlClass?: boolean;
 }
+/**
+ * Design system theme provider.
+ *
+ * Provides theme state and a toggle mechanism to all descendant components.
+ * By default, it defers `.dark` class management to `next-themes` and only
+ * provides the React context. Set `manageHtmlClass={true}` if you want this
+ * provider to also toggle the class on `<html>`.
+ *
+ * @example
+ * ```tsx
+ * // Root layout
+ * <RootProvider>          {/* next-themes *\/}
+ *   <DSThemeProvider>     {/* design system *\/}
+ *     {children}
+ *   </DSThemeProvider>
+ * </RootProvider>
+ * ```
+ */
+declare function DSThemeProvider({ children, defaultTheme, manageHtmlClass, }: DSThemeProviderProps): react_jsx_runtime.JSX.Element;
 
 export { COLOR_PRESETS, COLOR_PRESET_KEYS, type ColorPreset, type ColorPresetKey, type ColorVarName, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, type DSThemeContextValue, DSThemeProvider, type DSThemeProviderProps, type DurationVarName, type EasingVarName, FONT_PRESETS, type FontFamilyVarName, type FontPreset, type PresetSemanticColors, RADIUS_PRESETS, type RadiusPreset, type RadiusVarName, type ResolvedTheme, SHADOW_PRESETS, SURFACE_STYLE_PRESETS, type ShadowPreset, type ShadowVarName, type SurfaceStylePreset, type ThemeConfig, ThemeCustomizer, type ThemeCustomizerContextValue, type ThemeCustomizerProps, ThemeCustomizerProvider, type ThemeCustomizerProviderProps, type ThemeMode, type ThemeVars, type ZIndexVarName, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, useDSTheme, useThemeCustomizer };

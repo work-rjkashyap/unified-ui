@@ -71,10 +71,7 @@ export const badgeVariants = cva(
          * Default — neutral, muted background.
          * Use for generic labels, tags, and metadata.
          */
-        default: [
-          "bg-muted text-foreground",
-          "border border-transparent",
-        ],
+        default: ["bg-muted text-foreground", "border border-transparent"],
 
         /**
          * Primary — uses brand/primary color.
@@ -125,10 +122,7 @@ export const badgeVariants = cva(
          * Outline — transparent background with visible border.
          * Use for subtle categorization that doesn't compete with content.
          */
-        outline: [
-          "bg-transparent text-foreground",
-          "border border-border",
-        ],
+        outline: ["bg-transparent text-foreground", "border border-border"],
       },
 
       // -----------------------------------------------------------------

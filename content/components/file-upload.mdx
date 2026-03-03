@@ -1,0 +1,314 @@
+---
+title: File Upload
+description: A drag-and-drop file upload zone with file list, progress tracking, image preview thumbnails, and animated transitions.
+icon: Upload
+---
+
+import { FileUpload } from "@work-rjkashyap/unified-ui/components";
+
+<ComponentPage
+	title="File Upload"
+	description="A production-ready drag-and-drop file upload zone with file list, progress bars, image preview thumbnails, size validation, and stagger animations. Supports single and multiple file uploads."
+	preview={
+		<div className="w-full max-w-md">
+			<FileUpload
+				accept="image/*,.pdf"
+				description="PNG, JPG, PDF up to 10MB"
+			/>
+		</div>
+	}
+	code={`<FileUpload
+  accept="image/*,.pdf"
+  description="PNG, JPG, PDF up to 10MB"
+/>`}
+>
+
+## Import
+
+```tsx
+import { FileUpload } from "@work-rjkashyap/unified-ui/components";
+// or
+import { FileUpload } from "@work-rjkashyap/unified-ui";
+```
+
+## Basic Usage
+
+Drop `FileUpload` anywhere you need a file input. It manages its own internal file list by default (uncontrolled). Users can click the zone or drag and drop files onto it.
+
+```tsx
+<FileUpload onFilesChange={(files) => console.log(files)} />
+```
+
+## Sizes
+
+<ComponentPage
+	title="Sizes"
+	description="Three sizes control the padding, minimum height, and icon size of the drop zone."
+	preview={
+		<div className="w-full max-w-md flex flex-col gap-4">
+			<FileUpload size="sm" description="Small drop zone" />
+			<FileUpload size="md" description="Medium drop zone (default)" />
+			<FileUpload size="lg" description="Large drop zone" />
+		</div>
+	}
+	code={`<FileUpload size="sm" description="Small drop zone" />
+<FileUpload size="md" description="Medium drop zone (default)" />
+<FileUpload size="lg" description="Large drop zone" />`}
+/>
+
+| Size | Min Height | Use Case                        |
+| ---- | ---------- | ------------------------------- |
+| `sm` | 120px      | Compact forms, sidebars         |
+| `md` | 160px      | Default — most contexts         |
+| `lg` | 200px      | Full-page upload, hero areas    |
+
+## Accept Filter
+
+Restrict accepted file types using the standard HTML `accept` attribute syntax:
+
+<ComponentPage
+	title="Accept Filter"
+	description="Restrict which file types are accepted using MIME types or extensions."
+	preview={
+		<div className="w-full max-w-md flex flex-col gap-4">
+			<FileUpload accept="image/*" description="Images only" />
+			<FileUpload accept=".pdf,.doc,.docx" description="Documents only (PDF, DOC)" />
+		</div>
+	}
+	code={`<FileUpload accept="image/*" description="Images only" />
+<FileUpload accept=".pdf,.doc,.docx" description="Documents only" />`}
+/>
+
+```tsx
+<FileUpload accept="image/*" description="Images only" />
+<FileUpload accept=".pdf,.doc,.docx" description="PDF and Word documents" />
+<FileUpload accept="video/*" description="Video files" />
+```
+
+## Max File Size
+
+Set `maxSize` in bytes to validate file size. Files exceeding the limit are rejected with an error message.
+
+```tsx
+<FileUpload
+  maxSize={10 * 1024 * 1024}
+  description="Max 10MB per file"
+/>
+```
+
+## Max Files
+
+Limit the total number of files that can be uploaded with `maxFiles`:
+
+```tsx
+<FileUpload
+  maxFiles={5}
+  description="Up to 5 files"
+/>
+```
+
+## Single File
+
+Set `multiple={false}` to allow only one file at a time:
+
+<ComponentPage
+	title="Single File"
+	description="Restrict to a single file upload at a time."
+	preview={
+		<div className="w-full max-w-md">
+			<FileUpload multiple={false} description="Single file only" />
+		</div>
+	}
+	code={`<FileUpload multiple={false} description="Single file only" />`}
+/>
+
+## Custom Label
+
+Override the default "Click to upload or drag and drop" text with the `label` prop:
+
+<ComponentPage
+	title="Custom Label"
+	description="Provide custom text or JSX for the drop zone label."
+	preview={
+		<div className="w-full max-w-md">
+			<FileUpload
+				label="Drop your resume here"
+				description="PDF or DOCX, max 5MB"
+				accept=".pdf,.docx"
+				maxSize={5 * 1024 * 1024}
+				multiple={false}
+			/>
+		</div>
+	}
+	code={`<FileUpload
+  label="Drop your resume here"
+  description="PDF or DOCX, max 5MB"
+  accept=".pdf,.docx"
+  maxSize={5 * 1024 * 1024}
+  multiple={false}
+/>`}
+/>
+
+## Disabled State
+
+<ComponentPage
+	title="Disabled"
+	description="The drop zone is visually dimmed and non-interactive when disabled."
+	preview={
+		<div className="w-full max-w-md">
+			<FileUpload disabled description="Upload is currently disabled" />
+		</div>
+	}
+	code={`<FileUpload disabled description="Upload is currently disabled" />`}
+/>
+
+## Handling File Events
+
+Use the callback props to react to file changes:
+
+```tsx
+<FileUpload
+  accept="image/*"
+  maxSize={5 * 1024 * 1024}
+  maxFiles={3}
+  description="Images up to 5MB, max 3 files"
+  onFileAdd={(file) => {
+    console.log("Added:", file.name);
+    startUpload(file);
+  }}
+  onFileRemove={(id) => {
+    console.log("Removed:", id);
+    cancelUpload(id);
+  }}
+  onFilesChange={(files) => {
+    console.log("All files:", files);
+    setFormFiles(files);
+  }}
+/>
+```
+
+## Upload Progress Pattern
+
+The `FileUploadItem` type includes `progress` and `status` fields for tracking upload state. You can manage these externally and pass updated items:
+
+```tsx
+const [files, setFiles] = useState<FileUploadItem[]>([]);
+
+const handleFileAdd = async (file: File) => {
+  const id = crypto.randomUUID();
+  const item: FileUploadItem = {
+    id,
+    file,
+    status: "uploading",
+    progress: 0,
+  };
+  setFiles((prev) => [...prev, item]);
+
+  try {
+    await uploadFile(file, {
+      onProgress: (progress) => {
+        setFiles((prev) =>
+          prev.map((f) => (f.id === id ? { ...f, progress } : f))
+        );
+      },
+    });
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, status: "success", progress: 100 } : f))
+    );
+  } catch (err) {
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, status: "error", error: "Upload failed" } : f))
+    );
+  }
+};
+```
+
+## In a Form
+
+A common pattern is wrapping `FileUpload` in a `FormField` for label, description, and error handling:
+
+```tsx
+<FormField label="Attachments" description="Upload relevant documents.">
+  <FileUpload
+    accept=".pdf,.doc,.docx,.png,.jpg"
+    maxFiles={5}
+    maxSize={10 * 1024 * 1024}
+    onFilesChange={setAttachments}
+  />
+</FormField>
+```
+
+## Props
+
+| Prop            | Type                                  | Default           | Description                                                        |
+| --------------- | ------------------------------------- | ------------------ | ------------------------------------------------------------------ |
+| `onFilesChange` | `(files: FileUploadItem[]) => void`   | —                  | Called whenever the file list changes (add or remove).              |
+| `onFileAdd`     | `(file: File) => void`                | —                  | Called when a single file is added.                                 |
+| `onFileRemove`  | `(id: string) => void`                | —                  | Called when a file is removed by its ID.                            |
+| `accept`        | `string`                              | —                  | Accepted file types (MIME types or extensions, e.g. `"image/*"`).  |
+| `multiple`      | `boolean`                             | `true`             | Allow multiple files.                                              |
+| `maxFiles`      | `number`                              | `10`               | Maximum number of files allowed.                                   |
+| `maxSize`       | `number`                              | —                  | Maximum file size in bytes.                                        |
+| `size`          | `"sm" \| "md" \| "lg"`               | `"md"`             | Size of the drop zone.                                             |
+| `disabled`      | `boolean`                             | `false`            | Disables the file upload.                                          |
+| `label`         | `ReactNode`                           | Default text       | Custom label content for the drop zone.                            |
+| `description`   | `ReactNode`                           | —                  | Description text shown below the label.                            |
+| `className`     | `string`                              | —                  | Additional CSS classes on the wrapper element.                     |
+| `aria-label`    | `string`                              | `"File upload"`    | Accessible label for the drop zone region.                         |
+
+### FileUploadItem
+
+| Property   | Type                                           | Description                                        |
+| ---------- | ---------------------------------------------- | -------------------------------------------------- |
+| `id`       | `string`                                       | Unique identifier for this file item.              |
+| `file`     | `File`                                         | The browser File object.                           |
+| `preview`  | `string?`                                      | Object URL for image thumbnails (auto-generated).  |
+| `progress` | `number?`                                      | Upload progress (0–100).                           |
+| `error`    | `string?`                                      | Error message if upload failed.                    |
+| `status`   | `"idle" \| "uploading" \| "success" \| "error"`| Current upload status.                             |
+
+## Zone States
+
+The drop zone uses CVA variants for visual feedback:
+
+| State      | Description                                              |
+| ---------- | -------------------------------------------------------- |
+| `idle`     | Default state — dashed border, hover highlight.          |
+| `dragOver` | A file is being dragged over — primary border + tint.    |
+| `error`    | A validation error occurred — danger border + tint.      |
+| `disabled` | Non-interactive — dimmed opacity, no pointer events.     |
+
+## Motion
+
+- **Upload icon** — Scales up with a spring animation when a file is dragged over the zone.
+- **File list items** — Stagger animation using `staggerContainerFast` + `slideUpSm` for a cascading reveal when files are added.
+- **File removal** — Fades out with a scale-down transition via `AnimatePresence`.
+- **Progress bar** — Animated width transition for smooth progress updates.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- The drop zone renders as a `role="region"` with `aria-label` for screen readers.
+- The hidden `<input type="file">` is properly associated and triggered by both click and keyboard.
+- The zone is keyboard-focusable (`tabIndex={0}`) and activates on `Enter` or `Space`.
+- Uses the design system's focus ring for visible keyboard focus indication.
+- Each file's remove button has a descriptive `aria-label` (e.g. `"Remove document.pdf"`).
+- Error messages are visually prominent with an alert icon.
+- The `disabled` prop removes the zone from the tab order and prevents all interaction.
+
+## Design Tokens
+
+| Token             | Usage                                    |
+| ----------------- | ---------------------------------------- |
+| `--border`        | Drop zone border color (idle)            |
+| `--primary`       | Drop zone border/tint (drag over, link)  |
+| `--danger`        | Error state border/tint and error text   |
+| `--muted`         | Thumbnail placeholder background         |
+| `--foreground`    | File name text, label text               |
+| `--muted-foreground` | Description text, file size, icon color |
+| `--accent`        | Remove button hover background           |
+| `--radius-md`     | File item border radius                  |
+| `--radius-lg`     | Drop zone border radius                  |
+| `--duration-fast` | Transition speed                         |
+
+</ComponentPage>

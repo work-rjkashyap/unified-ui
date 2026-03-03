@@ -35,13 +35,13 @@
 //   </ScrollArea>
 // ============================================================================
 
-import { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
 import {
-	type ComponentPropsWithoutRef,
-	forwardRef,
-	type ReactNode,
+  type ComponentPropsWithoutRef,
+  forwardRef,
+  type ReactNode,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -49,27 +49,27 @@ import {
 // ---------------------------------------------------------------------------
 
 export const scrollbarThumbVariants = cva(
-	[
-		// Shape
-		"relative rounded-full",
-		// Color
-		"bg-border",
-		// Transition
-		"transition-[background-color] duration-fast ease-standard",
-		// Hover
-		"hover:bg-muted-foreground/50",
-	],
-	{
-		variants: {
-			size: {
-				sm: "",
-				md: "",
-			},
-		},
-		defaultVariants: {
-			size: "md",
-		},
-	},
+  [
+    // Shape
+    "relative rounded-full",
+    // Color
+    "bg-border",
+    // Transition
+    "transition-[background-color] duration-fast ease-standard",
+    // Hover
+    "hover:bg-muted-foreground/50",
+  ],
+  {
+    variants: {
+      size: {
+        sm: "",
+        md: "",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -77,48 +77,48 @@ export const scrollbarThumbVariants = cva(
 // ---------------------------------------------------------------------------
 
 export const scrollbarVariants = cva(
-	[
-		// Layout
-		"flex touch-none select-none",
-		// Transition
-		"transition-[background-color,opacity] duration-fast ease-standard",
-		// Background
-		"bg-transparent",
-		// Hover — subtle track background
-		"hover:bg-muted/50",
-		// Border
-		"border-transparent",
-	],
-	{
-		variants: {
-			orientation: {
-				vertical: "h-full border-l border-l-transparent p-px",
-				horizontal: "flex-col border-t border-t-transparent p-px",
-			},
-			size: {
-				/**
-				 * Small — thin scrollbar for compact UIs.
-				 * Track width/height: 6px
-				 */
-				sm: "",
-				/**
-				 * Medium — default scrollbar width.
-				 * Track width/height: 10px
-				 */
-				md: "",
-			},
-		},
-		compoundVariants: [
-			{ orientation: "vertical", size: "sm", className: "w-1.5" },
-			{ orientation: "vertical", size: "md", className: "w-2.5" },
-			{ orientation: "horizontal", size: "sm", className: "h-1.5" },
-			{ orientation: "horizontal", size: "md", className: "h-2.5" },
-		],
-		defaultVariants: {
-			orientation: "vertical",
-			size: "md",
-		},
-	},
+  [
+    // Layout
+    "flex touch-none select-none",
+    // Transition
+    "transition-[background-color,opacity] duration-fast ease-standard",
+    // Background
+    "bg-transparent",
+    // Hover — subtle track background
+    "hover:bg-muted/50",
+    // Border
+    "border-transparent",
+  ],
+  {
+    variants: {
+      orientation: {
+        vertical: "h-full border-l border-l-transparent p-px",
+        horizontal: "flex-col border-t border-t-transparent p-px",
+      },
+      size: {
+        /**
+         * Small — thin scrollbar for compact UIs.
+         * Track width/height: 6px
+         */
+        sm: "",
+        /**
+         * Medium — default scrollbar width.
+         * Track width/height: 10px
+         */
+        md: "",
+      },
+    },
+    compoundVariants: [
+      { orientation: "vertical", size: "sm", className: "w-1.5" },
+      { orientation: "vertical", size: "md", className: "w-2.5" },
+      { orientation: "horizontal", size: "sm", className: "h-1.5" },
+      { orientation: "horizontal", size: "md", className: "h-2.5" },
+    ],
+    defaultVariants: {
+      orientation: "vertical",
+      size: "md",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -130,68 +130,66 @@ export type ScrollBarSize = "sm" | "md";
 export type ScrollBarOrientation = "vertical" | "horizontal";
 
 export interface ScrollAreaProps
-	extends Omit<
-		ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>,
-		"type"
-	> {
-	/**
-	 * The scrollbar visibility behavior.
-	 * - `"auto"` — scrollbars visible when content overflows
-	 * - `"always"` — scrollbars always visible
-	 * - `"scroll"` — scrollbars visible during scrolling only
-	 * - `"hover"` — scrollbars visible on hover only
-	 * @default "hover"
-	 */
-	type?: ScrollAreaType;
+  extends Omit<
+    ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>,
+    "type"
+  > {
+  /**
+   * The scrollbar visibility behavior.
+   * - `"auto"` — scrollbars visible when content overflows
+   * - `"always"` — scrollbars always visible
+   * - `"scroll"` — scrollbars visible during scrolling only
+   * - `"hover"` — scrollbars visible on hover only
+   * @default "hover"
+   */
+  type?: ScrollAreaType;
 
-	/**
-	 * Size of the scrollbar track.
-	 * @default "md"
-	 */
-	scrollbarSize?: ScrollBarSize;
+  /**
+   * Size of the scrollbar track.
+   * @default "md"
+   */
+  scrollbarSize?: ScrollBarSize;
 
-	/**
-	 * Whether to show the vertical scrollbar.
-	 * @default true
-	 */
-	showVertical?: boolean;
+  /**
+   * Whether to show the vertical scrollbar.
+   * @default true
+   */
+  showVertical?: boolean;
 
-	/**
-	 * Whether to show the horizontal scrollbar.
-	 * @default false
-	 */
-	showHorizontal?: boolean;
+  /**
+   * Whether to show the horizontal scrollbar.
+   * @default false
+   */
+  showHorizontal?: boolean;
 
-	/**
-	 * Additional CSS classes for the viewport element.
-	 */
-	viewportClassName?: string;
+  /**
+   * Additional CSS classes for the viewport element.
+   */
+  viewportClassName?: string;
 
-	/** Additional CSS classes to merge on the root element. */
-	className?: string;
+  /** Additional CSS classes to merge on the root element. */
+  className?: string;
 
-	/** Content to render inside the scrollable area. */
-	children?: ReactNode;
+  /** Content to render inside the scrollable area. */
+  children?: ReactNode;
 }
 
 export interface ScrollBarProps
-	extends ComponentPropsWithoutRef<
-		typeof ScrollAreaPrimitive.Scrollbar
-	> {
-	/**
-	 * Orientation of the scrollbar.
-	 * @default "vertical"
-	 */
-	orientation?: ScrollBarOrientation;
+  extends ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Scrollbar> {
+  /**
+   * Orientation of the scrollbar.
+   * @default "vertical"
+   */
+  orientation?: ScrollBarOrientation;
 
-	/**
-	 * Size of the scrollbar.
-	 * @default "md"
-	 */
-	size?: ScrollBarSize;
+  /**
+   * Size of the scrollbar.
+   * @default "md"
+   */
+  size?: ScrollBarSize;
 
-	/** Additional CSS classes to merge. */
-	className?: string;
+  /** Additional CSS classes to merge. */
+  className?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -214,31 +212,28 @@ export interface ScrollBarProps
  * ```
  */
 export const ScrollBar = forwardRef<
-	React.ComponentRef<typeof ScrollAreaPrimitive.Scrollbar>,
-	ScrollBarProps
+  React.ComponentRef<typeof ScrollAreaPrimitive.Scrollbar>,
+  ScrollBarProps
 >(function ScrollBar(
-	{ orientation = "vertical", size = "md", className, ...rest },
-	ref,
+  { orientation = "vertical", size = "md", className, ...rest },
+  ref,
 ) {
-	return (
-		<ScrollAreaPrimitive.Scrollbar
-			ref={ref}
-			orientation={orientation}
-			className={cn(
-				scrollbarVariants({ orientation, size }),
-				className,
-			)}
-			data-ds=""
-			data-ds-component="scroll-bar"
-			data-ds-orientation={orientation}
-			data-ds-size={size}
-			{...rest}
-		>
-			<ScrollAreaPrimitive.Thumb
-				className={cn(scrollbarThumbVariants({ size }))}
-			/>
-		</ScrollAreaPrimitive.Scrollbar>
-	);
+  return (
+    <ScrollAreaPrimitive.Scrollbar
+      ref={ref}
+      orientation={orientation}
+      className={cn(scrollbarVariants({ orientation, size }), className)}
+      data-ds=""
+      data-ds-component="scroll-bar"
+      data-ds-orientation={orientation}
+      data-ds-size={size}
+      {...rest}
+    >
+      <ScrollAreaPrimitive.Thumb
+        className={cn(scrollbarThumbVariants({ size }))}
+      />
+    </ScrollAreaPrimitive.Scrollbar>
+  );
 });
 
 ScrollBar.displayName = "ScrollBar";
@@ -297,55 +292,55 @@ ScrollBar.displayName = "ScrollBar";
  * ```
  */
 export const ScrollArea = forwardRef<
-	React.ComponentRef<typeof ScrollAreaPrimitive.Root>,
-	ScrollAreaProps
+  React.ComponentRef<typeof ScrollAreaPrimitive.Root>,
+  ScrollAreaProps
 >(function ScrollArea(
-	{
-		type = "hover",
-		scrollbarSize = "md",
-		showVertical = true,
-		showHorizontal = false,
-		viewportClassName,
-		className,
-		children,
-		...rest
-	},
-	ref,
+  {
+    type = "hover",
+    scrollbarSize = "md",
+    showVertical = true,
+    showHorizontal = false,
+    viewportClassName,
+    className,
+    children,
+    ...rest
+  },
+  ref,
 ) {
-	return (
-		<ScrollAreaPrimitive.Root
-			ref={ref}
-			type={type}
-			className={cn("relative overflow-hidden", className)}
-			data-ds=""
-			data-ds-component="scroll-area"
-			{...rest}
-		>
-			<ScrollAreaPrimitive.Viewport
-				className={cn(
-					"size-full rounded-[inherit]",
-					// Ensure the viewport stretches children to full width
-					"[&>div]:!block",
-					viewportClassName,
-				)}
-			>
-				{children}
-			</ScrollAreaPrimitive.Viewport>
+  return (
+    <ScrollAreaPrimitive.Root
+      ref={ref}
+      type={type}
+      className={cn("relative overflow-hidden", className)}
+      data-ds=""
+      data-ds-component="scroll-area"
+      {...rest}
+    >
+      <ScrollAreaPrimitive.Viewport
+        className={cn(
+          "size-full rounded-[inherit]",
+          // Ensure the viewport stretches children to full width
+          "[&>div]:!block",
+          viewportClassName,
+        )}
+      >
+        {children}
+      </ScrollAreaPrimitive.Viewport>
 
-			{showVertical && (
-				<ScrollBar orientation="vertical" size={scrollbarSize} />
-			)}
+      {showVertical && (
+        <ScrollBar orientation="vertical" size={scrollbarSize} />
+      )}
 
-			{showHorizontal && (
-				<ScrollBar orientation="horizontal" size={scrollbarSize} />
-			)}
+      {showHorizontal && (
+        <ScrollBar orientation="horizontal" size={scrollbarSize} />
+      )}
 
-			{/* Corner element shown when both scrollbars are visible */}
-			{showVertical && showHorizontal && (
-				<ScrollAreaPrimitive.Corner className="bg-muted/50" />
-			)}
-		</ScrollAreaPrimitive.Root>
-	);
+      {/* Corner element shown when both scrollbars are visible */}
+      {showVertical && showHorizontal && (
+        <ScrollAreaPrimitive.Corner className="bg-muted/50" />
+      )}
+    </ScrollAreaPrimitive.Root>
+  );
 });
 
 ScrollArea.displayName = "ScrollArea";

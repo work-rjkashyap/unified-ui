@@ -1,0 +1,408 @@
+---
+title: Banner
+description: A full-width dismissible announcement banner with 6 semantic variants, top/bottom/inline positioning, and Framer Motion slide animations.
+icon: Megaphone
+---
+
+import {
+  Banner,
+  Button,
+} from "@work-rjkashyap/unified-ui";
+import { Megaphone, AlertTriangle, Zap } from "lucide-react";
+
+<ComponentPage
+  title="Banner"
+  description="A full-width announcement banner for system notices, promotions, and alerts. Supports 6 color variants, top/bottom/inline positioning, dismissible mode, and slide animations."
+  preview={
+    <div className="flex flex-col gap-3 w-full">
+      <Banner variant="default" dismissible>
+        🎉 Unified UI v2.4 is now available — check out the new components!
+      </Banner>
+      <Banner variant="info" dismissible>
+        Scheduled maintenance on Sunday, Feb 2 from 2–4 AM UTC.
+      </Banner>
+      <Banner variant="warning" dismissible>
+        Your trial expires in 3 days. Upgrade to keep your data.
+      </Banner>
+    </div>
+  }
+  code={`<Banner variant="default" dismissible>
+  🎉 Unified UI v2.4 is now available!
+</Banner>
+
+<Banner variant="info" dismissible>
+  Scheduled maintenance on Sunday, Feb 2 from 2–4 AM UTC.
+</Banner>
+
+<Banner variant="warning" dismissible>
+  Your trial expires in 3 days. Upgrade to keep your data.
+</Banner>`}
+>
+
+## Import
+
+```tsx
+import { Banner } from "@work-rjkashyap/unified-ui";
+// or
+import { Banner } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Render a simple inline banner by wrapping your message in `<Banner>`. It manages its own visibility state by default.
+
+```tsx
+<Banner>
+  Welcome to Unified UI — the production-ready design system for React.
+</Banner>
+```
+
+## Variants
+
+Six semantic color variants for different message types and urgency levels.
+
+<ComponentPage
+  title="Variants"
+  description="Six color variants from neutral to danger for different announcement contexts."
+  preview={
+    <div className="flex flex-col gap-2 w-full">
+      <Banner variant="default">Default — neutral announcement or promotion.</Banner>
+      <Banner variant="primary">Primary — branded announcement or feature highlight.</Banner>
+      <Banner variant="info">Info — informational system notice or tip.</Banner>
+      <Banner variant="success">Success — confirmation or completed action notice.</Banner>
+      <Banner variant="warning">Warning — caution or degraded service alert.</Banner>
+      <Banner variant="danger">Danger — critical error or outage notification.</Banner>
+    </div>
+  }
+  code={`<Banner variant="default">Default announcement.</Banner>
+<Banner variant="primary">Branded announcement.</Banner>
+<Banner variant="info">Informational system notice.</Banner>
+<Banner variant="success">Confirmation notice.</Banner>
+<Banner variant="warning">Caution alert.</Banner>
+<Banner variant="danger">Critical error notification.</Banner>`}
+/>
+
+| Variant   | Background     | Text Color              | Use Case                             |
+| --------- | -------------- | ----------------------- | ------------------------------------ |
+| `default` | `--foreground` | `--background`          | Neutral promotions, launch notices   |
+| `primary` | `--primary`    | `--primary-foreground`  | Branded CTAs, new feature highlights |
+| `info`    | `--info`       | `--info-foreground`     | System notices, tips, FYIs           |
+| `success` | `--success`    | `--success-foreground`  | Successful ops, completed migrations |
+| `warning` | `--warning`    | `--warning-foreground`  | Degraded services, upcoming changes  |
+| `danger`  | `--danger`     | `--danger-foreground`   | Outages, critical security alerts    |
+
+## Dismissible
+
+Set `dismissible` to show a close button. The banner animates out on dismiss.
+
+<ComponentPage
+  title="Dismissible"
+  description="A close button appears in the trailing edge. The banner slides out on click."
+  preview={
+    <div className="flex flex-col gap-2 w-full">
+      <Banner variant="info" dismissible>
+        We've updated our privacy policy. Review the changes before April 1st.
+      </Banner>
+      <Banner variant="warning" dismissible>
+        Two-factor authentication is not enabled on your account.
+      </Banner>
+    </div>
+  }
+  code={`<Banner variant="info" dismissible>
+  We've updated our privacy policy. Review the changes before April 1st.
+</Banner>
+
+<Banner variant="warning" dismissible>
+  Two-factor authentication is not enabled on your account.
+</Banner>`}
+/>
+
+## With Icon
+
+Use the `icon` prop to render a leading icon before the message content.
+
+<ComponentPage
+  title="With Icon"
+  description="A leading icon slot for reinforcing the banner's semantic meaning."
+  preview={
+    <div className="flex flex-col gap-2 w-full">
+      <Banner
+        variant="primary"
+        icon={<Zap className="size-4" />}
+        dismissible
+      >
+        New feature: Export to CSV is now available in your dashboard.
+      </Banner>
+      <Banner
+        variant="warning"
+        icon={<AlertTriangle className="size-4" />}
+        dismissible
+      >
+        API rate limit at 85% — consider upgrading your plan.
+      </Banner>
+    </div>
+  }
+  code={`import { Zap, AlertTriangle } from "lucide-react";
+
+<Banner
+  variant="primary"
+  icon={<Zap className="size-4" />}
+  dismissible
+>
+  New feature: Export to CSV is now available in your dashboard.
+</Banner>
+
+<Banner
+  variant="warning"
+  icon={<AlertTriangle className="size-4" />}
+  dismissible
+>
+  API rate limit at 85% — consider upgrading your plan.
+</Banner>`}
+/>
+
+## With Action
+
+Pass an `action` prop to render a button or link in the trailing area (before the dismiss button).
+
+<ComponentPage
+  title="With Action"
+  description="Render a CTA button in the trailing area for immediate user action."
+  preview={
+    <div className="flex flex-col gap-2 w-full">
+      <Banner
+        variant="default"
+        action={
+          <Button size="sm" variant="secondary" className="text-xs h-7 shrink-0">
+            See what's new →
+          </Button>
+        }
+        dismissible
+      >
+        🎉 Unified UI 2.4.0 is here with 15 new components.
+      </Banner>
+      <Banner
+        variant="warning"
+        action={
+          <Button size="sm" variant="secondary" className="text-xs h-7 shrink-0">
+            Upgrade now
+          </Button>
+        }
+        dismissible
+      >
+        Your free trial ends in 2 days.
+      </Banner>
+    </div>
+  }
+  code={`<Banner
+  variant="default"
+  action={
+    <Button size="sm" variant="secondary">
+      See what's new →
+    </Button>
+  }
+  dismissible
+>
+  🎉 Unified UI 2.4.0 is here with 15 new components.
+</Banner>
+
+<Banner
+  variant="warning"
+  action={
+    <Button size="sm" variant="secondary">
+      Upgrade now
+    </Button>
+  }
+  dismissible
+>
+  Your free trial ends in 2 days.
+</Banner>`}
+/>
+
+## Positioning
+
+### Inline (default)
+
+The `inline` position renders the banner as a block element with `rounded-md` — suitable for use inside page sections, cards, or forms.
+
+```tsx
+<Banner variant="info" position="inline">
+  This is an inline banner inside a form or card section.
+</Banner>
+```
+
+### Sticky Top
+
+`position="top"` makes the banner sticky to the top of its scroll container with `z-banner`. It slides down from the top on mount and slides back up on dismiss.
+
+```tsx
+{/* Typically placed at the very top of your layout */}
+<Banner variant="warning" position="top" dismissible>
+  Scheduled maintenance in 30 minutes — save your work.
+</Banner>
+```
+
+### Sticky Bottom
+
+`position="bottom"` makes the banner sticky to the bottom of its scroll container. It slides up from the bottom on mount.
+
+```tsx
+<Banner variant="primary" position="bottom" dismissible>
+  🍪 We use cookies to improve your experience.{" "}
+  <a href="/privacy" className="underline">
+    Learn more
+  </a>
+</Banner>
+```
+
+## Controlled Visibility
+
+Use `visible` and `onDismiss` for programmatic control of the banner's open state.
+
+```tsx
+const [bannerVisible, setBannerVisible] = useState(true);
+
+<Banner
+  variant="info"
+  visible={bannerVisible}
+  onDismiss={() => setBannerVisible(false)}
+  dismissible
+>
+  This banner is controlled externally.
+</Banner>;
+```
+
+## Default Visible
+
+Use `defaultVisible={false}` to start the banner hidden and show it later.
+
+```tsx
+const [show, setShow] = useState(false);
+
+<Button onClick={() => setShow(true)}>Show Banner</Button>
+
+<Banner
+  variant="success"
+  defaultVisible={false}
+  visible={show}
+  dismissible
+  onDismiss={() => setShow(false)}
+>
+  Settings saved successfully.
+</Banner>
+```
+
+## Cookie Consent Pattern
+
+A common pattern for GDPR / cookie consent banners.
+
+```tsx
+import { useState, useEffect } from "react";
+import { Banner, Button } from "@work-rjkashyap/unified-ui";
+
+function CookieBanner() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const accepted = localStorage.getItem("cookies-accepted");
+    if (!accepted) setVisible(true);
+  }, []);
+
+  const accept = () => {
+    localStorage.setItem("cookies-accepted", "true");
+    setVisible(false);
+  };
+
+  return (
+    <Banner
+      variant="default"
+      position="bottom"
+      visible={visible}
+      action={
+        <div className="flex gap-2 shrink-0">
+          <Button size="sm" variant="secondary" onClick={() => setVisible(false)}>
+            Decline
+          </Button>
+          <Button size="sm" variant="primary" onClick={accept}>
+            Accept All
+          </Button>
+        </div>
+      }
+    >
+      We use cookies to improve your experience and analyze site usage.{" "}
+      <a href="/privacy" className="underline font-medium">
+        Privacy Policy
+      </a>
+    </Banner>
+  );
+}
+```
+
+## Maintenance Notice Pattern
+
+```tsx
+<Banner
+  variant="warning"
+  position="top"
+  icon={<AlertTriangle className="size-4" />}
+  action={
+    <a href="/status" className="text-xs underline font-medium shrink-0">
+      Status page →
+    </a>
+  }
+  dismissible
+>
+  Scheduled maintenance window: Sunday Feb 2, 2:00–4:00 AM UTC. Some
+  features may be unavailable.
+</Banner>
+```
+
+## Props
+
+| Prop             | Type                                                                    | Default        | Description                                                            |
+| ---------------- | ----------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------------- |
+| `variant`        | `"default" \| "primary" \| "info" \| "success" \| "warning" \| "danger"` | `"default"`  | Color variant of the banner.                                           |
+| `position`       | `"top" \| "bottom" \| "inline"`                                         | `"inline"`     | Positioning strategy — sticky top, sticky bottom, or inline block.    |
+| `dismissible`    | `boolean`                                                               | `false`        | Whether to show a close button.                                        |
+| `onDismiss`      | `() => void`                                                            | —              | Callback fired when the banner is dismissed.                           |
+| `dismissLabel`   | `string`                                                                | `"Dismiss"`    | Accessible label for the dismiss button.                               |
+| `icon`           | `ReactNode`                                                             | —              | Leading icon slot rendered before the message.                         |
+| `action`         | `ReactNode`                                                             | —              | Trailing action slot rendered before the dismiss button.               |
+| `visible`        | `boolean`                                                               | —              | Controlled visibility state.                                           |
+| `defaultVisible` | `boolean`                                                               | `true`         | Initial visibility for uncontrolled mode.                              |
+| `className`      | `string`                                                                | —              | Additional CSS classes on the root element.                            |
+| `children`       | `ReactNode`                                                             | —              | The banner message content.                                            |
+
+Standard HTML `div` attributes (`id`, `style`, `role`, `aria-label`, `aria-live`) are also accepted and forwarded to the root element.
+
+## Motion
+
+- **Top banner** — Slides down from `-100%` using the `slideDown` preset on mount and reverses on exit.
+- **Bottom banner** — Slides up from `100%` using the `slideUp` preset on mount and reverses on exit.
+- **Inline banner** — Uses `fadeIn`-style opacity transition on mount.
+- **Dismiss** — `AnimatePresence` handles the exit animation before the element is removed from the DOM.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()` — falling back to a simple opacity transition.
+
+## Accessibility
+
+- Wrap the banner content in `aria-live="polite"` (or `"assertive"` for urgent notices) to announce it to screen readers when it appears dynamically.
+- The dismiss button has `aria-label` (defaults to `"Dismiss"`).
+- Dismiss button icon is `aria-hidden="true"`.
+- For top/bottom sticky banners, add `role="banner"` or `role="complementary"` when appropriate for the page context.
+- Ensure sufficient color contrast for all text in each variant — all default variants meet WCAG AA.
+
+## Design Tokens
+
+| Token                   | Usage                                  |
+| ----------------------- | -------------------------------------- |
+| `--foreground`          | Default variant background             |
+| `--background`          | Default variant text color             |
+| `--primary`             | Primary variant background             |
+| `--info`                | Info variant background                |
+| `--success`             | Success variant background             |
+| `--warning`             | Warning variant background             |
+| `--danger`              | Danger variant background              |
+| `--z-banner`            | Z-index for sticky top/bottom banners  |
+| `--duration-fast`       | Dismiss button transition speed        |
+
+</ComponentPage>

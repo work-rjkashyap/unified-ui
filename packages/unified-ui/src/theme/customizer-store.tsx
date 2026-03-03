@@ -200,7 +200,9 @@ function getResolvedMode(): "light" | "dark" {
 function injectStyles(config: ThemeConfig): void {
   if (typeof document === "undefined") return;
 
-  let styleEl = document.getElementById(STYLE_ELEMENT_ID) as HTMLStyleElement | null;
+  let styleEl = document.getElementById(
+    STYLE_ELEMENT_ID,
+  ) as HTMLStyleElement | null;
   if (!styleEl) {
     styleEl = document.createElement("style");
     styleEl.id = STYLE_ELEMENT_ID;
@@ -294,7 +296,7 @@ export function ThemeCustomizerProvider({
   );
 
   // Track the resolved mode so we can re-inject styles when it changes
-  const [resolvedMode, setResolvedMode] = useState<"light" | "dark">("light");
+  const [_resolvedMode, setResolvedMode] = useState<"light" | "dark">("light");
 
   // Ref to avoid stale closures in the MutationObserver callback
   const configRef = useRef(config);
@@ -325,7 +327,7 @@ export function ThemeCustomizerProvider({
     if (applyStyles) {
       injectStyles(config);
     }
-  }, [config, resolvedMode, applyStyles]);
+  }, [config, applyStyles]);
 
   // Persist to localStorage whenever config changes
   useEffect(() => {

@@ -90,7 +90,6 @@ var Divider = forwardRef(function Divider2({ spacing = 4, orientation = "horizon
     "hr",
     {
       ref,
-      role: "separator",
       "aria-orientation": orientation,
       className: cn(
         "border-none shrink-0",

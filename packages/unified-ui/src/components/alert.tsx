@@ -191,11 +191,7 @@ export const alertVariants = cva(
          * Info — informational messages, tips, notes.
          * Uses info-muted bg with info-muted-foreground text.
          */
-        info: [
-          "bg-info-muted",
-          "text-info-muted-foreground",
-          "border-info/20",
-        ],
+        info: ["bg-info-muted", "text-info-muted-foreground", "border-info/20"],
 
         /**
          * Success — positive outcomes, confirmations.

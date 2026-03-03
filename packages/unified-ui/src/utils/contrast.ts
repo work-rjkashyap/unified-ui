@@ -52,18 +52,18 @@ export type TextSize = "normal" | "large";
 
 /** Full result of a contrast check between two colors. */
 export interface ContrastResult {
-	/** The computed contrast ratio (e.g. 4.56). Always ≥ 1. */
-	ratio: number;
-	/** Meets WCAG AA for normal text (≥ 4.5:1). */
-	aa: boolean;
-	/** Meets WCAG AA for large text (≥ 3:1). */
-	aaLarge: boolean;
-	/** Meets WCAG AAA for normal text (≥ 7:1). */
-	aaa: boolean;
-	/** Meets WCAG AAA for large text (≥ 4.5:1). */
-	aaaLarge: boolean;
-	/** Meets WCAG AA for non-text UI components (≥ 3:1). */
-	nonTextAA: boolean;
+  /** The computed contrast ratio (e.g. 4.56). Always ≥ 1. */
+  ratio: number;
+  /** Meets WCAG AA for normal text (≥ 4.5:1). */
+  aa: boolean;
+  /** Meets WCAG AA for large text (≥ 3:1). */
+  aaLarge: boolean;
+  /** Meets WCAG AAA for normal text (≥ 7:1). */
+  aaa: boolean;
+  /** Meets WCAG AAA for large text (≥ 4.5:1). */
+  aaaLarge: boolean;
+  /** Meets WCAG AA for non-text UI components (≥ 3:1). */
+  nonTextAA: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -104,11 +104,11 @@ export const WCAG_NON_TEXT_AA = 3.0;
  * Applies the inverse sRGB transfer function per the WCAG specification.
  */
 function linearize(channel: number): number {
-	const normalized = channel / 255;
-	if (normalized <= 0.04045) {
-		return normalized / 12.92;
-	}
-	return ((normalized + 0.055) / 1.055) ** 2.4;
+  const normalized = channel / 255;
+  if (normalized <= 0.04045) {
+    return normalized / 12.92;
+  }
+  return ((normalized + 0.055) / 1.055) ** 2.4;
 }
 
 /**
@@ -125,10 +125,8 @@ function linearize(channel: number): number {
  * ```
  */
 export function relativeLuminance(color: RGB): number {
-	const [r, g, b] = color;
-	return (
-		0.2126 * linearize(r) + 0.7152 * linearize(g) + 0.0722 * linearize(b)
-	);
+  const [r, g, b] = color;
+  return 0.2126 * linearize(r) + 0.7152 * linearize(g) + 0.0722 * linearize(b);
 }
 
 // ---------------------------------------------------------------------------
@@ -156,11 +154,11 @@ export function relativeLuminance(color: RGB): number {
  * ```
  */
 export function contrastRatio(foreground: RGB, background: RGB): number {
-	const l1 = relativeLuminance(foreground);
-	const l2 = relativeLuminance(background);
-	const lighter = Math.max(l1, l2);
-	const darker = Math.min(l1, l2);
-	return (lighter + 0.05) / (darker + 0.05);
+  const l1 = relativeLuminance(foreground);
+  const l2 = relativeLuminance(background);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
 }
 
 // ---------------------------------------------------------------------------
@@ -175,7 +173,7 @@ export function contrastRatio(foreground: RGB, background: RGB): number {
  * @returns `true` if the ratio meets the AA threshold
  */
 export function meetsAA(ratio: number, textSize: TextSize = "normal"): boolean {
-	return ratio >= (textSize === "large" ? WCAG_AA_LARGE : WCAG_AA_NORMAL);
+  return ratio >= (textSize === "large" ? WCAG_AA_LARGE : WCAG_AA_NORMAL);
 }
 
 /**
@@ -186,10 +184,10 @@ export function meetsAA(ratio: number, textSize: TextSize = "normal"): boolean {
  * @returns `true` if the ratio meets the AAA threshold
  */
 export function meetsAAA(
-	ratio: number,
-	textSize: TextSize = "normal",
+  ratio: number,
+  textSize: TextSize = "normal",
 ): boolean {
-	return ratio >= (textSize === "large" ? WCAG_AAA_LARGE : WCAG_AAA_NORMAL);
+  return ratio >= (textSize === "large" ? WCAG_AAA_LARGE : WCAG_AAA_NORMAL);
 }
 
 /**
@@ -200,7 +198,7 @@ export function meetsAAA(
  * @returns `true` if the ratio meets ≥ 3:1
  */
 export function meetsNonTextAA(ratio: number): boolean {
-	return ratio >= WCAG_NON_TEXT_AA;
+  return ratio >= WCAG_NON_TEXT_AA;
 }
 
 // ---------------------------------------------------------------------------
@@ -226,16 +224,16 @@ export function meetsNonTextAA(ratio: number): boolean {
  * ```
  */
 export function parseRGBString(rgbString: string): RGB {
-	const parts = rgbString.trim().split(/\s+/).map(Number);
-	if (
-		parts.length !== 3 ||
-		parts.some((n) => Number.isNaN(n) || n < 0 || n > 255)
-	) {
-		throw new Error(
-			`Invalid RGB string: "${rgbString}". Expected 3 space-separated integers (0–255).`,
-		);
-	}
-	return parts as unknown as RGB;
+  const parts = rgbString.trim().split(/\s+/).map(Number);
+  if (
+    parts.length !== 3 ||
+    parts.some((n) => Number.isNaN(n) || n < 0 || n > 255)
+  ) {
+    throw new Error(
+      `Invalid RGB string: "${rgbString}". Expected 3 space-separated integers (0–255).`,
+    );
+  }
+  return parts as unknown as RGB;
 }
 
 /**
@@ -245,7 +243,7 @@ export function parseRGBString(rgbString: string): RGB {
  * @returns Space-separated string, e.g. "79 70 229"
  */
 export function toRGBString(color: RGB): string {
-	return `${color[0]} ${color[1]} ${color[2]}`;
+  return `${color[0]} ${color[1]} ${color[2]}`;
 }
 
 /**
@@ -263,30 +261,30 @@ export function toRGBString(color: RGB): string {
  * ```
  */
 export function parseHex(hex: string): RGB {
-	let cleaned = hex.replace(/^#/, "");
+  let cleaned = hex.replace(/^#/, "");
 
-	// Expand shorthand (e.g., "fff" → "ffffff")
-	if (cleaned.length === 3) {
-		cleaned =
-			cleaned[0] +
-			cleaned[0] +
-			cleaned[1] +
-			cleaned[1] +
-			cleaned[2] +
-			cleaned[2];
-	}
+  // Expand shorthand (e.g., "fff" → "ffffff")
+  if (cleaned.length === 3) {
+    cleaned =
+      cleaned[0] +
+      cleaned[0] +
+      cleaned[1] +
+      cleaned[1] +
+      cleaned[2] +
+      cleaned[2];
+  }
 
-	if (cleaned.length !== 6 || !/^[\da-f]{6}$/i.test(cleaned)) {
-		throw new Error(
-			`Invalid hex color: "${hex}". Expected a 3- or 6-digit hex string.`,
-		);
-	}
+  if (cleaned.length !== 6 || !/^[\da-f]{6}$/i.test(cleaned)) {
+    throw new Error(
+      `Invalid hex color: "${hex}". Expected a 3- or 6-digit hex string.`,
+    );
+  }
 
-	return [
-		Number.parseInt(cleaned.slice(0, 2), 16),
-		Number.parseInt(cleaned.slice(2, 4), 16),
-		Number.parseInt(cleaned.slice(4, 6), 16),
-	] as unknown as RGB;
+  return [
+    Number.parseInt(cleaned.slice(0, 2), 16),
+    Number.parseInt(cleaned.slice(2, 4), 16),
+    Number.parseInt(cleaned.slice(4, 6), 16),
+  ] as unknown as RGB;
 }
 
 // ---------------------------------------------------------------------------
@@ -315,21 +313,21 @@ export function parseHex(hex: string): RGB {
  * ```
  */
 export function checkDSContrast(
-	fgRGBString: string,
-	bgRGBString: string,
+  fgRGBString: string,
+  bgRGBString: string,
 ): ContrastResult {
-	const fg = parseRGBString(fgRGBString);
-	const bg = parseRGBString(bgRGBString);
-	const ratio = contrastRatio(fg, bg);
+  const fg = parseRGBString(fgRGBString);
+  const bg = parseRGBString(bgRGBString);
+  const ratio = contrastRatio(fg, bg);
 
-	return {
-		ratio: Math.round(ratio * 100) / 100,
-		aa: meetsAA(ratio, "normal"),
-		aaLarge: meetsAA(ratio, "large"),
-		aaa: meetsAAA(ratio, "normal"),
-		aaaLarge: meetsAAA(ratio, "large"),
-		nonTextAA: meetsNonTextAA(ratio),
-	};
+  return {
+    ratio: Math.round(ratio * 100) / 100,
+    aa: meetsAA(ratio, "normal"),
+    aaLarge: meetsAA(ratio, "large"),
+    aaa: meetsAAA(ratio, "normal"),
+    aaaLarge: meetsAAA(ratio, "large"),
+    nonTextAA: meetsNonTextAA(ratio),
+  };
 }
 
 /**
@@ -340,18 +338,18 @@ export function checkDSContrast(
  * @returns Full contrast result with ratio and pass/fail for each WCAG level
  */
 export function checkHexContrast(fgHex: string, bgHex: string): ContrastResult {
-	const fg = parseHex(fgHex);
-	const bg = parseHex(bgHex);
-	const ratio = contrastRatio(fg, bg);
+  const fg = parseHex(fgHex);
+  const bg = parseHex(bgHex);
+  const ratio = contrastRatio(fg, bg);
 
-	return {
-		ratio: Math.round(ratio * 100) / 100,
-		aa: meetsAA(ratio, "normal"),
-		aaLarge: meetsAA(ratio, "large"),
-		aaa: meetsAAA(ratio, "normal"),
-		aaaLarge: meetsAAA(ratio, "large"),
-		nonTextAA: meetsNonTextAA(ratio),
-	};
+  return {
+    ratio: Math.round(ratio * 100) / 100,
+    aa: meetsAA(ratio, "normal"),
+    aaLarge: meetsAA(ratio, "large"),
+    aaa: meetsAAA(ratio, "normal"),
+    aaaLarge: meetsAAA(ratio, "large"),
+    nonTextAA: meetsNonTextAA(ratio),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -360,22 +358,22 @@ export function checkHexContrast(fgHex: string, bgHex: string): ContrastResult {
 
 /** A named color pair for batch auditing. */
 export interface ColorPair {
-	/** Human-readable label for the pair (e.g. "primary on background"). */
-	label: string;
-	/** Foreground color as space-separated RGB string. */
-	fg: string;
-	/** Background color as space-separated RGB string. */
-	bg: string;
+  /** Human-readable label for the pair (e.g. "primary on background"). */
+  label: string;
+  /** Foreground color as space-separated RGB string. */
+  fg: string;
+  /** Background color as space-separated RGB string. */
+  bg: string;
 }
 
 /** Result of a single pair in a batch audit. */
 export interface AuditResult extends ContrastResult {
-	/** The label from the input pair. */
-	label: string;
-	/** The foreground RGB string. */
-	fg: string;
-	/** The background RGB string. */
-	bg: string;
+  /** The label from the input pair. */
+  label: string;
+  /** The foreground RGB string. */
+  fg: string;
+  /** The background RGB string. */
+  bg: string;
 }
 
 /**
@@ -399,15 +397,15 @@ export interface AuditResult extends ContrastResult {
  * ```
  */
 export function auditContrast(pairs: ColorPair[]): AuditResult[] {
-	return pairs.map((pair) => {
-		const result = checkDSContrast(pair.fg, pair.bg);
-		return {
-			...result,
-			label: pair.label,
-			fg: pair.fg,
-			bg: pair.bg,
-		};
-	});
+  return pairs.map((pair) => {
+    const result = checkDSContrast(pair.fg, pair.bg);
+    return {
+      ...result,
+      label: pair.label,
+      fg: pair.fg,
+      bg: pair.bg,
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -431,77 +429,77 @@ export function auditContrast(pairs: ColorPair[]): AuditResult[] {
  * ```
  */
 export const DS_LIGHT_CRITICAL_PAIRS: ColorPair[] = [
-	// Primary text on backgrounds
-	{ label: "foreground on background", fg: "9 9 11", bg: "255 255 255" },
-	{ label: "primary on background", fg: "79 70 229", bg: "255 255 255" },
-	{
-		label: "primary-foreground on primary",
-		fg: "255 255 255",
-		bg: "79 70 229",
-	},
-	// Secondary
-	{ label: "secondary-fg on secondary", fg: "24 24 27", bg: "244 244 245" },
-	// Muted (zinc.600 = 82 82 91 — matches CSS --muted-foreground)
-	{ label: "muted-fg on background", fg: "82 82 91", bg: "255 255 255" },
-	{ label: "muted-fg on muted", fg: "82 82 91", bg: "244 244 245" },
-	// Semantic — foreground on solid bg (dark text on bright semantic colors)
-	{ label: "success-fg on success", fg: "9 9 11", bg: "22 163 74" },
-	{ label: "warning-fg on warning", fg: "9 9 11", bg: "245 158 11" },
-	{ label: "danger-fg on danger", fg: "255 255 255", bg: "220 38 38" },
-	{ label: "info-fg on info", fg: "255 255 255", bg: "37 99 235" },
-	// Semantic — muted text on muted bg
-	{
-		label: "success-muted-fg on success-muted",
-		fg: "21 128 61",
-		bg: "240 253 244",
-	},
-	{
-		label: "warning-muted-fg on warning-muted",
-		fg: "180 83 9",
-		bg: "255 251 235",
-	},
-	{
-		label: "danger-muted-fg on danger-muted",
-		fg: "185 28 28",
-		bg: "254 242 242",
-	},
-	{
-		label: "info-muted-fg on info-muted",
-		fg: "29 78 216",
-		bg: "239 246 255",
-	},
-	// Input (placeholder = zinc.500 = 113 113 122)
-	{ label: "input-fg on background", fg: "24 24 27", bg: "255 255 255" },
-	{
-		label: "input-placeholder on background",
-		fg: "113 113 122",
-		bg: "255 255 255",
-	},
-	// Disabled (darkened to 120 120 129 for ≥ 3:1 usability target)
-	{ label: "disabled-fg on disabled", fg: "120 120 129", bg: "244 244 245" },
-	{
-		label: "disabled-fg on background",
-		fg: "120 120 129",
-		bg: "255 255 255",
-	},
-	// Input border (non-text, darkened to 148 148 157 for ≥ 3:1)
-	{
-		label: "input border on background (non-text)",
-		fg: "148 148 157",
-		bg: "255 255 255",
-	},
-	// Border-strong (non-text, darkened to 148 148 157 for ≥ 3:1)
-	{
-		label: "border-strong on background (non-text)",
-		fg: "148 148 157",
-		bg: "255 255 255",
-	},
-	// Focus ring (non-text contrast against background)
-	{
-		label: "focus-ring on background (non-text)",
-		fg: "99 102 241",
-		bg: "255 255 255",
-	},
+  // Primary text on backgrounds
+  { label: "foreground on background", fg: "9 9 11", bg: "255 255 255" },
+  { label: "primary on background", fg: "79 70 229", bg: "255 255 255" },
+  {
+    label: "primary-foreground on primary",
+    fg: "255 255 255",
+    bg: "79 70 229",
+  },
+  // Secondary
+  { label: "secondary-fg on secondary", fg: "24 24 27", bg: "244 244 245" },
+  // Muted (zinc.600 = 82 82 91 — matches CSS --muted-foreground)
+  { label: "muted-fg on background", fg: "82 82 91", bg: "255 255 255" },
+  { label: "muted-fg on muted", fg: "82 82 91", bg: "244 244 245" },
+  // Semantic — foreground on solid bg (dark text on bright semantic colors)
+  { label: "success-fg on success", fg: "9 9 11", bg: "22 163 74" },
+  { label: "warning-fg on warning", fg: "9 9 11", bg: "245 158 11" },
+  { label: "danger-fg on danger", fg: "255 255 255", bg: "220 38 38" },
+  { label: "info-fg on info", fg: "255 255 255", bg: "37 99 235" },
+  // Semantic — muted text on muted bg
+  {
+    label: "success-muted-fg on success-muted",
+    fg: "21 128 61",
+    bg: "240 253 244",
+  },
+  {
+    label: "warning-muted-fg on warning-muted",
+    fg: "180 83 9",
+    bg: "255 251 235",
+  },
+  {
+    label: "danger-muted-fg on danger-muted",
+    fg: "185 28 28",
+    bg: "254 242 242",
+  },
+  {
+    label: "info-muted-fg on info-muted",
+    fg: "29 78 216",
+    bg: "239 246 255",
+  },
+  // Input (placeholder = zinc.500 = 113 113 122)
+  { label: "input-fg on background", fg: "24 24 27", bg: "255 255 255" },
+  {
+    label: "input-placeholder on background",
+    fg: "113 113 122",
+    bg: "255 255 255",
+  },
+  // Disabled (darkened to 120 120 129 for ≥ 3:1 usability target)
+  { label: "disabled-fg on disabled", fg: "120 120 129", bg: "244 244 245" },
+  {
+    label: "disabled-fg on background",
+    fg: "120 120 129",
+    bg: "255 255 255",
+  },
+  // Input border (non-text, darkened to 148 148 157 for ≥ 3:1)
+  {
+    label: "input border on background (non-text)",
+    fg: "148 148 157",
+    bg: "255 255 255",
+  },
+  // Border-strong (non-text, darkened to 148 148 157 for ≥ 3:1)
+  {
+    label: "border-strong on background (non-text)",
+    fg: "148 148 157",
+    bg: "255 255 255",
+  },
+  // Focus ring (non-text contrast against background)
+  {
+    label: "focus-ring on background (non-text)",
+    fg: "99 102 241",
+    bg: "255 255 255",
+  },
 ];
 
 /**
@@ -509,69 +507,69 @@ export const DS_LIGHT_CRITICAL_PAIRS: ColorPair[] = [
  * WCAG AA contrast. Use with `auditContrast()` for automated checks.
  */
 export const DS_DARK_CRITICAL_PAIRS: ColorPair[] = [
-	// Primary text on backgrounds
-	{ label: "foreground on background", fg: "250 250 250", bg: "9 9 11" },
-	// Primary shifted to brand.400 (129 140 248) for AA on dark bg (6.67:1)
-	{ label: "primary on background", fg: "129 140 248", bg: "9 9 11" },
-	{
-		// Primary-fg shifted to zinc.900 (24 24 27) for AA on brand.400 (5.94:1)
-		label: "primary-foreground on primary",
-		fg: "24 24 27",
-		bg: "129 140 248",
-	},
-	// Secondary
-	{ label: "secondary-fg on secondary", fg: "244 244 245", bg: "39 39 42" },
-	// Muted
-	{ label: "muted-fg on background", fg: "161 161 170", bg: "9 9 11" },
-	{ label: "muted-fg on muted", fg: "161 161 170", bg: "39 39 42" },
-	// Semantic — foreground on solid bg (dark text on bright semantic colors)
-	{ label: "success-fg on success", fg: "9 9 11", bg: "34 197 94" },
-	{ label: "warning-fg on warning", fg: "9 9 11", bg: "251 191 36" },
-	{ label: "danger-fg on danger", fg: "9 9 11", bg: "239 68 68" },
-	{ label: "info-fg on info", fg: "9 9 11", bg: "96 165 250" },
-	// Semantic — muted text on muted bg
-	{
-		label: "success-muted-fg on success-muted",
-		fg: "134 239 172",
-		bg: "5 46 22",
-	},
-	{
-		label: "warning-muted-fg on warning-muted",
-		fg: "252 211 77",
-		bg: "69 26 3",
-	},
-	{
-		label: "danger-muted-fg on danger-muted",
-		fg: "252 165 165",
-		bg: "69 10 10",
-	},
-	{ label: "info-muted-fg on info-muted", fg: "147 197 253", bg: "23 37 84" },
-	// Input (placeholder = 137 137 145 for dark theme)
-	{ label: "input-fg on background", fg: "250 250 250", bg: "9 9 11" },
-	{
-		label: "input-placeholder on background",
-		fg: "137 137 145",
-		bg: "9 9 11",
-	},
-	// Disabled (lightened to zinc.500 = 113 113 122 for ≥ 3:1 usability target)
-	{ label: "disabled-fg on disabled", fg: "113 113 122", bg: "39 39 42" },
-	{ label: "disabled-fg on background", fg: "113 113 122", bg: "9 9 11" },
-	// Input border (non-text, lightened to 96 96 105 for ≥ 3:1)
-	{
-		label: "input border on background (non-text)",
-		fg: "96 96 105",
-		bg: "9 9 11",
-	},
-	// Border-strong (non-text, lightened to zinc.500 = 113 113 122 for ≥ 3:1)
-	{
-		label: "border-strong on background (non-text)",
-		fg: "113 113 122",
-		bg: "9 9 11",
-	},
-	// Focus ring (non-text contrast against background)
-	{
-		label: "focus-ring on background (non-text)",
-		fg: "129 140 248",
-		bg: "9 9 11",
-	},
+  // Primary text on backgrounds
+  { label: "foreground on background", fg: "250 250 250", bg: "9 9 11" },
+  // Primary shifted to brand.400 (129 140 248) for AA on dark bg (6.67:1)
+  { label: "primary on background", fg: "129 140 248", bg: "9 9 11" },
+  {
+    // Primary-fg shifted to zinc.900 (24 24 27) for AA on brand.400 (5.94:1)
+    label: "primary-foreground on primary",
+    fg: "24 24 27",
+    bg: "129 140 248",
+  },
+  // Secondary
+  { label: "secondary-fg on secondary", fg: "244 244 245", bg: "39 39 42" },
+  // Muted
+  { label: "muted-fg on background", fg: "161 161 170", bg: "9 9 11" },
+  { label: "muted-fg on muted", fg: "161 161 170", bg: "39 39 42" },
+  // Semantic — foreground on solid bg (dark text on bright semantic colors)
+  { label: "success-fg on success", fg: "9 9 11", bg: "34 197 94" },
+  { label: "warning-fg on warning", fg: "9 9 11", bg: "251 191 36" },
+  { label: "danger-fg on danger", fg: "9 9 11", bg: "239 68 68" },
+  { label: "info-fg on info", fg: "9 9 11", bg: "96 165 250" },
+  // Semantic — muted text on muted bg
+  {
+    label: "success-muted-fg on success-muted",
+    fg: "134 239 172",
+    bg: "5 46 22",
+  },
+  {
+    label: "warning-muted-fg on warning-muted",
+    fg: "252 211 77",
+    bg: "69 26 3",
+  },
+  {
+    label: "danger-muted-fg on danger-muted",
+    fg: "252 165 165",
+    bg: "69 10 10",
+  },
+  { label: "info-muted-fg on info-muted", fg: "147 197 253", bg: "23 37 84" },
+  // Input (placeholder = 137 137 145 for dark theme)
+  { label: "input-fg on background", fg: "250 250 250", bg: "9 9 11" },
+  {
+    label: "input-placeholder on background",
+    fg: "137 137 145",
+    bg: "9 9 11",
+  },
+  // Disabled (lightened to zinc.500 = 113 113 122 for ≥ 3:1 usability target)
+  { label: "disabled-fg on disabled", fg: "113 113 122", bg: "39 39 42" },
+  { label: "disabled-fg on background", fg: "113 113 122", bg: "9 9 11" },
+  // Input border (non-text, lightened to 96 96 105 for ≥ 3:1)
+  {
+    label: "input border on background (non-text)",
+    fg: "96 96 105",
+    bg: "9 9 11",
+  },
+  // Border-strong (non-text, lightened to zinc.500 = 113 113 122 for ≥ 3:1)
+  {
+    label: "border-strong on background (non-text)",
+    fg: "113 113 122",
+    bg: "9 9 11",
+  },
+  // Focus ring (non-text contrast against background)
+  {
+    label: "focus-ring on background (non-text)",
+    fg: "129 140 248",
+    bg: "9 9 11",
+  },
 ];

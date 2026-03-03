@@ -37,7 +37,7 @@ import type {
  *
  * @template Default - The default element type when `as` is not specified.
  */
-export type AsProp<Default extends ElementType = "div"> = {
+export type AsProp<_Default extends ElementType = "div"> = {
   /**
    * The HTML element or React component to render as.
    * @default Default (varies per component)

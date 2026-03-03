@@ -1,0 +1,272 @@
+---
+title: Search Input
+description: A search field with debounce, clear button, loading state, keyboard shortcut hint, and animated clear button transition.
+icon: Search
+---
+
+import { SearchInput } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Search Input"
+  description="A fully-featured search field with built-in debounce, animated clear button, loading spinner, keyboard shortcut hint, and filled variant."
+  preview={
+    <div className="w-full max-w-sm flex flex-col gap-3">
+      <SearchInput placeholder="Search components..." />
+      <SearchInput placeholder="Search with shortcut..." shortcut="K" />
+    </div>
+  }
+  code={`<SearchInput placeholder="Search components..." />
+<SearchInput placeholder="Search with shortcut..." shortcut="K" />`}
+>
+
+## Import
+
+```tsx
+import { SearchInput } from "@work-rjkashyap/unified-ui";
+// or
+import { SearchInput } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Drop `SearchInput` anywhere you need a search field. It manages its own internal value by default (uncontrolled).
+
+```tsx
+<SearchInput placeholder="Search..." />
+```
+
+## Sizes
+
+<ComponentPage
+	title="Sizes"
+	description="Three sizes designed to match Input, Button, and Select heights."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-3">
+			<SearchInput placeholder="Small" size="sm" />
+			<SearchInput placeholder="Medium (default)" size="md" />
+			<SearchInput placeholder="Large" size="lg" />
+		</div>
+	}
+	code={`<SearchInput placeholder="Small" size="sm" />
+<SearchInput placeholder="Medium (default)" size="md" />
+<SearchInput placeholder="Large" size="lg" />`}
+/>
+
+| Size | Height | Use Case                    |
+| ---- | ------ | --------------------------- |
+| `sm` | 32px   | Compact toolbars, sidebars  |
+| `md` | 36px   | Default — most contexts     |
+| `lg` | 40px   | Prominent hero-style search |
+
+## Variants
+
+<ComponentPage
+	title="Variants"
+	description="Default has a visible border; filled uses a muted background with no border."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-3">
+			<SearchInput placeholder="Default variant" variant="default" />
+			<SearchInput placeholder="Filled variant" variant="filled" />
+		</div>
+	}
+	code={`<SearchInput placeholder="Default variant" variant="default" />
+<SearchInput placeholder="Filled variant" variant="filled" />`}
+/>
+
+## Debounced Change
+
+Use `onDebouncedChange` for expensive operations like API calls. The callback fires after the user stops typing for `debounce` milliseconds (default `300ms`).
+
+<ComponentPage
+	title="Debounced Change"
+	description="Fire a callback after the user stops typing — ideal for search-as-you-type API calls."
+	preview={<SearchInputDebouncedPreview />}
+	code={`<SearchInput
+  placeholder="Type to search..."
+  debounce={400}
+  onDebouncedChange={(value) => fetchResults(value)}
+/>`}
+/>
+
+```tsx
+<SearchInput
+	placeholder="Search users..."
+	debounce={300}
+	onDebouncedChange={async (query) => {
+		const results = await searchUsers(query);
+		setResults(results);
+	}}
+/>
+```
+
+## Loading State
+
+Show a spinner instead of the search icon while results are loading.
+
+<ComponentPage
+	title="Loading State"
+	description="Replaces the search icon with a spinning loader while results are fetching."
+	preview={
+		<div className="w-full max-w-sm">
+			<SearchInput placeholder="Fetching results..." loading />
+		</div>
+	}
+	code={`<SearchInput placeholder="Fetching results..." loading />`}
+/>
+
+```tsx
+const [loading, setLoading] = useState(false);
+const [results, setResults] = useState([]);
+
+<SearchInput
+	placeholder="Search..."
+	loading={loading}
+	onDebouncedChange={async (query) => {
+		setLoading(true);
+		const data = await search(query);
+		setResults(data);
+		setLoading(false);
+	}}
+/>;
+```
+
+## Keyboard Shortcut Hint
+
+Pass `shortcut` to display a keyboard hint badge in the trailing area when the input is empty. The component also registers a global `Ctrl+<shortcut>` / `⌘+<shortcut>` listener that focuses the input.
+
+<ComponentPage
+  title="Keyboard Shortcut"
+  description="Shows a shortcut badge and registers a global keyboard listener to focus the input."
+  preview={
+    <div className="w-full max-w-sm flex flex-col gap-3">
+      <SearchInput placeholder="Search..." shortcut="K" />
+      <SearchInput placeholder="Quick find..." shortcut="/" variant="filled" />
+    </div>
+  }
+  code={`{/* Press ⌘K or Ctrl+K to focus */}
+<SearchInput placeholder="Search..." shortcut="K" />
+
+{/* Press ⌘/ or Ctrl+/ to focus */}
+
+<SearchInput placeholder="Quick find..." shortcut="/" variant="filled" />`}
+/>
+
+## Clear Button
+
+By default, a clear button appears (with a fade animation) when the input has a value. Set `showClear={false}` to disable it.
+
+<ComponentPage
+  title="Clear Button"
+  description="An animated clear button appears when the input has a value. Disable with showClear={false}."
+  preview={
+    <div className="w-full max-w-sm flex flex-col gap-3">
+      <SearchInput placeholder="With clear button (default)" />
+      <SearchInput placeholder="Without clear button" showClear={false} />
+    </div>
+  }
+  code={`{/* Clear button enabled (default) */}
+<SearchInput placeholder="With clear button" />
+
+{/* Clear button disabled */}
+
+<SearchInput placeholder="Without clear button" showClear={false} />`}
+/>
+
+## Controlled
+
+Use `value` and `onChange` for full programmatic control.
+
+```tsx
+const [query, setQuery] = useState("");
+
+<SearchInput
+	value={query}
+	onChange={setQuery}
+	placeholder="Search..."
+	onDebouncedChange={fetchResults}
+/>;
+```
+
+## In a Toolbar
+
+A common pattern is to place `SearchInput` alongside filters in a table toolbar.
+
+```tsx
+<div className="flex items-center gap-2">
+	<SearchInput
+		placeholder="Search users..."
+		className="max-w-xs"
+		onDebouncedChange={setGlobalFilter}
+	/>
+	<Select value={statusFilter} onValueChange={setStatusFilter}>
+		<SelectTrigger className="w-36">
+			<SelectValue placeholder="Status" />
+		</SelectTrigger>
+		<SelectContent>
+			<SelectItem value="all">All</SelectItem>
+			<SelectItem value="active">Active</SelectItem>
+			<SelectItem value="inactive">Inactive</SelectItem>
+		</SelectContent>
+	</Select>
+</div>
+```
+
+## In a Command Palette Trigger
+
+```tsx
+<button type="button" onClick={() => setOpen(true)} className="w-full">
+	<SearchInput
+		placeholder="Search or jump to..."
+		shortcut="K"
+		variant="filled"
+		className="pointer-events-none"
+		readOnly
+	/>
+</button>
+```
+
+## Props
+
+| Prop                | Type                      | Default       | Description                                                       |
+| ------------------- | ------------------------- | ------------- | ----------------------------------------------------------------- |
+| `value`             | `string`                  | —             | Controlled value.                                                 |
+| `defaultValue`      | `string`                  | `""`          | Initial value for uncontrolled mode.                              |
+| `onChange`          | `(value: string) => void` | —             | Fires on every keystroke with the current value.                  |
+| `onDebouncedChange` | `(value: string) => void` | —             | Fires after the user stops typing for `debounce` ms.              |
+| `debounce`          | `number`                  | `300`         | Debounce delay in milliseconds for `onDebouncedChange`.           |
+| `size`              | `"sm" \| "md" \| "lg"`    | `"md"`        | Height and font size.                                             |
+| `variant`           | `"default" \| "filled"`   | `"default"`   | Visual variant — bordered or filled/borderless.                   |
+| `shortcut`          | `string`                  | —             | Key to display as hint and register as `Ctrl/⌘ + <key>` listener. |
+| `showClear`         | `boolean`                 | `true`        | Whether to show the clear button when the input has a value.      |
+| `loading`           | `boolean`                 | `false`       | Shows a spinner in place of the search icon.                      |
+| `placeholder`       | `string`                  | `"Search..."` | Input placeholder text.                                           |
+| `disabled`          | `boolean`                 | `false`       | Disables the input.                                               |
+| `className`         | `string`                  | —             | Additional CSS classes on the wrapper element.                    |
+
+All standard `<input>` HTML attributes (except `onChange` and `size`) are also forwarded to the underlying input element.
+
+## Motion
+
+- **Clear button** — Fades in and out using the `fadeInFast` preset (`opacity 0 → 1`, 120ms) via `AnimatePresence` when the input gains or loses a value.
+- Animation respects `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- Renders a native `<input type="search">` element — compatible with all assistive technologies.
+- The clear button has `aria-label="Clear search"`.
+- The loading spinner is `aria-hidden="true"`.
+- The shortcut badge is `aria-hidden` and purely decorative; the global keyboard shortcut handles focus programmatically.
+- Native browser search cancel button is hidden via CSS to avoid duplication with the custom clear button.
+- `disabled` prop is forwarded to the underlying input.
+
+## Design Tokens
+
+| Token             | Usage                             |
+| ----------------- | --------------------------------- |
+| `--input`         | Border color (default variant)    |
+| `--muted`         | Background color (filled variant) |
+| `--ring`          | Focus ring color                  |
+| `--radius-md`     | Wrapper border radius             |
+| `--duration-fast` | Transition speed                  |
+
+</ComponentPage>

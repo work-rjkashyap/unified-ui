@@ -123,7 +123,7 @@ function RadiusOption({
           ? "border-primary bg-muted/60 shadow-sm"
           : "border-border bg-transparent",
       )}
-      title={preset.name + " (" + preset.label + ")"}
+      title={`${preset.name} (${preset.label})`}
     >
       <span
         className="size-8 border-2 border-foreground/30 bg-muted"

@@ -1,0 +1,301 @@
+---
+title: Number Input
+description: A numeric stepper input with increment/decrement buttons, keyboard navigation, min/max clamping, and animated digit transitions.
+icon: Hash
+---
+
+import { NumberInput } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Number Input"
+  description="A production-ready numeric stepper with +/− buttons, keyboard navigation, min/max clamping, precision control, and animated digit roll transitions."
+  preview={
+    <div className="flex flex-col gap-4 items-center">
+      <NumberInput defaultValue={0} min={0} max={100} />
+      <NumberInput defaultValue={42} min={0} max={999} step={5} />
+    </div>
+  }
+  code={`<NumberInput defaultValue={0} min={0} max={100} />
+<NumberInput defaultValue={42} min={0} max={999} step={5} />`}
+>
+
+## Import
+
+```tsx
+import { NumberInput } from "@work-rjkashyap/unified-ui";
+// or
+import { NumberInput } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+`NumberInput` works uncontrolled with `defaultValue`, or controlled with `value` + `onChange`.
+
+```tsx
+{
+	/* Uncontrolled */
+}
+<NumberInput defaultValue={10} min={0} max={100} />;
+
+{
+	/* Controlled */
+}
+const [qty, setQty] = useState(1);
+<NumberInput value={qty} onChange={setQty} min={1} max={50} />;
+```
+
+## Sizes
+
+<ComponentPage
+	title="Sizes"
+	description="Three sizes designed to align with Input and Button heights."
+	preview={
+		<div className="flex flex-col gap-3 items-center">
+			<NumberInput defaultValue={5} size="sm" min={0} max={99} />
+			<NumberInput defaultValue={5} size="md" min={0} max={99} />
+			<NumberInput defaultValue={5} size="lg" min={0} max={99} />
+		</div>
+	}
+	code={`<NumberInput defaultValue={5} size="sm" min={0} max={99} />
+<NumberInput defaultValue={5} size="md" min={0} max={99} />
+<NumberInput defaultValue={5} size="lg" min={0} max={99} />`}
+/>
+
+| Size | Height | Use Case                     |
+| ---- | ------ | ---------------------------- |
+| `sm` | 32px   | Compact forms, table cells   |
+| `md` | 36px   | Default — most form contexts |
+| `lg` | 40px   | Prominent inputs             |
+
+## Variants
+
+<ComponentPage
+	title="Variants"
+	description="Two visual variants for different emphasis levels."
+	preview={
+		<div className="flex flex-col gap-3 items-center">
+			<NumberInput
+				defaultValue={10}
+				variant="default"
+				min={0}
+				max={100}
+			/>
+			<NumberInput
+				defaultValue={10}
+				variant="primary"
+				min={0}
+				max={100}
+			/>
+		</div>
+	}
+	code={`<NumberInput defaultValue={10} variant="default" min={0} max={100} />
+<NumberInput defaultValue={10} variant="primary" min={0} max={100} />`}
+/>
+
+## Step
+
+Control the increment/decrement amount with `step`. Defaults to `1`.
+
+<ComponentPage
+	title="Step"
+	description="Customize how much each +/− click or arrow key press changes the value."
+	preview={
+		<div className="flex flex-col gap-3 items-center">
+			<NumberInput defaultValue={0} step={1} min={0} max={10} />
+			<NumberInput defaultValue={0} step={5} min={0} max={100} />
+			<NumberInput defaultValue={0} step={10} min={0} max={100} />
+		</div>
+	}
+	code={`<NumberInput defaultValue={0} step={1} min={0} max={10} />
+<NumberInput defaultValue={0} step={5} min={0} max={100} />
+<NumberInput defaultValue={0} step={10} min={0} max={100} />`}
+/>
+
+Hold `Shift` while pressing arrow keys to step by `10×` the current step value.
+
+## Precision (Decimals)
+
+Use `precision` to allow and display decimal values. Pair with `step` for consistent increments.
+
+<ComponentPage
+  title="Decimal Precision"
+  description="Fractional values with configurable decimal places."
+  preview={
+    <div className="flex flex-col gap-3 items-center">
+      <NumberInput defaultValue={9.99} precision={2} step={0.01} min={0} max={99.99} />
+      <NumberInput defaultValue={3.5} precision={1} step={0.5} min={0} max={10} />
+    </div>
+  }
+  code={`{/* Currency */}
+<NumberInput
+  defaultValue={9.99}
+  precision={2}
+  step={0.01}
+  min={0}
+  max={99.99}
+/>
+
+{/* Half-steps */}
+
+<NumberInput
+  defaultValue={3.5}
+  precision={1}
+  step={0.5}
+  min={0}
+  max={10}
+/>`}
+/>
+
+## Custom Format
+
+Supply a `formatValue` function to display the number with a prefix, suffix, or custom notation.
+
+<ComponentPage
+  title="Custom Format"
+  description="Format the displayed value with a custom function."
+  preview={<NumberInputFormatPreview />}
+  code={`{/* Percentage */}
+<NumberInput
+  defaultValue={50}
+  min={0}
+  max={100}
+  formatValue={(v) => \`\${v}%\`}
+/>
+
+{/* Currency */}
+
+<NumberInput
+  defaultValue={1200}
+  min={0}
+  max={10000}
+  step={100}
+  formatValue={(v) => \`$\${v.toLocaleString()}\`}
+/>`}
+/>
+
+## Disabled & Read-Only
+
+```tsx
+{
+	/* Disabled — no interaction */
+}
+<NumberInput defaultValue={42} disabled />;
+
+{
+	/* Read-only — visible but not editable */
+}
+<NumberInput defaultValue={42} readOnly />;
+```
+
+## Controlled
+
+```tsx
+const [quantity, setQuantity] = useState(1);
+
+<div className="flex flex-col gap-2">
+	<label className="text-sm font-medium">Quantity</label>
+	<NumberInput
+		value={quantity}
+		onChange={setQuantity}
+		min={1}
+		max={99}
+		step={1}
+		aria-label="Quantity"
+	/>
+	<p className="text-xs text-muted-foreground">
+		Total: ${(quantity * 29.99).toFixed(2)}
+	</p>
+</div>;
+```
+
+## In a Form
+
+A typical quantity selector inside a product form.
+
+```tsx
+<form className="flex flex-col gap-4">
+	<div className="flex flex-col gap-1.5">
+		<label className="text-sm font-medium">Quantity</label>
+		<NumberInput
+			defaultValue={1}
+			min={1}
+			max={99}
+			aria-label="Item quantity"
+		/>
+	</div>
+
+	<div className="flex flex-col gap-1.5">
+		<label className="text-sm font-medium">Discount (%)</label>
+		<NumberInput
+			defaultValue={0}
+			min={0}
+			max={100}
+			step={5}
+			formatValue={(v) => `${v}%`}
+			aria-label="Discount percentage"
+		/>
+	</div>
+</form>
+```
+
+## Props
+
+| Prop             | Type                        | Default        | Description                                      |
+| ---------------- | --------------------------- | -------------- | ------------------------------------------------ |
+| `value`          | `number`                    | —              | Controlled value.                                |
+| `defaultValue`   | `number`                    | `0`            | Initial value for uncontrolled mode.             |
+| `onChange`       | `(value: number) => void`   | —              | Callback fired when the value changes.           |
+| `min`            | `number`                    | —              | Minimum allowed value.                           |
+| `max`            | `number`                    | —              | Maximum allowed value.                           |
+| `step`           | `number`                    | `1`            | Increment/decrement amount per step.             |
+| `precision`      | `number`                    | `0`            | Number of decimal places to display and allow.   |
+| `variant`        | `"default" \| "primary"`    | `"default"`    | Visual variant.                                  |
+| `size`           | `"sm" \| "md" \| "lg"`      | `"md"`         | Size variant.                                    |
+| `disabled`       | `boolean`                   | `false`        | Disables all interaction.                        |
+| `readOnly`       | `boolean`                   | `false`        | Prevents value changes while keeping it visible. |
+| `formatValue`    | `(value: number) => string` | `v.toFixed(n)` | Custom display format function.                  |
+| `parseValue`     | `(raw: string) => number`   | —              | Custom parse function for direct text input.     |
+| `incrementLabel` | `string`                    | `"Increment"`  | Accessible label for the + button.               |
+| `decrementLabel` | `string`                    | `"Decrement"`  | Accessible label for the − button.               |
+| `aria-label`     | `string`                    | —              | Accessible label for the spinbutton container.   |
+| `className`      | `string`                    | —              | Additional CSS classes on the container.         |
+
+## Keyboard Navigation
+
+| Key               | Behavior                                    |
+| ----------------- | ------------------------------------------- |
+| `Arrow Up`        | Increase by one step                        |
+| `Arrow Down`      | Decrease by one step                        |
+| `Shift + ↑`       | Increase by 10× the step                    |
+| `Shift + ↓`       | Decrease by 10× the step                    |
+| `Home`            | Set to minimum value                        |
+| `End`             | Set to maximum value                        |
+| `Enter` / Click   | Opens direct text input mode                |
+| `Enter` (in edit) | Commits the typed value                     |
+| `Escape` (edit)   | Cancels editing and restores previous value |
+
+## Motion
+
+The value display uses the `numberRoll` preset — digits animate with a vertical slide (`y: 6px → 0`, `opacity: 0 → 1`) on each change via `AnimatePresence`. This gives a tactile "odometer" feel. The animation is skipped when `prefers-reduced-motion` is active.
+
+## Accessibility
+
+- Root element uses `role="spinbutton"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-disabled`, and `aria-readonly`.
+- `+` and `−` buttons have descriptive `aria-label` attributes.
+- The value display button announces `"Current value: X, press to edit"` for screen readers.
+- In edit mode, the `<input>` uses `inputMode="decimal"` for mobile numeric keyboards.
+- Min/max clamping is enforced on blur — invalid entries are silently corrected.
+- All keyboard interactions are WCAG AA compliant for `spinbutton` role.
+
+## Design Tokens
+
+| Token             | Usage                           |
+| ----------------- | ------------------------------- |
+| `--input`         | Border color (default variant)  |
+| `--primary`       | Border color (primary variant)  |
+| `--ring`          | Focus ring color                |
+| `--accent`        | Stepper button hover background |
+| `--radius-md`     | Container border radius         |
+| `--duration-fast` | Transition speed                |
+
+</ComponentPage>

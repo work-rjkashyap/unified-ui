@@ -36,16 +36,16 @@
 //   </Accordion>
 // ============================================================================
 
-import { Accordion as AccordionPrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Accordion as AccordionPrimitive } from "radix-ui";
 import {
-	type ComponentPropsWithoutRef,
-	createContext,
-	forwardRef,
-	type ReactNode,
-	useContext,
+  type ComponentPropsWithoutRef,
+  createContext,
+  forwardRef,
+  type ReactNode,
+  useContext,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -53,17 +53,17 @@ import {
 // ---------------------------------------------------------------------------
 
 interface AccordionContextValue {
-	variant: AccordionVariant;
-	size: AccordionSize;
+  variant: AccordionVariant;
+  size: AccordionSize;
 }
 
 const AccordionContext = createContext<AccordionContextValue>({
-	variant: "bordered",
-	size: "md",
+  variant: "bordered",
+  size: "md",
 });
 
 function useAccordionContext(): AccordionContextValue {
-	return useContext(AccordionContext);
+  return useContext(AccordionContext);
 }
 
 // ---------------------------------------------------------------------------
@@ -71,97 +71,97 @@ function useAccordionContext(): AccordionContextValue {
 // ---------------------------------------------------------------------------
 
 export const accordionRootVariants = cva(["flex flex-col"], {
-	variants: {
-		variant: {
-			/**
-			 * Bordered — each item has a visible border separator.
-			 * Default variant for most use cases.
-			 */
-			bordered: "divide-y divide-border",
+  variants: {
+    variant: {
+      /**
+       * Bordered — each item has a visible border separator.
+       * Default variant for most use cases.
+       */
+      bordered: "divide-y divide-border",
 
-			/**
-			 * Borderless — no visible borders between items.
-			 * Use for tighter layouts or when embedded inside cards.
-			 */
-			borderless: "",
-		},
-	},
-	defaultVariants: {
-		variant: "bordered",
-	},
+      /**
+       * Borderless — no visible borders between items.
+       * Use for tighter layouts or when embedded inside cards.
+       */
+      borderless: "",
+    },
+  },
+  defaultVariants: {
+    variant: "bordered",
+  },
 });
 
 export const accordionTriggerVariants = cva(
-	[
-		// Layout
-		"flex flex-1 items-center justify-between w-full",
-		// Typography
-		"font-medium text-foreground",
-		// Transition
-		"transition-[color,background-color,opacity]",
-		"duration-fast ease-standard",
-		// Focus ring
-		focusRingClasses,
-		// Hover
-		"hover:text-foreground hover:underline",
-		// Disabled
-		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
-		// Cursor
-		"cursor-pointer",
-		// Chevron rotation on open
-		"[&>svg]:transition-transform [&>svg]:duration-normal [&>svg]:ease-standard",
-		"[&[data-state=open]>svg]:rotate-180",
-	],
-	{
-		variants: {
-			size: {
-				/**
-				 * Small — compact for dense UIs, sidebars.
-				 */
-				sm: "py-3 text-sm leading-5",
+  [
+    // Layout
+    "flex flex-1 items-center justify-between w-full",
+    // Typography
+    "font-medium text-foreground",
+    // Transition
+    "transition-[color,background-color,opacity]",
+    "duration-fast ease-standard",
+    // Focus ring
+    focusRingClasses,
+    // Hover
+    "hover:text-foreground hover:underline",
+    // Disabled
+    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
+    // Cursor
+    "cursor-pointer",
+    // Chevron rotation on open
+    "[&>svg]:transition-transform [&>svg]:duration-normal [&>svg]:ease-standard",
+    "[&[data-state=open]>svg]:rotate-180",
+  ],
+  {
+    variants: {
+      size: {
+        /**
+         * Small — compact for dense UIs, sidebars.
+         */
+        sm: "py-3 text-sm leading-5",
 
-				/**
-				 * Medium — default size for most accordions.
-				 */
-				md: "py-4 text-sm leading-5",
-			},
-		},
-		defaultVariants: {
-			size: "md",
-		},
-	},
+        /**
+         * Medium — default size for most accordions.
+         */
+        md: "py-4 text-sm leading-5",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  },
 );
 
 export const accordionContentVariants = cva(
-	[
-		// Animate expand/collapse using CSS grid trick
-		"overflow-hidden",
-		"data-[state=closed]:animate-accordion-up",
-		"data-[state=open]:animate-accordion-down",
-	],
-	{
-		variants: {
-			size: {
-				sm: "text-sm leading-5",
-				md: "text-sm leading-5",
-			},
-		},
-		defaultVariants: {
-			size: "md",
-		},
-	},
+  [
+    // Animate expand/collapse using CSS grid trick
+    "overflow-hidden",
+    "data-[state=closed]:animate-accordion-up",
+    "data-[state=open]:animate-accordion-down",
+  ],
+  {
+    variants: {
+      size: {
+        sm: "text-sm leading-5",
+        md: "text-sm leading-5",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  },
 );
 
 const accordionContentInnerVariants = cva(["text-muted-foreground"], {
-	variants: {
-		size: {
-			sm: "pb-3",
-			md: "pb-4",
-		},
-	},
-	defaultVariants: {
-		size: "md",
-	},
+  variants: {
+    size: {
+      sm: "pb-3",
+      md: "pb-4",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
 });
 
 // ---------------------------------------------------------------------------
@@ -175,68 +175,63 @@ export type AccordionSize = "sm" | "md";
  * Props for a single-mode accordion (only one item open at a time).
  */
 export interface AccordionSingleProps
-	extends
-		Omit<
-			ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>,
-			"type" | "asChild"
-		>,
-		VariantProps<typeof accordionRootVariants> {
-	type: "single";
-	/** Visual variant of the accordion. @default "bordered" */
-	variant?: AccordionVariant;
-	/** Size of the accordion items. @default "md" */
-	size?: AccordionSize;
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+  extends Omit<
+      ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>,
+      "type" | "asChild"
+    >,
+    VariantProps<typeof accordionRootVariants> {
+  type: "single";
+  /** Visual variant of the accordion. @default "bordered" */
+  variant?: AccordionVariant;
+  /** Size of the accordion items. @default "md" */
+  size?: AccordionSize;
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
 /**
  * Props for a multiple-mode accordion (multiple items can be open).
  */
 export interface AccordionMultipleProps
-	extends
-		Omit<
-			ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>,
-			"type" | "asChild"
-		>,
-		VariantProps<typeof accordionRootVariants> {
-	type: "multiple";
-	/** Visual variant of the accordion. @default "bordered" */
-	variant?: AccordionVariant;
-	/** Size of the accordion items. @default "md" */
-	size?: AccordionSize;
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+  extends Omit<
+      ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>,
+      "type" | "asChild"
+    >,
+    VariantProps<typeof accordionRootVariants> {
+  type: "multiple";
+  /** Visual variant of the accordion. @default "bordered" */
+  variant?: AccordionVariant;
+  /** Size of the accordion items. @default "md" */
+  size?: AccordionSize;
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
 export type AccordionProps = AccordionSingleProps | AccordionMultipleProps;
 
-export interface AccordionItemProps extends ComponentPropsWithoutRef<
-	typeof AccordionPrimitive.Item
-> {
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+export interface AccordionItemProps
+  extends ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
-export interface AccordionTriggerProps extends ComponentPropsWithoutRef<
-	typeof AccordionPrimitive.Trigger
-> {
-	/** Additional CSS classes. */
-	className?: string;
-	/** Whether to hide the chevron icon. @default false */
-	hideChevron?: boolean;
-	children: ReactNode;
+export interface AccordionTriggerProps
+  extends ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> {
+  /** Additional CSS classes. */
+  className?: string;
+  /** Whether to hide the chevron icon. @default false */
+  hideChevron?: boolean;
+  children: ReactNode;
 }
 
-export interface AccordionContentProps extends ComponentPropsWithoutRef<
-	typeof AccordionPrimitive.Content
-> {
-	/** Additional CSS classes. */
-	className?: string;
-	children: ReactNode;
+export interface AccordionContentProps
+  extends ComponentPropsWithoutRef<typeof AccordionPrimitive.Content> {
+  /** Additional CSS classes. */
+  className?: string;
+  children: ReactNode;
 }
 
 // ---------------------------------------------------------------------------
@@ -244,21 +239,21 @@ export interface AccordionContentProps extends ComponentPropsWithoutRef<
 // ---------------------------------------------------------------------------
 
 function ChevronDownIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			className={className}
-			aria-hidden="true"
-		>
-			<path d="m6 9 6 6 6-6" />
-		</svg>
-	);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -305,31 +300,41 @@ function ChevronDownIcon({ className }: { className?: string }) {
  * ```
  */
 export const Accordion = forwardRef<
-	React.ComponentRef<typeof AccordionPrimitive.Root>,
-	AccordionProps
+  React.ComponentRef<typeof AccordionPrimitive.Root>,
+  AccordionProps
 >(function Accordion(
-	{ variant = "bordered", size = "md", className, children, ...rest },
-	ref,
+  { variant = "bordered", size = "md", className, children, ...rest },
+  ref,
 ) {
-	return (
-		<AccordionContext.Provider value={{ variant, size }}>
-			{/* The rest spread carries `type` plus Radix-specific props.
-			    We cast to any because TS cannot narrow a discriminated union
-			    through object spread — the types are validated at the
-			    component boundary via AccordionProps. */}
-			<AccordionPrimitive.Root
-				ref={ref}
-				className={cn("not-prose", accordionRootVariants({ variant }), className)}
-				data-ds=""
-				data-ds-component="accordion"
-				data-ds-variant={variant}
-				data-ds-size={size}
-				{...(rest as any)}
-			>
-				{children}
-			</AccordionPrimitive.Root>
-		</AccordionContext.Provider>
-	);
+  return (
+    <AccordionContext.Provider value={{ variant, size }}>
+      {/* The rest spread carries `type` plus Radix-specific props.
+				    TS cannot narrow a discriminated union through object spread, so we
+				    cast to the union of the two concrete Radix Root prop shapes —
+				    safer than `any` and validated at the component boundary. */}
+      <AccordionPrimitive.Root
+        ref={ref}
+        className={cn(
+          "not-prose",
+          accordionRootVariants({ variant }),
+          className,
+        )}
+        data-ds=""
+        data-ds-component="accordion"
+        data-ds-variant={variant}
+        data-ds-size={size}
+        {...(rest as
+          | React.ComponentPropsWithoutRef<
+              typeof AccordionPrimitive.Root & { type: "single" }
+            >
+          | React.ComponentPropsWithoutRef<
+              typeof AccordionPrimitive.Root & { type: "multiple" }
+            >)}
+      >
+        {children}
+      </AccordionPrimitive.Root>
+    </AccordionContext.Provider>
+  );
 });
 
 Accordion.displayName = "Accordion";
@@ -352,20 +357,20 @@ Accordion.displayName = "Accordion";
  * ```
  */
 export const AccordionItem = forwardRef<
-	React.ComponentRef<typeof AccordionPrimitive.Item>,
-	AccordionItemProps
+  React.ComponentRef<typeof AccordionPrimitive.Item>,
+  AccordionItemProps
 >(function AccordionItem({ className, children, ...rest }, ref) {
-	return (
-		<AccordionPrimitive.Item
-			ref={ref}
-			className={cn("", className)}
-			data-ds=""
-			data-ds-component="accordion-item"
-			{...rest}
-		>
-			{children}
-		</AccordionPrimitive.Item>
-	);
+  return (
+    <AccordionPrimitive.Item
+      ref={ref}
+      className={cn("", className)}
+      data-ds=""
+      data-ds-component="accordion-item"
+      {...rest}
+    >
+      {children}
+    </AccordionPrimitive.Item>
+  );
 });
 
 AccordionItem.displayName = "AccordionItem";
@@ -387,30 +392,30 @@ AccordionItem.displayName = "AccordionItem";
  * ```
  */
 export const AccordionTrigger = forwardRef<
-	React.ComponentRef<typeof AccordionPrimitive.Trigger>,
-	AccordionTriggerProps
+  React.ComponentRef<typeof AccordionPrimitive.Trigger>,
+  AccordionTriggerProps
 >(function AccordionTrigger(
-	{ className, hideChevron = false, children, ...rest },
-	ref,
+  { className, hideChevron = false, children, ...rest },
+  ref,
 ) {
-	const { size } = useAccordionContext();
+  const { size } = useAccordionContext();
 
-	return (
-		<AccordionPrimitive.Header className="flex">
-			<AccordionPrimitive.Trigger
-				ref={ref}
-				className={cn(accordionTriggerVariants({ size }), className)}
-				data-ds=""
-				data-ds-component="accordion-trigger"
-				{...rest}
-			>
-				{children}
-				{!hideChevron && (
-					<ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
-				)}
-			</AccordionPrimitive.Trigger>
-		</AccordionPrimitive.Header>
-	);
+  return (
+    <AccordionPrimitive.Header className="flex">
+      <AccordionPrimitive.Trigger
+        ref={ref}
+        className={cn(accordionTriggerVariants({ size }), className)}
+        data-ds=""
+        data-ds-component="accordion-trigger"
+        {...rest}
+      >
+        {children}
+        {!hideChevron && (
+          <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
+        )}
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  );
 });
 
 AccordionTrigger.displayName = "AccordionTrigger";
@@ -446,24 +451,24 @@ AccordionTrigger.displayName = "AccordionTrigger";
  * ```
  */
 export const AccordionContent = forwardRef<
-	React.ComponentRef<typeof AccordionPrimitive.Content>,
-	AccordionContentProps
+  React.ComponentRef<typeof AccordionPrimitive.Content>,
+  AccordionContentProps
 >(function AccordionContent({ className, children, ...rest }, ref) {
-	const { size } = useAccordionContext();
+  const { size } = useAccordionContext();
 
-	return (
-		<AccordionPrimitive.Content
-			ref={ref}
-			className={cn(accordionContentVariants({ size }), className)}
-			data-ds=""
-			data-ds-component="accordion-content"
-			{...rest}
-		>
-			<div className={cn(accordionContentInnerVariants({ size }))}>
-				{children}
-			</div>
-		</AccordionPrimitive.Content>
-	);
+  return (
+    <AccordionPrimitive.Content
+      ref={ref}
+      className={cn(accordionContentVariants({ size }), className)}
+      data-ds=""
+      data-ds-component="accordion-content"
+      {...rest}
+    >
+      <div className={cn(accordionContentInnerVariants({ size }))}>
+        {children}
+      </div>
+    </AccordionPrimitive.Content>
+  );
 });
 
 AccordionContent.displayName = "AccordionContent";

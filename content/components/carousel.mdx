@@ -1,0 +1,495 @@
+---
+title: Carousel
+description: A horizontal or vertical carousel with animated slide transitions, navigation arrows, dot indicators, and optional autoplay. Built with Framer Motion.
+icon: GalleryHorizontal
+---
+
+import {
+  Carousel,
+  Button,
+  Card,
+  Badge,
+} from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Carousel"
+  description="A fully-featured carousel with animated slide transitions, previous/next arrows, dot indicators, autoplay, loop mode, and keyboard-accessible controls."
+  preview={
+    <div className="w-full max-w-lg">
+      <Carousel
+        items={[
+          <div className="flex items-center justify-center h-40 rounded-lg bg-primary/10 text-primary font-semibold text-lg">Slide 1</div>,
+          <div className="flex items-center justify-center h-40 rounded-lg bg-success/10 text-success font-semibold text-lg">Slide 2</div>,
+          <div className="flex items-center justify-center h-40 rounded-lg bg-warning/10 text-warning font-semibold text-lg">Slide 3</div>,
+        ]}
+      />
+    </div>
+  }
+  code={`<Carousel
+  items={[
+    <div>Slide 1</div>,
+    <div>Slide 2</div>,
+    <div>Slide 3</div>,
+  ]}
+/>`}
+>
+
+## Import
+
+```tsx
+import { Carousel } from "@work-rjkashyap/unified-ui";
+// or
+import { Carousel } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Pass an array of `ReactNode` elements to `items`. The carousel manages its own internal index by default (uncontrolled).
+
+```tsx
+<Carousel
+  items={[
+    <img src="/slide-1.jpg" alt="Slide 1" className="w-full rounded-lg" />,
+    <img src="/slide-2.jpg" alt="Slide 2" className="w-full rounded-lg" />,
+    <img src="/slide-3.jpg" alt="Slide 3" className="w-full rounded-lg" />,
+  ]}
+/>
+```
+
+## Card Carousel
+
+A common pattern — cycling through card content.
+
+<ComponentPage
+  title="Card Carousel"
+  description="Each slide is a full card with content, suitable for testimonials, features, or media."
+  preview={
+    <div className="w-full max-w-lg">
+      <Carousel
+        items={[
+          <div className="p-6 bg-card border border-border rounded-lg flex flex-col gap-2 min-h-[160px]">
+            <div className="flex items-center gap-2">
+              <div className="size-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">RJ</div>
+              <div>
+                <p className="text-sm font-semibold">Rajeshwar Kashyap</p>
+                <p className="text-xs text-muted-foreground">Creator</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground leading-5">"Unified UI makes building consistent design systems effortless. The token system is exceptional."</p>
+          </div>,
+          <div className="p-6 bg-card border border-border rounded-lg flex flex-col gap-2 min-h-[160px]">
+            <div className="flex items-center gap-2">
+              <div className="size-8 rounded-full bg-success/20 flex items-center justify-center text-xs font-bold text-success">AK</div>
+              <div>
+                <p className="text-sm font-semibold">Alex Kumar</p>
+                <p className="text-xs text-muted-foreground">Frontend Engineer</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground leading-5">"The Framer Motion presets saved us weeks of animation work. Highly recommend."</p>
+          </div>,
+          <div className="p-6 bg-card border border-border rounded-lg flex flex-col gap-2 min-h-[160px]">
+            <div className="flex items-center gap-2">
+              <div className="size-8 rounded-full bg-info/20 flex items-center justify-center text-xs font-bold text-info">SP</div>
+              <div>
+                <p className="text-sm font-semibold">Sara Park</p>
+                <p className="text-xs text-muted-foreground">Design Systems Lead</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground leading-5">"CVA-powered variants mean our component APIs are always type-safe and consistent."</p>
+          </div>,
+        ]}
+      />
+    </div>
+  }
+  code={`<Carousel
+  items={[
+    <TestimonialCard
+      name="Rajeshwar Kashyap"
+      role="Creator"
+      quote="Unified UI makes building consistent design systems effortless."
+    />,
+    <TestimonialCard
+      name="Alex Kumar"
+      role="Frontend Engineer"
+      quote="The Framer Motion presets saved us weeks of animation work."
+    />,
+    <TestimonialCard
+      name="Sara Park"
+      role="Design Systems Lead"
+      quote="CVA-powered variants mean our component APIs are always type-safe."
+    />,
+  ]}
+/>`}
+/>
+
+## Autoplay
+
+Set `autoplay` to automatically advance slides at a configurable interval. Autoplay pauses when the user interacts with the carousel.
+
+<ComponentPage
+  title="Autoplay"
+  description="Slides advance automatically every 3 seconds (configurable). Loop is enabled by default."
+  preview={
+    <div className="w-full max-w-lg">
+      <Carousel
+        autoplay
+        autoplayInterval={2500}
+        loop
+        items={[
+          <div className="flex items-center justify-center h-32 rounded-lg bg-primary/10 border border-primary/20 text-primary font-semibold">Slide 1 — Auto</div>,
+          <div className="flex items-center justify-center h-32 rounded-lg bg-success/10 border border-success/20 text-success font-semibold">Slide 2 — Auto</div>,
+          <div className="flex items-center justify-center h-32 rounded-lg bg-warning/10 border border-warning/20 text-warning font-semibold">Slide 3 — Auto</div>,
+          <div className="flex items-center justify-center h-32 rounded-lg bg-info/10 border border-info/20 text-info font-semibold">Slide 4 — Auto</div>,
+        ]}
+      />
+    </div>
+  }
+  code={`<Carousel
+  autoplay
+  autoplayInterval={3000}
+  loop
+  items={slides}
+/>`}
+/>
+
+```tsx
+<Carousel
+  autoplay
+  autoplayInterval={3000}
+  loop
+  items={[
+    <SlideA />,
+    <SlideB />,
+    <SlideC />,
+  ]}
+/>
+```
+
+## Without Arrows or Dots
+
+Disable navigation controls for minimal, gesture-only carousels.
+
+<ComponentPage
+  title="Controls Toggle"
+  description="Arrows and dots can be independently shown or hidden."
+  preview={
+    <div className="w-full max-w-lg flex flex-col gap-4">
+      <div>
+        <p className="text-xs text-muted-foreground mb-2">No arrows, dots only</p>
+        <Carousel
+          showArrows={false}
+          items={[
+            <div className="flex items-center justify-center h-28 rounded-lg bg-primary/10 text-primary font-semibold">Slide 1</div>,
+            <div className="flex items-center justify-center h-28 rounded-lg bg-success/10 text-success font-semibold">Slide 2</div>,
+            <div className="flex items-center justify-center h-28 rounded-lg bg-warning/10 text-warning font-semibold">Slide 3</div>,
+          ]}
+        />
+      </div>
+      <div>
+        <p className="text-xs text-muted-foreground mb-2">Arrows only, no dots</p>
+        <Carousel
+          showDots={false}
+          items={[
+            <div className="flex items-center justify-center h-28 rounded-lg bg-primary/10 text-primary font-semibold">Slide 1</div>,
+            <div className="flex items-center justify-center h-28 rounded-lg bg-success/10 text-success font-semibold">Slide 2</div>,
+            <div className="flex items-center justify-center h-28 rounded-lg bg-warning/10 text-warning font-semibold">Slide 3</div>,
+          ]}
+        />
+      </div>
+    </div>
+  }
+  code={`{/* Dots only */}
+<Carousel showArrows={false} items={slides} />
+
+{/* Arrows only */}
+<Carousel showDots={false} items={slides} />
+
+{/* No controls */}
+<Carousel showArrows={false} showDots={false} items={slides} />`}
+/>
+
+## No Loop
+
+Set `loop={false}` to disable wrapping — arrow buttons are disabled at the first and last slides.
+
+```tsx
+<Carousel
+  loop={false}
+  items={[
+    <SlideA />,
+    <SlideB />,
+    <SlideC />,
+  ]}
+/>
+```
+
+## Controlled
+
+Use `index` and `onIndexChange` for external control of the active slide.
+
+```tsx
+const [current, setCurrent] = useState(0);
+const total = slides.length;
+
+<div className="flex flex-col gap-4">
+  <Carousel
+    index={current}
+    onIndexChange={setCurrent}
+    items={slides}
+    showDots={false}
+  />
+
+  {/* External step indicator */}
+  <div className="flex items-center justify-between text-sm text-muted-foreground">
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => setCurrent((c) => Math.max(0, c - 1))}
+      disabled={current === 0}
+    >
+      ← Previous
+    </Button>
+    <span>
+      {current + 1} / {total}
+    </span>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => setCurrent((c) => Math.min(total - 1, c + 1))}
+      disabled={current === total - 1}
+    >
+      Next →
+    </Button>
+  </div>
+</div>
+```
+
+## Default Index
+
+Set the starting slide with `defaultIndex`.
+
+```tsx
+{/* Start on the third slide */}
+<Carousel
+  defaultIndex={2}
+  items={[<SlideA />, <SlideB />, <SlideC />, <SlideD />]}
+/>
+```
+
+## Item Class
+
+Use `itemClassName` to apply additional classes to each slide wrapper — useful for setting aspect ratios, min-heights, or padding.
+
+```tsx
+<Carousel
+  itemClassName="aspect-video"
+  items={[
+    <img src="/photo-1.jpg" className="w-full h-full object-cover rounded-lg" />,
+    <img src="/photo-2.jpg" className="w-full h-full object-cover rounded-lg" />,
+    <img src="/photo-3.jpg" className="w-full h-full object-cover rounded-lg" />,
+  ]}
+/>
+```
+
+## Feature Highlight Carousel
+
+A typical use case for product landing pages.
+
+```tsx
+const features = [
+  {
+    title: "Token-Driven Design",
+    description: "Every color, spacing value, and radius comes from CSS custom properties.",
+    icon: <Layers className="size-6" />,
+    color: "text-primary",
+  },
+  {
+    title: "Motion Presets",
+    description: "15+ Framer Motion presets for entrance, hover, and interaction animations.",
+    icon: <Zap className="size-6" />,
+    color: "text-success",
+  },
+  {
+    title: "Fully Accessible",
+    description: "Built on Radix UI primitives with WCAG AA keyboard and ARIA support.",
+    icon: <Shield className="size-6" />,
+    color: "text-info",
+  },
+];
+
+<Carousel
+  loop
+  autoplay
+  autoplayInterval={4000}
+  items={features.map((feature) => (
+    <div
+      key={feature.title}
+      className="flex flex-col items-center text-center gap-4 py-10 px-8"
+    >
+      <div className={cn("p-3 rounded-xl bg-muted", feature.color)}>
+        {feature.icon}
+      </div>
+      <h3 className="text-lg font-semibold">{feature.title}</h3>
+      <p className="text-sm text-muted-foreground max-w-xs">
+        {feature.description}
+      </p>
+    </div>
+  ))}
+/>
+```
+
+## Image Gallery
+
+```tsx
+const photos = [
+  { src: "/gallery/1.jpg", alt: "Mountain vista at sunrise" },
+  { src: "/gallery/2.jpg", alt: "Forest path in autumn" },
+  { src: "/gallery/3.jpg", alt: "Ocean waves at dusk" },
+  { src: "/gallery/4.jpg", alt: "City skyline at night" },
+];
+
+<Carousel
+  itemClassName="aspect-video"
+  loop
+  items={photos.map((photo) => (
+    <img
+      key={photo.src}
+      src={photo.src}
+      alt={photo.alt}
+      className="w-full h-full object-cover rounded-lg"
+    />
+  ))}
+/>
+```
+
+## Onboarding Stepper
+
+Combine with controlled mode for a linear onboarding flow.
+
+```tsx
+const steps = [
+  {
+    step: 1,
+    title: "Connect your repository",
+    description: "Link your GitHub, GitLab, or Bitbucket account to get started.",
+  },
+  {
+    step: 2,
+    title: "Configure your project",
+    description: "Select your framework, set environment variables, and define build settings.",
+  },
+  {
+    step: 3,
+    title: "Deploy",
+    description: "Your first deployment is triggered automatically after configuration.",
+  },
+];
+
+function OnboardingFlow() {
+  const [step, setStep] = useState(0);
+
+  return (
+    <div className="flex flex-col gap-6 max-w-lg mx-auto">
+      {/* Progress */}
+      <div className="flex gap-2">
+        {steps.map((s, i) => (
+          <div
+            key={i}
+            className={cn(
+              "flex-1 h-1 rounded-full transition-colors",
+              i <= step ? "bg-primary" : "bg-muted"
+            )}
+          />
+        ))}
+      </div>
+
+      {/* Slides */}
+      <Carousel
+        index={step}
+        onIndexChange={setStep}
+        showArrows={false}
+        showDots={false}
+        loop={false}
+        items={steps.map((s) => (
+          <div key={s.step} className="flex flex-col gap-3 px-2 py-6">
+            <p className="text-xs font-medium text-muted-foreground">
+              Step {s.step} of {steps.length}
+            </p>
+            <h2 className="text-xl font-bold">{s.title}</h2>
+            <p className="text-sm text-muted-foreground">{s.description}</p>
+          </div>
+        ))}
+      />
+
+      {/* Controls */}
+      <div className="flex justify-between">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setStep((s) => s - 1)}
+          disabled={step === 0}
+        >
+          Back
+        </Button>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => step < steps.length - 1
+            ? setStep((s) => s + 1)
+            : handleComplete()
+          }
+        >
+          {step === steps.length - 1 ? "Finish" : "Next →"}
+        </Button>
+      </div>
+    </div>
+  );
+}
+```
+
+## Props
+
+| Prop               | Type                                  | Default        | Description                                                          |
+| ------------------ | ------------------------------------- | -------------- | -------------------------------------------------------------------- |
+| `items`            | `ReactNode[]`                         | —              | **Required.** Array of slide content to render.                      |
+| `defaultIndex`     | `number`                              | `0`            | Initial slide index for uncontrolled mode.                           |
+| `index`            | `number`                              | —              | Controlled slide index.                                              |
+| `onIndexChange`    | `(index: number) => void`             | —              | Callback fired when the active slide changes.                        |
+| `orientation`      | `"horizontal" \| "vertical"`          | `"horizontal"` | Slide transition direction.                                          |
+| `autoplay`         | `boolean`                             | `false`        | Automatically advance slides.                                        |
+| `autoplayInterval` | `number`                              | `3000`         | Milliseconds between auto-advances.                                  |
+| `loop`             | `boolean`                             | `true`         | Whether to wrap from last slide to first (and vice versa).           |
+| `showArrows`       | `boolean`                             | `true`         | Whether to show previous/next arrow buttons.                         |
+| `showDots`         | `boolean`                             | `true`         | Whether to show dot navigation indicators.                           |
+| `className`        | `string`                              | —              | Additional CSS classes on the root container.                        |
+| `itemClassName`    | `string`                              | —              | CSS classes applied to each slide wrapper element.                   |
+
+## Motion
+
+- **Slide transition** — Each slide animates in from `100%` (right/bottom) and exits to `-100%` (left/top) using `AnimatePresence mode="wait"`. Direction reverses when navigating backwards.
+- **Reduced motion** — When `prefers-reduced-motion` is active, slides use a simple `opacity` cross-fade instead of positional transforms.
+- Transition: `duration: 0.35s`, `ease: [0.4, 0, 0.2, 1]` (standard easing).
+
+## Accessibility
+
+- Root element has `aria-roledescription="carousel"` and `aria-label="Content carousel"`.
+- Each active slide has `aria-roledescription="slide"` and `aria-label="Slide N of M"`.
+- Previous/Next arrow buttons have descriptive `aria-label` attributes.
+- Dot buttons have `aria-label="Go to slide N"` and `aria-current="true"` for the active dot.
+- Arrow buttons are `disabled` (and not just visually hidden) when `loop={false}` and at the boundary slides.
+- All interactive controls are keyboard accessible via `Tab` + `Enter`/`Space`.
+- For autoplay carousels, consider adding a pause button accessible to keyboard and screen reader users, or pausing on focus.
+
+## Design Tokens
+
+| Token            | Usage                             |
+| ---------------- | --------------------------------- |
+| `--background`   | Arrow button and dot background   |
+| `--border`       | Arrow button border               |
+| `--foreground`   | Arrow icon color                  |
+| `--radius-full`  | Arrow button and dot border radius|
+| `--radius-lg`    | Carousel container border radius  |
+| `--shadow-sm`    | Arrow button shadow               |
+| `--duration-fast`| Arrow button hover transition     |
+
+</ComponentPage>

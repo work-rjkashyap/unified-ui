@@ -1,0 +1,345 @@
+---
+title: Empty State
+description: A placeholder component for empty lists, tables, and views. Features animated icon entrance, title, description, and a call-to-action slot.
+icon: Inbox
+---
+
+import {
+  EmptyState,
+  Button,
+} from "@work-rjkashyap/unified-ui";
+import { FolderOpen, Search, Users, FileText, ShoppingCart, Bell } from "lucide-react";
+
+<ComponentPage
+  title="Empty State"
+  description="A composable placeholder for empty lists, search results, tables, and views. Features animated icon, title, description, and a flexible action slot."
+  preview={
+    <EmptyState
+      title="No components yet"
+      description="Get started by adding your first component to the design system."
+      action={
+        <Button variant="primary" size="sm">
+          Add Component
+        </Button>
+      }
+    />
+  }
+  code={`<EmptyState
+  title="No components yet"
+  description="Get started by adding your first component to the design system."
+  action={
+    <Button variant="primary" size="sm">
+      Add Component
+    </Button>
+  }
+/>`}
+>
+
+## Import
+
+```tsx
+import { EmptyState } from "@work-rjkashyap/unified-ui";
+// or
+import { EmptyState } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The simplest empty state with just a title and description.
+
+```tsx
+<EmptyState
+  title="Nothing here yet"
+  description="Items you create will appear here."
+/>
+```
+
+## With Action
+
+Add a `action` prop to render a call-to-action below the description.
+
+<ComponentPage
+  title="With Action"
+  description="Render a CTA button or link below the description to guide the user."
+  preview={
+    <EmptyState
+      title="No projects found"
+      description="You haven't created any projects yet. Start building something great."
+      action={
+        <div className="flex gap-2">
+          <Button variant="primary" size="sm">New Project</Button>
+          <Button variant="secondary" size="sm">Import</Button>
+        </div>
+      }
+    />
+  }
+  code={`<EmptyState
+  title="No projects found"
+  description="You haven't created any projects yet. Start building something great."
+  action={
+    <div className="flex gap-2">
+      <Button variant="primary" size="sm">New Project</Button>
+      <Button variant="secondary" size="sm">Import</Button>
+    </div>
+  }
+/>`}
+/>
+
+## Custom Icon
+
+Replace the default inbox icon with any `ReactNode` via the `icon` prop.
+
+<ComponentPage
+  title="Custom Icon"
+  description="Swap the default icon for any Lucide icon or custom element."
+  preview={
+    <div className="grid grid-cols-2 gap-6">
+      <EmptyState
+        icon={<Search className="size-8" />}
+        title="No results"
+        description="Try adjusting your search or filters."
+      />
+      <EmptyState
+        icon={<Users className="size-8" />}
+        title="No team members"
+        description="Invite people to collaborate on your project."
+        action={<Button variant="primary" size="sm">Invite Members</Button>}
+      />
+    </div>
+  }
+  code={`import { Search, Users } from "lucide-react";
+
+<EmptyState
+  icon={<Search className="size-8" />}
+  title="No results"
+  description="Try adjusting your search or filters."
+/>
+
+<EmptyState
+  icon={<Users className="size-8" />}
+  title="No team members"
+  description="Invite people to collaborate on your project."
+  action={<Button variant="primary" size="sm">Invite Members</Button>}
+/>`}
+/>
+
+## Contextual Variants
+
+Use different icons and copy to match the specific empty context.
+
+<ComponentPage
+  title="Contextual Examples"
+  description="Tailor the icon, title, and description to the specific empty context."
+  preview={
+    <div className="grid grid-cols-3 gap-4">
+      <EmptyState
+        icon={<FolderOpen className="size-7" />}
+        title="No files"
+        description="Upload a file to get started."
+        action={<Button variant="secondary" size="sm">Upload</Button>}
+      />
+      <EmptyState
+        icon={<ShoppingCart className="size-7" />}
+        title="Cart is empty"
+        description="Add items to your cart to see them here."
+        action={<Button variant="secondary" size="sm">Browse</Button>}
+      />
+      <EmptyState
+        icon={<Bell className="size-7" />}
+        title="All caught up"
+        description="No new notifications at this time."
+      />
+    </div>
+  }
+  code={`import { FolderOpen, ShoppingCart, Bell } from "lucide-react";
+
+{/* Files */}
+<EmptyState
+  icon={<FolderOpen className="size-7" />}
+  title="No files"
+  description="Upload a file to get started."
+  action={<Button variant="secondary" size="sm">Upload</Button>}
+/>
+
+{/* Cart */}
+<EmptyState
+  icon={<ShoppingCart className="size-7" />}
+  title="Cart is empty"
+  description="Add items to your cart to see them here."
+  action={<Button variant="secondary" size="sm">Browse</Button>}
+/>
+
+{/* Notifications */}
+<EmptyState
+  icon={<Bell className="size-7" />}
+  title="All caught up"
+  description="No new notifications at this time."
+/>`}
+/>
+
+## No Icon
+
+Pass `icon={null}` to render the empty state without any icon — useful for compact in-table or inline contexts.
+
+<ComponentPage
+  title="No Icon"
+  description="Pass icon={null} to hide the icon for compact empty states."
+  preview={
+    <EmptyState
+      icon={null}
+      title="No results match your filters"
+      description="Try removing some filters or broadening your search terms."
+      action={<Button variant="ghost" size="sm">Clear Filters</Button>}
+    />
+  }
+  code={`<EmptyState
+  icon={null}
+  title="No results match your filters"
+  description="Try removing some filters or broadening your search terms."
+  action={<Button variant="ghost" size="sm">Clear Filters</Button>}
+/>`}
+/>
+
+## Custom Children
+
+Use `children` to render any extra content between the description and the action slot.
+
+```tsx
+<EmptyState
+  icon={<FileText className="size-8" />}
+  title="No documents"
+  description="Create your first document to get started."
+>
+  <div className="flex flex-col gap-1 text-xs text-muted-foreground">
+    <p>Supported formats: PDF, DOCX, MD</p>
+    <p>Max size: 25 MB per file</p>
+  </div>
+</EmptyState>
+```
+
+## In a Table
+
+A typical pattern is rendering `EmptyState` inside the table body when there are no rows.
+
+```tsx
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    {data.length === 0 ? (
+      <tr>
+        <td colSpan={3}>
+          <EmptyState
+            icon={<FileText className="size-7" />}
+            title="No records found"
+            description="Create your first record to see it here."
+            action={
+              <Button variant="primary" size="sm">
+                Create Record
+              </Button>
+            }
+            className="py-10"
+          />
+        </td>
+      </tr>
+    ) : (
+      data.map((row) => <TableRow key={row.id} {...row} />)
+    )}
+  </tbody>
+</table>
+```
+
+## In a Card
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Recent Activity</CardTitle>
+  </CardHeader>
+  <CardBody>
+    <EmptyState
+      icon={<Bell className="size-7" />}
+      title="No activity yet"
+      description="Actions you take will appear here."
+      className="py-8"
+    />
+  </CardBody>
+</Card>
+```
+
+## After Search
+
+```tsx
+function SearchResults({ query, results }) {
+  if (results.length === 0) {
+    return (
+      <EmptyState
+        icon={<Search className="size-8" />}
+        title={`No results for "${query}"`}
+        description="Try different keywords or check for typos."
+        action={
+          <Button variant="ghost" size="sm" onClick={clearSearch}>
+            Clear Search
+          </Button>
+        }
+      />
+    );
+  }
+
+  return <ResultList results={results} />;
+}
+```
+
+## Without Animation
+
+Set `animated={false}` to disable entrance animations — useful when rendering inside already-animated containers.
+
+```tsx
+<EmptyState
+  title="No data available"
+  description="Check back later."
+  animated={false}
+/>
+```
+
+## Props
+
+| Prop          | Type        | Default | Description                                                               |
+| ------------- | ----------- | ------- | ------------------------------------------------------------------------- |
+| `icon`        | `ReactNode` | —       | Custom icon. Defaults to an inbox icon. Pass `null` to hide the icon.     |
+| `title`       | `ReactNode` | —       | Heading text displayed below the icon.                                    |
+| `description` | `ReactNode` | —       | Supporting text displayed below the title.                                |
+| `action`      | `ReactNode` | —       | Call-to-action element rendered below the description.                    |
+| `animated`    | `boolean`   | `true`  | Whether to enable entrance animations.                                    |
+| `className`   | `string`    | —       | Additional CSS classes on the root container.                             |
+| `children`    | `ReactNode` | —       | Extra content rendered between the description and the action slot.       |
+
+## Motion
+
+- **Icon** — Uses the `scaleIn` preset (`scale: 0.85 → 1`, `opacity: 0 → 1`, spring with `stiffness: 300, damping: 24`).
+- **Text block** — Uses the `fadeIn` preset with a `150ms` delay, so the text appears slightly after the icon settles.
+- **Action** — Uses the `fadeIn` preset with a `250ms` delay, creating a staggered entrance sequence.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- The root element is a plain `<div>` with `text-center` layout — add `role="status"` if the empty state appears dynamically after a data load to announce it to screen readers.
+- The default icon is `aria-hidden="true"`.
+- Title and description are `<p>` elements — wrap in a heading tag if the empty state occupies its own page section.
+- The action slot accepts any element — ensure buttons and links within it have descriptive labels.
+
+## Design Tokens
+
+| Token            | Usage                                 |
+| ---------------- | ------------------------------------- |
+| `--muted`        | Icon container background             |
+| `--muted-fg`     | Icon container foreground color       |
+| `--radius-full`  | Icon container border radius          |
+| `--duration-fast`| Transition speed for child animations |
+
+</ComponentPage>

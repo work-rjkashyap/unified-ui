@@ -1,0 +1,327 @@
+---
+title: PinInput
+description: A production-ready OTP / PIN / verification code input with auto-advance, paste support, shake-on-error animation, and masked mode.
+icon: KeyRound
+---
+
+import {
+  PinInput,
+  Button,
+} from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="PinInput"
+  description="A verification code input with per-cell auto-advance, paste distribution, backspace navigation, shake-on-error, and pop animation on digit entry."
+  preview={
+    <div className="flex flex-col gap-6 items-center justify-center py-4">
+      <PinInput length={6} />
+      <PinInput length={4} mask />
+    </div>
+  }
+  code={`{/* 6-digit OTP */}
+<PinInput length={6} onComplete={(pin) => console.log(pin)} />
+
+{/* 4-digit masked PIN */}
+<PinInput length={4} mask />`}
+>
+
+## Import
+
+```tsx
+import { PinInput } from "@work-rjkashyap/unified-ui";
+// or
+import { PinInput } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+The simplest use case is an uncontrolled 6-cell OTP input. Use `onComplete` to receive the joined PIN string when all cells are filled.
+
+```tsx
+<PinInput
+  length={6}
+  onComplete={(pin) => verifyOTP(pin)}
+/>
+```
+
+## Sizes
+
+<ComponentPage
+  title="PinInput Sizes"
+  description="Three size variants controlling cell dimensions and font size."
+  preview={
+    <div className="flex flex-col gap-4 items-center justify-center py-2">
+      <PinInput length={4} size="sm" />
+      <PinInput length={4} size="md" />
+      <PinInput length={4} size="lg" />
+    </div>
+  }
+  code={`<PinInput length={4} size="sm" />
+<PinInput length={4} size="md" />
+<PinInput length={4} size="lg" />`}
+/>
+
+| Size | Cell Width | Cell Height | Font Size |
+| ---- | ---------- | ----------- | --------- |
+| `sm` | 32px       | 40px        | 16px      |
+| `md` | 40px       | 48px        | 18px      |
+| `lg` | 48px       | 56px        | 20px      |
+
+## Variants
+
+<ComponentPage
+  title="PinInput Variants"
+  description="Default uses the input ring color; primary uses the brand primary color on focus."
+  preview={
+    <div className="flex flex-col gap-4 items-center justify-center py-2">
+      <PinInput length={5} variant="default" />
+      <PinInput length={5} variant="primary" />
+    </div>
+  }
+  code={`<PinInput length={5} variant="default" />
+<PinInput length={5} variant="primary" />`}
+/>
+
+## Input Types
+
+Control the allowed character set with the `type` prop.
+
+<ComponentPage
+  title="Input Types"
+  description="Numeric (digits only), alphanumeric (letters and digits), and alphabetic (letters only)."
+  preview={
+    <div className="flex flex-col gap-4 items-center justify-center py-2">
+      <div className="flex flex-col items-center gap-1">
+        <span className="text-xs text-muted-foreground">Numeric (default)</span>
+        <PinInput length={4} type="numeric" />
+      </div>
+      <div className="flex flex-col items-center gap-1">
+        <span className="text-xs text-muted-foreground">Alphanumeric</span>
+        <PinInput length={4} type="alphanumeric" />
+      </div>
+      <div className="flex flex-col items-center gap-1">
+        <span className="text-xs text-muted-foreground">Alphabetic</span>
+        <PinInput length={4} type="alphabetic" />
+      </div>
+    </div>
+  }
+  code={`{/* Digits only — 0-9 */}
+<PinInput length={6} type="numeric" />
+
+{/* Letters and digits */}
+<PinInput length={6} type="alphanumeric" />
+
+{/* Letters only */}
+<PinInput length={4} type="alphabetic" />`}
+/>
+
+## Masked Mode
+
+Set `mask` to hide entered characters behind a bullet (`•`), suitable for PIN entry.
+
+<ComponentPage
+  title="Masked Mode"
+  description="Replaces visible characters with bullet symbols for secure PIN input."
+  preview={
+    <div className="flex flex-col gap-4 items-center py-2">
+      <PinInput length={4} mask />
+      <PinInput length={6} mask variant="primary" />
+    </div>
+  }
+  code={`<PinInput length={4} mask />
+<PinInput length={6} mask variant="primary" />`}
+/>
+
+## Error State
+
+Setting `error={true}` applies danger border styling to all cells and triggers a `shakeX` animation. Each time `error` transitions from `false` to `true`, the shake re-fires.
+
+<ComponentPage
+  title="Error State"
+  description="Danger styling and shake animation triggered when error becomes true."
+  preview={
+    <div className="flex flex-col gap-4 items-center py-2">
+      <PinInput length={6} error />
+      <PinInput length={4} mask error />
+    </div>
+  }
+  code={`<PinInput length={6} error />
+
+{/* With controlled error after failed verification */}
+const [cells, setCells] = useState(Array(6).fill(""));
+const [error, setError] = useState(false);
+
+<PinInput
+  length={6}
+  value={cells}
+  onChange={setCells}
+  error={error}
+  onComplete={async (pin) => {
+    const valid = await verify(pin);
+    if (!valid) setError(true);
+  }}
+/>`}
+/>
+
+## Success State
+
+```tsx
+<PinInput length={6} success />
+```
+
+The `success` state applies a green border to all cells, signaling correct entry.
+
+## Controlled
+
+Use `value` (an array of single characters) and `onChange` for full programmatic control.
+
+```tsx
+const [cells, setCells] = useState(Array(6).fill(""));
+
+<PinInput
+  length={6}
+  value={cells}
+  onChange={setCells}
+  onComplete={(pin) => {
+    console.log("Complete PIN:", pin);
+  }}
+/>;
+```
+
+## Auto Focus
+
+Set `autoFocus` to focus the first cell on mount — useful for modal or inline OTP flows.
+
+```tsx
+<PinInput length={6} autoFocus onComplete={handleVerify} />
+```
+
+## Paste Support
+
+Users can paste a code directly into any cell. The component distributes the pasted characters across subsequent cells automatically, respecting the allowed `type` filter.
+
+```tsx
+{/* Paste "123456" into the first cell and all cells fill instantly */}
+<PinInput length={6} type="numeric" onComplete={verifyOTP} />
+```
+
+## Complete OTP Flow
+
+A typical OTP verification pattern:
+
+```tsx
+import { useState } from "react";
+import { PinInput, Button } from "@work-rjkashyap/unified-ui";
+
+function OTPVerification() {
+  const [cells, setCells] = useState(Array(6).fill(""));
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleComplete = async (pin: string) => {
+    setLoading(true);
+    setError(false);
+    try {
+      const valid = await verifyOTP(pin);
+      if (!valid) {
+        setError(true);
+        setCells(Array(6).fill(""));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <p className="text-sm text-muted-foreground">
+        Enter the 6-digit code sent to your phone.
+      </p>
+      <PinInput
+        length={6}
+        value={cells}
+        onChange={setCells}
+        onComplete={handleComplete}
+        error={error}
+        autoFocus
+      />
+      {error && (
+        <p className="text-xs text-danger">
+          Invalid code. Please try again.
+        </p>
+      )}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => setCells(Array(6).fill(""))}
+      >
+        Resend code
+      </Button>
+    </div>
+  );
+}
+```
+
+## Props
+
+| Prop           | Type                                                         | Default        | Description                                                         |
+| -------------- | ------------------------------------------------------------ | -------------- | ------------------------------------------------------------------- |
+| `length`       | `number`                                                     | `6`            | Number of input cells.                                              |
+| `value`        | `string[]`                                                   | —              | Controlled value array (one character per cell).                    |
+| `defaultValue` | `string[]`                                                   | —              | Initial value for uncontrolled mode.                                |
+| `onChange`     | `(value: string[]) => void`                                  | —              | Called on any cell change with the full array.                      |
+| `onComplete`   | `(pin: string) => void`                                      | —              | Called when all cells are filled. Receives the joined PIN string.   |
+| `onClear`      | `() => void`                                                 | —              | Called when backspace is pressed on an already-empty first cell.    |
+| `type`         | `"numeric" \| "alphanumeric" \| "alphabetic"`                | `"numeric"`    | Allowed character set.                                              |
+| `variant`      | `"default" \| "primary"`                                     | `"default"`    | Visual variant for focus ring color.                                |
+| `size`         | `"sm" \| "md" \| "lg"`                                      | `"md"`         | Cell size.                                                          |
+| `mask`         | `boolean`                                                    | `false`        | Show bullet characters instead of the actual input.                 |
+| `error`        | `boolean`                                                    | `false`        | Applies danger styling and triggers the shake animation.            |
+| `success`      | `boolean`                                                    | `false`        | Applies success (green) styling to all cells.                       |
+| `disabled`     | `boolean`                                                    | `false`        | Disables all cells.                                                 |
+| `autoFocus`    | `boolean`                                                    | `false`        | Automatically focuses the first cell on mount.                      |
+| `gap`          | `string`                                                     | `"gap-2"`      | Tailwind gap class between cells.                                   |
+| `aria-label`   | `string`                                                     | `"PIN Input"`  | Accessible label for the input group container.                     |
+| `className`    | `string`                                                     | —              | Additional CSS classes on the container element.                    |
+
+## Keyboard Navigation
+
+| Key            | Behavior                                                             |
+| -------------- | -------------------------------------------------------------------- |
+| `0–9 / A–Z`    | Enter a character and auto-advance to the next cell.                 |
+| `Backspace`    | Clear current cell, or move to the previous cell if already empty.   |
+| `Delete`       | Clear the current cell without moving focus.                         |
+| `Arrow Left`   | Move focus to the previous cell.                                     |
+| `Arrow Right`  | Move focus to the next cell.                                         |
+| `Home`         | Move focus to the first cell.                                        |
+| `End`          | Move focus to the last cell.                                         |
+
+## Motion
+
+- **Pop on entry** — A subtle `pop` scale animation plays on the cell background when a digit is entered.
+- **Shake on error** — The entire group plays a `shakeX` animation each time `error` transitions to `true`.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- Each cell is an `<input>` element with `aria-label="Digit N of M"`.
+- The first cell includes `autoComplete="one-time-code"` for SMS autofill on mobile.
+- `aria-invalid="true"` is set on all cells when `error` is active.
+- The container has an `aria-label` describing the group.
+- All keyboard navigation is implemented natively without relying on mouse events.
+- `inputMode="numeric"` is set for numeric type inputs on mobile devices.
+
+## Design Tokens
+
+| Token            | Usage                          |
+| ---------------- | ------------------------------ |
+| `--input`        | Default cell border color      |
+| `--ring`         | Focus ring color (default)     |
+| `--primary`      | Focus ring color (primary)     |
+| `--danger`       | Error state border and ring    |
+| `--success`      | Success state border           |
+| `--accent`       | Filled cell background tint    |
+| `--radius-md`    | Cell border radius             |
+| `--duration-fast`| Transition speed               |
+
+</ComponentPage>

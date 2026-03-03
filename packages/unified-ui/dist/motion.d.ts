@@ -61,7 +61,58 @@ declare const spin: MotionPreset;
  * @param preset - The original motion preset
  * @returns A reduced-motion-safe version of the preset
  */
-declare function reduceMotion(preset: MotionPreset): MotionPreset;
+declare function reduceMotion(_preset: MotionPreset): MotionPreset;
+/**
+ * shakeX — Horizontal shake for invalid inputs.
+ * Use with AnimatePresence on error state, or trigger via `animate` prop.
+ */
+declare const shakeX: MotionPreset;
+/**
+ * numberRoll — Vertical digit roll for value changes (NumberInput, Stat, Pagination).
+ * Animate old value out upward, new value in from below.
+ */
+declare const numberRoll: MotionPreset;
+/**
+ * crossfade — Fade-out old, fade-in new with mode="wait".
+ * Use for Calendar month transitions, Carousel slides, ImageGallery.
+ */
+declare const crossfade: MotionPreset;
+/**
+ * slidePanel — Configurable direction slide for panels (Sheet, Drawer, Sidebar).
+ * Use the direction-specific variants: slidePanelRight, slidePanelLeft,
+ * slidePanelBottom, slidePanelTop.
+ */
+declare const slidePanelRight: MotionPreset;
+declare const slidePanelLeft: MotionPreset;
+declare const slidePanelBottom: MotionPreset;
+declare const slidePanelTop: MotionPreset;
+/**
+ * dragDismiss — Drag + velocity threshold → exit.
+ * Use for Sheet (bottom), Drawer, swipeable Toast.
+ * Apply `drag`, `dragConstraints`, and `onDragEnd` on the motion.div.
+ */
+declare const dragDismiss: MotionPreset;
+/**
+ * countUp — Animated number interpolation for Stat, Progress label.
+ * Use with Framer Motion's `useMotionValue` + `useTransform` + `animate()`.
+ * This preset provides the enter/exit wrapper animation.
+ */
+declare const countUp: MotionPreset;
+/**
+ * revealMask — Clip-path reveal animation for Skeleton → content transition.
+ * Animates from a clipped (invisible) state to fully revealed.
+ */
+declare const revealMask: MotionPreset;
+/**
+ * springPress — whileTap spring press for buttons, toggles, cards.
+ * Use as: `whileTap={springPress}`
+ */
+declare const springPress: TargetAndTransition;
+/**
+ * springHover — whileHover lift for cards and elevated buttons.
+ * Use as: `whileHover={springHover}`
+ */
+declare const springHover: TargetAndTransition;
 /**
  * Conditionally returns the full or reduced preset based on a boolean flag.
  * Use with Framer Motion's `useReducedMotion()` hook.
@@ -101,4 +152,4 @@ interface MotionSafeProps {
 }
 declare function MotionSafe({ children, fallback }: MotionSafeProps): ReactNode;
 
-export { type MotionPreset, type MotionPropsResult, MotionSafe, type MotionSafeProps, type SpringConfig, blurIn, blurInSubtle, expandHeight, expandHeightSlow, fadeIn, fadeInFast, fadeInSlow, hoverLift, hoverScale, modalContent, modalContentSpring, motionProps, overlayBackdrop, pop, popSubtle, press, pulse, reduceMotion, scaleIn, scaleInLg, scaleInSpring, slideDown, slideDownSm, slideInFromBottom, slideInFromLeft, slideInFromRight, slideLeft, slideRight, slideUp, slideUpLg, slideUpSm, slideUpSpring, spin, staggerContainer, staggerContainerFast, staggerContainerSlow, tapScale, toastSlideIn, toastSlideUp, useMotion, useMotionProps, useMotionSpringConfig, useReducedMotion, withReducedMotion };
+export { type MotionPreset, type MotionPropsResult, MotionSafe, type MotionSafeProps, type SpringConfig, blurIn, blurInSubtle, countUp, crossfade, dragDismiss, expandHeight, expandHeightSlow, fadeIn, fadeInFast, fadeInSlow, hoverLift, hoverScale, modalContent, modalContentSpring, motionProps, numberRoll, overlayBackdrop, pop, popSubtle, press, pulse, reduceMotion, revealMask, scaleIn, scaleInLg, scaleInSpring, shakeX, slideDown, slideDownSm, slideInFromBottom, slideInFromLeft, slideInFromRight, slideLeft, slidePanelBottom, slidePanelLeft, slidePanelRight, slidePanelTop, slideRight, slideUp, slideUpLg, slideUpSm, slideUpSpring, spin, springHover, springPress, staggerContainer, staggerContainerFast, staggerContainerSlow, tapScale, toastSlideIn, toastSlideUp, useMotion, useMotionProps, useMotionSpringConfig, useReducedMotion, withReducedMotion };

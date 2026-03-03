@@ -1,0 +1,498 @@
+---
+title: Hover Card
+description: A rich preview card that appears on hover. Built on Radix UI HoverCard with scaleIn animation, configurable open/close delay, and arrow indicator.
+icon: MousePointerClick
+---
+
+import {
+	HoverCard,
+	HoverCardTrigger,
+	HoverCardContent,
+	Avatar,
+	Button,
+	Badge,
+} from "@work-rjkashyap/unified-ui";
+import { CalendarDays, Link2, MapPin } from "lucide-react";
+
+<ComponentPage
+  title="Hover Card"
+  description="A rich preview card that floats above content on hover. Ideal for user profiles, link previews, and contextual information panels. Built on Radix UI with a spring scaleIn entrance animation."
+  preview={
+    <div className="flex items-center justify-center py-8">
+      <HoverCard>
+        <HoverCardTrigger asChild>
+          <Button variant="ghost" className="text-primary underline underline-offset-4 hover:no-underline">
+            @rjkashyap
+          </Button>
+        </HoverCardTrigger>
+        <HoverCardContent>
+          <div className="flex gap-3">
+            <Avatar name="Rajeshwar Kashyap" className="size-10" />
+            <div className="flex flex-col gap-1">
+              <p className="text-sm font-semibold leading-none">Rajeshwar Kashyap</p>
+              <p className="text-xs text-muted-foreground">@rjkashyap</p>
+              <p className="text-xs text-foreground mt-1 leading-5">
+                Building Unified UI — a production-ready design system for React.
+              </p>
+              <div className="flex items-center gap-1 mt-1">
+                <CalendarDays className="size-3 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">Joined January 2025</span>
+              </div>
+            </div>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+    </div>
+  }
+  code={`<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button variant="ghost" className="underline">
+      @rjkashyap
+    </Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <div className="flex gap-3">
+      <Avatar src="/avatars/rj.jpg" name="Rajeshwar Kashyap" className="size-10" />
+      <div className="flex flex-col gap-1">
+        <p className="text-sm font-semibold">Rajeshwar Kashyap</p>
+        <p className="text-xs text-muted-foreground">@rjkashyap</p>
+        <p className="text-xs mt-1 leading-5">
+          Building Unified UI — a production-ready design system for React.
+        </p>
+        <div className="flex items-center gap-1 mt-1">
+          <CalendarDays className="size-3 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground">Joined January 2025</span>
+        </div>
+      </div>
+    </div>
+  </HoverCardContent>
+</HoverCard>`}
+>
+
+## Import
+
+```tsx
+import {
+	HoverCard,
+	HoverCardTrigger,
+	HoverCardContent,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+	HoverCard,
+	HoverCardTrigger,
+	HoverCardContent,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Wrap a trigger in `HoverCardTrigger` and your preview content in `HoverCardContent`. The card opens after a 200ms delay and closes after 150ms — preventing accidental triggers from quick cursor passes.
+
+```tsx
+<HoverCard>
+	<HoverCardTrigger asChild>
+		<a href="/profile" className="underline text-primary">
+			@username
+		</a>
+	</HoverCardTrigger>
+	<HoverCardContent>
+		<p className="text-sm">Preview content goes here.</p>
+	</HoverCardContent>
+</HoverCard>
+```
+
+## Placement
+
+Use the `side` and `align` props on `HoverCardContent` to control where the card appears relative to the trigger.
+
+<ComponentPage
+	title="Placement"
+	description="Control the card's side and alignment relative to its trigger."
+	preview={
+		<div className="grid grid-cols-2 gap-4 items-center justify-items-center py-8">
+			<HoverCard>
+				<HoverCardTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Top
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent side="top" align="center">
+					<p className="text-sm font-medium">Top center</p>
+					<p className="text-xs text-muted-foreground mt-0.5">
+						Opens above the trigger.
+					</p>
+				</HoverCardContent>
+			</HoverCard>
+			<HoverCard>
+				<HoverCardTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Bottom
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent side="bottom" align="center">
+					<p className="text-sm font-medium">Bottom center</p>
+					<p className="text-xs text-muted-foreground mt-0.5">
+						Opens below the trigger.
+					</p>
+				</HoverCardContent>
+			</HoverCard>
+			<HoverCard>
+				<HoverCardTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Left
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent side="left" align="center">
+					<p className="text-sm font-medium">Left side</p>
+					<p className="text-xs text-muted-foreground mt-0.5">
+						Opens to the left.
+					</p>
+				</HoverCardContent>
+			</HoverCard>
+			<HoverCard>
+				<HoverCardTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Right
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent side="right" align="center">
+					<p className="text-sm font-medium">Right side</p>
+					<p className="text-xs text-muted-foreground mt-0.5">
+						Opens to the right.
+					</p>
+				</HoverCardContent>
+			</HoverCard>
+		</div>
+	}
+	code={`<HoverCardContent side="top" align="center">...</HoverCardContent>
+<HoverCardContent side="bottom" align="center">...</HoverCardContent>
+<HoverCardContent side="left" align="center">...</HoverCardContent>
+<HoverCardContent side="right" align="center">...</HoverCardContent>`}
+/>
+
+| `side`   | Position                    |
+| -------- | --------------------------- |
+| `top`    | Above the trigger           |
+| `bottom` | Below the trigger (default) |
+| `left`   | To the left of the trigger  |
+| `right`  | To the right of the trigger |
+
+| `align`  | Alignment along the cross axis           |
+| -------- | ---------------------------------------- |
+| `start`  | Aligned to the start edge of the trigger |
+| `center` | Centered against the trigger (default)   |
+| `end`    | Aligned to the end edge of the trigger   |
+
+## Open & Close Delay
+
+Control how long the user must hover before the card opens (`openDelay`) and how long before it closes when the cursor leaves (`closeDelay`).
+
+```tsx
+{
+	/* Opens quickly, stays open longer */
+}
+<HoverCard openDelay={100} closeDelay={300}>
+	<HoverCardTrigger asChild>
+		<span className="underline cursor-help">Quick open</span>
+	</HoverCardTrigger>
+	<HoverCardContent>
+		<p className="text-sm">Opens after 100ms, closes after 300ms.</p>
+	</HoverCardContent>
+</HoverCard>;
+
+{
+	/* Default delays */
+}
+<HoverCard openDelay={200} closeDelay={150}>
+	...
+</HoverCard>;
+```
+
+The delay prevents the card from flickering when the cursor briefly passes over the trigger while moving to other elements.
+
+## User Profile Card
+
+A rich user profile preview — the most common HoverCard pattern.
+
+<ComponentPage
+	title="User Profile Card"
+	description="A rich user profile preview with avatar, name, bio, and metadata."
+	preview={
+		<div className="flex items-center gap-4 justify-center py-6">
+			<p className="text-sm text-muted-foreground">
+				Posted by{" "}
+				<HoverCard>
+					<HoverCardTrigger asChild>
+						<button
+							type="button"
+							className="text-primary font-medium underline underline-offset-2 hover:no-underline cursor-pointer"
+						>
+							@alex_dev
+						</button>
+					</HoverCardTrigger>
+					<HoverCardContent side="bottom" align="start">
+						<div className="flex gap-3">
+							<Avatar
+								name="Alex Dev"
+								className="size-12 shrink-0"
+							/>
+							<div className="flex flex-col gap-1 min-w-0">
+								<div className="flex items-center gap-2">
+									<p className="text-sm font-semibold leading-none">
+										Alex Dev
+									</p>
+									<Badge variant="primary" size="sm">
+										Pro
+									</Badge>
+								</div>
+								<p className="text-xs text-muted-foreground">
+									@alex_dev
+								</p>
+								<p className="text-xs text-foreground mt-1.5 leading-5">
+									Full-stack engineer. Open source enthusiast.
+									Building things with React and TypeScript.
+								</p>
+								<div className="flex flex-col gap-1 mt-2">
+									<div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+										<MapPin className="size-3" />
+										<span>San Francisco, CA</span>
+									</div>
+									<div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+										<Link2 className="size-3" />
+										<a
+											href="#"
+											className="hover:text-primary hover:underline"
+										>
+											alexdev.io
+										</a>
+									</div>
+									<div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+										<CalendarDays className="size-3" />
+										<span>Joined March 2022</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</HoverCardContent>
+				</HoverCard>{" "}
+				· 2 hours ago
+			</p>
+		</div>
+	}
+	code={`<HoverCard>
+  <HoverCardTrigger asChild>
+    <button className="text-primary font-medium underline">
+      @alex_dev
+    </button>
+  </HoverCardTrigger>
+  <HoverCardContent side="bottom" align="start">
+    <div className="flex gap-3">
+      <Avatar src="/avatars/alex.jpg" name="Alex Dev" className="size-12" />
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-semibold">Alex Dev</p>
+          <Badge variant="primary" size="sm">Pro</Badge>
+        </div>
+        <p className="text-xs text-muted-foreground">@alex_dev</p>
+        <p className="text-xs mt-1.5 leading-5">
+          Full-stack engineer. Building with React and TypeScript.
+        </p>
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-2">
+          <MapPin className="size-3" />
+          <span>San Francisco, CA</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <CalendarDays className="size-3" />
+          <span>Joined March 2022</span>
+        </div>
+      </div>
+    </div>
+  </HoverCardContent>
+</HoverCard>`}
+/>
+
+## Link Preview
+
+Show a preview card for external or internal links on hover.
+
+<ComponentPage
+	title="Link Preview"
+	description="A preview card for links showing metadata before navigating."
+	preview={
+		<div className="flex items-center justify-center py-6">
+			<HoverCard>
+				<HoverCardTrigger asChild>
+					<a
+						href="#"
+						className="text-primary underline underline-offset-2 hover:no-underline text-sm font-medium"
+					>
+						Unified UI Documentation →
+					</a>
+				</HoverCardTrigger>
+				<HoverCardContent side="top" align="start" className="w-72">
+					<div className="flex flex-col gap-2">
+						<div className="flex items-center gap-2">
+							<div className="size-8 rounded-md bg-primary/10 flex items-center justify-center shrink-0">
+								<Link2 className="size-4 text-primary" />
+							</div>
+							<div>
+								<p className="text-sm font-semibold leading-none">
+									Unified UI
+								</p>
+								<p className="text-xs text-muted-foreground mt-0.5">
+									unified-ui.dev/docs
+								</p>
+							</div>
+						</div>
+						<p className="text-xs text-muted-foreground leading-5">
+							Production-ready React design system with 40+
+							components, token system, and Framer Motion
+							animations.
+						</p>
+						<div className="flex items-center gap-1">
+							<Badge variant="info" size="sm">
+								Documentation
+							</Badge>
+							<Badge variant="default" size="sm">
+								Open Source
+							</Badge>
+						</div>
+					</div>
+				</HoverCardContent>
+			</HoverCard>
+		</div>
+	}
+	code={`<HoverCard>
+  <HoverCardTrigger asChild>
+    <a href="/docs" className="text-primary underline">
+      Unified UI Documentation →
+    </a>
+  </HoverCardTrigger>
+  <HoverCardContent side="top" align="start" className="w-72">
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <div className="size-8 rounded-md bg-primary/10 flex items-center justify-center">
+          <Link2 className="size-4 text-primary" />
+        </div>
+        <div>
+          <p className="text-sm font-semibold">Unified UI</p>
+          <p className="text-xs text-muted-foreground">unified-ui.dev/docs</p>
+        </div>
+      </div>
+      <p className="text-xs text-muted-foreground leading-5">
+        Production-ready React design system with 40+ components.
+      </p>
+    </div>
+  </HoverCardContent>
+</HoverCard>`}
+/>
+
+## Custom Width
+
+The default card width is `w-64` (256px). Override it with a `className` on `HoverCardContent`.
+
+```tsx
+{
+	/* Narrower */
+}
+<HoverCardContent className="w-48">...</HoverCardContent>;
+
+{
+	/* Wider — for rich content */
+}
+<HoverCardContent className="w-80">...</HoverCardContent>;
+
+{
+	/* Auto width based on content */
+}
+<HoverCardContent className="w-auto">...</HoverCardContent>;
+```
+
+## Side Offset
+
+Use `sideOffset` to control the gap between the trigger and the card.
+
+```tsx
+{
+	/* Default: 8px gap */
+}
+<HoverCardContent sideOffset={8}>...</HoverCardContent>;
+
+{
+	/* Tighter: 4px gap */
+}
+<HoverCardContent sideOffset={4}>...</HoverCardContent>;
+
+{
+	/* More breathing room: 12px gap */
+}
+<HoverCardContent sideOffset={12}>...</HoverCardContent>;
+```
+
+## Props
+
+### HoverCard
+
+| Prop           | Type                      | Default | Description                                              |
+| -------------- | ------------------------- | ------- | -------------------------------------------------------- |
+| `openDelay`    | `number`                  | `200`   | Milliseconds before the card opens after hover.          |
+| `closeDelay`   | `number`                  | `150`   | Milliseconds before the card closes after cursor leaves. |
+| `open`         | `boolean`                 | —       | Controlled open state.                                   |
+| `defaultOpen`  | `boolean`                 | —       | Initial open state (uncontrolled).                       |
+| `onOpenChange` | `(open: boolean) => void` | —       | Callback when the open state changes.                    |
+
+### HoverCardTrigger
+
+Uses Radix UI's `HoverCardTrigger` API. Use `asChild` to render the trigger as your own element (a `<button>`, `<a>`, or any other element).
+
+### HoverCardContent
+
+| Prop         | Type                                     | Default    | Description                                                    |
+| ------------ | ---------------------------------------- | ---------- | -------------------------------------------------------------- |
+| `side`       | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Which side of the trigger to render the card on.               |
+| `align`      | `"start" \| "center" \| "end"`           | `"center"` | Alignment along the cross-axis.                                |
+| `sideOffset` | `number`                                 | `8`        | Pixel gap between the trigger and the card.                    |
+| `className`  | `string`                                 | —          | Additional CSS classes (use to override width, padding, etc.). |
+| `children`   | `ReactNode`                              | —          | The preview content rendered inside the card.                  |
+
+All other `HoverCardContent` props are forwarded to the underlying Radix `HoverCardContent` element.
+
+## Motion
+
+- **Open** — Uses the `scaleIn` preset: `scale: 0.92 → 1`, `opacity: 0 → 1` with a spring (`stiffness: 300, damping: 24`, `mass: 0.8`).
+- **Close** — Reverses the `scaleIn` animation.
+- **Arrow** — The arrow indicator is rendered by Radix UI and inherits the card's position automatically.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()` — falls back to a simple `opacity` transition.
+
+## Accessibility
+
+- Built on **@radix-ui/react-hover-card** — fully WAI-ARIA compliant.
+- The HoverCard is triggered on hover (pointer) and focus (keyboard users can tab to the trigger to see the card).
+- The card content is in a portal, rendered at the document body level, ensuring proper z-index stacking above all page content.
+- `HoverCardTrigger asChild` preserves the semantics of the host element — an `<a>` remains an `<a>`, a `<button>` remains a `<button>`.
+- The card is not `role="dialog"` — it is supplementary preview content, not a focus trap. Do not put critical actions inside a HoverCard.
+- Avoid placing interactive elements (buttons, forms) inside a HoverCard. If interaction is needed, use a `Popover` instead.
+
+## HoverCard vs Tooltip vs Popover
+
+| Component   | Trigger     | Content          | Interactive | Use Case                             |
+| ----------- | ----------- | ---------------- | ----------- | ------------------------------------ |
+| `Tooltip`   | Hover/Focus | Short text label | No          | Brief descriptions for icons/buttons |
+| `HoverCard` | Hover/Focus | Rich preview     | No\*        | Profile previews, link previews      |
+| `Popover`   | Click       | Rich UI          | Yes         | Filters, settings, date pickers      |
+
+\*Avoid interactive elements in HoverCard — use Popover for interactive content.
+
+## Design Tokens
+
+| Token          | Usage                         |
+| -------------- | ----------------------------- |
+| `--popover`    | Card background color         |
+| `--popover-fg` | Card text color               |
+| `--border`     | Card border color             |
+| `--radius-lg`  | Card border radius            |
+| `--shadow-lg`  | Card drop shadow              |
+| `--z-popover`  | Z-index for the floating card |
+
+</ComponentPage>

@@ -55,9 +55,9 @@ export function FeaturesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-fd-border rounded-2xl overflow-hidden divide-y md:divide-y-0 md:divide-x divide-fd-border bg-fd-card/30 backdrop-blur-sm">
-          {features.map((feature, index) => (
+          {features.map((feature) => (
             <div
-              key={index}
+              key={feature.title}
               className="group relative p-10 hover:bg-fd-accent/50 transition-all duration-500"
             >
               <div className="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay" />

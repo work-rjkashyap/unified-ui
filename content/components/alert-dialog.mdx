@@ -1,0 +1,463 @@
+---
+title: Alert Dialog
+description: A modal dialog that requires explicit user action before proceeding. Cannot be dismissed by clicking the overlay. Built on Radix UI with Framer Motion animations.
+icon: TriangleAlert
+---
+
+import {
+	AlertDialog,
+	AlertDialogTrigger,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogFooter,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogAction,
+	AlertDialogCancel,
+	Button,
+} from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Alert Dialog"
+  description="A blocking modal that requires the user to make an explicit choice before continuing. Unlike Dialog, clicking the overlay does not dismiss it — the user must press Cancel or confirm the action."
+  preview={
+    <div className="flex gap-3 items-center justify-center">
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="danger">Delete Account</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. Your account, all projects, and associated data will be permanently removed from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-danger text-danger-foreground hover:bg-danger/90">
+              Delete Account
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  }
+  code={`<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="danger">Delete Account</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. Your account, all projects,
+        and associated data will be permanently removed.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Delete Account</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`}
+>
+
+## Import
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@work-rjkashyap/unified-ui";
+// or
+import { ... } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Wrap a trigger in `AlertDialogTrigger` and provide the content structure. The user **must** press either `AlertDialogAction` or `AlertDialogCancel` — clicking the overlay has no effect.
+
+```tsx
+<AlertDialog>
+	<AlertDialogTrigger asChild>
+		<Button variant="danger">Delete</Button>
+	</AlertDialogTrigger>
+	<AlertDialogContent>
+		<AlertDialogHeader>
+			<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+			<AlertDialogDescription>
+				This action is permanent and cannot be reversed.
+			</AlertDialogDescription>
+		</AlertDialogHeader>
+		<AlertDialogFooter>
+			<AlertDialogCancel>Cancel</AlertDialogCancel>
+			<AlertDialogAction>Continue</AlertDialogAction>
+		</AlertDialogFooter>
+	</AlertDialogContent>
+</AlertDialog>
+```
+
+## Destructive Variant
+
+Style the action button as a danger action for destructive operations.
+
+<ComponentPage
+	title="Destructive Action"
+	description="Override the action button styling to use the danger color token for destructive confirmations."
+	preview={
+		<div className="flex flex-wrap gap-3 items-center justify-center">
+			<AlertDialog>
+				<AlertDialogTrigger asChild>
+					<Button variant="danger" size="sm">
+						Delete Project
+					</Button>
+				</AlertDialogTrigger>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Delete project?</AlertDialogTitle>
+						<AlertDialogDescription>
+							All files, settings, and collaborators will be
+							permanently removed. This cannot be undone.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Keep Project</AlertDialogCancel>
+						<AlertDialogAction className="bg-danger text-danger-foreground hover:bg-danger/90 focus-visible:ring-danger">
+							Delete Permanently
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+			<AlertDialog>
+				<AlertDialogTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Remove Member
+					</Button>
+				</AlertDialogTrigger>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Remove team member?</AlertDialogTitle>
+						<AlertDialogDescription>
+							This person will lose access to all projects and
+							resources immediately.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction className="bg-danger text-danger-foreground hover:bg-danger/90">
+							Remove Member
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+		</div>
+	}
+	code={`<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="danger">Delete Project</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete project?</AlertDialogTitle>
+      <AlertDialogDescription>
+        All files, settings, and collaborators will be permanently removed.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Keep Project</AlertDialogCancel>
+      <AlertDialogAction
+        className="bg-danger text-danger-foreground hover:bg-danger/90"
+      >
+        Delete Permanently
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`}
+/>
+
+## Controlled Mode
+
+Use `open` and `onOpenChange` for programmatic control — useful for triggering the dialog from custom logic without a visible trigger element.
+
+```tsx
+const [open, setOpen] = useState(false);
+
+function handleDeleteClick() {
+	// Any logic before showing confirmation
+	setOpen(true);
+}
+
+async function handleConfirm() {
+	await deleteItem(item.id);
+	setOpen(false);
+}
+
+<AlertDialog open={open} onOpenChange={setOpen}>
+	<AlertDialogContent>
+		<AlertDialogHeader>
+			<AlertDialogTitle>Delete "{item.name}"?</AlertDialogTitle>
+			<AlertDialogDescription>
+				This item will be permanently deleted from your workspace.
+			</AlertDialogDescription>
+		</AlertDialogHeader>
+		<AlertDialogFooter>
+			<AlertDialogCancel onClick={() => setOpen(false)}>
+				Cancel
+			</AlertDialogCancel>
+			<AlertDialogAction onClick={handleConfirm}>
+				Delete
+			</AlertDialogAction>
+		</AlertDialogFooter>
+	</AlertDialogContent>
+</AlertDialog>;
+```
+
+## With Loading State
+
+Combine with a loading flag to disable actions while an async operation completes.
+
+```tsx
+function DeleteDialog({ onDelete }: { onDelete: () => Promise<void> }) {
+	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
+
+	const handleConfirm = async () => {
+		setLoading(true);
+		try {
+			await onDelete();
+			setOpen(false);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	return (
+		<AlertDialog open={open} onOpenChange={setOpen}>
+			<AlertDialogTrigger asChild>
+				<Button variant="danger">Delete</Button>
+			</AlertDialogTrigger>
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogTitle>Confirm deletion</AlertDialogTitle>
+					<AlertDialogDescription>
+						This cannot be undone. Are you sure you want to proceed?
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+				<AlertDialogFooter>
+					<AlertDialogCancel disabled={loading}>
+						Cancel
+					</AlertDialogCancel>
+					<AlertDialogAction
+						onClick={(e) => {
+							e.preventDefault(); // Prevent auto-close
+							handleConfirm();
+						}}
+						disabled={loading}
+						className="bg-danger text-danger-foreground hover:bg-danger/90"
+					>
+						{loading ? "Deleting..." : "Delete"}
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
+	);
+}
+```
+
+## Non-Destructive Confirmation
+
+Alert dialogs are not only for destructive actions — use them for any critical operation that benefits from explicit confirmation.
+
+<ComponentPage
+	title="Non-Destructive Confirmation"
+	description="Use AlertDialog for any action requiring explicit confirmation, not just deletions."
+	preview={
+		<div className="flex flex-wrap gap-3 items-center justify-center">
+			<AlertDialog>
+				<AlertDialogTrigger asChild>
+					<Button variant="primary" size="sm">
+						Publish to Production
+					</Button>
+				</AlertDialogTrigger>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>
+							Publish to production?
+						</AlertDialogTitle>
+						<AlertDialogDescription>
+							This will immediately make your changes visible to
+							all users. Make sure you have reviewed the changes
+							before continuing.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Review Changes</AlertDialogCancel>
+						<AlertDialogAction>Publish Now</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+			<AlertDialog>
+				<AlertDialogTrigger asChild>
+					<Button variant="secondary" size="sm">
+						Revoke API Key
+					</Button>
+				</AlertDialogTrigger>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>
+							Revoke this API key?
+						</AlertDialogTitle>
+						<AlertDialogDescription>
+							Any applications using this key will immediately
+							lose access. You will need to update them with a new
+							key.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Keep Key</AlertDialogCancel>
+						<AlertDialogAction>Revoke Key</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+		</div>
+	}
+	code={`<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="primary">Publish to Production</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Publish to production?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This will make your changes visible to all users immediately.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Review Changes</AlertDialogCancel>
+      <AlertDialogAction>Publish Now</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`}
+/>
+
+## AlertDialog vs Dialog
+
+| Feature                        | `AlertDialog` | `Dialog`          |
+| ------------------------------ | ------------- | ----------------- |
+| Dismiss on overlay click       | ✗ No          | ✓ Yes             |
+| Dismiss on Escape              | ✓ Yes         | ✓ Yes             |
+| Requires explicit action       | ✓ Always      | ✗ Optional        |
+| Use for destructive actions    | ✓ Recommended | ✗ Not recommended |
+| `AlertDialogAction` / `Cancel` | ✓ Built-in    | ✗ Custom          |
+| ARIA role                      | `alertdialog` | `dialog`          |
+
+Use `AlertDialog` when the user must explicitly confirm or cancel — never when they might want to simply dismiss without acting.
+
+## Props
+
+### AlertDialog
+
+| Prop           | Type                      | Default | Description                           |
+| -------------- | ------------------------- | ------- | ------------------------------------- |
+| `open`         | `boolean`                 | —       | Controlled open state.                |
+| `defaultOpen`  | `boolean`                 | —       | Initial open state (uncontrolled).    |
+| `onOpenChange` | `(open: boolean) => void` | —       | Callback when the open state changes. |
+
+### AlertDialogContent
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### AlertDialogTitle
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### AlertDialogDescription
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### AlertDialogAction
+
+Extends the native Radix UI `AlertDialogAction` — auto-closes the dialog when clicked. Pass `onClick={(e) => e.preventDefault()}` to prevent auto-close (e.g., for async flows).
+
+| Prop        | Type      | Default | Description                                      |
+| ----------- | --------- | ------- | ------------------------------------------------ |
+| `className` | `string`  | —       | Override button styles (e.g., for danger color). |
+| `disabled`  | `boolean` | `false` | Disables the action button.                      |
+
+### AlertDialogCancel
+
+Auto-closes the dialog when clicked. Styled as a secondary button.
+
+| Prop        | Type      | Default | Description                 |
+| ----------- | --------- | ------- | --------------------------- |
+| `className` | `string`  | —       | Additional CSS classes.     |
+| `disabled`  | `boolean` | `false` | Disables the cancel button. |
+
+### AlertDialogTrigger
+
+Uses Radix UI's `AlertDialogTrigger` API. Use `asChild` to render the trigger as your own element.
+
+### AlertDialogHeader / AlertDialogFooter
+
+Layout wrappers with no interactive behavior.
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+## Motion
+
+- **Overlay** — Uses the `overlayBackdrop` preset (`opacity: 0 → 0.5`, `backdrop-blur 0 → 4px`, 200ms).
+- **Content** — Uses the `modalContent` preset (`scale: 0.95 → 1`, `opacity: 0 → 1`, spring `stiffness: 300, damping: 28`).
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()` — falls back to simple opacity transitions.
+
+## Keyboard Interaction
+
+| Key      | Behavior                                                                    |
+| -------- | --------------------------------------------------------------------------- |
+| `Escape` | Closes the dialog (same as pressing Cancel).                                |
+| `Tab`    | Cycles focus between Cancel and Action buttons (and any focusable content). |
+| `Enter`  | Activates the focused button.                                               |
+| `Space`  | Activates the focused button.                                               |
+
+## Accessibility
+
+- Built on **@radix-ui/react-alert-dialog** for full ARIA compliance.
+- The content element has `role="alertdialog"` — screen readers announce it as an alert, prompting immediate attention.
+- **Focus trap** — Focus is contained within the dialog. The Cancel button receives initial focus by default (to prevent accidental confirmation).
+- **Focus restoration** — Focus returns to the trigger element when the dialog closes.
+- **Escape to close** — Pressing `Escape` closes the dialog (treated as cancellation).
+- **No overlay dismiss** — Clicking the backdrop does nothing, enforcing explicit choice.
+- **`aria-labelledby`** — Automatically linked to `AlertDialogTitle`.
+- **`aria-describedby`** — Automatically linked to `AlertDialogDescription`.
+- **`aria-modal="true"`** — Prevents screen readers from interacting with content behind the dialog.
+
+## Design Tokens
+
+| Token          | Usage                           |
+| -------------- | ------------------------------- |
+| `--background` | Dialog panel background         |
+| `--border`     | Dialog panel border             |
+| `--overlay`    | Backdrop overlay color          |
+| `--radius-lg`  | Dialog border radius            |
+| `--z-modal`    | Z-index for dialog content      |
+| `--z-overlay`  | Z-index for backdrop            |
+| `--shadow-xl`  | Dialog panel shadow             |
+| `--primary`    | Default action button color     |
+| `--danger`     | Destructive action button color |
+
+</ComponentPage>

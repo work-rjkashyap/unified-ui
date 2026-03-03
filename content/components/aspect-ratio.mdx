@@ -1,0 +1,165 @@
+---
+title: Aspect Ratio
+description: Constrains child content to a given aspect ratio using Radix UI. Ideal for images, videos, and responsive media containers.
+icon: Ratio
+---
+
+import { AspectRatio } from "@work-rjkashyap/unified-ui/components";
+
+<ComponentPage
+	title="Aspect Ratio"
+	description="Constrains child content to a specified aspect ratio, preventing layout shift for images, videos, and embedded media."
+	preview={
+		<div className="w-full max-w-sm">
+			<AspectRatio ratio={16 / 9} className="rounded-lg bg-muted">
+				<div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+					16:9
+				</div>
+			</AspectRatio>
+		</div>
+	}
+	code={`<AspectRatio ratio={16 / 9}>
+  <img src="/hero.jpg" alt="Hero" className="object-cover w-full h-full" />
+</AspectRatio>`}
+>
+
+## Import
+
+```tsx
+import { AspectRatio } from "@work-rjkashyap/unified-ui/components";
+// or
+import { AspectRatio } from "@work-rjkashyap/unified-ui";
+```
+
+## Basic Usage
+
+Wrap any content in `AspectRatio` to constrain it to a specific ratio. The component uses Radix UI's `AspectRatio` primitive under the hood.
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img src="/photo.jpg" alt="Landscape" className="object-cover w-full h-full rounded-lg" />
+</AspectRatio>
+```
+
+## Common Ratios
+
+<ComponentPage
+	title="Common Ratios"
+	description="Popular aspect ratios for different media types."
+	preview={
+		<div className="w-full max-w-lg grid grid-cols-3 gap-4">
+			<div>
+				<AspectRatio ratio={1} className="rounded-lg bg-muted">
+					<div className="flex items-center justify-center h-full text-xs text-muted-foreground font-medium">1:1</div>
+				</AspectRatio>
+				<p className="text-xs text-muted-foreground text-center mt-1.5">Square</p>
+			</div>
+			<div>
+				<AspectRatio ratio={4 / 3} className="rounded-lg bg-muted">
+					<div className="flex items-center justify-center h-full text-xs text-muted-foreground font-medium">4:3</div>
+				</AspectRatio>
+				<p className="text-xs text-muted-foreground text-center mt-1.5">Classic</p>
+			</div>
+			<div>
+				<AspectRatio ratio={16 / 9} className="rounded-lg bg-muted">
+					<div className="flex items-center justify-center h-full text-xs text-muted-foreground font-medium">16:9</div>
+				</AspectRatio>
+				<p className="text-xs text-muted-foreground text-center mt-1.5">Widescreen</p>
+			</div>
+		</div>
+	}
+	code={`<AspectRatio ratio={1}>...</AspectRatio>      {/* Square */}
+<AspectRatio ratio={4 / 3}>...</AspectRatio>  {/* Classic */}
+<AspectRatio ratio={16 / 9}>...</AspectRatio> {/* Widescreen */}`}
+/>
+
+| Ratio    | Value      | Use Case                          |
+| -------- | ---------- | --------------------------------- |
+| `1:1`    | `1`        | Avatars, thumbnails, album art    |
+| `4:3`    | `4 / 3`    | Classic photos, presentations     |
+| `16:9`   | `16 / 9`   | Video, hero images, widescreen    |
+| `21:9`   | `21 / 9`   | Ultra-wide, cinematic banners     |
+| `3:2`    | `3 / 2`    | Photography, print media          |
+| `2:3`    | `2 / 3`    | Portrait photos, book covers      |
+
+## With Images
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img
+    src="/landscape.jpg"
+    alt="Mountain landscape"
+    className="object-cover w-full h-full rounded-lg"
+  />
+</AspectRatio>
+```
+
+## With Video
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <iframe
+    src="https://www.youtube.com/embed/..."
+    title="Video"
+    className="w-full h-full rounded-lg"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+    allowFullScreen
+  />
+</AspectRatio>
+```
+
+## With Map or Embed
+
+```tsx
+<AspectRatio ratio={4 / 3}>
+  <iframe
+    src="https://maps.google.com/..."
+    title="Map"
+    className="w-full h-full rounded-lg border-0"
+  />
+</AspectRatio>
+```
+
+## Responsive Card Image
+
+A common pattern is combining `AspectRatio` with `Card` for consistent media cards:
+
+```tsx
+<Card>
+  <AspectRatio ratio={16 / 9}>
+    <img
+      src="/card-image.jpg"
+      alt="Card preview"
+      className="object-cover w-full h-full"
+    />
+  </AspectRatio>
+  <CardBody>
+    <Heading level={3}>Card Title</Heading>
+    <Body>Description text goes here.</Body>
+  </CardBody>
+</Card>
+```
+
+## Props
+
+| Prop        | Type              | Default    | Description                                              |
+| ----------- | ----------------- | ---------- | -------------------------------------------------------- |
+| `ratio`     | `number`          | `1`        | The desired width-to-height ratio (e.g. `16 / 9`).      |
+| `className` | `string`          | —          | Additional CSS classes on the wrapper element.           |
+| `children`  | `React.ReactNode` | —          | Content to render inside the aspect ratio container.     |
+
+All standard `<div>` HTML attributes are also forwarded to the underlying element.
+
+## Accessibility
+
+- The component renders a semantic `<div>` with `position: relative` — assistive technologies treat it as a plain container.
+- Always provide `alt` text on `<img>` children and `title` on `<iframe>` children.
+- The component does not trap focus or alter tab order.
+
+## Design Tokens
+
+| Token        | Usage                          |
+| ------------ | ------------------------------ |
+| `--radius-*` | Border radius on the container |
+
+</ComponentPage>

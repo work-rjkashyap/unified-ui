@@ -66,7 +66,6 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(function Divider(
   return (
     <hr
       ref={ref}
-      role="separator"
       aria-orientation={orientation}
       className={cn(
         "border-none shrink-0",

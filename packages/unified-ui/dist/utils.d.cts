@@ -374,7 +374,7 @@ declare const focusWithinRingClassList: readonly ["focus-within:outline-none", "
  *
  * @template Default - The default element type when `as` is not specified.
  */
-type AsProp<Default extends ElementType = "div"> = {
+type AsProp<_Default extends ElementType = "div"> = {
     /**
      * The HTML element or React component to render as.
      * @default Default (varies per component)

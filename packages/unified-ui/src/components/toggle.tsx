@@ -39,10 +39,10 @@
 //   </Toggle>
 // ============================================================================
 
-import { Toggle as TogglePrimitive } from "radix-ui";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Toggle as TogglePrimitive } from "radix-ui";
 import { forwardRef, type ReactNode } from "react";
 
 // ---------------------------------------------------------------------------
@@ -54,96 +54,96 @@ import { forwardRef, type ReactNode } from "react";
 // ---------------------------------------------------------------------------
 
 export const toggleVariants = cva(
-	// Base styles — shared across all variants and sizes
-	[
-		// Layout
-		"inline-flex items-center justify-center gap-2",
-		// Typography
-		"text-sm font-medium leading-5",
-		// Shape
-		"rounded-md",
-		// Transition (uses design system motion tokens)
-		"transition-[color,background-color,border-color,box-shadow,opacity]",
-		"duration-fast ease-standard",
-		// Focus ring — WCAG AA compliant, visible on keyboard navigation only
-		focusRingClasses,
-		// Disabled — consistent across all variants
-		"disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
-		// Cursor
-		"cursor-pointer",
-		// Prevent text selection on rapid clicks
-		"select-none",
-		// Shrink protection
-		"shrink-0",
-	],
-	{
-		variants: {
-			// -----------------------------------------------------------------
-			// Visual Variants
-			// -----------------------------------------------------------------
-			variant: {
-				/**
-				 * Default — transparent background, fills on press.
-				 * Medium visual prominence. The most common toggle style.
-				 */
-				default: [
-					"bg-transparent text-muted-foreground",
-					"hover:bg-muted hover:text-foreground",
-					"data-[state=on]:bg-secondary data-[state=on]:text-foreground",
-				],
+  // Base styles — shared across all variants and sizes
+  [
+    // Layout
+    "inline-flex items-center justify-center gap-2",
+    // Typography
+    "text-sm font-medium leading-5",
+    // Shape
+    "rounded-md",
+    // Transition (uses design system motion tokens)
+    "transition-[color,background-color,border-color,box-shadow,opacity]",
+    "duration-fast ease-standard",
+    // Focus ring — WCAG AA compliant, visible on keyboard navigation only
+    focusRingClasses,
+    // Disabled — consistent across all variants
+    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
+    // Cursor
+    "cursor-pointer",
+    // Prevent text selection on rapid clicks
+    "select-none",
+    // Shrink protection
+    "shrink-0",
+  ],
+  {
+    variants: {
+      // -----------------------------------------------------------------
+      // Visual Variants
+      // -----------------------------------------------------------------
+      variant: {
+        /**
+         * Default — transparent background, fills on press.
+         * Medium visual prominence. The most common toggle style.
+         */
+        default: [
+          "bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-secondary data-[state=on]:text-foreground",
+        ],
 
-				/**
-				 * Outline — bordered toggle with visible boundary.
-				 * Medium-high visual prominence. Use for toolbar-style toggles.
-				 */
-				outline: [
-					"border border-border",
-					"bg-transparent text-muted-foreground",
-					"hover:bg-muted hover:text-foreground",
-					"data-[state=on]:bg-secondary data-[state=on]:text-foreground",
-					"data-[state=on]:border-border-strong",
-				],
+        /**
+         * Outline — bordered toggle with visible boundary.
+         * Medium-high visual prominence. Use for toolbar-style toggles.
+         */
+        outline: [
+          "border border-border",
+          "bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-secondary data-[state=on]:text-foreground",
+          "data-[state=on]:border-border-strong",
+        ],
 
-				/**
-				 * Ghost — minimal visual weight. No background until hover.
-				 * Low visual prominence. Use for subtle inline toggles.
-				 */
-				ghost: [
-					"bg-transparent text-muted-foreground",
-					"hover:bg-muted hover:text-foreground",
-					"data-[state=on]:bg-transparent data-[state=on]:text-foreground",
-				],
-			},
+        /**
+         * Ghost — minimal visual weight. No background until hover.
+         * Low visual prominence. Use for subtle inline toggles.
+         */
+        ghost: [
+          "bg-transparent text-muted-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=on]:bg-transparent data-[state=on]:text-foreground",
+        ],
+      },
 
-			// -----------------------------------------------------------------
-			// Size Variants
-			// -----------------------------------------------------------------
-			size: {
-				/**
-				 * Small — compact toggles for dense UIs, toolbars.
-				 * Height: 32px (h-8), Padding: 8px horizontal
-				 */
-				sm: "h-8 px-2 text-xs gap-1.5",
+      // -----------------------------------------------------------------
+      // Size Variants
+      // -----------------------------------------------------------------
+      size: {
+        /**
+         * Small — compact toggles for dense UIs, toolbars.
+         * Height: 32px (h-8), Padding: 8px horizontal
+         */
+        sm: "h-8 px-2 text-xs gap-1.5",
 
-				/**
-				 * Medium — default size for most toggles.
-				 * Height: 36px (h-9), Padding: 12px horizontal
-				 */
-				md: "h-9 px-3 text-sm gap-2",
+        /**
+         * Medium — default size for most toggles.
+         * Height: 36px (h-9), Padding: 12px horizontal
+         */
+        md: "h-9 px-3 text-sm gap-2",
 
-				/**
-				 * Large — prominent toggles for larger touch targets.
-				 * Height: 40px (h-10), Padding: 16px horizontal
-				 */
-				lg: "h-10 px-4 text-sm gap-2",
-			},
-		},
+        /**
+         * Large — prominent toggles for larger touch targets.
+         * Height: 40px (h-10), Padding: 16px horizontal
+         */
+        lg: "h-10 px-4 text-sm gap-2",
+      },
+    },
 
-		defaultVariants: {
-			variant: "default",
-			size: "md",
-		},
-	},
+    defaultVariants: {
+      variant: "default",
+      size: "md",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -154,38 +154,38 @@ export type ToggleVariant = "default" | "outline" | "ghost";
 export type ToggleSize = "sm" | "md" | "lg";
 
 export interface ToggleProps
-	extends Omit<
-			React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root>,
-			"asChild"
-		>,
-		VariantProps<typeof toggleVariants> {
-	/**
-	 * Visual variant of the toggle.
-	 * @default "default"
-	 */
-	variant?: ToggleVariant;
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root>,
+      "asChild"
+    >,
+    VariantProps<typeof toggleVariants> {
+  /**
+   * Visual variant of the toggle.
+   * @default "default"
+   */
+  variant?: ToggleVariant;
 
-	/**
-	 * Size of the toggle.
-	 * @default "md"
-	 */
-	size?: ToggleSize;
+  /**
+   * Size of the toggle.
+   * @default "md"
+   */
+  size?: ToggleSize;
 
-	/**
-	 * Icon to display before the toggle label.
-	 */
-	iconLeft?: ReactNode;
+  /**
+   * Icon to display before the toggle label.
+   */
+  iconLeft?: ReactNode;
 
-	/**
-	 * Icon to display after the toggle label.
-	 */
-	iconRight?: ReactNode;
+  /**
+   * Icon to display after the toggle label.
+   */
+  iconRight?: ReactNode;
 
-	/** Content to render inside the toggle. */
-	children?: ReactNode;
+  /** Content to render inside the toggle. */
+  children?: ReactNode;
 
-	/** Additional CSS classes to merge. */
-	className?: string;
+  /** Additional CSS classes to merge. */
+  className?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -254,56 +254,55 @@ export interface ToggleProps
  * ```
  */
 export const Toggle = forwardRef<
-	React.ComponentRef<typeof TogglePrimitive.Root>,
-	ToggleProps
+  React.ComponentRef<typeof TogglePrimitive.Root>,
+  ToggleProps
 >(function Toggle(
-	{
-		variant = "default",
-		size = "md",
-		iconLeft,
-		iconRight,
-		className,
-		children,
-		...rest
-	},
-	ref,
+  {
+    variant = "default",
+    size = "md",
+    iconLeft,
+    iconRight,
+    className,
+    children,
+    ...rest
+  },
+  ref,
 ) {
-	// Icon sizing classes based on toggle size
-	const iconSizeClass =
-		size === "sm" ? "[&>svg]:size-3.5" : "[&>svg]:size-4";
+  // Icon sizing classes based on toggle size
+  const iconSizeClass = size === "sm" ? "[&>svg]:size-3.5" : "[&>svg]:size-4";
 
-	return (
-		<TogglePrimitive.Root
-			ref={ref}
-			className={cn(
-				toggleVariants({ variant, size }),
-				iconSizeClass,
-				className,
-			)}
-			data-ds=""
-			data-ds-component="toggle"
-			data-ds-variant={variant}
-			data-ds-size={size}
-			{...rest}
-		>
-			{/* Leading icon */}
-			{iconLeft && (
-				<span className="shrink-0" aria-hidden="true">
-					{iconLeft}
-				</span>
-			)}
+  return (
+    <TogglePrimitive.Root
+      ref={ref}
+      className={cn(
+        toggleVariants({ variant, size }),
+        iconSizeClass,
+        className,
+      )}
+      data-ds=""
+      data-ds-component="toggle"
+      data-ds-variant={variant}
+      data-ds-size={size}
+      {...rest}
+    >
+      {/* Leading icon */}
+      {iconLeft && (
+        <span className="shrink-0" aria-hidden="true">
+          {iconLeft}
+        </span>
+      )}
 
-			{/* Label content */}
-			{children}
+      {/* Label content */}
+      {children}
 
-			{/* Trailing icon */}
-			{iconRight && (
-				<span className="shrink-0" aria-hidden="true">
-					{iconRight}
-				</span>
-			)}
-		</TogglePrimitive.Root>
-	);
+      {/* Trailing icon */}
+      {iconRight && (
+        <span className="shrink-0" aria-hidden="true">
+          {iconRight}
+        </span>
+      )}
+    </TogglePrimitive.Root>
+  );
 });
 
 Toggle.displayName = "Toggle";

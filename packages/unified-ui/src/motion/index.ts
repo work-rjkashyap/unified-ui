@@ -46,6 +46,12 @@ export {
   // Blur
   blurIn,
   blurInSubtle,
+  // Count / Number animations
+  countUp,
+  // Crossfade
+  crossfade,
+  // Drag dismiss
+  dragDismiss,
   // Expand / Collapse
   expandHeight,
   expandHeightSlow,
@@ -62,6 +68,8 @@ export {
   modalContentSpring,
   // Spread helper
   motionProps,
+  // Number roll
+  numberRoll,
   // Overlay / Modal / Toast
   overlayBackdrop,
   // Pop / Emphasis
@@ -73,10 +81,14 @@ export {
   pulse,
   // Reduced motion utilities
   reduceMotion,
+  // Reveal mask
+  revealMask,
   // Scale presets
   scaleIn,
   scaleInLg,
   scaleInSpring,
+  // Shake
+  shakeX,
   slideDown,
   slideDownSm,
   slideInFromBottom,
@@ -84,6 +96,11 @@ export {
   slideInFromRight,
   // Slide horizontal
   slideLeft,
+  // Slide panel (directional)
+  slidePanelBottom,
+  slidePanelLeft,
+  slidePanelRight,
+  slidePanelTop,
   slideRight,
   // Slide vertical
   slideUp,
@@ -91,6 +108,9 @@ export {
   slideUpSm,
   slideUpSpring,
   spin,
+  // Spring micro-interactions
+  springHover,
+  springPress,
   // Stagger containers
   staggerContainer,
   staggerContainerFast,

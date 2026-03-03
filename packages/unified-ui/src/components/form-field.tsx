@@ -56,97 +56,95 @@ export type FormFieldSize = "sm" | "md" | "lg";
 export type FormFieldOrientation = "vertical" | "horizontal";
 
 export interface FormFieldProps
-	extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
-	/**
-	 * Label text for the form field.
-	 * Rendered as a `<label>` element linked to the control via `htmlFor`.
-	 */
-	label?: ReactNode;
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+  /**
+   * Label text for the form field.
+   * Rendered as a `<label>` element linked to the control via `htmlFor`.
+   */
+  label?: ReactNode;
 
-	/**
-	 * Description / helper text displayed below the label (or below the
-	 * control in vertical orientation).
-	 * Linked to the control via `aria-describedby`.
-	 */
-	description?: ReactNode;
+  /**
+   * Description / helper text displayed below the label (or below the
+   * control in vertical orientation).
+   * Linked to the control via `aria-describedby`.
+   */
+  description?: ReactNode;
 
-	/**
-	 * Error message displayed below the control.
-	 * When provided, the field is treated as invalid and the error
-	 * replaces the description.
-	 * Linked to the control via `aria-describedby`.
-	 */
-	error?: ReactNode;
+  /**
+   * Error message displayed below the control.
+   * When provided, the field is treated as invalid and the error
+   * replaces the description.
+   * Linked to the control via `aria-describedby`.
+   */
+  error?: ReactNode;
 
-	/**
-	 * Size of the form field. Controls label text size, spacing, and
-	 * provides the correct sizing context for child controls.
-	 * @default "md"
-	 */
-	size?: FormFieldSize;
+  /**
+   * Size of the form field. Controls label text size, spacing, and
+   * provides the correct sizing context for child controls.
+   * @default "md"
+   */
+  size?: FormFieldSize;
 
-	/**
-	 * Layout orientation for the label + control pair.
-	 * - `"vertical"` — label stacked above control (default)
-	 * - `"horizontal"` — label to the left, control to the right
-	 * @default "vertical"
-	 */
-	orientation?: FormFieldOrientation;
+  /**
+   * Layout orientation for the label + control pair.
+   * - `"vertical"` — label stacked above control (default)
+   * - `"horizontal"` — label to the left, control to the right
+   * @default "vertical"
+   */
+  orientation?: FormFieldOrientation;
 
-	/**
-	 * Whether the field is required.
-	 * Displays a red asterisk (*) after the label text.
-	 * @default false
-	 */
-	required?: boolean;
+  /**
+   * Whether the field is required.
+   * Displays a red asterisk (*) after the label text.
+   * @default false
+   */
+  required?: boolean;
 
-	/**
-	 * Whether the field is disabled.
-	 * Reduces opacity on all elements (label, description, error).
-	 * @default false
-	 */
-	disabled?: boolean;
+  /**
+   * Whether the field is disabled.
+   * Reduces opacity on all elements (label, description, error).
+   * @default false
+   */
+  disabled?: boolean;
 
-	/**
-	 * The HTML `id` attribute for the form control.
-	 * When provided, the label's `htmlFor` will point to this id, and
-	 * `aria-describedby` / `aria-errormessage` ids are derived from it.
-	 * When omitted, a unique id is auto-generated.
-	 */
-	htmlFor?: string;
+  /**
+   * The HTML `id` attribute for the form control.
+   * When provided, the label's `htmlFor` will point to this id, and
+   * `aria-describedby` / `aria-errormessage` ids are derived from it.
+   * When omitted, a unique id is auto-generated.
+   */
+  htmlFor?: string;
 
-	/**
-	 * Additional CSS classes for the label element.
-	 */
-	labelClassName?: string;
+  /**
+   * Additional CSS classes for the label element.
+   */
+  labelClassName?: string;
 
-	/**
-	 * Additional CSS classes for the description element.
-	 */
-	descriptionClassName?: string;
+  /**
+   * Additional CSS classes for the description element.
+   */
+  descriptionClassName?: string;
 
-	/**
-	 * Additional CSS classes for the error message element.
-	 */
-	errorClassName?: string;
+  /**
+   * Additional CSS classes for the error message element.
+   */
+  errorClassName?: string;
 
-	/**
-	 * Additional CSS classes for the control wrapper element
-	 * (the container around the children).
-	 */
-	controlClassName?: string;
+  /**
+   * Additional CSS classes for the control wrapper element
+   * (the container around the children).
+   */
+  controlClassName?: string;
 
-	/**
-	 * The form control(s) to render inside the field.
-	 * Can be a single element or a render function that receives
-	 * accessibility props to spread on the control.
-	 */
-	children:
-		| ReactNode
-		| ((props: FormFieldControlProps) => ReactNode);
+  /**
+   * The form control(s) to render inside the field.
+   * Can be a single element or a render function that receives
+   * accessibility props to spread on the control.
+   */
+  children: ReactNode | ((props: FormFieldControlProps) => ReactNode);
 
-	/** Additional CSS classes to merge on the root element. */
-	className?: string;
+  /** Additional CSS classes to merge on the root element. */
+  className?: string;
 }
 
 /**
@@ -154,16 +152,16 @@ export interface FormFieldProps
  * Spread these on your form control for full accessibility.
  */
 export interface FormFieldControlProps {
-	/** The id to set on the control element. */
-	id: string;
-	/** Space-separated ids of description and/or error elements. */
-	"aria-describedby"?: string;
-	/** Whether the control is in an invalid state. */
-	"aria-invalid"?: boolean;
-	/** Whether the control is required. */
-	"aria-required"?: boolean;
-	/** Whether the control is disabled. */
-	disabled?: boolean;
+  /** The id to set on the control element. */
+  id: string;
+  /** Space-separated ids of description and/or error elements. */
+  "aria-describedby"?: string;
+  /** Whether the control is in an invalid state. */
+  "aria-invalid"?: boolean;
+  /** Whether the control is required. */
+  "aria-required"?: boolean;
+  /** Whether the control is disabled. */
+  disabled?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -171,33 +169,33 @@ export interface FormFieldControlProps {
 // ---------------------------------------------------------------------------
 
 const labelSizeMap: Record<FormFieldSize, string> = {
-	sm: "text-xs leading-4 font-medium",
-	md: "text-sm leading-5 font-medium",
-	lg: "text-sm leading-5 font-semibold",
+  sm: "text-xs leading-4 font-medium",
+  md: "text-sm leading-5 font-medium",
+  lg: "text-sm leading-5 font-semibold",
 };
 
 const descriptionSizeMap: Record<FormFieldSize, string> = {
-	sm: "text-[11px] leading-4",
-	md: "text-xs leading-4",
-	lg: "text-xs leading-4",
+  sm: "text-[11px] leading-4",
+  md: "text-xs leading-4",
+  lg: "text-xs leading-4",
 };
 
 const errorSizeMap: Record<FormFieldSize, string> = {
-	sm: "text-[11px] leading-4",
-	md: "text-xs leading-4",
-	lg: "text-xs leading-4",
+  sm: "text-[11px] leading-4",
+  md: "text-xs leading-4",
+  lg: "text-xs leading-4",
 };
 
 const gapSizeMap: Record<FormFieldSize, string> = {
-	sm: "gap-1",
-	md: "gap-1.5",
-	lg: "gap-2",
+  sm: "gap-1",
+  md: "gap-1.5",
+  lg: "gap-2",
 };
 
 const horizontalLabelWidthMap: Record<FormFieldSize, string> = {
-	sm: "w-24 shrink-0",
-	md: "w-32 shrink-0",
-	lg: "w-40 shrink-0",
+  sm: "w-24 shrink-0",
+  md: "w-32 shrink-0",
+  lg: "w-40 shrink-0",
 };
 
 // ---------------------------------------------------------------------------
@@ -205,11 +203,11 @@ const horizontalLabelWidthMap: Record<FormFieldSize, string> = {
 // ---------------------------------------------------------------------------
 
 function RequiredIndicator() {
-	return (
-		<span className="text-danger ml-0.5" aria-hidden="true">
-			*
-		</span>
-	);
+  return (
+    <span className="text-danger ml-0.5" aria-hidden="true">
+      *
+    </span>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -279,178 +277,164 @@ function RequiredIndicator() {
  * ```
  */
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
-	function FormField(
-		{
-			label,
-			description,
-			error,
-			size = "md",
-			orientation = "vertical",
-			required = false,
-			disabled = false,
-			htmlFor: htmlForProp,
-			labelClassName,
-			descriptionClassName,
-			errorClassName,
-			controlClassName,
-			children,
-			className,
-			...rest
-		},
-		ref,
-	) {
-		const autoId = useId();
-		const fieldId = htmlForProp ?? autoId;
-		const descriptionId = description ? `${fieldId}-description` : undefined;
-		const errorId = error ? `${fieldId}-error` : undefined;
-		const hasError = !!error;
+  function FormField(
+    {
+      label,
+      description,
+      error,
+      size = "md",
+      orientation = "vertical",
+      required = false,
+      disabled = false,
+      htmlFor: htmlForProp,
+      labelClassName,
+      descriptionClassName,
+      errorClassName,
+      controlClassName,
+      children,
+      className,
+      ...rest
+    },
+    ref,
+  ) {
+    const autoId = useId();
+    const fieldId = htmlForProp ?? autoId;
+    const descriptionId = description ? `${fieldId}-description` : undefined;
+    const errorId = error ? `${fieldId}-error` : undefined;
+    const hasError = !!error;
 
-		// Build aria-describedby — error takes precedence over description
-		const ariaDescribedBy = hasError
-			? errorId
-			: descriptionId
-				? descriptionId
-				: undefined;
+    // Build aria-describedby — error takes precedence over description
+    const ariaDescribedBy = hasError
+      ? errorId
+      : descriptionId
+        ? descriptionId
+        : undefined;
 
-		// Build the control props (for render-function children)
-		const controlProps: FormFieldControlProps = {
-			id: fieldId,
-			...(ariaDescribedBy
-				? { "aria-describedby": ariaDescribedBy }
-				: {}),
-			...(hasError ? { "aria-invalid": true } : {}),
-			...(required ? { "aria-required": true } : {}),
-			...(disabled ? { disabled: true } : {}),
-		};
+    // Build the control props (for render-function children)
+    const controlProps: FormFieldControlProps = {
+      id: fieldId,
+      ...(ariaDescribedBy ? { "aria-describedby": ariaDescribedBy } : {}),
+      ...(hasError ? { "aria-invalid": true } : {}),
+      ...(required ? { "aria-required": true } : {}),
+      ...(disabled ? { disabled: true } : {}),
+    };
 
-		// Resolve children — either render function or plain ReactNode
-		const renderedChildren =
-			typeof children === "function" ? children(controlProps) : children;
+    // Resolve children — either render function or plain ReactNode
+    const renderedChildren =
+      typeof children === "function" ? children(controlProps) : children;
 
-		const isHorizontal = orientation === "horizontal";
+    const isHorizontal = orientation === "horizontal";
 
-		// --- Label element ---
-		const labelElement = label ? (
-			<label
-				htmlFor={fieldId}
-				className={cn(
-					labelSizeMap[size],
-					"text-foreground",
-					"select-none",
-					disabled && "opacity-50 cursor-not-allowed",
-					!disabled && "cursor-pointer",
-					isHorizontal && horizontalLabelWidthMap[size],
-					isHorizontal && "pt-2", // Align with control baseline
-					labelClassName,
-				)}
-			>
-				{label}
-				{required && <RequiredIndicator />}
-			</label>
-		) : null;
+    // --- Label element ---
+    const labelElement = label ? (
+      <label
+        htmlFor={fieldId}
+        className={cn(
+          labelSizeMap[size],
+          "text-foreground",
+          "select-none",
+          disabled && "opacity-50 cursor-not-allowed",
+          !disabled && "cursor-pointer",
+          isHorizontal && horizontalLabelWidthMap[size],
+          isHorizontal && "pt-2", // Align with control baseline
+          labelClassName,
+        )}
+      >
+        {label}
+        {required && <RequiredIndicator />}
+      </label>
+    ) : null;
 
-		// --- Description element ---
-		const descriptionElement =
-			description && !hasError ? (
-				<span
-					id={descriptionId}
-					className={cn(
-						descriptionSizeMap[size],
-						"text-muted-foreground",
-						disabled && "opacity-50",
-						descriptionClassName,
-					)}
-				>
-					{description}
-				</span>
-			) : null;
+    // --- Description element ---
+    const descriptionElement =
+      description && !hasError ? (
+        <span
+          id={descriptionId}
+          className={cn(
+            descriptionSizeMap[size],
+            "text-muted-foreground",
+            disabled && "opacity-50",
+            descriptionClassName,
+          )}
+        >
+          {description}
+        </span>
+      ) : null;
 
-		// --- Error element ---
-		const errorElement = hasError ? (
-			<span
-				id={errorId}
-				role="alert"
-				className={cn(
-					errorSizeMap[size],
-					"text-danger",
-					disabled && "opacity-50",
-					errorClassName,
-				)}
-			>
-				{error}
-			</span>
-		) : null;
+    // --- Error element ---
+    const errorElement = hasError ? (
+      <span
+        id={errorId}
+        role="alert"
+        className={cn(
+          errorSizeMap[size],
+          "text-danger",
+          disabled && "opacity-50",
+          errorClassName,
+        )}
+      >
+        {error}
+      </span>
+    ) : null;
 
-		// --- Vertical layout ---
-		if (!isHorizontal) {
-			return (
-				<div
-					ref={ref}
-					className={cn(
-						"flex flex-col",
-						gapSizeMap[size],
-						className,
-					)}
-					data-ds=""
-					data-ds-component="form-field"
-					data-ds-size={size}
-					data-ds-orientation={orientation}
-					{...(hasError ? { "data-ds-error": "" } : {})}
-					{...(disabled ? { "data-ds-disabled": "" } : {})}
-					{...(required ? { "data-ds-required": "" } : {})}
-					{...rest}
-				>
-					{/* Label + description (above control) */}
-					{(labelElement || descriptionElement) && (
-						<div className="flex flex-col gap-0.5">
-							{labelElement}
-							{descriptionElement}
-						</div>
-					)}
+    // --- Vertical layout ---
+    if (!isHorizontal) {
+      return (
+        <div
+          ref={ref}
+          className={cn("flex flex-col", gapSizeMap[size], className)}
+          data-ds=""
+          data-ds-component="form-field"
+          data-ds-size={size}
+          data-ds-orientation={orientation}
+          {...(hasError ? { "data-ds-error": "" } : {})}
+          {...(disabled ? { "data-ds-disabled": "" } : {})}
+          {...(required ? { "data-ds-required": "" } : {})}
+          {...rest}
+        >
+          {/* Label + description (above control) */}
+          {(labelElement || descriptionElement) && (
+            <div className="flex flex-col gap-0.5">
+              {labelElement}
+              {descriptionElement}
+            </div>
+          )}
 
-					{/* Control */}
-					<div className={cn(controlClassName)}>
-						{renderedChildren}
-					</div>
+          {/* Control */}
+          <div className={cn(controlClassName)}>{renderedChildren}</div>
 
-					{/* Error message (below control) */}
-					{errorElement}
-				</div>
-			);
-		}
+          {/* Error message (below control) */}
+          {errorElement}
+        </div>
+      );
+    }
 
-		// --- Horizontal layout ---
-		return (
-			<div
-				ref={ref}
-				className={cn(
-					"flex flex-row items-start",
-					gapSizeMap[size],
-					className,
-				)}
-				data-ds=""
-				data-ds-component="form-field"
-				data-ds-size={size}
-				data-ds-orientation={orientation}
-				{...(hasError ? { "data-ds-error": "" } : {})}
-				{...(disabled ? { "data-ds-disabled": "" } : {})}
-				{...(required ? { "data-ds-required": "" } : {})}
-				{...rest}
-			>
-				{/* Label column */}
-				{labelElement}
+    // --- Horizontal layout ---
+    return (
+      <div
+        ref={ref}
+        className={cn("flex flex-row items-start", gapSizeMap[size], className)}
+        data-ds=""
+        data-ds-component="form-field"
+        data-ds-size={size}
+        data-ds-orientation={orientation}
+        {...(hasError ? { "data-ds-error": "" } : {})}
+        {...(disabled ? { "data-ds-disabled": "" } : {})}
+        {...(required ? { "data-ds-required": "" } : {})}
+        {...rest}
+      >
+        {/* Label column */}
+        {labelElement}
 
-				{/* Control + description/error column */}
-				<div className={cn("flex flex-1 flex-col", gapSizeMap[size])}>
-					<div className={cn(controlClassName)}>
-						{renderedChildren}
-					</div>
-					{descriptionElement}
-					{errorElement}
-				</div>
-			</div>
-		);
-	},
+        {/* Control + description/error column */}
+        <div className={cn("flex flex-1 flex-col", gapSizeMap[size])}>
+          <div className={cn(controlClassName)}>{renderedChildren}</div>
+          {descriptionElement}
+          {errorElement}
+        </div>
+      </div>
+    );
+  },
 );
 
 FormField.displayName = "FormField";

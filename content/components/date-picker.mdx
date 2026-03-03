@@ -1,0 +1,271 @@
+---
+title: Date Picker
+description: A date or date-range input with calendar popover, locale-aware formatting, clearable input, and animated transitions.
+icon: CalendarDays
+---
+
+import { DatePicker } from "@work-rjkashyap/unified-ui/components";
+
+<ComponentPage
+	title="Date Picker"
+	description="A production-ready date picker built by composing Popover + Calendar + Input. Supports single date and range selection, locale formatting, disabled dates, and animated popover transitions."
+	preview={
+		<div className="w-full max-w-sm">
+			<DatePicker placeholder="Pick a date" />
+		</div>
+	}
+	code={`<DatePicker placeholder="Pick a date" />`}
+>
+
+## Import
+
+```tsx
+import { DatePicker } from "@work-rjkashyap/unified-ui/components";
+// or
+import { DatePicker } from "@work-rjkashyap/unified-ui";
+```
+
+## Basic Usage
+
+Drop `DatePicker` anywhere you need a date input. It manages its own internal state by default (uncontrolled) and opens a calendar popover on click.
+
+```tsx
+<DatePicker onSelect={(date) => console.log(date)} />
+```
+
+## Single Date Selection
+
+The default mode selects a single date. The popover closes automatically after selection.
+
+```tsx
+const [date, setDate] = useState<Date | null>(null);
+
+<DatePicker
+  value={date}
+  onSelect={setDate}
+  placeholder="Select a date"
+/>;
+```
+
+## Range Selection
+
+Set `mode="range"` to allow selecting a start and end date. Click once for the start, then again for the end.
+
+```tsx
+const [range, setRange] = useState<DateRange | null>(null);
+
+<DatePicker
+  mode="range"
+  valueRange={range}
+  onSelectRange={setRange}
+  placeholder="Select date range"
+/>;
+```
+
+## Sizes
+
+<ComponentPage
+	title="Sizes"
+	description="Three sizes designed to match Input, Button, and Select heights."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-3">
+			<DatePicker placeholder="Small" size="sm" />
+			<DatePicker placeholder="Medium (default)" size="md" />
+			<DatePicker placeholder="Large" size="lg" />
+		</div>
+	}
+	code={`<DatePicker placeholder="Small" size="sm" />
+<DatePicker placeholder="Medium (default)" size="md" />
+<DatePicker placeholder="Large" size="lg" />`}
+/>
+
+| Size | Height | Use Case                    |
+| ---- | ------ | --------------------------- |
+| `sm` | 32px   | Compact toolbars, sidebars  |
+| `md` | 36px   | Default — most contexts     |
+| `lg` | 40px   | Prominent forms, hero areas |
+
+## Disabled Dates
+
+Use the `disabledDate` function to disable specific dates, or pass `minDate` / `maxDate` to restrict the selectable range.
+
+```tsx
+// Disable past dates
+<DatePicker
+  disabledDate={(date) => date < new Date()}
+  placeholder="Future dates only"
+/>
+
+// Restrict to a date range
+<DatePicker
+  minDate={new Date(2025, 0, 1)}
+  maxDate={new Date(2025, 11, 31)}
+  placeholder="2025 only"
+/>
+```
+
+## Clearable
+
+By default, a clear button (×) appears when a date is selected. Set `clearable={false}` to disable it.
+
+<ComponentPage
+	title="Clearable"
+	description="Control whether the clear button is shown after selection."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-3">
+			<DatePicker placeholder="With clear (default)" clearable />
+			<DatePicker placeholder="Without clear" clearable={false} />
+		</div>
+	}
+	code={`<DatePicker placeholder="With clear (default)" />
+<DatePicker placeholder="Without clear" clearable={false} />`}
+/>
+
+## Locale Formatting
+
+Dates are formatted using the browser's `toLocaleDateString`. Pass a `locale` string to control the output format.
+
+```tsx
+<DatePicker locale="en-US" placeholder="MM/DD/YYYY" />
+<DatePicker locale="en-GB" placeholder="DD/MM/YYYY" />
+<DatePicker locale="de-DE" placeholder="TT.MM.JJJJ" />
+```
+
+## Default Month
+
+Set the initially displayed month in the calendar without controlling it:
+
+```tsx
+<DatePicker defaultMonth={new Date(2025, 11)} placeholder="December 2025" />
+```
+
+## Popover Alignment
+
+Control where the calendar popover appears relative to the trigger:
+
+```tsx
+<DatePicker align="start" placeholder="Align start (default)" />
+<DatePicker align="center" placeholder="Align center" />
+<DatePicker align="end" placeholder="Align end" />
+```
+
+## Disabled State
+
+<ComponentPage
+	title="Disabled"
+	description="The picker trigger is visually dimmed and non-interactive when disabled."
+	preview={
+		<div className="w-full max-w-sm">
+			<DatePicker placeholder="Disabled" disabled />
+		</div>
+	}
+	code={`<DatePicker placeholder="Disabled" disabled />`}
+/>
+
+## In a Form
+
+A common pattern is wrapping `DatePicker` in a `FormField` for label, description, and error handling:
+
+```tsx
+<FormField label="Start Date" description="When should the campaign begin?">
+  <DatePicker
+    value={startDate}
+    onSelect={setStartDate}
+    placeholder="Pick a date"
+    minDate={new Date()}
+  />
+</FormField>
+```
+
+## Controlled
+
+Use `value` and `onSelect` for single mode, or `valueRange` and `onSelectRange` for range mode.
+
+```tsx
+// Single
+const [date, setDate] = useState<Date | null>(null);
+
+<DatePicker
+  value={date}
+  onSelect={setDate}
+  placeholder="Pick a date"
+/>;
+
+// Range
+const [range, setRange] = useState<DateRange | null>(null);
+
+<DatePicker
+  mode="range"
+  valueRange={range}
+  onSelectRange={setRange}
+  placeholder="Select range"
+/>;
+```
+
+## Props
+
+| Prop               | Type                            | Default        | Description                                                     |
+| ------------------ | ------------------------------- | -------------- | --------------------------------------------------------------- |
+| `mode`             | `"single" \| "range"`          | `"single"`     | Selection mode — single date or date range.                     |
+| `value`            | `Date \| null`                  | —              | The selected date (single mode, controlled).                    |
+| `valueRange`       | `DateRange \| null`             | —              | The selected range (range mode, controlled).                    |
+| `onSelect`         | `(date: Date \| null) => void`  | —              | Callback for single-date selection.                             |
+| `onSelectRange`    | `(range: DateRange \| null) => void` | —         | Callback for range selection.                                   |
+| `placeholder`      | `string`                        | `"Pick a date"`| Placeholder text shown when no date is selected.                |
+| `size`             | `"sm" \| "md" \| "lg"`         | `"md"`         | Size of the trigger input.                                      |
+| `disabled`         | `boolean`                       | `false`        | Whether the picker is disabled.                                 |
+| `clearable`        | `boolean`                       | `true`         | Show a clear (×) button when a date is selected.                |
+| `locale`           | `string`                        | `"en-US"`      | Locale string for date formatting.                              |
+| `disabledDate`     | `(date: Date) => boolean`       | —              | Function returning `true` for dates that should be disabled.    |
+| `minDate`          | `Date`                          | —              | Minimum selectable date.                                        |
+| `maxDate`          | `Date`                          | —              | Maximum selectable date.                                        |
+| `defaultMonth`     | `Date`                          | —              | Default month to display when no date is selected.              |
+| `align`            | `"start" \| "center" \| "end"` | `"start"`      | Alignment of the popover relative to the trigger.               |
+| `className`        | `string`                        | —              | Additional CSS classes on the trigger button.                   |
+| `contentClassName` | `string`                        | —              | Additional CSS classes on the popover content.                  |
+
+## Motion
+
+- **Popover open/close** — Uses the `scaleIn` preset (scale + opacity) via `AnimatePresence` for smooth enter/exit transitions.
+- The calendar inside the popover uses its own month-transition animation (directional slide).
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Keyboard Navigation
+
+| Key              | Action                                              |
+| ---------------- | --------------------------------------------------- |
+| `Enter / Space`  | Open the calendar popover (when trigger is focused).|
+| `Escape`         | Close the popover.                                  |
+| `ArrowLeft`      | Move focus to the previous day (inside calendar).   |
+| `ArrowRight`     | Move focus to the next day (inside calendar).       |
+| `ArrowUp`        | Move focus up one week (inside calendar).           |
+| `ArrowDown`      | Move focus down one week (inside calendar).         |
+| `PageUp`         | Navigate to the previous month.                     |
+| `PageDown`       | Navigate to the next month.                         |
+| `Enter`          | Select the focused date.                            |
+
+## Accessibility
+
+- The trigger renders a `<button>` with `aria-expanded` and `aria-haspopup="dialog"`.
+- The popover uses `role="dialog"` semantics.
+- The clear button has `aria-label="Clear date"` and is keyboard accessible.
+- The underlying `Calendar` provides full ARIA grid semantics, `aria-label` on each day, and `aria-selected` on selected dates.
+- Disabled state is forwarded to the trigger button.
+- Focus is managed between trigger and calendar popover.
+
+## Design Tokens
+
+| Token             | Usage                                    |
+| ----------------- | ---------------------------------------- |
+| `--input`         | Trigger border color                     |
+| `--ring`          | Focus ring and open-state border/shadow  |
+| `--background`    | Trigger and popover background           |
+| `--border`        | Popover border                           |
+| `--muted-foreground` | Placeholder text, calendar icon color |
+| `--primary`       | Selected date highlight (via Calendar)   |
+| `--radius-md`     | Trigger border radius                    |
+| `--radius-lg`     | Popover border radius                    |
+| `--duration-fast` | Transition speed                         |
+| `--shadow-lg`     | Popover shadow                           |
+
+</ComponentPage>

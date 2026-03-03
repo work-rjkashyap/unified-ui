@@ -41,44 +41,44 @@ import { forwardRef, type ReactNode } from "react";
 // ---------------------------------------------------------------------------
 
 export const progressTrackVariants = cva(
-	// Base styles — shared across all variants and sizes
-	[
-		// Layout
-		"relative w-full overflow-hidden",
-		// Shape
-		"rounded-full",
-		// Background
-		"bg-muted",
-	],
-	{
-		variants: {
-			// -----------------------------------------------------------------
-			// Size Variants
-			// -----------------------------------------------------------------
-			size: {
-				/**
-				 * Small — thin bar for subtle progress indicators.
-				 * Height: 6px
-				 */
-				sm: "h-1.5",
+  // Base styles — shared across all variants and sizes
+  [
+    // Layout
+    "relative w-full overflow-hidden",
+    // Shape
+    "rounded-full",
+    // Background
+    "bg-muted",
+  ],
+  {
+    variants: {
+      // -----------------------------------------------------------------
+      // Size Variants
+      // -----------------------------------------------------------------
+      size: {
+        /**
+         * Small — thin bar for subtle progress indicators.
+         * Height: 6px
+         */
+        sm: "h-1.5",
 
-				/**
-				 * Medium — default size for most progress bars.
-				 * Height: 8px
-				 */
-				md: "h-2",
+        /**
+         * Medium — default size for most progress bars.
+         * Height: 8px
+         */
+        md: "h-2",
 
-				/**
-				 * Large — prominent bar for hero progress, file uploads.
-				 * Height: 12px
-				 */
-				lg: "h-3",
-			},
-		},
-		defaultVariants: {
-			size: "md",
-		},
-	},
+        /**
+         * Large — prominent bar for hero progress, file uploads.
+         * Height: 12px
+         */
+        lg: "h-3",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -86,56 +86,56 @@ export const progressTrackVariants = cva(
 // ---------------------------------------------------------------------------
 
 export const progressIndicatorVariants = cva(
-	// Base styles — shared across all variants
-	[
-		// Layout
-		"h-full",
-		// Shape — match track rounding
-		"rounded-full",
-		// Transition for value changes
-		"transition-[width] duration-standard ease-standard",
-	],
-	{
-		variants: {
-			// -----------------------------------------------------------------
-			// Visual Variants
-			// -----------------------------------------------------------------
-			variant: {
-				/**
-				 * Default — uses primary brand color.
-				 */
-				default: "bg-primary",
+  // Base styles — shared across all variants
+  [
+    // Layout
+    "h-full",
+    // Shape — match track rounding
+    "rounded-full",
+    // Transition for value changes
+    "transition-[width] duration-standard ease-standard",
+  ],
+  {
+    variants: {
+      // -----------------------------------------------------------------
+      // Visual Variants
+      // -----------------------------------------------------------------
+      variant: {
+        /**
+         * Default — uses primary brand color.
+         */
+        default: "bg-primary",
 
-				/**
-				 * Primary — explicit primary brand color.
-				 */
-				primary: "bg-primary",
+        /**
+         * Primary — explicit primary brand color.
+         */
+        primary: "bg-primary",
 
-				/**
-				 * Success — positive/complete progress.
-				 */
-				success: "bg-success",
+        /**
+         * Success — positive/complete progress.
+         */
+        success: "bg-success",
 
-				/**
-				 * Danger — error/critical progress (e.g., storage almost full).
-				 */
-				danger: "bg-danger",
+        /**
+         * Danger — error/critical progress (e.g., storage almost full).
+         */
+        danger: "bg-danger",
 
-				/**
-				 * Warning — caution progress (e.g., approaching limit).
-				 */
-				warning: "bg-warning",
+        /**
+         * Warning — caution progress (e.g., approaching limit).
+         */
+        warning: "bg-warning",
 
-				/**
-				 * Info — informational progress.
-				 */
-				info: "bg-info",
-			},
-		},
-		defaultVariants: {
-			variant: "default",
-		},
-	},
+        /**
+         * Info — informational progress.
+         */
+        info: "bg-info",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
 );
 
 // ---------------------------------------------------------------------------
@@ -143,107 +143,107 @@ export const progressIndicatorVariants = cva(
 // ---------------------------------------------------------------------------
 
 export type ProgressVariant =
-	| "default"
-	| "primary"
-	| "success"
-	| "danger"
-	| "warning"
-	| "info";
+  | "default"
+  | "primary"
+  | "success"
+  | "danger"
+  | "warning"
+  | "info";
 
 export type ProgressSize = "sm" | "md" | "lg";
 
 export interface ProgressProps
-	extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
-		VariantProps<typeof progressTrackVariants>,
-		VariantProps<typeof progressIndicatorVariants> {
-	/**
-	 * Current progress value (0–100).
-	 * Ignored when `indeterminate` is true.
-	 * @default 0
-	 */
-	value?: number;
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
+    VariantProps<typeof progressTrackVariants>,
+    VariantProps<typeof progressIndicatorVariants> {
+  /**
+   * Current progress value (0–100).
+   * Ignored when `indeterminate` is true.
+   * @default 0
+   */
+  value?: number;
 
-	/**
-	 * Maximum progress value.
-	 * @default 100
-	 */
-	max?: number;
+  /**
+   * Maximum progress value.
+   * @default 100
+   */
+  max?: number;
 
-	/**
-	 * Minimum progress value.
-	 * @default 0
-	 */
-	min?: number;
+  /**
+   * Minimum progress value.
+   * @default 0
+   */
+  min?: number;
 
-	/**
-	 * Visual variant of the progress indicator.
-	 * @default "default"
-	 */
-	variant?: ProgressVariant;
+  /**
+   * Visual variant of the progress indicator.
+   * @default "default"
+   */
+  variant?: ProgressVariant;
 
-	/**
-	 * Size of the progress bar.
-	 * @default "md"
-	 */
-	size?: ProgressSize;
+  /**
+   * Size of the progress bar.
+   * @default "md"
+   */
+  size?: ProgressSize;
 
-	/**
-	 * Whether the progress is indeterminate (unknown completion).
-	 * When true, the bar displays a looping sliding animation
-	 * and `value` is ignored.
-	 * @default false
-	 */
-	indeterminate?: boolean;
+  /**
+   * Whether the progress is indeterminate (unknown completion).
+   * When true, the bar displays a looping sliding animation
+   * and `value` is ignored.
+   * @default false
+   */
+  indeterminate?: boolean;
 
-	/**
-	 * Whether to display diagonal stripes on the indicator.
-	 * @default false
-	 */
-	striped?: boolean;
+  /**
+   * Whether to display diagonal stripes on the indicator.
+   * @default false
+   */
+  striped?: boolean;
 
-	/**
-	 * Whether the stripes should animate (slide).
-	 * Only applies when `striped` is true.
-	 * @default false
-	 */
-	animated?: boolean;
+  /**
+   * Whether the stripes should animate (slide).
+   * Only applies when `striped` is true.
+   * @default false
+   */
+  animated?: boolean;
 
-	/**
-	 * Whether to display the progress label.
-	 * Shows the percentage value or custom label above the bar.
-	 * @default false
-	 */
-	showLabel?: boolean;
+  /**
+   * Whether to display the progress label.
+   * Shows the percentage value or custom label above the bar.
+   * @default false
+   */
+  showLabel?: boolean;
 
-	/**
-	 * Custom label text displayed above or inside the bar.
-	 * When provided alongside `showLabel`, replaces the default "X%" text.
-	 */
-	label?: ReactNode;
+  /**
+   * Custom label text displayed above or inside the bar.
+   * When provided alongside `showLabel`, replaces the default "X%" text.
+   */
+  label?: ReactNode;
 
-	/**
-	 * Custom format function for the value label.
-	 * Receives the current value and max, returns a string.
-	 * @default (value, max) => `${Math.round((value / max) * 100)}%`
-	 */
-	formatLabel?: (value: number, max: number) => string;
+  /**
+   * Custom format function for the value label.
+   * Receives the current value and max, returns a string.
+   * @default (value, max) => `${Math.round((value / max) * 100)}%`
+   */
+  formatLabel?: (value: number, max: number) => string;
 
-	/**
-	 * Accessible label for the progress bar.
-	 * Use when there's no visible label to describe what's loading.
-	 */
-	"aria-label"?: string;
+  /**
+   * Accessible label for the progress bar.
+   * Use when there's no visible label to describe what's loading.
+   */
+  "aria-label"?: string;
 
-	/**
-	 * ID of the element that labels the progress bar.
-	 */
-	"aria-labelledby"?: string;
+  /**
+   * ID of the element that labels the progress bar.
+   */
+  "aria-labelledby"?: string;
 
-	/** Additional CSS classes for the track (outer container). */
-	className?: string;
+  /** Additional CSS classes for the track (outer container). */
+  className?: string;
 
-	/** Additional CSS classes for the indicator (inner fill). */
-	indicatorClassName?: string;
+  /** Additional CSS classes for the indicator (inner fill). */
+  indicatorClassName?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -254,9 +254,9 @@ export interface ProgressProps
 // ---------------------------------------------------------------------------
 
 const stripedStyle: React.CSSProperties = {
-	backgroundImage:
-		"linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent)",
-	backgroundSize: "1rem 1rem",
+  backgroundImage:
+    "linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent)",
+  backgroundSize: "1rem 1rem",
 };
 
 // ---------------------------------------------------------------------------
@@ -270,19 +270,18 @@ const stripedStyle: React.CSSProperties = {
 const PROGRESS_STYLE_ID = "unified-ui-progress-keyframes";
 
 function ProgressKeyframes() {
-	if (typeof document !== "undefined") {
-		// Only inject once
-		if (document.getElementById(PROGRESS_STYLE_ID)) {
-			return null;
-		}
-	}
+  if (typeof document !== "undefined") {
+    // Only inject once
+    if (document.getElementById(PROGRESS_STYLE_ID)) {
+      return null;
+    }
+  }
 
-	return (
-		<style
-			id={PROGRESS_STYLE_ID}
-			// biome-ignore lint/security/noDangerouslySetInnerHtml: keyframes injection
-			dangerouslySetInnerHTML={{
-				__html: `
+  return (
+    <style
+      id={PROGRESS_STYLE_ID}
+      dangerouslySetInnerHTML={{
+        __html: `
 @keyframes unified-ui-progress-indeterminate {
   0% { transform: translateX(-100%); width: 50%; }
   50% { transform: translateX(50%); width: 30%; }
@@ -293,9 +292,9 @@ function ProgressKeyframes() {
   100% { background-position: 0 0; }
 }
 `,
-			}}
-		/>
-	);
+      }}
+    />
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -348,117 +347,117 @@ function ProgressKeyframes() {
  * ```
  */
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
-	function Progress(
-		{
-			value = 0,
-			max = 100,
-			min = 0,
-			variant = "default",
-			size = "md",
-			indeterminate = false,
-			striped = false,
-			animated = false,
-			showLabel = false,
-			label,
-			formatLabel,
-			"aria-label": ariaLabel,
-			"aria-labelledby": ariaLabelledBy,
-			className,
-			indicatorClassName,
-			...rest
-		},
-		ref,
-	) {
-		// Clamp value between min and max
-		const clampedValue = Math.max(min, Math.min(value, max));
-		const range = max - min;
-		const percentage = range > 0 ? ((clampedValue - min) / range) * 100 : 0;
+  function Progress(
+    {
+      value = 0,
+      max = 100,
+      min = 0,
+      variant = "default",
+      size = "md",
+      indeterminate = false,
+      striped = false,
+      animated = false,
+      showLabel = false,
+      label,
+      formatLabel,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      className,
+      indicatorClassName,
+      ...rest
+    },
+    ref,
+  ) {
+    // Clamp value between min and max
+    const clampedValue = Math.max(min, Math.min(value, max));
+    const range = max - min;
+    const percentage = range > 0 ? ((clampedValue - min) / range) * 100 : 0;
 
-		// Build label text
-		const defaultFormatLabel = (v: number, m: number): string => {
-			const pct = m - min > 0 ? ((v - min) / (m - min)) * 100 : 0;
-			return `${Math.round(pct)}%`;
-		};
-		const labelFormatter = formatLabel ?? defaultFormatLabel;
-		const labelText = label ?? labelFormatter(clampedValue, max);
+    // Build label text
+    const defaultFormatLabel = (v: number, m: number): string => {
+      const pct = m - min > 0 ? ((v - min) / (m - min)) * 100 : 0;
+      return `${Math.round(pct)}%`;
+    };
+    const labelFormatter = formatLabel ?? defaultFormatLabel;
+    const _labelText = label ?? labelFormatter(clampedValue, max);
 
-		// Indicator inline styles
-		const indicatorStyle: React.CSSProperties = {
-			...(indeterminate
-				? {
-						animation:
-							"unified-ui-progress-indeterminate 1.5s ease-in-out infinite",
-					}
-				: {
-						width: `${percentage}%`,
-					}),
-			...(striped ? stripedStyle : {}),
-			...(striped && animated
-				? {
-						animation: indeterminate
-							? "unified-ui-progress-indeterminate 1.5s ease-in-out infinite"
-							: "unified-ui-progress-stripe-slide 0.6s linear infinite",
-					}
-				: {}),
-		};
+    // Indicator inline styles
+    const indicatorStyle: React.CSSProperties = {
+      ...(indeterminate
+        ? {
+            animation:
+              "unified-ui-progress-indeterminate 1.5s ease-in-out infinite",
+          }
+        : {
+            width: `${percentage}%`,
+          }),
+      ...(striped ? stripedStyle : {}),
+      ...(striped && animated
+        ? {
+            animation: indeterminate
+              ? "unified-ui-progress-indeterminate 1.5s ease-in-out infinite"
+              : "unified-ui-progress-stripe-slide 0.6s linear infinite",
+          }
+        : {}),
+    };
 
-		// ARIA attributes — omit aria-valuenow for indeterminate per spec
-		const ariaAttrs: Record<string, unknown> = {
-			role: "progressbar",
-			"aria-valuemin": min,
-			"aria-valuemax": max,
-			...(ariaLabel ? { "aria-label": ariaLabel } : {}),
-			...(ariaLabelledBy ? { "aria-labelledby": ariaLabelledBy } : {}),
-		};
+    // ARIA attributes — omit aria-valuenow for indeterminate per spec
+    const ariaAttrs: Record<string, unknown> = {
+      role: "progressbar",
+      "aria-valuemin": min,
+      "aria-valuemax": max,
+      ...(ariaLabel ? { "aria-label": ariaLabel } : {}),
+      ...(ariaLabelledBy ? { "aria-labelledby": ariaLabelledBy } : {}),
+    };
 
-		if (!indeterminate) {
-			ariaAttrs["aria-valuenow"] = clampedValue;
-		}
+    if (!indeterminate) {
+      ariaAttrs["aria-valuenow"] = clampedValue;
+    }
 
-		return (
-			<div
-				data-ds=""
-				data-ds-component="progress"
-				data-ds-variant={variant}
-				data-ds-size={size}
-				{...(indeterminate ? { "data-ds-indeterminate": "" } : {})}
-			>
-				<ProgressKeyframes />
+    return (
+      <div
+        data-ds=""
+        data-ds-component="progress"
+        data-ds-variant={variant}
+        data-ds-size={size}
+        {...(indeterminate ? { "data-ds-indeterminate": "" } : {})}
+      >
+        <ProgressKeyframes />
 
-				{/* Label row */}
-				{showLabel && (
-					<div className="flex items-center justify-between mb-1.5">
-						<span className="text-xs font-medium leading-4 text-foreground">
-							{label ?? ""}
-						</span>
-						<span className="text-xs font-medium leading-4 text-muted-foreground tabular-nums">
-							{typeof label === "string" || !label
-								? labelFormatter(clampedValue, max)
-								: ""}
-						</span>
-					</div>
-				)}
+        {/* Label row */}
+        {showLabel && (
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-xs font-medium leading-4 text-foreground">
+              {label ?? ""}
+            </span>
+            <span className="text-xs font-medium leading-4 text-muted-foreground tabular-nums">
+              {typeof label === "string" || !label
+                ? labelFormatter(clampedValue, max)
+                : ""}
+            </span>
+          </div>
+        )}
 
-				{/* Track */}
-				<div
-					ref={ref}
-					className={cn(progressTrackVariants({ size }), className)}
-					{...ariaAttrs}
-					{...rest}
-				>
-					{/* Indicator */}
-					<div
-						className={cn(
-							progressIndicatorVariants({ variant }),
-							indeterminate && "absolute",
-							indicatorClassName,
-						)}
-						style={indicatorStyle}
-					/>
-				</div>
-			</div>
-		);
-	},
+        {/* Track */}
+        <div
+          ref={ref}
+          className={cn(progressTrackVariants({ size }), className)}
+          {...ariaAttrs}
+          {...rest}
+        >
+          {/* Indicator */}
+          <div
+            className={cn(
+              progressIndicatorVariants({ variant }),
+              indeterminate && "absolute",
+              indicatorClassName,
+            )}
+            style={indicatorStyle}
+          />
+        </div>
+      </div>
+    );
+  },
 );
 
 Progress.displayName = "Progress";

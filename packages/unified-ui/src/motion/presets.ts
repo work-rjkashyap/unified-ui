@@ -585,7 +585,7 @@ export const spin: MotionPreset = {
  * @param preset - The original motion preset
  * @returns A reduced-motion-safe version of the preset
  */
-export function reduceMotion(preset: MotionPreset): MotionPreset {
+export function reduceMotion(_preset: MotionPreset): MotionPreset {
   return {
     variants: {
       initial: { opacity: 0 },
@@ -598,6 +598,175 @@ export function reduceMotion(preset: MotionPreset): MotionPreset {
     },
   };
 }
+
+// ---------------------------------------------------------------------------
+// New Phase 11 Presets
+// ---------------------------------------------------------------------------
+
+/**
+ * shakeX — Horizontal shake for invalid inputs.
+ * Use with AnimatePresence on error state, or trigger via `animate` prop.
+ */
+export const shakeX: MotionPreset = {
+  variants: {
+    initial: { x: 0, opacity: 1 },
+    animate: {
+      x: [0, -8, 8, -6, 6, -4, 4, 0],
+      opacity: 1,
+      transition: {
+        duration: durationSeconds.slow,
+        ease: [...easing.standard] as EasingTuple,
+      },
+    },
+    exit: { x: 0, opacity: 1 },
+  },
+  transition: {
+    duration: durationSeconds.slow,
+    ease: [...easing.standard] as EasingTuple,
+  },
+};
+
+/**
+ * numberRoll — Vertical digit roll for value changes (NumberInput, Stat, Pagination).
+ * Animate old value out upward, new value in from below.
+ */
+export const numberRoll: MotionPreset = {
+  variants: {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -12 },
+  },
+  transition: {
+    duration: durationSeconds.normal,
+    ease: [...easing.decelerate] as EasingTuple,
+  },
+};
+
+/**
+ * crossfade — Fade-out old, fade-in new with mode="wait".
+ * Use for Calendar month transitions, Carousel slides, ImageGallery.
+ */
+export const crossfade: MotionPreset = {
+  variants: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+  },
+  transition: {
+    duration: durationSeconds.fast,
+    ease: [...easing.standard] as EasingTuple,
+  },
+};
+
+/**
+ * slidePanel — Configurable direction slide for panels (Sheet, Drawer, Sidebar).
+ * Use the direction-specific variants: slidePanelRight, slidePanelLeft,
+ * slidePanelBottom, slidePanelTop.
+ */
+export const slidePanelRight: MotionPreset = {
+  variants: {
+    initial: { x: "100%", opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: "100%", opacity: 0 },
+  },
+  transition: spring.gentle,
+};
+
+export const slidePanelLeft: MotionPreset = {
+  variants: {
+    initial: { x: "-100%", opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: "-100%", opacity: 0 },
+  },
+  transition: spring.gentle,
+};
+
+export const slidePanelBottom: MotionPreset = {
+  variants: {
+    initial: { y: "100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: "100%", opacity: 0 },
+  },
+  transition: spring.gentle,
+};
+
+export const slidePanelTop: MotionPreset = {
+  variants: {
+    initial: { y: "-100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: "-100%", opacity: 0 },
+  },
+  transition: spring.gentle,
+};
+
+/**
+ * dragDismiss — Drag + velocity threshold → exit.
+ * Use for Sheet (bottom), Drawer, swipeable Toast.
+ * Apply `drag`, `dragConstraints`, and `onDragEnd` on the motion.div.
+ */
+export const dragDismiss: MotionPreset = {
+  variants: {
+    initial: { y: "100%", opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: {
+      y: "100%",
+      opacity: 0,
+      transition: { duration: durationSeconds.fast },
+    },
+  },
+  transition: spring.gentle,
+};
+
+/**
+ * countUp — Animated number interpolation for Stat, Progress label.
+ * Use with Framer Motion's `useMotionValue` + `useTransform` + `animate()`.
+ * This preset provides the enter/exit wrapper animation.
+ */
+export const countUp: MotionPreset = {
+  variants: {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 },
+  },
+  transition: {
+    duration: durationSeconds.normal,
+    ease: [...easing.decelerate] as EasingTuple,
+  },
+};
+
+/**
+ * revealMask — Clip-path reveal animation for Skeleton → content transition.
+ * Animates from a clipped (invisible) state to fully revealed.
+ */
+export const revealMask: MotionPreset = {
+  variants: {
+    initial: { clipPath: "inset(0 100% 0 0)", opacity: 1 },
+    animate: { clipPath: "inset(0 0% 0 0)", opacity: 1 },
+    exit: { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+  },
+  transition: {
+    duration: durationSeconds.slow,
+    ease: [...easing.decelerate] as EasingTuple,
+  },
+};
+
+/**
+ * springPress — whileTap spring press for buttons, toggles, cards.
+ * Use as: `whileTap={springPress}`
+ */
+export const springPress: TargetAndTransition = {
+  scale: 0.97,
+  transition: spring.snappy,
+};
+
+/**
+ * springHover — whileHover lift for cards and elevated buttons.
+ * Use as: `whileHover={springHover}`
+ */
+export const springHover: TargetAndTransition = {
+  y: -2,
+  transition: spring.gentle,
+};
 
 /**
  * Conditionally returns the full or reduced preset based on a boolean flag.

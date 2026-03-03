@@ -1,0 +1,299 @@
+---
+title: Copy Button
+description: A click-to-copy button with animated clipboard-to-checkmark feedback, tooltip, and multiple size variants.
+icon: Copy
+---
+
+import {
+  CopyButton,
+} from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Copy Button"
+  description="A compact icon button that copies text to the clipboard with animated clipboard-to-checkmark feedback and an informative tooltip."
+  preview={
+    <div className="flex gap-4 items-center justify-center">
+      <CopyButton text="npm install @work-rjkashyap/unified-ui" tooltip="Copy install command" />
+      <CopyButton text="https://unified-ui.dev" tooltip="Copy URL" variant="ghost" />
+      <CopyButton text="sk_live_abc123" tooltip="Copy API key" size="lg" />
+    </div>
+  }
+  code={`<CopyButton text="npm install @work-rjkashyap/unified-ui" tooltip="Copy install command" />
+<CopyButton text="https://unified-ui.dev" tooltip="Copy URL" variant="ghost" />
+<CopyButton text="sk_live_abc123" tooltip="Copy API key" size="lg" />`}
+>
+
+## Import
+
+```tsx
+import { CopyButton } from "@work-rjkashyap/unified-ui";
+// or
+import { CopyButton } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Pass the `text` prop with the string to copy to clipboard. The button shows a checkmark for `2000ms` after a successful copy.
+
+```tsx
+<CopyButton text="Hello, world!" />
+```
+
+## Sizes
+
+<ComponentPage
+  title="Sizes"
+  description="Three sizes for different density contexts."
+  preview={
+    <div className="flex gap-4 items-end justify-center">
+      <div className="flex flex-col items-center gap-1.5">
+        <CopyButton text="small" size="sm" tooltip="Copy (sm)" />
+        <span className="text-xs text-muted-foreground">sm</span>
+      </div>
+      <div className="flex flex-col items-center gap-1.5">
+        <CopyButton text="medium" size="md" tooltip="Copy (md)" />
+        <span className="text-xs text-muted-foreground">md</span>
+      </div>
+      <div className="flex flex-col items-center gap-1.5">
+        <CopyButton text="large" size="lg" tooltip="Copy (lg)" />
+        <span className="text-xs text-muted-foreground">lg</span>
+      </div>
+    </div>
+  }
+  code={`<CopyButton text="small"  size="sm" />
+<CopyButton text="medium" size="md" />
+<CopyButton text="large"  size="lg" />`}
+/>
+
+| Size | Dimensions | Icon Size |
+| ---- | ---------- | --------- |
+| `sm` | 28×28px    | 12px      |
+| `md` | 32×32px    | 14px      |
+| `lg` | 36×36px    | 16px      |
+
+## Variants
+
+<ComponentPage
+  title="Variants"
+  description="Default has a visible border and background; ghost is borderless and transparent."
+  preview={
+    <div className="flex gap-4 items-center justify-center">
+      <div className="flex flex-col items-center gap-1.5">
+        <CopyButton text="default" variant="default" tooltip="Copy" />
+        <span className="text-xs text-muted-foreground">default</span>
+      </div>
+      <div className="flex flex-col items-center gap-1.5">
+        <CopyButton text="ghost" variant="ghost" tooltip="Copy" />
+        <span className="text-xs text-muted-foreground">ghost</span>
+      </div>
+    </div>
+  }
+  code={`<CopyButton text="default" variant="default" />
+<CopyButton text="ghost"   variant="ghost" />`}
+/>
+
+| Variant   | Background           | Border  | Use Case                                   |
+| --------- | -------------------- | ------- | ------------------------------------------ |
+| `default` | `--background`       | Visible | Standalone copy buttons, API key fields    |
+| `ghost`   | Transparent          | None    | Inside code blocks, toolbars, inline cells |
+
+## Custom Tooltip
+
+Set `tooltip` to customize the label shown on hover. After a successful copy, the tooltip automatically shows `"Copied!"`.
+
+<ComponentPage
+  title="Custom Tooltip"
+  description="Customize the tooltip text shown on hover. Automatically shows 'Copied!' after copy."
+  preview={
+    <div className="flex gap-4 items-center justify-center">
+      <CopyButton text="npm install @work-rjkashyap/unified-ui" tooltip="Copy install command" />
+      <CopyButton text="sk_live_abc123" tooltip="Copy API key" />
+      <CopyButton text="https://unified-ui.dev" tooltip="Copy link" variant="ghost" />
+    </div>
+  }
+  code={`<CopyButton text="npm install @work-rjkashyap/unified-ui" tooltip="Copy install command" />
+<CopyButton text="sk_live_abc123" tooltip="Copy API key" />
+<CopyButton text="https://unified-ui.dev" tooltip="Copy link" variant="ghost" />`}
+/>
+
+## Success Duration
+
+Control how long the checkmark state is shown before reverting to the copy icon. Defaults to `2000ms`.
+
+```tsx
+{/* Short flash — 1 second */}
+<CopyButton text="quick copy" successDuration={1000} />
+
+{/* Long confirmation — 4 seconds */}
+<CopyButton text="important key" successDuration={4000} tooltip="Copy key" />
+```
+
+## Callbacks
+
+Use `onCopy` and `onCopyError` for side effects after copy success or failure.
+
+```tsx
+<CopyButton
+  text={apiKey}
+  tooltip="Copy API key"
+  onCopy={(text) => {
+    analytics.track("api_key_copied");
+    console.log("Copied:", text);
+  }}
+  onCopyError={(error) => {
+    toast.error("Failed to copy. Please copy manually.");
+    console.error(error);
+  }}
+/>
+```
+
+## Inside a Code Block
+
+The most common use case — a ghost copy button overlaid in the top-right corner of a code block.
+
+<ComponentPage
+  title="In a Code Block"
+  description="The ghost variant is designed to sit cleanly inside code blocks and toolbars."
+  preview={
+    <div className="w-full max-w-sm relative rounded-lg border border-border bg-muted/50 overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted">
+        <span className="text-xs font-mono text-muted-foreground">bash</span>
+        <CopyButton
+          text="npm install @work-rjkashyap/unified-ui"
+          tooltip="Copy"
+          variant="ghost"
+          size="sm"
+        />
+      </div>
+      <pre className="p-4 text-sm font-mono overflow-x-auto text-foreground">
+        <code>npm install @work-rjkashyap/unified-ui</code>
+      </pre>
+    </div>
+  }
+  code={`<div className="relative rounded-lg border border-border bg-muted/50">
+  <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted">
+    <span className="text-xs font-mono text-muted-foreground">bash</span>
+    <CopyButton
+      text="npm install @work-rjkashyap/unified-ui"
+      tooltip="Copy"
+      variant="ghost"
+      size="sm"
+    />
+  </div>
+  <pre className="p-4 text-sm font-mono">
+    <code>npm install @work-rjkashyap/unified-ui</code>
+  </pre>
+</div>`}
+/>
+
+## In an API Key Field
+
+A common pattern for displaying masked API keys with a copy action.
+
+```tsx
+<div className="flex items-center gap-2 p-2 rounded-md border border-border bg-muted/30">
+  <code className="flex-1 text-xs font-mono text-muted-foreground truncate">
+    sk_live_••••••••••••••••••••••4242
+  </code>
+  <CopyButton
+    text={actualApiKey}
+    tooltip="Copy API key"
+    size="sm"
+    onCopy={() => toast.success("API key copied to clipboard.")}
+  />
+</div>
+```
+
+## In a Table Cell
+
+```tsx
+function ApiKeyRow({ row }: { row: ApiKey }) {
+  return (
+    <tr>
+      <td className="font-mono text-sm">{row.name}</td>
+      <td className="text-muted-foreground text-sm">
+        {row.key.slice(0, 8)}••••••••
+      </td>
+      <td>
+        <CopyButton
+          text={row.key}
+          tooltip="Copy full key"
+          variant="ghost"
+          size="sm"
+        />
+      </td>
+    </tr>
+  );
+}
+```
+
+## With InputGroup
+
+A clean combination with `InputGroup` for shareable link fields.
+
+```tsx
+import { InputGroup, CopyButton } from "@work-rjkashyap/unified-ui";
+import { Link } from "lucide-react";
+
+<InputGroup
+  prefix={<Link className="size-4" />}
+  inputProps={{
+    value: shareUrl,
+    readOnly: true,
+    className: "text-sm",
+  }}
+  suffix={
+    <CopyButton
+      text={shareUrl}
+      tooltip="Copy link"
+      variant="ghost"
+      size="sm"
+    />
+  }
+/>
+```
+
+## Props
+
+| Prop              | Type                          | Default     | Description                                                          |
+| ----------------- | ----------------------------- | ----------- | -------------------------------------------------------------------- |
+| `text`            | `string`                      | —           | **Required.** The text string to copy to the clipboard.              |
+| `variant`         | `"default" \| "ghost"`        | `"default"` | Visual style — bordered or transparent.                              |
+| `size`            | `"sm" \| "md" \| "lg"`        | `"md"`      | Button dimensions.                                                   |
+| `tooltip`         | `string`                      | `"Copy"`    | Tooltip text shown on hover. Automatically switches to `"Copied!"` after copy. |
+| `successDuration` | `number`                      | `2000`      | How long (in ms) the checkmark state is shown before reverting.      |
+| `onCopy`          | `(text: string) => void`      | —           | Callback fired after a successful copy with the copied text.         |
+| `onCopyError`     | `(error: Error) => void`      | —           | Callback fired if the clipboard write fails.                         |
+| `className`       | `string`                      | —           | Additional CSS classes on the root wrapper.                          |
+
+Standard `<button>` HTML attributes are **not** forwarded — the component manages its own click handler via the `text` prop.
+
+## Motion
+
+- **Icon transition** — `AnimatePresence mode="wait"` swaps the copy icon for the checkmark with the `fadeInFast` preset (`opacity 0 → 1`, 120ms) in both directions.
+- **Checkmark** — Appears with a `pop` scale animation (`scale: 0.85 → 1`, spring `stiffness: 400, damping: 20`) to provide satisfying tactile feedback.
+- **Tooltip** — Fades in/out with `fadeInFast` on mouse enter/leave and focus/blur.
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- The button has `aria-label` that updates dynamically: `"Copy"` by default, `"Copied!"` after a successful copy.
+- Focus ring is always visible via `focus-visible` styles for keyboard users.
+- The copy icon and checkmark icon are both `aria-hidden="true"`.
+- The tooltip is rendered as `pointer-events-none` and is purely decorative — the `aria-label` provides the screen reader context.
+- The component uses the native Clipboard API (`navigator.clipboard.writeText`) — failures are caught and surfaced via `onCopyError`.
+
+## Design Tokens
+
+| Token             | Usage                                |
+| ----------------- | ------------------------------------ |
+| `--background`    | Default variant background           |
+| `--border`        | Default variant border               |
+| `--accent`        | Hover background                     |
+| `--foreground`    | Tooltip background                   |
+| `--background`    | Tooltip text color                   |
+| `--success`       | Checkmark icon color                 |
+| `--radius-md`     | Button border radius                 |
+| `--duration-fast` | Hover/focus transition speed         |
+
+</ComponentPage>

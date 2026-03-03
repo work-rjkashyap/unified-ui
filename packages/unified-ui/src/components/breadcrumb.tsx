@@ -65,41 +65,41 @@ import { forwardRef, type ReactNode, useMemo } from "react";
 // ---------------------------------------------------------------------------
 
 function ChevronRightIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<path d="m9 18 6-6-6-6" />
-		</svg>
-	);
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
 }
 
 function MoreHorizontalIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<circle cx="12" cy="12" r="1" />
-			<circle cx="19" cy="12" r="1" />
-			<circle cx="5" cy="12" r="1" />
-		</svg>
-	);
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="19" cy="12" r="1" />
+      <circle cx="5" cy="12" r="1" />
+    </svg>
+  );
 }
 
 // ===========================================================================
@@ -107,20 +107,20 @@ function MoreHorizontalIcon({ className }: { className?: string }) {
 // ===========================================================================
 
 export interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
-	/**
-	 * Custom separator to render between items.
-	 * Defaults to a chevron-right icon.
-	 */
-	separator?: ReactNode;
+  /**
+   * Custom separator to render between items.
+   * Defaults to a chevron-right icon.
+   */
+  separator?: ReactNode;
 
-	/**
-	 * Accessible label for the breadcrumb navigation landmark.
-	 * @default "Breadcrumb"
-	 */
-	"aria-label"?: string;
+  /**
+   * Accessible label for the breadcrumb navigation landmark.
+   * @default "Breadcrumb"
+   */
+  "aria-label"?: string;
 
-	/** Additional CSS classes. */
-	className?: string;
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 /**
@@ -130,28 +130,23 @@ export interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
  * `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, etc.
  */
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
-	function Breadcrumb(
-		{
-			"aria-label": ariaLabel = "Breadcrumb",
-			className,
-			children,
-			...rest
-		},
-		ref,
-	) {
-		return (
-			<nav
-				ref={ref}
-				aria-label={ariaLabel}
-				className={cn("not-prose", className)}
-				data-ds=""
-				data-ds-component="breadcrumb"
-				{...rest}
-			>
-				{children}
-			</nav>
-		);
-	},
+  function Breadcrumb(
+    { "aria-label": ariaLabel = "Breadcrumb", className, children, ...rest },
+    ref,
+  ) {
+    return (
+      <nav
+        ref={ref}
+        aria-label={ariaLabel}
+        className={cn("not-prose", className)}
+        data-ds=""
+        data-ds-component="breadcrumb"
+        {...rest}
+      >
+        {children}
+      </nav>
+    );
+  },
 );
 
 Breadcrumb.displayName = "Breadcrumb";
@@ -160,35 +155,36 @@ Breadcrumb.displayName = "Breadcrumb";
 // BreadcrumbList — <ol>
 // ===========================================================================
 
-export interface BreadcrumbListProps extends React.HTMLAttributes<HTMLOListElement> {
-	/** Additional CSS classes. */
-	className?: string;
-	/** List children. */
-	children?: ReactNode;
+export interface BreadcrumbListProps
+  extends React.HTMLAttributes<HTMLOListElement> {
+  /** Additional CSS classes. */
+  className?: string;
+  /** List children. */
+  children?: ReactNode;
 }
 
 /**
  * BreadcrumbList — an ordered list containing breadcrumb items.
  */
 export const BreadcrumbList = forwardRef<HTMLOListElement, BreadcrumbListProps>(
-	function BreadcrumbList({ className, children, ...rest }, ref) {
-		return (
-			<ol
-				ref={ref}
-				className={cn(
-					"flex flex-wrap items-center gap-1.5",
-					"text-xs leading-4 tracking-wide",
-					"text-muted-foreground",
-					className,
-				)}
-				data-ds=""
-				data-ds-component="breadcrumb-list"
-				{...rest}
-			>
-				{children}
-			</ol>
-		);
-	},
+  function BreadcrumbList({ className, children, ...rest }, ref) {
+    return (
+      <ol
+        ref={ref}
+        className={cn(
+          "flex flex-wrap items-center gap-1.5",
+          "text-xs leading-4 tracking-wide",
+          "text-muted-foreground",
+          className,
+        )}
+        data-ds=""
+        data-ds-component="breadcrumb-list"
+        {...rest}
+      >
+        {children}
+      </ol>
+    );
+  },
 );
 
 BreadcrumbList.displayName = "BreadcrumbList";
@@ -197,28 +193,29 @@ BreadcrumbList.displayName = "BreadcrumbList";
 // BreadcrumbItem — <li>
 // ===========================================================================
 
-export interface BreadcrumbItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface BreadcrumbItemProps
+  extends React.LiHTMLAttributes<HTMLLIElement> {
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 /**
  * BreadcrumbItem — a single item in the breadcrumb trail.
  */
 export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
-	function BreadcrumbItem({ className, children, ...rest }, ref) {
-		return (
-			<li
-				ref={ref}
-				className={cn("inline-flex items-center gap-1.5", className)}
-				data-ds=""
-				data-ds-component="breadcrumb-item"
-				{...rest}
-			>
-				{children}
-			</li>
-		);
-	},
+  function BreadcrumbItem({ className, children, ...rest }, ref) {
+    return (
+      <li
+        ref={ref}
+        className={cn("inline-flex items-center gap-1.5", className)}
+        data-ds=""
+        data-ds-component="breadcrumb-item"
+        {...rest}
+      >
+        {children}
+      </li>
+    );
+  },
 );
 
 BreadcrumbItem.displayName = "BreadcrumbItem";
@@ -227,9 +224,10 @@ BreadcrumbItem.displayName = "BreadcrumbItem";
 // BreadcrumbLink — <a>
 // ===========================================================================
 
-export interface BreadcrumbLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface BreadcrumbLinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 /**
@@ -246,28 +244,28 @@ export interface BreadcrumbLinkProps extends React.AnchorHTMLAttributes<HTMLAnch
  * ```
  */
 export const BreadcrumbLink = forwardRef<
-	HTMLAnchorElement,
-	BreadcrumbLinkProps
+  HTMLAnchorElement,
+  BreadcrumbLinkProps
 >(function BreadcrumbLink({ className, children, ...rest }, ref) {
-	return (
-		<a
-			ref={ref}
-			className={cn(
-				"no-underline",
-				"text-muted-foreground",
-				"transition-colors duration-fast",
-				"hover:text-foreground",
-				focusRingCompactClasses,
-				"rounded-sm",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="breadcrumb-link"
-			{...rest}
-		>
-			{children}
-		</a>
-	);
+  return (
+    <a
+      ref={ref}
+      className={cn(
+        "no-underline",
+        "text-muted-foreground",
+        "transition-colors duration-fast",
+        "hover:text-foreground",
+        focusRingCompactClasses,
+        "rounded-sm",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="breadcrumb-link"
+      {...rest}
+    >
+      {children}
+    </a>
+  );
 });
 
 BreadcrumbLink.displayName = "BreadcrumbLink";
@@ -276,9 +274,10 @@ BreadcrumbLink.displayName = "BreadcrumbLink";
 // BreadcrumbPage — current page (non-linked)
 // ===========================================================================
 
-export interface BreadcrumbPageProps extends React.HTMLAttributes<HTMLSpanElement> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface BreadcrumbPageProps
+  extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 /**
@@ -288,20 +287,20 @@ export interface BreadcrumbPageProps extends React.HTMLAttributes<HTMLSpanElemen
  * to indicate the user's current location.
  */
 export const BreadcrumbPage = forwardRef<HTMLSpanElement, BreadcrumbPageProps>(
-	function BreadcrumbPage({ className, children, ...rest }, ref) {
-		return (
-			<span
-				ref={ref}
-				aria-current="page"
-				className={cn("font-medium", "text-foreground", className)}
-				data-ds=""
-				data-ds-component="breadcrumb-page"
-				{...rest}
-			>
-				{children}
-			</span>
-		);
-	},
+  function BreadcrumbPage({ className, children, ...rest }, ref) {
+    return (
+      <span
+        ref={ref}
+        aria-current="page"
+        className={cn("font-medium", "text-foreground", className)}
+        data-ds=""
+        data-ds-component="breadcrumb-page"
+        {...rest}
+      >
+        {children}
+      </span>
+    );
+  },
 );
 
 BreadcrumbPage.displayName = "BreadcrumbPage";
@@ -310,11 +309,12 @@ BreadcrumbPage.displayName = "BreadcrumbPage";
 // BreadcrumbSeparator
 // ===========================================================================
 
-export interface BreadcrumbSeparatorProps extends React.LiHTMLAttributes<HTMLLIElement> {
-	/** Custom separator content. Defaults to a chevron-right icon. */
-	children?: ReactNode;
-	/** Additional CSS classes. */
-	className?: string;
+export interface BreadcrumbSeparatorProps
+  extends React.LiHTMLAttributes<HTMLLIElement> {
+  /** Custom separator content. Defaults to a chevron-right icon. */
+  children?: ReactNode;
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 /**
@@ -324,27 +324,27 @@ export interface BreadcrumbSeparatorProps extends React.LiHTMLAttributes<HTMLLIE
  * ReactNode) to use a different separator.
  */
 export const BreadcrumbSeparator = forwardRef<
-	HTMLLIElement,
-	BreadcrumbSeparatorProps
+  HTMLLIElement,
+  BreadcrumbSeparatorProps
 >(function BreadcrumbSeparator({ className, children, ...rest }, ref) {
-	return (
-		<li
-			ref={ref}
-			role="presentation"
-			aria-hidden="true"
-			className={cn(
-				"inline-flex items-center",
-				"text-muted-foreground/60",
-				"[&>svg]:size-3",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="breadcrumb-separator"
-			{...rest}
-		>
-			{children ?? <ChevronRightIcon />}
-		</li>
-	);
+  return (
+    <li
+      ref={ref}
+      role="presentation"
+      aria-hidden="true"
+      className={cn(
+        "inline-flex items-center",
+        "text-muted-foreground/60",
+        "[&>svg]:size-3",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="breadcrumb-separator"
+      {...rest}
+    >
+      {children ?? <ChevronRightIcon />}
+    </li>
+  );
 });
 
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
@@ -353,9 +353,10 @@ BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
 // BreadcrumbEllipsis
 // ===========================================================================
 
-export interface BreadcrumbEllipsisProps extends React.HTMLAttributes<HTMLSpanElement> {
-	/** Additional CSS classes. */
-	className?: string;
+export interface BreadcrumbEllipsisProps
+  extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Additional CSS classes. */
+  className?: string;
 }
 
 /**
@@ -365,27 +366,27 @@ export interface BreadcrumbEllipsisProps extends React.HTMLAttributes<HTMLSpanEl
  * used manually in the composable API.
  */
 export const BreadcrumbEllipsis = forwardRef<
-	HTMLSpanElement,
-	BreadcrumbEllipsisProps
+  HTMLSpanElement,
+  BreadcrumbEllipsisProps
 >(function BreadcrumbEllipsis({ className, ...rest }, ref) {
-	return (
-		<span
-			ref={ref}
-			role="presentation"
-			aria-hidden="true"
-			className={cn(
-				"inline-flex items-center justify-center size-5",
-				"text-muted-foreground",
-				className,
-			)}
-			data-ds=""
-			data-ds-component="breadcrumb-ellipsis"
-			{...rest}
-		>
-			<MoreHorizontalIcon className="size-4" />
-			<span className="sr-only">More pages</span>
-		</span>
-	);
+  return (
+    <span
+      ref={ref}
+      role="presentation"
+      aria-hidden="true"
+      className={cn(
+        "inline-flex items-center justify-center size-5",
+        "text-muted-foreground",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="breadcrumb-ellipsis"
+      {...rest}
+    >
+      <MoreHorizontalIcon className="size-4" />
+      <span className="sr-only">More pages</span>
+    </span>
+  );
 });
 
 BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";
@@ -399,38 +400,38 @@ BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";
 // ===========================================================================
 
 export interface BreadcrumbNavItem {
-	/** Display label for the breadcrumb segment. */
-	label: ReactNode;
-	/**
-	 * URL to navigate to. When omitted, the item is rendered as the
-	 * current page (non-linked, last item).
-	 */
-	href?: string;
+  /** Display label for the breadcrumb segment. */
+  label: ReactNode;
+  /**
+   * URL to navigate to. When omitted, the item is rendered as the
+   * current page (non-linked, last item).
+   */
+  href?: string;
 }
 
 export interface BreadcrumbNavProps extends Omit<BreadcrumbProps, "children"> {
-	/** Breadcrumb items in order from root to current page. */
-	items: BreadcrumbNavItem[];
+  /** Breadcrumb items in order from root to current page. */
+  items: BreadcrumbNavItem[];
 
-	/**
-	 * Maximum number of items to show before collapsing middle items
-	 * into an ellipsis. Set to 0 or Infinity to disable truncation.
-	 *
-	 * When truncating, the first item and the last `maxItems - 2` items
-	 * are always visible, with an ellipsis in between.
-	 *
-	 * @default Infinity (no truncation)
-	 */
-	maxItems?: number;
+  /**
+   * Maximum number of items to show before collapsing middle items
+   * into an ellipsis. Set to 0 or Infinity to disable truncation.
+   *
+   * When truncating, the first item and the last `maxItems - 2` items
+   * are always visible, with an ellipsis in between.
+   *
+   * @default Infinity (no truncation)
+   */
+  maxItems?: number;
 
-	/**
-	 * Custom separator to use between items.
-	 * @default <ChevronRightIcon /> (via BreadcrumbSeparator)
-	 */
-	separator?: ReactNode;
+  /**
+   * Custom separator to use between items.
+   * @default <ChevronRightIcon /> (via BreadcrumbSeparator)
+   */
+  separator?: ReactNode;
 
-	/** Additional CSS classes on the root nav. */
-	className?: string;
+  /** Additional CSS classes on the root nav. */
+  className?: string;
 }
 
 /**
@@ -465,89 +466,85 @@ export interface BreadcrumbNavProps extends Omit<BreadcrumbProps, "children"> {
  * ```
  */
 export const BreadcrumbNav = forwardRef<HTMLElement, BreadcrumbNavProps>(
-	function BreadcrumbNav(
-		{
-			items,
-			maxItems = Number.POSITIVE_INFINITY,
-			separator,
-			className,
-			...rest
-		},
-		ref,
-	) {
-		// Compute visible items (with potential truncation)
-		const visibleItems = useMemo(() => {
-			if (
-				items.length <= maxItems ||
-				maxItems < 2 ||
-				!Number.isFinite(maxItems)
-			) {
-				return { items, truncated: false };
-			}
+  function BreadcrumbNav(
+    {
+      items,
+      maxItems = Number.POSITIVE_INFINITY,
+      separator,
+      className,
+      ...rest
+    },
+    ref,
+  ) {
+    // Compute visible items (with potential truncation)
+    const visibleItems = useMemo(() => {
+      if (
+        items.length <= maxItems ||
+        maxItems < 2 ||
+        !Number.isFinite(maxItems)
+      ) {
+        return { items, truncated: false };
+      }
 
-			// Always show first item + last (maxItems - 2) items, with ellipsis
-			const tailCount = maxItems - 2; // -1 for first, -1 for ellipsis
-			const first = items[0];
-			const tail = items.slice(items.length - Math.max(tailCount, 1));
+      // Always show first item + last (maxItems - 2) items, with ellipsis
+      const tailCount = maxItems - 2; // -1 for first, -1 for ellipsis
+      const first = items[0];
+      const tail = items.slice(items.length - Math.max(tailCount, 1));
 
-			return {
-				items: [first, ...tail],
-				truncated: true,
-			};
-		}, [items, maxItems]);
+      return {
+        items: [first, ...tail],
+        truncated: true,
+      };
+    }, [items, maxItems]);
 
-		return (
-			<Breadcrumb ref={ref} className={className} {...rest}>
-				<BreadcrumbList>
-					{visibleItems.items.flatMap((item, index) => {
-						const itemKey = item.href ?? `page-${index}`;
-						const isLast = index === visibleItems.items.length - 1;
-						const isFirst = index === 0;
-						const showEllipsis = visibleItems.truncated && isFirst;
+    return (
+      <Breadcrumb ref={ref} className={className} {...rest}>
+        <BreadcrumbList>
+          {visibleItems.items.flatMap((item, index) => {
+            const itemKey = item.href ?? `page-${index}`;
+            const isLast = index === visibleItems.items.length - 1;
+            const isFirst = index === 0;
+            const showEllipsis = visibleItems.truncated && isFirst;
 
-						const elements: ReactNode[] = [];
+            const elements: ReactNode[] = [];
 
-						elements.push(
-							<BreadcrumbItem key={`item-${itemKey}`}>
-								{isLast && !item.href ? (
-									<BreadcrumbPage>
-										{item.label}
-									</BreadcrumbPage>
-								) : (
-									<BreadcrumbLink href={item.href}>
-										{item.label}
-									</BreadcrumbLink>
-								)}
-							</BreadcrumbItem>,
-						);
+            elements.push(
+              <BreadcrumbItem key={`item-${itemKey}`}>
+                {isLast && !item.href ? (
+                  <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                )}
+              </BreadcrumbItem>,
+            );
 
-						// Ellipsis after first item
-						if (showEllipsis) {
-							elements.push(
-								<BreadcrumbSeparator key="sep-ellipsis-before">
-									{separator}
-								</BreadcrumbSeparator>,
-								<BreadcrumbItem key="ellipsis">
-									<BreadcrumbEllipsis />
-								</BreadcrumbItem>,
-							);
-						}
+            // Ellipsis after first item
+            if (showEllipsis) {
+              elements.push(
+                <BreadcrumbSeparator key="sep-ellipsis-before">
+                  {separator}
+                </BreadcrumbSeparator>,
+                <BreadcrumbItem key="ellipsis">
+                  <BreadcrumbEllipsis />
+                </BreadcrumbItem>,
+              );
+            }
 
-						// Separator (not after last item)
-						if (!isLast) {
-							elements.push(
-								<BreadcrumbSeparator key={`sep-${itemKey}`}>
-									{separator}
-								</BreadcrumbSeparator>,
-							);
-						}
+            // Separator (not after last item)
+            if (!isLast) {
+              elements.push(
+                <BreadcrumbSeparator key={`sep-${itemKey}`}>
+                  {separator}
+                </BreadcrumbSeparator>,
+              );
+            }
 
-						return elements;
-					})}
-				</BreadcrumbList>
-			</Breadcrumb>
-		);
-	},
+            return elements;
+          })}
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  },
 );
 
 BreadcrumbNav.displayName = "BreadcrumbNav";

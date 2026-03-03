@@ -1,0 +1,326 @@
+---
+title: Tag
+description: A compact label for categorization and filtering. Supports 7 semantic variants, avatar/icon slots, dismissible mode, and Framer Motion pop animation.
+icon: Tag
+---
+
+import { Tag, Avatar, Button } from "@work-rjkashyap/unified-ui";
+import { Star, Zap, Lock, Globe, GitBranch } from "lucide-react";
+
+<ComponentPage
+  title="Tag"
+  description="A compact inline label for categorization, filtering, and status. Supports semantic variants, avatar/icon slots, and dismissible mode with pop animation."
+  preview={
+    <div className="flex flex-wrap gap-2 items-center justify-center">
+      <Tag variant="default">Default</Tag>
+      <Tag variant="primary">Primary</Tag>
+      <Tag variant="success">Active</Tag>
+      <Tag variant="warning">Pending</Tag>
+      <Tag variant="danger">Blocked</Tag>
+      <Tag variant="info">Beta</Tag>
+      <Tag variant="secondary">Archived</Tag>
+    </div>
+  }
+  code={`<Tag variant="default">Default</Tag>
+<Tag variant="primary">Primary</Tag>
+<Tag variant="success">Active</Tag>
+<Tag variant="warning">Pending</Tag>
+<Tag variant="danger">Blocked</Tag>
+<Tag variant="info">Beta</Tag>
+<Tag variant="secondary">Archived</Tag>`}
+>
+
+## Import
+
+```tsx
+import { Tag } from "@work-rjkashyap/unified-ui";
+// or
+import { Tag } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+```tsx
+<Tag>Label</Tag>
+<Tag variant="primary">Feature</Tag>
+<Tag variant="success">Active</Tag>
+```
+
+## Variants
+
+Seven semantic variants covering the full range of categorization and status needs.
+
+<ComponentPage
+	title="Variants"
+	description="Seven semantic color variants for different states and meanings."
+	preview={
+		<div className="flex flex-wrap gap-2 items-center justify-center">
+			<Tag variant="default">Default</Tag>
+			<Tag variant="primary">Primary</Tag>
+			<Tag variant="secondary">Secondary</Tag>
+			<Tag variant="success">Success</Tag>
+			<Tag variant="warning">Warning</Tag>
+			<Tag variant="danger">Danger</Tag>
+			<Tag variant="info">Info</Tag>
+		</div>
+	}
+	code={`<Tag variant="default">Default</Tag>
+<Tag variant="primary">Primary</Tag>
+<Tag variant="secondary">Secondary</Tag>
+<Tag variant="success">Success</Tag>
+<Tag variant="warning">Warning</Tag>
+<Tag variant="danger">Danger</Tag>
+<Tag variant="info">Info</Tag>`}
+/>
+
+| Variant     | Background        | Text Color               | Use Case                       |
+| ----------- | ----------------- | ------------------------ | ------------------------------ |
+| `default`   | `--muted`         | `--muted-foreground`     | Neutral labels, categories     |
+| `primary`   | `--primary/15`    | `--primary`              | Branded tags, active filters   |
+| `secondary` | `--secondary`     | `--secondary-foreground` | Subdued labels, archived items |
+| `success`   | `--success-muted` | `--success`              | Active status, completed       |
+| `warning`   | `--warning-muted` | `--warning`              | Pending, review needed         |
+| `danger`    | `--danger-muted`  | `--danger`               | Blocked, error, rejected       |
+| `info`      | `--info-muted`    | `--info`                 | Beta, informational, new       |
+
+## Sizes
+
+<ComponentPage
+	title="Sizes"
+	description="Three sizes for different density contexts."
+	preview={
+		<div className="flex flex-wrap gap-3 items-center justify-center">
+			<Tag variant="primary" size="sm">
+				Small
+			</Tag>
+			<Tag variant="primary" size="md">
+				Medium
+			</Tag>
+			<Tag variant="primary" size="lg">
+				Large
+			</Tag>
+		</div>
+	}
+	code={`<Tag variant="primary" size="sm">Small</Tag>
+<Tag variant="primary" size="md">Medium</Tag>
+<Tag variant="primary" size="lg">Large</Tag>`}
+/>
+
+| Size | Font Size | Padding       |
+| ---- | --------- | ------------- |
+| `sm` | 12px      | `px-2 py-0.5` |
+| `md` | 12px      | `px-2.5 py-1` |
+| `lg` | 14px      | `px-3 py-1.5` |
+
+## With Icon
+
+Use the `icon` prop to render a leading icon inside the tag.
+
+<ComponentPage
+  title="With Icon"
+  description="Add a leading icon using the icon prop."
+  preview={
+    <div className="flex flex-wrap gap-2 items-center justify-center">
+      <Tag variant="primary" icon={<Zap className="size-3" />}>Pro</Tag>
+      <Tag variant="success" icon={<Globe className="size-3" />}>Published</Tag>
+      <Tag variant="warning" icon={<Lock className="size-3" />}>Private</Tag>
+      <Tag variant="info" icon={<GitBranch className="size-3" />}>main</Tag>
+      <Tag variant="default" icon={<Star className="size-3" />}>Featured</Tag>
+    </div>
+  }
+  code={`import { Zap, Globe, Lock, GitBranch, Star } from "lucide-react";
+
+<Tag variant="primary" icon={<Zap className="size-3" />}>Pro</Tag>
+<Tag variant="success" icon={<Globe className="size-3" />}>Published</Tag>
+<Tag variant="warning" icon={<Lock className="size-3" />}>Private</Tag>
+<Tag variant="info" icon={<GitBranch className="size-3" />}>main</Tag>
+<Tag variant="default" icon={<Star className="size-3" />}>Featured</Tag>`}
+/>
+
+## With Avatar
+
+Use the `avatar` prop to render an avatar image or initials before the label.
+
+<ComponentPage
+	title="With Avatar"
+	description="Render an avatar before the tag label — common in user mention chips."
+	preview={
+		<div className="flex flex-wrap gap-2 items-center justify-center">
+			<Tag
+				variant="secondary"
+				size="md"
+				avatar={
+					<Avatar
+						name="Rajeshwar Kashyap"
+						size="xs"
+						className="size-4"
+					/>
+				}
+			>
+				@rjkashyap
+			</Tag>
+			<Tag
+				variant="secondary"
+				size="md"
+				avatar={
+					<Avatar name="Alex Kumar" size="xs" className="size-4" />
+				}
+			>
+				@akumar
+			</Tag>
+		</div>
+	}
+	code={`<Tag
+  variant="secondary"
+  avatar={
+    <Avatar
+      src="/avatars/rj.jpg"
+      name="Rajeshwar Kashyap"
+      size="xs"
+      className="size-4"
+    />
+  }
+>
+  @rjkashyap
+</Tag>`}
+/>
+
+## Dismissible
+
+Set `dismissible` and provide an `onDismiss` callback to make tags removable.
+
+<ComponentPage
+  title="Dismissible Tags"
+  description="Tags can be removed with a dismiss button. Provide onDismiss to handle removal."
+  preview={<TagDismissiblePreview />}
+  code={`const [tags, setTags] = useState(["React", "TypeScript", "Tailwind CSS"]);
+
+{tags.map((tag) => (
+
+  <Tag
+    key={tag}
+    variant="primary"
+    dismissible
+    onDismiss={() => setTags(tags.filter((t) => t !== tag))}
+  >
+    {tag}
+  </Tag>
+))}`}
+/>
+
+## Tag Input Pattern
+
+Combine dismissible tags with an input for a tag entry UI.
+
+```tsx
+function TagInput() {
+	const [tags, setTags] = useState(["design-system", "react"]);
+	const [input, setInput] = useState("");
+
+	const addTag = () => {
+		const trimmed = input.trim().toLowerCase();
+		if (trimmed && !tags.includes(trimmed)) {
+			setTags([...tags, trimmed]);
+		}
+		setInput("");
+	};
+
+	return (
+		<div className="flex flex-wrap gap-2 p-2 border border-border rounded-md min-h-[40px]">
+			{tags.map((tag) => (
+				<Tag
+					key={tag}
+					variant="primary"
+					size="sm"
+					dismissible
+					onDismiss={() => setTags(tags.filter((t) => t !== tag))}
+				>
+					{tag}
+				</Tag>
+			))}
+			<input
+				value={input}
+				onChange={(e) => setInput(e.target.value)}
+				onKeyDown={(e) => e.key === "Enter" && addTag()}
+				placeholder="Add tag..."
+				className="flex-1 min-w-[80px] outline-none bg-transparent text-sm"
+			/>
+		</div>
+	);
+}
+```
+
+## Disabled
+
+<ComponentPage
+	title="Disabled"
+	description="Disabled tags have reduced opacity and no pointer events. Dismissible disabled tags keep the × button but it is non-functional."
+	preview={<TagDisabledDismissiblePreview />}
+	code={`<Tag variant="primary" disabled>Disabled</Tag>
+<Tag variant="success" dismissible disabled onDismiss={() => {}}>Can't Remove</Tag>`}
+/>
+
+## Filter Chips
+
+Tags work well as interactive filter toggles in list/table UIs.
+
+```tsx
+const FILTERS = ["All", "Active", "Pending", "Archived"];
+const [active, setActive] = useState("All");
+
+<div className="flex gap-2 flex-wrap">
+	{FILTERS.map((filter) => (
+		<Tag
+			key={filter}
+			variant={active === filter ? "primary" : "default"}
+			size="md"
+			onClick={() => setActive(filter)}
+			className="cursor-pointer"
+		>
+			{filter}
+		</Tag>
+	))}
+</div>;
+```
+
+## Props
+
+| Prop           | Type                                                                                    | Default        | Description                                  |
+| -------------- | --------------------------------------------------------------------------------------- | -------------- | -------------------------------------------- |
+| `variant`      | `"default" \| "primary" \| "secondary" \| "success" \| "warning" \| "danger" \| "info"` | `"default"`    | Color variant.                               |
+| `size`         | `"sm" \| "md" \| "lg"`                                                                  | `"md"`         | Size of the tag.                             |
+| `icon`         | `ReactNode`                                                                             | —              | Leading icon rendered before the label.      |
+| `avatar`       | `ReactNode`                                                                             | —              | Leading avatar rendered before the label.    |
+| `dismissible`  | `boolean`                                                                               | `false`        | Whether the tag shows a dismiss (×) button.  |
+| `onDismiss`    | `() => void`                                                                            | —              | Callback when the dismiss button is clicked. |
+| `dismissLabel` | `string`                                                                                | `"Remove tag"` | Accessible label for the dismiss button.     |
+| `disabled`     | `boolean`                                                                               | `false`        | Disables pointer events and reduces opacity. |
+| `className`    | `string`                                                                                | —              | Additional CSS classes.                      |
+| `children`     | `ReactNode`                                                                             | —              | The tag label.                               |
+
+## Motion
+
+- **Entrance** — `popSubtle` preset: scales from `0.92 → 1` with a spring (`stiffness: 400, damping: 25`).
+- Respects `prefers-reduced-motion` — disables animation when reduced motion is preferred.
+
+## Accessibility
+
+- Renders as a `<span>` element — non-interactive by default.
+- The dismiss button has an `aria-label` (defaults to `"Remove tag"`) for screen readers.
+- Dismiss button is focusable with `tabIndex={0}` and responds to `Enter` / `Space`.
+- `select-none` prevents accidental text selection on double-click.
+- Disabled state applies `pointer-events-none` and reduced opacity.
+
+## Design Tokens
+
+| Token             | Usage                      |
+| ----------------- | -------------------------- |
+| `--primary`       | Primary variant color      |
+| `--success-muted` | Success variant background |
+| `--warning-muted` | Warning variant background |
+| `--danger-muted`  | Danger variant background  |
+| `--info-muted`    | Info variant background    |
+| `--radius-full`   | Pill border radius         |
+| `--duration-fast` | Dismiss button transition  |
+
+</ComponentPage>

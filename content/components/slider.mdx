@@ -1,0 +1,286 @@
+---
+title: Slider
+description: A range input built on Radix UI with single/dual thumb, step marks, value tooltip, and Framer Motion spring animations.
+icon: SlidersHorizontal
+---
+
+import { Slider, Button } from "@work-rjkashyap/unified-ui";
+
+<ComponentPage
+  title="Slider"
+  description="A fully accessible range slider with single and dual-thumb support, step marks, value tooltip, and spring-animated thumb interactions."
+  preview={
+    <div className="w-full max-w-sm flex flex-col gap-6 py-4">
+      <Slider defaultValue={[40]} />
+      <Slider defaultValue={[20, 70]} />
+    </div>
+  }
+  code={`<Slider defaultValue={[40]} />
+<Slider defaultValue={[20, 70]} />`}
+>
+
+## Import
+
+```tsx
+import { Slider } from "@work-rjkashyap/unified-ui";
+// or
+import { Slider } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Pass an array to `defaultValue` for an uncontrolled slider. A single value renders one thumb; two values render a range.
+
+```tsx
+{
+	/* Single thumb */
+}
+<Slider defaultValue={[50]} />;
+
+{
+	/* Dual thumb range */
+}
+<Slider defaultValue={[20, 80]} />;
+```
+
+## Variants
+
+<ComponentPage
+	title="Slider Variants"
+	description="Four color variants mapping to design system semantic tokens."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-5 py-2">
+			<Slider defaultValue={[60]} variant="default" />
+			<Slider defaultValue={[60]} variant="primary" />
+			<Slider defaultValue={[60]} variant="success" />
+			<Slider defaultValue={[60]} variant="danger" />
+		</div>
+	}
+	code={`<Slider defaultValue={[60]} variant="default" />
+<Slider defaultValue={[60]} variant="primary" />
+<Slider defaultValue={[60]} variant="success" />
+<Slider defaultValue={[60]} variant="danger" />`}
+/>
+
+| Variant   | Use Case                                |
+| --------- | --------------------------------------- |
+| `default` | General purpose                         |
+| `primary` | Branded primary action                  |
+| `success` | Positive ranges (battery, score)        |
+| `danger`  | Warning thresholds (volume, risk level) |
+
+## Sizes
+
+<ComponentPage
+	title="Slider Sizes"
+	description="Three sizes controlling track height and thumb diameter."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-5 py-2">
+			<Slider defaultValue={[50]} size="sm" />
+			<Slider defaultValue={[50]} size="md" />
+			<Slider defaultValue={[50]} size="lg" />
+		</div>
+	}
+	code={`<Slider defaultValue={[50]} size="sm" />
+<Slider defaultValue={[50]} size="md" />
+<Slider defaultValue={[50]} size="lg" />`}
+/>
+
+## With Value Tooltip
+
+Set `showTooltip` to display the current value above the thumb on hover or focus.
+
+<ComponentPage
+  title="Value Tooltip"
+  description="Shows the current value above the active thumb. Supports custom format functions."
+  preview={<SliderTooltipFormatPreview />}
+  code={`<Slider defaultValue={[65]} showTooltip />
+
+{/* With custom format */}
+
+<Slider
+  defaultValue={[20, 75]}
+  showTooltip
+  formatTooltip={(v) => \`\${v}%\`}
+/>`}
+/>
+
+## Step Marks
+
+Enable `showMarks` to display tick marks at each step interval. Pair with `step` to control granularity.
+
+<ComponentPage
+  title="Step Marks"
+  description="Tick marks rendered at every step interval along the track."
+  preview={
+    <div className="w-full max-w-sm flex flex-col gap-8 py-4">
+      <Slider defaultValue={[40]} step={10} showMarks />
+      <Slider defaultValue={[20, 60]} step={20} showMarks showTooltip />
+    </div>
+  }
+  code={`<Slider defaultValue={[40]} step={10} showMarks />
+
+<Slider
+  defaultValue={[20, 60]}
+  step={20}
+  showMarks
+  showTooltip
+/>`}
+/>
+
+## Custom Marks with Labels
+
+Pass a `marks` array for custom mark positions and labels.
+
+```tsx
+<Slider
+	defaultValue={[50]}
+	min={0}
+	max={100}
+	marks={[
+		{ value: 0, label: "0" },
+		{ value: 25, label: "25" },
+		{ value: 50, label: "50" },
+		{ value: 75, label: "75" },
+		{ value: 100, label: "100" },
+	]}
+/>
+```
+
+## Controlled
+
+Use `value` and `onValueChange` for full programmatic control.
+
+```tsx
+const [volume, setVolume] = useState([50]);
+
+<Slider
+	value={volume}
+	onValueChange={setVolume}
+	min={0}
+	max={100}
+	step={1}
+	showTooltip
+	formatTooltip={(v) => `${v}%`}
+/>;
+```
+
+## Range Slider
+
+Two values in `defaultValue` (or `value`) create a dual-thumb range input.
+
+```tsx
+const [range, setRange] = useState([20, 80]);
+
+<Slider
+	value={range}
+	onValueChange={setRange}
+	min={0}
+	max={100}
+	showTooltip
+	formatTooltip={(v) => `$${v}`}
+/>;
+```
+
+## Min / Max / Step
+
+Control the numeric bounds and increment precision.
+
+```tsx
+{
+	/* Volume 0–100, step 5 */
+}
+<Slider defaultValue={[50]} min={0} max={100} step={5} showMarks />;
+
+{
+	/* Rating 1–5, step 1 */
+}
+<Slider defaultValue={[3]} min={1} max={5} step={1} showMarks showTooltip />;
+
+{
+	/* Price range */
+}
+<Slider
+	defaultValue={[100, 500]}
+	min={0}
+	max={1000}
+	step={50}
+	formatTooltip={(v) => `$${v}`}
+	showTooltip
+/>;
+```
+
+## Disabled
+
+```tsx
+<Slider defaultValue={[40]} disabled />
+```
+
+## Props
+
+| Prop            | Type                                              | Default        | Description                                               |
+| --------------- | ------------------------------------------------- | -------------- | --------------------------------------------------------- |
+| `value`         | `number[]`                                        | —              | Controlled value array.                                   |
+| `defaultValue`  | `number[]`                                        | `[min]`        | Initial value for uncontrolled mode.                      |
+| `onValueChange` | `(value: number[]) => void`                       | —              | Callback when value changes.                              |
+| `min`           | `number`                                          | `0`            | Minimum value.                                            |
+| `max`           | `number`                                          | `100`          | Maximum value.                                            |
+| `step`          | `number`                                          | `1`            | Step increment.                                           |
+| `variant`       | `"default" \| "primary" \| "success" \| "danger"` | `"default"`    | Color variant for range and thumb.                        |
+| `size`          | `"sm" \| "md" \| "lg"`                            | `"md"`         | Size of the track and thumb.                              |
+| `orientation`   | `"horizontal" \| "vertical"`                      | `"horizontal"` | Orientation of the slider.                                |
+| `showMarks`     | `boolean`                                         | `false`        | Show step mark ticks along the track.                     |
+| `marks`         | `SliderMark[]`                                    | —              | Custom mark positions and labels (overrides `showMarks`). |
+| `showTooltip`   | `boolean`                                         | `false`        | Show value tooltip on hover/focus.                        |
+| `formatTooltip` | `(value: number) => string`                       | `String(v)`    | Custom tooltip value formatter.                           |
+| `disabled`      | `boolean`                                         | `false`        | Disables the slider.                                      |
+| `className`     | `string`                                          | —              | Additional CSS classes on the root element.               |
+
+### SliderMark
+
+| Property | Type        | Description                             |
+| -------- | ----------- | --------------------------------------- |
+| `value`  | `number`    | Position of the mark on the track.      |
+| `label`  | `ReactNode` | Optional label rendered below the mark. |
+
+## Keyboard Navigation
+
+| Key           | Behavior                             |
+| ------------- | ------------------------------------ |
+| `Arrow Left`  | Decrease value by one step           |
+| `Arrow Right` | Increase value by one step           |
+| `Arrow Down`  | Decrease value by one step           |
+| `Arrow Up`    | Increase value by one step           |
+| `Home`        | Set value to minimum                 |
+| `End`         | Set value to maximum                 |
+| `Page Down`   | Decrease value by a larger increment |
+| `Page Up`     | Increase value by a larger increment |
+
+## Motion
+
+- **Thumb hover** — Spring scale to `1.1` (`stiffness: 400, damping: 30`).
+- **Thumb drag** — Spring scale to `1.2` (`stiffness: 400, damping: 25`).
+- **Tooltip** — `fadeInFast` preset (`opacity 0 → 1`, `y 4 → 0`, 120ms).
+- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Accessibility
+
+- Built on **@radix-ui/react-slider** with full ARIA compliance.
+- Each thumb has `role="slider"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-orientation` automatically managed by Radix.
+- Full keyboard navigation (arrow keys, Home, End, Page Up/Down).
+- Thumb focus ring via `focus-visible` ring classes.
+- Tooltip is hidden from the accessibility tree (`pointer-events-none`).
+
+## Design Tokens
+
+| Token             | Usage                         |
+| ----------------- | ----------------------------- |
+| `--primary`       | Default/primary range fill    |
+| `--success`       | Success variant range fill    |
+| `--danger`        | Danger variant range fill     |
+| `--muted`         | Track background              |
+| `--border`        | Step mark color               |
+| `--radius-full`   | Track and thumb border radius |
+| `--duration-fast` | Thumb transition speed        |
+
+</ComponentPage>

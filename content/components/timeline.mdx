@@ -1,0 +1,470 @@
+---
+title: Timeline
+description: A vertical timeline component with icons, connectors, status indicators, and stagger animation. Ideal for activity feeds, changelogs, and process steps.
+icon: GitCommitVertical
+---
+
+import {
+  Timeline,
+  Badge,
+  Button,
+} from "@work-rjkashyap/unified-ui";
+import { CheckCircle, Clock, AlertCircle, Rocket, Code2, GitMerge } from "lucide-react";
+
+<ComponentPage
+  title="Timeline"
+  description="A vertical timeline for activity feeds, changelogs, version histories, and multi-step processes. Supports icons, status colors, timestamps, and stagger animations."
+  preview={
+    <div className="w-full max-w-sm py-2">
+      <Timeline
+        items={[
+          {
+            title: "Deployed to production",
+            description: "Version 2.4.0 shipped to all regions.",
+            timestamp: "2 hours ago",
+            status: "success",
+            icon: <Rocket className="size-4" />,
+          },
+          {
+            title: "Pull request merged",
+            description: "feat: add Slider and PinInput components",
+            timestamp: "5 hours ago",
+            status: "active",
+            icon: <GitMerge className="size-4" />,
+          },
+          {
+            title: "Code review completed",
+            description: "All feedback addressed and approved.",
+            timestamp: "1 day ago",
+            status: "default",
+            icon: <Code2 className="size-4" />,
+          },
+          {
+            title: "Issue reported",
+            description: "Bug in NumberInput keyboard navigation.",
+            timestamp: "2 days ago",
+            status: "warning",
+          },
+        ]}
+      />
+    </div>
+  }
+  code={`<Timeline
+  items={[
+    {
+      title: "Deployed to production",
+      description: "Version 2.4.0 shipped to all regions.",
+      timestamp: "2 hours ago",
+      status: "success",
+      icon: <Rocket className="size-4" />,
+    },
+    {
+      title: "Pull request merged",
+      description: "feat: add Slider and PinInput components",
+      timestamp: "5 hours ago",
+      status: "active",
+      icon: <GitMerge className="size-4" />,
+    },
+    {
+      title: "Code review completed",
+      description: "All feedback addressed and approved.",
+      timestamp: "1 day ago",
+      status: "default",
+    },
+    {
+      title: "Issue reported",
+      description: "Bug in NumberInput keyboard navigation.",
+      timestamp: "2 days ago",
+      status: "warning",
+    },
+  ]}
+/>`}
+>
+
+## Import
+
+```tsx
+import { Timeline, TimelineItem } from "@work-rjkashyap/unified-ui";
+// or
+import { Timeline, TimelineItem } from "@work-rjkashyap/unified-ui/components";
+```
+
+## Basic Usage
+
+Pass an `items` array to `Timeline`. Each item supports a `title`, `description`, `timestamp`, `status`, `icon`, and optional `content` slot.
+
+```tsx
+<Timeline
+  items={[
+    {
+      title: "Account created",
+      description: "Welcome to Unified UI!",
+      timestamp: "Jan 1, 2025",
+      status: "success",
+    },
+    {
+      title: "First component added",
+      description: "Button component published.",
+      timestamp: "Jan 3, 2025",
+      status: "active",
+    },
+    {
+      title: "Docs published",
+      description: "Documentation site launched.",
+      timestamp: "Jan 10, 2025",
+      status: "default",
+    },
+  ]}
+/>
+```
+
+## Status Variants
+
+The `status` field on each item controls the dot or icon background color and the connector color.
+
+<ComponentPage
+  title="Status Variants"
+  description="Six status states for communicating the state of each timeline event."
+  preview={
+    <div className="w-full max-w-sm py-2">
+      <Timeline
+        items={[
+          { title: "Active step", description: "Currently in progress.", status: "active" },
+          { title: "Completed step", description: "Successfully finished.", status: "success" },
+          { title: "Warning step", description: "Needs attention.", status: "warning" },
+          { title: "Error step", description: "Action required.", status: "danger" },
+          { title: "Pending step", description: "Waiting to start.", status: "pending" },
+          { title: "Default step", description: "No special state.", status: "default" },
+        ]}
+      />
+    </div>
+  }
+  code={`<Timeline
+  items={[
+    { title: "Active step",   status: "active"  },
+    { title: "Completed",     status: "success" },
+    { title: "Warning step",  status: "warning" },
+    { title: "Error step",    status: "danger"  },
+    { title: "Pending step",  status: "pending" },
+    { title: "Default step",  status: "default" },
+  ]}
+/>`}
+/>
+
+| Status    | Dot Color      | Icon Background   | Use Case                        |
+| --------- | -------------- | ----------------- | ------------------------------- |
+| `default` | `--border`     | Muted/border      | Neutral past events             |
+| `active`  | `--primary`    | Primary + ring    | Current step or in-progress     |
+| `success` | `--success`    | Success           | Completed, confirmed events     |
+| `warning` | `--warning`    | Warning           | Needs attention, partially done |
+| `danger`  | `--danger`     | Danger            | Failed, blocked, error state    |
+| `pending` | Muted outline  | Muted/border      | Not yet started                 |
+
+## With Icons
+
+Pass any `ReactNode` as `icon` to replace the default dot indicator with a styled icon container.
+
+<ComponentPage
+  title="With Icons"
+  description="Custom icons replace the dot indicator with a colored circular icon container."
+  preview={
+    <div className="w-full max-w-sm py-2">
+      <Timeline
+        items={[
+          {
+            title: "Deployment complete",
+            description: "All 3 regions updated successfully.",
+            timestamp: "Just now",
+            status: "success",
+            icon: <CheckCircle className="size-4" />,
+          },
+          {
+            title: "Running tests",
+            description: "CI pipeline in progress — 47 of 112 tests passed.",
+            timestamp: "3 min ago",
+            status: "active",
+            icon: <Clock className="size-4" />,
+          },
+          {
+            title: "Build failed",
+            description: "Type error in banner.tsx — line 82.",
+            timestamp: "18 min ago",
+            status: "danger",
+            icon: <AlertCircle className="size-4" />,
+          },
+        ]}
+      />
+    </div>
+  }
+  code={`import { CheckCircle, Clock, AlertCircle } from "lucide-react";
+
+<Timeline
+  items={[
+    {
+      title: "Deployment complete",
+      description: "All 3 regions updated successfully.",
+      timestamp: "Just now",
+      status: "success",
+      icon: <CheckCircle className="size-4" />,
+    },
+    {
+      title: "Running tests",
+      description: "CI pipeline in progress.",
+      timestamp: "3 min ago",
+      status: "active",
+      icon: <Clock className="size-4" />,
+    },
+    {
+      title: "Build failed",
+      description: "Type error in banner.tsx — line 82.",
+      timestamp: "18 min ago",
+      status: "danger",
+      icon: <AlertCircle className="size-4" />,
+    },
+  ]}
+/>`}
+/>
+
+## Sizes
+
+<ComponentPage
+  title="Sizes"
+  description="Three sizes controlling dot size, icon container size, and body text size."
+  preview={
+    <div className="flex flex-col gap-8 w-full max-w-sm py-2">
+      <div>
+        <p className="text-xs text-muted-foreground mb-3">Small</p>
+        <Timeline
+          size="sm"
+          items={[
+            { title: "Event one", description: "First event in the timeline.", status: "success" },
+            { title: "Event two", description: "Second event in the timeline.", status: "active" },
+            { title: "Event three", description: "Third event in the timeline.", status: "default" },
+          ]}
+        />
+      </div>
+      <div>
+        <p className="text-xs text-muted-foreground mb-3">Large</p>
+        <Timeline
+          size="lg"
+          items={[
+            { title: "Event one", description: "First event in the timeline.", status: "success" },
+            { title: "Event two", description: "Second event in the timeline.", status: "active" },
+            { title: "Event three", description: "Third event in the timeline.", status: "default" },
+          ]}
+        />
+      </div>
+    </div>
+  }
+  code={`<Timeline size="sm" items={items} />
+<Timeline size="md" items={items} />
+<Timeline size="lg" items={items} />`}
+/>
+
+| Size | Dot        | Icon Container | Title Font | Description Font |
+| ---- | ---------- | -------------- | ---------- | ---------------- |
+| `sm` | 8px        | 24px           | 12px       | 12px             |
+| `md` | 12px       | 32px           | 14px       | 14px             |
+| `lg` | 16px       | 40px           | 16px       | 14px             |
+
+## Rich Content Slot
+
+Each item accepts a `content` field for rendering arbitrary content below the description — badges, code snippets, diff previews, etc.
+
+<ComponentPage
+  title="Rich Content Slot"
+  description="Pass any ReactNode as content to render below the item's description."
+  preview={
+    <div className="w-full max-w-sm py-2">
+      <Timeline
+        items={[
+          {
+            title: "v2.4.0 released",
+            description: "New components and bug fixes.",
+            timestamp: "Today",
+            status: "success",
+            icon: <Rocket className="size-4" />,
+            content: (
+              <div className="flex flex-wrap gap-1 mt-1">
+                <Badge variant="success" size="sm">Slider</Badge>
+                <Badge variant="success" size="sm">PinInput</Badge>
+                <Badge variant="success" size="sm">NumberInput</Badge>
+                <Badge variant="info" size="sm">3 bug fixes</Badge>
+              </div>
+            ),
+          },
+          {
+            title: "v2.3.1 released",
+            description: "Patch: fix HoverCard animation flicker.",
+            timestamp: "3 days ago",
+            status: "default",
+            content: (
+              <div className="flex gap-1 mt-1">
+                <Badge variant="warning" size="sm">patch</Badge>
+              </div>
+            ),
+          },
+        ]}
+      />
+    </div>
+  }
+  code={`<Timeline
+  items={[
+    {
+      title: "v2.4.0 released",
+      description: "New components and bug fixes.",
+      timestamp: "Today",
+      status: "success",
+      icon: <Rocket className="size-4" />,
+      content: (
+        <div className="flex gap-1 flex-wrap mt-1">
+          <Badge variant="success" size="sm">Slider</Badge>
+          <Badge variant="success" size="sm">PinInput</Badge>
+          <Badge variant="info" size="sm">3 bug fixes</Badge>
+        </div>
+      ),
+    },
+    {
+      title: "v2.3.1 released",
+      description: "Patch: fix HoverCard animation flicker.",
+      timestamp: "3 days ago",
+      status: "default",
+    },
+  ]}
+/>`}
+/>
+
+## Without Animation
+
+Set `animated={false}` to disable the stagger slide-in animation entirely.
+
+```tsx
+<Timeline animated={false} items={items} />
+```
+
+## Changelog Pattern
+
+A common use case — a versioned changelog feed.
+
+```tsx
+const changelog = [
+  {
+    title: "v2.4.0 — Major release",
+    description: "Added Slider, PinInput, NumberInput, SearchInput, and 12 more components.",
+    timestamp: "Dec 2024",
+    status: "success" as const,
+    icon: <Rocket className="size-4" />,
+    content: (
+      <div className="flex gap-1 flex-wrap mt-2">
+        <Badge variant="success" size="sm">+15 components</Badge>
+        <Badge variant="info" size="sm">Motion presets</Badge>
+      </div>
+    ),
+  },
+  {
+    title: "v2.3.0 — Theme system",
+    description: "Introduced DSThemeProvider, CSS custom properties, and dark mode support.",
+    timestamp: "Nov 2024",
+    status: "success" as const,
+  },
+  {
+    title: "v2.0.0 — Breaking changes",
+    description: "Migrated to Tailwind v4, updated token naming convention.",
+    timestamp: "Oct 2024",
+    status: "warning" as const,
+  },
+  {
+    title: "v1.0.0 — Initial release",
+    description: "22 components, token system, Radix UI primitives.",
+    timestamp: "Sep 2024",
+    status: "default" as const,
+  },
+];
+
+<Timeline items={changelog} size="md" />
+```
+
+## Activity Feed
+
+An activity feed showing user actions with icons and timestamps.
+
+```tsx
+const activity = [
+  {
+    title: "Sarah left a comment",
+    description: `"Looks great! Let's ship it."`,
+    timestamp: "2 min ago",
+    status: "active" as const,
+    icon: <MessageCircle className="size-4" />,
+  },
+  {
+    title: "PR #142 approved",
+    description: "feat: add Timeline component",
+    timestamp: "15 min ago",
+    status: "success" as const,
+    icon: <CheckCircle className="size-4" />,
+  },
+  {
+    title: "CI pipeline failed",
+    description: "Build error on Node.js 18 target.",
+    timestamp: "1 hour ago",
+    status: "danger" as const,
+    icon: <AlertCircle className="size-4" />,
+  },
+];
+
+<Timeline items={activity} />
+```
+
+## Props
+
+### Timeline
+
+| Prop       | Type                                | Default  | Description                                              |
+| ---------- | ----------------------------------- | -------- | -------------------------------------------------------- |
+| `items`    | `TimelineItemData[]`                | —        | **Required.** Array of timeline item data objects.       |
+| `align`    | `"left" \| "right" \| "alternate"` | `"left"` | Layout alignment of items. `alternate` mirrors odd items.|
+| `size`     | `"sm" \| "md" \| "lg"`             | `"md"`   | Controls dot size, icon container, and typography.       |
+| `animated` | `boolean`                           | `true`   | Whether to enable stagger slide-in animation on mount.   |
+| `className`| `string`                            | —        | Additional CSS classes on the root container.            |
+
+### TimelineItemData
+
+| Field         | Type                                                                          | Description                                                  |
+| ------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `id`          | `string`                                                                      | Optional key. Falls back to array index.                     |
+| `title`       | `ReactNode`                                                                   | Item heading.                                                |
+| `description` | `ReactNode`                                                                   | Secondary text below the title.                              |
+| `timestamp`   | `ReactNode`                                                                   | Date/time string rendered above the title in muted text.     |
+| `icon`        | `ReactNode`                                                                   | Replaces the dot indicator with a styled icon container.     |
+| `status`      | `"default" \| "active" \| "success" \| "warning" \| "danger" \| "pending"`   | Controls dot/icon background color. Defaults to `"default"`. |
+| `content`     | `ReactNode`                                                                   | Optional rich content rendered below the description.        |
+
+## Motion
+
+- **Stagger** — Items animate in sequence using `staggerContainerSlow` on the wrapper and `slideInFromLeft` / `slideInFromRight` per item (direction depends on `align` and item index).
+- **Alternating** — With `align="alternate"`, even items slide from left and odd items slide from right.
+- **Reduced motion** — All animations are bypassed when `prefers-reduced-motion` is active via `useReducedMotion()`.
+
+## Accessibility
+
+- The root element is a plain `<div>` — wrap in a `<section>` or `<ol>` context if semantics are needed.
+- Each `TimelineItem` is a `<div>` with a content column — add `role="listitem"` and a `role="list"` wrapper for formal list semantics.
+- Icons and connector lines are `aria-hidden="true"`.
+- Timestamps use `<p>` elements — they are naturally announced by screen readers in document order (timestamp → title → description).
+- All animation triggers are mount-based and non-interactive — no keyboard events are affected.
+
+## Design Tokens
+
+| Token              | Usage                               |
+| ------------------ | ----------------------------------- |
+| `--primary`        | Active dot and icon background      |
+| `--success`        | Success dot and icon background     |
+| `--warning`        | Warning dot and icon background     |
+| `--danger`         | Danger dot and icon background      |
+| `--border`         | Default dot color and connector line|
+| `--muted`          | Pending dot and icon background     |
+| `--muted-fg`       | Timestamp text color                |
+| `--foreground`     | Title text color                    |
+
+</ComponentPage>

@@ -1,6 +1,6 @@
 ---
 title: Components
-description: 22+ production-ready, accessible React components built on the Unified UI token system.
+description: 60+ production-ready, accessible React components built on the Unified UI token system.
 icon: Box
 ---
 
@@ -8,13 +8,14 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
-Unified UI ships **22+ composite components** that compose the design system's tokens, theme, and primitives into production-ready interactive elements. Every component is:
+Unified UI ships **60+ composite components** that compose the design system's tokens, theme, and primitives into production-ready interactive elements. Every component is:
 
 - **Token-driven** — All colors, spacing, radii, and motion come from CSS custom properties.
 - **Accessible** — Built on [Radix UI](https://www.radix-ui.com/) primitives with full WCAG AA compliance.
 - **Variant-composed** — Uses [CVA](https://cva.style/) (class-variance-authority) for type-safe variant APIs.
 - **Ref-forwarding** — Every component forwards refs for imperative access.
 - **Theme-aware** — Automatically adapts to light/dark mode via CSS variables.
+- **Motion-ready** — Framer Motion presets built-in, respecting `prefers-reduced-motion`.
 
 ---
 
@@ -62,6 +63,11 @@ Interactive elements for capturing user input.
 		href="/components/input"
 	/>
 	<Card
+		title="Input Group"
+		description="Composed input with prefix/suffix icons and left/right text addons."
+		href="/components/input-group"
+	/>
+	<Card
 		title="Textarea"
 		description="Multi-line input with auto-resize and character count."
 		href="/components/textarea"
@@ -92,7 +98,7 @@ Interactive elements for capturing user input.
 		href="/components/label"
 	/>
 	<Card
-		title="FormField"
+		title="Form Field"
 		description="Composable field wrapper: label + control + description + error message."
 		href="/components/form-field"
 	/>
@@ -102,9 +108,49 @@ Interactive elements for capturing user input.
 		href="/components/toggle"
 	/>
 	<Card
-		title="ToggleGroup"
+		title="Toggle Group"
 		description="Single or multi-select group of toggle buttons with roving keyboard nav."
 		href="/components/toggle-group"
+	/>
+	<Card
+		title="Slider"
+		description="Range slider with single/dual thumb, step marks, tooltip, and spring animations."
+		href="/components/slider"
+	/>
+	<Card
+		title="Number Input"
+		description="Numeric stepper with +/− buttons, keyboard nav, min/max clamping, and digit roll animation."
+		href="/components/number-input"
+	/>
+	<Card
+		title="Pin Input"
+		description="OTP/PIN code input with auto-advance, paste support, and shake-on-error animation."
+		href="/components/pin-input"
+	/>
+	<Card
+		title="Search Input"
+		description="Search field with debounce, animated clear button, loading state, and keyboard shortcut hint."
+		href="/components/search-input"
+	/>
+	<Card
+		title="Combobox"
+		description="Searchable select / autocomplete with single and multi-select, grouped options, and animated dropdown."
+		href="/components/combobox"
+	/>
+	<Card
+		title="Date Picker"
+		description="Date or date-range input with calendar popover, locale formatting, clearable input, and animated transitions."
+		href="/components/date-picker"
+	/>
+	<Card
+		title="Calendar"
+		description="Month/year grid calendar with single and range selection, keyboard navigation, and animated month transitions."
+		href="/components/calendar"
+	/>
+	<Card
+		title="File Upload"
+		description="Drag-and-drop file upload zone with file list, progress tracking, image preview thumbnails, and stagger animations."
+		href="/components/file-upload"
 	/>
 </Cards>
 
@@ -117,6 +163,11 @@ Components for presenting information and content.
 		title="Badge"
 		description="7 semantic variants, dot indicator, removable, icon support."
 		href="/components/badge"
+	/>
+	<Card
+		title="Tag"
+		description="Compact label for categorization. 7 variants, avatar/icon slots, dismissible with pop animation."
+		href="/components/tag"
 	/>
 	<Card
 		title="Avatar"
@@ -134,9 +185,49 @@ Components for presenting information and content.
 		href="/components/table"
 	/>
 	<Card
+		title="Data Table"
+		description="Full-featured table with TanStack Table: sorting, filtering, and pagination."
+		href="/components/data-table"
+	/>
+	<Card
 		title="Skeleton"
 		description="Loading placeholders in text, circle, and rect shapes."
 		href="/components/skeleton"
+	/>
+	<Card
+		title="Stat"
+		description="KPI card with animated count-up value, trend indicator, and sparkline slot."
+		href="/components/stat"
+	/>
+	<Card
+		title="Data List"
+		description="Semantic key-value pair list with horizontal/vertical layouts and stagger animation."
+		href="/components/data-list"
+	/>
+	<Card
+		title="Timeline"
+		description="Vertical timeline with icons, status colors, and stagger slide animations."
+		href="/components/timeline"
+	/>
+	<Card
+		title="Kbd"
+		description="Keyboard shortcut display in a styled monospaced element with inset shadow."
+		href="/components/kbd"
+	/>
+	<Card
+		title="Code"
+		description="InlineCode and CodeBlock with copy button, line numbers, filename, and dark variant."
+		href="/components/code"
+	/>
+	<Card
+		title="Carousel"
+		description="Horizontal/vertical carousel with animated slides, arrows, dots, and autoplay."
+		href="/components/carousel"
+	/>
+	<Card
+		title="Aspect Ratio"
+		description="Constrains child content to a given aspect ratio. Ideal for images, videos, and responsive media containers."
+		href="/components/aspect-ratio"
 	/>
 </Cards>
 
@@ -149,6 +240,16 @@ Components for communicating status and information to users.
 		title="Alert"
 		description="4 semantic variants with auto icons, dismissible, accessible roles."
 		href="/components/alert"
+	/>
+	<Card
+		title="Callout"
+		description="Highlighted info block with icon, title, collapsible mode, and 5 semantic variants."
+		href="/components/callout"
+	/>
+	<Card
+		title="Banner"
+		description="Full-width dismissible announcement banner with top/bottom/inline positioning and slide animation."
+		href="/components/banner"
 	/>
 	<Card
 		title="Toast"
@@ -170,6 +271,16 @@ Components for communicating status and information to users.
 		description="Animated loading spinner with Framer Motion, 4 sizes, and reduced-motion support."
 		href="/components/spinner"
 	/>
+	<Card
+		title="Empty State"
+		description="Placeholder for empty lists and views with animated icon, title, description, and CTA slot."
+		href="/components/empty-state"
+	/>
+	<Card
+		title="Copy Button"
+		description="Click-to-copy icon button with clipboard-to-checkmark animation and tooltip."
+		href="/components/copy-button"
+	/>
 </Cards>
 
 ### Overlay
@@ -183,6 +294,16 @@ Components that render above the page content.
 		href="/components/dialog"
 	/>
 	<Card
+		title="Alert Dialog"
+		description="Blocking modal that requires explicit user action. Cannot be dismissed by clicking the overlay."
+		href="/components/alert-dialog"
+	/>
+	<Card
+		title="Confirm Dialog"
+		description="Pre-composed confirmation dialog with danger variant and loading state."
+		href="/components/confirm-dialog"
+	/>
+	<Card
 		title="Sheet"
 		description="Slide-out panel from any edge with size options."
 		href="/components/sheet"
@@ -193,9 +314,19 @@ Components that render above the page content.
 		href="/components/popover"
 	/>
 	<Card
+		title="Hover Card"
+		description="Rich preview card on hover with spring animation. Ideal for user profiles and link previews."
+		href="/components/hover-card"
+	/>
+	<Card
 		title="Dropdown Menu"
 		description="Context menu with items, checkboxes, radios, and submenus."
 		href="/components/dropdown-menu"
+	/>
+	<Card
+		title="Context Menu"
+		description="Right-click context menu built on Radix UI."
+		href="/components/context-menu"
 	/>
 </Cards>
 
@@ -230,9 +361,58 @@ Components for moving between views and content sections.
 		href="/components/collapsible"
 	/>
 	<Card
-		title="ScrollArea"
+		title="Scroll Area"
 		description="Custom scrollbar container for consistent cross-browser scroll appearance."
 		href="/components/scroll-area"
+	/>
+	<Card
+		title="Navigation Menu"
+		description="Accessible top-level navigation with dropdown panels and keyboard support."
+		href="/components/navigation-menu"
+	/>
+	<Card
+		title="Menubar"
+		description="Desktop application-style menubar with nested menus."
+		href="/components/menubar"
+	/>
+	<Card
+		title="Steps"
+		description="Step indicator for multi-stage flows with active, completed, and upcoming states."
+		href="/components/steps"
+	/>
+	<Card
+		title="Command"
+		description="Command palette with fuzzy search, groups, and keyboard navigation."
+		href="/components/command"
+	/>
+	<Card
+		title="Sidebar"
+		description="Collapsible app sidebar with sections, icons, animated width transitions, and mobile overlay."
+		href="/components/sidebar"
+	/>
+</Cards>
+
+### Layout
+
+Structural components for building adjustable, responsive layouts.
+
+<Cards>
+	<Card
+		title="Resizable"
+		description="Resizable split panels with drag handle for adjustable horizontal and vertical layouts."
+		href="/components/resizable"
+	/>
+</Cards>
+
+### Utility
+
+Low-level building blocks and accessibility helpers.
+
+<Cards>
+	<Card
+		title="Visually Hidden"
+		description="Screen-reader-only content wrapper that hides elements visually while keeping them accessible."
+		href="/components/visually-hidden"
 	/>
 </Cards>
 
@@ -248,6 +428,8 @@ Most components follow a consistent `variant` + `size` API powered by CVA:
 <Button variant="primary" size="md">Save</Button>
 <Input variant="error" size="sm" />
 <Badge variant="success" size="md">Active</Badge>
+<Tag variant="primary" size="sm">React</Tag>
+<Slider variant="primary" size="md" defaultValue={[50]} />
 ```
 
 ### Data Attributes
@@ -279,7 +461,22 @@ Complex components use a slot-based pattern with sub-components:
 </Card>
 ```
 
+### Motion & Reduced Motion
+
+All animated components use Framer Motion presets and respect `prefers-reduced-motion` automatically:
+
+```tsx
+{/* Animations play normally */}
+<Spinner />
+<Collapsible />
+<PinInput length={6} error />
+
+{/* All animations are automatically disabled when:
+    @media (prefers-reduced-motion: reduce) */}
+```
+
 <Callout type="info">
 	Each component page includes live examples, all variants, props
-	documentation, and accessibility notes.
+	documentation, keyboard interaction tables, motion notes, and accessibility
+	guidelines.
 </Callout>

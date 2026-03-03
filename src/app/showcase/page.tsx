@@ -1,5 +1,6 @@
 "use client";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { baseOptions } from "@/app/layout.config";
@@ -139,10 +140,12 @@ export default function ShowcasePage() {
                 >
                   <div className="relative w-full aspect-[16/10] mb-6 rounded-3xl overflow-hidden border border-fd-border/50 bg-fd-card/50">
                     <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-fd-primary/10 transition-colors duration-500" />
-                    <img
+                    <Image
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-fd-background/20 to-transparent" />
                     <Link

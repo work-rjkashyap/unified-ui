@@ -1,6 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { Logo } from "@/components/layout/logo";
 import { BookIcon, CodeIcon, LayoutIcon, Twitter } from "lucide-react";
+import { Logo } from "@/components/layout/logo";
 
 /**
  * Shared layout configurations
@@ -10,33 +10,33 @@ import { BookIcon, CodeIcon, LayoutIcon, Twitter } from "lucide-react";
  * Docs Layout: app/docs/layout.tsx
  */
 export const baseOptions: BaseLayoutProps = {
-	nav: {
-		title: <Logo />,
-	},
-	links: [
-		{
-			text: "Documentation",
-			url: "/docs",
-			active: "nested-url",
-			icon: <BookIcon className="size-4" />,
-		},
-		{
-			text: "Components",
-			url: "/components",
-			active: "nested-url",
-			icon: <CodeIcon className="size-4" />,
-		},
-		{
-			text: "Showcase",
-			url: "/showcase",
-			icon: <LayoutIcon className="size-4" />,
-		},
-		{
-			type: "icon",
-			text: "Twitter",
-			url: "https://x.com/i_am_rj05",
-			icon: <Twitter className="size-4" />,
-		},
-	],
-	githubUrl: "https://github.com/imrj05/unified-ui",
+  nav: {
+    title: <Logo />,
+  },
+  links: [
+    {
+      text: "Documentation",
+      url: "/docs",
+      active: "nested-url",
+      icon: <BookIcon className="size-4" />,
+    },
+    {
+      text: "Components",
+      url: "/components",
+      active: "nested-url",
+      icon: <CodeIcon className="size-4" />,
+    },
+    {
+      text: "Showcase",
+      url: "/showcase",
+      icon: <LayoutIcon className="size-4" />,
+    },
+    {
+      type: "icon",
+      text: "Twitter",
+      url: "https://x.com/i_am_rj05",
+      icon: <Twitter className="size-4" />,
+    },
+  ],
+  githubUrl: "https://github.com/imrj05/unified-ui",
 };

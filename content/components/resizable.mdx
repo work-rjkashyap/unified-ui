@@ -1,0 +1,358 @@
+---
+title: Resizable
+description: Resizable split panels with drag handle for building adjustable layouts. Supports horizontal and vertical directions with optional grip handle.
+icon: GripVertical
+---
+
+import {
+	ResizablePanelGroup,
+	ResizablePanel,
+	ResizableHandle,
+} from "@work-rjkashyap/unified-ui/components";
+
+<ComponentPage
+	title="Resizable"
+	description="Resizable split panels with a drag handle for building adjustable layouts. Supports horizontal and vertical directions, default sizes, and an optional grip handle indicator."
+	preview={
+		<div className="w-full max-w-lg h-48 rounded-lg border border-border overflow-hidden">
+			<ResizablePanelGroup direction="horizontal">
+				<ResizablePanel defaultSize={50}>
+					<div className="flex items-center justify-center h-full bg-muted/40 text-sm text-muted-foreground">
+						Panel A
+					</div>
+				</ResizablePanel>
+				<ResizableHandle withHandle />
+				<ResizablePanel defaultSize={50}>
+					<div className="flex items-center justify-center h-full bg-muted/40 text-sm text-muted-foreground">
+						Panel B
+					</div>
+				</ResizablePanel>
+			</ResizablePanelGroup>
+		</div>
+	}
+	code={`<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel defaultSize={50}>
+    <div>Panel A</div>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={50}>
+    <div>Panel B</div>
+  </ResizablePanel>
+</ResizablePanelGroup>`}
+>
+
+## Import
+
+```tsx
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@work-rjkashyap/unified-ui/components";
+// or
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@work-rjkashyap/unified-ui";
+```
+
+## Basic Usage
+
+Wrap panels and handles inside a `ResizablePanelGroup`. Each `ResizablePanel` fills available space, and `ResizableHandle` renders between them as a drag separator.
+
+```tsx
+<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel>
+    <div>Left</div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel>
+    <div>Right</div>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Horizontal Split
+
+The default direction is `"horizontal"`, which places panels side by side.
+
+<ComponentPage
+	title="Horizontal Split"
+	description="Panels are arranged side by side with a vertical drag handle between them."
+	preview={
+		<div className="w-full max-w-lg h-40 rounded-lg border border-border overflow-hidden">
+			<ResizablePanelGroup direction="horizontal">
+				<ResizablePanel defaultSize={30}>
+					<div className="flex items-center justify-center h-full bg-muted/40 text-sm text-muted-foreground">
+						Sidebar
+					</div>
+				</ResizablePanel>
+				<ResizableHandle />
+				<ResizablePanel defaultSize={70}>
+					<div className="flex items-center justify-center h-full bg-muted/20 text-sm text-muted-foreground">
+						Content
+					</div>
+				</ResizablePanel>
+			</ResizablePanelGroup>
+		</div>
+	}
+	code={`<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel defaultSize={30}>
+    <div>Sidebar</div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={70}>
+    <div>Content</div>
+  </ResizablePanel>
+</ResizablePanelGroup>`}
+/>
+
+## Vertical Split
+
+Set `direction="vertical"` to stack panels on top of each other with a horizontal drag handle.
+
+<ComponentPage
+	title="Vertical Split"
+	description="Panels are stacked vertically with a horizontal drag handle between them."
+	preview={
+		<div className="w-full max-w-lg h-64 rounded-lg border border-border overflow-hidden">
+			<ResizablePanelGroup direction="vertical">
+				<ResizablePanel defaultSize={40}>
+					<div className="flex items-center justify-center h-full bg-muted/40 text-sm text-muted-foreground">
+						Top
+					</div>
+				</ResizablePanel>
+				<ResizableHandle withHandle />
+				<ResizablePanel defaultSize={60}>
+					<div className="flex items-center justify-center h-full bg-muted/20 text-sm text-muted-foreground">
+						Bottom
+					</div>
+				</ResizablePanel>
+			</ResizablePanelGroup>
+		</div>
+	}
+	code={`<ResizablePanelGroup direction="vertical">
+  <ResizablePanel defaultSize={40}>
+    <div>Top</div>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={60}>
+    <div>Bottom</div>
+  </ResizablePanel>
+</ResizablePanelGroup>`}
+/>
+
+## With Grip Handle
+
+Pass `withHandle` to `ResizableHandle` to show a visual grip indicator on the drag handle. This makes the handle more discoverable.
+
+<ComponentPage
+	title="Grip Handle"
+	description="A visible grip icon on the handle improves discoverability for drag resizing."
+	preview={
+		<div className="w-full max-w-lg h-40 rounded-lg border border-border overflow-hidden">
+			<ResizablePanelGroup direction="horizontal">
+				<ResizablePanel defaultSize={50}>
+					<div className="flex items-center justify-center h-full bg-muted/40 text-sm text-muted-foreground">
+						Left
+					</div>
+				</ResizablePanel>
+				<ResizableHandle withHandle />
+				<ResizablePanel defaultSize={50}>
+					<div className="flex items-center justify-center h-full bg-muted/20 text-sm text-muted-foreground">
+						Right
+					</div>
+				</ResizablePanel>
+			</ResizablePanelGroup>
+		</div>
+	}
+	code={`<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel defaultSize={50}>Left</ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={50}>Right</ResizablePanel>
+</ResizablePanelGroup>`}
+/>
+
+## Three Panels
+
+You can nest any number of panels and handles:
+
+<ComponentPage
+	title="Three Panels"
+	description="Multiple panels with handles between each pair."
+	preview={
+		<div className="w-full max-w-lg h-40 rounded-lg border border-border overflow-hidden">
+			<ResizablePanelGroup direction="horizontal">
+				<ResizablePanel defaultSize={25}>
+					<div className="flex items-center justify-center h-full bg-muted/40 text-sm text-muted-foreground">
+						Nav
+					</div>
+				</ResizablePanel>
+				<ResizableHandle />
+				<ResizablePanel defaultSize={50}>
+					<div className="flex items-center justify-center h-full bg-muted/20 text-sm text-muted-foreground">
+						Content
+					</div>
+				</ResizablePanel>
+				<ResizableHandle />
+				<ResizablePanel defaultSize={25}>
+					<div className="flex items-center justify-center h-full bg-muted/40 text-sm text-muted-foreground">
+						Details
+					</div>
+				</ResizablePanel>
+			</ResizablePanelGroup>
+		</div>
+	}
+	code={`<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel defaultSize={25}>Nav</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={50}>Content</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={25}>Details</ResizablePanel>
+</ResizablePanelGroup>`}
+/>
+
+## Panel Size Constraints
+
+Use `minSize` and `maxSize` (as percentages) to constrain how small or large a panel can be resized:
+
+```tsx
+<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel defaultSize={30} minSize={20} maxSize={40}>
+    <div>Sidebar (min 20%, max 40%)</div>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel>
+    <div>Main content (fills remaining space)</div>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Nested Resizable Panels
+
+Nest `ResizablePanelGroup` inside a panel for complex layouts:
+
+```tsx
+<ResizablePanelGroup direction="horizontal">
+  <ResizablePanel defaultSize={30}>
+    <div>Sidebar</div>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={70}>
+    <ResizablePanelGroup direction="vertical">
+      <ResizablePanel defaultSize={60}>
+        <div>Editor</div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={40}>
+        <div>Terminal</div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## IDE-Style Layout
+
+A common real-world pattern is a three-zone IDE layout:
+
+```tsx
+<div className="h-screen">
+  <ResizablePanelGroup direction="horizontal">
+    {/* File explorer */}
+    <ResizablePanel defaultSize={20} minSize={15} maxSize={30}>
+      <nav>File Explorer</nav>
+    </ResizablePanel>
+    <ResizableHandle withHandle />
+
+    {/* Editor + terminal */}
+    <ResizablePanel defaultSize={55}>
+      <ResizablePanelGroup direction="vertical">
+        <ResizablePanel defaultSize={70}>
+          <div>Code Editor</div>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={30} minSize={10}>
+          <div>Terminal</div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </ResizablePanel>
+    <ResizableHandle withHandle />
+
+    {/* Sidebar */}
+    <ResizablePanel defaultSize={25} minSize={15} maxSize={35}>
+      <aside>Properties Panel</aside>
+    </ResizablePanel>
+  </ResizablePanelGroup>
+</div>
+```
+
+## Props
+
+### ResizablePanelGroup
+
+| Prop           | Type                          | Default        | Description                                             |
+| -------------- | ----------------------------- | -------------- | ------------------------------------------------------- |
+| `direction`    | `"horizontal" \| "vertical"` | `"horizontal"` | Direction of the panel split.                           |
+| `defaultSizes` | `number[]`                   | —              | Default sizes (percentages) for all panels.             |
+| `className`    | `string`                      | —              | Additional CSS classes on the group container.          |
+| `children`     | `ReactNode`                   | —              | Panel and handle children.                              |
+
+All standard `<div>` HTML attributes are also forwarded.
+
+### ResizablePanel
+
+| Prop          | Type        | Default | Description                                               |
+| ------------- | ----------- | ------- | --------------------------------------------------------- |
+| `defaultSize` | `number`    | —       | Initial size as a percentage (e.g. `50` = 50%).           |
+| `minSize`     | `number`    | `10`    | Minimum size as a percentage.                             |
+| `maxSize`     | `number`    | `90`    | Maximum size as a percentage.                             |
+| `className`   | `string`    | —       | Additional CSS classes on the panel.                      |
+| `children`    | `ReactNode` | —       | Panel content.                                            |
+
+All standard `<div>` HTML attributes are also forwarded.
+
+### ResizableHandle
+
+| Prop         | Type      | Default | Description                                              |
+| ------------ | --------- | ------- | -------------------------------------------------------- |
+| `withHandle` | `boolean` | `false` | Show a visible grip icon on the handle.                  |
+| `className`  | `string`  | —       | Additional CSS classes on the handle.                    |
+
+All standard `<div>` HTML attributes are also forwarded.
+
+## Motion
+
+- **Grip handle indicator** — Subtle opacity and scale animation on hover via `whileHover` (Framer Motion).
+- Animation respects `prefers-reduced-motion` via `useReducedMotion()`.
+
+## Keyboard Navigation
+
+| Key          | Action                                                         |
+| ------------ | -------------------------------------------------------------- |
+| `Tab`        | Focus the drag handle.                                         |
+| `ArrowLeft`  | Decrease left panel / increase right panel (horizontal mode).  |
+| `ArrowRight` | Increase left panel / decrease right panel (horizontal mode).  |
+| `ArrowUp`    | Decrease top panel / increase bottom panel (vertical mode).    |
+| `ArrowDown`  | Increase top panel / decrease bottom panel (vertical mode).    |
+
+## Accessibility
+
+- The drag handle renders as `role="separator"` with `aria-orientation` set to the perpendicular axis.
+- `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` are set on the handle for assistive technology.
+- The handle is keyboard-focusable (`tabIndex={0}`) with a visible focus ring.
+- The cursor changes to `col-resize` (horizontal) or `row-resize` (vertical) for visual affordance.
+- An invisible hit area (`after::` pseudo-element) makes the thin handle easier to grab with a mouse or touch.
+
+## Design Tokens
+
+| Token             | Usage                                    |
+| ----------------- | ---------------------------------------- |
+| `--border`        | Handle background color, grip border     |
+| `--primary`       | Handle hover highlight color             |
+| `--ring`          | Focus ring color                         |
+| `--muted-foreground` | Grip icon color                       |
+| `--duration-fast` | Transition speed                         |
+
+</ComponentPage>
