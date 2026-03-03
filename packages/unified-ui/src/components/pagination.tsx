@@ -242,6 +242,13 @@ export interface PaginationProps extends Omit<
 	page?: number;
 
 	/**
+	 * Default page for uncontrolled mode (1-indexed).
+	 * Only used when `page` is not provided.
+	 * @default 1
+	 */
+	defaultPage?: number;
+
+	/**
 	 * Callback fired when the page changes.
 	 */
 	onPageChange?: (page: number) => void;
@@ -351,6 +358,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
 		{
 			totalPages,
 			page: controlledPage,
+			defaultPage = 1,
 			onPageChange,
 			variant = "default",
 			size = "md",
@@ -366,7 +374,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
 		ref,
 	) {
 		// Uncontrolled state
-		const [internalPage, setInternalPage] = useState(1);
+		const [internalPage, setInternalPage] = useState(defaultPage);
 		const isControlled = controlledPage !== undefined;
 		const currentPage = Math.max(
 			1,

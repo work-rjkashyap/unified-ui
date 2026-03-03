@@ -1,0 +1,263 @@
+---
+title: FormField
+description: A composable form field wrapper that combines label, control, description, and error message into a consistent accessible layout.
+icon: TextCursorInput
+---
+
+import { FormField } from "@work-rjkashyap/unified-ui/components";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+The `FormField` component composes a label, form control slot, optional description/helper text, and error message into a single consistent layout. It automatically generates and wires up `htmlFor`, `aria-describedby`, and `aria-invalid` attributes for full accessibility.
+
+---
+
+## Import
+
+```tsx
+import { FormField } from "@work-rjkashyap/unified-ui/components";
+// or
+import { FormField } from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic Usage
+
+<ComponentPage
+	title="Basic FormField"
+	description="Wraps a form control with a label and optional description text."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-sm">
+			<FormField label="Full name">
+				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Enter your name" />
+			</FormField>
+			<FormField label="Email" description="We'll never share your email with anyone.">
+				<input type="email" className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="you@example.com" />
+			</FormField>
+		</div>
+	}
+	code={`<FormField label="Full name">
+  <Input placeholder="Enter your name" />
+</FormField>
+
+<FormField label="Email" description="We'll never share your email with anyone.">
+  <Input type="email" placeholder="you@example.com" />
+</FormField>`}
+/>
+
+### Required Fields
+
+<ComponentPage
+	title="Required Fields"
+	description="Shows a red asterisk after the label. Use the render function form of children to auto-wire aria-required."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-sm">
+			<FormField label="Username" required>
+				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Choose a username" />
+			</FormField>
+			<FormField label="Password" required description="Must be at least 8 characters.">
+				<input type="password" className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="••••••••" />
+			</FormField>
+		</div>
+	}
+	code={`<FormField label="Username" required>
+  <Input placeholder="Choose a username" />
+</FormField>
+
+<FormField label="Password" required description="Must be at least 8 characters.">
+  <Input type="password" placeholder="••••••••" />
+</FormField>`}
+/>
+
+### Error State
+
+<ComponentPage
+	title="Error Messages"
+	description="When an error is provided, it replaces the description and renders in danger color with role=alert."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-sm">
+			<FormField label="Email" required error="Please enter a valid email address.">
+				<input type="email" className="h-9 w-full px-3 rounded-md border border-red-500 bg-fd-background text-sm" placeholder="you@example.com" />
+			</FormField>
+			<FormField label="Password" required error="Password must be at least 8 characters.">
+				<input type="password" className="h-9 w-full px-3 rounded-md border border-red-500 bg-fd-background text-sm" placeholder="••••••••" />
+			</FormField>
+		</div>
+	}
+	code={`<FormField label="Email" required error="Please enter a valid email address.">
+  <Input variant="error" placeholder="you@example.com" />
+</FormField>
+
+<FormField label="Password" required error="Password must be at least 8 characters.">
+  <Input variant="error" type="password" placeholder="••••••••" />
+</FormField>`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="FormField Sizes"
+	description="Three sizes control label text, spacing, and provide the correct sizing context."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-sm">
+			<FormField label="Small field" size="sm" description="Compact for dense UIs.">
+				<input className="h-8 w-full px-2.5 rounded-md border border-fd-border bg-fd-background text-xs" placeholder="Small input" />
+			</FormField>
+			<FormField label="Medium field" size="md" description="Default size for most forms.">
+				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Medium input" />
+			</FormField>
+			<FormField label="Large field" size="lg" description="For prominent form fields.">
+				<input className="h-10 w-full px-3.5 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Large input" />
+			</FormField>
+		</div>
+	}
+	code={`<FormField label="Small field" size="sm" description="Compact for dense UIs.">
+  <Input size="sm" placeholder="Small input" />
+</FormField>
+
+<FormField
+	label="Medium field"
+	size="md"
+	description="Default size for most forms."
+>
+	<Input size="md" placeholder="Medium input" />
+</FormField>
+
+<FormField label="Large field" size="lg" description="For prominent form fields.">
+  <Input size="lg" placeholder="Large input" />
+</FormField>`}
+/>
+
+### Horizontal Layout
+
+<ComponentPage
+	title="Horizontal Orientation"
+	description="Places the label to the left and the control to the right for settings-style forms."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-md">
+			<FormField label="Display name" orientation="horizontal">
+				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Your display name" />
+			</FormField>
+			<FormField label="Bio" orientation="horizontal" description="A short description about you.">
+				<textarea className="h-20 w-full px-3 py-2 rounded-md border border-fd-border bg-fd-background text-sm resize-none" placeholder="Tell us about yourself" />
+			</FormField>
+			<FormField label="Website" orientation="horizontal" error="Please enter a valid URL.">
+				<input className="h-9 w-full px-3 rounded-md border border-red-500 bg-fd-background text-sm" placeholder="https://example.com" />
+			</FormField>
+		</div>
+	}
+	code={`<FormField label="Display name" orientation="horizontal">
+  <Input placeholder="Your display name" />
+</FormField>
+
+<FormField
+	label="Bio"
+	orientation="horizontal"
+	description="A short description about you."
+>
+	<Textarea placeholder="Tell us about yourself" />
+</FormField>
+
+<FormField label="Website" orientation="horizontal" error="Please enter a valid URL.">
+  <Input variant="error" placeholder="https://example.com" />
+</FormField>`}
+/>
+
+### Disabled State
+
+<ComponentPage
+	title="Disabled FormField"
+	description="Reduces opacity on all elements when disabled. The actual disabling of the control must be done on the control itself."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-sm">
+			<FormField
+				label="Organization"
+				disabled
+				description="Managed by your organization admin."
+			>
+				<input
+					disabled
+					className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm opacity-50 cursor-not-allowed"
+					value="Acme Corp"
+					readOnly
+				/>
+			</FormField>
+		</div>
+	}
+	code={`<FormField label="Organization" disabled description="Managed by your organization admin.">
+  <Input disabled value="Acme Corp" />
+</FormField>`}
+/>
+
+### Render Function (Auto-wired Accessibility)
+
+For maximum accessibility, use the render function form of `children` to receive and spread control props automatically:
+
+```tsx
+<FormField label="Email" required error={errors.email}>
+	{(controlProps) => (
+		<Input {...controlProps} type="email" placeholder="you@example.com" />
+	)}
+</FormField>
+```
+
+The render function receives:
+
+| Prop               | Type      | Description                                 |
+| ------------------ | --------- | ------------------------------------------- |
+| `id`               | `string`  | Auto-generated id to set on the control.    |
+| `aria-describedby` | `string`  | ID(s) of description and/or error elements. |
+| `aria-invalid`     | `boolean` | `true` when an error is present.            |
+| `aria-required`    | `boolean` | `true` when the field is required.          |
+| `disabled`         | `boolean` | `true` when the field is disabled.          |
+
+---
+
+## Props
+
+| Prop                   | Type                                              | Default      | Description                                                  |
+| ---------------------- | ------------------------------------------------- | ------------ | ------------------------------------------------------------ |
+| `label`                | `ReactNode`                                       | —            | Label text for the form field.                               |
+| `description`          | `ReactNode`                                       | —            | Helper text below the label or control.                      |
+| `error`                | `ReactNode`                                       | —            | Error message (replaces description when present).           |
+| `size`                 | `"sm" \| "md" \| "lg"`                            | `"md"`       | Controls label size, spacing, and context.                   |
+| `orientation`          | `"vertical" \| "horizontal"`                      | `"vertical"` | Layout orientation for label + control.                      |
+| `required`             | `boolean`                                         | `false`      | Shows a red asterisk and sets `aria-required` via render fn. |
+| `disabled`             | `boolean`                                         | `false`      | Reduces opacity on all visual elements.                      |
+| `htmlFor`              | `string`                                          | auto         | ID for the form control. Auto-generated if omitted.          |
+| `children`             | `ReactNode \| (props: ControlProps) => ReactNode` | —            | The form control(s) or render function.                      |
+| `labelClassName`       | `string`                                          | —            | Additional CSS classes for the label.                        |
+| `descriptionClassName` | `string`                                          | —            | Additional CSS classes for the description.                  |
+| `errorClassName`       | `string`                                          | —            | Additional CSS classes for the error message.                |
+| `controlClassName`     | `string`                                          | —            | Additional CSS classes for the control wrapper.              |
+| `className`            | `string`                                          | —            | Additional CSS classes for the root element.                 |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	Use the render function form of `children` for automatic `id`,
+	`aria-describedby`, `aria-invalid`, and `aria-required` wiring on the
+	control.
+</Callout>
+
+- **Label linkage** — The label's `htmlFor` is automatically linked to the control's `id`.
+- **Description** — Linked to the control via `aria-describedby`.
+- **Error message** — Replaces description in `aria-describedby` and renders with `role="alert"`.
+- **Required** — Visual indicator plus `aria-required` (via render function).
+- **Disabled** — Visual reduction on all elements; disable the control separately.
+
+---
+
+## Design Tokens
+
+| Token                | Usage                           |
+| -------------------- | ------------------------------- |
+| `--foreground`       | Label text color                |
+| `--danger`           | Required indicator & error text |
+| `--muted-foreground` | Description text color          |

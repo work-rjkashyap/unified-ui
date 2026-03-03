@@ -1,0 +1,343 @@
+---
+title: Collapsible
+description: An animated show/hide section built on Radix UI Collapsible with smooth Framer Motion height transitions.
+icon: ChevronsUpDown
+---
+
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@work-rjkashyap/unified-ui/components";
+import { Button } from "@work-rjkashyap/unified-ui";
+import { ChevronsUpDown } from "lucide-react";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+The `Collapsible` component provides an animated show/hide section. Built on Radix UI's Collapsible primitive for accessibility and Framer Motion for smooth height animations. It's a foundational building block used by Sidebar, TreeView, and other expandable components.
+
+---
+
+## Import
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@work-rjkashyap/unified-ui/components";
+// or
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic Usage
+
+<ComponentPage
+	title="Basic Collapsible"
+	description="A simple collapsible section with a trigger button and animated content."
+	preview={
+		<div className="w-full max-w-sm">
+			<Collapsible>
+				<div className="flex items-center justify-between gap-4 px-4">
+					<span className="text-sm font-semibold">What is Unified UI?</span>
+					<CollapsibleTrigger asChild>
+						<Button variant="ghost" iconOnly size="sm" aria-label="Toggle">
+							<ChevronsUpDown className="size-4" />
+						</Button>
+					</CollapsibleTrigger>
+				</div>
+				<CollapsibleContent>
+					<div className="rounded-md border border-fd-border px-4 py-3 mt-2 text-sm text-fd-muted-foreground">
+						Unified UI is a token-driven React design system with 30+ components, built with Tailwind CSS v4, Radix UI, and Framer Motion.
+					</div>
+				</CollapsibleContent>
+			</Collapsible>
+		</div>
+	}
+	code={`<Collapsible>
+  <div className="flex items-center justify-between gap-4 px-4">
+    <span className="text-sm font-semibold">What is Unified UI?</span>
+    <CollapsibleTrigger asChild>
+      <Button variant="ghost" iconOnly size="sm" aria-label="Toggle">
+        <ChevronsUpDown className="size-4" />
+      </Button>
+    </CollapsibleTrigger>
+  </div>
+  <CollapsibleContent>
+    <div className="rounded-md border px-4 py-3 mt-2 text-sm text-muted-foreground">
+      Unified UI is a token-driven React design system with 30+ components,
+      built with Tailwind CSS v4, Radix UI, and Framer Motion.
+    </div>
+  </CollapsibleContent>
+</Collapsible>`}
+/>
+
+### Default Open
+
+<ComponentPage
+	title="Default Open"
+	description="Use the defaultOpen prop to have the collapsible expanded on initial render."
+	preview={
+		<div className="w-full max-w-sm">
+			<Collapsible defaultOpen>
+				<div className="flex items-center justify-between gap-4 px-4">
+					<span className="text-sm font-semibold">Details (open by default)</span>
+					<CollapsibleTrigger asChild>
+						<Button variant="ghost" iconOnly size="sm" aria-label="Toggle">
+							<ChevronsUpDown className="size-4" />
+						</Button>
+					</CollapsibleTrigger>
+				</div>
+				<CollapsibleContent>
+					<div className="rounded-md border border-fd-border px-4 py-3 mt-2 text-sm text-fd-muted-foreground">
+						This content is visible by default because the defaultOpen prop is set to true. Click the toggle button to collapse it.
+					</div>
+				</CollapsibleContent>
+			</Collapsible>
+		</div>
+	}
+	code={`<Collapsible defaultOpen>
+  <div className="flex items-center justify-between gap-4 px-4">
+    <span className="text-sm font-semibold">Details (open by default)</span>
+    <CollapsibleTrigger asChild>
+      <Button variant="ghost" iconOnly size="sm" aria-label="Toggle">
+        <ChevronsUpDown className="size-4" />
+      </Button>
+    </CollapsibleTrigger>
+  </div>
+  <CollapsibleContent>
+    <div className="rounded-md border px-4 py-3 mt-2 text-sm text-muted-foreground">
+      This content is visible by default because the defaultOpen prop is set to true.
+    </div>
+  </CollapsibleContent>
+</Collapsible>`}
+/>
+
+### Multiple Sections
+
+<ComponentPage
+	title="Multiple Collapsible Sections"
+	description="Stack multiple collapsible sections to create a custom FAQ or settings panel."
+	preview={
+		<div className="w-full max-w-sm flex flex-col gap-2">
+			<Collapsible>
+				<div className="flex items-center justify-between gap-4 rounded-md border border-fd-border px-4 py-2">
+					<span className="text-sm font-medium">Installation</span>
+					<CollapsibleTrigger asChild>
+						<Button variant="ghost" iconOnly size="sm" aria-label="Toggle installation">
+							<ChevronsUpDown className="size-4" />
+						</Button>
+					</CollapsibleTrigger>
+				</div>
+				<CollapsibleContent>
+					<div className="px-4 py-3 text-sm text-fd-muted-foreground">
+						Run <code className="text-xs bg-fd-muted px-1 py-0.5 rounded">npm install @work-rjkashyap/unified-ui</code> to get started.
+					</div>
+				</CollapsibleContent>
+			</Collapsible>
+			<Collapsible>
+				<div className="flex items-center justify-between gap-4 rounded-md border border-fd-border px-4 py-2">
+					<span className="text-sm font-medium">Usage</span>
+					<CollapsibleTrigger asChild>
+						<Button variant="ghost" iconOnly size="sm" aria-label="Toggle usage">
+							<ChevronsUpDown className="size-4" />
+						</Button>
+					</CollapsibleTrigger>
+				</div>
+				<CollapsibleContent>
+					<div className="px-4 py-3 text-sm text-fd-muted-foreground">
+						Import components from the package and use them in your JSX. All components support ref forwarding and CVA variants.
+					</div>
+				</CollapsibleContent>
+			</Collapsible>
+			<Collapsible>
+				<div className="flex items-center justify-between gap-4 rounded-md border border-fd-border px-4 py-2">
+					<span className="text-sm font-medium">Theming</span>
+					<CollapsibleTrigger asChild>
+						<Button variant="ghost" iconOnly size="sm" aria-label="Toggle theming">
+							<ChevronsUpDown className="size-4" />
+						</Button>
+					</CollapsibleTrigger>
+				</div>
+				<CollapsibleContent>
+					<div className="px-4 py-3 text-sm text-fd-muted-foreground">
+						Customize the design system by overriding CSS custom properties in your stylesheet. All tokens use oklch() color values.
+					</div>
+				</CollapsibleContent>
+			</Collapsible>
+		</div>
+	}
+	code={`<Collapsible>
+  <div className="flex items-center justify-between rounded-md border px-4 py-2">
+    <span className="text-sm font-medium">Installation</span>
+    <CollapsibleTrigger asChild>
+      <Button variant="ghost" iconOnly size="sm" aria-label="Toggle">
+        <ChevronsUpDown className="size-4" />
+      </Button>
+    </CollapsibleTrigger>
+  </div>
+  <CollapsibleContent>
+    <div className="px-4 py-3 text-sm text-muted-foreground">
+      Run npm install @work-rjkashyap/unified-ui to get started.
+    </div>
+  </CollapsibleContent>
+</Collapsible>
+
+<Collapsible>
+  <div className="flex items-center justify-between rounded-md border px-4 py-2">
+    <span className="text-sm font-medium">Usage</span>
+    <CollapsibleTrigger asChild>
+      <Button variant="ghost" iconOnly size="sm" aria-label="Toggle">
+        <ChevronsUpDown className="size-4" />
+      </Button>
+    </CollapsibleTrigger>
+  </div>
+  <CollapsibleContent>
+    <div className="px-4 py-3 text-sm text-muted-foreground">
+      Import components and use them in your JSX.
+    </div>
+  </CollapsibleContent>
+</Collapsible>`}
+/>
+
+### Disabled
+
+<ComponentPage
+	title="Disabled Collapsible"
+	description="When disabled, the trigger cannot be interacted with and the content stays in its current state."
+	preview={
+		<div className="w-full max-w-sm">
+			<Collapsible disabled>
+				<div className="flex items-center justify-between gap-4 px-4 opacity-50">
+					<span className="text-sm font-semibold">Disabled section</span>
+					<CollapsibleTrigger asChild>
+						<Button variant="ghost" iconOnly size="sm" aria-label="Toggle" disabled>
+							<ChevronsUpDown className="size-4" />
+						</Button>
+					</CollapsibleTrigger>
+				</div>
+				<CollapsibleContent>
+					<div className="rounded-md border border-fd-border px-4 py-3 mt-2 text-sm text-fd-muted-foreground">
+						You cannot see this content because the trigger is disabled.
+					</div>
+				</CollapsibleContent>
+			</Collapsible>
+		</div>
+	}
+	code={`<Collapsible disabled>
+  <div className="flex items-center justify-between gap-4 px-4 opacity-50">
+    <span className="text-sm font-semibold">Disabled section</span>
+    <CollapsibleTrigger asChild>
+      <Button variant="ghost" iconOnly size="sm" aria-label="Toggle" disabled>
+        <ChevronsUpDown className="size-4" />
+      </Button>
+    </CollapsibleTrigger>
+  </div>
+  <CollapsibleContent>
+    <div className="rounded-md border px-4 py-3 mt-2 text-sm">
+      You cannot see this content because the trigger is disabled.
+    </div>
+  </CollapsibleContent>
+</Collapsible>`}
+/>
+
+### Custom Animation Duration
+
+<ComponentPage
+	title="Custom Duration"
+	description="Adjust the animation speed by setting the duration prop on CollapsibleContent (in seconds)."
+	preview={
+		<div className="w-full max-w-sm">
+			<Collapsible>
+				<div className="flex items-center justify-between gap-4 px-4">
+					<span className="text-sm font-semibold">Slow animation (0.5s)</span>
+					<CollapsibleTrigger asChild>
+						<Button variant="ghost" iconOnly size="sm" aria-label="Toggle">
+							<ChevronsUpDown className="size-4" />
+						</Button>
+					</CollapsibleTrigger>
+				</div>
+				<CollapsibleContent duration={0.5}>
+					<div className="rounded-md border border-fd-border px-4 py-3 mt-2 text-sm text-fd-muted-foreground">
+						This content expands and collapses with a slower 0.5 second animation duration, giving a more deliberate feel.
+					</div>
+				</CollapsibleContent>
+			</Collapsible>
+		</div>
+	}
+	code={`<Collapsible>
+  <CollapsibleTrigger asChild>
+    <Button variant="ghost">Slow animation (0.5s)</Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent duration={0.5}>
+    <div className="rounded-md border px-4 py-3 mt-2 text-sm">
+      This content expands with a slower 0.5 second animation.
+    </div>
+  </CollapsibleContent>
+</Collapsible>`}
+/>
+
+---
+
+## Composition
+
+### Collapsible
+
+The root component that manages open/closed state.
+
+| Prop           | Type                        | Default | Description                                     |
+| -------------- | --------------------------- | ------- | ----------------------------------------------- |
+| `open`         | `boolean`                   | —       | Controlled open state.                          |
+| `defaultOpen`  | `boolean`                   | `false` | Default open state for uncontrolled mode.       |
+| `onOpenChange` | `(open: boolean) => void`   | —       | Callback fired when the open state changes.     |
+| `disabled`     | `boolean`                   | `false` | Prevents trigger interaction.                   |
+| `className`    | `string`                    | —       | Additional CSS classes for the root element.    |
+
+### CollapsibleTrigger
+
+The button that toggles the collapsible. Use `asChild` to render your own trigger element.
+
+| Prop        | Type      | Default | Description                                  |
+| ----------- | --------- | ------- | -------------------------------------------- |
+| `asChild`   | `boolean` | `false` | Merge props onto child instead of rendering. |
+| `className` | `string`  | —       | Additional CSS classes.                      |
+
+### CollapsibleContent
+
+The content section that expands and collapses with a smooth height animation.
+
+| Prop         | Type      | Default | Description                                                       |
+| ------------ | --------- | ------- | ----------------------------------------------------------------- |
+| `duration`   | `number`  | `0.2`   | Animation duration in seconds.                                    |
+| `forceMount` | `boolean` | `false` | Keep content in the DOM even when collapsed (useful for SEO).     |
+| `className`  | `string`  | —       | Additional CSS classes for the content wrapper.                   |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	The Collapsible component is built on Radix UI, which handles all ARIA attributes and keyboard interactions automatically.
+</Callout>
+
+- **aria-expanded** — Radix sets `aria-expanded` on the trigger to reflect the open state.
+- **aria-controls** — Radix links the trigger to the content via `aria-controls`.
+- **Keyboard** — Space and Enter keys toggle the collapsible when the trigger is focused.
+- **Disabled** — When disabled, the trigger is non-interactive and removed from the tab order.
+- **Reduced motion** — Framer Motion automatically respects `prefers-reduced-motion` and falls back to instant transitions.
+
+---
+
+## Design Tokens
+
+| Token              | Usage                                  |
+| ------------------ | -------------------------------------- |
+| `--duration-fast`  | Default animation timing reference     |
+| `--easing-standard`| Easing curve for expand/collapse       |
+| `--border`         | Content section border color           |
+| `--muted-foreground` | Content text color                   |

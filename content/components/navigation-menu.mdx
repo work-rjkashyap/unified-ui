@@ -1,0 +1,299 @@
+---
+title: Navigation Menu
+description: A top-level navigation bar with animated dropdown panels, card-style links, and full keyboard navigation. Built on Radix UI.
+icon: Navigation
+---
+
+import {
+	NavigationMenu,
+	NavigationMenuList,
+	NavigationMenuItem,
+	NavigationMenuTrigger,
+	NavigationMenuContent,
+	NavigationMenuLink,
+	NavigationMenuCardLink,
+} from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+`NavigationMenu` is a top-level site navigation component with animated dropdown panels. Built on Radix UI's NavigationMenu primitive, it supports card-style link items with icon, title, and description — ideal for marketing and docs site navbars.
+
+---
+
+## Import
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+  NavigationMenuCardLink,
+} from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic with Dropdown
+
+<ComponentPage
+	title="Navigation Menu with Dropdown"
+	description="A top nav with a dropdown panel containing card-style links."
+	preview={
+		<NavigationMenu>
+			<NavigationMenuList>
+				<NavigationMenuItem>
+					<NavigationMenuTrigger>Components</NavigationMenuTrigger>
+					<NavigationMenuContent>
+						<ul className="grid grid-cols-2 gap-1 p-3 w-[480px]">
+							<NavigationMenuCardLink
+								href="#"
+								title="Button"
+								description="The primary interactive element for triggering actions."
+							/>
+							<NavigationMenuCardLink
+								href="#"
+								title="Input"
+								description="Text input with variants, sizes, and icon slots."
+							/>
+							<NavigationMenuCardLink
+								href="#"
+								title="Dialog"
+								description="Modal dialog with header, body, and footer."
+							/>
+							<NavigationMenuCardLink
+								href="#"
+								title="Card"
+								description="Flexible container for content and actions."
+							/>
+						</ul>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+					<NavigationMenuContent>
+						<ul className="grid gap-1 p-3 w-[300px]">
+							<NavigationMenuCardLink
+								href="#"
+								title="Documentation"
+								description="Browse the full API reference and guides."
+							/>
+							<NavigationMenuCardLink
+								href="#"
+								title="Changelog"
+								description="See what has changed in recent releases."
+							/>
+							<NavigationMenuCardLink
+								href="#"
+								title="GitHub"
+								description="Contribute and file issues on GitHub."
+							/>
+						</ul>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuLink href="#">Pricing</NavigationMenuLink>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuLink href="#">Blog</NavigationMenuLink>
+				</NavigationMenuItem>
+			</NavigationMenuList>
+		</NavigationMenu>
+	}
+	code={`<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ul className="grid grid-cols-2 gap-1 p-3 w-[480px]">
+          <NavigationMenuCardLink
+            href="/components/button"
+            title="Button"
+            description="The primary interactive element for triggering actions."
+          />
+          <NavigationMenuCardLink
+            href="/components/input"
+            title="Input"
+            description="Text input with variants, sizes, and icon slots."
+          />
+          <NavigationMenuCardLink
+            href="/components/dialog"
+            title="Dialog"
+            description="Modal dialog with header, body, and footer."
+          />
+          <NavigationMenuCardLink
+            href="/components/card"
+            title="Card"
+            description="Flexible container for content and actions."
+          />
+        </ul>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/pricing">Pricing</NavigationMenuLink>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/blog">Blog</NavigationMenuLink>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>`}
+/>
+
+### Plain Links Only
+
+<ComponentPage
+	title="Plain Link Navigation"
+	description="When no dropdown is needed, use NavigationMenuLink directly inside NavigationMenuItem."
+	preview={
+		<NavigationMenu>
+			<NavigationMenuList>
+				<NavigationMenuItem>
+					<NavigationMenuLink href="#" active>Home</NavigationMenuLink>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuLink href="#">About</NavigationMenuLink>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuLink href="#">Services</NavigationMenuLink>
+				</NavigationMenuItem>
+				<NavigationMenuItem>
+					<NavigationMenuLink href="#">Contact</NavigationMenuLink>
+				</NavigationMenuItem>
+			</NavigationMenuList>
+		</NavigationMenu>
+	}
+	code={`<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/" active>Home</NavigationMenuLink>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/about">About</NavigationMenuLink>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/services">Services</NavigationMenuLink>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/contact">Contact</NavigationMenuLink>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>`}
+/>
+
+### Featured + Grid Layout
+
+<ComponentPage
+	title="Featured + Grid Content"
+	description="Mix a featured card with a grid of links in the dropdown panel."
+	preview={
+		<NavigationMenu>
+			<NavigationMenuList>
+				<NavigationMenuItem>
+					<NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+					<NavigationMenuContent>
+						<div className="grid grid-cols-[1fr_1.5fr] gap-2 p-3 w-[520px]">
+							{/* Featured card */}
+							<div className="flex flex-col gap-1 rounded-md bg-gradient-to-b from-muted/60 to-muted p-4">
+								<p className="text-sm font-semibold text-foreground">Unified UI</p>
+								<p className="text-xs text-muted-foreground leading-snug">
+									A token-driven React design system with 30+ accessible components.
+								</p>
+							</div>
+							{/* Grid of links */}
+							<ul className="grid gap-1">
+								<NavigationMenuCardLink href="#" title="Installation" description="Get started in under 2 minutes." />
+								<NavigationMenuCardLink href="#" title="Design Tokens" description="Colors, spacing, and typography." />
+								<NavigationMenuCardLink href="#" title="Theming" description="Dark mode and custom themes." />
+							</ul>
+						</div>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+			</NavigationMenuList>
+		</NavigationMenu>
+	}
+	code={`<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <div className="grid grid-cols-[1fr_1.5fr] gap-2 p-3 w-[520px]">
+          {/* Featured card */}
+          <div className="flex flex-col gap-1 rounded-md bg-muted p-4">
+            <p className="text-sm font-semibold">Unified UI</p>
+            <p className="text-xs text-muted-foreground">
+              A token-driven React design system with 30+ accessible components.
+            </p>
+          </div>
+          {/* Link grid */}
+          <ul className="grid gap-1">
+            <NavigationMenuCardLink href="/docs/installation" title="Installation" description="Get started in under 2 minutes." />
+            <NavigationMenuCardLink href="/docs/tokens" title="Design Tokens" description="Colors, spacing, and typography." />
+            <NavigationMenuCardLink href="/docs/theming" title="Theming" description="Dark mode and custom themes." />
+          </ul>
+        </div>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>`}
+/>
+
+---
+
+## Props
+
+### NavigationMenu
+
+| Prop            | Type                      | Default | Description                                      |
+| --------------- | ------------------------- | ------- | ------------------------------------------------ |
+| `value`         | `string`                  | —       | Controlled open state for a specific item.       |
+| `defaultValue`  | `string`                  | —       | Default open item value.                         |
+| `onValueChange` | `(value: string) => void` | —       | Callback when the open item changes.             |
+| `dir`           | `"ltr" \| "rtl"`          | —       | Reading direction.                               |
+| `orientation`   | `"horizontal" \| "vertical"` | `"horizontal"` | Orientation of the menu.             |
+| `className`     | `string`                  | —       | Additional CSS classes.                          |
+
+### NavigationMenuTrigger
+
+| Prop        | Type      | Default | Description                         |
+| ----------- | --------- | ------- | ----------------------------------- |
+| `className` | `string`  | —       | Additional CSS classes.             |
+| `disabled`  | `boolean` | `false` | Disables the trigger.               |
+
+### NavigationMenuLink
+
+| Prop        | Type      | Default | Description                                   |
+| ----------- | --------- | ------- | --------------------------------------------- |
+| `href`      | `string`  | —       | The URL the link points to.                   |
+| `active`    | `boolean` | `false` | Marks this link as the current active page.   |
+| `asChild`   | `boolean` | `false` | Render as the child element.                  |
+| `className` | `string`  | —       | Additional CSS classes.                       |
+
+### NavigationMenuCardLink
+
+| Prop          | Type        | Default | Description                                  |
+| ------------- | ----------- | ------- | -------------------------------------------- |
+| `href`        | `string`    | —       | Required. The URL the card links to.         |
+| `title`       | `string`    | —       | Required. Title text for the card.           |
+| `description` | `string`    | —       | Optional description beneath the title.     |
+| `icon`        | `ReactNode` | —       | Optional icon rendered before the title.    |
+| `active`      | `boolean`   | `false` | Marks this link as currently active.         |
+| `className`   | `string`    | —       | Additional CSS classes.                      |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+  Use `NavigationMenuLink` with the `active` prop to mark the current page. This applies `aria-current="page"` automatically via Radix.
+</Callout>
+
+- **Tab** — Moves focus between top-level triggers and links.
+- **Enter / Space** — Opens a trigger's dropdown content.
+- **Arrow keys** — Navigate between triggers and between items inside an open panel.
+- **Escape** — Closes the open panel and returns focus to the trigger.
+- Radix applies `role="navigation"`, `role="menubar"`, and `aria-expanded` automatically.

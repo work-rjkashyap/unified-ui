@@ -1,0 +1,305 @@
+---
+title: Menubar
+description: A horizontal application menu bar with keyboard navigation, submenus, checkbox and radio items. Built on Radix UI.
+icon: Menu
+---
+
+import {
+	Menubar,
+	MenubarMenu,
+	MenubarTrigger,
+	MenubarContent,
+	MenubarItem,
+	MenubarCheckboxItem,
+	MenubarRadioGroup,
+	MenubarRadioItem,
+	MenubarLabel,
+	MenubarSeparator,
+	MenubarGroup,
+	MenubarSub,
+	MenubarSubTrigger,
+	MenubarSubContent,
+	MenubarShortcut,
+} from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+`Menubar` is a horizontal application menu bar — the kind you see in desktop apps (File, Edit, View, etc.). Built on Radix UI's Menubar primitive, it provides full keyboard navigation, nested submenus, checkbox/radio items, and shortcut hints.
+
+---
+
+## Import
+
+```tsx
+import {
+	Menubar,
+	MenubarMenu,
+	MenubarTrigger,
+	MenubarContent,
+	MenubarItem,
+	MenubarSeparator,
+	MenubarLabel,
+	MenubarShortcut,
+	MenubarSub,
+	MenubarSubTrigger,
+	MenubarSubContent,
+	MenubarCheckboxItem,
+	MenubarRadioGroup,
+	MenubarRadioItem,
+	MenubarGroup,
+} from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic
+
+<ComponentPage
+	title="Basic Menubar"
+	description="A minimal menubar with File and Edit menus and keyboard shortcuts."
+	preview={
+		<Menubar>
+			<MenubarMenu>
+				<MenubarTrigger>File</MenubarTrigger>
+				<MenubarContent>
+					<MenubarItem>
+						New Tab<MenubarShortcut>⌘T</MenubarShortcut>
+					</MenubarItem>
+					<MenubarItem>
+						New Window<MenubarShortcut>⌘N</MenubarShortcut>
+					</MenubarItem>
+					<MenubarSeparator />
+					<MenubarItem>
+						Open<MenubarShortcut>⌘O</MenubarShortcut>
+					</MenubarItem>
+					<MenubarItem>
+						Save<MenubarShortcut>⌘S</MenubarShortcut>
+					</MenubarItem>
+					<MenubarSeparator />
+					<MenubarItem>
+						Close Window<MenubarShortcut>⌘W</MenubarShortcut>
+					</MenubarItem>
+				</MenubarContent>
+			</MenubarMenu>
+			<MenubarMenu>
+				<MenubarTrigger>Edit</MenubarTrigger>
+				<MenubarContent>
+					<MenubarItem>
+						Undo<MenubarShortcut>⌘Z</MenubarShortcut>
+					</MenubarItem>
+					<MenubarItem>
+						Redo<MenubarShortcut>⇧⌘Z</MenubarShortcut>
+					</MenubarItem>
+					<MenubarSeparator />
+					<MenubarItem>
+						Cut<MenubarShortcut>⌘X</MenubarShortcut>
+					</MenubarItem>
+					<MenubarItem>
+						Copy<MenubarShortcut>⌘C</MenubarShortcut>
+					</MenubarItem>
+					<MenubarItem>
+						Paste<MenubarShortcut>⌘V</MenubarShortcut>
+					</MenubarItem>
+				</MenubarContent>
+			</MenubarMenu>
+			<MenubarMenu>
+				<MenubarTrigger>View</MenubarTrigger>
+				<MenubarContent>
+					<MenubarItem>
+						Zoom In<MenubarShortcut>⌘+</MenubarShortcut>
+					</MenubarItem>
+					<MenubarItem>
+						Zoom Out<MenubarShortcut>⌘-</MenubarShortcut>
+					</MenubarItem>
+					<MenubarItem>
+						Reset Zoom<MenubarShortcut>⌘0</MenubarShortcut>
+					</MenubarItem>
+					<MenubarSeparator />
+					<MenubarItem>
+						Toggle Fullscreen<MenubarShortcut>F11</MenubarShortcut>
+					</MenubarItem>
+				</MenubarContent>
+			</MenubarMenu>
+		</Menubar>
+	}
+	code={`<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>New Tab<MenubarShortcut>⌘T</MenubarShortcut></MenubarItem>
+      <MenubarItem>New Window<MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Open<MenubarShortcut>⌘O</MenubarShortcut></MenubarItem>
+      <MenubarItem>Save<MenubarShortcut>⌘S</MenubarShortcut></MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Close Window<MenubarShortcut>⌘W</MenubarShortcut></MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>Edit</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>Undo<MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
+      <MenubarItem>Redo<MenubarShortcut>⇧⌘Z</MenubarShortcut></MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Cut<MenubarShortcut>⌘X</MenubarShortcut></MenubarItem>
+      <MenubarItem>Copy<MenubarShortcut>⌘C</MenubarShortcut></MenubarItem>
+      <MenubarItem>Paste<MenubarShortcut>⌘V</MenubarShortcut></MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>View</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>Zoom In<MenubarShortcut>⌘+</MenubarShortcut></MenubarItem>
+      <MenubarItem>Zoom Out<MenubarShortcut>⌘-</MenubarShortcut></MenubarItem>
+      <MenubarItem>Reset Zoom<MenubarShortcut>⌘0</MenubarShortcut></MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Toggle Fullscreen<MenubarShortcut>F11</MenubarShortcut></MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>`}
+/>
+
+### With Submenus
+
+<ComponentPage
+	title="Submenus"
+	description="Use MenubarSub, MenubarSubTrigger, and MenubarSubContent to nest menus."
+	preview={
+		<Menubar>
+			<MenubarMenu>
+				<MenubarTrigger>File</MenubarTrigger>
+				<MenubarContent>
+					<MenubarItem>
+						New<MenubarShortcut>⌘N</MenubarShortcut>
+					</MenubarItem>
+					<MenubarSeparator />
+					<MenubarSub>
+						<MenubarSubTrigger>Share</MenubarSubTrigger>
+						<MenubarSubContent>
+							<MenubarItem>Email Link</MenubarItem>
+							<MenubarItem>Copy Link</MenubarItem>
+							<MenubarSeparator />
+							<MenubarItem>Export as PDF</MenubarItem>
+						</MenubarSubContent>
+					</MenubarSub>
+					<MenubarSeparator />
+					<MenubarItem variant="danger">
+						Delete<MenubarShortcut>⌘⌫</MenubarShortcut>
+					</MenubarItem>
+				</MenubarContent>
+			</MenubarMenu>
+		</Menubar>
+	}
+	code={`<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>New <MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
+      <MenubarSeparator />
+      <MenubarSub>
+        <MenubarSubTrigger>Share</MenubarSubTrigger>
+        <MenubarSubContent>
+          <MenubarItem>Email Link</MenubarItem>
+          <MenubarItem>Copy Link</MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem>Export as PDF</MenubarItem>
+        </MenubarSubContent>
+      </MenubarSub>
+      <MenubarSeparator />
+      <MenubarItem variant="danger">
+        Delete <MenubarShortcut>⌘⌫</MenubarShortcut>
+      </MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>`}
+/>
+
+### Checkbox and Radio Items
+
+<ComponentPage
+	title="Checkbox and Radio Items"
+	description="Track toggleable settings and exclusive selections within a menu."
+	preview={
+		<MenubarCheckboxRadioPreview />
+	}
+	code={`const [showGrid, setShowGrid] = useState(true);
+const [showRuler, setShowRuler] = useState(false);
+const [theme, setTheme] = useState("system");
+
+<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>View</MenubarTrigger>
+    <MenubarContent>
+      <MenubarLabel>Panels</MenubarLabel>
+      <MenubarCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
+        Show Grid
+      </MenubarCheckboxItem>
+      <MenubarCheckboxItem checked={showRuler} onCheckedChange={setShowRuler}>
+        Show Ruler
+      </MenubarCheckboxItem>
+      <MenubarSeparator />
+      <MenubarLabel>Theme</MenubarLabel>
+      <MenubarRadioGroup value={theme} onValueChange={setTheme}>
+        <MenubarRadioItem value="light">Light</MenubarRadioItem>
+        <MenubarRadioItem value="dark">Dark</MenubarRadioItem>
+        <MenubarRadioItem value="system">System</MenubarRadioItem>
+      </MenubarRadioGroup>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>`}
+/>
+
+---
+
+## Props
+
+### Menubar
+
+| Prop        | Type             | Default | Description                                     |
+| ----------- | ---------------- | ------- | ----------------------------------------------- |
+| `dir`       | `"ltr" \| "rtl"` | —       | Reading direction.                              |
+| `loop`      | `boolean`        | `true`  | Whether keyboard focus loops between menus.     |
+| `className` | `string`         | —       | Additional CSS classes on the root bar element. |
+
+### MenubarMenu
+
+| Prop    | Type     | Default | Description                                      |
+| ------- | -------- | ------- | ------------------------------------------------ |
+| `value` | `string` | —       | Unique value (needed for controlled open state). |
+
+### MenubarTrigger
+
+| Prop        | Type      | Default | Description             |
+| ----------- | --------- | ------- | ----------------------- |
+| `className` | `string`  | —       | Additional CSS classes. |
+| `disabled`  | `boolean` | `false` | Disables the trigger.   |
+
+### MenubarItem
+
+| Prop       | Type                    | Default     | Description                                 |
+| ---------- | ----------------------- | ----------- | ------------------------------------------- |
+| `variant`  | `"default" \| "danger"` | `"default"` | Visual style for destructive actions.       |
+| `icon`     | `ReactNode`             | —           | Icon rendered before the label.             |
+| `inset`    | `boolean`               | `false`     | Adds left padding to align without an icon. |
+| `disabled` | `boolean`               | `false`     | Disables the item.                          |
+| `onSelect` | `(e: Event) => void`    | —           | Callback fired when the item is selected.   |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	Menubar navigation follows the ARIA Authoring Practices Guide for menu bars.
+	Use the Menubar when you need desktop-app style navigation; for simpler site
+	navigation, prefer `NavigationMenu`.
+</Callout>
+
+- **F6 / Tab** — Moves focus to the menubar.
+- **Left / Right arrows** — Move between top-level menu triggers.
+- **Enter / Space / Down arrow** — Opens the focused menu.
+- **Up / Down arrows** — Navigate within an open menu.
+- **Escape** — Closes the open menu and returns focus to the trigger.
+- `role="menubar"`, `role="menu"`, and `role="menuitem"` are applied by Radix UI.

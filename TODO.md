@@ -903,13 +903,13 @@ These complete the form story and are needed for any non-trivial application.
 
 | #   | Component   | Depends On               | Description                                                                | Status |
 | --- | ----------- | ------------------------ | -------------------------------------------------------------------------- | ------ |
-| 29  | Label       | Typography               | Accessible `<label>` with required indicator, sizing, and disabled state   | ☐      |
-| 30  | FormField   | Label, Input, Textarea   | Composable field wrapper: label + control + description + error message    | ☐      |
+| 29  | Label       | Typography               | Accessible `<label>` with required indicator, sizing, and disabled state   | ✅     |
+| 30  | FormField   | Label, Input, Textarea   | Composable field wrapper: label + control + description + error message    | ✅     |
 | 31  | Slider      | tokens                   | Range slider with single/dual thumb, marks, and step snapping (Radix)      | ☐      |
 | 32  | DatePicker  | Popover, Calendar, Input | Date input with calendar popover, range mode, and locale support           | ☐      |
 | 33  | Calendar    | tokens, Button           | Month/year grid calendar with range selection and disabled dates           | ☐      |
-| 34  | Toggle      | tokens                   | Pressable on/off button (distinct from Switch — acts like a toggle button) | ☐      |
-| 35  | ToggleGroup | Toggle                   | Single or multi-select group of toggle buttons (Radix)                     | ☐      |
+| 34  | Toggle      | tokens                   | Pressable on/off button (distinct from Switch — acts like a toggle button) | ✅     |
+| 35  | ToggleGroup | Toggle                   | Single or multi-select group of toggle buttons (Radix)                     | ✅     |
 | 36  | NumberInput | Input, Button            | Stepper input with increment/decrement, min/max, and keyboard support      | ☐      |
 | 37  | PinInput    | Input                    | OTP / verification code input with auto-advance between digits             | ☐      |
 | 38  | ColorPicker | Popover, Input           | Color swatch + popover with spectrum, HEX/RGB/OKLCH input                  | ☐      |
@@ -938,16 +938,16 @@ Structural components for app chrome, routing, and page organization.
 
 | #   | Component      | Depends On             | Description                                                                  | Status |
 | --- | -------------- | ---------------------- | ---------------------------------------------------------------------------- | ------ |
-| 50  | NavigationMenu | Popover, Button        | Top-level nav with dropdowns, mega-menu support, and mobile collapse (Radix) | ☐      |
+| 50  | NavigationMenu | Popover, Button        | Top-level nav with dropdowns, mega-menu support, and mobile collapse (Radix) | ✅     |
 | 51  | Sidebar        | Sheet, Button, Tooltip | Collapsible app sidebar with sections, icons, nested items, and resize       | ☐      |
-| 52  | CommandPalette | Dialog, Input          | `⌘K` command palette with fuzzy search, groups, and keyboard navigation      | ☐      |
-| 53  | Menubar        | DropdownMenu           | Horizontal menu bar with nested submenus (Radix)                             | ☐      |
-| 54  | ContextMenu    | DropdownMenu           | Right-click context menu with nested submenus (Radix)                        | ☐      |
-| 55  | Steps          | Typography, Divider    | Step indicator / wizard progress with horizontal and vertical orientations   | ☐      |
-| 56  | ScrollArea     | tokens                 | Custom scrollbar container with fade indicators (Radix)                      | ☐      |
+| 52  | CommandPalette | Dialog, Input          | `⌘K` command palette with fuzzy search, groups, and keyboard navigation      | ✅     |
+| 53  | Menubar        | DropdownMenu           | Horizontal menu bar with nested submenus (Radix)                             | ✅     |
+| 54  | ContextMenu    | DropdownMenu           | Right-click context menu with nested submenus (Radix)                        | ✅     |
+| 55  | Steps          | Typography, Divider    | Step indicator / wizard progress with horizontal and vertical orientations   | ✅     |
+| 56  | ScrollArea     | tokens                 | Custom scrollbar container with fade indicators (Radix)                      | ✅     |
 | 57  | Resizable      | tokens                 | Resizable split panels with drag handle (react-resizable-panels)             | ☐      |
 | 58  | AspectRatio    | tokens                 | Constrains child to a given aspect ratio (Radix)                             | ☐      |
-| 59  | Collapsible    | motion                 | Animated show/hide section (Radix) — building block for Sidebar, Tree, etc.  | ☐      |
+| 59  | Collapsible    | motion                 | Animated show/hide section (Radix) — building block for Sidebar, Tree, etc.  | ✅     |
 
 ### 10.4 — Feedback & Overlay Components (P2)
 
@@ -955,8 +955,8 @@ Loading states, confirmations, and transient UI.
 
 | #   | Component   | Depends On     | Description                                                             | Status |
 | --- | ----------- | -------------- | ----------------------------------------------------------------------- | ------ |
-| 60  | Progress    | tokens         | Linear progress bar with indeterminate, striped, and labeled variants   | ☐      |
-| 61  | Spinner     | tokens, motion | Animated loading spinner with size variants (replaces raw SVG spinners) | ☐      |
+| 60  | Progress    | tokens         | Linear progress bar with indeterminate, striped, and labeled variants   | ✅     |
+| 61  | Spinner     | tokens, motion | Animated loading spinner with size variants (replaces raw SVG spinners) | ✅     |
 | 62  | AlertDialog | Dialog, Button | Confirmation dialog with required action — no dismiss on overlay click  | ☐      |
 | 63  | Drawer      | Sheet          | Bottom drawer variant of Sheet with drag-to-dismiss (vaul)              | ☐      |
 | 64  | Banner      | Alert, Button  | Full-width dismissible banner for announcements, fixed top/bottom       | ☐      |
@@ -995,11 +995,11 @@ Higher-level patterns composed from primitives.
 
 Build in this sequence to maximize reuse and minimize blockers:
 
-**Wave 1 — Foundations** (needed by many others):
+**Wave 1 — Foundations** ✅ DONE (needed by many others):
 `Label` → `FormField` → `Toggle` → `ToggleGroup` → `ScrollArea` → `Collapsible` → `Progress` → `Spinner`
 
-**Wave 2 — Navigation & Commands**:
-`NavigationMenu` → `Sidebar` → `CommandPalette` → `ContextMenu` → `Menubar` → `Steps`
+**Wave 2 — Navigation & Commands** ✅ DONE (except Sidebar):
+`NavigationMenu` ✅ → `Sidebar` → `CommandPalette` ✅ → `ContextMenu` ✅ → `Menubar` ✅ → `Steps` ✅
 
 **Wave 3 — Advanced Forms**:
 `Slider` → `Calendar` → `DatePicker` → `NumberInput` → `PinInput` → `Combobox` → `FileUpload`
@@ -1274,60 +1274,60 @@ Strict build sequence — each component may depend on the ones above it:
 
 ### Phase 10 — Extended Components (Planned)
 
-| #   | Component        | Depends On               | Priority | Status |
-| --- | ---------------- | ------------------------ | -------- | ------ |
-| 29  | Label            | Typography               | P1       | ☐      |
-| 30  | FormField        | Label, Input, Textarea   | P1       | ☐      |
-| 31  | Slider           | tokens                   | P1       | ☐      |
-| 32  | Toggle           | tokens                   | P1       | ☐      |
-| 33  | ToggleGroup      | Toggle                   | P1       | ☐      |
-| 34  | ScrollArea       | tokens                   | P1       | ☐      |
-| 35  | Collapsible      | motion                   | P1       | ☐      |
-| 36  | Progress         | tokens                   | P1       | ☐      |
-| 37  | Spinner          | tokens, motion           | P1       | ☐      |
-| 38  | NavigationMenu   | Popover, Button          | P1       | ☐      |
-| 39  | Sidebar          | Sheet, Button, Tooltip   | P1       | ☐      |
-| 40  | CommandPalette   | Dialog, Input            | P1       | ☐      |
-| 41  | ContextMenu      | DropdownMenu             | P1       | ☐      |
-| 42  | Menubar          | DropdownMenu             | P1       | ☐      |
-| 43  | Steps            | Typography, Divider      | P1       | ☐      |
-| 44  | Calendar         | tokens, Button           | P1       | ☐      |
-| 45  | DatePicker       | Popover, Calendar, Input | P1       | ☐      |
-| 46  | NumberInput      | Input, Button            | P1       | ☐      |
-| 47  | PinInput         | Input                    | P1       | ☐      |
-| 48  | Combobox         | Popover, Input, Command  | P1       | ☐      |
-| 49  | FileUpload       | Button, Card             | P1       | ☐      |
-| 50  | ColorPicker      | Popover, Input           | P2       | ☐      |
-| 51  | Tag              | Badge                    | P2       | ☐      |
-| 52  | Kbd              | Typography               | P2       | ☐      |
-| 53  | Code             | Typography               | P2       | ☐      |
-| 54  | Callout          | Alert                    | P2       | ☐      |
-| 55  | DataList         | Typography               | P2       | ☐      |
-| 56  | Stat             | Typography, Card         | P2       | ☐      |
-| 57  | Timeline         | Typography, Divider      | P2       | ☐      |
-| 58  | EmptyState       | Typography, Button       | P2       | ☐      |
-| 59  | HoverCard        | Popover                  | P2       | ☐      |
-| 60  | AlertDialog      | Dialog, Button           | P2       | ☐      |
-| 61  | Drawer           | Sheet                    | P2       | ☐      |
-| 62  | Banner           | Alert, Button            | P2       | ☐      |
-| 63  | Sonner           | Toast                    | P2       | ☐      |
-| 64  | AspectRatio      | tokens                   | P2       | ☐      |
-| 65  | Resizable        | tokens                   | P2       | ☐      |
-| 66  | Carousel         | Button, motion           | P2       | ☐      |
-| 67  | ImageGallery     | Dialog, Carousel         | P3       | ☐      |
-| 68  | VideoPlayer      | tokens                   | P3       | ☐      |
-| 69  | Chart            | Card, Typography         | P3       | ☐      |
-| 70  | TreeView         | Collapsible, Checkbox    | P3       | ☐      |
-| 71  | VirtualList      | ScrollArea               | P3       | ☐      |
-| 72  | Markdown         | Typography, Code         | P3       | ☐      |
-| 73  | CopyButton       | Button, Tooltip, Toast   | P3       | ☐      |
-| 74  | ThemeToggle      | Button, DropdownMenu     | P3       | ☐      |
-| 75  | VisuallyHidden   | tokens                   | P3       | ☐      |
-| 76  | InputGroup       | Input, Button, Select    | P3       | ☐      |
-| 77  | ConfirmDialog    | AlertDialog              | P3       | ☐      |
-| 78  | SearchInput      | Input, Kbd               | P3       | ☐      |
-| 79  | DataTableToolbar | Input, Select, Button    | P3       | ☐      |
-| 80  | InfiniteScroll   | VirtualList, Spinner     | P3       | ☐      |
+| #   | Component        | Depends On               | Priority | Status  |
+| --- | ---------------- | ------------------------ | -------- | ------- |
+| 29  | Label            | Typography               | P1       | ✅ Done |
+| 30  | FormField        | Label, Input, Textarea   | P1       | ✅ Done |
+| 31  | Slider           | tokens                   | P1       | ☐       |
+| 32  | Toggle           | tokens                   | P1       | ✅ Done |
+| 33  | ToggleGroup      | Toggle                   | P1       | ✅ Done |
+| 34  | ScrollArea       | tokens                   | P1       | ✅ Done |
+| 35  | Collapsible      | motion                   | P1       | ✅ Done |
+| 36  | Progress         | tokens                   | P1       | ✅ Done |
+| 37  | Spinner          | tokens, motion           | P1       | ✅ Done |
+| 38  | NavigationMenu   | Popover, Button          | P1       | ☐       |
+| 39  | Sidebar          | Sheet, Button, Tooltip   | P1       | ☐       |
+| 40  | CommandPalette   | Dialog, Input            | P1       | ☐       |
+| 41  | ContextMenu      | DropdownMenu             | P1       | ☐       |
+| 42  | Menubar          | DropdownMenu             | P1       | ☐       |
+| 43  | Steps            | Typography, Divider      | P1       | ☐       |
+| 44  | Calendar         | tokens, Button           | P1       | ☐       |
+| 45  | DatePicker       | Popover, Calendar, Input | P1       | ☐       |
+| 46  | NumberInput      | Input, Button            | P1       | ☐       |
+| 47  | PinInput         | Input                    | P1       | ☐       |
+| 48  | Combobox         | Popover, Input, Command  | P1       | ☐       |
+| 49  | FileUpload       | Button, Card             | P1       | ☐       |
+| 50  | ColorPicker      | Popover, Input           | P2       | ☐       |
+| 51  | Tag              | Badge                    | P2       | ☐       |
+| 52  | Kbd              | Typography               | P2       | ☐       |
+| 53  | Code             | Typography               | P2       | ☐       |
+| 54  | Callout          | Alert                    | P2       | ☐       |
+| 55  | DataList         | Typography               | P2       | ☐       |
+| 56  | Stat             | Typography, Card         | P2       | ☐       |
+| 57  | Timeline         | Typography, Divider      | P2       | ☐       |
+| 58  | EmptyState       | Typography, Button       | P2       | ☐       |
+| 59  | HoverCard        | Popover                  | P2       | ☐       |
+| 60  | AlertDialog      | Dialog, Button           | P2       | ☐       |
+| 61  | Drawer           | Sheet                    | P2       | ☐       |
+| 62  | Banner           | Alert, Button            | P2       | ☐       |
+| 63  | Sonner           | Toast                    | P2       | ☐       |
+| 64  | AspectRatio      | tokens                   | P2       | ☐       |
+| 65  | Resizable        | tokens                   | P2       | ☐       |
+| 66  | Carousel         | Button, motion           | P2       | ☐       |
+| 67  | ImageGallery     | Dialog, Carousel         | P3       | ☐       |
+| 68  | VideoPlayer      | tokens                   | P3       | ☐       |
+| 69  | Chart            | Card, Typography         | P3       | ☐       |
+| 70  | TreeView         | Collapsible, Checkbox    | P3       | ☐       |
+| 71  | VirtualList      | ScrollArea               | P3       | ☐       |
+| 72  | Markdown         | Typography, Code         | P3       | ☐       |
+| 73  | CopyButton       | Button, Tooltip, Toast   | P3       | ☐       |
+| 74  | ThemeToggle      | Button, DropdownMenu     | P3       | ☐       |
+| 75  | VisuallyHidden   | tokens                   | P3       | ☐       |
+| 76  | InputGroup       | Input, Button, Select    | P3       | ☐       |
+| 77  | ConfirmDialog    | AlertDialog              | P3       | ☐       |
+| 78  | SearchInput      | Input, Kbd               | P3       | ☐       |
+| 79  | DataTableToolbar | Input, Select, Button    | P3       | ☐       |
+| 80  | InfiniteScroll   | VirtualList, Spinner     | P3       | ☐       |
 
 ### Priority Key
 

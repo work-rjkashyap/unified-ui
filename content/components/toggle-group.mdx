@@ -1,0 +1,448 @@
+---
+title: ToggleGroup
+description: A single or multi-select group of toggle buttons built on Radix UI ToggleGroup with shared variant/size context and roving keyboard navigation.
+icon: LayoutGrid
+---
+
+import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui/components";
+import {
+	AlignLeft,
+	AlignCenter,
+	AlignRight,
+	AlignJustify,
+	Bold,
+	Italic,
+	Underline,
+	Strikethrough,
+	List,
+	LayoutGrid,
+	Columns3,
+	Rows3,
+	Sun,
+	Moon,
+	Monitor,
+} from "lucide-react";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+The `ToggleGroup` component provides a group of toggle buttons with either single-select (radio-like) or multi-select (checkbox-like) behavior. Built on Radix UI's ToggleGroup primitive, it shares variant and size context with its items and supports roving tabindex keyboard navigation.
+
+---
+
+## Import
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui/components";
+// or
+import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Single Select
+
+<ComponentPage
+	title="Single Select"
+	description="Only one item can be active at a time. Behaves like a radio group."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<ToggleGroup type="single" defaultValue="center">
+				<ToggleGroupItem value="left" aria-label="Align left">
+					<AlignLeft className="size-4" />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="center" aria-label="Align center">
+					<AlignCenter className="size-4" />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="right" aria-label="Align right">
+					<AlignRight className="size-4" />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="justify" aria-label="Align justify">
+					<AlignJustify className="size-4" />
+				</ToggleGroupItem>
+			</ToggleGroup>
+		</div>
+	}
+	code={`import { AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react";
+
+<ToggleGroup type="single" defaultValue="center">
+  <ToggleGroupItem value="left" aria-label="Align left">
+    <AlignLeft className="size-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="center" aria-label="Align center">
+    <AlignCenter className="size-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="right" aria-label="Align right">
+    <AlignRight className="size-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="justify" aria-label="Align justify">
+    <AlignJustify className="size-4" />
+  </ToggleGroupItem>
+</ToggleGroup>`}
+/>
+
+### Multiple Select
+
+<ComponentPage
+	title="Multiple Select"
+	description="Multiple items can be active simultaneously. Behaves like a checkbox group."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<ToggleGroup type="multiple" defaultValue={["bold"]}>
+				<ToggleGroupItem value="bold" aria-label="Bold">
+					<Bold className="size-4" />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="italic" aria-label="Italic">
+					<Italic className="size-4" />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="underline" aria-label="Underline">
+					<Underline className="size-4" />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="strikethrough" aria-label="Strikethrough">
+					<Strikethrough className="size-4" />
+				</ToggleGroupItem>
+			</ToggleGroup>
+		</div>
+	}
+	code={`import { Bold, Italic, Underline, Strikethrough } from "lucide-react";
+
+<ToggleGroup type="multiple" defaultValue={["bold"]}>
+  <ToggleGroupItem value="bold" aria-label="Bold">
+    <Bold className="size-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="italic" aria-label="Italic">
+    <Italic className="size-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="underline" aria-label="Underline">
+    <Underline className="size-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="strikethrough" aria-label="Strikethrough">
+    <Strikethrough className="size-4" />
+  </ToggleGroupItem>
+</ToggleGroup>`}
+/>
+
+### Variants
+
+<ComponentPage
+	title="Variants"
+	description="Three visual variants: default, outline, and ghost. The variant is shared across all items in the group."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Default</span>
+				<ToggleGroup type="single" variant="default" defaultValue="grid">
+					<ToggleGroupItem value="list" aria-label="List view">
+						<List className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="grid" aria-label="Grid view">
+						<LayoutGrid className="size-4" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Outline</span>
+				<ToggleGroup type="single" variant="outline" defaultValue="grid">
+					<ToggleGroupItem value="list" aria-label="List view">
+						<List className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="grid" aria-label="Grid view">
+						<LayoutGrid className="size-4" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Ghost</span>
+				<ToggleGroup type="single" variant="ghost" defaultValue="grid">
+					<ToggleGroupItem value="list" aria-label="List view">
+						<List className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="grid" aria-label="Grid view">
+						<LayoutGrid className="size-4" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+		</div>
+	}
+	code={`{/* Default */}
+<ToggleGroup type="single" variant="default" defaultValue="grid">
+  <ToggleGroupItem value="list" aria-label="List view"><List /></ToggleGroupItem>
+  <ToggleGroupItem value="grid" aria-label="Grid view"><LayoutGrid /></ToggleGroupItem>
+</ToggleGroup>
+
+{/* Outline */}
+<ToggleGroup type="single" variant="outline" defaultValue="grid">
+  <ToggleGroupItem value="list" aria-label="List view"><List /></ToggleGroupItem>
+  <ToggleGroupItem value="grid" aria-label="Grid view"><LayoutGrid /></ToggleGroupItem>
+</ToggleGroup>
+
+{/* Ghost */}
+<ToggleGroup type="single" variant="ghost" defaultValue="grid">
+  <ToggleGroupItem value="list" aria-label="List view"><List /></ToggleGroupItem>
+  <ToggleGroupItem value="grid" aria-label="Grid view"><LayoutGrid /></ToggleGroupItem>
+</ToggleGroup>`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="Sizes"
+	description="Three sizes: sm, md (default), and lg. Size is shared across all items."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Small</span>
+				<ToggleGroup type="single" variant="outline" size="sm" defaultValue="cols">
+					<ToggleGroupItem value="cols" aria-label="Columns">
+						<Columns3 className="size-3.5" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="rows" aria-label="Rows">
+						<Rows3 className="size-3.5" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="grid" aria-label="Grid">
+						<LayoutGrid className="size-3.5" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Medium (default)</span>
+				<ToggleGroup type="single" variant="outline" size="md" defaultValue="cols">
+					<ToggleGroupItem value="cols" aria-label="Columns">
+						<Columns3 className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="rows" aria-label="Rows">
+						<Rows3 className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="grid" aria-label="Grid">
+						<LayoutGrid className="size-4" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Large</span>
+				<ToggleGroup type="single" variant="outline" size="lg" defaultValue="cols">
+					<ToggleGroupItem value="cols" aria-label="Columns">
+						<Columns3 className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="rows" aria-label="Rows">
+						<Rows3 className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="grid" aria-label="Grid">
+						<LayoutGrid className="size-4" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+		</div>
+	}
+	code={`{/* Small */}
+<ToggleGroup type="single" variant="outline" size="sm" defaultValue="cols">
+  <ToggleGroupItem value="cols" aria-label="Columns"><Columns3 /></ToggleGroupItem>
+  <ToggleGroupItem value="rows" aria-label="Rows"><Rows3 /></ToggleGroupItem>
+  <ToggleGroupItem value="grid" aria-label="Grid"><LayoutGrid /></ToggleGroupItem>
+</ToggleGroup>
+
+{/* Medium */}
+<ToggleGroup type="single" variant="outline" size="md" defaultValue="cols">
+  ...
+</ToggleGroup>
+
+{/* Large */}
+<ToggleGroup type="single" variant="outline" size="lg" defaultValue="cols">
+  ...
+</ToggleGroup>`}
+/>
+
+| Size | Height | Padding | Font Size |
+| ---- | ------ | ------- | --------- |
+| `sm` | 32px   | 8px     | 12px      |
+| `md` | 36px   | 12px    | 14px      |
+| `lg` | 40px   | 16px    | 14px      |
+
+### With Text Labels
+
+<ComponentPage
+	title="With Text Labels"
+	description="Toggle group items can contain both icons and text, or text only."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<ToggleGroup type="single" variant="outline" defaultValue="system">
+				<ToggleGroupItem value="light">
+					<Sun className="size-4" />
+					Light
+				</ToggleGroupItem>
+				<ToggleGroupItem value="dark">
+					<Moon className="size-4" />
+					Dark
+				</ToggleGroupItem>
+				<ToggleGroupItem value="system">
+					<Monitor className="size-4" />
+					System
+				</ToggleGroupItem>
+			</ToggleGroup>
+		</div>
+	}
+	code={`import { Sun, Moon, Monitor } from "lucide-react";
+
+<ToggleGroup type="single" variant="outline" defaultValue="system">
+  <ToggleGroupItem value="light">
+    <Sun className="size-4" />
+    Light
+  </ToggleGroupItem>
+  <ToggleGroupItem value="dark">
+    <Moon className="size-4" />
+    Dark
+  </ToggleGroupItem>
+  <ToggleGroupItem value="system">
+    <Monitor className="size-4" />
+    System
+  </ToggleGroupItem>
+</ToggleGroup>`}
+/>
+
+### Vertical Orientation
+
+<ComponentPage
+	title="Vertical Orientation"
+	description="Stack toggle items vertically with the orientation prop."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<ToggleGroup type="single" variant="outline" orientation="vertical" defaultValue="grid">
+				<ToggleGroupItem value="list">
+					<List className="size-4" />
+					List view
+				</ToggleGroupItem>
+				<ToggleGroupItem value="grid">
+					<LayoutGrid className="size-4" />
+					Grid view
+				</ToggleGroupItem>
+				<ToggleGroupItem value="columns">
+					<Columns3 className="size-4" />
+					Column view
+				</ToggleGroupItem>
+			</ToggleGroup>
+		</div>
+	}
+	code={`<ToggleGroup type="single" variant="outline" orientation="vertical" defaultValue="grid">
+  <ToggleGroupItem value="list">
+    <List className="size-4" /> List view
+  </ToggleGroupItem>
+  <ToggleGroupItem value="grid">
+    <LayoutGrid className="size-4" /> Grid view
+  </ToggleGroupItem>
+  <ToggleGroupItem value="columns">
+    <Columns3 className="size-4" /> Column view
+  </ToggleGroupItem>
+</ToggleGroup>`}
+/>
+
+### Disabled
+
+<ComponentPage
+	title="Disabled Group"
+	description="Disable the entire group or individual items."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Entire group disabled</span>
+				<ToggleGroup type="single" variant="outline" disabled defaultValue="left">
+					<ToggleGroupItem value="left" aria-label="Align left">
+						<AlignLeft className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="center" aria-label="Align center">
+						<AlignCenter className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="right" aria-label="Align right">
+						<AlignRight className="size-4" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+			<div className="flex flex-col gap-2 items-center">
+				<span className="text-xs text-fd-muted-foreground font-medium">Single item disabled</span>
+				<ToggleGroup type="single" variant="outline" defaultValue="left">
+					<ToggleGroupItem value="left" aria-label="Align left">
+						<AlignLeft className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="center" aria-label="Align center" disabled>
+						<AlignCenter className="size-4" />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="right" aria-label="Align right">
+						<AlignRight className="size-4" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+			</div>
+		</div>
+	}
+	code={`{/* Entire group disabled */}
+<ToggleGroup type="single" variant="outline" disabled defaultValue="left">
+  <ToggleGroupItem value="left" aria-label="Align left"><AlignLeft /></ToggleGroupItem>
+  <ToggleGroupItem value="center" aria-label="Align center"><AlignCenter /></ToggleGroupItem>
+  <ToggleGroupItem value="right" aria-label="Align right"><AlignRight /></ToggleGroupItem>
+</ToggleGroup>
+
+{/* Single item disabled */}
+<ToggleGroup type="single" variant="outline" defaultValue="left">
+  <ToggleGroupItem value="left" aria-label="Align left"><AlignLeft /></ToggleGroupItem>
+  <ToggleGroupItem value="center" aria-label="Align center" disabled><AlignCenter /></ToggleGroupItem>
+  <ToggleGroupItem value="right" aria-label="Align right"><AlignRight /></ToggleGroupItem>
+</ToggleGroup>`}
+/>
+
+---
+
+## Props
+
+### ToggleGroup
+
+| Prop            | Type                                          | Default        | Description                                            |
+| --------------- | --------------------------------------------- | -------------- | ------------------------------------------------------ |
+| `type`          | `"single" \| "multiple"`                      | —              | **Required.** Selection mode.                          |
+| `value`         | `string \| string[]`                          | —              | Controlled value (string for single, array for multi). |
+| `defaultValue`  | `string \| string[]`                          | —              | Default value for uncontrolled usage.                  |
+| `onValueChange` | `(value: string \| string[]) => void`         | —              | Callback fired when the active item(s) change.         |
+| `variant`       | `"default" \| "outline" \| "ghost"`           | `"default"`    | Visual variant applied to all items.                   |
+| `size`          | `"sm" \| "md" \| "lg"`                        | `"md"`         | Size applied to all items.                             |
+| `orientation`   | `"horizontal" \| "vertical"`                  | `"horizontal"` | Layout orientation of the group.                       |
+| `disabled`      | `boolean`                                     | `false`        | Disables the entire group.                             |
+| `className`     | `string`                                      | —              | Additional CSS classes.                                |
+
+### ToggleGroupItem
+
+| Prop        | Type                                | Default   | Description                                              |
+| ----------- | ----------------------------------- | --------- | -------------------------------------------------------- |
+| `value`     | `string`                            | —         | **Required.** Unique value for this item.                |
+| `variant`   | `"default" \| "outline" \| "ghost"` | inherited | Override the group-level variant for this item.          |
+| `size`      | `"sm" \| "md" \| "lg"`             | inherited | Override the group-level size for this item.             |
+| `disabled`  | `boolean`                           | `false`   | Disables this specific item.                             |
+| `className` | `string`                            | —         | Additional CSS classes.                                  |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	Icon-only toggle items **must** include an `aria-label` to be accessible to screen readers.
+</Callout>
+
+- **Roving tabindex** — Arrow keys move focus between items. Tab moves focus out of the group. Managed by Radix UI.
+- **aria-pressed** — Radix automatically sets `aria-pressed` on each item based on selection state.
+- **role="group"** — Radix applies the correct group role on the root element.
+- **Keyboard** — Space or Enter toggles the focused item.
+- **Disabled** — Group-level `disabled` propagates to all items. Individual items can also be disabled.
+- **Focus ring** — Visible on keyboard navigation via `focus-visible`.
+
+---
+
+## Design Tokens
+
+| Token                  | Usage                                    |
+| ---------------------- | ---------------------------------------- |
+| `--secondary`          | Active item background                   |
+| `--foreground`         | Active item text color                   |
+| `--muted`              | Hover background                         |
+| `--muted-foreground`   | Inactive item text color                 |
+| `--border`             | Outline variant border color             |
+| `--border-strong`      | Active outline border / focus indicator  |
+| `--duration-fast`      | Transition speed                         |
+| `--easing-standard`    | Easing curve for transitions             |

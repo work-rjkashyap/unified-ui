@@ -1,0 +1,264 @@
+---
+title: Spinner
+description: An animated loading spinner with Framer Motion rotation, multiple sizes and color variants, optional label text, and reduced-motion support.
+icon: Loader
+---
+
+import { Spinner } from "@work-rjkashyap/unified-ui/components";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+The `Spinner` component provides an animated loading indicator for communicating in-progress states. It uses Framer Motion for smooth, GPU-accelerated rotation with automatic `prefers-reduced-motion` support. Includes 4 sizes, 4 color variants, optional label text, and proper `role="status"` semantics.
+
+---
+
+## Import
+
+```tsx
+import { Spinner } from "@work-rjkashyap/unified-ui/components";
+// or
+import { Spinner } from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic Usage
+
+<ComponentPage
+	title="Basic Spinner"
+	description="A simple loading spinner with default settings."
+	preview={
+		<div className="flex items-center justify-center gap-6">
+			<Spinner />
+		</div>
+	}
+	code={`<Spinner />`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="Spinner Sizes"
+	description="Four sizes from extra-small (for inline/button use) to large (for empty states and page loading)."
+	preview={
+		<div className="flex items-end gap-6 justify-center">
+			<div className="flex flex-col items-center gap-2">
+				<Spinner size="xs" />
+				<span className="text-xs text-fd-muted-foreground">xs (14px)</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner size="sm" />
+				<span className="text-xs text-fd-muted-foreground">sm (16px)</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner size="md" />
+				<span className="text-xs text-fd-muted-foreground">md (20px)</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner size="lg" />
+				<span className="text-xs text-fd-muted-foreground">lg (24px)</span>
+			</div>
+		</div>
+	}
+	code={`<Spinner size="xs" />
+<Spinner size="sm" />
+<Spinner size="md" />
+<Spinner size="lg" />`}
+/>
+
+| Size | Diameter | Use Case                               |
+| ---- | -------- | -------------------------------------- |
+| `xs` | 14px     | Inside buttons, badges, inline text    |
+| `sm` | 16px     | Table cells, small buttons, compact UI |
+| `md` | 20px     | Default loading state                  |
+| `lg` | 24px     | Empty states, page loading, hero areas |
+
+### Variants
+
+<ComponentPage
+	title="Color Variants"
+	description="Four color variants for different visual contexts."
+	preview={
+		<div className="flex items-center gap-8 justify-center">
+			<div className="flex flex-col items-center gap-2">
+				<Spinner variant="default" size="lg" />
+				<span className="text-xs text-fd-muted-foreground">Default</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner variant="primary" size="lg" />
+				<span className="text-xs text-fd-muted-foreground">Primary</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner variant="secondary" size="lg" />
+				<span className="text-xs text-fd-muted-foreground">Secondary</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner variant="muted" size="lg" />
+				<span className="text-xs text-fd-muted-foreground">Muted</span>
+			</div>
+		</div>
+	}
+	code={`{/* Inherits current text color */}
+<Spinner variant="default" />
+
+{/* Uses brand/primary color */}
+<Spinner variant="primary" />
+
+{/* Uses foreground color */}
+<Spinner variant="secondary" />
+
+{/* Uses muted-foreground color */}
+<Spinner variant="muted" />`}
+/>
+
+### With Label
+
+<ComponentPage
+	title="Spinner with Label"
+	description="Add visible loading text alongside the spinner for extra context."
+	preview={
+		<div className="flex flex-col gap-6 items-center">
+			<Spinner label="Loading…" />
+			<Spinner label="Fetching data…" variant="primary" />
+			<Spinner label="Please wait…" variant="muted" size="sm" />
+		</div>
+	}
+	code={`<Spinner label="Loading…" />
+<Spinner label="Fetching data…" variant="primary" />
+<Spinner label="Please wait…" variant="muted" size="sm" />`}
+/>
+
+### Label Position
+
+<ComponentPage
+	title="Label Position"
+	description="Position the label to the right (inline) or below (stacked) the spinner."
+	preview={
+		<div className="flex gap-12 items-start justify-center">
+			<div className="flex flex-col items-center gap-2">
+				<Spinner label="Inline label" labelPosition="right" variant="primary" />
+				<span className="text-xs text-fd-muted-foreground">right (default)</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner label="Stacked label" labelPosition="bottom" variant="primary" />
+				<span className="text-xs text-fd-muted-foreground">bottom</span>
+			</div>
+		</div>
+	}
+	code={`{/* Inline — label beside spinner */}
+<Spinner label="Inline label" labelPosition="right" />
+
+{/* Stacked — label below spinner */}
+<Spinner label="Stacked label" labelPosition="bottom" />`}
+/>
+
+### In Context
+
+<ComponentPage
+	title="Real-World Usage"
+	description="Common patterns for using the Spinner in production applications."
+	preview={
+		<div className="flex flex-col gap-8 items-center w-full max-w-sm">
+			<button
+				disabled
+				className="inline-flex items-center justify-center gap-2 h-9 px-4 rounded-md bg-fd-primary text-fd-primary-foreground text-sm font-medium opacity-80 cursor-not-allowed"
+			>
+				<Spinner size="xs" variant="default" />
+				Saving…
+			</button>
+			<div className="flex flex-col items-center gap-3 py-8 border border-fd-border rounded-lg w-full">
+				<Spinner size="lg" variant="primary" />
+				<span className="text-sm text-fd-muted-foreground">Loading your dashboard…</span>
+			</div>
+			<div className="flex items-center gap-2 text-sm text-fd-muted-foreground">
+				<Spinner size="xs" variant="muted" />
+				Refreshing data…
+			</div>
+		</div>
+	}
+	code={`{/* Inside a button */}
+<Button disabled>
+  <Spinner size="xs" />
+  Saving…
+</Button>
+
+{/* Empty state / page loader */}
+<div className="flex flex-col items-center gap-3 py-8">
+  <Spinner size="lg" variant="primary" />
+  <span className="text-sm text-muted-foreground">Loading your dashboard…</span>
+</div>
+
+{/* Inline status text */}
+<div className="flex items-center gap-2 text-sm text-muted-foreground">
+  <Spinner size="xs" variant="muted" />
+  Refreshing data…
+</div>`}
+/>
+
+### Custom Stroke Width
+
+<ComponentPage
+	title="Custom Stroke Width"
+	description="Adjust the thickness of the spinner arc with the strokeWidth prop."
+	preview={
+		<div className="flex items-center gap-8 justify-center">
+			<div className="flex flex-col items-center gap-2">
+				<Spinner size="lg" strokeWidth={1.5} variant="primary" />
+				<span className="text-xs text-fd-muted-foreground">Thin (1.5)</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner size="lg" strokeWidth={2.5} variant="primary" />
+				<span className="text-xs text-fd-muted-foreground">Default (2.5)</span>
+			</div>
+			<div className="flex flex-col items-center gap-2">
+				<Spinner size="lg" strokeWidth={4} variant="primary" />
+				<span className="text-xs text-fd-muted-foreground">Thick (4)</span>
+			</div>
+		</div>
+	}
+	code={`<Spinner size="lg" strokeWidth={1.5} />
+<Spinner size="lg" strokeWidth={2.5} />  {/* default */}
+<Spinner size="lg" strokeWidth={4} />`}
+/>
+
+---
+
+## Props
+
+| Prop            | Type                                              | Default     | Description                                                    |
+| --------------- | ------------------------------------------------- | ----------- | -------------------------------------------------------------- |
+| `size`          | `"xs" \| "sm" \| "md" \| "lg"`                   | `"md"`      | Size of the spinner.                                           |
+| `variant`       | `"default" \| "primary" \| "secondary" \| "muted"` | `"default"` | Color variant.                                                 |
+| `label`         | `ReactNode`                                       | —           | Visible label text alongside the spinner.                      |
+| `labelPosition` | `"right" \| "bottom"`                             | `"right"`   | Position of the label relative to the spinner.                 |
+| `strokeWidth`   | `number`                                          | `2.5`       | Thickness of the spinner stroke.                               |
+| `aria-label`    | `string`                                          | `"Loading"` | Accessible label for screen readers.                           |
+| `className`     | `string`                                          | —           | Additional CSS classes for the root element.                   |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	The Spinner includes a screen-reader-only fallback text that announces the loading state even when no visible label is present.
+</Callout>
+
+- **`role="status"`** — Announces the loading state as a live region to screen readers.
+- **`aria-label`** — Defaults to "Loading" or the `label` prop if it's a string.
+- **Screen-reader text** — When no visible `label` is provided, a visually hidden `<span className="sr-only">` is rendered for screen readers.
+- **SVG is decorative** — The spinner SVG uses `aria-hidden="true"` since the status text conveys meaning.
+- **Reduced motion** — Automatically detects `prefers-reduced-motion` via Framer Motion's `useReducedMotion` hook and falls back to CSS `animate-spin` which the browser can optimize or skip per OS settings.
+
+---
+
+## Design Tokens
+
+| Token                | Usage                            |
+| -------------------- | -------------------------------- |
+| `--primary`          | Primary variant spinner color    |
+| `--foreground`       | Secondary variant spinner color  |
+| `--muted-foreground` | Muted variant spinner/label color|
+| `currentColor`       | Default variant (inherits)       |

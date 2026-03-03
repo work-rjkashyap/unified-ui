@@ -1,0 +1,252 @@
+---
+title: Steps
+description: A multi-step wizard progress indicator with horizontal and vertical orientations, clickable navigation, and status states.
+icon: ListOrdered
+---
+
+import { Steps, Step } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+`Steps` is a wizard progress indicator for multi-step flows like onboarding, checkout, and form wizards. It supports horizontal and vertical orientations, three visual variants, clickable step navigation, and optional titles and descriptions.
+
+---
+
+## Import
+
+```tsx
+import { Steps, Step } from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic
+
+<ComponentPage
+	title="Basic Steps"
+	description="A horizontal step indicator with a title and description on each step."
+	preview={
+		<div className="w-full max-w-lg">
+			<Steps currentStep={1}>
+				<Step title="Account" description="Create your account" />
+				<Step title="Profile" description="Fill in your details" />
+				<Step title="Confirm" description="Review and submit" />
+			</Steps>
+		</div>
+	}
+	code={`<Steps currentStep={1}>
+  <Step title="Account" description="Create your account" />
+  <Step title="Profile" description="Fill in your details" />
+  <Step title="Confirm" description="Review and submit" />
+</Steps>`}
+/>
+
+### Completed State
+
+<ComponentPage
+	title="All Steps Complete"
+	description="When currentStep equals or exceeds the total, all steps are marked complete."
+	preview={
+		<div className="w-full max-w-lg">
+			<Steps currentStep={3}>
+				<Step title="Account" description="Create your account" />
+				<Step title="Profile" description="Fill in your details" />
+				<Step title="Confirm" description="Review and submit" />
+			</Steps>
+		</div>
+	}
+	code={`<Steps currentStep={3}>
+  <Step title="Account" />
+  <Step title="Profile" />
+  <Step title="Confirm" />
+</Steps>`}
+/>
+
+### Vertical Orientation
+
+<ComponentPage
+	title="Vertical Steps"
+	description="Use orientation='vertical' for sidebar or timeline-style layouts."
+	preview={
+		<div className="w-full max-w-xs">
+			<Steps currentStep={1} orientation="vertical">
+				<Step
+					title="Install"
+					description="Add the package to your project"
+				/>
+				<Step
+					title="Configure"
+					description="Set up your theme and tokens"
+				/>
+				<Step title="Build" description="Create your first component" />
+				<Step title="Deploy" description="Ship to production" />
+			</Steps>
+		</div>
+	}
+	code={`<Steps currentStep={1} orientation="vertical">
+  <Step title="Install" description="Add the package to your project" />
+  <Step title="Configure" description="Set up your theme and tokens" />
+  <Step title="Build" description="Create your first component" />
+  <Step title="Deploy" description="Ship to production" />
+</Steps>`}
+/>
+
+### Variants
+
+<ComponentPage
+	title="Step Variants"
+	description="Three visual variants: default (filled), outline, and dots."
+	preview={
+		<div className="flex flex-col gap-8 w-full max-w-lg">
+			<div>
+				<p className="text-xs text-muted-foreground mb-3 font-medium">Default</p>
+				<Steps currentStep={1} variant="default">
+					<Step title="Step 1" />
+					<Step title="Step 2" />
+					<Step title="Step 3" />
+				</Steps>
+			</div>
+			<div>
+				<p className="text-xs text-muted-foreground mb-3 font-medium">Outline</p>
+				<Steps currentStep={1} variant="outline">
+					<Step title="Step 1" />
+					<Step title="Step 2" />
+					<Step title="Step 3" />
+				</Steps>
+			</div>
+			<div>
+				<p className="text-xs text-muted-foreground mb-3 font-medium">Dots</p>
+				<Steps currentStep={1} variant="dots">
+					<Step title="Step 1" />
+					<Step title="Step 2" />
+					<Step title="Step 3" />
+				</Steps>
+			</div>
+		</div>
+	}
+	code={`{/* Default — filled indicator with check mark */}
+<Steps currentStep={1} variant="default">
+  <Step title="Step 1" />
+  <Step title="Step 2" />
+  <Step title="Step 3" />
+</Steps>
+
+{/* Outline — bordered indicator */}
+
+<Steps currentStep={1} variant="outline">
+	<Step title="Step 1" />
+	<Step title="Step 2" />
+	<Step title="Step 3" />
+</Steps>
+
+{/* Dots — minimal dot indicators */}
+
+<Steps currentStep={1} variant="dots">
+  <Step title="Step 1" />
+  <Step title="Step 2" />
+  <Step title="Step 3" />
+</Steps>`}
+/>
+
+### Clickable Steps
+
+<ComponentPage
+	title="Clickable Steps"
+	description="Pass onStepClick to enable wizard navigation. Steps before or at the current index are clickable."
+	preview={<StepsClickablePreview />}
+	code={`const [active, setActive] = useState(0);
+
+<Steps currentStep={active} onStepClick={setActive}>
+	<Step title="Account" description="Create your account" />
+	<Step title="Profile" description="Fill in your details" />
+	<Step title="Payment" description="Add payment method" />
+	<Step title="Confirm" description="Review and submit" />
+</Steps>
+
+<div className="flex gap-2">
+  <button onClick={() => setActive(Math.max(0, active - 1))} disabled={active === 0}>
+    Back
+  </button>
+  <button onClick={() => setActive(Math.min(3, active + 1))} disabled={active === 3}>
+    Continue
+  </button>
+</div>`}
+/>
+
+### Minimal (No Labels)
+
+<ComponentPage
+	title="Minimal — No Labels"
+	description="Use steps without title or description for compact progress indicators."
+	preview={
+		<div className="w-full max-w-sm">
+			<Steps currentStep={2} variant="dots">
+				<Step />
+				<Step />
+				<Step />
+				<Step />
+				<Step />
+			</Steps>
+		</div>
+	}
+	code={`<Steps currentStep={2} variant="dots">
+  <Step />
+  <Step />
+  <Step />
+  <Step />
+  <Step />
+</Steps>`}
+/>
+
+---
+
+## Props
+
+### Steps
+
+| Prop          | Type                               | Default        | Description                                                   |
+| ------------- | ---------------------------------- | -------------- | ------------------------------------------------------------- |
+| `currentStep` | `number`                           | —              | **Required.** The 0-based index of the currently active step. |
+| `orientation` | `"horizontal" \| "vertical"`       | `"horizontal"` | Layout orientation.                                           |
+| `variant`     | `"default" \| "outline" \| "dots"` | `"default"`    | Visual style of step indicators.                              |
+| `onStepClick` | `(index: number) => void`          | —              | Called when a step is clicked (enables clickable wizards).    |
+| `className`   | `string`                           | —              | Additional CSS classes on the `<ol>` element.                 |
+| `children`    | `ReactNode`                        | —              | Required. Must be `Step` elements.                            |
+
+### Step
+
+| Prop          | Type        | Default | Description                                                 |
+| ------------- | ----------- | ------- | ----------------------------------------------------------- |
+| `title`       | `string`    | —       | Label displayed beneath/beside the indicator.               |
+| `description` | `string`    | —       | Optional secondary text beneath the title.                  |
+| `icon`        | `ReactNode` | —       | Custom icon to override the default number/check indicator. |
+| `className`   | `string`    | —       | Additional CSS classes on the `<li>` element.               |
+
+---
+
+## Step Status
+
+Each `Step` automatically derives its visual state from the parent `currentStep` prop:
+
+| Status     | Condition               | Visual                               |
+| ---------- | ----------------------- | ------------------------------------ |
+| `complete` | `index < currentStep`   | Filled indicator with a check mark.  |
+| `active`   | `index === currentStep` | Bordered indicator with step number. |
+| `upcoming` | `index > currentStep`   | Muted indicator with step number.    |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	`Steps` renders as `role="list"` with each `Step` as `role="listitem"`. The
+	active step has `aria-current="step"` applied automatically.
+</Callout>
+
+- `role="list"` on the `Steps` container and `role="listitem"` on each `Step`.
+- `aria-current="step"` applied to the currently active step.
+- Clickable steps render as `<button>` elements with descriptive `aria-label`.
+- The connector lines are `aria-hidden="true"`.

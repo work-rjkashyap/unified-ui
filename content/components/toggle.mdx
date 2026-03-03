@@ -1,0 +1,345 @@
+---
+title: Toggle
+description: A pressable on/off button for binary states like bold, italic, mute, or favorite. Built on Radix UI Toggle.
+icon: ToggleRight
+---
+
+import { Toggle } from "@work-rjkashyap/unified-ui/components";
+import {
+	Bold,
+	Italic,
+	Underline,
+	Star,
+	Bookmark,
+	Volume2,
+	VolumeX,
+	Pin,
+	Eye,
+	EyeOff,
+	Lock,
+	Heart,
+} from "lucide-react";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+The `Toggle` component is a pressable on/off button for binary toggleable actions. Distinct from `Switch` — Toggle acts like a button that stays pressed (e.g. bold, italic, mute), while Switch is a sliding track for settings/preferences. Built on Radix UI's Toggle primitive for full accessibility.
+
+---
+
+## Import
+
+```tsx
+import { Toggle } from "@work-rjkashyap/unified-ui/components";
+// or
+import { Toggle } from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic Usage
+
+<ComponentPage
+	title="Basic Toggle"
+	description="Icon-only toggles for toolbar-style actions. Always provide aria-label for accessibility."
+	preview={
+		<div className="flex gap-3 items-center justify-center flex-wrap">
+			<Toggle aria-label="Toggle bold">
+				<Bold className="size-4" />
+			</Toggle>
+			<Toggle aria-label="Toggle italic">
+				<Italic className="size-4" />
+			</Toggle>
+			<Toggle aria-label="Toggle underline">
+				<Underline className="size-4" />
+			</Toggle>
+		</div>
+	}
+	code={`import { Bold, Italic, Underline } from "lucide-react";
+
+<Toggle aria-label="Toggle bold">
+  <Bold className="size-4" />
+</Toggle>
+<Toggle aria-label="Toggle italic">
+  <Italic className="size-4" />
+</Toggle>
+<Toggle aria-label="Toggle underline">
+  <Underline className="size-4" />
+</Toggle>`}
+/>
+
+### Variants
+
+<ComponentPage
+	title="Toggle Variants"
+	description="Three visual variants for different levels of prominence."
+	preview={
+		<div className="flex flex-col gap-4 items-center w-full">
+			<div className="flex gap-3 items-center flex-wrap justify-center">
+				<Toggle variant="default" aria-label="Default toggle" defaultPressed>
+					<Star className="size-4" />
+				</Toggle>
+				<Toggle variant="outline" aria-label="Outline toggle" defaultPressed>
+					<Star className="size-4" />
+				</Toggle>
+				<Toggle variant="ghost" aria-label="Ghost toggle" defaultPressed>
+					<Star className="size-4" />
+				</Toggle>
+			</div>
+			<div className="flex gap-3 items-center flex-wrap justify-center text-xs text-fd-muted-foreground">
+				<span className="w-16 text-center">Default</span>
+				<span className="w-16 text-center">Outline</span>
+				<span className="w-16 text-center">Ghost</span>
+			</div>
+		</div>
+	}
+	code={`{/* Default — transparent bg, fills on press */}
+<Toggle variant="default" aria-label="Default toggle">
+  <Star className="size-4" />
+</Toggle>
+
+{/* Outline — bordered with visible boundary */}
+<Toggle variant="outline" aria-label="Outline toggle">
+  <Star className="size-4" />
+</Toggle>
+
+{/* Ghost — minimal visual weight */}
+<Toggle variant="ghost" aria-label="Ghost toggle">
+  <Star className="size-4" />
+</Toggle>`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="Toggle Sizes"
+	description="Three sizes designed to match the Button and Input height scale."
+	preview={
+		<div className="flex flex-col gap-4 items-center w-full">
+			<div className="flex gap-3 items-end flex-wrap justify-center">
+				<Toggle variant="outline" size="sm" aria-label="Small toggle">
+					<Bookmark className="size-3.5" />
+				</Toggle>
+				<Toggle variant="outline" size="md" aria-label="Medium toggle">
+					<Bookmark className="size-4" />
+				</Toggle>
+				<Toggle variant="outline" size="lg" aria-label="Large toggle">
+					<Bookmark className="size-4" />
+				</Toggle>
+			</div>
+			<div className="flex gap-3 items-center flex-wrap justify-center">
+				<Toggle variant="outline" size="sm">
+					<Bold className="size-3.5" />
+					Bold
+				</Toggle>
+				<Toggle variant="outline" size="md">
+					<Bold className="size-4" />
+					Bold
+				</Toggle>
+				<Toggle variant="outline" size="lg">
+					<Bold className="size-4" />
+					Bold
+				</Toggle>
+			</div>
+		</div>
+	}
+	code={`{/* Icon-only sizes */}
+<Toggle variant="outline" size="sm" aria-label="Small">
+  <Bookmark className="size-3.5" />
+</Toggle>
+<Toggle variant="outline" size="md" aria-label="Medium">
+  <Bookmark className="size-4" />
+</Toggle>
+<Toggle variant="outline" size="lg" aria-label="Large">
+  <Bookmark className="size-4" />
+</Toggle>
+
+{/* With text label */}
+<Toggle variant="outline" size="sm"><Bold className="size-3.5" />Bold</Toggle>
+<Toggle variant="outline" size="md"><Bold className="size-4" />Bold</Toggle>
+<Toggle variant="outline" size="lg"><Bold className="size-4" />Bold</Toggle>`}
+/>
+
+| Size | Height | Padding | Font Size |
+| ---- | ------ | ------- | --------- |
+| `sm` | 32px   | 8px     | 12px      |
+| `md` | 36px   | 12px    | 14px      |
+| `lg` | 40px   | 16px    | 14px      |
+
+### With Text Labels
+
+<ComponentPage
+	title="Text Labels"
+	description="Toggles can include text alongside or instead of icons."
+	preview={
+		<div className="flex gap-3 items-center flex-wrap justify-center">
+			<Toggle variant="outline">
+				<Eye className="size-4" />
+				Preview
+			</Toggle>
+			<Toggle variant="outline">
+				<Pin className="size-4" />
+				Pin
+			</Toggle>
+			<Toggle variant="outline">
+				<Heart className="size-4" />
+				Favorite
+			</Toggle>
+		</div>
+	}
+	code={`<Toggle variant="outline">
+  <Eye className="size-4" />
+  Preview
+</Toggle>
+<Toggle variant="outline">
+  <Pin className="size-4" />
+  Pin
+</Toggle>
+<Toggle variant="outline">
+  <Heart className="size-4" />
+  Favorite
+</Toggle>`}
+/>
+
+### With Icon Props
+
+<ComponentPage
+	title="Icon Props"
+	description="Use iconLeft and iconRight props for explicit icon placement."
+	preview={
+		<div className="flex gap-3 items-center flex-wrap justify-center">
+			<Toggle variant="outline" iconLeft={<Volume2 className="size-4" />}>
+				Sound On
+			</Toggle>
+			<Toggle variant="outline" iconLeft={<Lock className="size-4" />}>
+				Locked
+			</Toggle>
+		</div>
+	}
+	code={`<Toggle variant="outline" iconLeft={<Volume2 className="size-4" />}>
+  Sound On
+</Toggle>
+<Toggle variant="outline" iconLeft={<Lock className="size-4" />}>
+  Locked
+</Toggle>`}
+/>
+
+### Default Pressed
+
+<ComponentPage
+	title="Default Pressed"
+	description="Use defaultPressed for uncontrolled toggles that start in the pressed state."
+	preview={
+		<div className="flex gap-3 items-center flex-wrap justify-center">
+			<Toggle variant="outline" defaultPressed aria-label="Bookmarked">
+				<Bookmark className="size-4" />
+			</Toggle>
+			<Toggle variant="outline" aria-label="Not bookmarked">
+				<Bookmark className="size-4" />
+			</Toggle>
+		</div>
+	}
+	code={`{/* Starts pressed */}
+<Toggle variant="outline" defaultPressed aria-label="Bookmarked">
+  <Bookmark className="size-4" />
+</Toggle>
+
+{/* Starts unpressed */}
+<Toggle variant="outline" aria-label="Not bookmarked">
+  <Bookmark className="size-4" />
+</Toggle>`}
+/>
+
+### Disabled State
+
+<ComponentPage
+	title="Disabled Toggle"
+	description="Disabled toggles have reduced opacity and no pointer events."
+	preview={
+		<div className="flex gap-3 items-center flex-wrap justify-center">
+			<Toggle variant="default" disabled aria-label="Disabled default">
+				<Star className="size-4" />
+			</Toggle>
+			<Toggle variant="outline" disabled aria-label="Disabled outline">
+				<Star className="size-4" />
+			</Toggle>
+			<Toggle variant="ghost" disabled aria-label="Disabled ghost">
+				<Star className="size-4" />
+			</Toggle>
+			<Toggle variant="outline" disabled defaultPressed aria-label="Disabled pressed">
+				<Bookmark className="size-4" />
+			</Toggle>
+		</div>
+	}
+	code={`<Toggle variant="default" disabled aria-label="Disabled default">
+  <Star className="size-4" />
+</Toggle>
+<Toggle variant="outline" disabled aria-label="Disabled outline">
+  <Star className="size-4" />
+</Toggle>
+<Toggle variant="ghost" disabled aria-label="Disabled ghost">
+  <Star className="size-4" />
+</Toggle>
+<Toggle variant="outline" disabled defaultPressed aria-label="Disabled pressed">
+  <Bookmark className="size-4" />
+</Toggle>`}
+/>
+
+---
+
+## Props
+
+| Prop              | Type                                         | Default     | Description                                              |
+| ----------------- | -------------------------------------------- | ----------- | -------------------------------------------------------- |
+| `variant`         | `"default" \| "outline" \| "ghost"`          | `"default"` | Visual variant of the toggle.                            |
+| `size`            | `"sm" \| "md" \| "lg"`                       | `"md"`      | Size of the toggle.                                      |
+| `pressed`         | `boolean`                                    | —           | Controlled pressed state.                                |
+| `defaultPressed`  | `boolean`                                    | —           | Default pressed state for uncontrolled usage.            |
+| `onPressedChange` | `(pressed: boolean) => void`                 | —           | Callback fired when the pressed state changes.           |
+| `disabled`        | `boolean`                                    | `false`     | Disables the toggle.                                     |
+| `iconLeft`        | `ReactNode`                                  | —           | Icon rendered before the label.                          |
+| `iconRight`       | `ReactNode`                                  | —           | Icon rendered after the label.                           |
+| `className`       | `string`                                     | —           | Additional CSS classes.                                  |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	Icon-only toggles **must** include an `aria-label` to be accessible to screen readers.
+</Callout>
+
+- **aria-pressed** — Radix automatically manages the `aria-pressed` attribute based on the toggle state.
+- **Keyboard** — Space and Enter keys toggle the pressed state (handled by Radix).
+- **Focus ring** — Visible on keyboard navigation via `focus-visible`.
+- **Disabled** — Uses both the `disabled` attribute and Radix's `data-disabled` for styling.
+- **Role** — Renders as a `<button>` with implicit button role.
+
+---
+
+## Toggle vs Switch
+
+| Feature       | Toggle                           | Switch                           |
+| ------------- | -------------------------------- | -------------------------------- |
+| **Looks like** | A button that stays pressed     | A sliding track with thumb       |
+| **Best for**  | Toolbar actions (bold, italic)   | Settings and preferences         |
+| **Groupable** | Yes, via `ToggleGroup`           | No                               |
+| **Label**     | Icon or text inside the button   | Label beside the track           |
+
+---
+
+## Design Tokens
+
+| Token                 | Usage                              |
+| --------------------- | ---------------------------------- |
+| `--muted`             | Hover background                   |
+| `--secondary`         | Pressed state background (default) |
+| `--foreground`        | Pressed state text color           |
+| `--muted-foreground`  | Unpressed text color               |
+| `--border`            | Outline variant border             |
+| `--border-strong`     | Outline pressed border             |
+| `--radius-md`         | Border radius                      |
+| `--duration-fast`     | Transition speed                   |
+| `--easing-standard`   | Easing curve                       |

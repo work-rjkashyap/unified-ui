@@ -1,0 +1,468 @@
+---
+title: Context Menu
+description: A right-click context menu with sub-menus, checkbox items, radio groups, and keyboard shortcuts. Built on Radix UI.
+icon: MousePointerClick
+---
+
+import {
+	ContextMenu,
+	ContextMenuTrigger,
+	ContextMenuContent,
+	ContextMenuItem,
+	ContextMenuCheckboxItem,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
+	ContextMenuLabel,
+	ContextMenuSeparator,
+	ContextMenuGroup,
+	ContextMenuSub,
+	ContextMenuSubTrigger,
+	ContextMenuSubContent,
+	ContextMenuShortcut,
+} from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+`ContextMenu` is a right-click (or long-press) triggered menu built on Radix UI's ContextMenu primitive. It supports nested submenus, checkbox items, radio groups, keyboard shortcuts, and full keyboard navigation.
+
+---
+
+## Import
+
+```tsx
+import {
+	ContextMenu,
+	ContextMenuTrigger,
+	ContextMenuContent,
+	ContextMenuItem,
+	ContextMenuSeparator,
+	ContextMenuLabel,
+	ContextMenuShortcut,
+	ContextMenuSub,
+	ContextMenuSubTrigger,
+	ContextMenuSubContent,
+	ContextMenuCheckboxItem,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
+	ContextMenuGroup,
+} from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic
+
+<ComponentPage
+	title="Basic Context Menu"
+	description="Right-click the dashed area to open the context menu."
+	preview={
+		<ContextMenu>
+			<ContextMenuTrigger>
+				<div className="flex h-28 w-64 items-center justify-center rounded-md border-2 border-dashed border-border text-sm text-muted-foreground select-none cursor-context-menu">
+					Right-click here
+				</div>
+			</ContextMenuTrigger>
+			<ContextMenuContent>
+				<ContextMenuItem>
+					Open
+					<ContextMenuShortcut>↵</ContextMenuShortcut>
+				</ContextMenuItem>
+				<ContextMenuItem>Open in New Tab</ContextMenuItem>
+				<ContextMenuItem>Copy Link</ContextMenuItem>
+				<ContextMenuSeparator />
+				<ContextMenuItem variant="danger">Delete</ContextMenuItem>
+			</ContextMenuContent>
+		</ContextMenu>
+	}
+	code={`<ContextMenu>
+  <ContextMenuTrigger>
+    <div className="flex h-28 w-64 items-center justify-center rounded-md border-2 border-dashed border-border text-sm text-muted-foreground">
+      Right-click here
+    </div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>
+      Open
+      <ContextMenuShortcut>↵</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuItem>Open in New Tab</ContextMenuItem>
+    <ContextMenuItem>Copy Link</ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem variant="danger">Delete</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>`}
+/>
+
+### With Labels and Groups
+
+<ComponentPage
+	title="Labels and Groups"
+	description="Use ContextMenuLabel and ContextMenuGroup to organize items into sections."
+	preview={
+		<ContextMenu>
+			<ContextMenuTrigger>
+				<div className="flex h-28 w-64 items-center justify-center rounded-md border-2 border-dashed border-border text-sm text-muted-foreground select-none cursor-context-menu">
+					Right-click here
+				</div>
+			</ContextMenuTrigger>
+			<ContextMenuContent>
+				<ContextMenuLabel>File</ContextMenuLabel>
+				<ContextMenuGroup>
+					<ContextMenuItem>
+						New File
+						<ContextMenuShortcut>⌘N</ContextMenuShortcut>
+					</ContextMenuItem>
+					<ContextMenuItem>
+						Open
+						<ContextMenuShortcut>⌘O</ContextMenuShortcut>
+					</ContextMenuItem>
+					<ContextMenuItem>
+						Save
+						<ContextMenuShortcut>⌘S</ContextMenuShortcut>
+					</ContextMenuItem>
+				</ContextMenuGroup>
+				<ContextMenuSeparator />
+				<ContextMenuLabel>Edit</ContextMenuLabel>
+				<ContextMenuGroup>
+					<ContextMenuItem>
+						Cut
+						<ContextMenuShortcut>⌘X</ContextMenuShortcut>
+					</ContextMenuItem>
+					<ContextMenuItem>
+						Copy
+						<ContextMenuShortcut>⌘C</ContextMenuShortcut>
+					</ContextMenuItem>
+					<ContextMenuItem>
+						Paste
+						<ContextMenuShortcut>⌘V</ContextMenuShortcut>
+					</ContextMenuItem>
+				</ContextMenuGroup>
+			</ContextMenuContent>
+		</ContextMenu>
+	}
+	code={`<ContextMenu>
+  <ContextMenuTrigger>
+    <div className="...">Right-click here</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuLabel>File</ContextMenuLabel>
+    <ContextMenuGroup>
+      <ContextMenuItem>
+        New File <ContextMenuShortcut>⌘N</ContextMenuShortcut>
+      </ContextMenuItem>
+      <ContextMenuItem>
+        Open <ContextMenuShortcut>⌘O</ContextMenuShortcut>
+      </ContextMenuItem>
+      <ContextMenuItem>
+        Save <ContextMenuShortcut>⌘S</ContextMenuShortcut>
+      </ContextMenuItem>
+    </ContextMenuGroup>
+    <ContextMenuSeparator />
+    <ContextMenuLabel>Edit</ContextMenuLabel>
+    <ContextMenuGroup>
+      <ContextMenuItem>Cut <ContextMenuShortcut>⌘X</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuItem>Copy <ContextMenuShortcut>⌘C</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuItem>Paste <ContextMenuShortcut>⌘V</ContextMenuShortcut></ContextMenuItem>
+    </ContextMenuGroup>
+  </ContextMenuContent>
+</ContextMenu>`}
+/>
+
+### With Submenu
+
+<ComponentPage
+	title="Submenu"
+	description="Nest menus using ContextMenuSub, ContextMenuSubTrigger, and ContextMenuSubContent."
+	preview={
+		<ContextMenu>
+			<ContextMenuTrigger>
+				<div className="flex h-28 w-64 items-center justify-center rounded-md border-2 border-dashed border-border text-sm text-muted-foreground select-none cursor-context-menu">
+					Right-click here
+				</div>
+			</ContextMenuTrigger>
+			<ContextMenuContent>
+				<ContextMenuItem>Back</ContextMenuItem>
+				<ContextMenuItem>Forward</ContextMenuItem>
+				<ContextMenuItem>Reload</ContextMenuItem>
+				<ContextMenuSeparator />
+				<ContextMenuSub>
+					<ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+					<ContextMenuSubContent>
+						<ContextMenuItem>Save Page As...</ContextMenuItem>
+						<ContextMenuItem>Create Shortcut...</ContextMenuItem>
+						<ContextMenuSeparator />
+						<ContextMenuItem>Developer Tools</ContextMenuItem>
+					</ContextMenuSubContent>
+				</ContextMenuSub>
+				<ContextMenuSeparator />
+				<ContextMenuItem variant="danger">Delete</ContextMenuItem>
+			</ContextMenuContent>
+		</ContextMenu>
+	}
+	code={`<ContextMenu>
+  <ContextMenuTrigger>
+    <div>Right-click here</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Back</ContextMenuItem>
+    <ContextMenuItem>Forward</ContextMenuItem>
+    <ContextMenuItem>Reload</ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuSub>
+      <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+      <ContextMenuSubContent>
+        <ContextMenuItem>Save Page As...</ContextMenuItem>
+        <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem>Developer Tools</ContextMenuItem>
+      </ContextMenuSubContent>
+    </ContextMenuSub>
+    <ContextMenuSeparator />
+    <ContextMenuItem variant="danger">Delete</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>`}
+/>
+
+### Checkbox Items
+
+<ComponentPage
+	title="Checkbox Items"
+	description="Use ContextMenuCheckboxItem for toggleable boolean options."
+	preview={<ContextMenuCheckboxPreview />}
+	code={`const [showStatusBar, setShowStatusBar] = useState(true);
+const [showActivityBar, setShowActivityBar] = useState(false);
+const [showPanel, setShowPanel] = useState(false);
+
+<ContextMenu>
+  <ContextMenuTrigger>
+    <div>Right-click here</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuLabel>Panels</ContextMenuLabel>
+    <ContextMenuCheckboxItem
+      checked={showStatusBar}
+      onCheckedChange={setShowStatusBar}
+    >
+      Status Bar
+    </ContextMenuCheckboxItem>
+    <ContextMenuCheckboxItem
+      checked={showActivityBar}
+      onCheckedChange={setShowActivityBar}
+    >
+      Activity Bar
+    </ContextMenuCheckboxItem>
+    <ContextMenuCheckboxItem
+      checked={showPanel}
+      onCheckedChange={setShowPanel}
+    >
+      Panel
+    </ContextMenuCheckboxItem>
+  </ContextMenuContent>
+</ContextMenu>`}
+/>
+
+### Radio Items
+
+<ComponentPage
+	title="Radio Items"
+	description="Use ContextMenuRadioGroup and ContextMenuRadioItem for exclusive selections."
+	preview={<ContextMenuRadioPreview />}
+	code={`const [view, setView] = useState("list");
+
+<ContextMenu>
+  <ContextMenuTrigger>
+    <div>Right-click here</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuLabel>View</ContextMenuLabel>
+    <ContextMenuRadioGroup value={view} onValueChange={setView}>
+      <ContextMenuRadioItem value="list">List</ContextMenuRadioItem>
+      <ContextMenuRadioItem value="grid">Grid</ContextMenuRadioItem>
+      <ContextMenuRadioItem value="columns">Columns</ContextMenuRadioItem>
+    </ContextMenuRadioGroup>
+  </ContextMenuContent>
+</ContextMenu>`}
+/>
+
+### Danger Variant
+
+<ComponentPage
+	title="Danger Items"
+	description="Use variant='danger' to style destructive actions in red."
+	preview={
+		<ContextMenu>
+			<ContextMenuTrigger>
+				<div className="flex h-28 w-64 items-center justify-center rounded-md border-2 border-dashed border-border text-sm text-muted-foreground select-none cursor-context-menu">
+					Right-click here
+				</div>
+			</ContextMenuTrigger>
+			<ContextMenuContent>
+				<ContextMenuItem>Edit</ContextMenuItem>
+				<ContextMenuItem>Duplicate</ContextMenuItem>
+				<ContextMenuItem>Archive</ContextMenuItem>
+				<ContextMenuSeparator />
+				<ContextMenuItem variant="danger">
+					Remove
+					<ContextMenuShortcut>⌫</ContextMenuShortcut>
+				</ContextMenuItem>
+				<ContextMenuItem variant="danger">
+					Delete Permanently
+					<ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
+				</ContextMenuItem>
+			</ContextMenuContent>
+		</ContextMenu>
+	}
+	code={`<ContextMenu>
+  <ContextMenuTrigger>
+    <div>Right-click here</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Edit</ContextMenuItem>
+    <ContextMenuItem>Duplicate</ContextMenuItem>
+    <ContextMenuItem>Archive</ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem variant="danger">
+      Remove <ContextMenuShortcut>⌫</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuItem variant="danger">
+      Delete Permanently <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
+    </ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>`}
+/>
+
+---
+
+## Props
+
+### ContextMenu
+
+| Prop           | Type                      | Default | Description                                 |
+| -------------- | ------------------------- | ------- | ------------------------------------------- |
+| `open`         | `boolean`                 | —       | Controlled open state.                      |
+| `onOpenChange` | `(open: boolean) => void` | —       | Callback when open state changes.           |
+| `modal`        | `boolean`                 | `true`  | Whether the menu is modal.                  |
+| `dir`          | `"ltr" \| "rtl"`          | —       | Reading direction for submenus.             |
+| `children`     | `ReactNode`               | —       | Required. Must include Trigger and Content. |
+
+### ContextMenuTrigger
+
+| Prop        | Type      | Default | Description                                        |
+| ----------- | --------- | ------- | -------------------------------------------------- |
+| `asChild`   | `boolean` | `false` | Render as the child element instead of a `<span>`. |
+| `disabled`  | `boolean` | `false` | Disables the right-click trigger.                  |
+| `className` | `string`  | —       | Additional CSS classes.                            |
+
+### ContextMenuContent
+
+| Prop               | Type      | Default | Description                        |
+| ------------------ | --------- | ------- | ---------------------------------- |
+| `loop`             | `boolean` | `false` | Whether keyboard navigation loops. |
+| `alignOffset`      | `number`  | `0`     | Offset from the alignment edge.    |
+| `collisionPadding` | `number`  | `8`     | Padding from viewport edges.       |
+| `className`        | `string`  | —       | Additional CSS classes.            |
+
+### ContextMenuItem
+
+| Prop        | Type                    | Default     | Description                         |
+| ----------- | ----------------------- | ----------- | ----------------------------------- |
+| `variant`   | `"default" \| "danger"` | `"default"` | Visual variant of the item.         |
+| `icon`      | `ReactNode`             | —           | Icon rendered before the label.     |
+| `disabled`  | `boolean`               | `false`     | Disables the item.                  |
+| `onSelect`  | `(e: Event) => void`    | —           | Callback when the item is selected. |
+| `className` | `string`                | —           | Additional CSS classes.             |
+
+### ContextMenuCheckboxItem
+
+| Prop              | Type                         | Default | Description                              |
+| ----------------- | ---------------------------- | ------- | ---------------------------------------- |
+| `checked`         | `boolean`                    | —       | Whether the checkbox is checked.         |
+| `onCheckedChange` | `(checked: boolean) => void` | —       | Callback when the checked state changes. |
+| `disabled`        | `boolean`                    | `false` | Disables the item.                       |
+| `className`       | `string`                     | —       | Additional CSS classes.                  |
+
+### ContextMenuRadioGroup
+
+| Prop            | Type                      | Default | Description                               |
+| --------------- | ------------------------- | ------- | ----------------------------------------- |
+| `value`         | `string`                  | —       | The controlled selected value.            |
+| `onValueChange` | `(value: string) => void` | —       | Callback when the selected value changes. |
+| `className`     | `string`                  | —       | Additional CSS classes.                   |
+
+### ContextMenuRadioItem
+
+| Prop        | Type      | Default | Description                       |
+| ----------- | --------- | ------- | --------------------------------- |
+| `value`     | `string`  | —       | Required. The value of this item. |
+| `disabled`  | `boolean` | `false` | Disables the item.                |
+| `className` | `string`  | —       | Additional CSS classes.           |
+
+### ContextMenuLabel
+
+| Prop        | Type      | Default | Description                                            |
+| ----------- | --------- | ------- | ------------------------------------------------------ |
+| `inset`     | `boolean` | `false` | Adds left padding to align with items that have icons. |
+| `className` | `string`  | —       | Additional CSS classes.                                |
+
+### ContextMenuSub / ContextMenuSubTrigger / ContextMenuSubContent
+
+| Prop    | Type        | Default | Description                                 |
+| ------- | ----------- | ------- | ------------------------------------------- |
+| `inset` | `boolean`   | `false` | Aligns the sub-trigger with icon items.     |
+| `icon`  | `ReactNode` | —       | Icon rendered before the sub-trigger label. |
+
+---
+
+## Anatomy
+
+```tsx
+<ContextMenu>
+	<ContextMenuTrigger /> {/* Right-click target */}
+	<ContextMenuContent>
+		{" "}
+		{/* Menu panel */}
+		<ContextMenuLabel /> {/* Section heading */}
+		<ContextMenuGroup>
+			{" "}
+			{/* Logical grouping */}
+			<ContextMenuItem /> {/* Standard action */}
+			<ContextMenuCheckboxItem /> {/* Boolean toggle */}
+		</ContextMenuGroup>
+		<ContextMenuRadioGroup>
+			{" "}
+			{/* Exclusive selection */}
+			<ContextMenuRadioItem />
+		</ContextMenuRadioGroup>
+		<ContextMenuSeparator /> {/* Visual divider */}
+		<ContextMenuSub>
+			{" "}
+			{/* Nested submenu */}
+			<ContextMenuSubTrigger />
+			<ContextMenuSubContent>
+				<ContextMenuItem />
+			</ContextMenuSubContent>
+		</ContextMenuSub>
+	</ContextMenuContent>
+</ContextMenu>
+```
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	Context menus are inaccessible to keyboard-only users if the trigger area
+	cannot be focused. Ensure your trigger element is keyboard-reachable (or
+	provide an alternative mechanism).
+</Callout>
+
+- **Right-click / long-press** — Opens the menu at the cursor position.
+- **Arrow keys** — Navigate between menu items.
+- **Enter / Space** — Select the focused item.
+- **Escape** — Close the menu.
+- **Tab** — Closes the menu and moves focus to the next focusable element.
+- **Submenu navigation** — Right arrow opens a submenu; Left arrow closes it.
+- `role="menu"` and `role="menuitem"` are applied automatically by Radix UI.

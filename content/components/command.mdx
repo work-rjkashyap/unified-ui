@@ -1,0 +1,176 @@
+---
+title: Command Palette
+description: A keyboard-navigable command palette modal with fuzzy search, grouped commands, and ⌘K shortcut. No external dependencies.
+icon: Terminal
+---
+
+import {
+	Command,
+	CommandTrigger,
+} from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+`Command` is a fully-accessible command palette dialog — the kind you see when pressing `⌘K` in apps like Linear, Vercel, or Notion. It features real-time fuzzy search, grouped commands, keyboard navigation, and a built-in `⌘K` global shortcut. No external command libraries required.
+
+---
+
+## Import
+
+```tsx
+import { Command, CommandTrigger } from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic
+
+<ComponentPage
+	title="Command Palette"
+	description="Click the trigger or press ⌘K to open the command palette. Type to filter commands in real time."
+	preview={<CommandBasicPreview />}
+	code={`const [open, setOpen] = useState(false);
+
+const groups = [
+  {
+    heading: "Navigation",
+    items: [
+      { id: "home", label: "Go to Home", description: "Navigate to the home page", onSelect: () => router.push("/") },
+      { id: "docs", label: "Open Documentation", onSelect: () => router.push("/docs") },
+    ],
+  },
+  {
+    heading: "Actions",
+    items: [
+      { id: "new-file", label: "New File", shortcut: "⌘N", onSelect: handleNewFile },
+      { id: "settings", label: "Open Settings", shortcut: "⌘,", onSelect: openSettings },
+    ],
+  },
+];
+
+return (
+  <>
+    <CommandTrigger onClick={() => setOpen(true)} />
+    <Command open={open} onOpenChange={setOpen} groups={groups} />
+  </>
+);`}
+/>
+
+### With Icons
+
+<ComponentPage
+	title="Commands with Icons"
+	description="Each command item supports an optional icon rendered before the label."
+	preview={<CommandIconsPreview />}
+	code={`import { Home, Settings, FileText } from "lucide-react";
+
+const groups = [
+  {
+    heading: "Navigation",
+    items: [
+      { id: "home", label: "Home", icon: <Home className="size-3.5" />, shortcut: "⌘H", onSelect: () => router.push("/") },
+      { id: "settings", label: "Settings", icon: <Settings className="size-3.5" />, shortcut: "⌘,", onSelect: openSettings },
+    ],
+  },
+  {
+    heading: "Files",
+    items: [
+      { id: "new", label: "New File", icon: <FileText className="size-3.5" />, shortcut: "⌘N", onSelect: createFile },
+    ],
+  },
+];
+
+<Command open={open} onOpenChange={setOpen} groups={groups} />`}
+/>
+
+### Disabled Items
+
+<ComponentPage
+	title="Disabled Items"
+	description="Set disabled: true on any command item to exclude it from navigation and interaction."
+	preview={<CommandDisabledPreview />}
+	code={`const groups = [
+  {
+    heading: "Account",
+    items: [
+      { id: "profile", label: "Edit Profile", onSelect: editProfile },
+      { id: "billing", label: "Billing", description: "Upgrade required", disabled: true, onSelect: () => {} },
+      { id: "export", label: "Export Data", description: "Coming soon", disabled: true, onSelect: () => {} },
+      { id: "logout", label: "Log Out", shortcut: "⇧⌘Q", onSelect: logout },
+    ],
+  },
+];`}
+/>
+
+---
+
+## Props
+
+### Command
+
+| Prop           | Type                      | Default                | Description                                               |
+| -------------- | ------------------------- | ---------------------- | --------------------------------------------------------- |
+| `open`         | `boolean`                 | —                      | **Required.** Controlled open state.                      |
+| `onOpenChange` | `(open: boolean) => void` | —                      | **Required.** Callback when open state changes.           |
+| `groups`       | `CommandGroup[]`          | —                      | **Required.** Array of grouped command items.             |
+| `placeholder`  | `string`                  | `"Search commands..."` | Placeholder text for the search input.                    |
+| `emptyText`    | `string`                  | `"No results found."`  | Text shown when search returns no results.                |
+| `shortcutKey`  | `string`                  | `"k"`                  | Key for the `⌘+key` global shortcut to open the palette. |
+
+### CommandGroup
+
+| Prop      | Type            | Description                                           |
+| --------- | --------------- | ----------------------------------------------------- |
+| `heading` | `string`        | Optional group heading displayed above the items.    |
+| `items`   | `CommandItem[]` | Required. Array of command items in this group.      |
+
+### CommandItem
+
+| Prop          | Type         | Default | Description                                                 |
+| ------------- | ------------ | ------- | ----------------------------------------------------------- |
+| `id`          | `string`     | —       | **Required.** Unique identifier for the command.            |
+| `label`       | `string`     | —       | **Required.** Display label for the command.                |
+| `onSelect`    | `() => void` | —       | **Required.** Called when the command is selected.          |
+| `description` | `string`     | —       | Optional secondary text beneath the label.                  |
+| `icon`        | `ReactNode`  | —       | Optional icon rendered before the label.                    |
+| `shortcut`    | `string`     | —       | Keyboard shortcut hint displayed on the right (`⌘N`, etc.). |
+| `disabled`    | `boolean`    | `false` | Excludes this item from keyboard navigation and click.      |
+
+### CommandTrigger
+
+| Prop        | Type         | Default                 | Description                                      |
+| ----------- | ------------ | ----------------------- | ------------------------------------------------ |
+| `onClick`   | `() => void` | —                       | **Required.** Called when the button is clicked. |
+| `label`     | `string`     | `"Search commands..."` | Label text displayed in the trigger button.      |
+| `className` | `string`     | —                       | Additional CSS classes.                          |
+
+---
+
+## Keyboard Navigation
+
+| Key             | Action                                       |
+| --------------- | -------------------------------------------- |
+| `⌘K` / `Ctrl+K` | Opens the command palette globally.          |
+| `↑` / `↓`       | Navigate between commands.                   |
+| `Enter`         | Execute the highlighted command.             |
+| `Escape`        | Close the palette.                           |
+| Type to search  | Filters commands in real-time.               |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	The command palette uses `role="combobox"` on the input and `role="listbox"`
+	on the results, with `aria-activedescendant` tracking the highlighted item.
+</Callout>
+
+- `role="combobox"` on the search input with `aria-expanded` and `aria-controls`.
+- `role="listbox"` on the results container.
+- `role="option"` and `aria-selected` on each command item.
+- `aria-disabled` on disabled items.
+- `aria-activedescendant` tracks the currently highlighted item.
+- Focus is trapped within the dialog when open.

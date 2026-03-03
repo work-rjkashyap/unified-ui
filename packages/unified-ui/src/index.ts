@@ -49,6 +49,18 @@ export {
   type AlertVariant,
   alertVariants,
 } from "./components/alert";
+// ---------------------------------------------------------------------------
+// Collapsible
+// ---------------------------------------------------------------------------
+export {
+  Collapsible,
+  CollapsibleContent,
+  type CollapsibleContentProps,
+  type CollapsibleProps,
+  CollapsibleTrigger,
+  type CollapsibleTriggerProps,
+  useCollapsibleContext,
+} from "./components/collapsible";
 export {
   Avatar,
   AvatarGroup,
@@ -85,6 +97,25 @@ export {
   BreadcrumbSeparator,
   type BreadcrumbSeparatorProps,
 } from "./components/breadcrumb";
+// ---------------------------------------------------------------------------
+// FormField
+// ---------------------------------------------------------------------------
+export {
+  FormField,
+  type FormFieldControlProps,
+  type FormFieldOrientation,
+  type FormFieldProps,
+  type FormFieldSize,
+} from "./components/form-field";
+// ---------------------------------------------------------------------------
+// FormLabel (component-layer Label — distinct from primitives/typography Label)
+// ---------------------------------------------------------------------------
+export {
+  Label as FormLabel,
+  type LabelProps as FormLabelProps,
+  type LabelSize as FormLabelSize,
+  labelVariants as formLabelVariants,
+} from "./components/label";
 // ---------------------------------------------------------------------------
 // Layer 4: Composite Components
 // ---------------------------------------------------------------------------
@@ -188,6 +219,17 @@ export {
   type PaginationVariant,
   paginationButtonVariants,
 } from "./components/pagination";
+// ---------------------------------------------------------------------------
+// Progress
+// ---------------------------------------------------------------------------
+export {
+  Progress,
+  type ProgressProps,
+  type ProgressSize,
+  type ProgressVariant,
+  progressIndicatorVariants,
+  progressTrackVariants,
+} from "./components/progress";
 export {
   Popover,
   PopoverArrow,
@@ -213,6 +255,20 @@ export {
   radioGroupVariants,
   radioIndicatorVariants,
 } from "./components/radio";
+// ---------------------------------------------------------------------------
+// ScrollArea
+// ---------------------------------------------------------------------------
+export {
+  ScrollArea,
+  type ScrollAreaProps,
+  type ScrollAreaType,
+  ScrollBar,
+  type ScrollBarOrientation,
+  type ScrollBarProps,
+  type ScrollBarSize,
+  scrollbarThumbVariants,
+  scrollbarVariants,
+} from "./components/scroll-area";
 export {
   Select,
   SelectContent,
@@ -262,6 +318,16 @@ export {
   type SkeletonTextSize,
   skeletonVariants,
 } from "./components/skeleton";
+// ---------------------------------------------------------------------------
+// Spinner
+// ---------------------------------------------------------------------------
+export {
+  Spinner,
+  type SpinnerProps,
+  type SpinnerSize,
+  type SpinnerVariant,
+  spinnerVariants,
+} from "./components/spinner";
 export {
   Switch,
   type SwitchLabelPosition,
@@ -292,6 +358,33 @@ export {
   type TableSortDirection,
   tableRootVariants,
 } from "./components/table";
+// ---------------------------------------------------------------------------
+// Toggle
+// ---------------------------------------------------------------------------
+export {
+  Toggle,
+  type ToggleProps,
+  type ToggleSize,
+  type ToggleVariant,
+  toggleVariants,
+} from "./components/toggle";
+// ---------------------------------------------------------------------------
+// ToggleGroup
+// ---------------------------------------------------------------------------
+export {
+  ToggleGroup,
+  ToggleGroupItem,
+  type ToggleGroupItemProps,
+  type ToggleGroupMultipleProps,
+  type ToggleGroupOrientation,
+  type ToggleGroupProps,
+  type ToggleGroupSingleProps,
+  type ToggleGroupSize,
+  type ToggleGroupVariant,
+  toggleGroupItemVariants,
+  toggleGroupVariants,
+  useToggleGroupContext,
+} from "./components/toggle-group";
 // ---------------------------------------------------------------------------
 // DataTable (TanStack Table powered)
 // ---------------------------------------------------------------------------
@@ -356,6 +449,122 @@ export {
   type TooltipProviderProps,
   type TooltipSide,
 } from "./components/tooltip";
+// ---------------------------------------------------------------------------
+// Command
+// ---------------------------------------------------------------------------
+export {
+  Command,
+  type CommandGroup,
+  type CommandItem,
+  type CommandProps,
+  CommandTrigger,
+  type CommandTriggerProps,
+} from "./components/command";
+// ---------------------------------------------------------------------------
+// ContextMenu
+// ---------------------------------------------------------------------------
+export {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  type ContextMenuCheckboxItemProps,
+  ContextMenuContent,
+  type ContextMenuContentProps,
+  ContextMenuGroup,
+  type ContextMenuGroupProps,
+  ContextMenuItem,
+  type ContextMenuItemProps,
+  type ContextMenuItemVariant,
+  ContextMenuLabel,
+  type ContextMenuLabelProps,
+  type ContextMenuProps,
+  ContextMenuRadioGroup,
+  type ContextMenuRadioGroupProps,
+  ContextMenuRadioItem,
+  type ContextMenuRadioItemProps,
+  ContextMenuSeparator,
+  type ContextMenuSeparatorProps,
+  ContextMenuShortcut,
+  type ContextMenuShortcutProps,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  type ContextMenuSubContentProps,
+  type ContextMenuSubProps,
+  ContextMenuSubTrigger,
+  type ContextMenuSubTriggerProps,
+  ContextMenuTrigger,
+  type ContextMenuTriggerProps,
+} from "./components/context-menu";
+// ---------------------------------------------------------------------------
+// Menubar
+// ---------------------------------------------------------------------------
+export {
+  Menubar,
+  MenubarCheckboxItem,
+  type MenubarCheckboxItemProps,
+  MenubarContent,
+  type MenubarContentProps,
+  MenubarGroup,
+  type MenubarGroupProps,
+  MenubarItem,
+  type MenubarItemProps,
+  type MenubarItemVariant,
+  MenubarLabel,
+  type MenubarLabelProps,
+  MenubarMenu,
+  type MenubarMenuProps,
+  type MenubarProps,
+  MenubarRadioGroup,
+  type MenubarRadioGroupProps,
+  MenubarRadioItem,
+  type MenubarRadioItemProps,
+  MenubarSeparator,
+  type MenubarSeparatorProps,
+  MenubarShortcut,
+  type MenubarShortcutProps,
+  MenubarSub,
+  MenubarSubContent,
+  type MenubarSubContentProps,
+  type MenubarSubProps,
+  MenubarSubTrigger,
+  type MenubarSubTriggerProps,
+  MenubarTrigger,
+  type MenubarTriggerProps,
+} from "./components/menubar";
+// ---------------------------------------------------------------------------
+// NavigationMenu
+// ---------------------------------------------------------------------------
+export {
+  NavigationMenu,
+  NavigationMenuCardLink,
+  type NavigationMenuCardLinkProps,
+  NavigationMenuContent,
+  type NavigationMenuContentProps,
+  NavigationMenuIndicator,
+  type NavigationMenuIndicatorProps,
+  NavigationMenuItem,
+  type NavigationMenuItemProps,
+  NavigationMenuLink,
+  type NavigationMenuLinkProps,
+  NavigationMenuList,
+  type NavigationMenuListProps,
+  type NavigationMenuProps,
+  NavigationMenuTrigger,
+  type NavigationMenuTriggerProps,
+  NavigationMenuViewport,
+  type NavigationMenuViewportProps,
+} from "./components/navigation-menu";
+// ---------------------------------------------------------------------------
+// Steps
+// ---------------------------------------------------------------------------
+export {
+  Step,
+  type StepProps,
+  Steps,
+  type StepsOrientation,
+  type StepsProps,
+  type StepsVariant,
+  type StepStatus,
+} from "./components/steps";
 // ---------------------------------------------------------------------------
 // Layer 5: Motion System
 // ---------------------------------------------------------------------------

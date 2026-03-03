@@ -1,0 +1,375 @@
+---
+title: Progress
+description: A linear progress bar with determinate/indeterminate modes, color variants, striped animation, and optional labels.
+icon: Gauge
+---
+
+import { Progress } from "@work-rjkashyap/unified-ui/components";
+import { Callout } from "fumadocs-ui/components/callout";
+
+## Overview
+
+The `Progress` component displays a linear progress bar for indicating completion or loading state. It supports determinate (known value) and indeterminate (unknown completion) modes, 6 color variants, 3 sizes, striped and animated styles, and optional labels with custom formatting.
+
+---
+
+## Import
+
+```tsx
+import { Progress } from "@work-rjkashyap/unified-ui/components";
+// or
+import { Progress } from "@work-rjkashyap/unified-ui";
+```
+
+---
+
+## Examples
+
+### Basic Usage
+
+<ComponentPage
+	title="Basic Progress"
+	description="A simple determinate progress bar showing completion percentage."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-md">
+			<Progress value={0} />
+			<Progress value={25} />
+			<Progress value={50} />
+			<Progress value={75} />
+			<Progress value={100} />
+		</div>
+	}
+	code={`<Progress value={0} />
+<Progress value={25} />
+<Progress value={50} />
+<Progress value={75} />
+<Progress value={100} />`}
+/>
+
+### Variants
+
+<ComponentPage
+	title="Color Variants"
+	description="Six color variants for different semantic contexts: default, primary, success, warning, danger, and info."
+	preview={
+		<div className="flex flex-col gap-5 w-full max-w-md">
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Default
+				</span>
+				<Progress value={60} variant="default" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Primary
+				</span>
+				<Progress value={60} variant="primary" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Success
+				</span>
+				<Progress value={60} variant="success" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Warning
+				</span>
+				<Progress value={60} variant="warning" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Danger
+				</span>
+				<Progress value={60} variant="danger" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Info
+				</span>
+				<Progress value={60} variant="info" />
+			</div>
+		</div>
+	}
+	code={`<Progress value={60} variant="default" />
+<Progress value={60} variant="primary" />
+<Progress value={60} variant="success" />
+<Progress value={60} variant="warning" />
+<Progress value={60} variant="danger" />
+<Progress value={60} variant="info" />`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="Progress Sizes"
+	description="Three sizes for different levels of visual prominence."
+	preview={
+		<div className="flex flex-col gap-5 w-full max-w-md">
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Small (6px)
+				</span>
+				<Progress value={60} size="sm" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Medium (8px, default)
+				</span>
+				<Progress value={60} size="md" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">
+					Large (12px)
+				</span>
+				<Progress value={60} size="lg" />
+			</div>
+		</div>
+	}
+	code={`<Progress value={60} size="sm" />
+<Progress value={60} size="md" />
+<Progress value={60} size="lg" />`}
+/>
+
+| Size | Height |
+| ---- | ------ |
+| `sm` | 6px    |
+| `md` | 8px    |
+| `lg` | 12px   |
+
+### With Label
+
+<ComponentPage
+	title="Labeled Progress"
+	description="Show a label and percentage value above the progress bar."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-md">
+			<Progress value={45} showLabel />
+			<Progress value={72} showLabel variant="success" />
+			<Progress value={30} showLabel label="Uploading files..." />
+			<Progress
+				value={92}
+				showLabel
+				label="Storage used"
+				variant="danger"
+			/>
+		</div>
+	}
+	code={`<Progress value={45} showLabel />
+<Progress value={72} showLabel variant="success" />
+<Progress value={30} showLabel label="Uploading files..." />
+<Progress value={92} showLabel label="Storage used" variant="danger" />`}
+/>
+
+### Custom Format
+
+The `formatLabel` prop accepts a function to display custom value formats. Since functions cannot be passed directly in MDX, here's the code pattern:
+
+```tsx
+<Progress
+  value={750}
+  max={1000}
+  showLabel
+  label="Storage"
+  formatLabel={(v, m) => `${v}/${m} MB`}
+/>
+
+<Progress
+  value={8}
+  max={12}
+  showLabel
+  label="Files uploaded"
+  formatLabel={(v, m) => `${v} of ${m}`}
+  variant="info"
+/>
+```
+
+<ComponentPage
+	title="Custom Label Format"
+	description="Use formatLabel to display the value in a custom format, such as MB or file counts."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-md">
+			<Progress
+				value={750}
+				max={1000}
+				showLabel
+				label="Storage"
+			/>
+			<Progress
+				value={8}
+				max={12}
+				showLabel
+				label="Files uploaded"
+				variant="info"
+			/>
+		</div>
+	}
+	code={`<Progress
+  value={750}
+  max={1000}
+  showLabel
+  label="Storage"
+  formatLabel={(v, m) => \`\${v}/\${m} MB\`}
+/>
+
+<Progress
+  value={8}
+  max={12}
+  showLabel
+  label="Files uploaded"
+  formatLabel={(v, m) => \`\${v} of \${m}\`}
+  variant="info"
+/>`}
+/>
+
+### Indeterminate
+
+<ComponentPage
+	title="Indeterminate Mode"
+	description="When the completion percentage is unknown, use indeterminate mode for a looping sliding animation."
+	preview={
+		<div className="flex flex-col gap-5 w-full max-w-md">
+			<Progress indeterminate />
+			<Progress indeterminate variant="info" />
+			<Progress indeterminate variant="success" size="lg" />
+		</div>
+	}
+	code={`<Progress indeterminate />
+<Progress indeterminate variant="info" />
+<Progress indeterminate variant="success" size="lg" />`}
+/>
+
+### Striped
+
+<ComponentPage
+	title="Striped Progress"
+	description="Add diagonal stripes for visual emphasis. Combine with animated for a sliding stripe effect."
+	preview={
+		<div className="flex flex-col gap-5 w-full max-w-md">
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">Striped</span>
+				<Progress value={55} striped size="lg" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">Striped + Animated</span>
+				<Progress value={55} striped animated size="lg" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">Striped + Success</span>
+				<Progress value={80} striped animated size="lg" variant="success" />
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<span className="text-xs font-medium text-fd-muted-foreground">Striped + Warning</span>
+				<Progress value={65} striped animated size="lg" variant="warning" />
+			</div>
+		</div>
+	}
+	code={`{/* Static stripes */}
+<Progress value={55} striped size="lg" />
+
+{/* Animated sliding stripes */}
+
+<Progress value={55} striped animated size="lg" />
+
+{/* With variant */}
+
+<Progress value={80} striped animated size="lg" variant="success" />
+<Progress value={65} striped animated size="lg" variant="warning" />`}
+/>
+
+### Real-World Examples
+
+<ComponentPage
+	title="Real-World Patterns"
+	description="Common progress bar patterns seen in production applications."
+	preview={
+		<div className="flex flex-col gap-8 w-full max-w-md">
+			<div className="flex flex-col gap-2">
+				<div className="flex items-center justify-between">
+					<span className="text-sm font-medium">Profile completion</span>
+					<span className="text-sm text-fd-muted-foreground">6 of 8 steps</span>
+				</div>
+				<Progress value={75} variant="primary" size="md" />
+			</div>
+			<div className="flex flex-col gap-2">
+				<Progress value={92} showLabel label="Storage used" variant="danger" />
+				<span className="text-xs text-fd-muted-foreground">4.6 GB of 5 GB used. Upgrade your plan for more storage.</span>
+			</div>
+			<div className="flex flex-col gap-2">
+				<span className="text-sm font-medium">Uploading 3 files...</span>
+				<Progress indeterminate variant="info" size="sm" />
+			</div>
+		</div>
+	}
+	code={`{/* Profile completion */}
+<div className="flex items-center justify-between">
+  <span className="text-sm font-medium">Profile completion</span>
+  <span className="text-sm text-muted-foreground">6 of 8 steps</span>
+</div>
+<Progress value={75} variant="primary" />
+
+{/* Storage warning */}
+
+<Progress value={92} showLabel label="Storage used" variant="danger" />
+<span className="text-xs text-muted-foreground">
+	4.6 GB of 5 GB used. Upgrade your plan for more storage.
+</span>
+
+{/* File upload */}
+
+<span className="text-sm font-medium">Uploading 3 files...</span>
+<Progress indeterminate variant="info" size="sm" />`}
+/>
+
+---
+
+## Props
+
+| Prop                 | Type                                                                     | Default     | Description                                                 |
+| -------------------- | ------------------------------------------------------------------------ | ----------- | ----------------------------------------------------------- |
+| `value`              | `number`                                                                 | `0`         | Current progress value (0–100 by default).                  |
+| `max`                | `number`                                                                 | `100`       | Maximum progress value.                                     |
+| `min`                | `number`                                                                 | `0`         | Minimum progress value.                                     |
+| `variant`            | `"default" \| "primary" \| "success" \| "danger" \| "warning" \| "info"` | `"default"` | Color variant of the indicator bar.                         |
+| `size`               | `"sm" \| "md" \| "lg"`                                                   | `"md"`      | Height of the progress bar.                                 |
+| `indeterminate`      | `boolean`                                                                | `false`     | Displays a looping animation for unknown progress.          |
+| `striped`            | `boolean`                                                                | `false`     | Adds diagonal stripes to the indicator bar.                 |
+| `animated`           | `boolean`                                                                | `false`     | Animates the stripes (only applies when `striped` is true). |
+| `showLabel`          | `boolean`                                                                | `false`     | Shows a label row above the bar with text and value.        |
+| `label`              | `ReactNode`                                                              | —           | Custom label text. Replaces default "X%" display.           |
+| `formatLabel`        | `(value: number, max: number) => string`                                 | —           | Custom format function for the progress value label.        |
+| `aria-label`         | `string`                                                                 | —           | Accessible label when no visible label is present.          |
+| `aria-labelledby`    | `string`                                                                 | —           | ID of the element that labels the progress bar.             |
+| `className`          | `string`                                                                 | —           | Additional CSS classes for the track (outer container).     |
+| `indicatorClassName` | `string`                                                                 | —           | Additional CSS classes for the indicator (inner fill bar).  |
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	When there is no visible label describing what the progress bar represents,
+	provide an `aria-label` (e.g. `aria-label="Upload progress"`).
+</Callout>
+
+- **`role="progressbar"`** — Proper semantic role for assistive technology.
+- **`aria-valuenow`** — Set to the current value in determinate mode; omitted in indeterminate mode per WAI-ARIA spec.
+- **`aria-valuemin` / `aria-valuemax`** — Always set to the min and max values.
+- **`aria-label` / `aria-labelledby`** — Use to provide context when no visible label is present.
+- **Indeterminate** — `aria-valuenow` is intentionally omitted so screen readers announce "progress busy" rather than a stale percentage.
+
+---
+
+## Design Tokens
+
+| Token                 | Usage                               |
+| --------------------- | ----------------------------------- |
+| `--primary`           | Default / primary indicator color   |
+| `--success`           | Success variant indicator color     |
+| `--danger`            | Danger variant indicator color      |
+| `--warning`           | Warning variant indicator color     |
+| `--info`              | Info variant indicator color        |
+| `--muted`             | Track background color              |
+| `--radius-full`       | Rounded pill shape for track & fill |
+| `--duration-standard` | Width transition duration           |
+| `--easing-standard`   | Width transition easing             |

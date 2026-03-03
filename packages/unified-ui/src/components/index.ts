@@ -1,12 +1,148 @@
 // ============================================================================
 // Unified UI — Composite Components Barrel Export
 // ============================================================================
+
+
+// ---------------------------------------------------------------------------
+// Command
+// ---------------------------------------------------------------------------
+export {
+	Command,
+	type CommandGroup,
+	type CommandItem,
+	type CommandProps,
+	CommandTrigger,
+	type CommandTriggerProps,
+} from "./command";
+
+// ---------------------------------------------------------------------------
+// ContextMenu
+// ---------------------------------------------------------------------------
+export {
+	ContextMenu,
+	ContextMenuCheckboxItem,
+	type ContextMenuCheckboxItemProps,
+	ContextMenuContent,
+	type ContextMenuContentProps,
+	ContextMenuGroup,
+	type ContextMenuGroupProps,
+	ContextMenuItem,
+	type ContextMenuItemProps,
+	type ContextMenuItemVariant,
+	ContextMenuLabel,
+	type ContextMenuLabelProps,
+	type ContextMenuProps,
+	ContextMenuRadioGroup,
+	type ContextMenuRadioGroupProps,
+	ContextMenuRadioItem,
+	type ContextMenuRadioItemProps,
+	ContextMenuSeparator,
+	type ContextMenuSeparatorProps,
+	ContextMenuShortcut,
+	type ContextMenuShortcutProps,
+	ContextMenuSub,
+	ContextMenuSubContent,
+	type ContextMenuSubContentProps,
+	type ContextMenuSubProps,
+	ContextMenuSubTrigger,
+	type ContextMenuSubTriggerProps,
+	ContextMenuTrigger,
+	type ContextMenuTriggerProps,
+} from "./context-menu";
+
+// ---------------------------------------------------------------------------
+// Menubar
+// ---------------------------------------------------------------------------
+export {
+	Menubar,
+	MenubarCheckboxItem,
+	type MenubarCheckboxItemProps,
+	MenubarContent,
+	type MenubarContentProps,
+	MenubarGroup,
+	type MenubarGroupProps,
+	MenubarItem,
+	type MenubarItemProps,
+	type MenubarItemVariant,
+	MenubarLabel,
+	type MenubarLabelProps,
+	MenubarMenu,
+	type MenubarMenuProps,
+	type MenubarProps,
+	MenubarRadioGroup,
+	type MenubarRadioGroupProps,
+	MenubarRadioItem,
+	type MenubarRadioItemProps,
+	MenubarSeparator,
+	type MenubarSeparatorProps,
+	MenubarShortcut,
+	type MenubarShortcutProps,
+	MenubarSub,
+	MenubarSubContent,
+	type MenubarSubContentProps,
+	type MenubarSubProps,
+	MenubarSubTrigger,
+	type MenubarSubTriggerProps,
+	MenubarTrigger,
+	type MenubarTriggerProps,
+} from "./menubar";
+
+// ---------------------------------------------------------------------------
+// NavigationMenu
+// ---------------------------------------------------------------------------
+export {
+	NavigationMenu,
+	NavigationMenuCardLink,
+	type NavigationMenuCardLinkProps,
+	NavigationMenuContent,
+	type NavigationMenuContentProps,
+	NavigationMenuIndicator,
+	type NavigationMenuIndicatorProps,
+	NavigationMenuItem,
+	type NavigationMenuItemProps,
+	NavigationMenuLink,
+	type NavigationMenuLinkProps,
+	NavigationMenuList,
+	type NavigationMenuListProps,
+	type NavigationMenuProps,
+	NavigationMenuTrigger,
+	type NavigationMenuTriggerProps,
+	NavigationMenuViewport,
+	type NavigationMenuViewportProps,
+} from "./navigation-menu";
+
+// ---------------------------------------------------------------------------
+// Steps
+// ---------------------------------------------------------------------------
+export {
+	Step,
+	type StepProps,
+	Steps,
+	type StepsOrientation,
+	type StepsProps,
+	type StepsVariant,
+	type StepStatus,
+} from "./steps";
+
 // Single entry point for all composite components. Import from here rather
 // than from individual component files.
 //
 // Usage:
 //   import { Button, Input, Card } from "@/design-system/components";
 // ============================================================================
+
+// ---------------------------------------------------------------------------
+// Collapsible
+// ---------------------------------------------------------------------------
+export {
+	Collapsible,
+	CollapsibleContent,
+	type CollapsibleContentProps,
+	type CollapsibleProps,
+	CollapsibleTrigger,
+	type CollapsibleTriggerProps,
+	useCollapsibleContext,
+} from "./collapsible";
 
 // ---------------------------------------------------------------------------
 // DataTable
@@ -29,6 +165,16 @@ export {
 	type Row,
 } from "./data-table";
 
+// ---------------------------------------------------------------------------
+// FormField
+// ---------------------------------------------------------------------------
+export {
+	FormField,
+	type FormFieldControlProps,
+	type FormFieldOrientation,
+	type FormFieldProps,
+	type FormFieldSize,
+} from "./form-field";
 // ---------------------------------------------------------------------------
 // Accordion
 // ---------------------------------------------------------------------------
@@ -72,6 +218,15 @@ export {
 } from "./avatar";
 // ---------------------------------------------------------------------------
 // Badge
+// ---------------------------------------------------------------------------
+export {
+	Label,
+	type LabelProps,
+	type LabelSize,
+	labelVariants,
+} from "./label";
+// ---------------------------------------------------------------------------
+// Badge (continued below)
 // ---------------------------------------------------------------------------
 export {
 	Badge,
@@ -140,6 +295,9 @@ export {
 	checkboxVariants,
 	useCheckboxGroupContext,
 } from "./checkbox";
+// ---------------------------------------------------------------------------
+// Collapsible is exported above (alphabetical order)
+// ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // Dialog
 // ---------------------------------------------------------------------------
@@ -220,6 +378,17 @@ export {
 	type PaginationVariant,
 } from "./pagination";
 // ---------------------------------------------------------------------------
+// Progress
+// ---------------------------------------------------------------------------
+export {
+	Progress,
+	type ProgressProps,
+	type ProgressSize,
+	type ProgressVariant,
+	progressIndicatorVariants,
+	progressTrackVariants,
+} from "./progress";
+// ---------------------------------------------------------------------------
 // Popover
 // ---------------------------------------------------------------------------
 export {
@@ -250,6 +419,20 @@ export {
 	radioGroupVariants,
 	radioIndicatorVariants,
 } from "./radio";
+// ---------------------------------------------------------------------------
+// ScrollArea
+// ---------------------------------------------------------------------------
+export {
+	ScrollArea,
+	type ScrollAreaProps,
+	type ScrollAreaType,
+	ScrollBar,
+	type ScrollBarOrientation,
+	type ScrollBarProps,
+	type ScrollBarSize,
+	scrollbarThumbVariants,
+	scrollbarVariants,
+} from "./scroll-area";
 // ---------------------------------------------------------------------------
 // Select
 // ---------------------------------------------------------------------------
@@ -300,6 +483,16 @@ export {
 	type SheetTriggerProps,
 	sheetContentVariants,
 } from "./sheet";
+// ---------------------------------------------------------------------------
+// Spinner
+// ---------------------------------------------------------------------------
+export {
+	Spinner,
+	type SpinnerProps,
+	type SpinnerSize,
+	type SpinnerVariant,
+	spinnerVariants,
+} from "./spinner";
 // ---------------------------------------------------------------------------
 // Skeleton
 // ---------------------------------------------------------------------------
@@ -354,6 +547,33 @@ export {
 } from "./table";
 // ---------------------------------------------------------------------------
 // Tabs
+// ---------------------------------------------------------------------------
+export {
+	Toggle,
+	type ToggleProps,
+	type ToggleSize,
+	type ToggleVariant,
+	toggleVariants,
+} from "./toggle";
+// ---------------------------------------------------------------------------
+// ToggleGroup
+// ---------------------------------------------------------------------------
+export {
+	ToggleGroup,
+	ToggleGroupItem,
+	type ToggleGroupItemProps,
+	type ToggleGroupMultipleProps,
+	type ToggleGroupOrientation,
+	type ToggleGroupProps,
+	type ToggleGroupSingleProps,
+	type ToggleGroupSize,
+	type ToggleGroupVariant,
+	toggleGroupItemVariants,
+	toggleGroupVariants,
+	useToggleGroupContext,
+} from "./toggle-group";
+// ---------------------------------------------------------------------------
+// Tabs (continued below)
 // ---------------------------------------------------------------------------
 export {
 	Tabs,
