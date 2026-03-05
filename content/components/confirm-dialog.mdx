@@ -3,19 +3,21 @@ title: Confirm Dialog
 description: A pre-composed confirmation dialog built on AlertDialog primitives. Supports danger variant, loading state, and custom content slot.
 icon: ShieldAlert
 ---
+
 import {
-  ConfirmDialog,
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogAction,
-  AlertDialogCancel,
-  Button,
+	ConfirmDialog,
+	AlertDialog,
+	AlertDialogTrigger,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogAction,
+	AlertDialogCancel,
+	Button,
 } from "@work-rjkashyap/unified-ui";
+
 <ComponentPage
   title="Confirm Dialog"
   description="A pre-composed confirmation dialog with title, description, confirm/cancel actions, danger variant, and loading state. Built on AlertDialog primitives — no overlay-click dismissal by default."
@@ -38,15 +40,14 @@ import {
       />
     </div>
   }
-  code={`{/* Default */}
-<ConfirmDialog
+  code={`<ConfirmDialog
   trigger={<Button variant="secondary">Confirm Action</Button>}
   title="Are you sure?"
   description="This action will take effect immediately."
   confirmLabel="Yes, proceed"
   cancelLabel="Cancel"
 />
-{/* Danger variant */}
+
 <ConfirmDialog
   trigger={<Button variant="danger">Delete Record</Button>}
   variant="danger"
@@ -56,52 +57,65 @@ import {
   cancelLabel="Keep it"
 />`}
 >
+
 ## Import
+
 ```tsx
 import { ConfirmDialog } from "@work-rjkashyap/unified-ui";
 // or
 import { ConfirmDialog } from "@work-rjkashyap/unified-ui/components";
-// For custom compositions, also import AlertDialog primitives:
+```
+
+For custom compositions, also import the AlertDialog primitives:
+
+```tsx
 import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogAction,
-  AlertDialogCancel,
+	AlertDialog,
+	AlertDialogTrigger,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogAction,
+	AlertDialogCancel,
 } from "@work-rjkashyap/unified-ui";
 ```
+
 ## Basic Usage
+
 `ConfirmDialog` is a pre-composed wrapper around the `AlertDialog` primitives. Pass a `trigger`, `title`, `description`, and action labels — everything else is handled for you.
+
 ```tsx
 <ConfirmDialog
-  trigger={<Button variant="secondary">Archive Project</Button>}
-  title="Archive this project?"
-  description="The project will be hidden from your dashboard but can be restored from the settings page."
-  confirmLabel="Archive"
-  cancelLabel="Cancel"
-  onConfirm={() => archiveProject(id)}
+	trigger={<Button variant="secondary">Archive Project</Button>}
+	title="Archive this project?"
+	description="The project will be hidden from your dashboard but can be restored from the settings page."
+	confirmLabel="Archive"
+	cancelLabel="Cancel"
+	onConfirm={() => archiveProject(id)}
 />
 ```
+
 ## Variants
+
 ### Default
+
 The default variant uses the primary action style for the confirm button — suitable for non-destructive confirmations like archiving, publishing, or submitting.
+
 <ComponentPage
-  title="Default Variant"
-  description="Primary-colored confirm button for non-destructive confirmation flows."
-  preview={
-    <ConfirmDialog
-      trigger={<Button variant="primary">Publish Changes</Button>}
-      title="Publish changes?"
-      description="Your changes will be visible to all users immediately after publishing."
-      confirmLabel="Publish"
-      cancelLabel="Not yet"
-    />
-  }
-  code={`<ConfirmDialog
+	title="Default Variant"
+	description="Primary-colored confirm button for non-destructive confirmation flows."
+	preview={
+		<ConfirmDialog
+			trigger={<Button variant="primary">Publish Changes</Button>}
+			title="Publish changes?"
+			description="Your changes will be visible to all users immediately after publishing."
+			confirmLabel="Publish"
+			cancelLabel="Not yet"
+		/>
+	}
+	code={`<ConfirmDialog
   trigger={<Button variant="primary">Publish Changes</Button>}
   title="Publish changes?"
   description="Your changes will be visible to all users immediately after publishing."
@@ -110,32 +124,35 @@ The default variant uses the primary action style for the confirm button — sui
   onConfirm={handlePublish}
 />`}
 />
+
 ### Danger
+
 The `danger` variant applies a red background to the confirm button. Use it for destructive, irreversible actions like deletion.
+
 <ComponentPage
-  title="Danger Variant"
-  description="Red confirm button for destructive or irreversible actions."
-  preview={
-    <div className="flex gap-3 flex-wrap items-center justify-center">
-      <ConfirmDialog
-        trigger={<Button variant="danger">Delete Account</Button>}
-        variant="danger"
-        title="Delete your account?"
-        description="This will permanently delete your account, all projects, and data. This action cannot be undone."
-        confirmLabel="Delete my account"
-        cancelLabel="Keep account"
-      />
-      <ConfirmDialog
-        trigger={<Button variant="danger" size="sm">Remove Member</Button>}
-        variant="danger"
-        title="Remove team member?"
-        description="They will lose access to all projects and cannot be re-invited for 24 hours."
-        confirmLabel="Remove"
-        cancelLabel="Cancel"
-      />
-    </div>
-  }
-  code={`<ConfirmDialog
+	title="Danger Variant"
+	description="Red confirm button for destructive or irreversible actions."
+	preview={
+		<div className="flex gap-3 flex-wrap items-center justify-center">
+			<ConfirmDialog
+				trigger={<Button variant="danger">Delete Account</Button>}
+				variant="danger"
+				title="Delete your account?"
+				description="This will permanently delete your account, all projects, and data. This action cannot be undone."
+				confirmLabel="Delete my account"
+				cancelLabel="Keep account"
+			/>
+			<ConfirmDialog
+				trigger={<Button variant="danger" size="sm">Remove Member</Button>}
+				variant="danger"
+				title="Remove team member?"
+				description="They will lose access to all projects and cannot be re-invited for 24 hours."
+				confirmLabel="Remove"
+				cancelLabel="Cancel"
+			/>
+		</div>
+	}
+	code={`<ConfirmDialog
   trigger={<Button variant="danger">Delete Account</Button>}
   variant="danger"
   title="Delete your account?"
@@ -144,6 +161,7 @@ The `danger` variant applies a red background to the confirm button. Use it for 
   cancelLabel="Keep account"
   onConfirm={handleDeleteAccount}
 />
+
 <ConfirmDialog
   trigger={<Button variant="danger" size="sm">Remove Member</Button>}
   variant="danger"
@@ -154,23 +172,27 @@ The `danger` variant applies a red background to the confirm button. Use it for 
   onConfirm={() => removeMember(userId)}
 />`}
 />
+
 ## Loading State
+
 Set `loading={true}` to disable both action buttons and show a spinner on the confirm button. Use this while an async operation is in progress.
+
 <ComponentPage
-  title="Loading State"
-  description="Disables both buttons and shows a spinner while an async operation is running."
-  preview={
-    <ConfirmDialog
-      trigger={<Button variant="danger">Delete (with loading)</Button>}
-      variant="danger"
-      title="Delete this item?"
-      description="Simulates a loading state — both buttons are disabled while processing."
-      confirmLabel="Delete"
-      cancelLabel="Cancel"
-      loading
-    />
-  }
-  code={`const [loading, setLoading] = useState(false);
+	title="Loading State"
+	description="Disables both buttons and shows a spinner while an async operation is running."
+	preview={
+		<ConfirmDialog
+			trigger={<Button variant="danger">Delete (with loading)</Button>}
+			variant="danger"
+			title="Delete this item?"
+			description="Simulates a loading state — both buttons are disabled while processing."
+			confirmLabel="Delete"
+			cancelLabel="Cancel"
+			loading
+		/>
+	}
+	code={`const [loading, setLoading] = useState(false);
+
 <ConfirmDialog
   trigger={<Button variant="danger">Delete</Button>}
   variant="danger"
@@ -187,156 +209,182 @@ Set `loading={true}` to disable both action buttons and show a spinner on the co
   }}
 />`}
 />
+
 ## Controlled Mode
+
 Use `open` and `onOpenChange` to control the dialog programmatically without a trigger element.
+
 ```tsx
 const [open, setOpen] = useState(false);
+
 <>
-  <Button variant="danger" onClick={() => setOpen(true)}>
-    Delete All
-  </Button>
-  <ConfirmDialog
-    open={open}
-    onOpenChange={setOpen}
-    variant="danger"
-    title="Delete all records?"
-    description={`You are about to delete ${selectedCount} records. This cannot be undone.`}
-    confirmLabel="Delete All"
-    cancelLabel="Cancel"
-    onConfirm={async () => {
-      await deleteAll();
-      setOpen(false);
-    }}
-    onCancel={() => setOpen(false)}
-  />
+	<Button variant="danger" onClick={() => setOpen(true)}>
+		Delete All
+	</Button>
+	<ConfirmDialog
+		open={open}
+		onOpenChange={setOpen}
+		variant="danger"
+		title="Delete all records?"
+		description={`You are about to delete ${selectedCount} records. This cannot be undone.`}
+		confirmLabel="Delete All"
+		cancelLabel="Cancel"
+		onConfirm={async () => {
+			await deleteAll();
+			setOpen(false);
+		}}
+		onCancel={() => setOpen(false)}
+	/>
 </>;
 ```
+
 ## Custom Content
+
 Use the `children` prop to render additional content between the description and the action buttons — input fields, verification text, checklists, etc.
+
 ```tsx
 <ConfirmDialog
-  trigger={<Button variant="danger">Delete Workspace</Button>}
-  variant="danger"
-  title="Delete workspace?"
-  description='Type the workspace name to confirm deletion.'
-  confirmLabel="Delete Workspace"
-  cancelLabel="Cancel"
+	trigger={<Button variant="danger">Delete Workspace</Button>}
+	variant="danger"
+	title="Delete workspace?"
+	description="Type the workspace name to confirm deletion."
+	confirmLabel="Delete Workspace"
+	cancelLabel="Cancel"
 >
-  <div className="flex flex-col gap-1.5 mt-1">
-    <label className="text-xs font-medium text-muted-foreground">
-      Type <strong>my-workspace</strong> to confirm
-    </label>
-    <Input
-      placeholder="my-workspace"
-      value={confirmName}
-      onChange={(e) => setConfirmName(e.target.value)}
-    />
-  </div>
+	<div className="flex flex-col gap-1.5 mt-1">
+		<label className="text-xs font-medium text-muted-foreground">
+			Type <strong>my-workspace</strong> to confirm
+		</label>
+		<Input
+			placeholder="my-workspace"
+			value={confirmName}
+			onChange={(e) => setConfirmName(e.target.value)}
+		/>
+	</div>
 </ConfirmDialog>
 ```
+
 ## Async Confirm Flow
+
 A complete pattern with async mutation, loading state, and success feedback.
+
 ```tsx
 import { useState } from "react";
 import { ConfirmDialog, Button, toast } from "@work-rjkashyap/unified-ui";
+
 function DeleteProjectButton({ projectId }: { projectId: string }) {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const handleConfirm = async () => {
-    setLoading(true);
-    try {
-      await deleteProject(projectId);
-      setOpen(false);
-      toast.success("Project deleted successfully.");
-    } catch {
-      toast.error("Failed to delete the project. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-  return (
-    <ConfirmDialog
-      open={open}
-      onOpenChange={setOpen}
-      trigger={
-        <Button variant="danger" size="sm">
-          Delete Project
-        </Button>
-      }
-      variant="danger"
-      title="Delete this project?"
-      description="All repositories, environments, and deployment history will be permanently removed."
-      confirmLabel="Delete Project"
-      cancelLabel="Keep Project"
-      loading={loading}
-      onConfirm={handleConfirm}
-      onCancel={() => setOpen(false)}
-    />
-  );
+	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
+
+	const handleConfirm = async () => {
+		setLoading(true);
+		try {
+			await deleteProject(projectId);
+			setOpen(false);
+			toast.success("Project deleted successfully.");
+		} catch {
+			toast.error("Failed to delete the project. Please try again.");
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	return (
+		<ConfirmDialog
+			open={open}
+			onOpenChange={setOpen}
+			trigger={
+				<Button variant="danger" size="sm">
+					Delete Project
+				</Button>
+			}
+			variant="danger"
+			title="Delete this project?"
+			description="All repositories, environments, and deployment history will be permanently removed."
+			confirmLabel="Delete Project"
+			cancelLabel="Keep Project"
+			loading={loading}
+			onConfirm={handleConfirm}
+			onCancel={() => setOpen(false)}
+		/>
+	);
 }
 ```
+
 ## Using AlertDialog Primitives Directly
+
 For fully custom confirmation dialogs, compose `AlertDialog` primitives directly. `AlertDialog` differs from `Dialog` in that clicking the overlay backdrop does **not** close it — the user must explicitly choose an action.
+
 ```tsx
 <AlertDialog>
-  <AlertDialogTrigger asChild>
-    <Button variant="danger">Revoke API Key</Button>
-  </AlertDialogTrigger>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Revoke API key?</AlertDialogTitle>
-      <AlertDialogDescription>
-        Applications using this key will stop working immediately. You'll need
-        to generate a new key and update your integrations.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <div className="my-3 p-3 bg-muted rounded-md font-mono text-xs text-muted-foreground">
-      api_xyz_xxxxxxxxxxxxxxxxxxxxxxxxxxx
-    </div>
-    <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction
-        className="bg-danger text-danger-foreground hover:bg-danger-hover"
-        onClick={revokeKey}
-      >
-        Revoke Key
-      </AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
+	<AlertDialogTrigger asChild>
+		<Button variant="danger">Revoke API Key</Button>
+	</AlertDialogTrigger>
+	<AlertDialogContent>
+		<AlertDialogHeader>
+			<AlertDialogTitle>Revoke API key?</AlertDialogTitle>
+			<AlertDialogDescription>
+				Applications using this key will stop working immediately.
+				You'll need to generate a new key and update your integrations.
+			</AlertDialogDescription>
+		</AlertDialogHeader>
+		<div className="my-3 p-3 bg-muted rounded-md font-mono text-xs text-muted-foreground">
+			api_xyz_xxxxxxxxxxxxxxxxxxxxxxxxxxx
+		</div>
+		<AlertDialogFooter>
+			<AlertDialogCancel>Cancel</AlertDialogCancel>
+			<AlertDialogAction
+				className="bg-danger text-danger-foreground hover:bg-danger-hover"
+				onClick={revokeKey}
+			>
+				Revoke Key
+			</AlertDialogAction>
+		</AlertDialogFooter>
+	</AlertDialogContent>
 </AlertDialog>
 ```
+
 ## ConfirmDialog vs Dialog
-| Feature                   | `ConfirmDialog` / `AlertDialog` | `Dialog`         |
-| ------------------------- | ------------------------------- | ---------------- |
-| Click overlay to dismiss  | No                              | Yes              |
-| Focus trap                | Yes                             | Yes              |
-| Escape to dismiss         | Yes (configurable)              | Yes              |
-| Action-required UX        | Yes                             | No               |
-| Pre-composed API          | `ConfirmDialog` only            | Yes              |
-| Slot-based composition    | Via AlertDialog primitives      | Yes              |
+
+| Feature                  | `ConfirmDialog` / `AlertDialog` | `Dialog` |
+| ------------------------ | ------------------------------- | -------- |
+| Click overlay to dismiss | No                              | Yes      |
+| Focus trap               | Yes                             | Yes      |
+| Escape to dismiss        | Yes (configurable)              | Yes      |
+| Action-required UX       | Yes                             | No       |
+| Pre-composed API         | `ConfirmDialog` only            | Yes      |
+| Slot-based composition   | Via AlertDialog primitives      | Yes      |
+
 Use `ConfirmDialog` or `AlertDialog` when the user **must** make an active choice before proceeding. Use `Dialog` for informational or form modals that can be dismissed freely.
+
 ## Props
+
 ### ConfirmDialog
-| Prop            | Type                          | Default                        | Description                                                              |
-| --------------- | ----------------------------- | ------------------------------ | ------------------------------------------------------------------------ |
-| `open`          | `boolean`                     | —                              | Controlled open state.                                                   |
-| `onOpenChange`  | `(open: boolean) => void`     | —                              | Callback when open state changes.                                        |
-| `trigger`       | `ReactNode`                   | —                              | Element that opens the dialog. Rendered inside `AlertDialogTrigger asChild`. |
-| `title`         | `ReactNode`                   | `"Are you sure?"`              | Dialog heading text.                                                     |
-| `description`   | `ReactNode`                   | `"This action cannot be undone."` | Supporting text below the title.                                      |
-| `confirmLabel`  | `string`                      | `"Confirm"`                    | Label for the confirm/action button.                                     |
-| `cancelLabel`   | `string`                      | `"Cancel"`                     | Label for the cancel button.                                             |
-| `variant`       | `"default" \| "danger"`       | `"default"`                    | `"danger"` applies a red background to the confirm button.               |
-| `onConfirm`     | `() => void`                  | —                              | Callback fired when the confirm button is clicked.                       |
-| `onCancel`      | `() => void`                  | —                              | Callback fired when the cancel button is clicked.                        |
-| `loading`       | `boolean`                     | `false`                        | Shows a spinner and disables both buttons.                               |
-| `className`     | `string`                      | —                              | Additional CSS classes on the `AlertDialogContent` element.              |
-| `children`      | `ReactNode`                   | —                              | Custom content rendered between the description and footer actions.       |
+
+| Prop           | Type                      | Default                           | Description                                                                  |
+| -------------- | ------------------------- | --------------------------------- | ---------------------------------------------------------------------------- |
+| `open`         | `boolean`                 | —                                 | Controlled open state.                                                       |
+| `onOpenChange` | `(open: boolean) => void` | —                                 | Callback when open state changes.                                            |
+| `trigger`      | `ReactNode`               | —                                 | Element that opens the dialog. Rendered inside `AlertDialogTrigger asChild`. |
+| `title`        | `ReactNode`               | `"Are you sure?"`                 | Dialog heading text.                                                         |
+| `description`  | `ReactNode`               | `"This action cannot be undone."` | Supporting text below the title.                                             |
+| `confirmLabel` | `string`                  | `"Confirm"`                       | Label for the confirm/action button.                                         |
+| `cancelLabel`  | `string`                  | `"Cancel"`                        | Label for the cancel button.                                                 |
+| `variant`      | `"default" \| "danger"`   | `"default"`                       | `"danger"` applies a red background to the confirm button.                   |
+| `onConfirm`    | `() => void`              | —                                 | Callback fired when the confirm button is clicked.                           |
+| `onCancel`     | `() => void`              | —                                 | Callback fired when the cancel button is clicked.                            |
+| `loading`      | `boolean`                 | `false`                           | Shows a spinner and disables both buttons.                                   |
+| `className`    | `string`                  | —                                 | Additional CSS classes on the `AlertDialogContent` element.                  |
+| `children`     | `ReactNode`               | —                                 | Custom content rendered between the description and footer actions.          |
+
 ### AlertDialogContent
-| Prop        | Type     | Default | Description                        |
-| ----------- | -------- | ------- | ---------------------------------- |
-| `className` | `string` | —       | Additional CSS classes.            |
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
 ## Accessibility
+
 - Built on **@radix-ui/react-alert-dialog** which implements the WAI-ARIA `alertdialog` role.
 - Focus is trapped inside the dialog while open.
 - Focus returns to the trigger element on close.
@@ -346,18 +394,21 @@ Use `ConfirmDialog` or `AlertDialog` when the user **must** make an active choic
 - `AlertDialogDescription` is linked via `aria-describedby`.
 - Both `AlertDialogAction` and `AlertDialogCancel` are standard `<button>` elements with full keyboard support.
 - The loading spinner is `aria-hidden="true"` — the `loading` state disables buttons without removing them from the accessibility tree.
+
 ## Design Tokens
-| Token                    | Usage                               |
-| ------------------------ | ----------------------------------- |
-| `--background`           | Dialog panel background             |
-| `--border`               | Dialog panel border                 |
-| `--overlay`              | Backdrop overlay color              |
-| `--primary`              | Default confirm button background   |
-| `--danger`               | Danger confirm button background    |
-| `--secondary`            | Cancel button background            |
-| `--radius-lg`            | Dialog border radius                |
-| `--z-modal`              | Z-index for dialog content          |
-| `--z-overlay`            | Z-index for backdrop                |
-| `--shadow-xl`            | Dialog panel shadow                 |
-| `--duration-fast`        | Button transition speed             |
+
+| Token             | Usage                             |
+| ----------------- | --------------------------------- |
+| `--background`    | Dialog panel background           |
+| `--border`        | Dialog panel border               |
+| `--overlay`       | Backdrop overlay color            |
+| `--primary`       | Default confirm button background |
+| `--danger`        | Danger confirm button background  |
+| `--secondary`     | Cancel button background          |
+| `--radius-lg`     | Dialog border radius              |
+| `--z-modal`       | Z-index for dialog content        |
+| `--z-overlay`     | Z-index for backdrop              |
+| `--shadow-xl`     | Dialog panel shadow               |
+| `--duration-fast` | Button transition speed           |
+
 </ComponentPage>
