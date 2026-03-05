@@ -1,0 +1,277 @@
+---
+title: Sonner
+description: Stacked toast notification system with promise/loading states, built on the sonner library with Unified UI styling.
+icon: Bell
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import {
+	DemoOverview,
+	DemoBasicTypes,
+	DemoWithDescription,
+	DemoWithAction,
+	DemoPromise,
+	DemoLoading,
+	DemoCustomDuration,
+	DemoCustomJSX,
+} from "@/components/docs/sonner-demos";
+
+<ComponentPage
+	title="Sonner"
+	description="Stacked toast notification system with promise/loading states, built on the sonner library with Unified UI styling. Trigger toasts from anywhere using the toast() function."
+	preview={<DemoOverview />}
+	code={`import { toast } from "@work-rjkashyap/unified-ui";
+
+toast("Event has been created");
+toast.success("Profile updated!");
+toast.error("Something went wrong");
+toast.warning("This action is irreversible");
+toast.info("New version available");`}
+
+>
+
+<Callout type="info">
+	This component requires the `sonner` package, which is included as a
+	dependency of `@work-rjkashyap/unified-ui`.
+</Callout>
+
+## Import
+
+```tsx
+import { SonnerToaster, toast } from "@work-rjkashyap/unified-ui";
+// or
+import { SonnerToaster, toast } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Setup
+
+Place `<SonnerToaster />` once in your root layout:
+
+```tsx
+// app/layout.tsx
+import { SonnerToaster } from "@work-rjkashyap/unified-ui";
+
+export default function RootLayout({ children }) {
+	return (
+		<html>
+			<body>
+				{children}
+				<SonnerToaster />
+			</body>
+		</html>
+	);
+}
+```
+
+---
+
+## Examples
+
+### Basic Toasts
+
+<ComponentPage
+	title="Basic Toast Types"
+	description="Five semantic toast types for different feedback contexts."
+	preview={<DemoBasicTypes />}
+	code={`toast("A simple notification");
+toast.success("Changes saved successfully");
+toast.error("Failed to save changes");
+toast.warning("Storage almost full");
+toast.info("Update available");`}
+/>
+
+### With Description
+
+<ComponentPage
+	title="Toast with Description"
+	description="Add a longer description below the title for additional context."
+	preview={<DemoWithDescription />}
+	code={`toast.success("Profile updated", {
+  description: "Your changes have been saved and will be visible to others.",
+});
+
+toast.error("Upload failed", {
+description: "The file exceeds the 10MB size limit. Please compress and try again.",
+});`}
+/>
+
+### With Action
+
+<ComponentPage
+	title="Toast with Action"
+	description="Attach an action button to the toast for undo, retry, or navigation patterns."
+	preview={<DemoWithAction />}
+	code={`toast("File deleted", {
+  description: "report-q4.pdf was moved to trash.",
+  action: {
+    label: "Undo",
+    onClick: () => restoreFile(),
+  },
+});
+
+toast.error("Connection lost", {
+description: "Unable to reach the server.",
+action: {
+label: "Retry",
+onClick: () => reconnect(),
+},
+});`}
+/>
+
+### Promise-Based
+
+<ComponentPage
+	title="Promise Toast"
+	description="Automatically transitions from loading → success or error based on a promise resolution."
+	preview={<DemoPromise />}
+	code={`toast.promise(uploadFile(), {
+  loading: "Uploading file...",
+  success: "File uploaded successfully!",
+  error: "Upload failed. Please try again.",
+});
+
+toast.promise(sendEmail(), {
+loading: "Sending email...",
+success: "Email sent!",
+error: "Failed to send email.",
+});`}
+/>
+
+### Loading Toast
+
+<ComponentPage
+	title="Loading Toast"
+	description="Show a persistent loading toast that you dismiss manually when the operation completes."
+	preview={<DemoLoading />}
+	code={`const id = toast.loading("Processing payment...");
+
+// Later, when done:
+toast.success("Payment complete!", { id });
+
+// Or on error:
+toast.error("Payment failed", { id });`}
+/>
+
+### Custom Duration
+
+<ComponentPage
+	title="Custom Duration"
+	description="Override the default 4-second auto-dismiss with a custom duration, or set Infinity for persistent toasts."
+	preview={<DemoCustomDuration />}
+	code={`// Quick toast
+toast.info("This disappears quickly", { duration: 1500 });
+
+// Long toast
+toast.warning("This stays for 10 seconds", { duration: 10000 });
+
+// Persistent (must be dismissed manually)
+toast.info("This stays until dismissed", { duration: Infinity });`}
+/>
+
+### Custom JSX
+
+<ComponentPage
+	title="Custom JSX Toast"
+	description="Render completely custom content inside a toast using toast.custom()."
+	preview={<DemoCustomJSX />}
+	code={`toast.custom((id) => (
+  <div className="flex items-center gap-3 bg-background border border-border rounded-lg p-3 shadow-lg">
+    <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+      <Mail className="size-4" />
+    </div>
+    <div className="flex-1 min-w-0">
+      <p className="font-medium text-sm">New message</p>
+      <p className="text-xs text-muted-foreground truncate">
+        Hey! Are you available for a quick call?
+      </p>
+    </div>
+    <Button size="sm" variant="ghost" onClick={() => toast.dismiss(id)}>
+      Dismiss
+    </Button>
+  </div>
+));`}
+/>
+
+---
+
+## Props (SonnerToaster)
+
+| Prop            | Type                                                  | Default          | Description                            |
+| --------------- | ----------------------------------------------------- | ---------------- | -------------------------------------- |
+| `position`      | `"top-left" \| "top-center" \| ... \| "bottom-right"` | `"bottom-right"` | Toast stack position.                  |
+| `richColors`    | `boolean`                                             | `true`           | Use distinct colors per toast type.    |
+| `closeButton`   | `boolean`                                             | `true`           | Show close button on each toast.       |
+| `duration`      | `number`                                              | `4000`           | Auto-dismiss duration in ms.           |
+| `visibleToasts` | `number`                                              | `3`              | Max visible toasts at once.            |
+| `expand`        | `boolean`                                             | `true`           | Expand toast stack on hover.           |
+| `theme`         | `"light" \| "dark" \| "system"`                       | `"system"`       | Theme override.                        |
+| `offset`        | `number \| string`                                    | `16`             | Offset from viewport edge.             |
+| `gap`           | `number`                                              | `14`             | Gap between toasts.                    |
+| `toastOptions`  | `object`                                              | —                | Custom class names for toast elements. |
+| `className`     | `string`                                              | —                | Additional CSS classes on container.   |
+
+---
+
+## toast() API
+
+| Method            | Description                               |
+| ----------------- | ----------------------------------------- |
+| `toast(message)`  | Default toast.                            |
+| `toast.success()` | Success toast with green styling.         |
+| `toast.error()`   | Error toast with red styling.             |
+| `toast.warning()` | Warning toast with amber styling.         |
+| `toast.info()`    | Info toast with blue styling.             |
+| `toast.loading()` | Persistent loading toast with spinner.    |
+| `toast.promise()` | Promise-based with loading/success/error. |
+| `toast.custom()`  | Render custom JSX.                        |
+| `toast.dismiss()` | Dismiss a toast by ID.                    |
+
+### Toast Options
+
+| Option        | Type                                     | Description                     |
+| ------------- | ---------------------------------------- | ------------------------------- |
+| `description` | `string`                                 | Body text below the title.      |
+| `duration`    | `number`                                 | Override auto-dismiss duration. |
+| `action`      | `{ label: string, onClick: () => void }` | Action button config.           |
+| `cancel`      | `{ label: string, onClick: () => void }` | Cancel button config.           |
+| `id`          | `string \| number`                       | Custom toast ID for updates.    |
+| `icon`        | `ReactNode`                              | Custom icon.                    |
+| `onDismiss`   | `() => void`                             | Callback when toast dismisses.  |
+
+---
+
+## Accessibility
+
+- Toasts use `role="status"` and `aria-live="polite"` for screen reader announcements.
+- Keyboard dismissible via `Escape` or the close button.
+- Focus management handled by sonner internally.
+- Action and cancel buttons are fully keyboard accessible.
+
+<Callout type="info">
+	For critical, blocking messages that require user action, use `AlertDialog`
+	or `ConfirmDialog` instead of toast notifications.
+</Callout>
+
+---
+
+## Design Tokens
+
+| Token                  | Usage                    |
+| ---------------------- | ------------------------ |
+| `--background`         | Toast background         |
+| `--foreground`         | Toast title text         |
+| `--muted-foreground`   | Toast description text   |
+| `--border`             | Toast border             |
+| `--primary`            | Action button background |
+| `--primary-foreground` | Action button text       |
+| `--secondary`          | Cancel button background |
+| `--success`            | Success toast accent     |
+| `--danger`             | Error toast accent       |
+| `--warning`            | Warning toast accent     |
+| `--info`               | Info toast accent        |
+| `--radius-lg`          | Toast border radius      |
+| `--shadow-lg`          | Toast shadow             |
+
+</ComponentPage>

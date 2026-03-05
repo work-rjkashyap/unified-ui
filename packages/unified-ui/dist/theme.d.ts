@@ -24,7 +24,7 @@ declare function buildDarkThemeVars(): Record<string, string>;
 /** Returns the complete CSS text for both :root (light) and .dark themes */
 declare function buildThemeCSS(): string;
 declare const contract: {
-    readonly color: Record<"input" | "popover" | "disabled" | "info" | "success" | "warning" | "danger" | "border" | "background" | "primary" | "secondary" | "card" | "sidebar" | "muted" | "foreground" | "focusRing" | "surface" | "surfaceRaised" | "surfaceOverlay" | "cardForeground" | "popoverForeground" | "mutedForeground" | "primaryForeground" | "primaryHover" | "primaryActive" | "primaryMuted" | "primaryMutedForeground" | "secondaryForeground" | "secondaryHover" | "secondaryActive" | "accent" | "accentForeground" | "successForeground" | "successMuted" | "successMutedForeground" | "warningForeground" | "warningMuted" | "warningMutedForeground" | "dangerForeground" | "dangerHover" | "dangerActive" | "dangerMuted" | "dangerMutedForeground" | "destructive" | "destructiveForeground" | "infoForeground" | "infoMuted" | "infoMutedForeground" | "borderMuted" | "borderStrong" | "ring" | "inputForeground" | "inputPlaceholder" | "disabledForeground" | "chart1" | "chart2" | "chart3" | "chart4" | "chart5" | "sidebarForeground" | "sidebarPrimary" | "sidebarPrimaryForeground" | "sidebarAccent" | "sidebarAccentForeground" | "sidebarBorder" | "sidebarRing", string>;
+    readonly color: Record<"input" | "popover" | "disabled" | "background" | "border" | "info" | "success" | "warning" | "danger" | "primary" | "secondary" | "card" | "sidebar" | "muted" | "foreground" | "focusRing" | "surface" | "surfaceRaised" | "surfaceOverlay" | "cardForeground" | "popoverForeground" | "mutedForeground" | "primaryForeground" | "primaryHover" | "primaryActive" | "primaryMuted" | "primaryMutedForeground" | "secondaryForeground" | "secondaryHover" | "secondaryActive" | "accent" | "accentForeground" | "successForeground" | "successMuted" | "successMutedForeground" | "warningForeground" | "warningMuted" | "warningMutedForeground" | "dangerForeground" | "dangerHover" | "dangerActive" | "dangerMuted" | "dangerMutedForeground" | "destructive" | "destructiveForeground" | "infoForeground" | "infoMuted" | "infoMutedForeground" | "borderMuted" | "borderStrong" | "ring" | "inputForeground" | "inputPlaceholder" | "disabledForeground" | "chart1" | "chart2" | "chart3" | "chart4" | "chart5" | "sidebarForeground" | "sidebarPrimary" | "sidebarPrimaryForeground" | "sidebarAccent" | "sidebarAccentForeground" | "sidebarBorder" | "sidebarRing", string>;
     readonly radius: Record<"sm" | "md" | "none" | "lg" | "xl" | "full", string>;
     readonly shadow: Record<"sm" | "md" | "none" | "xs" | "lg" | "xl" | "2xl" | "focusRing", string>;
     readonly zIndex: Record<"base" | "popover" | "tooltip" | "max" | "modal" | "overlay" | "sticky" | "toast" | "dropdown", string>;
@@ -228,7 +228,43 @@ interface SurfaceStylePreset {
 }
 declare const SURFACE_STYLE_PRESETS: readonly SurfaceStylePreset[];
 declare const DEFAULT_SURFACE_STYLE_KEY = "bordered";
+interface StylePreset {
+    readonly name: string;
+    readonly key: string;
+    readonly description: string;
+    /** SVG path data for the style icon (rendered in a 24x24 viewBox) */
+    readonly iconPath: string;
+    /** Recommended sub-preset keys applied when this style is selected */
+    readonly defaults: {
+        readonly radius: string;
+        readonly font: string;
+        readonly shadow: string;
+        readonly surfaceStyle: string;
+    };
+    /** Component-level CSS custom property overrides (mode-independent) */
+    readonly vars: {
+        /** Base spacing unit multiplier (rem). Default is 1. */
+        readonly spacingUnit: string;
+        /** Card/surface inner padding (rem) */
+        readonly paddingCard: string;
+        /** Button horizontal padding (rem) */
+        readonly paddingButtonX: string;
+        /** Button vertical padding (rem) */
+        readonly paddingButtonY: string;
+        /** Default gap between elements (rem) */
+        readonly gapDefault: string;
+        /** Border width for bordered elements */
+        readonly borderWidth: string;
+        /** Input/control height (rem) */
+        readonly controlHeight: string;
+    };
+}
+declare const STYLE_PRESETS: readonly StylePreset[];
+declare const DEFAULT_STYLE_KEY = "vega";
+declare function getStylePreset(key: string): StylePreset;
 interface ThemeConfig {
+    /** Style preset key (e.g. "vega", "nova", "maia", "lyra", "mira") */
+    style: string;
     /** Color preset key (e.g. "zinc", "blue", "rose") */
     colorPreset: string;
     /** Radius preset key (e.g. "0.5", "0.625") */
@@ -262,6 +298,8 @@ interface ThemeCustomizerContextValue {
     config: ThemeConfig;
     /** Replace the entire theme config at once */
     setConfig: (config: ThemeConfig) => void;
+    /** Set the style preset (e.g. "vega", "nova", "maia", "lyra", "mira") and apply its defaults */
+    setStyle: (key: string) => void;
     /** Set just the color preset (e.g. "zinc", "blue", "rose") */
     setColorPreset: (key: string) => void;
     /** Set just the radius preset (e.g. "0.5", "0.625") */
@@ -373,4 +411,4 @@ interface DSThemeProviderProps {
  */
 declare function DSThemeProvider({ children, defaultTheme, manageHtmlClass, }: DSThemeProviderProps): react_jsx_runtime.JSX.Element;
 
-export { COLOR_PRESETS, COLOR_PRESET_KEYS, type ColorPreset, type ColorPresetKey, type ColorVarName, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, type DSThemeContextValue, DSThemeProvider, type DSThemeProviderProps, type DurationVarName, type EasingVarName, FONT_PRESETS, type FontFamilyVarName, type FontPreset, type PresetSemanticColors, RADIUS_PRESETS, type RadiusPreset, type RadiusVarName, type ResolvedTheme, SHADOW_PRESETS, SURFACE_STYLE_PRESETS, type ShadowPreset, type ShadowVarName, type SurfaceStylePreset, type ThemeConfig, ThemeCustomizer, type ThemeCustomizerContextValue, type ThemeCustomizerProps, ThemeCustomizerProvider, type ThemeCustomizerProviderProps, type ThemeMode, type ThemeVars, type ZIndexVarName, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, useDSTheme, useThemeCustomizer };
+export { COLOR_PRESETS, COLOR_PRESET_KEYS, type ColorPreset, type ColorPresetKey, type ColorVarName, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_STYLE_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, type DSThemeContextValue, DSThemeProvider, type DSThemeProviderProps, type DurationVarName, type EasingVarName, FONT_PRESETS, type FontFamilyVarName, type FontPreset, type PresetSemanticColors, RADIUS_PRESETS, type RadiusPreset, type RadiusVarName, type ResolvedTheme, SHADOW_PRESETS, STYLE_PRESETS, SURFACE_STYLE_PRESETS, type ShadowPreset, type ShadowVarName, type StylePreset, type SurfaceStylePreset, type ThemeConfig, ThemeCustomizer, type ThemeCustomizerContextValue, type ThemeCustomizerProps, ThemeCustomizerProvider, type ThemeCustomizerProviderProps, type ThemeMode, type ThemeVars, type ZIndexVarName, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, getStylePreset, useDSTheme, useThemeCustomizer };

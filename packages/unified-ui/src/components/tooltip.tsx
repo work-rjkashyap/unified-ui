@@ -34,7 +34,9 @@
 //   </Tooltip>
 // ============================================================================
 
+import { fadeInFast } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
+import { motion, useReducedMotion } from "framer-motion";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
@@ -181,44 +183,51 @@ const TooltipContent = forwardRef<
   },
   ref,
 ) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <TooltipPrimitive.Content
       ref={ref}
       sideOffset={sideOffset}
-      className={cn(
-        // Layout
-        "z-[var(--z-tooltip)]",
-        "px-3 py-1.5",
-        "overflow-hidden",
-        // Visual
-        "rounded-md",
-        "border border-border",
-        "bg-foreground text-background",
-        "shadow-md",
-        // Typography
-        "text-xs leading-4",
-        // Animation
-        "data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-        "data-[side=top]:slide-in-from-bottom-2",
-        "data-[side=bottom]:slide-in-from-top-2",
-        "data-[side=left]:slide-in-from-right-2",
-        "data-[side=right]:slide-in-from-left-2",
-        className,
-      )}
-      style={{ maxWidth }}
-      data-ds=""
-      data-ds-component="tooltip"
+      asChild
       {...rest}
     >
-      {children}
-      {showArrow && (
-        <TooltipPrimitive.Arrow
-          className="fill-foreground"
-          width={8}
-          height={4}
-        />
-      )}
+      <motion.div
+        className={cn(
+          // Layout
+          "z-[var(--z-tooltip)]",
+          "px-3 py-1.5",
+          "overflow-hidden",
+          // Visual
+          "rounded-md",
+          "border border-border",
+          "bg-foreground text-background",
+          "shadow-md",
+          // Typography
+          "text-xs leading-4",
+          className,
+        )}
+        style={{ maxWidth }}
+        variants={shouldReduce ? undefined : fadeInFast.variants}
+        initial={shouldReduce ? { opacity: 0 } : "initial"}
+        animate={shouldReduce ? { opacity: 1 } : "animate"}
+        exit={shouldReduce ? { opacity: 0 } : "exit"}
+        transition={
+          shouldReduce ? { duration: 0.1 } : fadeInFast.transition
+        }
+        data-ds=""
+        data-ds-component="tooltip"
+        data-ds-animated=""
+      >
+        {children}
+        {showArrow && (
+          <TooltipPrimitive.Arrow
+            className="fill-foreground"
+            width={8}
+            height={4}
+          />
+        )}
+      </motion.div>
     </TooltipPrimitive.Content>
   );
 });

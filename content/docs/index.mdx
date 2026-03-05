@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Install and configure Unified UI in your React project.
+description: Install and configure Unified UI in your React project — via npm package or copy-paste CLI.
 icon: Rocket
 ---
 
@@ -10,14 +10,17 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
 ## What is Unified UI?
 
-Unified UI is a **token-driven React design system** built with Tailwind CSS v4 and Framer Motion. It provides a complete set of accessible, composable components that share a consistent visual language through design tokens and CSS custom properties.
+Unified UI is a **token-driven React design system** built with Tailwind CSS v4, Radix UI, and Framer Motion. It ships **75+ accessible, composable components** that share a consistent visual language through design tokens and CSS custom properties.
+
+Inspired by [shadcn/ui](https://ui.shadcn.com), Unified UI takes the same Radix + Tailwind + CVA foundation and structures it into a proper design system with tokens, strict layers, and versioned releases.
 
 ### Key Principles
 
 - **Token-driven** — Every color, spacing value, radius, shadow, and motion timing comes from a single source of truth. No hardcoded values.
-- **Accessible by default** — All components meet WCAG AA standards with proper ARIA attributes, keyboard navigation, and focus management.
+- **Accessible by default** — Built on Radix UI primitives. All components meet WCAG AA standards with proper ARIA attributes, keyboard navigation, and focus management.
 - **Composable** — Small primitives compose into complex components. Use the layer that fits your needs.
 - **Theme-aware** — Light and dark modes via CSS custom properties. Switch themes at runtime with zero flash.
+- **Two distribution modes** — Install the full npm package _or_ copy-paste individual components with the CLI. Same quality, your choice.
 
 ### Architecture
 
@@ -35,20 +38,40 @@ Tokens → Theme → Primitives → Components
 | **Tokens**     | Raw design values — colors, spacing, typography, radius, shadows, z-index, motion |
 | **Theme**      | CSS variable contract, theme provider, light/dark mode                            |
 | **Primitives** | Typography, Container, Stack, Grid, Divider                                       |
-| **Components** | 24+ composite components (Button, Dialog, Tabs, Toast, etc.)                      |
+| **Components** | 75+ composite components (Button, Dialog, DataTable, Sidebar, etc.)               |
 | **Motion**     | Framer Motion animation presets and stagger utilities                             |
 | **Utils**      | `cn()`, focus ring helpers, contrast checking, polymorphic types                  |
 
 ---
 
-## Installation
+## Choose Your Workflow
+
+Unified UI supports two ways to use components. Pick the one that fits your team:
+
+|               | **npm Package**                       | **Copy & Paste CLI**                         |
+| ------------- | ------------------------------------- | -------------------------------------------- |
+| **Install**   | `npm i @work-rjkashyap/unified-ui`    | `npx @work-rjkashyap/unified-ui add button`  |
+| **Updates**   | Semver releases via npm               | Re-run CLI to pull latest                    |
+| **Ownership** | Library code stays in `node_modules`  | Source files copied into your project        |
+| **Best for**  | Teams wanting zero-config consistency | Teams wanting full control and customization |
+
+<Callout type="info">
+	Both workflows use the **same components, same tokens, same accessibility**.
+	The only difference is where the code lives.
+</Callout>
+
+---
+
+## Option A: npm Package (Recommended)
+
+The simplest path — install once, import anything.
 
 <Steps>
 
 <Step>
 ### Install the package
 
-<Tabs items={['npm', 'pnpm', 'yarn']}>
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
 <Tab value="npm">
 
 ```bash
@@ -67,6 +90,13 @@ pnpm add @work-rjkashyap/unified-ui
 
 ```bash
 yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
 ```
 
 </Tab>
@@ -97,7 +127,7 @@ Add the Unified UI stylesheet to your global CSS file. This provides all the CSS
 If you need runtime theme switching (light/dark), wrap your app with `DSThemeProvider`:
 
 ```tsx title="app/providers.tsx"
-import { DSThemeProvider } from "@work-rjkashyap/unified-ui";
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	return <DSThemeProvider>{children}</DSThemeProvider>;
@@ -131,9 +161,112 @@ export default function Page() {
 
 ---
 
+## Option B: Copy & Paste CLI
+
+Like shadcn/ui — components are copied directly into your project. You own the source and can modify anything.
+
+<Steps>
+
+<Step>
+### Initialize your project
+
+Run the `init` command to create a `unified-ui.json` config file and set up path aliases:
+
+```bash
+npx @work-rjkashyap/unified-ui init
+```
+
+This creates a config file that tells the CLI where to put components and utilities:
+
+```json title="unified-ui.json"
+{
+	"aliases": {
+		"components": "@/components/ui",
+		"utils": "@/lib",
+		"styles": "@/styles"
+	},
+	"src": true
+}
+```
+
+</Step>
+
+<Step>
+### Add components
+
+Add the components you need. The CLI automatically resolves and installs all dependencies (other components, utilities, and npm packages):
+
+```bash
+npx @work-rjkashyap/unified-ui add button card badge tabs
+```
+
+Or add everything at once:
+
+```bash
+npx @work-rjkashyap/unified-ui add --all
+```
+
+</Step>
+
+<Step>
+### Import from your project
+
+Components are now local files in your project:
+
+```tsx title="app/page.tsx"
+import { Button } from "@/components/ui/button";
+import { Card, CardBody } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+export default function Page() {
+	return (
+		<Card>
+			<CardBody>
+				<Badge variant="success">New</Badge>
+				<Button variant="primary">Get Started</Button>
+			</CardBody>
+		</Card>
+	);
+}
+```
+
+</Step>
+
+<Step>
+### Customize freely
+
+Edit the source files directly — change variants, sizes, animations, or add your own logic:
+
+```tsx title="src/components/ui/button.tsx"
+// This file is yours — modify anything
+// Change colors, add variants, adjust animations
+```
+
+</Step>
+
+</Steps>
+
+### CLI Commands
+
+| Command                                        | Description                                           |
+| ---------------------------------------------- | ----------------------------------------------------- |
+| `npx @work-rjkashyap/unified-ui init`          | Initialize project config and path aliases            |
+| `npx @work-rjkashyap/unified-ui add <name...>` | Add one or more components with dependency resolution |
+| `npx @work-rjkashyap/unified-ui add --all`     | Add all available components                          |
+| `npx @work-rjkashyap/unified-ui list`          | List all available registry items                     |
+| `npx @work-rjkashyap/unified-ui diff <name>`   | Compare local file against the registry version       |
+
+<Callout type="warn">
+	The CLI will **not overwrite** existing files unless you confirm. To update
+	a component, use `diff` first to review changes, then re-add with the
+	`--overwrite` flag.
+</Callout>
+
+---
+
 ## Import Patterns
 
-Unified UI supports two import styles depending on your needs:
+When using the **npm package**, Unified UI supports two import styles:
 
 ### Barrel import
 
@@ -148,13 +281,87 @@ import { Button, Heading, fadeIn, cn } from "@work-rjkashyap/unified-ui";
 For better tree-shaking in larger applications, import from specific sub-paths:
 
 ```tsx
+// Layer 1 — Tokens
 import { spacing, radius } from "@work-rjkashyap/unified-ui/tokens";
+
+// Layer 2 — Theme
 import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+
+// Layer 3 — Primitives
 import { Typography, Heading } from "@work-rjkashyap/unified-ui/primitives";
+
+// Layer 4 — Components
 import { Button, Dialog } from "@work-rjkashyap/unified-ui/components";
+
+// Layer 5 — Motion
 import { slideUp, motionProps } from "@work-rjkashyap/unified-ui/motion";
+
+// Layer 6 — Utils
 import { cn, mergeSlots } from "@work-rjkashyap/unified-ui/utils";
 ```
+
+<Callout type="info">
+	Layer-specific imports produce smaller bundles because your bundler can
+	tree-shake unused layers entirely. Recommended for production apps.
+</Callout>
+
+---
+
+## Project Structure
+
+After setup, here's how Unified UI fits into a typical Next.js project:
+
+### npm Package
+
+```
+your-app/
+├── app/
+│   ├── globals.css          ← @import "@work-rjkashyap/unified-ui/styles.css"
+│   ├── providers.tsx        ← DSThemeProvider wrapper
+│   └── page.tsx             ← Import components from the package
+├── package.json             ← @work-rjkashyap/unified-ui in dependencies
+└── tsconfig.json
+```
+
+### Copy & Paste CLI
+
+```
+your-app/
+├── src/
+│   ├── components/
+│   │   └── ui/              ← Components added by the CLI
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       └── badge.tsx
+│   ├── lib/
+│   │   ├── cn.ts            ← Utility added by the CLI
+│   │   └── focus-ring.ts
+│   └── styles/
+│       └── unified-ui.css   ← Design system CSS variables
+├── unified-ui.json          ← CLI configuration
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## Requirements
+
+| Dependency        | Minimum Version | Notes                                                 |
+| ----------------- | --------------- | ----------------------------------------------------- |
+| **React**         | 19.0+           | Required peer dependency                              |
+| **React DOM**     | 19.0+           | Required peer dependency                              |
+| **Tailwind CSS**  | 4.0+            | Required for utility classes and `@theme` integration |
+| **Framer Motion** | 11.0+           | Required for animated components and motion presets   |
+
+### Optional Dependencies
+
+These are included automatically when using the npm package, or installed by the CLI when needed:
+
+- **@radix-ui/react-\*** — Individual Radix primitives for accessible interactive components
+- **class-variance-authority** — Type-safe variant composition
+- **tailwind-merge** — Intelligent Tailwind class merging (used by `cn()`)
+- **clsx** — Conditional class string construction
 
 ---
 
@@ -169,7 +376,7 @@ import { cn, mergeSlots } from "@work-rjkashyap/unified-ui/utils";
 	<Card
 		title="Tokens"
 		description="Explore the design tokens that power every component."
-		href="/docs/design-system/tokens"
+		href="/docs/tokens"
 	/>
 	<Card
 		title="Components"
@@ -179,6 +386,6 @@ import { cn, mergeSlots } from "@work-rjkashyap/unified-ui/utils";
 	<Card
 		title="Theming"
 		description="Learn how to customize colors, modes, and CSS variables."
-		href="/docs/design-system/theming"
+		href="/docs/theming"
 	/>
 </Cards>

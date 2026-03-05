@@ -46,7 +46,9 @@
 //   </DropdownMenu>
 // ============================================================================
 
+import { scaleIn } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
+import { motion, useReducedMotion } from "framer-motion";
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
@@ -228,13 +230,8 @@ const menuContentBase = [
   "p-1",
   "shadow-lg",
   "text-foreground",
-  // Animation
-  "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-  "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-  "data-[side=top]:slide-in-from-bottom-2",
-  "data-[side=bottom]:slide-in-from-top-2",
-  "data-[side=left]:slide-in-from-right-2",
-  "data-[side=right]:slide-in-from-left-2",
+  // Note: Animation is handled by Framer Motion (scaleIn preset).
+  // CSS animation classes removed in favour of FM spring physics.
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -281,17 +278,31 @@ export const DropdownMenuContent = forwardRef<
   { className, children, sideOffset = 4, ...rest },
   ref,
 ) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
         ref={ref}
         sideOffset={sideOffset}
-        className={cn(...menuContentBase, className)}
-        data-ds=""
-        data-ds-component="dropdown-menu-content"
+        asChild
         {...rest}
       >
-        {children}
+        <motion.div
+          className={cn(...menuContentBase, className)}
+          variants={shouldReduce ? undefined : scaleIn.variants}
+          initial={shouldReduce ? { opacity: 0 } : "initial"}
+          animate={shouldReduce ? { opacity: 1 } : "animate"}
+          exit={shouldReduce ? { opacity: 0 } : "exit"}
+          transition={
+            shouldReduce ? { duration: 0.15 } : scaleIn.transition
+          }
+          data-ds=""
+          data-ds-component="dropdown-menu-content"
+          data-ds-animated=""
+        >
+          {children}
+        </motion.div>
       </DropdownMenuPrimitive.Content>
     </DropdownMenuPrimitive.Portal>
   );
@@ -500,16 +511,30 @@ export const DropdownMenuSubContent = forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>,
   DropdownMenuSubContentProps
 >(function DropdownMenuSubContent({ className, children, ...rest }, ref) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.SubContent
         ref={ref}
-        className={cn(...menuContentBase, className)}
-        data-ds=""
-        data-ds-component="dropdown-menu-sub-content"
+        asChild
         {...rest}
       >
-        {children}
+        <motion.div
+          className={cn(...menuContentBase, className)}
+          variants={shouldReduce ? undefined : scaleIn.variants}
+          initial={shouldReduce ? { opacity: 0 } : "initial"}
+          animate={shouldReduce ? { opacity: 1 } : "animate"}
+          exit={shouldReduce ? { opacity: 0 } : "exit"}
+          transition={
+            shouldReduce ? { duration: 0.15 } : scaleIn.transition
+          }
+          data-ds=""
+          data-ds-component="dropdown-menu-sub-content"
+          data-ds-animated=""
+        >
+          {children}
+        </motion.div>
       </DropdownMenuPrimitive.SubContent>
     </DropdownMenuPrimitive.Portal>
   );

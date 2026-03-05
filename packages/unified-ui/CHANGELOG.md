@@ -10,6 +10,99 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `UnifiedUIProvider` component for optional auto CSS injection
 - Component tests with Vitest + Testing Library
 ---
+
+## [0.2.0] — 2026-03-05
+### Added
+#### 40 New Components
+- **AlertDialog** — Radix-based modal confirmation dialog with composable header/body/footer
+- **AspectRatio** — Radix-based responsive aspect-ratio container
+- **Banner** — Full-width notification banner with variants
+- **Calendar** — Date calendar component for date selection
+- **Callout** — Highlighted contextual message block with icon support
+- **Carousel** — Scrollable content carousel with navigation controls
+- **Code** — Styled code block with syntax formatting
+- **Collapsible** — Radix-based expandable/collapsible content region
+- **Combobox** — Searchable dropdown with keyboard navigation and filtering
+- **Command** — Command palette / search interface (cmdk-style)
+- **ConfirmDialog** — Simplified confirmation dialog with accept/cancel actions
+- **ContextMenu** — Radix-based right-click context menu with items, sub-menus, and shortcuts
+- **CopyButton** — Click-to-copy button with success feedback
+- **DataList** — Key-value display list for structured data
+- **DatePicker** — Calendar-powered date input with popover picker
+- **EmptyState** — Placeholder for empty content areas with icon, title, description, and action
+- **FileUpload** — Drag-and-drop file upload zone with file list management
+- **FormField** — Form field wrapper with label, description, error message, and validation state
+- **HoverCard** — Radix-based hover-triggered floating card
+- **InputGroup** — Grouped input with addon/prefix/suffix slots
+- **Kbd** — Keyboard shortcut key display
+- **Label** — Standalone form label component (extracted from primitives)
+- **Menubar** — Radix-based horizontal menu bar with dropdowns, checkbox items, and radio items
+- **NavigationMenu** — Radix-based site navigation with flyout content panels
+- **NumberInput** — Numeric input with increment/decrement controls
+- **PinInput** — Multi-digit OTP / PIN code input with auto-focus advancement
+- **Progress** — Determinate and indeterminate progress bar with label
+- **Resizable** — Resizable panel layout powered by `react-resizable-panels`
+- **ScrollArea** — Radix-based custom scrollbar container (vertical + horizontal)
+- **SearchInput** — Input with search icon, clear button, and keyboard shortcut hint
+- **Sidebar** — Collapsible application sidebar with sections, items, and nested groups
+- **Slider** — Radix-based range slider with single and multi-thumb support
+- **Spinner** — Loading spinner with size variants
+- **Stat** — Statistic display with label, value, and trend indicator
+- **Steps** — Multi-step progress indicator with vertical/horizontal orientation
+- **Tag** — Compact label/tag with removable action
+- **Timeline** — Vertical timeline with customizable markers and connectors
+- **Toggle** — Radix-based toggle button with multiple visual variants, sizes, and icon support
+- **ToggleGroup** — Radix-based single/multi toggle group with shared styling
+- **VisuallyHidden** — Accessible screen-reader-only content wrapper
+
+#### 13 New Motion Presets
+- **`shakeX`** — Horizontal shake for invalid input feedback
+- **`springHover`** — Spring-based hover micro-interaction
+- **`springPress`** — Spring-based press micro-interaction
+- **`countUp`** — Animated number count-up
+- **`crossfade`** — Crossfade transition between elements
+- **`dragDismiss`** — Drag-to-dismiss gesture preset
+- **`numberRoll`** — Rolling number transition
+- **`revealMask`** — Mask-based content reveal
+- **`slidePanelTop`** — Directional slide panel from top
+- **`slidePanelBottom`** — Directional slide panel from bottom
+- **`slidePanelLeft`** — Directional slide panel from left
+- **`slidePanelRight`** — Directional slide panel from right
+
+### Changed
+#### Component Refactors
+- **Accordion** — Major rewrite with improved variant composition and accessibility
+- **Breadcrumb** — Refactored with enhanced composability and truncation logic
+- **Button** — Expanded with new variants and improved styles (618 lines changed)
+- **Card** — Restructured composable sub-components
+- **Checkbox** — Overhauled with `CheckboxGroup` improvements
+- **DataTable** — Major refactor with enhanced filtering, sorting, and pagination (3480 lines changed)
+- **Dialog** — Restructured with improved sizing and scroll behavior
+- **DropdownMenu** — Refactored sub-component exports and styling
+- **Input** — Enhanced with new slot patterns and error states
+- **Pagination** — Rewritten with improved responsive behavior
+- **Popover** — Cleaned up code structure and formatting
+- **Radio** — Refactored `RadioGroup` / `RadioGroupItem` / `RadioCard` styling
+- **Select** — Updated compositional sub-component pattern
+- **Sheet** — Improved directional slide-out behavior
+- **Switch** — Enhanced with new size and label options
+- **Table** — Expanded density and styling options
+- **Tabs** — Reworked variant composition for underline/segment/pills
+- **Textarea** — Improved auto-resize and character count logic
+- **Toast** — Major refactor with improved stacking and animations (1209 lines changed)
+
+#### Code Cleanup
+- Cleaned up formatting and structure in **NavigationMenu**, **Popover**, and **ScrollArea** components
+- Updated `styles.css` with restructured CSS custom properties and new token categories
+- Improved `tokens/colors.ts` with expanded palette definitions
+- Updated `utils/contrast.ts` with refined WCAG checking utilities
+- Updated `motion/presets.ts` — `reduceMotion()` signature cleaned up (unused parameter prefixed with `_`)
+
+#### Other
+- Updated `UNIFIED_UI_VERSION` exported constant from `"0.1.2"` to `"0.2.0"`
+- Component count increased from 23 to 63+
+- Barrel exports in `components/index.ts` and `src/index.ts` expanded for all new components
+---
 ## [0.1.2] — 2026-03-03
 ### Added
 #### Theme Customizer System

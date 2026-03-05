@@ -114,9 +114,9 @@ export const inputVariants = cva(
 
         /**
          * Medium — default size for most inputs.
-         * Height: 36px (h-9)
+         * Height: var(--ds-control-height)
          */
-        md: "h-9 px-3 text-sm",
+        md: "h-(--ds-control-height) px-3 text-sm",
 
         /**
          * Large — prominent inputs for hero sections, forms.

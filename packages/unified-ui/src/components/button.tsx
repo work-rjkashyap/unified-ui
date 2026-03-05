@@ -137,9 +137,9 @@ export const buttonVariants = cva(
 
         /**
          * Medium — default size for most buttons.
-         * Height: 36px (h-9), Padding: 16px horizontal, Font: 14px
+         * Height: var(--ds-control-height), Padding: var(--ds-padding-button-x), Font: 14px
          */
-        md: "h-9 px-4 text-sm gap-2",
+        md: "h-(--ds-control-height) px-(--ds-padding-button-x) text-sm gap-2",
 
         /**
          * Large — prominent buttons for hero sections, forms.

@@ -24,30 +24,30 @@ The motion system provides:
 
 ## Motion Tokens
 
-All animation timing originates from the [motion tokens](/docs/design-system/tokens#motion). The preset layer builds on these tokens — you never hardcode duration or easing values.
+All animation timing originates from the [motion tokens](/docs/tokens#motion). The preset layer builds on these tokens — you never hardcode duration or easing values.
 
 ### Durations
 
-| Token      | Value  | Use Case                                     |
-| ---------- | ------ | -------------------------------------------- |
-| `instant`  | 0ms    | Instant feedback — no visible transition      |
-| `fast`     | 100ms  | Micro-interactions — focus rings, icon swaps  |
-| `moderate` | 150ms  | Snappy transitions — tooltips, small toggles  |
-| `normal`   | 200ms  | Standard — dropdowns, accordions, tabs        |
-| `slow`     | 300ms  | Emphasis — modals, drawers, slide-ins         |
-| `slower`   | 400ms  | Complex orchestrated animations               |
-| `slowest`  | 500ms  | Long-form — skeleton loaders, progress        |
+| Token      | Value | Use Case                                     |
+| ---------- | ----- | -------------------------------------------- |
+| `instant`  | 0ms   | Instant feedback — no visible transition     |
+| `fast`     | 100ms | Micro-interactions — focus rings, icon swaps |
+| `moderate` | 150ms | Snappy transitions — tooltips, small toggles |
+| `normal`   | 200ms | Standard — dropdowns, accordions, tabs       |
+| `slow`     | 300ms | Emphasis — modals, drawers, slide-ins        |
+| `slower`   | 400ms | Complex orchestrated animations              |
+| `slowest`  | 500ms | Long-form — skeleton loaders, progress       |
 
 ### Easing Curves
 
-| Token        | Value                                | Use Case                        |
-| ------------ | ------------------------------------ | ------------------------------- |
-| `standard`   | `cubic-bezier(0.2, 0, 0.38, 0.9)`   | General-purpose transitions     |
-| `decelerate` | `cubic-bezier(0, 0, 0.2, 1)`        | Enter animations                |
-| `accelerate` | `cubic-bezier(0.4, 0, 1, 1)`        | Exit animations                 |
-| `emphasize`  | `cubic-bezier(0, 0, 0.15, 1)`       | Attention-drawing motion        |
-| `linear`     | `cubic-bezier(0, 0, 1, 1)`          | Spinners, progress bars         |
-| `snap`       | `cubic-bezier(0.2, 0, 0, 1)`        | Toggle switches, checkboxes     |
+| Token        | Value                             | Use Case                    |
+| ------------ | --------------------------------- | --------------------------- |
+| `standard`   | `cubic-bezier(0.2, 0, 0.38, 0.9)` | General-purpose transitions |
+| `decelerate` | `cubic-bezier(0, 0, 0.2, 1)`      | Enter animations            |
+| `accelerate` | `cubic-bezier(0.4, 0, 1, 1)`      | Exit animations             |
+| `emphasize`  | `cubic-bezier(0, 0, 0.15, 1)`     | Attention-drawing motion    |
+| `linear`     | `cubic-bezier(0, 0, 1, 1)`        | Spinners, progress bars     |
+| `snap`       | `cubic-bezier(0.2, 0, 0, 1)`      | Toggle switches, checkboxes |
 
 ### Spring Configurations
 
@@ -61,7 +61,12 @@ For physics-based animations with Framer Motion:
 | `stiff`  | 500       | 35      | 1    | Dialogs, drawers (no overshoot)      |
 
 ```tsx
-import { duration, easing, spring, durationSeconds } from "@work-rjkashyap/unified-ui/tokens";
+import {
+	duration,
+	easing,
+	spring,
+	durationSeconds,
+} from "@work-rjkashyap/unified-ui/tokens";
 
 // Duration in seconds (for Framer Motion)
 console.log(durationSeconds.normal); // 0.2
@@ -114,19 +119,19 @@ import { fadeIn, fadeInFast, fadeInSlow, motionProps } from "@work-rjkashyap/uni
 
 Directional movement combined with fade. Ideal for content entering from an edge.
 
-| Preset            | Direction | Distance | Duration | Description                     |
-| ----------------- | --------- | -------- | -------- | ------------------------------- |
-| `slideUp`         | ↑ Up      | 16px     | 200ms    | Standard upward slide           |
-| `slideUpSm`       | ↑ Up      | 8px      | 200ms    | Subtle upward slide             |
-| `slideUpLg`       | ↑ Up      | 24px     | 300ms    | Large upward slide for emphasis |
-| `slideUpSpring`   | ↑ Up      | 16px     | spring   | Spring-based upward slide       |
-| `slideDown`       | ↓ Down    | 16px     | 200ms    | Standard downward slide         |
-| `slideDownSm`     | ↓ Down    | 8px      | 200ms    | Subtle downward slide           |
-| `slideLeft`       | ← Left   | 16px     | 200ms    | Standard leftward slide         |
-| `slideRight`      | → Right  | 16px     | 200ms    | Standard rightward slide        |
-| `slideInFromLeft`  | → Enter from left  | 100% | 300ms | Full-width slide from left  |
-| `slideInFromRight` | ← Enter from right | 100% | 300ms | Full-width slide from right |
-| `slideInFromBottom`| ↑ Enter from bottom| 100% | 300ms | Full-height slide from bottom|
+| Preset              | Direction           | Distance | Duration | Description                     |
+| ------------------- | ------------------- | -------- | -------- | ------------------------------- |
+| `slideUp`           | ↑ Up                | 16px     | 200ms    | Standard upward slide           |
+| `slideUpSm`         | ↑ Up                | 8px      | 200ms    | Subtle upward slide             |
+| `slideUpLg`         | ↑ Up                | 24px     | 300ms    | Large upward slide for emphasis |
+| `slideUpSpring`     | ↑ Up                | 16px     | spring   | Spring-based upward slide       |
+| `slideDown`         | ↓ Down              | 16px     | 200ms    | Standard downward slide         |
+| `slideDownSm`       | ↓ Down              | 8px      | 200ms    | Subtle downward slide           |
+| `slideLeft`         | ← Left              | 16px     | 200ms    | Standard leftward slide         |
+| `slideRight`        | → Right             | 16px     | 200ms    | Standard rightward slide        |
+| `slideInFromLeft`   | → Enter from left   | 100%     | 300ms    | Full-width slide from left      |
+| `slideInFromRight`  | ← Enter from right  | 100%     | 300ms    | Full-width slide from right     |
+| `slideInFromBottom` | ↑ Enter from bottom | 100%     | 300ms    | Full-height slide from bottom   |
 
 ```tsx
 import { motion } from "framer-motion";
@@ -160,8 +165,8 @@ Scale transitions with fade — ideal for elements that appear to grow from a po
 | Preset          | Scale Start | Duration | Description                         |
 | --------------- | ----------- | -------- | ----------------------------------- |
 | `scaleIn`       | 0.95        | 200ms    | Standard scale-in (5% growth)       |
-| `scaleInLg`     | 0.9         | 300ms    | Larger scale for emphasis            |
-| `scaleInSpring` | 0.95        | spring   | Spring-based scale for natural feel  |
+| `scaleInLg`     | 0.9         | 300ms    | Larger scale for emphasis           |
+| `scaleInSpring` | 0.95        | spring   | Spring-based scale for natural feel |
 
 ```tsx
 import { motion } from "framer-motion";
@@ -206,10 +211,10 @@ import { blurIn, blurInSubtle } from "@work-rjkashyap/unified-ui";
 
 Scale-based emphasis effects — for drawing attention to elements.
 
-| Preset      | Scale   | Duration | Description                       |
-| ----------- | ------- | -------- | --------------------------------- |
-| `pop`       | 1.05    | spring   | Standard pop effect                |
-| `popSubtle` | 1.02    | spring   | Subtle pop — less dramatic         |
+| Preset      | Scale | Duration | Description                |
+| ----------- | ----- | -------- | -------------------------- |
+| `pop`       | 1.05  | spring   | Standard pop effect        |
+| `popSubtle` | 1.02  | spring   | Subtle pop — less dramatic |
 
 ```tsx
 import { motion } from "framer-motion";
@@ -230,25 +235,25 @@ import { pop, popSubtle } from "@work-rjkashyap/unified-ui";
 
 Height-based animations for accordions, collapsibles, and disclosure patterns.
 
-| Preset             | Duration | Easing     | Description                           |
-| ------------------ | -------- | ---------- | ------------------------------------- |
-| `expandHeight`     | 200ms    | decelerate | Standard height expand                |
-| `expandHeightSlow` | 300ms    | decelerate | Slower expand for larger content      |
+| Preset             | Duration | Easing     | Description                      |
+| ------------------ | -------- | ---------- | -------------------------------- |
+| `expandHeight`     | 200ms    | decelerate | Standard height expand           |
+| `expandHeightSlow` | 300ms    | decelerate | Slower expand for larger content |
 
 ```tsx
 import { motion, AnimatePresence } from "framer-motion";
 import { expandHeight } from "@work-rjkashyap/unified-ui";
 
 function Disclosure({ isOpen, children }) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div {...expandHeight} style={{ overflow: "hidden" }}>
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+	return (
+		<AnimatePresence>
+			{isOpen && (
+				<motion.div {...expandHeight} style={{ overflow: "hidden" }}>
+					{children}
+				</motion.div>
+			)}
+		</AnimatePresence>
+	);
 }
 ```
 
@@ -260,48 +265,52 @@ Specialized presets for overlay patterns — dialogs, sheets, and toast notifica
 
 ### Modal
 
-| Preset               | Type   | Description                                |
-| -------------------- | ------ | ------------------------------------------ |
+| Preset               | Type   | Description                                 |
+| -------------------- | ------ | ------------------------------------------- |
 | `overlayBackdrop`    | Fade   | Backdrop overlay (fade to semi-transparent) |
 | `modalContent`       | Tween  | Standard modal entry (scale + fade + slide) |
 | `modalContentSpring` | Spring | Physics-based modal entry                   |
 
 ```tsx
 import { motion, AnimatePresence } from "framer-motion";
-import { overlayBackdrop, modalContent, modalContentSpring } from "@work-rjkashyap/unified-ui";
+import {
+	overlayBackdrop,
+	modalContent,
+	modalContentSpring,
+} from "@work-rjkashyap/unified-ui";
 
 function CustomModal({ isOpen, children }) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            {...overlayBackdrop}
-            className="fixed inset-0 bg-black/50 z-overlay"
-          />
-          {/* Content */}
-          <motion.div
-            {...modalContentSpring}
-            className="fixed inset-0 flex items-center justify-center z-modal"
-          >
-            <div className="bg-background rounded-lg shadow-lg p-6">
-              {children}
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
+	return (
+		<AnimatePresence>
+			{isOpen && (
+				<>
+					{/* Backdrop */}
+					<motion.div
+						{...overlayBackdrop}
+						className="fixed inset-0 bg-black/50 z-overlay"
+					/>
+					{/* Content */}
+					<motion.div
+						{...modalContentSpring}
+						className="fixed inset-0 flex items-center justify-center z-modal"
+					>
+						<div className="bg-background rounded-lg shadow-lg p-6">
+							{children}
+						</div>
+					</motion.div>
+				</>
+			)}
+		</AnimatePresence>
+	);
 }
 ```
 
 ### Toast
 
-| Preset          | Direction | Description                          |
-| --------------- | --------- | ------------------------------------ |
-| `toastSlideIn`  | → Right   | Toast sliding in from the right edge |
-| `toastSlideUp`  | ↑ Up      | Toast sliding up from the bottom     |
+| Preset         | Direction | Description                          |
+| -------------- | --------- | ------------------------------------ |
+| `toastSlideIn` | → Right   | Toast sliding in from the right edge |
+| `toastSlideUp` | ↑ Up      | Toast sliding up from the bottom     |
 
 ```tsx
 import { motion } from "framer-motion";
@@ -324,12 +333,12 @@ import { toastSlideIn, toastSlideUp } from "@work-rjkashyap/unified-ui";
 
 Small, immediate animations for hover, press, and focus states. These don't use `initial`/`animate` — instead they use Framer Motion's `whileHover`, `whileTap`, and `whileFocus` props.
 
-| Preset      | Effect              | Description                           |
-| ----------- | ------------------- | ------------------------------------- |
-| `hoverLift` | `y: -2, scale: 1.02` | Subtle lift on hover (cards, links)  |
-| `hoverScale`| `scale: 1.05`       | Scale up on hover                     |
-| `press`     | `scale: 0.98`       | Subtle shrink on press (buttons)      |
-| `tapScale`  | `scale: 0.95`       | Larger shrink on tap (mobile buttons) |
+| Preset       | Effect               | Description                           |
+| ------------ | -------------------- | ------------------------------------- |
+| `hoverLift`  | `y: -2, scale: 1.02` | Subtle lift on hover (cards, links)   |
+| `hoverScale` | `scale: 1.05`        | Scale up on hover                     |
+| `press`      | `scale: 0.98`        | Subtle shrink on press (buttons)      |
+| `tapScale`   | `scale: 0.95`        | Larger shrink on tap (mobile buttons) |
 
 ```tsx
 import { motion } from "framer-motion";
@@ -356,10 +365,10 @@ import { hoverLift, press, tapScale, hoverScale } from "@work-rjkashyap/unified-
 
 ### Loading States
 
-| Preset | Effect           | Description                               |
-| ------ | ---------------- | ----------------------------------------- |
-| `pulse`| opacity 0.5 → 1  | Pulsing opacity for skeleton loaders      |
-| `spin` | rotate 0 → 360   | Continuous rotation for spinners          |
+| Preset  | Effect          | Description                          |
+| ------- | --------------- | ------------------------------------ |
+| `pulse` | opacity 0.5 → 1 | Pulsing opacity for skeleton loaders |
+| `spin`  | rotate 0 → 360  | Continuous rotation for spinners     |
 
 ```tsx
 import { motion } from "framer-motion";
@@ -378,10 +387,10 @@ import { pulse, spin } from "@work-rjkashyap/unified-ui";
 
 Orchestrate sequential child animations by wrapping a parent with a stagger container preset. Each child element animates with a delay relative to the previous one.
 
-| Preset                 | Delay per child | Description                    |
-| ---------------------- | --------------- | ------------------------------ |
-| `staggerContainer`     | 50ms            | Standard stagger               |
-| `staggerContainerFast` | 30ms            | Rapid stagger for long lists   |
+| Preset                 | Delay per child | Description                     |
+| ---------------------- | --------------- | ------------------------------- |
+| `staggerContainer`     | 50ms            | Standard stagger                |
+| `staggerContainerFast` | 30ms            | Rapid stagger for long lists    |
 | `staggerContainerSlow` | 80ms            | Deliberate stagger for emphasis |
 
 ### Usage Pattern
@@ -393,35 +402,35 @@ import { motion } from "framer-motion";
 import { staggerContainer, slideUp } from "@work-rjkashyap/unified-ui";
 
 const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05, // 50ms between each child
-    },
-  },
+	hidden: { opacity: 0 },
+	show: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.05, // 50ms between each child
+		},
+	},
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0 },
+	hidden: { opacity: 0, y: 16 },
+	show: { opacity: 1, y: 0 },
 };
 
 function StaggeredList({ items }) {
-  return (
-    <motion.ul
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-      className="space-y-2"
-    >
-      {items.map((item) => (
-        <motion.li key={item.id} variants={itemVariants}>
-          {item.label}
-        </motion.li>
-      ))}
-    </motion.ul>
-  );
+	return (
+		<motion.ul
+			variants={containerVariants}
+			initial="hidden"
+			animate="show"
+			className="space-y-2"
+		>
+			{items.map((item) => (
+				<motion.li key={item.id} variants={itemVariants}>
+					{item.label}
+				</motion.li>
+			))}
+		</motion.ul>
+	);
 }
 ```
 
@@ -479,15 +488,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { motionProps, slideUp } from "@work-rjkashyap/unified-ui";
 
 function FadeContent({ isVisible, children }) {
-  return (
-    <AnimatePresence mode="wait">
-      {isVisible && (
-        <motion.div key="content" {...motionProps(slideUp)}>
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+	return (
+		<AnimatePresence mode="wait">
+			{isVisible && (
+				<motion.div key="content" {...motionProps(slideUp)}>
+					{children}
+				</motion.div>
+			)}
+		</AnimatePresence>
+	);
 }
 ```
 
@@ -505,15 +514,19 @@ Returns `true` when the user's OS has reduced motion enabled.
 import { useReducedMotion } from "@work-rjkashyap/unified-ui";
 
 function AnimatedCard({ children }) {
-  const prefersReduced = useReducedMotion();
+	const prefersReduced = useReducedMotion();
 
-  return (
-    <div
-      className={prefersReduced ? "" : "transition-transform hover:-translate-y-1"}
-    >
-      {children}
-    </div>
-  );
+	return (
+		<div
+			className={
+				prefersReduced
+					? ""
+					: "transition-transform hover:-translate-y-1"
+			}
+		>
+			{children}
+		</div>
+	);
 }
 ```
 
@@ -526,13 +539,13 @@ import { useMotion } from "@work-rjkashyap/unified-ui";
 import { motion } from "framer-motion";
 
 function SmartAnimation({ children }) {
-  const motionConfig = useMotion({
-    initial: { opacity: 0, y: 16 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.2 },
-  });
+	const motionConfig = useMotion({
+		initial: { opacity: 0, y: 16 },
+		animate: { opacity: 1, y: 0 },
+		transition: { duration: 0.2 },
+	});
 
-  return <motion.div {...motionConfig}>{children}</motion.div>;
+	return <motion.div {...motionConfig}>{children}</motion.div>;
 }
 ```
 
@@ -546,10 +559,10 @@ import { slideUp } from "@work-rjkashyap/unified-ui/motion";
 import { motion } from "framer-motion";
 
 function AccessibleSlide({ children }) {
-  const props = useMotionProps(slideUp);
-  // When reduced motion is active, transitions become instant
+	const props = useMotionProps(slideUp);
+	// When reduced motion is active, transitions become instant
 
-  return <motion.div {...props}>{children}</motion.div>;
+	return <motion.div {...props}>{children}</motion.div>;
 }
 ```
 
@@ -562,14 +575,14 @@ import { useMotionSpringConfig } from "@work-rjkashyap/unified-ui";
 import { spring } from "@work-rjkashyap/unified-ui/tokens";
 
 function SpringElement() {
-  const springConfig = useMotionSpringConfig(spring.snappy);
-  // Returns spring.snappy normally, or instant duration when reduced motion is active
+	const springConfig = useMotionSpringConfig(spring.snappy);
+	// Returns spring.snappy normally, or instant duration when reduced motion is active
 
-  return (
-    <motion.div animate={{ scale: 1 }} transition={springConfig}>
-      Bouncy element
-    </motion.div>
-  );
+	return (
+		<motion.div animate={{ scale: 1 }} transition={springConfig}>
+			Bouncy element
+		</motion.div>
+	);
 }
 ```
 
@@ -592,8 +605,8 @@ A lower-level helper for creating reduced-motion-safe transition objects:
 import { reduceMotion } from "@work-rjkashyap/unified-ui";
 
 const transition = reduceMotion({
-  duration: 0.3,
-  ease: [0, 0, 0.2, 1],
+	duration: 0.3,
+	ease: [0, 0, 0.2, 1],
 });
 // When reduced motion is active: { duration: 0 }
 // Otherwise: { duration: 0.3, ease: [0, 0, 0.2, 1] }
@@ -607,17 +620,19 @@ A wrapper component that only renders its children with animation when reduced m
 import { MotionSafe } from "@work-rjkashyap/unified-ui";
 
 <MotionSafe
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.3 }}
+	initial={{ opacity: 0, y: 20 }}
+	animate={{ opacity: 1, y: 0 }}
+	transition={{ duration: 0.3 }}
 >
-  This content will animate in normally, but appear instantly
-  when the user prefers reduced motion.
-</MotionSafe>
+	This content will animate in normally, but appear instantly when the user
+	prefers reduced motion.
+</MotionSafe>;
 ```
 
 <Callout type="info">
-  All 24+ built-in components (Dialog, Sheet, Toast, Accordion, Tabs, etc.) already use reduced-motion-aware animation internally. You only need these hooks and utilities when building custom animated components.
+	All 24+ built-in components (Dialog, Sheet, Toast, Accordion, Tabs, etc.)
+	already use reduced-motion-aware animation internally. You only need these
+	hooks and utilities when building custom animated components.
 </Callout>
 
 ---
@@ -626,60 +641,60 @@ import { MotionSafe } from "@work-rjkashyap/unified-ui";
 
 ### Enter/Exit Animations
 
-| Preset               | Type   | Direction        | Duration  |
-| -------------------- | ------ | ---------------- | --------- |
-| `fadeIn`             | Fade   | —                | 200ms     |
-| `fadeInFast`         | Fade   | —                | 100ms     |
-| `fadeInSlow`         | Fade   | —                | 300ms     |
-| `slideUp`            | Slide  | ↑ Up (16px)      | 200ms     |
-| `slideUpSm`          | Slide  | ↑ Up (8px)       | 200ms     |
-| `slideUpLg`          | Slide  | ↑ Up (24px)      | 300ms     |
-| `slideUpSpring`      | Slide  | ↑ Up (16px)      | spring    |
-| `slideDown`          | Slide  | ↓ Down (16px)    | 200ms     |
-| `slideDownSm`        | Slide  | ↓ Down (8px)     | 200ms     |
-| `slideLeft`          | Slide  | ← Left (16px)    | 200ms     |
-| `slideRight`         | Slide  | → Right (16px)   | 200ms     |
-| `slideInFromLeft`    | Slide  | → from left edge | 300ms     |
-| `slideInFromRight`   | Slide  | ← from right edge| 300ms     |
-| `slideInFromBottom`  | Slide  | ↑ from bottom    | 300ms     |
-| `scaleIn`            | Scale  | 0.95 → 1         | 200ms     |
-| `scaleInLg`          | Scale  | 0.9 → 1          | 300ms     |
-| `scaleInSpring`      | Scale  | 0.95 → 1         | spring    |
-| `blurIn`             | Blur   | 8px → 0          | 300ms     |
-| `blurInSubtle`       | Blur   | 4px → 0          | 200ms     |
-| `expandHeight`       | Expand | 0 → auto         | 200ms     |
-| `expandHeightSlow`   | Expand | 0 → auto         | 300ms     |
-| `pop`                | Scale  | 0 → 1.05 → 1    | spring    |
-| `popSubtle`          | Scale  | 0 → 1.02 → 1    | spring    |
+| Preset              | Type   | Direction         | Duration |
+| ------------------- | ------ | ----------------- | -------- |
+| `fadeIn`            | Fade   | —                 | 200ms    |
+| `fadeInFast`        | Fade   | —                 | 100ms    |
+| `fadeInSlow`        | Fade   | —                 | 300ms    |
+| `slideUp`           | Slide  | ↑ Up (16px)       | 200ms    |
+| `slideUpSm`         | Slide  | ↑ Up (8px)        | 200ms    |
+| `slideUpLg`         | Slide  | ↑ Up (24px)       | 300ms    |
+| `slideUpSpring`     | Slide  | ↑ Up (16px)       | spring   |
+| `slideDown`         | Slide  | ↓ Down (16px)     | 200ms    |
+| `slideDownSm`       | Slide  | ↓ Down (8px)      | 200ms    |
+| `slideLeft`         | Slide  | ← Left (16px)     | 200ms    |
+| `slideRight`        | Slide  | → Right (16px)    | 200ms    |
+| `slideInFromLeft`   | Slide  | → from left edge  | 300ms    |
+| `slideInFromRight`  | Slide  | ← from right edge | 300ms    |
+| `slideInFromBottom` | Slide  | ↑ from bottom     | 300ms    |
+| `scaleIn`           | Scale  | 0.95 → 1          | 200ms    |
+| `scaleInLg`         | Scale  | 0.9 → 1           | 300ms    |
+| `scaleInSpring`     | Scale  | 0.95 → 1          | spring   |
+| `blurIn`            | Blur   | 8px → 0           | 300ms    |
+| `blurInSubtle`      | Blur   | 4px → 0           | 200ms    |
+| `expandHeight`      | Expand | 0 → auto          | 200ms    |
+| `expandHeightSlow`  | Expand | 0 → auto          | 300ms    |
+| `pop`               | Scale  | 0 → 1.05 → 1      | spring   |
+| `popSubtle`         | Scale  | 0 → 1.02 → 1      | spring   |
 
 ### Overlay Animations
 
-| Preset               | Type     | Use Case                  |
-| -------------------- | -------- | ------------------------- |
-| `overlayBackdrop`    | Fade     | Modal/sheet backdrops     |
-| `modalContent`       | Combined | Dialog content (tween)    |
-| `modalContentSpring` | Combined | Dialog content (spring)   |
-| `toastSlideIn`       | Slide    | Toast from right          |
-| `toastSlideUp`       | Slide    | Toast from bottom         |
+| Preset               | Type     | Use Case                |
+| -------------------- | -------- | ----------------------- |
+| `overlayBackdrop`    | Fade     | Modal/sheet backdrops   |
+| `modalContent`       | Combined | Dialog content (tween)  |
+| `modalContentSpring` | Combined | Dialog content (spring) |
+| `toastSlideIn`       | Slide    | Toast from right        |
+| `toastSlideUp`       | Slide    | Toast from bottom       |
 
 ### Micro-Interactions
 
-| Preset       | Prop         | Effect                    |
-| ------------ | ------------ | ------------------------- |
-| `hoverLift`  | `whileHover` | `y: -2, scale: 1.02`     |
-| `hoverScale` | `whileHover` | `scale: 1.05`            |
-| `press`      | `whileTap`   | `scale: 0.98`            |
-| `tapScale`   | `whileTap`   | `scale: 0.95`            |
-| `pulse`      | `animate`    | Opacity pulse (looping)   |
-| `spin`       | `animate`    | 360° rotation (looping)   |
+| Preset       | Prop         | Effect                  |
+| ------------ | ------------ | ----------------------- |
+| `hoverLift`  | `whileHover` | `y: -2, scale: 1.02`    |
+| `hoverScale` | `whileHover` | `scale: 1.05`           |
+| `press`      | `whileTap`   | `scale: 0.98`           |
+| `tapScale`   | `whileTap`   | `scale: 0.95`           |
+| `pulse`      | `animate`    | Opacity pulse (looping) |
+| `spin`       | `animate`    | 360° rotation (looping) |
 
 ### Stagger Containers
 
-| Preset                 | Delay   | Use Case                   |
-| ---------------------- | ------- | -------------------------- |
-| `staggerContainer`     | 50ms    | Standard lists and grids   |
-| `staggerContainerFast` | 30ms    | Long lists (20+ items)     |
-| `staggerContainerSlow` | 80ms    | Emphasis reveal sequences  |
+| Preset                 | Delay | Use Case                  |
+| ---------------------- | ----- | ------------------------- |
+| `staggerContainer`     | 50ms  | Standard lists and grids  |
+| `staggerContainerFast` | 30ms  | Long lists (20+ items)    |
+| `staggerContainerSlow` | 80ms  | Emphasis reveal sequences |
 
 ---
 
@@ -687,25 +702,36 @@ import { MotionSafe } from "@work-rjkashyap/unified-ui";
 
 ```tsx
 // All presets from the barrel export
-import { fadeIn, slideUp, scaleIn, motionProps, useReducedMotion } from "@work-rjkashyap/unified-ui";
+import {
+	fadeIn,
+	slideUp,
+	scaleIn,
+	motionProps,
+	useReducedMotion,
+} from "@work-rjkashyap/unified-ui";
 
 // Layer-specific import (better tree-shaking)
 import {
-  fadeIn,
-  slideUp,
-  scaleIn,
-  motionProps,
-  staggerContainer,
-  hoverLift,
-  press,
-  MotionSafe,
-  useReducedMotion,
-  useMotion,
-  useMotionProps,
+	fadeIn,
+	slideUp,
+	scaleIn,
+	motionProps,
+	staggerContainer,
+	hoverLift,
+	press,
+	MotionSafe,
+	useReducedMotion,
+	useMotion,
+	useMotionProps,
 } from "@work-rjkashyap/unified-ui/motion";
 
 // Raw motion tokens
-import { duration, easing, spring, stagger } from "@work-rjkashyap/unified-ui/tokens";
+import {
+	duration,
+	easing,
+	spring,
+	stagger,
+} from "@work-rjkashyap/unified-ui/tokens";
 ```
 
 ---
@@ -728,5 +754,8 @@ import { duration, easing, spring, stagger } from "@work-rjkashyap/unified-ui/to
 - **Don't animate on every state change.** Animations should provide useful feedback, not visual noise. If removing the animation wouldn't hurt usability, you probably don't need it.
 
 <Callout type="warn">
-  **Performance tip:** Framer Motion adds ~30KB to your bundle. If you only need CSS transitions (hover states, color changes), use Tailwind's `transition-*` utilities instead of Framer Motion. Reserve Framer Motion for enter/exit animations, springs, and layout animations.
+	**Performance tip:** Framer Motion adds ~30KB to your bundle. If you only
+	need CSS transitions (hover states, color changes), use Tailwind's
+	`transition-*` utilities instead of Framer Motion. Reserve Framer Motion for
+	enter/exit animations, springs, and layout animations.
 </Callout>

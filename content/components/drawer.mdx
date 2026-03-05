@@ -1,0 +1,336 @@
+---
+title: Drawer
+description: A bottom drawer with native-feeling drag-to-dismiss interaction. Built on vaul with snap points, multiple sizes, and composable slot components.
+icon: PanelBottomOpen
+---
+
+import {
+	Drawer,
+	DrawerTrigger,
+	DrawerContent,
+	DrawerHandle,
+	DrawerHeader,
+	DrawerBody,
+	DrawerFooter,
+	DrawerTitle,
+	DrawerDescription,
+	DrawerClose,
+	Button,
+	Input,
+	Label,
+} from "@work-rjkashyap/unified-ui";
+
+## Overview
+
+The `Drawer` component is a bottom sheet overlay with drag-to-dismiss interaction. It slides up from the bottom of the viewport and can be dismissed by dragging down, pressing Escape, or clicking the overlay. Built on [vaul](https://vaul.emilkowal.ski/) for native-feeling touch interactions.
+
+---
+
+## Import
+
+```tsx
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHandle,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+} from "@work-rjkashyap/unified-ui";
+// or
+import { Drawer, DrawerTrigger, DrawerContent /* ... */ } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Default
+
+<ComponentPage
+	title="Default Drawer"
+	description="A basic drawer with header, body, and footer slots."
+	preview={
+		<Drawer>
+			<DrawerTrigger asChild>
+				<Button variant="secondary">Open Drawer</Button>
+			</DrawerTrigger>
+			<DrawerContent>
+				<DrawerHeader>
+					<DrawerTitle>Edit Profile</DrawerTitle>
+					<DrawerDescription>Make changes to your profile here. Click save when you're done.</DrawerDescription>
+				</DrawerHeader>
+				<DrawerBody>
+					<div className="space-y-4">
+						<div className="space-y-2">
+							<Label htmlFor="drawer-name">Name</Label>
+							<Input id="drawer-name" placeholder="Enter your name" />
+						</div>
+						<div className="space-y-2">
+							<Label htmlFor="drawer-email">Email</Label>
+							<Input id="drawer-email" placeholder="Enter your email" type="email" />
+						</div>
+					</div>
+				</DrawerBody>
+				<DrawerFooter>
+					<Button>Save changes</Button>
+					<DrawerClose asChild>
+						<Button variant="secondary">Cancel</Button>
+					</DrawerClose>
+				</DrawerFooter>
+			</DrawerContent>
+		</Drawer>
+	}
+	code={`<Drawer>
+  <DrawerTrigger asChild>
+    <Button variant="secondary">Open Drawer</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Edit Profile</DrawerTitle>
+      <DrawerDescription>Make changes to your profile here.</DrawerDescription>
+    </DrawerHeader>
+    <DrawerBody>
+      <Input placeholder="Name" />
+    </DrawerBody>
+    <DrawerFooter>
+      <Button>Save changes</Button>
+      <DrawerClose asChild>
+        <Button variant="secondary">Cancel</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="Drawer Sizes"
+	description="Four sizes control the maximum height of the drawer: sm (30vh), md (50vh), lg (75vh), and full."
+	preview={
+		<div className="flex gap-3 flex-wrap justify-center">
+			<Drawer>
+				<DrawerTrigger asChild>
+					<Button variant="secondary" size="sm">Small</Button>
+				</DrawerTrigger>
+				<DrawerContent size="sm">
+					<DrawerHeader>
+						<DrawerTitle>Small Drawer</DrawerTitle>
+						<DrawerDescription>Max height: 30vh</DrawerDescription>
+					</DrawerHeader>
+					<DrawerBody>
+						<p className="text-sm text-muted-foreground">This is a small drawer suitable for confirmations or brief messages.</p>
+					</DrawerBody>
+				</DrawerContent>
+			</Drawer>
+			<Drawer>
+				<DrawerTrigger asChild>
+					<Button variant="secondary" size="sm">Medium</Button>
+				</DrawerTrigger>
+				<DrawerContent size="md">
+					<DrawerHeader>
+						<DrawerTitle>Medium Drawer</DrawerTitle>
+						<DrawerDescription>Max height: 50vh (default)</DrawerDescription>
+					</DrawerHeader>
+					<DrawerBody>
+						<p className="text-sm text-muted-foreground">The default size — works well for forms and moderate content.</p>
+					</DrawerBody>
+				</DrawerContent>
+			</Drawer>
+			<Drawer>
+				<DrawerTrigger asChild>
+					<Button variant="secondary" size="sm">Large</Button>
+				</DrawerTrigger>
+				<DrawerContent size="lg">
+					<DrawerHeader>
+						<DrawerTitle>Large Drawer</DrawerTitle>
+						<DrawerDescription>Max height: 75vh</DrawerDescription>
+					</DrawerHeader>
+					<DrawerBody>
+						<p className="text-sm text-muted-foreground">Use for long forms, lists, or rich content that needs more vertical space.</p>
+					</DrawerBody>
+				</DrawerContent>
+			</Drawer>
+			<Drawer>
+				<DrawerTrigger asChild>
+					<Button variant="secondary" size="sm">Full</Button>
+				</DrawerTrigger>
+				<DrawerContent size="full">
+					<DrawerHeader>
+						<DrawerTitle>Full Drawer</DrawerTitle>
+						<DrawerDescription>Max height: 100vh - 2rem</DrawerDescription>
+					</DrawerHeader>
+					<DrawerBody>
+						<p className="text-sm text-muted-foreground">Nearly full-screen — useful for complex workflows or mobile views.</p>
+					</DrawerBody>
+				</DrawerContent>
+			</Drawer>
+		</div>
+	}
+	code={`<Drawer>
+  <DrawerTrigger asChild>
+    <Button>Small</Button>
+  </DrawerTrigger>
+  <DrawerContent size="sm">…</DrawerContent>
+</Drawer>
+
+<Drawer>
+  <DrawerTrigger asChild>
+    <Button>Medium</Button>
+  </DrawerTrigger>
+  <DrawerContent size="md">…</DrawerContent>
+</Drawer>
+
+<Drawer>
+  <DrawerTrigger asChild>
+    <Button>Large</Button>
+  </DrawerTrigger>
+  <DrawerContent size="lg">…</DrawerContent>
+</Drawer>
+
+<Drawer>
+  <DrawerTrigger asChild>
+    <Button>Full</Button>
+  </DrawerTrigger>
+  <DrawerContent size="full">…</DrawerContent>
+</Drawer>`}
+/>
+
+### Without Handle
+
+<ComponentPage
+	title="Without Drag Handle"
+	description="Set showHandle={false} to hide the drag indicator."
+	preview={
+		<Drawer>
+			<DrawerTrigger asChild>
+				<Button variant="secondary">No Handle</Button>
+			</DrawerTrigger>
+			<DrawerContent showHandle={false}>
+				<DrawerHeader>
+					<DrawerTitle>No Handle</DrawerTitle>
+					<DrawerDescription>This drawer has no visible drag handle, but can still be dismissed by dragging or pressing Escape.</DrawerDescription>
+				</DrawerHeader>
+				<DrawerBody>
+					<p className="text-sm text-muted-foreground">Content goes here.</p>
+				</DrawerBody>
+				<DrawerFooter>
+					<DrawerClose asChild>
+						<Button variant="secondary">Close</Button>
+					</DrawerClose>
+				</DrawerFooter>
+			</DrawerContent>
+		</Drawer>
+	}
+	code={`<Drawer>
+  <DrawerTrigger asChild>
+    <Button>No Handle</Button>
+  </DrawerTrigger>
+  <DrawerContent showHandle={false}>
+    <DrawerHeader>
+      <DrawerTitle>No Handle</DrawerTitle>
+    </DrawerHeader>
+    <DrawerBody>Content</DrawerBody>
+    <DrawerFooter>
+      <DrawerClose asChild>
+        <Button variant="secondary">Close</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`}
+/>
+
+---
+
+## Props
+
+### Drawer (Root)
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | — | Controlled open state. |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when open state changes. |
+| `defaultOpen` | `boolean` | `false` | Whether the drawer starts open. |
+| `shouldScaleBackground` | `boolean` | `true` | Scale background content when open. Requires `[vaul-drawer-wrapper]` on your app wrapper. |
+| `dismissible` | `boolean` | `true` | Whether the drawer can be dismissed by dragging or clicking outside. |
+| `direction` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Direction the drawer opens from. |
+| `nested` | `boolean` | `false` | Whether this drawer is nested inside another drawer. |
+| `modal` | `boolean` | `true` | Whether to block body scroll when open. |
+| `onClose` | `() => void` | — | Called when drawer is closed. |
+
+### DrawerContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `"sm" \| "md" \| "lg" \| "full"` | `"md"` | Controls the maximum height of the drawer. |
+| `showHandle` | `boolean` | `true` | Whether to show the drag handle indicator at the top. |
+| `overlayClassName` | `string` | — | Extra classes for the backdrop overlay. |
+| `className` | `string` | — | Extra classes for the drawer content panel. |
+
+### DrawerTrigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | `false` | Merge props onto the child element instead of rendering a `<button>`. |
+| `className` | `string` | — | Extra classes. |
+
+### DrawerClose
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | `false` | Merge props onto the child element. |
+| `className` | `string` | — | Extra classes. |
+
+### DrawerHeader / DrawerBody / DrawerFooter
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | — | Extra classes. |
+| `children` | `ReactNode` | — | Content. |
+
+### DrawerTitle / DrawerDescription
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | — | Extra classes. |
+| `children` | `ReactNode` | — | Text content. |
+
+---
+
+## Sizes Reference
+
+| Size | Max Height | Use Case |
+| --- | --- | --- |
+| `sm` | `30vh` | Quick confirmations, brief messages |
+| `md` | `50vh` | Forms, moderate content (default) |
+| `lg` | `75vh` | Long forms, lists, rich content |
+| `full` | `calc(100vh - 2rem)` | Complex workflows, mobile-first views |
+
+---
+
+## Accessibility
+
+- **Focus trap**: Focus is trapped inside the drawer when open.
+- **Escape to close**: Pressing `Escape` closes the drawer.
+- **Scroll lock**: Body scroll is locked while the drawer is open.
+- **ARIA**: Uses `role="dialog"` with `aria-labelledby` (DrawerTitle) and `aria-describedby` (DrawerDescription) automatically via vaul.
+- **Drag dismiss**: The drawer can be swiped down to dismiss, providing a native-feeling interaction on touch devices.
+
+---
+
+## Design Tokens
+
+| Token | CSS Variable | Tailwind | Usage |
+| --- | --- | --- | --- |
+| Background | `--background` | `bg-background` | Drawer panel background |
+| Border | `--border` | `border-border` | Panel border |
+| Overlay | — | `bg-black/50` | Backdrop overlay |
+| Z-index (content) | `--z-modal` | `z-[var(--z-modal)]` | Drawer panel |
+| Z-index (overlay) | `--z-overlay` | `z-[var(--z-overlay)]` | Backdrop |
+| Radius | — | `rounded-t-lg` | Top corners only |
+| Shadow | `--shadow-xl` | `shadow-xl` | Elevation |

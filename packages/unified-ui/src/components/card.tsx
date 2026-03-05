@@ -73,22 +73,22 @@ function useCardContext(): CardContextValue {
 // ---------------------------------------------------------------------------
 
 const cardPaddingMap: Record<CardPadding, string> = {
-  compact: "p-4",
+  compact: "p-(--ds-padding-card)",
   comfortable: "p-6",
 };
 
 const slotPaddingXMap: Record<CardPadding, string> = {
-  compact: "px-4",
+  compact: "px-(--ds-padding-card)",
   comfortable: "px-6",
 };
 
 const slotPaddingTopMap: Record<CardPadding, string> = {
-  compact: "pt-4",
+  compact: "pt-(--ds-padding-card)",
   comfortable: "pt-6",
 };
 
 const slotPaddingBottomMap: Record<CardPadding, string> = {
-  compact: "pb-4",
+  compact: "pb-(--ds-padding-card)",
   comfortable: "pb-6",
 };
 

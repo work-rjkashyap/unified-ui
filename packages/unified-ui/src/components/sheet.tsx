@@ -45,9 +45,17 @@
 //   </Sheet>
 // ============================================================================
 
+import {
+  overlayBackdrop,
+  slidePanelBottom,
+  slidePanelLeft,
+  slidePanelRight,
+  slidePanelTop,
+} from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion, useReducedMotion } from "framer-motion";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
@@ -71,9 +79,8 @@ export const sheetContentVariants = cva(
     "shadow-xl",
     // Focus
     "outline-none",
-    // Animation base
-    "data-[state=open]:animate-in data-[state=closed]:animate-out",
-    "data-[state=open]:duration-300 data-[state=closed]:duration-200",
+    // Note: Animation is handled by Framer Motion (overlayBackdrop + slidePanel presets).
+    // CSS animation classes removed in favour of FM spring physics.
   ],
   {
     variants: {
@@ -84,7 +91,6 @@ export const sheetContentVariants = cva(
         left: [
           "inset-y-0 left-0",
           "border-r",
-          "data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
         ],
 
         /**
@@ -93,7 +99,6 @@ export const sheetContentVariants = cva(
         right: [
           "inset-y-0 right-0",
           "border-l",
-          "data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
         ],
 
         /**
@@ -102,7 +107,6 @@ export const sheetContentVariants = cva(
         top: [
           "inset-x-0 top-0",
           "border-b",
-          "data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
         ],
 
         /**
@@ -111,7 +115,6 @@ export const sheetContentVariants = cva(
         bottom: [
           "inset-x-0 bottom-0",
           "border-t",
-          "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         ],
       },
 
@@ -381,23 +384,41 @@ const SheetOverlay = forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(function SheetOverlay({ className, ...rest }, ref) {
+  const shouldReduce = useReducedMotion();
   return (
-    <DialogPrimitive.Overlay
-      ref={ref}
-      className={cn(
-        "fixed inset-0",
-        "z-[var(--z-overlay)]",
-        "bg-black/50",
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-        className,
-      )}
-      {...rest}
-    />
+    <DialogPrimitive.Overlay ref={ref} asChild {...rest}>
+      <motion.div
+        className={cn(
+          "fixed inset-0",
+          "z-[var(--z-overlay)]",
+          "bg-black/50",
+          className,
+        )}
+        variants={shouldReduce ? undefined : overlayBackdrop.variants}
+        initial={shouldReduce ? { opacity: 0 } : "initial"}
+        animate={shouldReduce ? { opacity: 1 } : "animate"}
+        exit={shouldReduce ? { opacity: 0 } : "exit"}
+        transition={
+          shouldReduce ? { duration: 0.15 } : overlayBackdrop.transition
+        }
+        data-ds-animated=""
+      />
+    </DialogPrimitive.Overlay>
   );
 });
 
 SheetOverlay.displayName = "SheetOverlay";
+
+// ---------------------------------------------------------------------------
+// Side → motion preset mapping
+// ---------------------------------------------------------------------------
+
+const sidePresetMap = {
+  left: slidePanelLeft,
+  right: slidePanelRight,
+  top: slidePanelTop,
+  bottom: slidePanelBottom,
+} as const;
 
 // ---------------------------------------------------------------------------
 // SheetContent
@@ -459,39 +480,50 @@ export const SheetContent = forwardRef<
   },
   ref,
 ) {
+  const shouldReduce = useReducedMotion();
+  const preset = sidePresetMap[side];
+
   return (
     <DialogPrimitive.Portal>
       <SheetOverlay className={overlayClassName} />
-      <DialogPrimitive.Content
-        ref={ref}
-        className={cn(
-          "not-prose",
-          sheetContentVariants({ side, size }),
-          className,
-        )}
-        data-ds=""
-        data-ds-component="sheet"
-        data-ds-side={side}
-        data-ds-size={size}
-        {...rest}
-      >
-        {children}
+      <DialogPrimitive.Content ref={ref} asChild {...rest}>
+        <motion.div
+          className={cn(
+            "not-prose",
+            sheetContentVariants({ side, size }),
+            className,
+          )}
+          variants={shouldReduce ? undefined : preset.variants}
+          initial={shouldReduce ? { opacity: 0 } : "initial"}
+          animate={shouldReduce ? { opacity: 1 } : "animate"}
+          exit={shouldReduce ? { opacity: 0 } : "exit"}
+          transition={
+            shouldReduce ? { duration: 0.2 } : preset.transition
+          }
+          data-ds=""
+          data-ds-component="sheet"
+          data-ds-side={side}
+          data-ds-size={size}
+          data-ds-animated=""
+        >
+          {children}
 
-        {showClose && (
-          <DialogPrimitive.Close
-            className={cn(
-              "absolute right-4 top-4",
-              "inline-flex items-center justify-center",
-              "rounded-sm p-1",
-              "text-muted-foreground hover:text-foreground",
-              "transition-colors duration-fast",
-              focusRingClasses,
-            )}
-            aria-label="Close"
-          >
-            <CloseIcon className="size-4" />
-          </DialogPrimitive.Close>
-        )}
+          {showClose && (
+            <DialogPrimitive.Close
+              className={cn(
+                "absolute right-4 top-4",
+                "inline-flex items-center justify-center",
+                "rounded-sm p-1",
+                "text-muted-foreground hover:text-foreground",
+                "transition-colors duration-fast",
+                focusRingClasses,
+              )}
+              aria-label="Close"
+            >
+              <CloseIcon className="size-4" />
+            </DialogPrimitive.Close>
+          )}
+        </motion.div>
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>
   );

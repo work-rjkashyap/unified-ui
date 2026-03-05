@@ -1,4 +1,16 @@
 {
-  "title": "Documentation",
-  "pages": ["index", "---Design System---", "design-system"]
+	"title": "Documentation",
+	"pages": [
+		"index",
+		"cli",
+		"---Design System---",
+		"design-system",
+		"tokens",
+		"colors",
+		"typography",
+		"spacing",
+		"theming",
+		"motion",
+		"accessibility"
+	]
 }

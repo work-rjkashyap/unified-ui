@@ -44,8 +44,10 @@
 //   </Popover>
 // ============================================================================
 
+import { scaleIn } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingInsetClasses } from "@unified-ui/utils/focus-ring";
+import { motion, useReducedMotion } from "framer-motion";
 import { Popover as PopoverPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
@@ -238,6 +240,8 @@ export const PopoverContent = forwardRef<
   },
   ref,
 ) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
@@ -245,59 +249,64 @@ export const PopoverContent = forwardRef<
         side={side}
         align={align}
         sideOffset={sideOffset}
-        className={cn(
-          // Layout & sizing
-          "w-72",
-          // Z-index
-          "z-[var(--z-popover)]",
-          // Visual
-          "rounded-md",
-          "border border-border",
-          "bg-background",
-          "p-4",
-          "shadow-lg",
-          // Text
-          "text-sm text-foreground",
-          // Animation — CSS-based for Radix data attributes
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-          "data-[side=top]:slide-in-from-bottom-2",
-          "data-[side=bottom]:slide-in-from-top-2",
-          "data-[side=left]:slide-in-from-right-2",
-          "data-[side=right]:slide-in-from-left-2",
-          // Outline
-          "outline-none",
-          className,
-        )}
-        data-ds=""
-        data-ds-component="popover-content"
+        asChild
         {...rest}
       >
-        {children}
+        <motion.div
+          className={cn(
+            // Layout & sizing
+            "w-72",
+            // Z-index
+            "z-[var(--z-popover)]",
+            // Visual
+            "rounded-md",
+            "border border-border",
+            "bg-background",
+            "p-4",
+            "shadow-lg",
+            // Text
+            "text-sm text-foreground",
+            // Outline
+            "outline-none",
+            className,
+          )}
+          variants={shouldReduce ? undefined : scaleIn.variants}
+          initial={shouldReduce ? { opacity: 0 } : "initial"}
+          animate={shouldReduce ? { opacity: 1 } : "animate"}
+          exit={shouldReduce ? { opacity: 0 } : "exit"}
+          transition={
+            shouldReduce ? { duration: 0.15 } : scaleIn.transition
+          }
+          data-ds=""
+          data-ds-component="popover-content"
+          data-ds-animated=""
+        >
+          {children}
 
-        {showClose && (
-          <PopoverPrimitive.Close
-            className={cn(
-              "absolute right-2 top-2",
-              "inline-flex items-center justify-center",
-              "rounded-sm p-1",
-              "text-muted-foreground hover:text-foreground",
-              "transition-colors duration-fast",
-              focusRingInsetClasses,
-            )}
-            aria-label="Close"
-          >
-            <CloseIcon className="size-4" />
-          </PopoverPrimitive.Close>
-        )}
+          {showClose && (
+            <PopoverPrimitive.Close
+              className={cn(
+                "absolute right-2 top-2",
+                "inline-flex items-center justify-center",
+                "rounded-sm p-1",
+                "text-muted-foreground hover:text-foreground",
+                "transition-colors duration-fast",
+                focusRingInsetClasses,
+              )}
+              aria-label="Close"
+            >
+              <CloseIcon className="size-4" />
+            </PopoverPrimitive.Close>
+          )}
 
-        {arrow && (
-          <PopoverPrimitive.Arrow
-            className={cn("fill-background", arrowClassName)}
-            width={12}
-            height={6}
-          />
-        )}
+          {arrow && (
+            <PopoverPrimitive.Arrow
+              className={cn("fill-background", arrowClassName)}
+              width={12}
+              height={6}
+            />
+          )}
+        </motion.div>
       </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   );

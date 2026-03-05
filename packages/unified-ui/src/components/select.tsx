@@ -1,10 +1,12 @@
 "use client";
+import { scaleIn } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva } from "class-variance-authority";
 // ============================================================================
 // Unified UI — Select Component
 // ============================================================================
+import { motion, useReducedMotion } from "framer-motion";
 import { Select as SelectPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
@@ -212,42 +214,50 @@ export const SelectContent = forwardRef<
   { className, children, position = "popper", sideOffset = 4, ...props },
   ref,
 ) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         ref={ref}
-        className={cn(
-          "relative z-[var(--z-popover)]",
-          "min-w-[var(--radix-select-trigger-width)]",
-          "max-h-[min(var(--radix-select-content-available-height),320px)]",
-          "overflow-hidden",
-          "rounded-md",
-          "border border-border",
-          "bg-background",
-          "shadow-lg",
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-          "data-[side=top]:slide-in-from-bottom-2",
-          "data-[side=bottom]:slide-in-from-top-2",
-          "data-[side=left]:slide-in-from-right-2",
-          "data-[side=right]:slide-in-from-left-2",
-          className,
-        )}
         position={position}
         sideOffset={sideOffset}
+        asChild
         {...props}
       >
-        <SelectScrollUpButton />
-        <SelectPrimitive.Viewport
+        <motion.div
           className={cn(
-            "p-1",
-            position === "popper" &&
-              "w-full min-w-[var(--radix-select-trigger-width)]",
+            "relative z-[var(--z-popover)]",
+            "min-w-[var(--radix-select-trigger-width)]",
+            "max-h-[min(var(--radix-select-content-available-height),320px)]",
+            "overflow-hidden",
+            "rounded-md",
+            "border border-border",
+            "bg-background",
+            "shadow-lg",
+            className,
           )}
+          variants={shouldReduce ? undefined : scaleIn.variants}
+          initial={shouldReduce ? { opacity: 0 } : "initial"}
+          animate={shouldReduce ? { opacity: 1 } : "animate"}
+          exit={shouldReduce ? { opacity: 0 } : "exit"}
+          transition={
+            shouldReduce ? { duration: 0.15 } : scaleIn.transition
+          }
+          data-ds-animated=""
         >
-          {children}
-        </SelectPrimitive.Viewport>
-        <SelectScrollDownButton />
+          <SelectScrollUpButton />
+          <SelectPrimitive.Viewport
+            className={cn(
+              "p-1",
+              position === "popper" &&
+                "w-full min-w-[var(--radix-select-trigger-width)]",
+            )}
+          >
+            {children}
+          </SelectPrimitive.Viewport>
+          <SelectScrollDownButton />
+        </motion.div>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
   );

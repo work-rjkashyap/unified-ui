@@ -1,0 +1,498 @@
+---
+title: CLI & Copy-Paste
+description: Use the Unified UI CLI to copy components directly into your project — like shadcn/ui, with automatic dependency resolution.
+icon: Terminal
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## Overview
+
+The Unified UI CLI lets you **copy components directly into your project** as local source files. Instead of importing from `node_modules`, you own the code — edit variants, change animations, add custom logic, or restyle anything.
+
+This is the same workflow popularized by [shadcn/ui](https://ui.shadcn.com), adapted for the Unified UI design system. The CLI handles:
+
+- **Dependency resolution** — Automatically pulls in other components, utilities, and styles that a component depends on.
+- **npm dependency installation** — Detects and installs required npm packages (Radix UI, Framer Motion, etc.).
+- **Import rewriting** — Rewrites internal `@unified-ui/*` imports to local project paths (e.g., `@/components/ui/*`, `@/lib/*`).
+- **Client directive detection** — Marks files that need `"use client"` for Next.js App Router.
+
+<Callout type="info">
+	You can use the CLI alongside the npm package. For example, install the full
+	package for most components but copy specific ones you need to customize
+	heavily.
+</Callout>
+
+---
+
+## Quick Start
+
+<Steps>
+
+<Step>
+### Initialize your project
+
+```bash
+npx @work-rjkashyap/unified-ui init
+```
+
+This creates a `unified-ui.json` config file and sets up the directory structure for copied components.
+
+</Step>
+
+<Step>
+### Add components
+
+```bash
+npx @work-rjkashyap/unified-ui add button card badge
+```
+
+The CLI fetches each component from the registry, resolves its full dependency tree, copies source files into your project, and installs any required npm packages.
+
+</Step>
+
+<Step>
+### Import and use
+
+```tsx title="app/page.tsx"
+import { Button } from "@/components/ui/button";
+import { Card, CardBody } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+export default function Page() {
+	return (
+		<Card>
+			<CardBody className="space-y-3">
+				<Badge variant="success">New</Badge>
+				<Button variant="primary">Get Started</Button>
+			</CardBody>
+		</Card>
+	);
+}
+```
+
+</Step>
+
+<Step>
+### Customize
+
+The files are yours. Open them up and change anything:
+
+```tsx title="src/components/ui/button.tsx"
+// Add a new variant, change the default size,
+// swap out the loading spinner, adjust colors —
+// it's all local source code now.
+```
+
+</Step>
+
+</Steps>
+
+---
+
+## Commands
+
+### `init`
+
+Initialize a new project for Unified UI copy-paste mode.
+
+```bash
+npx @work-rjkashyap/unified-ui init
+```
+
+**What it does:**
+
+1. Creates a `unified-ui.json` config file in the project root.
+2. Sets up alias paths for components, utilities, and styles.
+3. Detects your package manager (npm, pnpm, yarn, bun).
+4. Optionally installs base dependencies (`tailwind-merge`, `clsx`, `class-variance-authority`).
+
+**Flags:**
+
+| Flag         | Description                                     |
+| ------------ | ----------------------------------------------- |
+| `--yes`      | Skip interactive prompts and use defaults       |
+| `--src`      | Use `src/` directory structure (default: `true`) |
+| `--cwd <dir>` | Set the working directory                      |
+
+---
+
+### `add`
+
+Add one or more components, utilities, or styles to your project.
+
+```bash
+npx @work-rjkashyap/unified-ui add <name...>
+```
+
+**Examples:**
+
+```bash
+# Add a single component
+npx @work-rjkashyap/unified-ui add button
+
+# Add multiple components
+npx @work-rjkashyap/unified-ui add button card badge tabs dialog
+
+# Add everything
+npx @work-rjkashyap/unified-ui add --all
+
+# Overwrite existing files
+npx @work-rjkashyap/unified-ui add button --overwrite
+```
+
+**What it does:**
+
+1. Fetches the component's registry entry (source, dependencies, metadata).
+2. Resolves the full dependency tree — other registry items + internal utilities.
+3. Rewrites imports from `@unified-ui/*` to your project's local paths.
+4. Writes files to the correct directories based on your `unified-ui.json` config.
+5. Detects and reports npm packages that need to be installed.
+6. Optionally runs your package manager to install npm dependencies.
+
+**Flags:**
+
+| Flag           | Description                                          |
+| -------------- | ---------------------------------------------------- |
+| `--all`        | Add all available registry items                     |
+| `--overwrite`  | Overwrite existing files without prompting            |
+| `--no-deps`    | Skip npm dependency installation                     |
+| `--cwd <dir>`  | Set the working directory                            |
+
+<Callout type="warn">
+	By default, the CLI will **not overwrite** files that already exist. Use
+	`--overwrite` to force replacement, or use `diff` to review changes first.
+</Callout>
+
+---
+
+### `list`
+
+List all available components, utilities, and styles in the registry.
+
+```bash
+npx @work-rjkashyap/unified-ui list
+```
+
+**Output:**
+
+```
+Components (75):
+  accordion, alert, alert-dialog, avatar, badge, banner, breadcrumb,
+  button, calendar, card, carousel, chart, checkbox, code, collapsible,
+  color-picker, combobox, command, confirm-dialog, context-menu, ...
+
+Utilities (4):
+  cn, focus-ring, contrast, merge-slots
+
+Motion (2):
+  presets, hooks
+
+Styles (1):
+  unified-ui.css
+```
+
+---
+
+### `diff`
+
+Compare a local component against the latest registry version.
+
+```bash
+npx @work-rjkashyap/unified-ui diff button
+```
+
+This shows a unified diff of your local `button.tsx` against the registry's version, so you can see what's changed upstream and decide whether to merge the updates.
+
+**Flags:**
+
+| Flag          | Description                   |
+| ------------- | ----------------------------- |
+| `--cwd <dir>` | Set the working directory    |
+
+---
+
+## Configuration
+
+The `unified-ui.json` file controls where the CLI writes files and how imports are resolved.
+
+```json title="unified-ui.json"
+{
+	"aliases": {
+		"components": "@/components/ui",
+		"utils": "@/lib",
+		"styles": "@/styles"
+	},
+	"src": true,
+	"registryUrl": "https://unified-ui-rajeshwar.vercel.app/r"
+}
+```
+
+### Options
+
+| Key              | Type     | Default                                              | Description                                           |
+| ---------------- | -------- | ---------------------------------------------------- | ----------------------------------------------------- |
+| `aliases.components` | `string` | `"@/components/ui"`                             | Where component files are written                     |
+| `aliases.utils`      | `string` | `"@/lib"`                                       | Where utility files (`cn.ts`, `focus-ring.ts`) go     |
+| `aliases.styles`     | `string` | `"@/styles"`                                    | Where CSS files go                                    |
+| `src`                | `boolean` | `true`                                          | Whether your project uses a `src/` directory          |
+| `registryUrl`        | `string` | `"https://unified-ui-rajeshwar.vercel.app/r"`   | Base URL for the component registry                   |
+
+### Directory Mapping
+
+With the default config and `src: true`, files are written to:
+
+| Registry Type | Alias Path         | Filesystem Path                  |
+| ------------- | ------------------- | -------------------------------- |
+| Components    | `@/components/ui/`  | `src/components/ui/button.tsx`   |
+| Utilities     | `@/lib/`            | `src/lib/cn.ts`                  |
+| Styles        | `@/styles/`         | `src/styles/unified-ui.css`      |
+| Motion        | `@/lib/motion/`     | `src/lib/motion/presets.ts`      |
+
+---
+
+## Dependency Resolution
+
+When you add a component, the CLI automatically resolves its full dependency tree. There are three types of dependencies:
+
+### 1. Registry Dependencies
+
+Other Unified UI components that the added component imports. For example, `dialog` depends on `button`, so adding `dialog` will also add `button` if it's not already in your project.
+
+```
+dialog
+├── button          (registry dependency)
+├── visually-hidden (registry dependency)
+└── cn              (internal utility)
+```
+
+### 2. Internal Dependencies
+
+Shared utilities that components rely on:
+
+| Utility        | What it provides                                       |
+| -------------- | ------------------------------------------------------ |
+| `cn`           | `clsx` + `tailwind-merge` class merging                |
+| `focus-ring`   | Focus ring CSS class utilities                         |
+| `contrast`     | WCAG color contrast checking                           |
+| `merge-slots`  | Slot merging for compound component APIs               |
+
+### 3. npm Dependencies
+
+External packages that need to be installed from npm:
+
+| Package                    | Used by                             |
+| -------------------------- | ----------------------------------- |
+| `@radix-ui/react-dialog`  | Dialog, AlertDialog, Sheet          |
+| `@radix-ui/react-popover` | Popover, Combobox, DatePicker       |
+| `@radix-ui/react-tabs`    | Tabs                                |
+| `framer-motion`           | All animated components             |
+| `class-variance-authority` | All components with variants       |
+| `tailwind-merge`          | `cn()` utility                      |
+| `clsx`                    | `cn()` utility                      |
+
+The CLI detects your package manager and generates the correct install command:
+
+```bash
+# npm
+npm install @radix-ui/react-dialog framer-motion
+
+# pnpm
+pnpm add @radix-ui/react-dialog framer-motion
+
+# yarn
+yarn add @radix-ui/react-dialog framer-motion
+
+# bun
+bun add @radix-ui/react-dialog framer-motion
+```
+
+---
+
+## Registry
+
+The component registry is a collection of JSON files served from the documentation site. Each item contains:
+
+```json title="Example: /r/button.json"
+{
+	"name": "button",
+	"type": "component",
+	"description": "Primary action button with variants, sizes, loading state, and icon support.",
+	"client": true,
+	"files": [
+		{
+			"path": "components/ui/button.tsx",
+			"content": "\"use client\";\n\nimport { cn } from \"@/lib/cn\";\n..."
+		}
+	],
+	"dependencies": ["class-variance-authority", "tailwind-merge", "clsx"],
+	"registryDependencies": ["cn", "focus-ring"],
+	"internalDependencies": [],
+	"exports": ["Button", "buttonVariants"]
+}
+```
+
+### Registry Endpoints
+
+| URL                | Description                              |
+| ------------------ | ---------------------------------------- |
+| `/r/index.json`    | Full manifest of all available items     |
+| `/r/<name>.json`   | Individual item metadata + source        |
+| `/r/schema/`       | Registry schema definitions              |
+
+### Building the Registry
+
+If you're contributing to Unified UI or self-hosting, build the registry locally:
+
+```bash
+npm run build:registry
+```
+
+This scans `packages/unified-ui/src/` and generates JSON files in `public/r/`.
+
+---
+
+## Import Rewriting
+
+When a component is copied into your project, internal imports are automatically rewritten to match your path aliases.
+
+### Before (registry source)
+
+```tsx
+import { cn } from "@unified-ui/utils/cn";
+import { focusRingClasses } from "@unified-ui/utils/focus-ring";
+import type { FontFamilyKey } from "@unified-ui/tokens/typography";
+```
+
+### After (your project)
+
+```tsx
+import { cn } from "@/lib/cn";
+import { focusRingClasses } from "@/lib/focus-ring";
+import type { FontFamilyKey } from "@/lib/tokens/typography";
+```
+
+The rewriting is based on your `unified-ui.json` aliases configuration.
+
+---
+
+## Using with Next.js App Router
+
+Components that use React hooks, event handlers, or browser APIs are marked with `"use client"` automatically. The CLI detects this from the registry metadata and ensures the directive is present in the copied file.
+
+```tsx title="src/components/ui/button.tsx"
+"use client";
+
+import { cn } from "@/lib/cn";
+import { cva, type VariantProps } from "class-variance-authority";
+import { forwardRef } from "react";
+
+// ... component implementation
+```
+
+Token and utility files are pure JavaScript/TypeScript with no React dependency, so they work in both Server and Client Components.
+
+---
+
+## Updating Components
+
+To update a component to the latest registry version:
+
+<Steps>
+
+<Step>
+### Check what changed
+
+```bash
+npx @work-rjkashyap/unified-ui diff button
+```
+
+Review the diff to see what's new in the upstream version.
+
+</Step>
+
+<Step>
+### Re-add with overwrite
+
+If the update looks good:
+
+```bash
+npx @work-rjkashyap/unified-ui add button --overwrite
+```
+
+</Step>
+
+<Step>
+### Re-apply your customizations
+
+If you had local changes, re-apply them after the update. Using git, you can review and cherry-pick changes:
+
+```bash
+git diff src/components/ui/button.tsx
+```
+
+</Step>
+
+</Steps>
+
+<Callout type="info">
+	For projects that need automatic updates without manual merging, consider
+	using the [npm package](/docs) workflow instead. Semver releases mean you
+	can upgrade with `npm update` and review breaking changes in the changelog.
+</Callout>
+
+---
+
+## Comparison: npm Package vs CLI
+
+| Feature                          | npm Package                     | Copy & Paste CLI                   |
+| -------------------------------- | ------------------------------- | ---------------------------------- |
+| Installation                     | `npm i @work-rjkashyap/unified-ui` | `npx @work-rjkashyap/unified-ui add` |
+| Code location                    | `node_modules/`                 | Your project (`src/components/ui/`) |
+| Updates                          | `npm update`                    | `diff` + `add --overwrite`         |
+| Customization                    | Override via className/variants | Edit source directly               |
+| Bundle size                      | Tree-shaken by bundler          | Only what you add                  |
+| Type safety                      | Full `.d.ts` declarations       | Full source with types             |
+| Version tracking                 | `package.json` semver           | Manual via `diff`                  |
+| Cross-project consistency        | Guaranteed (same version)       | Manual (divergence possible)       |
+| Token system                     | Included via CSS import         | CSS file copied locally            |
+| Theme provider                   | Included                        | Copied as local file               |
+
+---
+
+## Frequently Asked Questions
+
+### Can I use both the npm package and the CLI?
+
+Yes. A common pattern is to install the npm package for the base system (tokens, theme, primitives) and copy specific components you need to customize heavily.
+
+### Do I need to copy the CSS file?
+
+Yes. When using the CLI, run `npx @work-rjkashyap/unified-ui add styles` to copy the design system CSS file. This provides all the CSS custom properties and Tailwind `@theme` integration.
+
+### What happens if I add a component that depends on another?
+
+The CLI resolves the full dependency tree automatically. If `dialog` needs `button`, both are added. If `button` already exists in your project, it's skipped (unless you pass `--overwrite`).
+
+### Can I use a custom registry URL?
+
+Yes. Set the `registryUrl` field in `unified-ui.json` to point to your own hosted registry:
+
+```json title="unified-ui.json"
+{
+	"registryUrl": "https://your-internal-registry.com/r"
+}
+```
+
+### How do I contribute a component back?
+
+If you've built a component on top of the Unified UI token system and want to contribute it:
+
+1. Add the source file to `packages/unified-ui/src/components/`.
+2. Export it from `packages/unified-ui/src/components/index.ts`.
+3. Re-export from `packages/unified-ui/src/index.ts`.
+4. Run `npm run build:registry` to generate the registry entry.
+5. Write documentation in `content/components/<name>.mdx`.
+6. Submit a pull request.

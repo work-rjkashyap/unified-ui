@@ -4,58 +4,25 @@
 // Unified UI — Dialog Component
 // ============================================================================
 // A production-ready dialog/modal component built on Radix UI's Dialog
-// primitive and the Unified UI token layer. Uses CVA for variant composition
+// primitive with Framer Motion animations. Uses CVA for variant composition
 // and tailwind-merge (via cn) for safe class merging.
 //
 // Features:
 //   - Built on @radix-ui/react-dialog for full accessibility
 //   - 4 sizes: sm (480px), md (560px), lg (720px), full
 //   - Slot components: DialogHeader, DialogBody, DialogFooter
-//   - Overlay backdrop with fade animation
-//   - Modal content with scale + slide animation
-//   - Focus trap (Radix handles this)
-//   - Close on Escape (Radix handles this)
-//   - Scroll lock on body (Radix handles this)
+//   - Framer Motion overlay backdrop (overlayBackdrop) + content spring (modalContent)
+//   - Focus trap, Escape to close, Scroll lock (Radix handles this)
 //   - Optional close button
-//   - Uses z-modal (content) and z-overlay (backdrop)
-//   - rounded-lg per project guideline for dialogs
+//   - Respects prefers-reduced-motion
 //   - WCAG AA accessible: focus management, aria-labelledby, aria-describedby
-//
-// All visual values (colors, radii, spacing, transitions) come from the
-// design system's CSS custom properties. NEVER hardcode design values here.
-//
-// Usage:
-//   import {
-//     Dialog, DialogTrigger, DialogContent,
-//     DialogHeader, DialogBody, DialogFooter,
-//     DialogTitle, DialogDescription, DialogClose
-//   } from "@/design-system/components/dialog";
-//
-//   <Dialog>
-//     <DialogTrigger asChild>
-//       <Button>Open Dialog</Button>
-//     </DialogTrigger>
-//     <DialogContent>
-//       <DialogHeader>
-//         <DialogTitle>Edit Profile</DialogTitle>
-//         <DialogDescription>Make changes to your profile.</DialogDescription>
-//       </DialogHeader>
-//       <DialogBody>
-//         <Input placeholder="Name" />
-//       </DialogBody>
-//       <DialogFooter>
-//         <DialogClose asChild>
-//           <Button variant="secondary">Cancel</Button>
-//         </DialogClose>
-//         <Button>Save</Button>
-//       </DialogFooter>
-//     </DialogContent>
-//   </Dialog>
 // ============================================================================
 
+import { modalContent, overlayBackdrop } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva } from "class-variance-authority";
+import { motion, useReducedMotion } from "framer-motion";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
@@ -68,6 +35,11 @@ import {
 // CVA Variant Definitions
 // ---------------------------------------------------------------------------
 
+/**
+ * CVA variants for DialogContent sizing.
+ * Animation is handled by Framer Motion (overlayBackdrop + modalContent presets),
+ * so no CSS animation classes are included here.
+ */
 export const dialogContentVariants = cva(
   [
     // Positioning
@@ -84,9 +56,6 @@ export const dialogContentVariants = cva(
     "shadow-xl",
     // Overflow
     "max-h-[85vh]",
-    // Animation
-    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-    "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-left-1/2 to-top-[48%]",
     // Focus
     "outline-none",
   ],
@@ -217,32 +186,39 @@ export const DialogTrigger = forwardRef<
 DialogTrigger.displayName = "DialogTrigger";
 
 // ---------------------------------------------------------------------------
-// Dialog Overlay (Internal)
+// Dialog Overlay (Internal — Framer Motion animated)
 // ---------------------------------------------------------------------------
 
 const DialogOverlay = forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(function DialogOverlay({ className, ...rest }, ref) {
+  const shouldReduce = useReducedMotion();
   return (
-    <DialogPrimitive.Overlay
-      ref={ref}
-      className={cn(
-        "fixed inset-0",
-        "z-[var(--z-overlay)]",
-        "bg-black/50",
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-        className,
-      )}
-      {...rest}
-    />
+    <DialogPrimitive.Overlay ref={ref} asChild {...rest}>
+      <motion.div
+        className={cn(
+          "fixed inset-0",
+          "z-[var(--z-overlay)]",
+          "bg-black/50",
+          className,
+        )}
+        variants={shouldReduce ? undefined : overlayBackdrop.variants}
+        initial={shouldReduce ? { opacity: 0 } : "initial"}
+        animate={shouldReduce ? { opacity: 1 } : "animate"}
+        exit={shouldReduce ? { opacity: 0 } : "exit"}
+        transition={
+          shouldReduce ? { duration: 0.15 } : overlayBackdrop.transition
+        }
+        data-ds-animated=""
+      />
+    </DialogPrimitive.Overlay>
   );
 });
 DialogOverlay.displayName = "DialogOverlay";
 
 // ---------------------------------------------------------------------------
-// DialogContent
+// DialogContent (Framer Motion animated)
 // ---------------------------------------------------------------------------
 
 export const DialogContent = forwardRef<
@@ -259,33 +235,46 @@ export const DialogContent = forwardRef<
   },
   ref,
 ) {
+  const shouldReduce = useReducedMotion();
   return (
     <DialogPrimitive.Portal>
       <DialogOverlay className={overlayClassName} />
-      <DialogPrimitive.Content
-        ref={ref}
-        className={cn("not-prose", dialogContentVariants({ size }), className)}
-        data-ds=""
-        data-ds-component="dialog"
-        data-ds-size={size}
-        {...rest}
-      >
-        {children}
-        {showClose && (
-          <DialogPrimitive.Close
-            className={cn(
-              "absolute right-4 top-4",
-              "inline-flex items-center justify-center",
-              "rounded-sm p-1",
-              "text-muted-foreground hover:text-foreground",
-              "transition-colors duration-fast",
-              focusRingClasses,
-            )}
-            aria-label="Close"
-          >
-            <CloseIcon className="size-4" />
-          </DialogPrimitive.Close>
-        )}
+      <DialogPrimitive.Content ref={ref} asChild {...rest}>
+        <motion.div
+          className={cn(
+            "not-prose",
+            dialogContentVariants({ size }),
+            className,
+          )}
+          variants={shouldReduce ? undefined : modalContent.variants}
+          initial={shouldReduce ? { opacity: 0 } : "initial"}
+          animate={shouldReduce ? { opacity: 1 } : "animate"}
+          exit={shouldReduce ? { opacity: 0 } : "exit"}
+          transition={
+            shouldReduce ? { duration: 0.2 } : modalContent.transition
+          }
+          data-ds=""
+          data-ds-component="dialog"
+          data-ds-size={size}
+          data-ds-animated=""
+        >
+          {children}
+          {showClose && (
+            <DialogPrimitive.Close
+              className={cn(
+                "absolute right-4 top-4",
+                "inline-flex items-center justify-center",
+                "rounded-sm p-1",
+                "text-muted-foreground hover:text-foreground",
+                "transition-colors duration-fast",
+                focusRingClasses,
+              )}
+              aria-label="Close"
+            >
+              <CloseIcon className="size-4" />
+            </DialogPrimitive.Close>
+          )}
+        </motion.div>
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>
   );

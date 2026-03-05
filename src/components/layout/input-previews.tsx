@@ -18,10 +18,7 @@
 // never requiring a function to be passed as a prop across the boundary.
 // ============================================================================
 
-import {
-  NumberInput,
-  Slider,
-} from "@work-rjkashyap/unified-ui";
+import { NumberInput, Slider } from "@work-rjkashyap/unified-ui";
 
 // ---------------------------------------------------------------------------
 // NumberInput — Custom Format Preview

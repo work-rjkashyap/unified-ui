@@ -919,6 +919,173 @@ export const SURFACE_STYLE_PRESETS: readonly SurfaceStylePreset[] = [
 export const DEFAULT_SURFACE_STYLE_KEY = "bordered";
 
 // ============================================================================
+// Style Presets (Holistic Visual Personality)
+// ============================================================================
+// Each style preset defines a complete visual personality by bundling
+// together recommended radius, shadow, surface, and font settings, plus
+// component-level spacing tokens (--ds-spacing-*, --ds-border-width).
+//
+// When a user selects a style, it applies as a "base layer" of overrides.
+// Individual knobs (radius, font, etc.) can still be tweaked independently
+// after choosing a style — the style just sets a good starting point.
+//
+// Styles are inspired by common design system archetypes:
+//   - Vega:  Classic shadcn/ui — clean, neutral, familiar
+//   - Nova:  Compact — reduced padding, tighter spacing
+//   - Maia:  Soft — generous spacing, large radius, gentle shadows
+//   - Lyra:  Boxy — sharp corners, mono font, technical feel
+//   - Mira:  Dense — ultra-compact for data-heavy interfaces
+// ============================================================================
+
+export interface StylePreset {
+  readonly name: string;
+  readonly key: string;
+  readonly description: string;
+  /** SVG path data for the style icon (rendered in a 24x24 viewBox) */
+  readonly iconPath: string;
+  /** Recommended sub-preset keys applied when this style is selected */
+  readonly defaults: {
+    readonly radius: string;
+    readonly font: string;
+    readonly shadow: string;
+    readonly surfaceStyle: string;
+  };
+  /** Component-level CSS custom property overrides (mode-independent) */
+  readonly vars: {
+    /** Base spacing unit multiplier (rem). Default is 1. */
+    readonly spacingUnit: string;
+    /** Card/surface inner padding (rem) */
+    readonly paddingCard: string;
+    /** Button horizontal padding (rem) */
+    readonly paddingButtonX: string;
+    /** Button vertical padding (rem) */
+    readonly paddingButtonY: string;
+    /** Default gap between elements (rem) */
+    readonly gapDefault: string;
+    /** Border width for bordered elements */
+    readonly borderWidth: string;
+    /** Input/control height (rem) */
+    readonly controlHeight: string;
+  };
+}
+
+export const STYLE_PRESETS: readonly StylePreset[] = [
+  {
+    name: "Vega",
+    key: "vega",
+    description: "The classic shadcn/ui look. Clean, neutral, and familiar.",
+    iconPath: "M3 3h18v18H3V3zm2 2v14h14V5H7z",
+    defaults: {
+      radius: "0.625",
+      font: "outfit",
+      shadow: "default",
+      surfaceStyle: "bordered",
+    },
+    vars: {
+      spacingUnit: "1",
+      paddingCard: "1.5rem",
+      paddingButtonX: "1rem",
+      paddingButtonY: "0.5rem",
+      gapDefault: "0.75rem",
+      borderWidth: "1px",
+      controlHeight: "2.25rem",
+    },
+  },
+  {
+    name: "Nova",
+    key: "nova",
+    description: "Reduced padding and margins for compact layouts.",
+    iconPath: "M4 4h16v16H4V4zm1.5 1.5v13h13v-13h-13z",
+    defaults: {
+      radius: "0.5",
+      font: "inter",
+      shadow: "subtle",
+      surfaceStyle: "bordered",
+    },
+    vars: {
+      spacingUnit: "0.875",
+      paddingCard: "1rem",
+      paddingButtonX: "0.75rem",
+      paddingButtonY: "0.375rem",
+      gapDefault: "0.5rem",
+      borderWidth: "1px",
+      controlHeight: "2rem",
+    },
+  },
+  {
+    name: "Maia",
+    key: "maia",
+    description: "Soft and rounded, with generous spacing.",
+    iconPath:
+      "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z",
+    defaults: {
+      radius: "0.75",
+      font: "outfit",
+      shadow: "default",
+      surfaceStyle: "mixed",
+    },
+    vars: {
+      spacingUnit: "1.125",
+      paddingCard: "1.75rem",
+      paddingButtonX: "1.25rem",
+      paddingButtonY: "0.625rem",
+      gapDefault: "1rem",
+      borderWidth: "1px",
+      controlHeight: "2.5rem",
+    },
+  },
+  {
+    name: "Lyra",
+    key: "lyra",
+    description: "Boxy and sharp. Pairs well with mono fonts.",
+    iconPath: "M3 3h18v18H3V3zm1 1v16h16V4H4z",
+    defaults: {
+      radius: "0",
+      font: "system",
+      shadow: "none",
+      surfaceStyle: "bordered",
+    },
+    vars: {
+      spacingUnit: "1",
+      paddingCard: "1.25rem",
+      paddingButtonX: "1rem",
+      paddingButtonY: "0.5rem",
+      gapDefault: "0.75rem",
+      borderWidth: "1px",
+      controlHeight: "2.25rem",
+    },
+  },
+  {
+    name: "Mira",
+    key: "mira",
+    description: "Compact. Made for dense interfaces.",
+    iconPath:
+      "M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm0 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z",
+    defaults: {
+      radius: "0.375",
+      font: "inter",
+      shadow: "none",
+      surfaceStyle: "bordered",
+    },
+    vars: {
+      spacingUnit: "0.75",
+      paddingCard: "0.75rem",
+      paddingButtonX: "0.625rem",
+      paddingButtonY: "0.25rem",
+      gapDefault: "0.375rem",
+      borderWidth: "1px",
+      controlHeight: "1.75rem",
+    },
+  },
+] as const;
+
+export const DEFAULT_STYLE_KEY = "vega";
+
+export function getStylePreset(key: string): StylePreset {
+  return STYLE_PRESETS.find((s) => s.key === key) ?? STYLE_PRESETS[0];
+}
+
+// ============================================================================
 // Theme Config (Full Configuration Object)
 // ============================================================================
 // Represents the complete set of customizer choices. This is what gets
@@ -926,6 +1093,8 @@ export const DEFAULT_SURFACE_STYLE_KEY = "bordered";
 // ============================================================================
 
 export interface ThemeConfig {
+  /** Style preset key (e.g. "vega", "nova", "maia", "lyra", "mira") */
+  style: string;
   /** Color preset key (e.g. "zinc", "blue", "rose") */
   colorPreset: string;
   /** Radius preset key (e.g. "0.5", "0.625") */
@@ -940,6 +1109,7 @@ export interface ThemeConfig {
 
 /** The default theme configuration — matches the design system's built-in styles */
 export const DEFAULT_THEME_CONFIG: ThemeConfig = {
+  style: DEFAULT_STYLE_KEY,
   colorPreset: "zinc",
   radius: DEFAULT_RADIUS_KEY,
   font: DEFAULT_FONT_KEY,
@@ -1056,7 +1226,16 @@ export function buildThemeOverrides(
   // 2. Radius Preset
   // -----------------------------------------------------------------------
   const radiusPreset = getRadiusPreset(config.radius);
+  const baseRem = Number.parseFloat(radiusPreset.value); // e.g. 0.625
+  const isZero = radiusPreset.key === "0";
+
   vars["--radius"] = radiusPreset.value;
+  vars["--radius-none"] = "0px";
+  vars["--radius-sm"] = isZero ? "0px" : `${Math.max(baseRem * 0.4, 0.125)}rem`;
+  vars["--radius-md"] = isZero ? "0px" : `${Math.max(baseRem * 0.6, 0.25)}rem`;
+  vars["--radius-lg"] = isZero ? "0px" : `${Math.max(baseRem * 0.8, 0.375)}rem`;
+  vars["--radius-xl"] = isZero ? "0px" : `${Math.max(baseRem * 1.2, 0.5)}rem`;
+  vars["--radius-full"] = "9999px";
 
   // -----------------------------------------------------------------------
   // 3. Font Preset (override --font-sans only)
@@ -1076,6 +1255,41 @@ export function buildThemeOverrides(
   vars["--shadow-lg"] = shadows.lg;
   vars["--shadow-xl"] = shadows.xl;
   vars["--shadow-2xl"] = shadows["2xl"];
+
+  // -----------------------------------------------------------------------
+  // 5. Style Preset (component-level spacing tokens)
+  // -----------------------------------------------------------------------
+  const stylePreset = getStylePreset(config.style);
+  const sv = stylePreset.vars;
+  vars["--ds-spacing-unit"] = sv.spacingUnit;
+  vars["--ds-padding-card"] = sv.paddingCard;
+  vars["--ds-padding-button-x"] = sv.paddingButtonX;
+  vars["--ds-padding-button-y"] = sv.paddingButtonY;
+  vars["--ds-gap-default"] = sv.gapDefault;
+  vars["--ds-border-width"] = sv.borderWidth;
+  vars["--ds-control-height"] = sv.controlHeight;
+
+  // -----------------------------------------------------------------------
+  // 6. Surface Style
+  // -----------------------------------------------------------------------
+  // "bordered" → visible borders, no card shadows
+  // "elevated" → no visible borders, card shadows for depth
+  // "mixed"    → subtle borders + subtle shadows
+  if (config.surfaceStyle === "elevated") {
+    // Remove borders on cards/surfaces, add elevation shadows
+    vars["--card"] = mode === "dark" ? "oklch(0.205 0 0)" : "oklch(1 0 0)";
+    vars["--border"] =
+      mode === "dark" ? "oklch(0.205 0 0 / 0)" : "oklch(0.922 0 0 / 0)";
+    vars["--border-muted"] =
+      mode === "dark" ? "oklch(0.205 0 0 / 0)" : "oklch(0.922 0 0 / 0)";
+  } else if (config.surfaceStyle === "mixed") {
+    // Keep borders but make them subtler, add light shadows
+    vars["--border"] =
+      mode === "dark" ? "oklch(0.4 0 0 / 0.15)" : "oklch(0.8 0 0 / 0.3)";
+    vars["--border-muted"] =
+      mode === "dark" ? "oklch(0.4 0 0 / 0.1)" : "oklch(0.85 0 0 / 0.25)";
+  }
+  // "bordered" is the default — no overrides needed (colors already handle it)
 
   return vars;
 }
@@ -1105,6 +1319,7 @@ export function generateThemeCSS(config: ThemeConfig): string {
     "/* ============================================",
     " * Unified UI — Custom Theme",
     ` * Preset: ${getColorPreset(config.colorPreset).name}`,
+    ` * Style: ${getStylePreset(config.style).name}`,
     ` * Radius: ${getRadiusPreset(config.radius).label}`,
     ` * Font: ${getFontPreset(config.font).name}`,
     ` * Shadows: ${getShadowPreset(config.shadow).name}`,

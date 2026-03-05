@@ -37,7 +37,9 @@ unified-ui/
 │   ├── app/                     ← Next.js docs app
 │   ├── components/              ← Docs-specific components
 │   └── lib/                     ← Docs app utilities
-├── content/                     ← MDX documentation content
+├── content/
+│   ├── docs/                    ← Design system docs (flat — all pages at top level)
+│   └── components/              ← Component documentation pages
 ├── package.json                 ← Root workspace config
 └── tsconfig.json                ← Root TS config (extends path aliases)
 ```
@@ -106,7 +108,7 @@ Tailwind utility classes map directly: `bg-primary`, `text-foreground`, `border-
 5. Add `data-ds`, `data-ds-component`, and relevant `data-ds-*` state attributes
 6. Export from `packages/unified-ui/src/components/index.ts`
 7. Re-export from `packages/unified-ui/src/index.ts`
-8. Write documentation in `content/docs/design-system/components/<name>.mdx`
+8. Write documentation in `content/components/<name>.mdx`
 
 ## Docs App (Root)
 

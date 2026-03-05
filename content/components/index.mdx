@@ -1,6 +1,6 @@
 ---
 title: Components
-description: 60+ production-ready, accessible React components built on the Unified UI token system.
+description: 75+ production-ready, accessible React components built on the Unified UI token system.
 icon: Box
 ---
 
@@ -8,7 +8,7 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
-Unified UI ships **60+ composite components** that compose the design system's tokens, theme, and primitives into production-ready interactive elements. Every component is:
+Unified UI ships **75+ composite components** that compose the design system's tokens, theme, and primitives into production-ready interactive elements. Every component is:
 
 - **Token-driven** — All colors, spacing, radii, and motion come from CSS custom properties.
 - **Accessible** — Built on [Radix UI](https://www.radix-ui.com/) primitives with full WCAG AA compliance.
@@ -16,10 +16,13 @@ Unified UI ships **60+ composite components** that compose the design system's t
 - **Ref-forwarding** — Every component forwards refs for imperative access.
 - **Theme-aware** — Automatically adapts to light/dark mode via CSS variables.
 - **Motion-ready** — Framer Motion presets built-in, respecting `prefers-reduced-motion`.
+- **Two distribution modes** — Install the npm package _or_ copy individual components with the CLI.
 
 ---
 
 ## Installation
+
+### Option A: npm Package
 
 ```bash
 npm install @work-rjkashyap/unified-ui
@@ -43,11 +46,32 @@ Or use layer-specific imports for better tree-shaking:
 import { Button, Input } from "@work-rjkashyap/unified-ui/components";
 ```
 
+### Option B: Copy & Paste CLI
+
+Add individual components to your project — you own the source:
+
+```bash
+npx @work-rjkashyap/unified-ui add button input card dialog
+```
+
+Then import from your local project:
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+```
+
+<Callout type="info">
+	The CLI automatically resolves and installs all dependencies — other
+	components, utilities, and npm packages. See the [Getting Started](/docs)
+	guide for full setup instructions.
+</Callout>
+
 ---
 
 ## Component Catalog
 
-### Form Controls
+### Form Controls (21 components)
 
 Interactive elements for capturing user input.
 
@@ -152,22 +176,22 @@ Interactive elements for capturing user input.
 		description="Drag-and-drop file upload zone with file list, progress tracking, image preview thumbnails, and stagger animations."
 		href="/components/file-upload"
 	/>
+	<Card
+		title="Color Picker"
+		description="A color selection component with spectrum picker, hue slider, HEX input, and preset swatches."
+		href="/components/color-picker"
+	/>
 </Cards>
 
-### Data Display
+### Data Display (18 components)
 
 Components for presenting information and content.
 
 <Cards>
 	<Card
 		title="Badge"
-		description="7 semantic variants, dot indicator, removable, icon support."
+		description="8 semantic variants, dot indicator, avatar/icon slots, removable/dismissible, animated entrance, polymorphic."
 		href="/components/badge"
-	/>
-	<Card
-		title="Tag"
-		description="Compact label for categorization. 7 variants, avatar/icon slots, dismissible with pop animation."
-		href="/components/tag"
 	/>
 	<Card
 		title="Avatar"
@@ -229,22 +253,42 @@ Components for presenting information and content.
 		description="Constrains child content to a given aspect ratio. Ideal for images, videos, and responsive media containers."
 		href="/components/aspect-ratio"
 	/>
+	<Card
+		title="Chart"
+		description="A card wrapper for Recharts with consistent design system theming, pre-configured color palette, and responsive sizing."
+		href="/components/chart"
+	/>
+	<Card
+		title="Data Table Toolbar"
+		description="A composable toolbar with search, faceted filters, column visibility toggle, and view mode switcher for DataTable."
+		href="/components/data-table-toolbar"
+	/>
+	<Card
+		title="Image Gallery"
+		description="A responsive grid of images with an interactive lightbox viewer featuring zoom, keyboard navigation, and thumbnail strip."
+		href="/components/image-gallery"
+	/>
+	<Card
+		title="Markdown"
+		description="Renders markdown strings into styled HTML with design system prose styling, supporting headings, lists, code blocks, and more."
+		href="/components/markdown"
+	/>
+	<Card
+		title="Video Player"
+		description="A styled video component with custom play/pause, mute, seek, and fullscreen controls, poster image, and keyboard shortcuts."
+		href="/components/video-player"
+	/>
 </Cards>
 
-### Feedback
+### Feedback (9 components)
 
 Components for communicating status and information to users.
 
 <Cards>
 	<Card
 		title="Alert"
-		description="4 semantic variants with auto icons, dismissible, accessible roles."
+		description="5 semantic variants with auto icons, dismissible, collapsible, animated entrance, accessible roles."
 		href="/components/alert"
-	/>
-	<Card
-		title="Callout"
-		description="Highlighted info block with icon, title, collapsible mode, and 5 semantic variants."
-		href="/components/callout"
 	/>
 	<Card
 		title="Banner"
@@ -281,9 +325,14 @@ Components for communicating status and information to users.
 		description="Click-to-copy icon button with clipboard-to-checkmark animation and tooltip."
 		href="/components/copy-button"
 	/>
+	<Card
+		title="Sonner"
+		description="Stacked toast notification system with promise/loading states, built on the sonner library with Unified UI styling."
+		href="/components/sonner"
+	/>
 </Cards>
 
-### Overlay
+### Overlay (9 components)
 
 Components that render above the page content.
 
@@ -328,9 +377,14 @@ Components that render above the page content.
 		description="Right-click context menu built on Radix UI."
 		href="/components/context-menu"
 	/>
+	<Card
+		title="Drawer"
+		description="A bottom drawer with native-feeling drag-to-dismiss interaction. Built on vaul with snap points, multiple sizes, and composable slot components."
+		href="/components/drawer"
+	/>
 </Cards>
 
-### Navigation
+### Navigation (13 components)
 
 Components for moving between views and content sections.
 
@@ -390,9 +444,19 @@ Components for moving between views and content sections.
 		description="Collapsible app sidebar with sections, icons, animated width transitions, and mobile overlay."
 		href="/components/sidebar"
 	/>
+	<Card
+		title="Tree View"
+		description="An expandable tree structure with checkable nodes, custom icons, keyboard navigation, and smooth animations."
+		href="/components/tree-view"
+	/>
+	<Card
+		title="Infinite Scroll"
+		description="Scroll-triggered infinite loading with Intersection Observer, loading indicator, and end-of-list detection."
+		href="/components/infinite-scroll"
+	/>
 </Cards>
 
-### Layout
+### Layout (2 components)
 
 Structural components for building adjustable, responsive layouts.
 
@@ -402,9 +466,14 @@ Structural components for building adjustable, responsive layouts.
 		description="Resizable split panels with drag handle for adjustable horizontal and vertical layouts."
 		href="/components/resizable"
 	/>
+	<Card
+		title="Virtual List"
+		description="A performant virtualized list that only renders visible items, supporting thousands of rows with smooth scrolling."
+		href="/components/virtual-list"
+	/>
 </Cards>
 
-### Utility
+### Utility (2 components)
 
 Low-level building blocks and accessibility helpers.
 
@@ -413,6 +482,11 @@ Low-level building blocks and accessibility helpers.
 		title="Visually Hidden"
 		description="Screen-reader-only content wrapper that hides elements visually while keeping them accessible."
 		href="/components/visually-hidden"
+	/>
+	<Card
+		title="Theme Toggle"
+		description="A light/dark/system mode switcher with icon and segmented variants. Headless and controlled — works with any theme provider."
+		href="/components/theme-toggle"
 	/>
 </Cards>
 
@@ -428,7 +502,7 @@ Most components follow a consistent `variant` + `size` API powered by CVA:
 <Button variant="primary" size="md">Save</Button>
 <Input variant="error" size="sm" />
 <Badge variant="success" size="md">Active</Badge>
-<Tag variant="primary" size="sm">React</Tag>
+<Badge variant="primary" size="sm" animated>React</Badge>
 <Slider variant="primary" size="md" defaultValue={[50]} />
 ```
 
@@ -478,5 +552,6 @@ All animated components use Framer Motion presets and respect `prefers-reduced-m
 <Callout type="info">
 	Each component page includes live examples, all variants, props
 	documentation, keyboard interaction tables, motion notes, and accessibility
-	guidelines.
+	guidelines. When using the copy-paste CLI, each component can be added
+	individually with `npx @work-rjkashyap/unified-ui add <name>`.
 </Callout>

@@ -1,0 +1,434 @@
+---
+title: Chart
+description: A card wrapper for Recharts with consistent design system theming, pre-configured color palette, and responsive sizing.
+icon: ChartBar
+---
+
+import {
+	ChartContainer,
+	ChartTooltipContent,
+	Badge,
+} from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+	title="Chart"
+	description="A card wrapper for Recharts with consistent design system theming, pre-configured color palette, loading/empty states, and responsive sizing."
+	preview={<ChartBarPreview />}
+	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+
+const data = [
+{ month: "Jan", revenue: 4000 },
+{ month: "Feb", revenue: 3000 },
+{ month: "Mar", revenue: 5000 },
+{ month: "Apr", revenue: 4500 },
+{ month: "May", revenue: 6000 },
+{ month: "Jun", revenue: 5500 },
+];
+
+<ChartContainer title="Monthly Revenue" description="Jan – Jun 2025" height={240}>
+  <ResponsiveContainer width="100%" height="100%">
+    <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
+      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+      <XAxis dataKey="month" stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <YAxis stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <Tooltip content={<ChartTooltipContent />} cursor={{ fill: "var(--muted)", opacity: 0.3 }} />
+      <Bar dataKey="revenue" fill={chartColors[0]} radius={[4, 4, 0, 0]} maxBarSize={40} />
+    </BarChart>
+  </ResponsiveContainer>
+</ChartContainer>`}
+>
+
+<Callout type="info">
+	This component does **not** bundle Recharts. Install `recharts` as a
+	separate dependency in your project.
+</Callout>
+
+## Import
+
+```tsx
+import {
+	ChartContainer,
+	ChartTooltipContent,
+	chartColors,
+} from "@work-rjkashyap/unified-ui";
+// or
+import {
+	ChartContainer,
+	ChartTooltipContent,
+	chartColors,
+} from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Bar Chart
+
+<ComponentPage
+	title="Bar Chart"
+	description="A simple bar chart inside ChartContainer with title, description, and axis labels."
+	preview={<ChartWeeklySalesPreview />}
+	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+
+const data = [
+{ week: "W1", sales: 320 },
+{ week: "W2", sales: 450 },
+{ week: "W3", sales: 280 },
+{ week: "W4", sales: 590 },
+{ week: "W5", sales: 420 },
+];
+
+<ChartContainer title="Weekly Sales" description="Last 5 weeks" height={220}>
+  <ResponsiveContainer width="100%" height="100%">
+    <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
+      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+      <XAxis dataKey="week" stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <YAxis stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <Tooltip content={<ChartTooltipContent />} cursor={{ fill: "var(--muted)", opacity: 0.3 }} />
+      <Bar dataKey="sales" fill={chartColors[0]} radius={[4, 4, 0, 0]} maxBarSize={36} />
+    </BarChart>
+  </ResponsiveContainer>
+</ChartContainer>`}
+/>
+
+### Multi-Series Bar Chart
+
+<ComponentPage
+	title="Multi-Series with Footer"
+	description="Compare multiple data series with a footer legend for context."
+	preview={<ChartMultiSeriesPreview />}
+	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+
+const data = [
+{ month: "Jan", revenue: 4000, expenses: 2800 },
+{ month: "Feb", revenue: 3200, expenses: 2600 },
+{ month: "Mar", revenue: 5100, expenses: 3000 },
+{ month: "Apr", revenue: 4700, expenses: 2900 },
+{ month: "May", revenue: 5800, expenses: 3200 },
+{ month: "Jun", revenue: 6200, expenses: 3400 },
+];
+
+<ChartContainer
+  title="Revenue vs Expenses"
+  description="Q1 – Q2 2025"
+  height={240}
+  footer={
+    <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1.5">
+        <div className="size-2.5 rounded-full bg-primary" />
+        <span>Revenue</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <div className="size-2.5 rounded-full" style={{ backgroundColor: chartColors[4] }} />
+        <span>Expenses</span>
+      </div>
+    </div>
+  }
+>
+  <ResponsiveContainer width="100%" height="100%">
+    <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
+      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+      <XAxis dataKey="month" stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <YAxis stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <Tooltip content={<ChartTooltipContent />} cursor={{ fill: "var(--muted)", opacity: 0.3 }} />
+      <Bar dataKey="revenue" fill={chartColors[0]} radius={[4, 4, 0, 0]} maxBarSize={28} />
+      <Bar dataKey="expenses" fill={chartColors[4]} radius={[4, 4, 0, 0]} maxBarSize={28} />
+    </BarChart>
+  </ResponsiveContainer>
+</ChartContainer>`}
+/>
+
+### Line Chart
+
+<ComponentPage
+	title="Line Chart"
+	description="Display trends over time with a smooth line chart and interactive tooltip."
+	preview={<ChartLinePreview />}
+	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+
+const data = [
+{ day: "Mon", visitors: 120 },
+{ day: "Tue", visitors: 210 },
+{ day: "Wed", visitors: 180 },
+{ day: "Thu", visitors: 340 },
+{ day: "Fri", visitors: 290 },
+{ day: "Sat", visitors: 430 },
+{ day: "Sun", visitors: 380 },
+];
+
+<ChartContainer title="Daily Visitors" description="This week" height={240}>
+  <ResponsiveContainer width="100%" height="100%">
+    <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
+      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+      <XAxis dataKey="day" stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <YAxis stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <Tooltip content={<ChartTooltipContent />} />
+      <Line
+        type="monotone"
+        dataKey="visitors"
+        stroke={chartColors[1]}
+        strokeWidth={2}
+        dot={{ r: 4, fill: chartColors[1] }}
+        activeDot={{ r: 6, fill: chartColors[1] }}
+      />
+    </LineChart>
+  </ResponsiveContainer>
+</ChartContainer>`}
+/>
+
+### Area Chart
+
+<ComponentPage
+	title="Area Chart"
+	description="Visualize cumulative data with gradient-filled areas and a footer legend."
+	preview={<ChartAreaPreview />}
+	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+
+const data = [
+{ month: "Jan", users: 400, sessions: 240 },
+{ month: "Feb", users: 600, sessions: 380 },
+{ month: "Mar", users: 550, sessions: 420 },
+{ month: "Apr", users: 780, sessions: 500 },
+{ month: "May", users: 920, sessions: 650 },
+{ month: "Jun", users: 1100, sessions: 780 },
+];
+
+<ChartContainer
+  title="Users & Sessions"
+  description="Growth over 6 months"
+  height={240}
+  footer={
+    <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1.5">
+        <div className="size-2.5 rounded-full" style={{ backgroundColor: chartColors[1] }} />
+        <span>Users</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <div className="size-2.5 rounded-full" style={{ backgroundColor: chartColors[2] }} />
+        <span>Sessions</span>
+      </div>
+    </div>
+  }
+>
+  <ResponsiveContainer width="100%" height="100%">
+    <AreaChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
+      <defs>
+        <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="5%" stopColor={chartColors[1]} stopOpacity={0.3} />
+          <stop offset="95%" stopColor={chartColors[1]} stopOpacity={0} />
+        </linearGradient>
+        <linearGradient id="colorSessions" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="5%" stopColor={chartColors[2]} stopOpacity={0.3} />
+          <stop offset="95%" stopColor={chartColors[2]} stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+      <XAxis dataKey="month" stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <YAxis stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
+      <Tooltip content={<ChartTooltipContent />} />
+      <Area type="monotone" dataKey="users" stroke={chartColors[1]} strokeWidth={2} fill="url(#colorUsers)" />
+      <Area type="monotone" dataKey="sessions" stroke={chartColors[2]} strokeWidth={2} fill="url(#colorSessions)" />
+    </AreaChart>
+  </ResponsiveContainer>
+</ChartContainer>`}
+/>
+
+### Pie / Donut Chart
+
+<ComponentPage
+	title="Pie Chart"
+	description="Display proportional data with a donut-style pie chart and footer legend."
+	preview={<ChartPiePreview />}
+	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
+
+const data = [
+{ name: "Desktop", value: 55 },
+{ name: "Mobile", value: 30 },
+{ name: "Tablet", value: 15 },
+];
+
+const colors = [chartColors[0], chartColors[1], chartColors[2]];
+
+<ChartContainer
+  title="Traffic Sources"
+  description="Device breakdown"
+  height={240}
+  footer={
+    <div className="flex items-center justify-center gap-4">
+      {data.map((entry, i) => (
+        <div key={entry.name} className="flex items-center gap-1.5">
+          <div className="size-2.5 rounded-full" style={{ backgroundColor: colors[i] }} />
+          <span>{entry.name} ({entry.value}%)</span>
+        </div>
+      ))}
+    </div>
+  }
+>
+  <ResponsiveContainer width="100%" height="100%">
+    <PieChart>
+      <Tooltip content={<ChartTooltipContent />} />
+      <Pie
+        data={data}
+        cx="50%"
+        cy="50%"
+        innerRadius={50}
+        outerRadius={80}
+        paddingAngle={3}
+        dataKey="value"
+        nameKey="name"
+        strokeWidth={0}
+      >
+        {data.map((entry, index) => (
+          <Cell key={entry.name} fill={colors[index]} />
+        ))}
+      </Pie>
+    </PieChart>
+  </ResponsiveContainer>
+</ChartContainer>`}
+/>
+
+### Loading State
+
+<ComponentPage
+	title="Loading State"
+	description="Show a loading spinner while chart data is being fetched."
+	preview={
+		<div className="w-full max-w-lg">
+			<ChartContainer
+				title="Loading Chart"
+				description="Fetching data..."
+				height={180}
+				loading
+			/>
+		</div>
+	}
+	code={`<ChartContainer title="Loading Chart" description="Fetching data..." height={300} loading />`}
+/>
+
+### Empty State
+
+<ComponentPage
+	title="Empty State"
+	description="Display a message when there is no data to chart."
+	preview={
+		<div className="w-full max-w-lg">
+			<ChartContainer
+				title="User Signups"
+				description="This month"
+				height={180}
+				emptyContent={
+					<div className="text-center">
+						<p className="font-medium text-foreground">
+							No data yet
+						</p>
+						<p className="text-sm text-muted-foreground mt-1">
+							Signups will appear here once recorded.
+						</p>
+					</div>
+				}
+			/>
+		</div>
+	}
+	code={`<ChartContainer
+  title="User Signups"
+  description="This month"
+  height={300}
+  emptyContent={
+    <div className="text-center">
+      <p className="font-medium">No data yet</p>
+      <p className="text-sm text-muted-foreground mt-1">Signups will appear here once recorded.</p>
+    </div>
+  }
+/>`}
+/>
+
+---
+
+## Chart Colors
+
+The `chartColors` array provides 10 pre-defined colors that integrate with design system tokens:
+
+```tsx
+import { chartColors } from "@work-rjkashyap/unified-ui";
+
+<Bar dataKey="revenue" fill={chartColors[0]} />  // primary
+<Bar dataKey="expenses" fill={chartColors[1]} /> // info
+<Bar dataKey="profit" fill={chartColors[2]} />   // success
+```
+
+| Index | Token                     | Usage     |
+| ----- | ------------------------- | --------- |
+| `0`   | `var(--primary)`          | Primary   |
+| `1`   | `var(--info)`             | Info      |
+| `2`   | `var(--success)`          | Success   |
+| `3`   | `var(--warning)`          | Warning   |
+| `4`   | `var(--danger)`           | Danger    |
+| `5`   | `var(--secondary)`        | Secondary |
+| `6`   | `var(--muted-foreground)` | Muted     |
+| `7`   | oklch sky                 | Sky       |
+| `8`   | oklch emerald             | Emerald   |
+| `9`   | oklch amber               | Amber     |
+
+---
+
+## Props (ChartContainer)
+
+| Prop               | Type        | Default | Description                      |
+| ------------------ | ----------- | ------- | -------------------------------- |
+| `title`            | `string`    | —       | Chart title.                     |
+| `description`      | `string`    | —       | Chart description/subtitle.      |
+| `height`           | `number`    | `350`   | Chart area height in pixels.     |
+| `children`         | `ReactNode` | —       | The Recharts chart component(s). |
+| `footer`           | `ReactNode` | —       | Footer content (legend, notes).  |
+| `loading`          | `boolean`   | `false` | Shows loading indicator.         |
+| `loadingIndicator` | `ReactNode` | —       | Custom loading indicator.        |
+| `emptyContent`     | `ReactNode` | —       | Content when chart has no data.  |
+| `className`        | `string`    | —       | Additional CSS classes.          |
+
+## Props (ChartTooltipContent)
+
+| Prop        | Type                                  | Default | Description                |
+| ----------- | ------------------------------------- | ------- | -------------------------- |
+| `label`     | `string`                              | —       | Tooltip header label.      |
+| `payload`   | `Array<{ name, value, color, fill }>` | —       | Recharts tooltip payload.  |
+| `active`    | `boolean`                             | —       | Whether tooltip is active. |
+| `formatter` | `(value, name) => string`             | —       | Custom value formatter.    |
+| `className` | `string`                              | —       | Additional CSS classes.    |
+
+---
+
+## Accessibility
+
+- Chart container uses semantic heading for title.
+- Footer content is associated with the chart visually.
+- Color palette is designed with sufficient contrast for both light and dark modes.
+
+<Callout type="info">
+	For accessible chart content, add `aria-label` or `role="img"` with a
+	descriptive label to your Recharts `ResponsiveContainer` or chart wrapper.
+</Callout>
+
+---
+
+## Design Tokens
+
+| Token                | Usage                    |
+| -------------------- | ------------------------ |
+| `--background`       | Card background          |
+| `--foreground`       | Title text               |
+| `--muted-foreground` | Description, axis text   |
+| `--border`           | Card and tooltip borders |
+| `--radius-lg`        | Card border radius       |
+| `--primary`          | Chart color 1            |
+| `--info`             | Chart color 2            |
+| `--success`          | Chart color 3            |
+
+</ComponentPage>

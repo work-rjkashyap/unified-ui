@@ -8,7 +8,10 @@ var radixUi = require('radix-ui');
 var React = require('react');
 var jsxRuntime = require('react/jsx-runtime');
 var framerMotion = require('framer-motion');
+var reactResizablePanels = require('react-resizable-panels');
+var vaul = require('vaul');
 var reactDom = require('react-dom');
+var sonner = require('sonner');
 
 function _interopNamespace(e) {
   if (e && e.__esModule) return e;
@@ -312,11 +315,29 @@ function CloseIcon({ className }) {
     }
   );
 }
+function ChevronDownIcon2({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m6 9 6 6 6-6" })
+    }
+  );
+}
 var defaultIconMap = {
   info: InfoIcon,
   success: SuccessIcon,
   warning: WarningIcon,
-  danger: DangerIcon
+  danger: DangerIcon,
+  default: InfoIcon
 };
 var alertVariants = classVarianceAuthority.cva(
   // Base styles — shared across all variants
@@ -330,22 +351,19 @@ var alertVariants = classVarianceAuthority.cva(
     // Typography
     "text-sm leading-5",
     // Border
-    "border"
+    "border",
+    // Transition
+    "transition-colors duration-fast"
   ],
   {
     variants: {
-      // -----------------------------------------------------------------
-      // Semantic Variants
-      // -----------------------------------------------------------------
       variant: {
         /**
          * Info — informational messages, tips, notes.
-         * Uses info-muted bg with info-muted-foreground text.
          */
         info: ["bg-info-muted", "text-info-muted-foreground", "border-info/20"],
         /**
          * Success — positive outcomes, confirmations.
-         * Uses success-muted bg with success-muted-foreground text.
          */
         success: [
           "bg-success-muted",
@@ -354,7 +372,6 @@ var alertVariants = classVarianceAuthority.cva(
         ],
         /**
          * Warning — caution messages, deprecation notices.
-         * Uses warning-muted bg with warning-muted-foreground text.
          */
         warning: [
           "bg-warning-muted",
@@ -363,13 +380,17 @@ var alertVariants = classVarianceAuthority.cva(
         ],
         /**
          * Danger — error messages, destructive action warnings.
-         * Uses danger-muted bg with danger-muted-foreground text.
          */
         danger: [
           "bg-danger-muted",
           "text-danger-muted-foreground",
           "border-danger/20"
-        ]
+        ],
+        /**
+         * Default — neutral, generic notes without semantic meaning.
+         * (Formerly only available in Callout.)
+         */
+        default: ["bg-muted", "text-muted-foreground", "border-border"]
       }
     },
     defaultVariants: {
@@ -381,13 +402,15 @@ var iconColorMap = {
   info: "text-info",
   success: "text-success",
   warning: "text-warning",
-  danger: "text-danger"
+  danger: "text-danger",
+  default: "text-muted-foreground"
 };
 var defaultRoleMap = {
   info: "status",
   success: "status",
   warning: "alert",
-  danger: "alert"
+  danger: "alert",
+  default: "status"
 };
 var Alert = React.forwardRef(function Alert2({
   variant = "info",
@@ -396,12 +419,17 @@ var Alert = React.forwardRef(function Alert2({
   dismissible = false,
   onDismiss,
   dismissLabel = "Dismiss alert",
+  collapsible = false,
+  defaultOpen = true,
+  animated = false,
   role: roleProp,
   className,
   children,
   ...rest
 }, ref) {
+  const shouldReduce = framerMotion.useReducedMotion();
   const [visible, setVisible] = React.useState(true);
+  const [open, setOpen] = React.useState(defaultOpen);
   if (!visible && !onDismiss) {
     return null;
   }
@@ -416,45 +444,134 @@ var Alert = React.forwardRef(function Alert2({
       setVisible(false);
     }
   };
-  return /* @__PURE__ */ jsxRuntime.jsxs(
+  const useAnimation = animated && !shouldReduce;
+  const rootClasses = chunk4ON3M3OM_cjs.cn("not-prose", alertVariants({ variant }), className);
+  const rootDataAttrs = {
+    "data-ds": "",
+    "data-ds-component": "alert",
+    "data-ds-variant": variant,
+    ...animated ? { "data-ds-animated": "" } : {}
+  };
+  const collapsibleInner = collapsible ? /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime.jsxs(
+      "button",
+      {
+        type: "button",
+        className: chunk4ON3M3OM_cjs.cn(
+          "flex items-start gap-3 w-full text-left cursor-pointer",
+          chunk3EHT6IOA_cjs.focusRingClasses,
+          "rounded-sm"
+        ),
+        onClick: () => setOpen((o) => !o),
+        "aria-expanded": open,
+        children: [
+          showIcon && resolvedIcon,
+          /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex-1 min-w-0", children: title && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "font-semibold leading-5", children: title }) }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            framerMotion.motion.span,
+            {
+              className: "shrink-0 mt-0.5",
+              animate: open ? { rotate: 180 } : { rotate: 0 },
+              transition: { duration: 0.2 },
+              "data-ds-animated": "",
+              children: /* @__PURE__ */ jsxRuntime.jsx(ChevronDownIcon2, { className: "size-4 opacity-70" })
+            }
+          )
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { initial: false, children: open && /* @__PURE__ */ jsxRuntime.jsx(
+      framerMotion.motion.div,
+      {
+        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.expandHeight.variants,
+        initial: shouldReduce ? { opacity: 0 } : "initial",
+        animate: shouldReduce ? { opacity: 1 } : "animate",
+        exit: shouldReduce ? { opacity: 0 } : "exit",
+        transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.expandHeight.transition,
+        "data-ds-animated": "",
+        children: /* @__PURE__ */ jsxRuntime.jsx(
+          "div",
+          {
+            className: chunk4ON3M3OM_cjs.cn(
+              "leading-5 pt-2",
+              showIcon && "pl-7",
+              title && "opacity-90"
+            ),
+            children
+          }
+        )
+      }
+    ) })
+  ] }) : null;
+  const standardInner = !collapsible ? /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    showIcon && resolvedIcon,
+    /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex-1 min-w-0", children: [
+      title && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "font-semibold leading-5 mb-1", children: title }),
+      children && /* @__PURE__ */ jsxRuntime.jsx("div", { className: chunk4ON3M3OM_cjs.cn("leading-5", title && "opacity-90"), children })
+    ] }),
+    dismissible && /* @__PURE__ */ jsxRuntime.jsx(
+      "button",
+      {
+        type: "button",
+        onClick: handleDismiss,
+        className: chunk4ON3M3OM_cjs.cn(
+          "absolute top-3 right-3",
+          "inline-flex items-center justify-center",
+          "size-6 rounded-sm",
+          "text-current opacity-50",
+          "hover:opacity-100",
+          "transition-opacity duration-fast",
+          "focus-visible:outline-none focus-visible:border-current"
+        ),
+        "aria-label": dismissLabel,
+        children: /* @__PURE__ */ jsxRuntime.jsx(CloseIcon, { className: "size-4" })
+      }
+    )
+  ] }) : null;
+  if (useAnimation) {
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      framerMotion.motion.div,
+      {
+        ref,
+        role: resolvedRole,
+        className: rootClasses,
+        variants: chunkHITTFB2U_cjs.fadeIn.variants,
+        initial: "initial",
+        animate: "animate",
+        transition: chunkHITTFB2U_cjs.fadeIn.transition,
+        ...rootDataAttrs,
+        children: collapsible ? collapsibleInner : standardInner
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxRuntime.jsx(
     "div",
     {
       ref,
       role: resolvedRole,
-      className: chunk4ON3M3OM_cjs.cn("not-prose", alertVariants({ variant }), className),
-      "data-ds": "",
-      "data-ds-component": "alert",
-      "data-ds-variant": variant,
+      className: rootClasses,
+      ...rootDataAttrs,
       ...rest,
-      children: [
-        showIcon && resolvedIcon,
-        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex-1 min-w-0", children: [
-          title && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "font-semibold leading-5 mb-1", children: title }),
-          children && /* @__PURE__ */ jsxRuntime.jsx("div", { className: chunk4ON3M3OM_cjs.cn("leading-5", title && "opacity-90"), children })
-        ] }),
-        dismissible && /* @__PURE__ */ jsxRuntime.jsx(
-          "button",
-          {
-            type: "button",
-            onClick: handleDismiss,
-            className: chunk4ON3M3OM_cjs.cn(
-              "absolute top-3 right-3",
-              "inline-flex items-center justify-center",
-              "size-6 rounded-sm",
-              "text-current opacity-50",
-              "hover:opacity-100",
-              "transition-opacity duration-fast",
-              "focus-visible:outline-none focus-visible:border-current"
-            ),
-            "aria-label": dismissLabel,
-            children: /* @__PURE__ */ jsxRuntime.jsx(CloseIcon, { className: "size-4" })
-          }
-        )
-      ]
+      children: collapsible ? collapsibleInner : standardInner
     }
   );
 });
 Alert.displayName = "Alert";
+var Callout = React.forwardRef(
+  function Callout2({ animated = true, className, ...rest }, ref) {
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      Alert,
+      {
+        ref,
+        animated,
+        className: chunk4ON3M3OM_cjs.cn("rounded-lg", className),
+        ...rest
+      }
+    );
+  }
+);
+Callout.displayName = "Callout";
+var calloutVariants = alertVariants;
 var AlertDialog = radixUi.AlertDialog.Root;
 AlertDialog.displayName = "AlertDialog";
 var AlertDialogTrigger = radixUi.AlertDialog.Trigger;
@@ -950,6 +1067,14 @@ var badgeVariants = classVarianceAuthority.cva(
           "border border-transparent"
         ],
         /**
+         * Secondary — subdued variant with visible border.
+         * Use for archived items, subtle categorization.
+         */
+        secondary: [
+          "bg-secondary text-secondary-foreground",
+          "border border-border"
+        ],
+        /**
          * Success — positive status indicator.
          * Use for "active", "complete", "approved" states.
          */
@@ -995,12 +1120,17 @@ var badgeVariants = classVarianceAuthority.cva(
          * Small — very compact, for inline metadata and dense UIs.
          * Height: ~20px, Font: 11px
          */
-        sm: "px-2 py-0.5 text-[11px]",
+        sm: "px-2 py-0.5 text-[11px] gap-1",
         /**
          * Medium — default badge size, comfortable readability.
          * Height: ~24px, Font: 12px
          */
-        md: "px-2.5 py-1 text-xs"
+        md: "px-2.5 py-1 text-xs gap-1.5",
+        /**
+         * Large — prominent badge for larger touch targets and filter chips.
+         * Height: ~28px, Font: 14px
+         */
+        lg: "px-3 py-1.5 text-sm gap-2"
       }
     },
     defaultVariants: {
@@ -1012,6 +1142,7 @@ var badgeVariants = classVarianceAuthority.cva(
 var dotColorMap = {
   default: "bg-muted-foreground",
   primary: "bg-primary",
+  secondary: "bg-foreground",
   success: "bg-success",
   warning: "bg-warning",
   danger: "bg-danger",
@@ -1020,11 +1151,13 @@ var dotColorMap = {
 };
 var dotSizeMap = {
   sm: "size-1.5",
-  md: "size-2"
+  md: "size-2",
+  lg: "size-2"
 };
 function RemoveButton({
   size,
   label,
+  disabled,
   onClick
 }) {
   return /* @__PURE__ */ jsxRuntime.jsx(
@@ -1032,6 +1165,7 @@ function RemoveButton({
     {
       type: "button",
       onClick,
+      disabled,
       className: chunk4ON3M3OM_cjs.cn(
         "inline-flex items-center justify-center shrink-0",
         "rounded-full",
@@ -1039,11 +1173,14 @@ function RemoveButton({
         "hover:opacity-100",
         "transition-opacity duration-fast",
         "focus-visible:outline-none focus-visible:border-current",
+        "disabled:pointer-events-none disabled:opacity-40",
         // Slightly negative margin to visually tuck the button in
         "-mr-0.5 ml-0.5",
-        size === "sm" ? "size-3" : "size-3.5"
+        size === "sm" ? "size-3" : size === "lg" ? "size-4" : "size-3.5",
+        chunk3EHT6IOA_cjs.focusRingClasses
       ),
       "aria-label": label,
+      tabIndex: 0,
       children: /* @__PURE__ */ jsxRuntime.jsxs(
         "svg",
         {
@@ -1054,7 +1191,7 @@ function RemoveButton({
           strokeWidth: "2.5",
           strokeLinecap: "round",
           strokeLinejoin: "round",
-          className: size === "sm" ? "size-2.5" : "size-3",
+          className: size === "sm" ? "size-2.5" : size === "lg" ? "size-3.5" : "size-3",
           "aria-hidden": "true",
           children: [
             /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M18 6 6 18" }),
@@ -1086,34 +1223,97 @@ var Badge = React.forwardRef(function Badge2({
   size = "md",
   dot = false,
   removable = false,
+  dismissible = false,
   onRemove,
-  removeLabel = "Remove",
+  onDismiss,
+  removeLabel,
+  dismissLabel,
   as: Component = "span",
   icon,
+  avatar,
+  disabled = false,
+  animated = false,
   className,
   children,
   ...rest
 }, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
+  const shouldReduce = framerMotion.useReducedMotion();
+  const showDismiss = removable || dismissible;
+  const handleDismissClick = (e) => {
+    onRemove?.(e);
+    onDismiss?.(e);
+  };
+  const resolvedLabel = removeLabel ?? dismissLabel ?? "Remove";
+  const iconSizeClass = size === "sm" ? "[&>svg]:size-2.5" : size === "lg" ? "[&>svg]:size-3.5" : "[&>svg]:size-3";
+  const content = /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    avatar && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "shrink-0 -ml-0.5", children: avatar }),
+    dot && /* @__PURE__ */ jsxRuntime.jsx(DotIndicator, { variant, size }),
+    icon && /* @__PURE__ */ jsxRuntime.jsx("span", { className: chunk4ON3M3OM_cjs.cn("shrink-0", iconSizeClass), "aria-hidden": "true", children: icon }),
+    /* @__PURE__ */ jsxRuntime.jsx("span", { className: "truncate", children }),
+    showDismiss && /* @__PURE__ */ jsxRuntime.jsx(
+      RemoveButton,
+      {
+        size,
+        label: resolvedLabel,
+        disabled,
+        onClick: handleDismissClick
+      }
+    )
+  ] });
+  const classes = chunk4ON3M3OM_cjs.cn(
+    badgeVariants({ variant, size }),
+    disabled && "opacity-50 pointer-events-none",
+    className
+  );
+  const dataAttrs = {
+    "data-ds": "",
+    "data-ds-component": "badge",
+    "data-ds-variant": variant,
+    "data-ds-size": size,
+    ...disabled ? { "data-ds-disabled": "" } : {},
+    ...animated ? { "data-ds-animated": "" } : {}
+  };
+  if (animated && !shouldReduce) {
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      framerMotion.motion.span,
+      {
+        ref,
+        className: classes,
+        variants: chunkHITTFB2U_cjs.popSubtle.variants,
+        initial: "initial",
+        animate: "animate",
+        transition: chunkHITTFB2U_cjs.popSubtle.transition,
+        ...dataAttrs,
+        children: content
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxRuntime.jsx(
     Component,
     {
       ref,
-      className: chunk4ON3M3OM_cjs.cn(badgeVariants({ variant, size }), className),
-      "data-ds": "",
-      "data-ds-component": "badge",
-      "data-ds-variant": variant,
-      "data-ds-size": size,
+      className: classes,
+      "aria-disabled": disabled || void 0,
+      ...dataAttrs,
       ...rest,
-      children: [
-        dot && /* @__PURE__ */ jsxRuntime.jsx(DotIndicator, { variant, size }),
-        icon && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "shrink-0 [&>svg]:size-3", "aria-hidden": "true", children: icon }),
-        children,
-        removable && /* @__PURE__ */ jsxRuntime.jsx(RemoveButton, { size, label: removeLabel, onClick: onRemove })
-      ]
+      children: content
     }
   );
 });
 Badge.displayName = "Badge";
+var Tag = React.forwardRef(function Tag2({ animated = true, dismissLabel = "Remove tag", ...rest }, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    Badge,
+    {
+      ref,
+      animated,
+      dismissLabel,
+      ...rest
+    }
+  );
+});
+Tag.displayName = "Tag";
+var tagVariants = badgeVariants;
 var bannerVariants = classVarianceAuthority.cva(
   ["w-full flex items-center gap-3 px-4 py-3 text-sm font-medium"],
   {
@@ -1524,9 +1724,9 @@ var buttonVariants = classVarianceAuthority.cva(
         sm: "h-8 px-3 text-xs gap-1.5",
         /**
          * Medium — default size for most buttons.
-         * Height: 36px (h-9), Padding: 16px horizontal, Font: 14px
+         * Height: var(--ds-control-height), Padding: var(--ds-padding-button-x), Font: 14px
          */
-        md: "h-9 px-4 text-sm gap-2",
+        md: "h-(--ds-control-height) px-(--ds-padding-button-x) text-sm gap-2",
         /**
          * Large — prominent buttons for hero sections, forms.
          * Height: 40px (h-10), Padding: 20px horizontal, Font: 14px
@@ -2126,169 +2326,24 @@ var Calendar = React.forwardRef(
   }
 );
 Calendar.displayName = "Calendar";
-var calloutVariants = classVarianceAuthority.cva(
-  ["rounded-lg border p-4 text-sm", "transition-colors duration-fast"],
-  {
-    variants: {
-      variant: {
-        info: "bg-info-muted text-info-muted-foreground border-info/25",
-        success: "bg-success-muted text-success-muted-foreground border-success/25",
-        warning: "bg-warning-muted text-warning-muted-foreground border-warning/25",
-        danger: "bg-danger-muted text-danger-muted-foreground border-danger/25",
-        default: "bg-muted text-muted-foreground border-border"
-      }
-    },
-    defaultVariants: { variant: "info" }
-  }
-);
-var iconColorMap2 = {
-  info: "text-info",
-  success: "text-success",
-  warning: "text-warning",
-  danger: "text-danger",
-  default: "text-muted-foreground"
-};
-function InfoIcon2({ className }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
-    "svg",
-    {
-      className,
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      "aria-hidden": "true",
-      children: [
-        /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "10" }),
-        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M12 16v-4" }),
-        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M12 8h.01" })
-      ]
-    }
-  );
-}
-function ChevronDownIcon2({ className }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(
-    "svg",
-    {
-      className,
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      "aria-hidden": "true",
-      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m6 9 6 6 6-6" })
-    }
-  );
-}
-var Callout = React.forwardRef(
-  function Callout2({
-    variant = "info",
-    title,
-    icon,
-    collapsible = false,
-    defaultOpen = true,
-    className,
-    children
-  }, ref) {
-    const shouldReduce = framerMotion.useReducedMotion();
-    const [open, setOpen] = React.useState(defaultOpen);
-    const showIcon = icon !== null;
-    const resolvedIcon = icon !== void 0 && icon !== null ? icon : /* @__PURE__ */ jsxRuntime.jsx(InfoIcon2, { className: "size-4" });
-    return /* @__PURE__ */ jsxRuntime.jsxs(
-      framerMotion.motion.div,
-      {
-        ref,
-        className: chunk4ON3M3OM_cjs.cn(calloutVariants({ variant }), className),
-        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeIn.variants,
-        initial: shouldReduce ? void 0 : "initial",
-        animate: shouldReduce ? void 0 : "animate",
-        transition: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeIn.transition,
-        "data-ds": "",
-        "data-ds-component": "callout",
-        "data-ds-variant": variant,
-        "data-ds-animated": "",
-        children: [
-          collapsible ? /* @__PURE__ */ jsxRuntime.jsxs(
-            "button",
-            {
-              type: "button",
-              className: chunk4ON3M3OM_cjs.cn(
-                "flex items-start gap-3 w-full text-left cursor-pointer",
-                chunk3EHT6IOA_cjs.focusRingClasses,
-                "rounded-sm"
-              ),
-              onClick: () => setOpen((o) => !o),
-              "aria-expanded": open,
-              children: [
-                showIcon && /* @__PURE__ */ jsxRuntime.jsx("span", { className: chunk4ON3M3OM_cjs.cn("mt-0.5 shrink-0", iconColorMap2[variant]), children: resolvedIcon }),
-                /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex-1 min-w-0", children: title && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "font-semibold leading-5 mb-1", children: title }) }),
-                /* @__PURE__ */ jsxRuntime.jsx(
-                  framerMotion.motion.span,
-                  {
-                    className: "shrink-0 mt-0.5",
-                    animate: open ? { rotate: 180 } : { rotate: 0 },
-                    transition: { duration: 0.2 },
-                    "data-ds-animated": "",
-                    children: /* @__PURE__ */ jsxRuntime.jsx(ChevronDownIcon2, { className: "size-4 opacity-70" })
-                  }
-                )
-              ]
-            }
-          ) : /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-start gap-3", children: [
-            showIcon && /* @__PURE__ */ jsxRuntime.jsx("span", { className: chunk4ON3M3OM_cjs.cn("mt-0.5 shrink-0", iconColorMap2[variant]), children: resolvedIcon }),
-            /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex-1 min-w-0", children: [
-              title && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "font-semibold leading-5 mb-1", children: title }),
-              children && /* @__PURE__ */ jsxRuntime.jsx("div", { className: chunk4ON3M3OM_cjs.cn("leading-5", title && "opacity-90"), children })
-            ] })
-          ] }),
-          collapsible && /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { initial: false, children: open && /* @__PURE__ */ jsxRuntime.jsx(
-            framerMotion.motion.div,
-            {
-              variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.expandHeight.variants,
-              initial: shouldReduce ? { opacity: 0 } : "initial",
-              animate: shouldReduce ? { opacity: 1 } : "animate",
-              exit: shouldReduce ? { opacity: 0 } : "exit",
-              transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.expandHeight.transition,
-              "data-ds-animated": "",
-              children: /* @__PURE__ */ jsxRuntime.jsx(
-                "div",
-                {
-                  className: chunk4ON3M3OM_cjs.cn("leading-5 pt-2 pl-7", title && "opacity-90"),
-                  children
-                }
-              )
-            }
-          ) })
-        ]
-      }
-    );
-  }
-);
-Callout.displayName = "Callout";
 var CardContext = React.createContext({ padding: "compact" });
 function useCardContext() {
   return React.useContext(CardContext);
 }
 var cardPaddingMap = {
-  compact: "p-4",
+  compact: "p-(--ds-padding-card)",
   comfortable: "p-6"
 };
 var slotPaddingXMap = {
-  compact: "px-4",
+  compact: "px-(--ds-padding-card)",
   comfortable: "px-6"
 };
 var slotPaddingTopMap = {
-  compact: "pt-4",
+  compact: "pt-(--ds-padding-card)",
   comfortable: "pt-6"
 };
 var slotPaddingBottomMap = {
-  compact: "pb-4",
+  compact: "pb-(--ds-padding-card)",
   comfortable: "pb-6"
 };
 var cardVariants = classVarianceAuthority.cva(
@@ -2947,6 +3002,308 @@ function CheckboxGroup({
   ) });
 }
 CheckboxGroup.displayName = "CheckboxGroup";
+
+// src/components/code-highlight.ts
+var TOKEN_COLORS = {
+  keyword: "var(--code-keyword)",
+  string: "var(--code-string)",
+  comment: "var(--code-comment)",
+  number: "var(--code-number)",
+  operator: "var(--code-operator)",
+  punctuation: "var(--code-punctuation)",
+  function: "var(--code-function)",
+  type: "var(--code-type)",
+  tag: "var(--code-tag)",
+  "attr-name": "var(--code-attr-name)",
+  "attr-value": "var(--code-string)",
+  // reuse string color
+  plain: "var(--code-foreground)",
+  component: "var(--code-component)"
+};
+var JS_KEYWORDS = /* @__PURE__ */ new Set([
+  "import",
+  "export",
+  "from",
+  "default",
+  "const",
+  "let",
+  "var",
+  "function",
+  "return",
+  "if",
+  "else",
+  "for",
+  "while",
+  "do",
+  "switch",
+  "case",
+  "break",
+  "continue",
+  "new",
+  "this",
+  "class",
+  "extends",
+  "super",
+  "typeof",
+  "instanceof",
+  "in",
+  "of",
+  "try",
+  "catch",
+  "finally",
+  "throw",
+  "async",
+  "await",
+  "yield",
+  "null",
+  "undefined",
+  "true",
+  "false",
+  "void",
+  "delete",
+  "as",
+  "type",
+  "interface",
+  "enum",
+  "implements",
+  "declare",
+  "readonly"
+]);
+var SHELL_KEYWORDS = /* @__PURE__ */ new Set([
+  "npm",
+  "npx",
+  "yarn",
+  "pnpm",
+  "bun",
+  "install",
+  "add",
+  "run",
+  "dev",
+  "build",
+  "start",
+  "test",
+  "init",
+  "create",
+  "exec",
+  "sudo",
+  "cd",
+  "ls",
+  "mkdir",
+  "rm",
+  "cp",
+  "mv",
+  "cat",
+  "echo",
+  "git",
+  "docker",
+  "curl",
+  "wget"
+]);
+function isShellLang(lang) {
+  if (!lang) return false;
+  const l = lang.toLowerCase();
+  return l === "sh" || l === "bash" || l === "zsh" || l === "shell" || l === "terminal";
+}
+function isJsxLang(lang) {
+  if (!lang) return true;
+  const l = lang.toLowerCase();
+  return l === "tsx" || l === "jsx" || l === "ts" || l === "typescript" || l === "js" || l === "javascript" || l === "react";
+}
+var RE_SINGLE_LINE_COMMENT = /^(\/\/.*)/;
+var RE_BLOCK_COMMENT = /^(\/\*[\s\S]*?\*\/)/;
+var RE_TEMPLATE_LITERAL = /^(`(?:[^`\\]|\\.)*`)/;
+var RE_DOUBLE_STRING = /^("(?:[^"\\]|\\.)*")/;
+var RE_SINGLE_STRING = /^('(?:[^'\\]|\\.)*')/;
+var RE_JSX_COMPONENT_WITH_SPACE = /^(<\/?)(\$?[A-Z][$\w.]*)(\s)/;
+var RE_JSX_COMPONENT_CLOSED = /^(<\/?)(\$?[A-Z][$\w.]*)(\/?>)/;
+var RE_HTML_TAG = /^(<\/?)([\w-]+)(\/?>|\s)/;
+var RE_ATTR_NAME = /^([\w-]+)(=)/;
+var RE_NUMBER = /^(\b\d+\.?\d*\b)/;
+var RE_WORD = /^(\b[\w$]+\b)/;
+var RE_OPERATOR = /^([=!<>+\-*/%&|^~?:]+)/;
+var RE_PUNCTUATION = /^([{}()[\];,.<>/])/;
+var RE_WHITESPACE = /^(\s+)/;
+var RE_FOLLOWED_BY_PAREN = /^\s*\(/;
+function tokenizeJsx(line) {
+  const tokens = [];
+  let remaining = line;
+  while (remaining.length > 0) {
+    let m = remaining.match(RE_SINGLE_LINE_COMMENT);
+    if (m) {
+      tokens.push({ type: "comment", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_BLOCK_COMMENT);
+    if (m) {
+      tokens.push({ type: "comment", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_TEMPLATE_LITERAL);
+    if (m) {
+      tokens.push({ type: "string", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_DOUBLE_STRING);
+    if (m) {
+      tokens.push({ type: "string", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_SINGLE_STRING);
+    if (m) {
+      tokens.push({ type: "string", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_JSX_COMPONENT_WITH_SPACE);
+    if (m) {
+      tokens.push({ type: "punctuation", value: m[1] });
+      tokens.push({ type: "component", value: m[2] });
+      tokens.push({ type: "plain", value: m[3] });
+      remaining = remaining.slice(m[0].length);
+      continue;
+    }
+    m = remaining.match(RE_JSX_COMPONENT_CLOSED);
+    if (m) {
+      tokens.push({ type: "punctuation", value: m[1] });
+      tokens.push({ type: "component", value: m[2] });
+      tokens.push({ type: "punctuation", value: m[3] });
+      remaining = remaining.slice(m[0].length);
+      continue;
+    }
+    m = remaining.match(RE_HTML_TAG);
+    if (m) {
+      tokens.push({ type: "punctuation", value: m[1] });
+      tokens.push({ type: "tag", value: m[2] });
+      tokens.push({
+        type: m[3].trim() ? "punctuation" : "plain",
+        value: m[3]
+      });
+      remaining = remaining.slice(m[0].length);
+      continue;
+    }
+    m = remaining.match(RE_ATTR_NAME);
+    if (m) {
+      tokens.push({ type: "attr-name", value: m[1] });
+      tokens.push({ type: "operator", value: m[2] });
+      remaining = remaining.slice(m[0].length);
+      continue;
+    }
+    m = remaining.match(RE_NUMBER);
+    if (m) {
+      tokens.push({ type: "number", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_WORD);
+    if (m) {
+      const word = m[1];
+      if (JS_KEYWORDS.has(word)) {
+        tokens.push({ type: "keyword", value: word });
+      } else if (/^[A-Z]/.test(word)) {
+        tokens.push({ type: "type", value: word });
+      } else if (RE_FOLLOWED_BY_PAREN.test(remaining.slice(word.length))) {
+        tokens.push({ type: "function", value: word });
+      } else {
+        tokens.push({ type: "plain", value: word });
+      }
+      remaining = remaining.slice(word.length);
+      continue;
+    }
+    m = remaining.match(RE_OPERATOR);
+    if (m) {
+      tokens.push({ type: "operator", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_PUNCTUATION);
+    if (m) {
+      tokens.push({ type: "punctuation", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_WHITESPACE);
+    if (m) {
+      tokens.push({ type: "plain", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    {
+      tokens.push({ type: "plain", value: remaining[0] });
+      remaining = remaining.slice(1);
+    }
+  }
+  return tokens;
+}
+var RE_SHELL_COMMENT = /^(#.*)/;
+var RE_SHELL_FLAG = /^(--?[\w-]+)/;
+var RE_SHELL_WORD = /^([@\w./-]+)/;
+var RE_SHELL_OPERATOR = /^([|&;><]+)/;
+function tokenizeShell(line) {
+  const tokens = [];
+  let remaining = line;
+  while (remaining.length > 0) {
+    let m;
+    m = remaining.match(RE_SHELL_COMMENT);
+    if (m) {
+      tokens.push({ type: "comment", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_DOUBLE_STRING);
+    if (m) {
+      tokens.push({ type: "string", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_SINGLE_STRING);
+    if (m) {
+      tokens.push({ type: "string", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_SHELL_FLAG);
+    if (m) {
+      tokens.push({ type: "attr-name", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_SHELL_WORD);
+    if (m) {
+      const word = m[1];
+      if (SHELL_KEYWORDS.has(word)) {
+        tokens.push({ type: "keyword", value: word });
+      } else {
+        tokens.push({ type: "plain", value: word });
+      }
+      remaining = remaining.slice(word.length);
+      continue;
+    }
+    m = remaining.match(RE_SHELL_OPERATOR);
+    if (m) {
+      tokens.push({ type: "operator", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    m = remaining.match(RE_WHITESPACE);
+    if (m) {
+      tokens.push({ type: "plain", value: m[1] });
+      remaining = remaining.slice(m[1].length);
+      continue;
+    }
+    tokens.push({ type: "plain", value: remaining[0] });
+    remaining = remaining.slice(1);
+  }
+  return tokens;
+}
+function tokenizeLine(line, language) {
+  if (isShellLang(language)) return tokenizeShell(line);
+  if (isJsxLang(language)) return tokenizeJsx(line);
+  return tokenizeJsx(line);
+}
 var inlineCodeVariants = classVarianceAuthority.cva([
   "inline font-mono font-medium rounded",
   "px-[0.3em] py-[0.15em]",
@@ -2957,15 +3314,15 @@ var inlineCodeVariants = classVarianceAuthority.cva([
 var codeBlockVariants = classVarianceAuthority.cva(
   [
     "relative rounded-lg overflow-hidden",
-    "border border-border",
-    "bg-muted/50",
+    "border border-code-border",
+    "bg-code-bg text-code-foreground",
     "font-mono text-sm leading-relaxed"
   ],
   {
     variants: {
       variant: {
-        default: "bg-muted/50",
-        dark: "bg-[oklch(0.12_0_0)] text-[oklch(0.9_0_0)] border-border/30"
+        default: "",
+        dark: ""
       }
     },
     defaultVariants: { variant: "default" }
@@ -3008,6 +3365,20 @@ function CheckIcon2({ className }) {
     }
   );
 }
+function HighlightedLine({
+  line,
+  language
+}) {
+  const tokens = React.useMemo(() => tokenizeLine(line, language), [line, language]);
+  return /* @__PURE__ */ jsxRuntime.jsx(jsxRuntime.Fragment, { children: tokens.map((token, i) => /* @__PURE__ */ jsxRuntime.jsx(
+    "span",
+    {
+      style: token.type !== "plain" ? { color: TOKEN_COLORS[token.type] } : void 0,
+      children: token.value
+    },
+    i
+  )) });
+}
 var InlineCode = React.forwardRef(
   function InlineCode2({ className, children, ...rest }, ref) {
     return /* @__PURE__ */ jsxRuntime.jsx(
@@ -3038,13 +3409,13 @@ var CodeBlock = React.forwardRef(
     const shouldReduce = framerMotion.useReducedMotion();
     const [copied, setCopied] = React.useState(false);
     const handleCopy = React.useCallback(() => {
-      const text2 = typeof children === "string" ? children : ref && "current" in ref && ref.current ? ref.current.textContent ?? "" : "";
+      const text2 = (typeof children === "string" ? children.replace(/^\n+|\n+$/g, "") : ref && "current" in ref && ref.current ? ref.current.textContent ?? "" : "").trim();
       navigator.clipboard.writeText(text2).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2e3);
       });
     }, [children, ref]);
-    const code = typeof children === "string" ? children : "";
+    const code = typeof children === "string" ? children.replace(/^\n+|\n+$/g, "") : "";
     const lines = code.split("\n");
     return /* @__PURE__ */ jsxRuntime.jsxs(
       "div",
@@ -3059,17 +3430,18 @@ var CodeBlock = React.forwardRef(
             {
               className: chunk4ON3M3OM_cjs.cn(
                 "flex items-center justify-between px-4 py-2 border-b",
-                variant === "dark" ? "border-border/20 bg-[oklch(0.10_0_0)]" : "border-border bg-muted"
+                "border-code-header-border bg-code-header-bg"
               ),
               children: [
-                /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-3", children: [
-                  filename && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs font-medium text-muted-foreground", children: filename }),
+                /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-3 min-w-0", children: [
+                  filename && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs font-medium text-code-header-foreground truncate", children: filename }),
                   language && /* @__PURE__ */ jsxRuntime.jsx(
                     "span",
                     {
                       className: chunk4ON3M3OM_cjs.cn(
-                        "text-xs px-2 py-0.5 rounded-full font-mono",
-                        variant === "dark" ? "bg-[oklch(0.20_0_0)] text-[oklch(0.7_0_0)]" : "bg-background text-muted-foreground border border-border"
+                        "text-[10px] px-2 py-0.5 rounded font-mono font-medium leading-none",
+                        "bg-code-badge-bg text-code-badge-foreground",
+                        "border border-code-badge-border"
                       ),
                       children: language
                     }
@@ -3081,9 +3453,10 @@ var CodeBlock = React.forwardRef(
                     type: "button",
                     onClick: handleCopy,
                     className: chunk4ON3M3OM_cjs.cn(
-                      "inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs",
-                      "text-muted-foreground hover:text-foreground",
-                      "transition-colors duration-fast",
+                      "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs shrink-0",
+                      "text-code-copy-foreground hover:text-code-copy-hover-foreground",
+                      "hover:bg-code-copy-hover-bg",
+                      "transition-colors duration-150",
                       chunk3EHT6IOA_cjs.focusRingClasses
                     ),
                     "aria-label": copied ? "Copied!" : "Copy code",
@@ -3098,8 +3471,8 @@ var CodeBlock = React.forwardRef(
                         transition: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.transition,
                         "data-ds-animated": "",
                         children: [
-                          /* @__PURE__ */ jsxRuntime.jsx(CheckIcon2, { className: "size-3.5 text-success" }),
-                          /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Copied!" })
+                          /* @__PURE__ */ jsxRuntime.jsx(CheckIcon2, { className: "size-3.5 text-code-success" }),
+                          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-code-success", children: "Copied!" })
                         ]
                       },
                       "check"
@@ -3131,20 +3504,33 @@ var CodeBlock = React.forwardRef(
               ref,
               className: chunk4ON3M3OM_cjs.cn(
                 "overflow-x-auto p-4 m-0",
-                variant === "dark" ? "text-[oklch(0.88_0_0)]" : "text-foreground"
+                "text-[13px] leading-[1.7]",
+                "bg-transparent border-0 shadow-none rounded-none"
               ),
               ...rest,
-              children: showLineNumbers && code ? /* @__PURE__ */ jsxRuntime.jsx("code", { children: lines.map((line, i) => /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "block", children: [
-                /* @__PURE__ */ jsxRuntime.jsx(
-                  "span",
-                  {
-                    className: "inline-block w-8 text-right mr-4 text-muted-foreground/50 select-none text-xs",
-                    "aria-hidden": "true",
-                    children: i + 1
-                  }
-                ),
-                line
-              ] }, i)) }) : /* @__PURE__ */ jsxRuntime.jsx("code", { children })
+              children: code ? /* @__PURE__ */ jsxRuntime.jsx(
+                "code",
+                {
+                  className: "bg-transparent border-0 p-0 rounded-none shadow-none text-inherit",
+                  children: lines.map((line, i) => /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "block", children: [
+                    showLineNumbers && /* @__PURE__ */ jsxRuntime.jsx(
+                      "span",
+                      {
+                        className: "inline-block w-8 text-right mr-4 text-code-line-number select-none text-xs",
+                        "aria-hidden": "true",
+                        children: i + 1
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntime.jsx(HighlightedLine, { line, language })
+                  ] }, i))
+                }
+              ) : /* @__PURE__ */ jsxRuntime.jsx(
+                "code",
+                {
+                  className: "bg-transparent border-0 p-0 rounded-none shadow-none text-inherit",
+                  children
+                }
+              )
             }
           )
         ]
@@ -9476,9 +9862,6 @@ var dialogContentVariants = classVarianceAuthority.cva(
     "shadow-xl",
     // Overflow
     "max-h-[85vh]",
-    // Animation
-    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-    "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-left-1/2 to-top-[48%]",
     // Focus
     "outline-none"
   ],
@@ -9534,21 +9917,24 @@ var DialogTrigger = React.forwardRef(function DialogTrigger2({ className, ...res
 });
 DialogTrigger.displayName = "DialogTrigger";
 var DialogOverlay = React.forwardRef(function DialogOverlay2({ className, ...rest }, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsx(
-    radixUi.Dialog.Overlay,
+  const shouldReduce = framerMotion.useReducedMotion();
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
+    framerMotion.motion.div,
     {
-      ref,
       className: chunk4ON3M3OM_cjs.cn(
         "fixed inset-0",
         "z-[var(--z-overlay)]",
         "bg-black/50",
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
         className
       ),
-      ...rest
+      variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.overlayBackdrop.variants,
+      initial: shouldReduce ? { opacity: 0 } : "initial",
+      animate: shouldReduce ? { opacity: 1 } : "animate",
+      exit: shouldReduce ? { opacity: 0 } : "exit",
+      transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.overlayBackdrop.transition,
+      "data-ds-animated": ""
     }
-  );
+  ) });
 });
 DialogOverlay.displayName = "DialogOverlay";
 var DialogContent = React.forwardRef(function DialogContent2({
@@ -9559,17 +9945,26 @@ var DialogContent = React.forwardRef(function DialogContent2({
   children,
   ...rest
 }, ref) {
+  const shouldReduce = framerMotion.useReducedMotion();
   return /* @__PURE__ */ jsxRuntime.jsxs(radixUi.Dialog.Portal, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(DialogOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsxRuntime.jsxs(
-      radixUi.Dialog.Content,
+    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsxs(
+      framerMotion.motion.div,
       {
-        ref,
-        className: chunk4ON3M3OM_cjs.cn("not-prose", dialogContentVariants({ size }), className),
+        className: chunk4ON3M3OM_cjs.cn(
+          "not-prose",
+          dialogContentVariants({ size }),
+          className
+        ),
+        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.modalContent.variants,
+        initial: shouldReduce ? { opacity: 0 } : "initial",
+        animate: shouldReduce ? { opacity: 1 } : "animate",
+        exit: shouldReduce ? { opacity: 0 } : "exit",
+        transition: shouldReduce ? { duration: 0.2 } : chunkHITTFB2U_cjs.modalContent.transition,
         "data-ds": "",
         "data-ds-component": "dialog",
         "data-ds-size": size,
-        ...rest,
+        "data-ds-animated": "",
         children: [
           children,
           showClose && /* @__PURE__ */ jsxRuntime.jsx(
@@ -9589,7 +9984,7 @@ var DialogContent = React.forwardRef(function DialogContent2({
           )
         ]
       }
-    )
+    ) })
   ] });
 });
 DialogContent.displayName = "DialogContent";
@@ -9751,14 +10146,9 @@ var menuContentBase2 = [
   "bg-background",
   "p-1",
   "shadow-lg",
-  "text-foreground",
-  // Animation
-  "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-  "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-  "data-[side=top]:slide-in-from-bottom-2",
-  "data-[side=bottom]:slide-in-from-top-2",
-  "data-[side=left]:slide-in-from-right-2",
-  "data-[side=right]:slide-in-from-left-2"
+  "text-foreground"
+  // Note: Animation is handled by Framer Motion (scaleIn preset).
+  // CSS animation classes removed in favour of FM spring physics.
 ];
 function DropdownMenu({ children, ...rest }) {
   return /* @__PURE__ */ jsxRuntime.jsx(radixUi.DropdownMenu.Root, { ...rest, children });
@@ -9778,16 +10168,29 @@ var DropdownMenuTrigger = React.forwardRef(function DropdownMenuTrigger2({ class
 });
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 var DropdownMenuContent = React.forwardRef(function DropdownMenuContent2({ className, children, sideOffset = 4, ...rest }, ref) {
+  const shouldReduce = framerMotion.useReducedMotion();
   return /* @__PURE__ */ jsxRuntime.jsx(radixUi.DropdownMenu.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
     radixUi.DropdownMenu.Content,
     {
       ref,
       sideOffset,
-      className: chunk4ON3M3OM_cjs.cn(...menuContentBase2, className),
-      "data-ds": "",
-      "data-ds-component": "dropdown-menu-content",
+      asChild: true,
       ...rest,
-      children
+      children: /* @__PURE__ */ jsxRuntime.jsx(
+        framerMotion.motion.div,
+        {
+          className: chunk4ON3M3OM_cjs.cn(...menuContentBase2, className),
+          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          initial: shouldReduce ? { opacity: 0 } : "initial",
+          animate: shouldReduce ? { opacity: 1 } : "animate",
+          exit: shouldReduce ? { opacity: 0 } : "exit",
+          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          "data-ds": "",
+          "data-ds-component": "dropdown-menu-content",
+          "data-ds-animated": "",
+          children
+        }
+      )
     }
   ) });
 });
@@ -9914,15 +10317,28 @@ var DropdownMenuSubTrigger = React.forwardRef(function DropdownMenuSubTrigger2({
 });
 DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger";
 var DropdownMenuSubContent = React.forwardRef(function DropdownMenuSubContent2({ className, children, ...rest }, ref) {
+  const shouldReduce = framerMotion.useReducedMotion();
   return /* @__PURE__ */ jsxRuntime.jsx(radixUi.DropdownMenu.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
     radixUi.DropdownMenu.SubContent,
     {
       ref,
-      className: chunk4ON3M3OM_cjs.cn(...menuContentBase2, className),
-      "data-ds": "",
-      "data-ds-component": "dropdown-menu-sub-content",
+      asChild: true,
       ...rest,
-      children
+      children: /* @__PURE__ */ jsxRuntime.jsx(
+        framerMotion.motion.div,
+        {
+          className: chunk4ON3M3OM_cjs.cn(...menuContentBase2, className),
+          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          initial: shouldReduce ? { opacity: 0 } : "initial",
+          animate: shouldReduce ? { opacity: 1 } : "animate",
+          exit: shouldReduce ? { opacity: 0 } : "exit",
+          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          "data-ds": "",
+          "data-ds-component": "dropdown-menu-sub-content",
+          "data-ds-animated": "",
+          children
+        }
+      )
     }
   ) });
 });
@@ -10729,9 +11145,9 @@ var inputVariants = classVarianceAuthority.cva(
         sm: "h-8 px-2.5 text-xs",
         /**
          * Medium — default size for most inputs.
-         * Height: 36px (h-9)
+         * Height: var(--ds-control-height)
          */
-        md: "h-9 px-3 text-sm",
+        md: "h-(--ds-control-height) px-3 text-sm",
         /**
          * Large — prominent inputs for hero sections, forms.
          * Height: 40px (h-10)
@@ -12722,66 +13138,72 @@ var PopoverContent = React.forwardRef(function PopoverContent2({
   sideOffset = 4,
   ...rest
 }, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Popover.Portal, { children: /* @__PURE__ */ jsxRuntime.jsxs(
+  const shouldReduce = framerMotion.useReducedMotion();
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Popover.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
     radixUi.Popover.Content,
     {
       ref,
       side,
       align,
       sideOffset,
-      className: chunk4ON3M3OM_cjs.cn(
-        // Layout & sizing
-        "w-72",
-        // Z-index
-        "z-[var(--z-popover)]",
-        // Visual
-        "rounded-md",
-        "border border-border",
-        "bg-background",
-        "p-4",
-        "shadow-lg",
-        // Text
-        "text-sm text-foreground",
-        // Animation — CSS-based for Radix data attributes
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-        "data-[side=top]:slide-in-from-bottom-2",
-        "data-[side=bottom]:slide-in-from-top-2",
-        "data-[side=left]:slide-in-from-right-2",
-        "data-[side=right]:slide-in-from-left-2",
-        // Outline
-        "outline-none",
-        className
-      ),
-      "data-ds": "",
-      "data-ds-component": "popover-content",
+      asChild: true,
       ...rest,
-      children: [
-        children,
-        showClose && /* @__PURE__ */ jsxRuntime.jsx(
-          radixUi.Popover.Close,
-          {
-            className: chunk4ON3M3OM_cjs.cn(
-              "absolute right-2 top-2",
-              "inline-flex items-center justify-center",
-              "rounded-sm p-1",
-              "text-muted-foreground hover:text-foreground",
-              "transition-colors duration-fast",
-              chunk3EHT6IOA_cjs.focusRingInsetClasses
+      children: /* @__PURE__ */ jsxRuntime.jsxs(
+        framerMotion.motion.div,
+        {
+          className: chunk4ON3M3OM_cjs.cn(
+            // Layout & sizing
+            "w-72",
+            // Z-index
+            "z-[var(--z-popover)]",
+            // Visual
+            "rounded-md",
+            "border border-border",
+            "bg-background",
+            "p-4",
+            "shadow-lg",
+            // Text
+            "text-sm text-foreground",
+            // Outline
+            "outline-none",
+            className
+          ),
+          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          initial: shouldReduce ? { opacity: 0 } : "initial",
+          animate: shouldReduce ? { opacity: 1 } : "animate",
+          exit: shouldReduce ? { opacity: 0 } : "exit",
+          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          "data-ds": "",
+          "data-ds-component": "popover-content",
+          "data-ds-animated": "",
+          children: [
+            children,
+            showClose && /* @__PURE__ */ jsxRuntime.jsx(
+              radixUi.Popover.Close,
+              {
+                className: chunk4ON3M3OM_cjs.cn(
+                  "absolute right-2 top-2",
+                  "inline-flex items-center justify-center",
+                  "rounded-sm p-1",
+                  "text-muted-foreground hover:text-foreground",
+                  "transition-colors duration-fast",
+                  chunk3EHT6IOA_cjs.focusRingInsetClasses
+                ),
+                "aria-label": "Close",
+                children: /* @__PURE__ */ jsxRuntime.jsx(CloseIcon3, { className: "size-4" })
+              }
             ),
-            "aria-label": "Close",
-            children: /* @__PURE__ */ jsxRuntime.jsx(CloseIcon3, { className: "size-4" })
-          }
-        ),
-        arrow && /* @__PURE__ */ jsxRuntime.jsx(
-          radixUi.Popover.Arrow,
-          {
-            className: chunk4ON3M3OM_cjs.cn("fill-background", arrowClassName),
-            width: 12,
-            height: 6
-          }
-        )
-      ]
+            arrow && /* @__PURE__ */ jsxRuntime.jsx(
+              radixUi.Popover.Arrow,
+              {
+                className: chunk4ON3M3OM_cjs.cn("fill-background", arrowClassName),
+                width: 12,
+                height: 6
+              }
+            )
+          ]
+        }
+      )
     }
   ) });
 });
@@ -13324,52 +13746,29 @@ var RadioCard = React.forwardRef(function RadioCard2({
   );
 });
 RadioCard.displayName = "RadioCard";
-var ResizableContext = React.createContext({
-  direction: "horizontal",
-  sizes: [],
-  setSizes: () => {
-  }
-});
-var ResizablePanelGroup = React.forwardRef(function ResizablePanelGroup2({ direction = "horizontal", defaultSizes, className, children, ...rest }, ref) {
-  const [sizes, setSizes] = React.useState(defaultSizes ?? []);
-  return /* @__PURE__ */ jsxRuntime.jsx(ResizableContext.Provider, { value: { direction, sizes, setSizes }, children: /* @__PURE__ */ jsxRuntime.jsx(
-    "div",
+function ResizablePanelGroup({
+  direction = "horizontal",
+  className,
+  ...rest
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    reactResizablePanels.Group,
     {
-      ref,
+      orientation: direction,
       className: chunk4ON3M3OM_cjs.cn(
-        "flex w-full h-full",
-        direction === "vertical" ? "flex-col" : "flex-row",
+        "flex h-full w-full",
+        direction === "vertical" && "flex-col",
         className
       ),
       "data-ds": "",
       "data-ds-component": "resizable-panel-group",
       "data-ds-direction": direction,
-      ...rest,
-      children
+      ...rest
     }
-  ) });
-});
+  );
+}
 ResizablePanelGroup.displayName = "ResizablePanelGroup";
-var ResizablePanel = React.forwardRef(
-  function ResizablePanel2({ minSize = 10, maxSize = 90, defaultSize, className, children, ...rest }, ref) {
-    return /* @__PURE__ */ jsxRuntime.jsx(
-      "div",
-      {
-        ref,
-        className: chunk4ON3M3OM_cjs.cn("relative overflow-auto", className),
-        style: defaultSize !== void 0 ? {
-          flexBasis: `${defaultSize}%`,
-          minWidth: `${minSize}%`,
-          maxWidth: `${maxSize}%`
-        } : { flex: "1 1 0%" },
-        "data-ds-component": "resizable-panel",
-        ...rest,
-        children
-      }
-    );
-  }
-);
-ResizablePanel.displayName = "ResizablePanel";
+var ResizablePanel = reactResizablePanels.Panel;
 function GripIcon({ className }) {
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "svg",
@@ -13394,49 +13793,43 @@ function GripIcon({ className }) {
     }
   );
 }
-var ResizableHandle = React.forwardRef(
-  function ResizableHandle2({ withHandle = false, className, ...rest }, ref) {
-    const shouldReduce = framerMotion.useReducedMotion();
-    const { direction } = React.useContext(ResizableContext);
-    const isHorizontal = direction === "horizontal";
-    return /* @__PURE__ */ jsxRuntime.jsx(
-      "div",
-      {
-        ref,
-        role: "separator",
-        "aria-orientation": isHorizontal ? "vertical" : "horizontal",
-        "aria-valuenow": 50,
-        "aria-valuemin": 0,
-        "aria-valuemax": 100,
-        tabIndex: 0,
-        className: chunk4ON3M3OM_cjs.cn(
-          "relative flex shrink-0 items-center justify-center",
-          "bg-border",
-          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-          "transition-colors duration-fast",
-          "hover:bg-primary/40",
-          "cursor-col-resize",
-          isHorizontal ? "w-px h-full after:absolute after:inset-y-0 after:left-1/2 after:-translate-x-1/2 after:w-4 after:cursor-col-resize" : "h-px w-full cursor-row-resize after:absolute after:inset-x-0 after:top-1/2 after:-translate-y-1/2 after:h-4",
-          className
-        ),
-        "data-ds-component": "resizable-handle",
-        ...rest,
-        children: withHandle && /* @__PURE__ */ jsxRuntime.jsx(
-          framerMotion.motion.div,
-          {
-            className: chunk4ON3M3OM_cjs.cn(
-              "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-border bg-border"
-            ),
-            whileHover: shouldReduce ? void 0 : { opacity: 1, scale: 1.15 },
-            initial: { opacity: 0.7 },
-            "data-ds-animated": "",
-            children: /* @__PURE__ */ jsxRuntime.jsx(GripIcon, { className: "size-2.5 text-muted-foreground" })
-          }
-        )
-      }
-    );
-  }
-);
+function ResizableHandle({
+  withHandle = false,
+  className,
+  ...rest
+}) {
+  const shouldReduce = framerMotion.useReducedMotion();
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    reactResizablePanels.Separator,
+    {
+      className: chunk4ON3M3OM_cjs.cn(
+        "relative flex w-px items-center justify-center bg-border",
+        "after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2",
+        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1",
+        "[&[aria-orientation=horizontal]]:h-px [&[aria-orientation=horizontal]]:w-full",
+        "[&[aria-orientation=horizontal]]:after:left-0 [&[aria-orientation=horizontal]]:after:h-1",
+        "[&[aria-orientation=horizontal]]:after:w-full [&[aria-orientation=horizontal]]:after:-translate-y-1/2",
+        "[&[aria-orientation=horizontal]]:after:translate-x-0",
+        "[&[aria-orientation=horizontal]>div]:rotate-90",
+        className
+      ),
+      "data-ds-component": "resizable-handle",
+      ...rest,
+      children: withHandle && /* @__PURE__ */ jsxRuntime.jsx(
+        framerMotion.motion.div,
+        {
+          className: chunk4ON3M3OM_cjs.cn(
+            "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-border bg-border"
+          ),
+          whileHover: shouldReduce ? void 0 : { opacity: 1, scale: 1.15 },
+          initial: { opacity: 0.7 },
+          "data-ds-animated": "",
+          children: /* @__PURE__ */ jsxRuntime.jsx(GripIcon, { className: "size-2.5 text-muted-foreground" })
+        }
+      )
+    }
+  );
+}
 ResizableHandle.displayName = "ResizableHandle";
 var scrollbarThumbVariants = classVarianceAuthority.cva(
   [
@@ -13905,44 +14298,51 @@ var SelectTrigger = React.forwardRef(function SelectTrigger2({ className, childr
 SelectTrigger.displayName = radixUi.Select.Trigger.displayName;
 var SelectValue = radixUi.Select.Value;
 var SelectContent = React.forwardRef(function SelectContent2({ className, children, position = "popper", sideOffset = 4, ...props }, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Select.Portal, { children: /* @__PURE__ */ jsxRuntime.jsxs(
+  const shouldReduce = framerMotion.useReducedMotion();
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Select.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
     radixUi.Select.Content,
     {
       ref,
-      className: chunk4ON3M3OM_cjs.cn(
-        "relative z-[var(--z-popover)]",
-        "min-w-[var(--radix-select-trigger-width)]",
-        "max-h-[min(var(--radix-select-content-available-height),320px)]",
-        "overflow-hidden",
-        "rounded-md",
-        "border border-border",
-        "bg-background",
-        "shadow-lg",
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-        "data-[side=top]:slide-in-from-bottom-2",
-        "data-[side=bottom]:slide-in-from-top-2",
-        "data-[side=left]:slide-in-from-right-2",
-        "data-[side=right]:slide-in-from-left-2",
-        className
-      ),
       position,
       sideOffset,
+      asChild: true,
       ...props,
-      children: [
-        /* @__PURE__ */ jsxRuntime.jsx(SelectScrollUpButton, {}),
-        /* @__PURE__ */ jsxRuntime.jsx(
-          radixUi.Select.Viewport,
-          {
-            className: chunk4ON3M3OM_cjs.cn(
-              "p-1",
-              position === "popper" && "w-full min-w-[var(--radix-select-trigger-width)]"
+      children: /* @__PURE__ */ jsxRuntime.jsxs(
+        framerMotion.motion.div,
+        {
+          className: chunk4ON3M3OM_cjs.cn(
+            "relative z-[var(--z-popover)]",
+            "min-w-[var(--radix-select-trigger-width)]",
+            "max-h-[min(var(--radix-select-content-available-height),320px)]",
+            "overflow-hidden",
+            "rounded-md",
+            "border border-border",
+            "bg-background",
+            "shadow-lg",
+            className
+          ),
+          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          initial: shouldReduce ? { opacity: 0 } : "initial",
+          animate: shouldReduce ? { opacity: 1 } : "animate",
+          exit: shouldReduce ? { opacity: 0 } : "exit",
+          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          "data-ds-animated": "",
+          children: [
+            /* @__PURE__ */ jsxRuntime.jsx(SelectScrollUpButton, {}),
+            /* @__PURE__ */ jsxRuntime.jsx(
+              radixUi.Select.Viewport,
+              {
+                className: chunk4ON3M3OM_cjs.cn(
+                  "p-1",
+                  position === "popper" && "w-full min-w-[var(--radix-select-trigger-width)]"
+                ),
+                children
+              }
             ),
-            children
-          }
-        ),
-        /* @__PURE__ */ jsxRuntime.jsx(SelectScrollDownButton, {})
-      ]
+            /* @__PURE__ */ jsxRuntime.jsx(SelectScrollDownButton, {})
+          ]
+        }
+      )
     }
   ) });
 });
@@ -14045,10 +14445,9 @@ var sheetContentVariants = classVarianceAuthority.cva(
     "border-border",
     "shadow-xl",
     // Focus
-    "outline-none",
-    // Animation base
-    "data-[state=open]:animate-in data-[state=closed]:animate-out",
-    "data-[state=open]:duration-300 data-[state=closed]:duration-200"
+    "outline-none"
+    // Note: Animation is handled by Framer Motion (overlayBackdrop + slidePanel presets).
+    // CSS animation classes removed in favour of FM spring physics.
   ],
   {
     variants: {
@@ -14058,32 +14457,28 @@ var sheetContentVariants = classVarianceAuthority.cva(
          */
         left: [
           "inset-y-0 left-0",
-          "border-r",
-          "data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left"
+          "border-r"
         ],
         /**
          * Right — slides in from the right edge (most common).
          */
         right: [
           "inset-y-0 right-0",
-          "border-l",
-          "data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right"
+          "border-l"
         ],
         /**
          * Top — slides in from the top edge.
          */
         top: [
           "inset-x-0 top-0",
-          "border-b",
-          "data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top"
+          "border-b"
         ],
         /**
          * Bottom — slides in from the bottom edge.
          */
         bottom: [
           "inset-x-0 bottom-0",
-          "border-t",
-          "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom"
+          "border-t"
         ]
       },
       size: {
@@ -14212,23 +14607,32 @@ var SheetTrigger = React.forwardRef(function SheetTrigger2({ className, ...rest 
 });
 SheetTrigger.displayName = "SheetTrigger";
 var SheetOverlay = React.forwardRef(function SheetOverlay2({ className, ...rest }, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsx(
-    radixUi.Dialog.Overlay,
+  const shouldReduce = framerMotion.useReducedMotion();
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
+    framerMotion.motion.div,
     {
-      ref,
       className: chunk4ON3M3OM_cjs.cn(
         "fixed inset-0",
         "z-[var(--z-overlay)]",
         "bg-black/50",
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
         className
       ),
-      ...rest
+      variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.overlayBackdrop.variants,
+      initial: shouldReduce ? { opacity: 0 } : "initial",
+      animate: shouldReduce ? { opacity: 1 } : "animate",
+      exit: shouldReduce ? { opacity: 0 } : "exit",
+      transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.overlayBackdrop.transition,
+      "data-ds-animated": ""
     }
-  );
+  ) });
 });
 SheetOverlay.displayName = "SheetOverlay";
+var sidePresetMap = {
+  left: chunkHITTFB2U_cjs.slidePanelLeft,
+  right: chunkHITTFB2U_cjs.slidePanelRight,
+  top: chunkHITTFB2U_cjs.slidePanelTop,
+  bottom: chunkHITTFB2U_cjs.slidePanelBottom
+};
 var SheetContent = React.forwardRef(function SheetContent2({
   side = "right",
   size = "md",
@@ -14238,22 +14642,28 @@ var SheetContent = React.forwardRef(function SheetContent2({
   children,
   ...rest
 }, ref) {
+  const shouldReduce = framerMotion.useReducedMotion();
+  const preset = sidePresetMap[side];
   return /* @__PURE__ */ jsxRuntime.jsxs(radixUi.Dialog.Portal, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(SheetOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsxRuntime.jsxs(
-      radixUi.Dialog.Content,
+    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsxs(
+      framerMotion.motion.div,
       {
-        ref,
         className: chunk4ON3M3OM_cjs.cn(
           "not-prose",
           sheetContentVariants({ side, size }),
           className
         ),
+        variants: shouldReduce ? void 0 : preset.variants,
+        initial: shouldReduce ? { opacity: 0 } : "initial",
+        animate: shouldReduce ? { opacity: 1 } : "animate",
+        exit: shouldReduce ? { opacity: 0 } : "exit",
+        transition: shouldReduce ? { duration: 0.2 } : preset.transition,
         "data-ds": "",
         "data-ds-component": "sheet",
         "data-ds-side": side,
         "data-ds-size": size,
-        ...rest,
+        "data-ds-animated": "",
         children: [
           children,
           showClose && /* @__PURE__ */ jsxRuntime.jsx(
@@ -14273,7 +14683,7 @@ var SheetContent = React.forwardRef(function SheetContent2({
           )
         ]
       }
-    )
+    ) })
   ] });
 });
 SheetContent.displayName = "SheetContent";
@@ -14354,6 +14764,215 @@ var SheetClose = React.forwardRef(function SheetClose2({ className, ...rest }, r
   );
 });
 SheetClose.displayName = "SheetClose";
+var drawerContentVariants = classVarianceAuthority.cva(
+  [
+    // Positioning — vaul handles the transform; we set the shell styles
+    "fixed inset-x-0 bottom-0",
+    // Z-index
+    "z-[var(--z-modal)]",
+    // Layout
+    "flex flex-col",
+    // Visual
+    "rounded-t-lg",
+    "border border-b-0 border-border",
+    "bg-background",
+    "shadow-xl",
+    // Focus
+    "outline-none"
+  ],
+  {
+    variants: {
+      size: {
+        sm: "max-h-[30vh]",
+        md: "max-h-[50vh]",
+        lg: "max-h-[75vh]",
+        full: "max-h-[calc(100vh-2rem)]"
+      }
+    },
+    defaultVariants: {
+      size: "md"
+    }
+  }
+);
+function Drawer({
+  shouldScaleBackground = true,
+  children,
+  ...rest
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    vaul.Drawer.Root,
+    {
+      shouldScaleBackground,
+      ...rest,
+      children
+    }
+  );
+}
+Drawer.displayName = "Drawer";
+var DrawerTrigger = React.forwardRef(function DrawerTrigger2({ className, ...rest }, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    vaul.Drawer.Trigger,
+    {
+      ref,
+      className,
+      "data-ds": "",
+      "data-ds-component": "drawer-trigger",
+      ...rest
+    }
+  );
+});
+DrawerTrigger.displayName = "DrawerTrigger";
+var DrawerOverlay = React.forwardRef(function DrawerOverlay2({ className, ...rest }, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    vaul.Drawer.Overlay,
+    {
+      ref,
+      className: chunk4ON3M3OM_cjs.cn(
+        "fixed inset-0",
+        "z-[var(--z-overlay)]",
+        "bg-black/50",
+        className
+      ),
+      ...rest
+    }
+  );
+});
+DrawerOverlay.displayName = "DrawerOverlay";
+function DrawerHandle({ className, ...rest }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "div",
+    {
+      className: chunk4ON3M3OM_cjs.cn("mx-auto mt-4 mb-2 flex justify-center", className),
+      "data-ds": "",
+      "data-ds-component": "drawer-handle",
+      ...rest,
+      children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "h-1.5 w-12 rounded-full bg-muted-foreground/25" })
+    }
+  );
+}
+DrawerHandle.displayName = "DrawerHandle";
+var DrawerContent = React.forwardRef(function DrawerContent2({
+  size = "md",
+  showHandle = true,
+  overlayClassName,
+  className,
+  children,
+  ...rest
+}, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(vaul.Drawer.Portal, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx(DrawerOverlay, { className: overlayClassName }),
+    /* @__PURE__ */ jsxRuntime.jsxs(
+      vaul.Drawer.Content,
+      {
+        ref,
+        className: chunk4ON3M3OM_cjs.cn("not-prose", drawerContentVariants({ size }), className),
+        "data-ds": "",
+        "data-ds-component": "drawer",
+        "data-ds-size": size,
+        ...rest,
+        children: [
+          showHandle && /* @__PURE__ */ jsxRuntime.jsx(DrawerHandle, {}),
+          children
+        ]
+      }
+    )
+  ] });
+});
+DrawerContent.displayName = "DrawerContent";
+function DrawerHeader({
+  className,
+  children,
+  ...rest
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "div",
+    {
+      className: chunk4ON3M3OM_cjs.cn("flex flex-col gap-1.5 px-6 pt-4 pb-2", className),
+      "data-ds": "",
+      "data-ds-component": "drawer-header",
+      ...rest,
+      children
+    }
+  );
+}
+DrawerHeader.displayName = "DrawerHeader";
+function DrawerBody({ className, children, ...rest }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "div",
+    {
+      className: chunk4ON3M3OM_cjs.cn("flex-1 overflow-y-auto px-6 py-4", className),
+      "data-ds": "",
+      "data-ds-component": "drawer-body",
+      ...rest,
+      children
+    }
+  );
+}
+DrawerBody.displayName = "DrawerBody";
+function DrawerFooter({
+  className,
+  children,
+  ...rest
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "div",
+    {
+      className: chunk4ON3M3OM_cjs.cn(
+        "flex flex-col-reverse gap-2 px-6 pb-6 pt-2 sm:flex-row sm:justify-end",
+        className
+      ),
+      "data-ds": "",
+      "data-ds-component": "drawer-footer",
+      ...rest,
+      children
+    }
+  );
+}
+DrawerFooter.displayName = "DrawerFooter";
+var DrawerTitle = React.forwardRef(function DrawerTitle2({ className, children, ...rest }, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    vaul.Drawer.Title,
+    {
+      ref,
+      className: chunk4ON3M3OM_cjs.cn(
+        "text-lg font-semibold leading-6 text-foreground",
+        className
+      ),
+      "data-ds": "",
+      "data-ds-component": "drawer-title",
+      ...rest,
+      children
+    }
+  );
+});
+DrawerTitle.displayName = "DrawerTitle";
+var DrawerDescription = React.forwardRef(function DrawerDescription2({ className, children, ...rest }, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    vaul.Drawer.Description,
+    {
+      ref,
+      className: chunk4ON3M3OM_cjs.cn("text-sm leading-5 text-muted-foreground", className),
+      "data-ds": "",
+      "data-ds-component": "drawer-description",
+      ...rest,
+      children
+    }
+  );
+});
+DrawerDescription.displayName = "DrawerDescription";
+var DrawerClose = React.forwardRef(function DrawerClose2({ className, ...rest }, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    vaul.Drawer.Close,
+    {
+      ref,
+      className,
+      "data-ds": "",
+      "data-ds-component": "drawer-close",
+      ...rest
+    }
+  );
+});
+DrawerClose.displayName = "DrawerClose";
 var SidebarContext = React.createContext({
   collapsed: false,
   setCollapsed: () => {
@@ -16116,111 +16735,6 @@ var TabsContent = React.forwardRef(function TabsContent2({ className, children, 
   );
 });
 TabsContent.displayName = "TabsContent";
-var tagVariants = classVarianceAuthority.cva(
-  [
-    "inline-flex items-center gap-1.5 rounded-full",
-    "font-medium leading-none",
-    "transition-colors duration-fast",
-    "select-none"
-  ],
-  {
-    variants: {
-      variant: {
-        default: "bg-muted text-muted-foreground",
-        primary: "bg-primary/15 text-primary",
-        secondary: "bg-secondary text-secondary-foreground border border-border",
-        success: "bg-success-muted text-success",
-        warning: "bg-warning-muted text-warning",
-        danger: "bg-danger-muted text-danger",
-        info: "bg-info-muted text-info"
-      },
-      size: {
-        sm: "px-2 py-0.5 text-xs gap-1",
-        md: "px-2.5 py-1 text-xs gap-1.5",
-        lg: "px-3 py-1.5 text-sm gap-2"
-      }
-    },
-    defaultVariants: { variant: "default", size: "md" }
-  }
-);
-function XIcon6({ className }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
-    "svg",
-    {
-      className,
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2.5",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      "aria-hidden": "true",
-      children: [
-        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M18 6 6 18" }),
-        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m6 6 12 12" })
-      ]
-    }
-  );
-}
-var Tag = React.forwardRef(function Tag2({
-  variant = "default",
-  size = "md",
-  avatar,
-  icon,
-  dismissible = false,
-  onDismiss,
-  dismissLabel = "Remove tag",
-  disabled = false,
-  className,
-  children
-}, ref) {
-  const shouldReduce = framerMotion.useReducedMotion();
-  const iconSize = size === "lg" ? "size-3.5" : "size-3";
-  return /* @__PURE__ */ jsxRuntime.jsxs(
-    framerMotion.motion.span,
-    {
-      ref,
-      className: chunk4ON3M3OM_cjs.cn(
-        tagVariants({ variant, size }),
-        disabled && "opacity-50 pointer-events-none",
-        className
-      ),
-      variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.popSubtle.variants,
-      initial: shouldReduce ? void 0 : "initial",
-      animate: shouldReduce ? void 0 : "animate",
-      transition: shouldReduce ? void 0 : chunkHITTFB2U_cjs.popSubtle.transition,
-      "data-ds": "",
-      "data-ds-component": "tag",
-      "data-ds-variant": variant,
-      "data-ds-size": size,
-      "data-ds-animated": "",
-      children: [
-        avatar && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "shrink-0 -ml-0.5", children: avatar }),
-        icon && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "shrink-0 opacity-70", children: icon }),
-        /* @__PURE__ */ jsxRuntime.jsx("span", { className: "truncate", children }),
-        dismissible && /* @__PURE__ */ jsxRuntime.jsx(
-          "button",
-          {
-            type: "button",
-            onClick: onDismiss,
-            disabled,
-            className: chunk4ON3M3OM_cjs.cn(
-              "shrink-0 inline-flex items-center justify-center rounded-full",
-              "opacity-60 hover:opacity-100 transition-opacity duration-fast",
-              "-mr-0.5",
-              chunk3EHT6IOA_cjs.focusRingClasses
-            ),
-            "aria-label": dismissLabel,
-            tabIndex: 0,
-            children: /* @__PURE__ */ jsxRuntime.jsx(XIcon6, { className: iconSize })
-          }
-        )
-      ]
-    }
-  );
-});
-Tag.displayName = "Tag";
 var textareaVariants = classVarianceAuthority.cva(
   // Base styles — shared across all variants and sizes
   [
@@ -16610,7 +17124,7 @@ function SuccessIcon2({ className }) {
     }
   );
 }
-function InfoIcon3({ className }) {
+function InfoIcon2({ className }) {
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "svg",
     {
@@ -16743,9 +17257,9 @@ var defaultIconMap2 = {
   success: SuccessIcon2,
   warning: WarningIcon2,
   danger: DangerIcon2,
-  info: InfoIcon3
+  info: InfoIcon2
 };
-var iconColorMap3 = {
+var iconColorMap2 = {
   default: "text-muted-foreground",
   success: "text-success",
   warning: "text-warning",
@@ -16881,7 +17395,7 @@ var ToastItem = React.forwardRef(
         "data-ds-variant": variant,
         ...rest,
         children: [
-          IconComponent && /* @__PURE__ */ jsxRuntime.jsx("span", { className: chunk4ON3M3OM_cjs.cn("shrink-0 mt-0.5", iconColorMap3[variant]), children: /* @__PURE__ */ jsxRuntime.jsx(IconComponent, { className: "size-4" }) }),
+          IconComponent && /* @__PURE__ */ jsxRuntime.jsx("span", { className: chunk4ON3M3OM_cjs.cn("shrink-0 mt-0.5", iconColorMap2[variant]), children: /* @__PURE__ */ jsxRuntime.jsx(IconComponent, { className: "size-4" }) }),
           /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex-1 min-w-0", children: [
             title && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "font-semibold leading-5", children: title }),
             description && /* @__PURE__ */ jsxRuntime.jsx("div", { className: chunk4ON3M3OM_cjs.cn("leading-5", title && "mt-0.5 opacity-90"), children: description }),
@@ -16992,7 +17506,7 @@ function ToastContainer({
             }
           }
         ),
-        /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { initial: false, mode: "popLayout", children: (isBottom ? [...toasts].reverse() : toasts).map((toast) => /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { initial: false, mode: "popLayout", children: (isBottom ? [...toasts].reverse() : toasts).map((toast2) => /* @__PURE__ */ jsxRuntime.jsx(
           framerMotion.motion.div,
           {
             layout: true,
@@ -17004,13 +17518,13 @@ function ToastContainer({
             children: /* @__PURE__ */ jsxRuntime.jsx(
               ToastItem,
               {
-                toast,
+                toast: toast2,
                 onDismiss,
                 isBottom
               }
             )
           },
-          toast.id
+          toast2.id
         )) })
       ]
     }
@@ -17377,6 +17891,2412 @@ var ToggleGroupItem = React.forwardRef(function ToggleGroupItem2({ variant: vari
   );
 });
 ToggleGroupItem.displayName = "ToggleGroupItem";
+function SunIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      className,
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "5" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "1", x2: "12", y2: "3" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "21", x2: "12", y2: "23" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "1", y1: "12", x2: "3", y2: "12" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "21", y1: "12", x2: "23", y2: "12" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" })
+      ]
+    }
+  );
+}
+function MoonIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      className,
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
+    }
+  );
+}
+function MonitorIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      className,
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("rect", { x: "2", y: "3", width: "20", height: "14", rx: "2", ry: "2" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "8", y1: "21", x2: "16", y2: "21" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "17", x2: "12", y2: "21" })
+      ]
+    }
+  );
+}
+var iconButtonVariants = classVarianceAuthority.cva(
+  [
+    "inline-flex items-center justify-center",
+    "rounded-md",
+    "border border-border",
+    "bg-secondary text-secondary-foreground",
+    "transition-[color,background-color,border-color,box-shadow,opacity,transform]",
+    "duration-fast ease-standard",
+    "hover:bg-secondary-hover hover:text-foreground",
+    "active:scale-[0.97]",
+    chunk3EHT6IOA_cjs.focusRingClasses,
+    "cursor-pointer",
+    "select-none"
+  ],
+  {
+    variants: {
+      size: {
+        sm: "size-7 [&>svg]:size-3.5",
+        md: "size-9 [&>svg]:size-4",
+        lg: "size-10 [&>svg]:size-5"
+      }
+    },
+    defaultVariants: {
+      size: "md"
+    }
+  }
+);
+var segmentedContainerVariants = classVarianceAuthority.cva(
+  [
+    "inline-flex items-center",
+    "rounded-md",
+    "border border-border",
+    "bg-muted",
+    "p-0.5",
+    "gap-0.5"
+  ],
+  {
+    variants: {
+      size: {
+        sm: "[&>button]:size-6 [&>button>svg]:size-3",
+        md: "[&>button]:size-7 [&>button>svg]:size-3.5",
+        lg: "[&>button]:size-8 [&>button>svg]:size-4"
+      }
+    },
+    defaultVariants: {
+      size: "md"
+    }
+  }
+);
+var ICON_MAP = {
+  light: SunIcon,
+  dark: MoonIcon,
+  system: MonitorIcon
+};
+var LABEL_MAP = {
+  light: "Light mode",
+  dark: "Dark mode",
+  system: "System theme"
+};
+function getNextTheme(current, mode) {
+  if (mode === "light-dark") {
+    return current === "light" ? "dark" : "light";
+  }
+  const order = ["light", "dark", "system"];
+  const idx = order.indexOf(current);
+  return order[(idx + 1) % order.length];
+}
+var ThemeToggleIcon = React.forwardRef(
+  function ThemeToggleIcon2({ value, onChange, mode = "light-dark", size = "md", className, ...rest }, ref) {
+    const handleClick = React.useCallback(() => {
+      onChange(getNextTheme(value, mode));
+    }, [value, mode, onChange]);
+    return /* @__PURE__ */ jsxRuntime.jsxs(
+      "button",
+      {
+        ref,
+        type: "button",
+        onClick: handleClick,
+        className: chunk4ON3M3OM_cjs.cn(iconButtonVariants({ size }), className),
+        "aria-label": `Switch to ${LABEL_MAP[getNextTheme(value, mode)] ?? "next theme"}`,
+        "data-ds": "",
+        "data-ds-component": "theme-toggle",
+        "data-ds-variant": "icon",
+        "data-ds-size": size,
+        "data-ds-theme-value": value,
+        ...rest,
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx(
+            SunIcon,
+            {
+              className: chunk4ON3M3OM_cjs.cn(
+                "absolute transition-all duration-300",
+                value !== "light" && "scale-0 rotate-90 opacity-0"
+              )
+            }
+          ),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            MoonIcon,
+            {
+              className: chunk4ON3M3OM_cjs.cn(
+                "absolute transition-all duration-300",
+                value !== "dark" && "scale-0 -rotate-90 opacity-0"
+              )
+            }
+          ),
+          mode === "light-dark-system" && /* @__PURE__ */ jsxRuntime.jsx(
+            MonitorIcon,
+            {
+              className: chunk4ON3M3OM_cjs.cn(
+                "absolute transition-all duration-300",
+                value !== "system" && "scale-0 rotate-90 opacity-0"
+              )
+            }
+          )
+        ]
+      }
+    );
+  }
+);
+ThemeToggleIcon.displayName = "ThemeToggleIcon";
+var ThemeToggleSegmented = React.forwardRef(
+  function ThemeToggleSegmented2({ value, onChange, mode = "light-dark", size = "md", className }, ref) {
+    const options = mode === "light-dark-system" ? ["light", "dark", "system"] : ["light", "dark"];
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      "div",
+      {
+        ref,
+        role: "radiogroup",
+        "aria-label": "Theme selection",
+        className: chunk4ON3M3OM_cjs.cn(segmentedContainerVariants({ size }), className),
+        "data-ds": "",
+        "data-ds-component": "theme-toggle",
+        "data-ds-variant": "segmented",
+        "data-ds-size": size,
+        "data-ds-theme-value": value,
+        children: options.map((option) => {
+          const Icon = ICON_MAP[option];
+          const isActive = value === option;
+          return /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              role: "radio",
+              "aria-checked": isActive,
+              "aria-label": LABEL_MAP[option],
+              onClick: () => onChange(option),
+              className: chunk4ON3M3OM_cjs.cn(
+                "inline-flex items-center justify-center rounded-sm transition-all duration-fast ease-standard",
+                chunk3EHT6IOA_cjs.focusRingClasses,
+                isActive ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              ),
+              children: /* @__PURE__ */ jsxRuntime.jsx(Icon, {})
+            },
+            option
+          );
+        })
+      }
+    );
+  }
+);
+ThemeToggleSegmented.displayName = "ThemeToggleSegmented";
+var ThemeToggle = React.forwardRef(
+  function ThemeToggle2({ variant = "icon", ...rest }, ref) {
+    if (variant === "segmented") {
+      return /* @__PURE__ */ jsxRuntime.jsx(
+        ThemeToggleSegmented,
+        {
+          ref,
+          variant,
+          ...rest
+        }
+      );
+    }
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      ThemeToggleIcon,
+      {
+        ref,
+        variant,
+        ...rest
+      }
+    );
+  }
+);
+ThemeToggle.displayName = "ThemeToggle";
+function hexToHsl(hex) {
+  let r = 0, g = 0, b = 0;
+  const h6 = hex.replace("#", "");
+  if (h6.length === 3) {
+    r = parseInt(h6[0] + h6[0], 16) / 255;
+    g = parseInt(h6[1] + h6[1], 16) / 255;
+    b = parseInt(h6[2] + h6[2], 16) / 255;
+  } else if (h6.length === 6) {
+    r = parseInt(h6.slice(0, 2), 16) / 255;
+    g = parseInt(h6.slice(2, 4), 16) / 255;
+    b = parseInt(h6.slice(4, 6), 16) / 255;
+  }
+  const max2 = Math.max(r, g, b), min2 = Math.min(r, g, b);
+  let hue = 0, sat = 0;
+  const lit = (max2 + min2) / 2;
+  if (max2 !== min2) {
+    const d = max2 - min2;
+    sat = lit > 0.5 ? d / (2 - max2 - min2) : d / (max2 + min2);
+    switch (max2) {
+      case r:
+        hue = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+        break;
+      case g:
+        hue = ((b - r) / d + 2) / 6;
+        break;
+      case b:
+        hue = ((r - g) / d + 4) / 6;
+        break;
+    }
+  }
+  return {
+    h: Math.round(hue * 360),
+    s: Math.round(sat * 100),
+    l: Math.round(lit * 100)
+  };
+}
+function hslToHex(h, s, l) {
+  const sn = s / 100, ln = l / 100;
+  const a = sn * Math.min(ln, 1 - ln);
+  const f = (n) => {
+    const k = (n + h / 30) % 12;
+    const color = ln - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color).toString(16).padStart(2, "0");
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+function isValidHex(hex) {
+  return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex);
+}
+var DEFAULT_PRESETS = [
+  "#000000",
+  "#374151",
+  "#6b7280",
+  "#9ca3af",
+  "#d1d5db",
+  "#ffffff",
+  "#ef4444",
+  "#f97316",
+  "#eab308",
+  "#22c55e",
+  "#3b82f6",
+  "#8b5cf6",
+  "#ec4899",
+  "#14b8a6",
+  "#06b6d4",
+  "#6366f1",
+  "#a855f7",
+  "#f43f5e"
+];
+var sizeMap = {
+  sm: "size-7",
+  md: "size-9",
+  lg: "size-11"
+};
+var ColorPicker = React.forwardRef(
+  function ColorPicker2({
+    value,
+    defaultValue = "#000000",
+    onChange,
+    presets = DEFAULT_PRESETS,
+    showInput = true,
+    disabled = false,
+    size = "md",
+    className,
+    label = "Choose color"
+  }, ref) {
+    const [internalValue, setInternalValue] = React.useState(defaultValue);
+    const currentValue = value ?? internalValue;
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [hexInput, setHexInput] = React.useState(currentValue);
+    const popoverRef = React.useRef(null);
+    const triggerRef = React.useRef(null);
+    const hsl = React.useMemo(() => hexToHsl(currentValue), [currentValue]);
+    const [hue, setHue] = React.useState(hsl.h);
+    const [sat, setSat] = React.useState(hsl.s);
+    const [lit, setLit] = React.useState(hsl.l);
+    React.useEffect(() => {
+      const parsed = hexToHsl(currentValue);
+      setHue(parsed.h);
+      setSat(parsed.s);
+      setLit(parsed.l);
+      setHexInput(currentValue);
+    }, [currentValue]);
+    const updateColor = React.useCallback(
+      (hex) => {
+        if (!value) setInternalValue(hex);
+        onChange?.(hex);
+        setHexInput(hex);
+      },
+      [value, onChange]
+    );
+    const handleHueChange = React.useCallback(
+      (newHue) => {
+        setHue(newHue);
+        updateColor(hslToHex(newHue, sat, lit));
+      },
+      [sat, lit, updateColor]
+    );
+    const handleSatLitChange = React.useCallback(
+      (newSat, newLit) => {
+        setSat(newSat);
+        setLit(newLit);
+        updateColor(hslToHex(hue, newSat, newLit));
+      },
+      [hue, updateColor]
+    );
+    const handleHexInput = React.useCallback(
+      (val) => {
+        setHexInput(val);
+        if (isValidHex(val)) {
+          updateColor(val.toLowerCase());
+        }
+      },
+      [updateColor]
+    );
+    React.useEffect(() => {
+      if (!isOpen) return;
+      const handler = (e) => {
+        if (popoverRef.current && !popoverRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target)) {
+          setIsOpen(false);
+        }
+      };
+      document.addEventListener("mousedown", handler);
+      return () => document.removeEventListener("mousedown", handler);
+    }, [isOpen]);
+    React.useEffect(() => {
+      if (!isOpen) return;
+      const handler = (e) => {
+        if (e.key === "Escape") setIsOpen(false);
+      };
+      document.addEventListener("keydown", handler);
+      return () => document.removeEventListener("keydown", handler);
+    }, [isOpen]);
+    const spectrumRef = React.useRef(null);
+    const handleSpectrumPointer = React.useCallback(
+      (e) => {
+        const rect = spectrumRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        const x = Math.max(
+          0,
+          Math.min(1, (e.clientX - rect.left) / rect.width)
+        );
+        const y = Math.max(
+          0,
+          Math.min(1, (e.clientY - rect.top) / rect.height)
+        );
+        const newSat = Math.round(x * 100);
+        const newLit = Math.round((1 - y) * 100);
+        handleSatLitChange(newSat, newLit);
+      },
+      [handleSatLitChange]
+    );
+    const handleSpectrumDown = React.useCallback(
+      (e) => {
+        e.currentTarget.setPointerCapture(e.pointerId);
+        handleSpectrumPointer(e);
+      },
+      [handleSpectrumPointer]
+    );
+    return /* @__PURE__ */ jsxRuntime.jsxs(
+      "div",
+      {
+        ref,
+        className: chunk4ON3M3OM_cjs.cn("relative inline-block", className),
+        "data-ds": "",
+        "data-ds-component": "color-picker",
+        ...disabled ? { "data-ds-disabled": "" } : {},
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              ref: triggerRef,
+              type: "button",
+              disabled,
+              onClick: () => !disabled && setIsOpen(!isOpen),
+              className: chunk4ON3M3OM_cjs.cn(
+                "rounded-md border border-border shadow-sm transition-shadow",
+                "hover:shadow-md disabled:opacity-50 disabled:pointer-events-none",
+                sizeMap[size],
+                chunk3EHT6IOA_cjs.focusRingClasses
+              ),
+              style: { backgroundColor: currentValue },
+              "aria-label": label,
+              "aria-expanded": isOpen,
+              "aria-haspopup": "dialog"
+            }
+          ),
+          isOpen && /* @__PURE__ */ jsxRuntime.jsxs(
+            "div",
+            {
+              ref: popoverRef,
+              className: chunk4ON3M3OM_cjs.cn(
+                "absolute z-50 mt-2 w-64 rounded-lg border border-border bg-background p-3 shadow-lg",
+                "animate-in fade-in-0 zoom-in-95"
+              ),
+              role: "dialog",
+              "aria-label": "Color picker",
+              children: [
+                /* @__PURE__ */ jsxRuntime.jsx(
+                  "div",
+                  {
+                    ref: spectrumRef,
+                    className: "relative h-36 w-full rounded-md cursor-crosshair overflow-hidden mb-3",
+                    style: {
+                      background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))`
+                    },
+                    onPointerDown: handleSpectrumDown,
+                    onPointerMove: (e) => {
+                      if (e.buttons > 0) handleSpectrumPointer(e);
+                    },
+                    "aria-label": "Saturation and lightness",
+                    children: /* @__PURE__ */ jsxRuntime.jsx(
+                      "div",
+                      {
+                        className: "absolute size-3.5 rounded-full border-2 border-white shadow-md -translate-x-1/2 -translate-y-1/2 pointer-events-none",
+                        style: {
+                          left: `${sat}%`,
+                          top: `${100 - lit}%`,
+                          backgroundColor: currentValue
+                        }
+                      }
+                    )
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntime.jsx("div", { className: "mb-3", children: /* @__PURE__ */ jsxRuntime.jsx(
+                  "input",
+                  {
+                    type: "range",
+                    min: 0,
+                    max: 360,
+                    value: hue,
+                    onChange: (e) => handleHueChange(Number(e.target.value)),
+                    className: chunk4ON3M3OM_cjs.cn(
+                      "w-full h-3 rounded-full appearance-none cursor-pointer",
+                      "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer"
+                    ),
+                    style: {
+                      background: "linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)"
+                    },
+                    "aria-label": "Hue"
+                  }
+                ) }),
+                showInput && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2 mb-3", children: [
+                  /* @__PURE__ */ jsxRuntime.jsx(
+                    "div",
+                    {
+                      className: "size-8 rounded-md border border-border shrink-0",
+                      style: { backgroundColor: currentValue }
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntime.jsx(
+                    "input",
+                    {
+                      type: "text",
+                      value: hexInput,
+                      onChange: (e) => handleHexInput(e.target.value),
+                      onBlur: () => {
+                        if (!isValidHex(hexInput)) setHexInput(currentValue);
+                      },
+                      className: chunk4ON3M3OM_cjs.cn(
+                        "flex-1 h-8 rounded-md border border-border bg-background px-2.5 text-sm font-mono",
+                        "text-foreground placeholder:text-muted-foreground",
+                        chunk3EHT6IOA_cjs.focusRingClasses
+                      ),
+                      placeholder: "#000000",
+                      maxLength: 7,
+                      "aria-label": "HEX color value"
+                    }
+                  )
+                ] }),
+                presets.length > 0 && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-1.5", children: presets.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => updateColor(preset),
+                    className: chunk4ON3M3OM_cjs.cn(
+                      "size-6 rounded-md border transition-shadow",
+                      currentValue.toLowerCase() === preset.toLowerCase() ? "border-foreground shadow-sm ring-1 ring-foreground/20" : "border-border hover:shadow-sm",
+                      chunk3EHT6IOA_cjs.focusRingClasses
+                    ),
+                    style: { backgroundColor: preset },
+                    "aria-label": `Select ${preset}`
+                  },
+                  preset
+                )) })
+              ]
+            }
+          )
+        ]
+      }
+    );
+  }
+);
+ColorPicker.displayName = "ColorPicker";
+var defaultClassNames = {
+  toast: chunk4ON3M3OM_cjs.cn(
+    "group",
+    "!rounded-lg !border !border-border !shadow-lg",
+    "!bg-background !text-foreground",
+    "!font-sans !text-sm"
+  ),
+  title: "!font-medium !text-foreground",
+  description: "!text-muted-foreground !text-[13px]",
+  actionButton: chunk4ON3M3OM_cjs.cn(
+    "!bg-primary !text-primary-foreground",
+    "!rounded-md !px-3 !py-1.5 !text-xs !font-medium",
+    "hover:!bg-primary-hover"
+  ),
+  cancelButton: chunk4ON3M3OM_cjs.cn(
+    "!bg-secondary !text-secondary-foreground",
+    "!rounded-md !px-3 !py-1.5 !text-xs !font-medium",
+    "hover:!bg-secondary-hover"
+  ),
+  closeButton: chunk4ON3M3OM_cjs.cn(
+    "!bg-background !text-muted-foreground !border-border",
+    "hover:!bg-muted hover:!text-foreground"
+  ),
+  success: "!border-success/30 !bg-success/5 [&_[data-title]]:!text-success",
+  error: "!border-danger/30 !bg-danger/5 [&_[data-title]]:!text-danger",
+  warning: "!border-warning/30 !bg-warning/5 [&_[data-title]]:!text-warning",
+  info: "!border-info/30 !bg-info/5 [&_[data-title]]:!text-info"
+};
+var SonnerToaster = React.forwardRef(
+  function SonnerToaster2({
+    position = "bottom-right",
+    richColors = true,
+    closeButton = true,
+    duration = 4e3,
+    visibleToasts = 3,
+    expand = true,
+    theme = "system",
+    offset = 16,
+    gap = 14,
+    dir = "auto",
+    className,
+    toastOptions,
+    ...rest
+  }, ref) {
+    const mergedClassNames = {};
+    for (const key of Object.keys(defaultClassNames)) {
+      mergedClassNames[key] = chunk4ON3M3OM_cjs.cn(
+        defaultClassNames[key],
+        toastOptions?.classNames?.[key]
+      );
+    }
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      "div",
+      {
+        ref,
+        "data-ds": "",
+        "data-ds-component": "sonner",
+        className: chunk4ON3M3OM_cjs.cn(className),
+        ...rest,
+        children: /* @__PURE__ */ jsxRuntime.jsx(
+          sonner.Toaster,
+          {
+            position,
+            richColors,
+            closeButton,
+            duration,
+            visibleToasts,
+            expand,
+            theme,
+            offset,
+            gap,
+            dir,
+            toastOptions: {
+              className: toastOptions?.className,
+              descriptionClassName: toastOptions?.descriptionClassName,
+              style: toastOptions?.style,
+              classNames: mergedClassNames
+            }
+          }
+        )
+      }
+    );
+  }
+);
+SonnerToaster.displayName = "SonnerToaster";
+function ChevronRightIcon8({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m9 18 6-6-6-6" })
+    }
+  );
+}
+function FileIcon2({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M14 2v4a2 2 0 0 0 2 2h4" })
+      ]
+    }
+  );
+}
+function FolderIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" })
+    }
+  );
+}
+function FolderOpenIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" })
+    }
+  );
+}
+function CheckIcon9({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2.5",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M20 6 9 17l-5-5" })
+    }
+  );
+}
+function MinusIcon2({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2.5",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M5 12h14" })
+    }
+  );
+}
+var TreeContext = React.createContext({
+  expanded: /* @__PURE__ */ new Set(),
+  toggleExpand: () => {
+  },
+  checkable: false,
+  checkedSet: /* @__PURE__ */ new Set(),
+  toggleCheck: () => {
+  },
+  getCheckState: () => "unchecked",
+  showLines: true,
+  showIcons: true,
+  shouldReduce: false
+});
+function collectAllIds(node) {
+  const ids = [node.id];
+  if (node.children) {
+    for (const child of node.children) {
+      ids.push(...collectAllIds(child));
+    }
+  }
+  return ids;
+}
+function TreeItem({ node, depth }) {
+  const {
+    expanded,
+    toggleExpand,
+    checkable,
+    checkedSet,
+    toggleCheck,
+    getCheckState,
+    onNodeSelect,
+    selectedId,
+    showLines,
+    showIcons,
+    shouldReduce
+  } = React.useContext(TreeContext);
+  const hasChildren = Boolean(node.children && node.children.length > 0);
+  const isExpanded = expanded.has(node.id);
+  const isSelected = selectedId === node.id;
+  const checkState = checkable ? getCheckState(node) : "unchecked";
+  const handleToggle = React.useCallback(() => {
+    if (node.disabled) return;
+    if (hasChildren) {
+      toggleExpand(node.id);
+    }
+    onNodeSelect?.(node.id);
+  }, [node.id, node.disabled, hasChildren, toggleExpand, onNodeSelect]);
+  const handleKeyDown = React.useCallback(
+    (e) => {
+      if (node.disabled) return;
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggle();
+      }
+      if (e.key === "ArrowRight" && hasChildren && !isExpanded) {
+        e.preventDefault();
+        toggleExpand(node.id);
+      }
+      if (e.key === "ArrowLeft" && hasChildren && isExpanded) {
+        e.preventDefault();
+        toggleExpand(node.id);
+      }
+    },
+    [
+      node.id,
+      node.disabled,
+      hasChildren,
+      isExpanded,
+      handleToggle,
+      toggleExpand
+    ]
+  );
+  const handleCheckClick = React.useCallback(
+    (e) => {
+      e.stopPropagation();
+      if (node.disabled) return;
+      toggleCheck(node.id);
+    },
+    [node.id, node.disabled, toggleCheck]
+  );
+  let iconNode = null;
+  if (node.icon) {
+    iconNode = node.icon;
+  } else if (showIcons) {
+    if (hasChildren) {
+      iconNode = isExpanded ? /* @__PURE__ */ jsxRuntime.jsx(FolderOpenIcon, { className: "size-4 text-muted-foreground shrink-0" }) : /* @__PURE__ */ jsxRuntime.jsx(FolderIcon, { className: "size-4 text-muted-foreground shrink-0" });
+    } else {
+      iconNode = /* @__PURE__ */ jsxRuntime.jsx(FileIcon2, { className: "size-4 text-muted-foreground shrink-0" });
+    }
+  }
+  const motionTransition = shouldReduce ? { duration: 0.01 } : {
+    duration: 0.2,
+    ease: [0.25, 0.1, 0.25, 1]
+  };
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "li",
+    {
+      role: "treeitem",
+      "aria-expanded": hasChildren ? isExpanded : void 0,
+      "aria-selected": isSelected,
+      "aria-disabled": node.disabled || void 0,
+      "data-ds": "",
+      "data-ds-component": "tree-item",
+      ...isSelected ? { "data-ds-selected": "" } : {},
+      ...node.disabled ? { "data-ds-disabled": "" } : {},
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(
+          "div",
+          {
+            className: chunk4ON3M3OM_cjs.cn(
+              "group/item flex items-center gap-1.5 py-1 px-1.5 rounded-md cursor-pointer select-none",
+              "text-sm text-foreground transition-colors duration-fast",
+              "hover:bg-muted/50",
+              isSelected && "bg-muted text-foreground",
+              node.disabled && "opacity-50 pointer-events-none",
+              chunk3EHT6IOA_cjs.focusRingClasses
+            ),
+            style: { paddingLeft: `${depth * 16 + 4}px` },
+            onClick: handleToggle,
+            onKeyDown: handleKeyDown,
+            tabIndex: node.disabled ? -1 : 0,
+            children: [
+              /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex size-4 items-center justify-center shrink-0", children: hasChildren && /* @__PURE__ */ jsxRuntime.jsx(
+                ChevronRightIcon8,
+                {
+                  className: chunk4ON3M3OM_cjs.cn(
+                    "size-3.5 text-muted-foreground transition-transform duration-fast",
+                    isExpanded && "rotate-90"
+                  )
+                }
+              ) }),
+              checkable && /* @__PURE__ */ jsxRuntime.jsxs(
+                "button",
+                {
+                  type: "button",
+                  onClick: handleCheckClick,
+                  className: chunk4ON3M3OM_cjs.cn(
+                    "inline-flex size-4 shrink-0 items-center justify-center rounded-[3px] border border-border",
+                    "transition-colors duration-fast",
+                    checkState === "checked" && "bg-primary border-primary text-primary-foreground",
+                    checkState === "indeterminate" && "bg-primary border-primary text-primary-foreground",
+                    chunk3EHT6IOA_cjs.focusRingClasses
+                  ),
+                  "aria-checked": checkState === "checked" ? true : checkState === "indeterminate" ? "mixed" : false,
+                  "aria-label": `Select ${node.label}`,
+                  tabIndex: -1,
+                  children: [
+                    checkState === "checked" && /* @__PURE__ */ jsxRuntime.jsx(CheckIcon9, { className: "size-3" }),
+                    checkState === "indeterminate" && /* @__PURE__ */ jsxRuntime.jsx(MinusIcon2, { className: "size-3" })
+                  ]
+                }
+              ),
+              iconNode && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "shrink-0", children: iconNode }),
+              /* @__PURE__ */ jsxRuntime.jsx("span", { className: "truncate", children: node.label })
+            ]
+          }
+        ),
+        hasChildren && /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { initial: false, children: isExpanded && /* @__PURE__ */ jsxRuntime.jsx(
+          framerMotion.motion.ul,
+          {
+            role: "group",
+            initial: { height: 0, opacity: 0, overflow: "hidden" },
+            animate: {
+              height: "auto",
+              opacity: 1,
+              overflow: "hidden",
+              transitionEnd: { overflow: "visible" }
+            },
+            exit: { height: 0, opacity: 0, overflow: "hidden" },
+            transition: motionTransition,
+            className: chunk4ON3M3OM_cjs.cn(
+              "relative",
+              showLines && "before:absolute before:left-[calc(var(--tree-indent))] before:top-0 before:bottom-2 before:w-px before:bg-border"
+            ),
+            style: {
+              "--tree-indent": `${(depth + 1) * 16 + 10}px`
+            },
+            children: node.children.map((child) => /* @__PURE__ */ jsxRuntime.jsx(TreeItem, { node: child, depth: depth + 1 }, child.id))
+          }
+        ) })
+      ]
+    }
+  );
+}
+var TreeView = React.forwardRef(
+  function TreeView2({
+    items,
+    defaultExpanded = [],
+    expanded: expandedProp,
+    onExpandedChange,
+    checkable = false,
+    defaultChecked = [],
+    checked: checkedProp,
+    onCheckedChange,
+    onNodeSelect,
+    selectedId,
+    showLines = true,
+    showIcons = true,
+    className
+  }, ref) {
+    const shouldReduce = framerMotion.useReducedMotion();
+    const [internalExpanded, setInternalExpanded] = React.useState(
+      () => new Set(defaultExpanded)
+    );
+    const expanded = expandedProp ? new Set(expandedProp) : internalExpanded;
+    const toggleExpand = React.useCallback(
+      (id) => {
+        const next = new Set(expanded);
+        if (next.has(id)) {
+          next.delete(id);
+        } else {
+          next.add(id);
+        }
+        if (!expandedProp) {
+          setInternalExpanded(next);
+        }
+        onExpandedChange?.(Array.from(next));
+      },
+      [expanded, expandedProp, onExpandedChange]
+    );
+    const [internalChecked, setInternalChecked] = React.useState(
+      () => new Set(defaultChecked)
+    );
+    const checkedSet = checkedProp ? new Set(checkedProp) : internalChecked;
+    const toggleCheck = React.useCallback(
+      (id) => {
+        function findNode(nodes) {
+          for (const n of nodes) {
+            if (n.id === id) return n;
+            if (n.children) {
+              const found = findNode(n.children);
+              if (found) return found;
+            }
+          }
+          return null;
+        }
+        const node = findNode(items);
+        if (!node) return;
+        const next = new Set(checkedSet);
+        const allIds = collectAllIds(node);
+        const allChecked = allIds.every((nid) => next.has(nid));
+        for (const nid of allIds) {
+          if (allChecked) {
+            next.delete(nid);
+          } else {
+            next.add(nid);
+          }
+        }
+        if (!checkedProp) {
+          setInternalChecked(next);
+        }
+        onCheckedChange?.(Array.from(next));
+      },
+      [items, checkedSet, checkedProp, onCheckedChange]
+    );
+    const getCheckState = React.useCallback(
+      (node) => {
+        const allIds = collectAllIds(node);
+        const checkedCount = allIds.filter((id) => checkedSet.has(id)).length;
+        if (checkedCount === 0) return "unchecked";
+        if (checkedCount === allIds.length) return "checked";
+        return "indeterminate";
+      },
+      [checkedSet]
+    );
+    const ctx = React.useMemo(
+      () => ({
+        expanded,
+        toggleExpand,
+        checkable,
+        checkedSet,
+        toggleCheck,
+        getCheckState,
+        onNodeSelect,
+        selectedId,
+        showLines,
+        showIcons,
+        shouldReduce
+      }),
+      [
+        expanded,
+        toggleExpand,
+        checkable,
+        checkedSet,
+        toggleCheck,
+        getCheckState,
+        onNodeSelect,
+        selectedId,
+        showLines,
+        showIcons,
+        shouldReduce
+      ]
+    );
+    return /* @__PURE__ */ jsxRuntime.jsx(TreeContext.Provider, { value: ctx, children: /* @__PURE__ */ jsxRuntime.jsx(
+      "ul",
+      {
+        ref,
+        role: "tree",
+        className: chunk4ON3M3OM_cjs.cn("text-sm", className),
+        "data-ds": "",
+        "data-ds-component": "tree-view",
+        children: items.map((item) => /* @__PURE__ */ jsxRuntime.jsx(TreeItem, { node: item, depth: 0 }, item.id))
+      }
+    ) });
+  }
+);
+TreeView.displayName = "TreeView";
+var VirtualList = React.forwardRef(function VirtualList2({
+  items,
+  itemHeight,
+  renderItem,
+  height = 400,
+  overscan = 5,
+  getItemKey,
+  onEndReached,
+  endReachedThreshold = 100,
+  loading = false,
+  loadingIndicator,
+  emptyContent,
+  className,
+  itemClassName
+}, ref) {
+  const containerRef = React.useRef(null);
+  const [scrollTop, setScrollTop] = React.useState(0);
+  const totalHeight = items.length * itemHeight;
+  const { startIndex, endIndex, visibleCount } = React.useMemo(() => {
+    const visCount = Math.ceil(height / itemHeight);
+    const start = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
+    const end = Math.min(
+      items.length - 1,
+      Math.floor(scrollTop / itemHeight) + visCount + overscan
+    );
+    return { startIndex: start, endIndex: end, visibleCount: visCount };
+  }, [scrollTop, height, itemHeight, items.length, overscan]);
+  const handleScroll = React.useCallback(
+    (e) => {
+      const target = e.currentTarget;
+      setScrollTop(target.scrollTop);
+      if (onEndReached) {
+        const distanceFromBottom = target.scrollHeight - target.scrollTop - target.clientHeight;
+        if (distanceFromBottom < endReachedThreshold) {
+          onEndReached();
+        }
+      }
+    },
+    [onEndReached, endReachedThreshold]
+  );
+  React.useEffect(() => {
+    if (!ref) return;
+    const node = containerRef.current;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref && "current" in ref) {
+      ref.current = node;
+    }
+  }, [ref]);
+  if (items.length === 0 && emptyContent) {
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      "div",
+      {
+        ref: containerRef,
+        className: chunk4ON3M3OM_cjs.cn(
+          "flex items-center justify-center border border-border rounded-lg bg-background",
+          className
+        ),
+        style: { height },
+        "data-ds": "",
+        "data-ds-component": "virtual-list",
+        children: emptyContent
+      }
+    );
+  }
+  const visibleItems = [];
+  for (let i = startIndex; i <= endIndex && i < items.length; i++) {
+    const key = getItemKey ? getItemKey(items[i], i) : i;
+    visibleItems.push(
+      /* @__PURE__ */ jsxRuntime.jsx(
+        "div",
+        {
+          className: chunk4ON3M3OM_cjs.cn("absolute left-0 right-0", itemClassName),
+          style: {
+            height: itemHeight,
+            top: i * itemHeight
+          },
+          role: "listitem",
+          "aria-setsize": items.length,
+          "aria-posinset": i + 1,
+          children: renderItem(items[i], i)
+        },
+        key
+      )
+    );
+  }
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "div",
+    {
+      ref: containerRef,
+      className: chunk4ON3M3OM_cjs.cn(
+        "relative overflow-auto border border-border rounded-lg bg-background",
+        className
+      ),
+      style: { height },
+      onScroll: handleScroll,
+      role: "list",
+      "data-ds": "",
+      "data-ds-component": "virtual-list",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative w-full", style: { height: totalHeight }, children: visibleItems }),
+        loading && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "sticky bottom-0 flex items-center justify-center py-3 bg-background/80 backdrop-blur-sm", children: loadingIndicator ?? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "size-5 animate-spin rounded-full border-2 border-border border-t-primary" }) })
+      ]
+    }
+  );
+});
+function XIcon6({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M18 6 6 18" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m6 6 12 12" })
+      ]
+    }
+  );
+}
+function ChevronLeftIcon4({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m15 18-6-6 6-6" })
+    }
+  );
+}
+function ChevronRightIcon9({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m9 18 6-6-6-6" })
+    }
+  );
+}
+function ZoomInIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "11", cy: "11", r: "8" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m21 21-4.3-4.3" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M11 8v6" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M8 11h6" })
+      ]
+    }
+  );
+}
+function ZoomOutIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "11", cy: "11", r: "8" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m21 21-4.3-4.3" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M8 11h6" })
+      ]
+    }
+  );
+}
+function Lightbox({
+  images,
+  initialIndex,
+  onClose
+}) {
+  const [current, setCurrent] = React.useState(initialIndex);
+  const [zoomed, setZoomed] = React.useState(false);
+  const shouldReduce = framerMotion.useReducedMotion();
+  const goTo = React.useCallback(
+    (i) => {
+      setCurrent((i % images.length + images.length) % images.length);
+      setZoomed(false);
+    },
+    [images.length]
+  );
+  const prev = React.useCallback(() => goTo(current - 1), [current, goTo]);
+  const next = React.useCallback(() => goTo(current + 1), [current, goTo]);
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, prev, next]);
+  const image = images[current];
+  const transition = shouldReduce ? { duration: 0.01 } : { duration: 0.25, ease: "easeOut" };
+  return reactDom.createPortal(
+    /* @__PURE__ */ jsxRuntime.jsxs(
+      "div",
+      {
+        className: "fixed inset-0 z-50 flex flex-col",
+        "data-ds": "",
+        "data-ds-component": "image-gallery-lightbox",
+        role: "dialog",
+        "aria-label": `Image ${current + 1} of ${images.length}`,
+        "aria-modal": "true",
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx(
+            framerMotion.motion.div,
+            {
+              className: "absolute inset-0 bg-black/90",
+              initial: { opacity: 0 },
+              animate: { opacity: 1 },
+              exit: { opacity: 0 },
+              transition,
+              onClick: onClose
+            }
+          ),
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "relative z-10 flex items-center justify-between px-4 py-3", children: [
+            /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "text-sm text-white/70 font-medium", children: [
+              current + 1,
+              " / ",
+              images.length
+            ] }),
+            /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-1", children: [
+              /* @__PURE__ */ jsxRuntime.jsx(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => setZoomed(!zoomed),
+                  className: "inline-flex size-9 items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors",
+                  "aria-label": zoomed ? "Zoom out" : "Zoom in",
+                  children: zoomed ? /* @__PURE__ */ jsxRuntime.jsx(ZoomOutIcon, { className: "size-4" }) : /* @__PURE__ */ jsxRuntime.jsx(ZoomInIcon, { className: "size-4" })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntime.jsx(
+                "button",
+                {
+                  type: "button",
+                  onClick: onClose,
+                  className: "inline-flex size-9 items-center justify-center rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors",
+                  "aria-label": "Close gallery",
+                  children: /* @__PURE__ */ jsxRuntime.jsx(XIcon6, { className: "size-4" })
+                }
+              )
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "relative z-10 flex-1 flex items-center justify-center px-12 min-h-0", children: [
+            images.length > 1 && /* @__PURE__ */ jsxRuntime.jsx(
+              "button",
+              {
+                type: "button",
+                onClick: prev,
+                className: "absolute left-3 z-10 inline-flex size-10 items-center justify-center rounded-full bg-black/50 text-white/80 hover:bg-black/70 hover:text-white transition-colors",
+                "aria-label": "Previous image",
+                children: /* @__PURE__ */ jsxRuntime.jsx(ChevronLeftIcon4, { className: "size-5" })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxRuntime.jsx(
+              framerMotion.motion.img,
+              {
+                src: image.src,
+                alt: image.alt,
+                className: chunk4ON3M3OM_cjs.cn(
+                  "max-h-full max-w-full object-contain select-none transition-transform duration-200",
+                  zoomed ? "cursor-zoom-out scale-150" : "cursor-zoom-in"
+                ),
+                initial: { opacity: 0, scale: 0.95 },
+                animate: { opacity: 1, scale: 1 },
+                exit: { opacity: 0, scale: 0.95 },
+                transition,
+                onClick: () => setZoomed(!zoomed),
+                draggable: false
+              },
+              current
+            ) }),
+            images.length > 1 && /* @__PURE__ */ jsxRuntime.jsx(
+              "button",
+              {
+                type: "button",
+                onClick: next,
+                className: "absolute right-3 z-10 inline-flex size-10 items-center justify-center rounded-full bg-black/50 text-white/80 hover:bg-black/70 hover:text-white transition-colors",
+                "aria-label": "Next image",
+                children: /* @__PURE__ */ jsxRuntime.jsx(ChevronRightIcon9, { className: "size-5" })
+              }
+            )
+          ] }),
+          image.caption && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative z-10 text-center py-2 px-4", children: /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-sm text-white/70", children: image.caption }) }),
+          images.length > 1 && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative z-10 flex items-center justify-center gap-1.5 py-3 px-4 overflow-x-auto", children: images.map((img, i) => /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: () => goTo(i),
+              className: chunk4ON3M3OM_cjs.cn(
+                "shrink-0 size-12 rounded-md overflow-hidden border-2 transition-all",
+                i === current ? "border-white opacity-100" : "border-transparent opacity-50 hover:opacity-80"
+              ),
+              "aria-label": `Go to image ${i + 1}`,
+              "aria-current": i === current ? "true" : void 0,
+              children: /* @__PURE__ */ jsxRuntime.jsx(
+                "img",
+                {
+                  src: img.thumbnail ?? img.src,
+                  alt: "",
+                  className: "size-full object-cover",
+                  draggable: false
+                }
+              )
+            },
+            `thumb-${img.src}`
+          )) })
+        ]
+      }
+    ),
+    document.body
+  );
+}
+var colsMap = {
+  1: "grid-cols-1",
+  2: "grid-cols-2",
+  3: "grid-cols-3",
+  4: "grid-cols-4"
+};
+var aspectMap = {
+  square: "aspect-square",
+  video: "aspect-video",
+  auto: ""
+};
+var ImageGallery = React.forwardRef(
+  function ImageGallery2({
+    images,
+    columns = 3,
+    gap = 8,
+    aspectRatio = "square",
+    lightbox = true,
+    className,
+    renderThumbnail
+  }, ref) {
+    const [lightboxIndex, setLightboxIndex] = React.useState(null);
+    return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntime.jsx(
+        "div",
+        {
+          ref,
+          className: chunk4ON3M3OM_cjs.cn("not-prose grid", colsMap[columns], className),
+          style: { gap },
+          "data-ds": "",
+          "data-ds-component": "image-gallery",
+          role: "group",
+          "aria-label": "Image gallery",
+          children: images.map((image, index) => /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: () => lightbox && setLightboxIndex(index),
+              className: chunk4ON3M3OM_cjs.cn(
+                "block overflow-hidden rounded-lg border border-border bg-muted p-0",
+                "transition-shadow hover:shadow-md",
+                lightbox && "cursor-pointer",
+                !lightbox && "cursor-default",
+                aspectMap[aspectRatio],
+                chunk3EHT6IOA_cjs.focusRingClasses
+              ),
+              "aria-label": image.alt,
+              disabled: !lightbox,
+              children: renderThumbnail ? renderThumbnail(image, index) : /* @__PURE__ */ jsxRuntime.jsx(
+                "img",
+                {
+                  src: image.thumbnail ?? image.src,
+                  alt: image.alt,
+                  className: "block size-full object-cover",
+                  loading: "lazy",
+                  draggable: false
+                }
+              )
+            },
+            `gallery-${image.src}`
+          ))
+        }
+      ),
+      /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { children: lightboxIndex !== null && /* @__PURE__ */ jsxRuntime.jsx(
+        Lightbox,
+        {
+          images,
+          initialIndex: lightboxIndex,
+          onClose: () => setLightboxIndex(null)
+        }
+      ) })
+    ] });
+  }
+);
+ImageGallery.displayName = "ImageGallery";
+function PlayIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "currentColor",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M8 5v14l11-7z" })
+    }
+  );
+}
+function PauseIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "currentColor",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M6 19h4V5H6v14zm8-14v14h4V5h-4z" })
+    }
+  );
+}
+function VolumeIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("polygon", { points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M15.54 8.46a5 5 0 0 1 0 7.07" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M19.07 4.93a10 10 0 0 1 0 14.14" })
+      ]
+    }
+  );
+}
+function VolumeMuteIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("polygon", { points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "23", y1: "9", x2: "17", y2: "15" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "17", y1: "9", x2: "23", y2: "15" })
+      ]
+    }
+  );
+}
+function FullscreenIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M8 3H5a2 2 0 0 0-2 2v3" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M21 8V5a2 2 0 0 0-2-2h-3" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M3 16v3a2 2 0 0 0 2 2h3" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M16 21h3a2 2 0 0 0 2-2v-3" })
+      ]
+    }
+  );
+}
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+var aspectMap2 = {
+  video: "aspect-video",
+  square: "aspect-square",
+  "4/3": "aspect-4/3",
+  auto: ""
+};
+var VideoPlayer = React.forwardRef(
+  function VideoPlayer2({
+    src,
+    poster,
+    aspectRatio = "video",
+    autoPlay = false,
+    loop = false,
+    muted: mutedProp = false,
+    controls = true,
+    className,
+    onEnded
+  }, ref) {
+    const videoRef = React.useRef(null);
+    const wrapperRef = React.useRef(null);
+    const [playing, setPlaying] = React.useState(autoPlay);
+    const [isMuted, setIsMuted] = React.useState(mutedProp);
+    const [currentTime, setCurrentTime] = React.useState(0);
+    const [duration, setDuration] = React.useState(0);
+    const [showControls, setShowControls] = React.useState(true);
+    const hideTimer = React.useRef(null);
+    const progress = duration > 0 ? currentTime / duration * 100 : 0;
+    const resetHideTimer = React.useCallback(() => {
+      setShowControls(true);
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+      if (playing) {
+        hideTimer.current = setTimeout(() => setShowControls(false), 3e3);
+      }
+    }, [playing]);
+    React.useEffect(() => {
+      return () => {
+        if (hideTimer.current) clearTimeout(hideTimer.current);
+      };
+    }, []);
+    const togglePlay = React.useCallback(() => {
+      const video = videoRef.current;
+      if (!video) return;
+      if (video.paused) {
+        video.play();
+        setPlaying(true);
+      } else {
+        video.pause();
+        setPlaying(false);
+      }
+      resetHideTimer();
+    }, [resetHideTimer]);
+    const toggleMute = React.useCallback(() => {
+      const video = videoRef.current;
+      if (!video) return;
+      video.muted = !video.muted;
+      setIsMuted(video.muted);
+    }, []);
+    const handleSeek = React.useCallback(
+      (e) => {
+        const video = videoRef.current;
+        if (!video) return;
+        const time = Number(e.target.value) / 100 * duration;
+        video.currentTime = time;
+        setCurrentTime(time);
+      },
+      [duration]
+    );
+    const toggleFullscreen = React.useCallback(() => {
+      const el = wrapperRef.current;
+      if (!el) return;
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        el.requestFullscreen();
+      }
+    }, []);
+    const handleKeyDown = React.useCallback(
+      (e) => {
+        if (e.key === " " || e.key === "k") {
+          e.preventDefault();
+          togglePlay();
+        }
+        if (e.key === "m") toggleMute();
+        if (e.key === "f") toggleFullscreen();
+        if (e.key === "ArrowRight" && videoRef.current) {
+          videoRef.current.currentTime = Math.min(duration, currentTime + 5);
+        }
+        if (e.key === "ArrowLeft" && videoRef.current) {
+          videoRef.current.currentTime = Math.max(0, currentTime - 5);
+        }
+      },
+      [togglePlay, toggleMute, toggleFullscreen, duration, currentTime]
+    );
+    return /* @__PURE__ */ jsxRuntime.jsxs(
+      "div",
+      {
+        ref: (node) => {
+          wrapperRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref)
+            ref.current = node;
+        },
+        className: chunk4ON3M3OM_cjs.cn(
+          "relative group overflow-hidden rounded-lg border border-border bg-black",
+          aspectMap2[aspectRatio],
+          chunk3EHT6IOA_cjs.focusRingClasses,
+          className
+        ),
+        onMouseMove: resetHideTimer,
+        onMouseEnter: () => setShowControls(true),
+        onKeyDown: handleKeyDown,
+        tabIndex: 0,
+        "data-ds": "",
+        "data-ds-component": "video-player",
+        role: "region",
+        "aria-label": "Video player",
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "video",
+            {
+              ref: videoRef,
+              src,
+              poster,
+              autoPlay,
+              loop,
+              muted: mutedProp,
+              playsInline: true,
+              className: "size-full object-contain",
+              onClick: togglePlay,
+              onTimeUpdate: () => setCurrentTime(videoRef.current?.currentTime ?? 0),
+              onLoadedMetadata: () => setDuration(videoRef.current?.duration ?? 0),
+              onEnded: () => {
+                setPlaying(false);
+                onEnded?.();
+              },
+              onPlay: () => setPlaying(true),
+              onPause: () => setPlaying(false)
+            }
+          ),
+          !playing && /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: togglePlay,
+              className: "absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity",
+              "aria-label": "Play video",
+              children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "inline-flex size-16 items-center justify-center rounded-full bg-white/90 text-black shadow-lg", children: /* @__PURE__ */ jsxRuntime.jsx(PlayIcon, { className: "size-8 ml-1" }) })
+            }
+          ),
+          controls && /* @__PURE__ */ jsxRuntime.jsxs(
+            "div",
+            {
+              className: chunk4ON3M3OM_cjs.cn(
+                "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-2 transition-opacity duration-200",
+                showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+              ),
+              children: [
+                /* @__PURE__ */ jsxRuntime.jsx(
+                  "input",
+                  {
+                    type: "range",
+                    min: 0,
+                    max: 100,
+                    value: progress,
+                    onChange: handleSeek,
+                    className: "w-full h-1 mb-2 cursor-pointer appearance-none rounded-full bg-white/30 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white",
+                    "aria-label": "Seek"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center justify-between", children: [
+                  /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2", children: [
+                    /* @__PURE__ */ jsxRuntime.jsx(
+                      "button",
+                      {
+                        type: "button",
+                        onClick: togglePlay,
+                        className: "inline-flex size-8 items-center justify-center text-white/90 hover:text-white transition-colors",
+                        "aria-label": playing ? "Pause" : "Play",
+                        children: playing ? /* @__PURE__ */ jsxRuntime.jsx(PauseIcon, { className: "size-4" }) : /* @__PURE__ */ jsxRuntime.jsx(PlayIcon, { className: "size-4" })
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntime.jsx(
+                      "button",
+                      {
+                        type: "button",
+                        onClick: toggleMute,
+                        className: "inline-flex size-8 items-center justify-center text-white/90 hover:text-white transition-colors",
+                        "aria-label": isMuted ? "Unmute" : "Mute",
+                        children: isMuted ? /* @__PURE__ */ jsxRuntime.jsx(VolumeMuteIcon, { className: "size-4" }) : /* @__PURE__ */ jsxRuntime.jsx(VolumeIcon, { className: "size-4" })
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "text-xs text-white/70 font-mono tabular-nums", children: [
+                      formatTime(currentTime),
+                      " / ",
+                      formatTime(duration)
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntime.jsx(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: toggleFullscreen,
+                      className: "inline-flex size-8 items-center justify-center text-white/90 hover:text-white transition-colors",
+                      "aria-label": "Toggle fullscreen",
+                      children: /* @__PURE__ */ jsxRuntime.jsx(FullscreenIcon, { className: "size-4" })
+                    }
+                  )
+                ] })
+              ]
+            }
+          )
+        ]
+      }
+    );
+  }
+);
+VideoPlayer.displayName = "VideoPlayer";
+var chartColors = [
+  "var(--primary)",
+  "var(--info)",
+  "var(--success)",
+  "var(--warning)",
+  "var(--danger)",
+  "var(--secondary)",
+  "var(--muted-foreground)",
+  "oklch(0.65 0.15 250)",
+  // sky
+  "oklch(0.65 0.15 160)",
+  // emerald
+  "oklch(0.65 0.15 30)"
+  // amber
+];
+var ChartContainer = React.forwardRef(
+  function ChartContainer2({
+    title,
+    description,
+    height = 350,
+    children,
+    footer,
+    loading = false,
+    loadingIndicator,
+    emptyContent,
+    className
+  }, ref) {
+    return /* @__PURE__ */ jsxRuntime.jsxs(
+      "div",
+      {
+        ref,
+        className: chunk4ON3M3OM_cjs.cn(
+          "rounded-lg border border-border bg-background p-4",
+          className
+        ),
+        "data-ds": "",
+        "data-ds-component": "chart",
+        children: [
+          (title || description) && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "mb-4 space-y-1", children: [
+            title && /* @__PURE__ */ jsxRuntime.jsx("h3", { className: "text-base font-semibold text-foreground", children: title }),
+            description && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-sm text-muted-foreground", children: description })
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative", style: { height }, children: loading ? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "absolute inset-0 flex items-center justify-center", children: loadingIndicator ?? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "size-6 animate-spin rounded-full border-2 border-border border-t-primary" }) }) : emptyContent ? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "absolute inset-0 flex items-center justify-center text-sm text-muted-foreground", children: emptyContent }) : children }),
+          footer && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "mt-4 border-t border-border pt-3 text-sm text-muted-foreground", children: footer })
+        ]
+      }
+    );
+  }
+);
+ChartContainer.displayName = "ChartContainer";
+function ChartTooltipContent({
+  label,
+  payload,
+  active,
+  formatter,
+  className
+}) {
+  if (!active || !payload?.length) return null;
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "div",
+    {
+      className: chunk4ON3M3OM_cjs.cn(
+        "rounded-lg border border-border bg-background px-3 py-2 shadow-lg",
+        "text-sm",
+        className
+      ),
+      children: [
+        label && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "font-medium text-foreground mb-1", children: label }),
+        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "space-y-0.5", children: payload.map((entry) => /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "div",
+            {
+              className: "size-2.5 rounded-full shrink-0",
+              style: { backgroundColor: entry.color ?? entry.fill }
+            }
+          ),
+          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "text-muted-foreground", children: [
+            entry.name,
+            ":"
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium text-foreground ml-auto tabular-nums", children: formatter ? formatter(entry.value, entry.name) : entry.value })
+        ] }, entry.name)) })
+      ]
+    }
+  );
+}
+ChartTooltipContent.displayName = "ChartTooltipContent";
+function escapeHtml(str) {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+function parseInline(text2) {
+  return text2.replace(
+    /!\[([^\]]*)\]\(([^)]+)\)/g,
+    '<img src="$2" alt="$1" class="rounded-md max-w-full" loading="lazy" />'
+  ).replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" class="text-primary underline underline-offset-2 hover:text-primary-hover" target="_blank" rel="noopener noreferrer">$1</a>'
+  ).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/__(.+?)__/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>").replace(/_(.+?)_/g, "<em>$1</em>").replace(/~~(.+?)~~/g, "<del>$1</del>").replace(
+    /`([^`]+)`/g,
+    '<code class="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.875em]">$1</code>'
+  );
+}
+function parseMarkdown(input, allowHtml) {
+  const lines = input.split("\n");
+  const output = [];
+  let inCodeBlock = false;
+  let codeBuffer = [];
+  let inList = false;
+  let listType = "ul";
+  function closeList() {
+    if (inList) {
+      output.push(`</${listType}>`);
+      inList = false;
+    }
+  }
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.startsWith("```")) {
+      if (inCodeBlock) {
+        output.push(
+          `<pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>${escapeHtml(codeBuffer.join("\n"))}</code></pre>`
+        );
+        codeBuffer = [];
+        inCodeBlock = false;
+        continue;
+      }
+      closeList();
+      inCodeBlock = true;
+      line.slice(3).trim();
+      continue;
+    }
+    if (inCodeBlock) {
+      codeBuffer.push(line);
+      continue;
+    }
+    const safeLine = allowHtml ? line : escapeHtml(line);
+    const trimmed = safeLine.trim();
+    if (trimmed === "") {
+      closeList();
+      continue;
+    }
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+      closeList();
+      output.push('<hr class="border-border my-4" />');
+      continue;
+    }
+    const headingMatch = trimmed.match(/^(#{1,6})\s+(.+)$/);
+    if (headingMatch) {
+      closeList();
+      const level = headingMatch[1].length;
+      const text2 = parseInline(headingMatch[2]);
+      const hClasses = {
+        1: "text-2xl font-bold mt-6 mb-3",
+        2: "text-xl font-semibold mt-5 mb-2",
+        3: "text-lg font-semibold mt-4 mb-2",
+        4: "text-base font-semibold mt-3 mb-1",
+        5: "text-sm font-semibold mt-3 mb-1",
+        6: "text-sm font-medium mt-3 mb-1 text-muted-foreground"
+      };
+      output.push(
+        `<h${level} class="${hClasses[level] || ""}">${text2}</h${level}>`
+      );
+      continue;
+    }
+    if (trimmed.startsWith("&gt; ") || trimmed.startsWith("> ")) {
+      closeList();
+      const quoteText = trimmed.replace(/^(&gt;\s?|>\s?)/, "");
+      output.push(
+        `<blockquote class="border-l-2 border-border pl-4 text-muted-foreground italic my-3">${parseInline(quoteText)}</blockquote>`
+      );
+      continue;
+    }
+    const ulMatch = trimmed.match(/^[-*+]\s+(.+)$/);
+    if (ulMatch) {
+      if (!inList || listType !== "ul") {
+        closeList();
+        output.push('<ul class="list-disc pl-6 my-2 space-y-1">');
+        inList = true;
+        listType = "ul";
+      }
+      output.push(`<li>${parseInline(ulMatch[1])}</li>`);
+      continue;
+    }
+    const olMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (olMatch) {
+      if (!inList || listType !== "ol") {
+        closeList();
+        output.push('<ol class="list-decimal pl-6 my-2 space-y-1">');
+        inList = true;
+        listType = "ol";
+      }
+      output.push(`<li>${parseInline(olMatch[1])}</li>`);
+      continue;
+    }
+    closeList();
+    output.push(`<p class="my-2 leading-relaxed">${parseInline(trimmed)}</p>`);
+  }
+  closeList();
+  if (inCodeBlock) {
+    output.push(
+      `<pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>${escapeHtml(codeBuffer.join("\n"))}</code></pre>`
+    );
+  }
+  return output.join("\n");
+}
+var sizeClasses2 = {
+  sm: "text-sm [&_h1]:text-xl [&_h2]:text-lg [&_h3]:text-base",
+  base: "text-base",
+  lg: "text-lg [&_h1]:text-3xl [&_h2]:text-2xl [&_h3]:text-xl"
+};
+var Markdown = React.forwardRef(
+  function Markdown2({ content, size = "base", fluid = false, className, allowHtml = false }, ref) {
+    const html = React.useMemo(
+      () => parseMarkdown(content, allowHtml),
+      [content, allowHtml]
+    );
+    return /* @__PURE__ */ jsxRuntime.jsx(
+      "div",
+      {
+        ref,
+        className: chunk4ON3M3OM_cjs.cn(
+          "text-foreground",
+          sizeClasses2[size],
+          !fluid && "max-w-prose",
+          className
+        ),
+        "data-ds": "",
+        "data-ds-component": "markdown",
+        dangerouslySetInnerHTML: { __html: html }
+      }
+    );
+  }
+);
+Markdown.displayName = "Markdown";
+function SearchIcon4({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "11", cy: "11", r: "8" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m21 21-4.3-4.3" })
+      ]
+    }
+  );
+}
+function XIcon7({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M18 6 6 18" }),
+        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m6 6 12 12" })
+      ]
+    }
+  );
+}
+function ColumnsIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx("rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", ry: "2" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", x2: "12", y1: "3", y2: "21" }),
+        /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "3", x2: "21", y1: "12", y2: "12" })
+      ]
+    }
+  );
+}
+function FilterIcon({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "svg",
+    {
+      className,
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsxRuntime.jsx("polygon", { points: "22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" })
+    }
+  );
+}
+var DataTableToolbar = React.forwardRef(function DataTableToolbar2({
+  searchValue = "",
+  onSearchChange,
+  searchPlaceholder = "Search...",
+  searchDebounce = 300,
+  filters,
+  onFilterChange,
+  onClearFilters,
+  columns,
+  onColumnVisibilityChange,
+  viewMode,
+  viewModes,
+  onViewModeChange,
+  actions,
+  className
+}, ref) {
+  const [localSearch, setLocalSearch] = React.useState(searchValue);
+  const debounceTimer = React.useRef(null);
+  React.useEffect(() => {
+    setLocalSearch(searchValue);
+  }, [searchValue]);
+  const handleSearchChange = React.useCallback(
+    (value) => {
+      setLocalSearch(value);
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      debounceTimer.current = setTimeout(() => {
+        onSearchChange?.(value);
+      }, searchDebounce);
+    },
+    [onSearchChange, searchDebounce]
+  );
+  React.useEffect(() => {
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, []);
+  const [openFilter, setOpenFilter] = React.useState(null);
+  const [showColumns, setShowColumns] = React.useState(false);
+  const hasActiveFilters = filters?.some((f) => f.selected.length > 0) ?? false;
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "div",
+    {
+      ref,
+      className: chunk4ON3M3OM_cjs.cn("flex flex-wrap items-center gap-2", className),
+      "data-ds": "",
+      "data-ds-component": "data-table-toolbar",
+      children: [
+        onSearchChange && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "relative flex-1 min-w-[200px] max-w-sm", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(SearchIcon4, { className: "absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "input",
+            {
+              type: "text",
+              value: localSearch,
+              onChange: (e) => handleSearchChange(e.target.value),
+              placeholder: searchPlaceholder,
+              className: chunk4ON3M3OM_cjs.cn(
+                "h-9 w-full rounded-md border border-border bg-background pl-9 pr-8 text-sm",
+                "text-foreground placeholder:text-muted-foreground",
+                "transition-colors duration-fast",
+                chunk3EHT6IOA_cjs.focusRingClasses
+              ),
+              "aria-label": "Search table"
+            }
+          ),
+          localSearch && /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: () => handleSearchChange(""),
+              className: "absolute right-2 top-1/2 -translate-y-1/2 inline-flex size-5 items-center justify-center rounded text-muted-foreground hover:text-foreground",
+              "aria-label": "Clear search",
+              children: /* @__PURE__ */ jsxRuntime.jsx(XIcon7, { className: "size-3.5" })
+            }
+          )
+        ] }),
+        filters?.map((filter) => /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "relative", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => setOpenFilter(openFilter === filter.id ? null : filter.id),
+              className: chunk4ON3M3OM_cjs.cn(
+                "inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-sm transition-colors",
+                filter.selected.length > 0 ? "border-primary/30 bg-primary/5 text-foreground" : "border-border bg-background text-muted-foreground hover:text-foreground hover:bg-muted",
+                chunk3EHT6IOA_cjs.focusRingClasses
+              ),
+              children: [
+                /* @__PURE__ */ jsxRuntime.jsx(FilterIcon, { className: "size-3.5" }),
+                filter.label,
+                filter.selected.length > 0 && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-1 inline-flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-[11px] font-medium", children: filter.selected.length })
+              ]
+            }
+          ),
+          openFilter === filter.id && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "absolute top-full left-0 z-50 mt-1 w-52 rounded-lg border border-border bg-background p-1 shadow-lg", children: filter.options.map((opt) => {
+            const isSelected = filter.selected.includes(opt.value);
+            return /* @__PURE__ */ jsxRuntime.jsxs(
+              "button",
+              {
+                type: "button",
+                onClick: () => {
+                  const next = isSelected ? filter.selected.filter((v) => v !== opt.value) : [...filter.selected, opt.value];
+                  onFilterChange?.(filter.id, next);
+                },
+                className: chunk4ON3M3OM_cjs.cn(
+                  "flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm transition-colors",
+                  "hover:bg-muted text-foreground"
+                ),
+                children: [
+                  /* @__PURE__ */ jsxRuntime.jsx(
+                    "div",
+                    {
+                      className: chunk4ON3M3OM_cjs.cn(
+                        "size-4 rounded border flex items-center justify-center shrink-0",
+                        isSelected ? "bg-primary border-primary text-primary-foreground" : "border-border"
+                      ),
+                      children: isSelected && /* @__PURE__ */ jsxRuntime.jsx(
+                        "svg",
+                        {
+                          className: "size-3",
+                          viewBox: "0 0 24 24",
+                          fill: "none",
+                          stroke: "currentColor",
+                          strokeWidth: "3",
+                          strokeLinecap: "round",
+                          strokeLinejoin: "round",
+                          children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M20 6 9 17l-5-5" })
+                        }
+                      )
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex-1 text-left", children: opt.label }),
+                  opt.count !== void 0 && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs text-muted-foreground tabular-nums", children: opt.count })
+                ]
+              },
+              opt.value
+            );
+          }) })
+        ] }, filter.id)),
+        hasActiveFilters && onClearFilters && /* @__PURE__ */ jsxRuntime.jsxs(
+          "button",
+          {
+            type: "button",
+            onClick: onClearFilters,
+            className: "inline-flex h-9 items-center gap-1 rounded-md px-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors",
+            children: [
+              /* @__PURE__ */ jsxRuntime.jsx(XIcon7, { className: "size-3.5" }),
+              "Clear"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex-1" }),
+        columns && onColumnVisibilityChange && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "relative", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => setShowColumns(!showColumns),
+              className: chunk4ON3M3OM_cjs.cn(
+                "inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-background px-3 text-sm text-muted-foreground",
+                "hover:text-foreground hover:bg-muted transition-colors",
+                chunk3EHT6IOA_cjs.focusRingClasses
+              ),
+              "aria-label": "Toggle column visibility",
+              children: [
+                /* @__PURE__ */ jsxRuntime.jsx(ColumnsIcon, { className: "size-3.5" }),
+                "Columns"
+              ]
+            }
+          ),
+          showColumns && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "absolute top-full right-0 z-50 mt-1 w-48 rounded-lg border border-border bg-background p-1 shadow-lg", children: columns.map((col) => /* @__PURE__ */ jsxRuntime.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => onColumnVisibilityChange(col.id, !col.visible),
+              className: "flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm hover:bg-muted text-foreground transition-colors",
+              children: [
+                /* @__PURE__ */ jsxRuntime.jsx(
+                  "div",
+                  {
+                    className: chunk4ON3M3OM_cjs.cn(
+                      "size-4 rounded border flex items-center justify-center shrink-0",
+                      col.visible ? "bg-primary border-primary text-primary-foreground" : "border-border"
+                    ),
+                    children: col.visible && /* @__PURE__ */ jsxRuntime.jsx(
+                      "svg",
+                      {
+                        className: "size-3",
+                        viewBox: "0 0 24 24",
+                        fill: "none",
+                        stroke: "currentColor",
+                        strokeWidth: "3",
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
+                        children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M20 6 9 17l-5-5" })
+                      }
+                    )
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntime.jsx("span", { children: col.label })
+              ]
+            },
+            col.id
+          )) })
+        ] }),
+        viewModes && viewMode && onViewModeChange && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "inline-flex h-9 items-center rounded-md border border-border bg-background p-0.5", children: viewModes.map((mode) => /* @__PURE__ */ jsxRuntime.jsx(
+          "button",
+          {
+            type: "button",
+            onClick: () => onViewModeChange(mode),
+            className: chunk4ON3M3OM_cjs.cn(
+              "inline-flex h-7 items-center justify-center rounded-[5px] px-2.5 text-xs font-medium capitalize transition-colors",
+              viewMode === mode ? "bg-muted text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+            ),
+            "aria-label": `${mode} view`,
+            "aria-pressed": viewMode === mode,
+            children: mode
+          },
+          mode
+        )) }),
+        actions
+      ]
+    }
+  );
+});
+DataTableToolbar.displayName = "DataTableToolbar";
+var InfiniteScroll = React.forwardRef(
+  function InfiniteScroll2({
+    children,
+    loading = false,
+    hasMore = true,
+    onLoadMore,
+    threshold = "200px",
+    loadingIndicator,
+    endMessage,
+    className,
+    sentinelClassName
+  }, ref) {
+    const sentinelRef = React.useRef(null);
+    const onLoadMoreRef = React.useRef(onLoadMore);
+    React.useEffect(() => {
+      onLoadMoreRef.current = onLoadMore;
+    }, [onLoadMore]);
+    React.useEffect(() => {
+      const sentinel = sentinelRef.current;
+      if (!sentinel || !hasMore || loading) return;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry?.isIntersecting) {
+            onLoadMoreRef.current();
+          }
+        },
+        {
+          rootMargin: `0px 0px ${threshold} 0px`,
+          threshold: 0
+        }
+      );
+      observer.observe(sentinel);
+      return () => observer.disconnect();
+    }, [hasMore, loading, threshold]);
+    return /* @__PURE__ */ jsxRuntime.jsxs(
+      "div",
+      {
+        ref,
+        className: chunk4ON3M3OM_cjs.cn(className),
+        "data-ds": "",
+        "data-ds-component": "infinite-scroll",
+        "aria-busy": loading || void 0,
+        children: [
+          children,
+          hasMore && /* @__PURE__ */ jsxRuntime.jsx(
+            "div",
+            {
+              ref: sentinelRef,
+              className: chunk4ON3M3OM_cjs.cn("w-full", sentinelClassName),
+              "aria-hidden": "true"
+            }
+          ),
+          loading && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex items-center justify-center py-4", children: loadingIndicator ?? /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2 text-sm text-muted-foreground", children: [
+            /* @__PURE__ */ jsxRuntime.jsx("div", { className: "size-4 animate-spin rounded-full border-2 border-border border-t-primary" }),
+            /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Loading more..." })
+          ] }) }),
+          !hasMore && !loading && endMessage && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "py-4", children: endMessage })
+        ]
+      }
+    );
+  }
+);
+InfiniteScroll.displayName = "InfiniteScroll";
 function TooltipProvider({
   children,
   delayDuration = 300,
@@ -17402,47 +20322,53 @@ var TooltipContent = React.forwardRef(function TooltipContent2({
   children,
   ...rest
 }, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
+  const shouldReduce = framerMotion.useReducedMotion();
+  return /* @__PURE__ */ jsxRuntime.jsx(
     radixUi.Tooltip.Content,
     {
       ref,
       sideOffset,
-      className: chunk4ON3M3OM_cjs.cn(
-        // Layout
-        "z-[var(--z-tooltip)]",
-        "px-3 py-1.5",
-        "overflow-hidden",
-        // Visual
-        "rounded-md",
-        "border border-border",
-        "bg-foreground text-background",
-        "shadow-md",
-        // Typography
-        "text-xs leading-4",
-        // Animation
-        "data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95",
-        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-        "data-[side=top]:slide-in-from-bottom-2",
-        "data-[side=bottom]:slide-in-from-top-2",
-        "data-[side=left]:slide-in-from-right-2",
-        "data-[side=right]:slide-in-from-left-2",
-        className
-      ),
-      style: { maxWidth },
-      "data-ds": "",
-      "data-ds-component": "tooltip",
+      asChild: true,
       ...rest,
-      children: [
-        children,
-        showArrow && /* @__PURE__ */ jsxRuntime.jsx(
-          radixUi.Tooltip.Arrow,
-          {
-            className: "fill-foreground",
-            width: 8,
-            height: 4
-          }
-        )
-      ]
+      children: /* @__PURE__ */ jsxRuntime.jsxs(
+        framerMotion.motion.div,
+        {
+          className: chunk4ON3M3OM_cjs.cn(
+            // Layout
+            "z-[var(--z-tooltip)]",
+            "px-3 py-1.5",
+            "overflow-hidden",
+            // Visual
+            "rounded-md",
+            "border border-border",
+            "bg-foreground text-background",
+            "shadow-md",
+            // Typography
+            "text-xs leading-4",
+            className
+          ),
+          style: { maxWidth },
+          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.variants,
+          initial: shouldReduce ? { opacity: 0 } : "initial",
+          animate: shouldReduce ? { opacity: 1 } : "animate",
+          exit: shouldReduce ? { opacity: 0 } : "exit",
+          transition: shouldReduce ? { duration: 0.1 } : chunkHITTFB2U_cjs.fadeInFast.transition,
+          "data-ds": "",
+          "data-ds-component": "tooltip",
+          "data-ds-animated": "",
+          children: [
+            children,
+            showArrow && /* @__PURE__ */ jsxRuntime.jsx(
+              radixUi.Tooltip.Arrow,
+              {
+                className: "fill-foreground",
+                width: 8,
+                height: 4
+              }
+            )
+          ]
+        }
+      )
     }
   );
 });
@@ -17529,6 +20455,10 @@ VisuallyHidden.displayName = "VisuallyHidden";
      *)
 */
 
+Object.defineProperty(exports, "toast", {
+  enumerable: true,
+  get: function () { return sonner.toast; }
+});
 exports.Accordion = Accordion;
 exports.AccordionContent = AccordionContent;
 exports.AccordionItem = AccordionItem;
@@ -17566,12 +20496,15 @@ exports.CardBody = CardBody;
 exports.CardFooter = CardFooter;
 exports.CardHeader = CardHeader;
 exports.Carousel = Carousel;
+exports.ChartContainer = ChartContainer;
+exports.ChartTooltipContent = ChartTooltipContent;
 exports.Checkbox = Checkbox;
 exports.CheckboxGroup = CheckboxGroup;
 exports.CodeBlock = CodeBlock;
 exports.Collapsible = Collapsible;
 exports.CollapsibleContent = CollapsibleContent;
 exports.CollapsibleTrigger = CollapsibleTrigger;
+exports.ColorPicker = ColorPicker;
 exports.Combobox = Combobox;
 exports.Command = Command;
 exports.CommandTrigger = CommandTrigger;
@@ -17595,6 +20528,7 @@ exports.DataList = DataList;
 exports.DataListDetail = DataListDetail;
 exports.DataListTerm = DataListTerm;
 exports.DataTable = DataTable;
+exports.DataTableToolbar = DataTableToolbar;
 exports.DatePicker = DatePicker;
 exports.Dialog = Dialog;
 exports.DialogBody = DialogBody;
@@ -17605,6 +20539,16 @@ exports.DialogFooter = DialogFooter;
 exports.DialogHeader = DialogHeader;
 exports.DialogTitle = DialogTitle;
 exports.DialogTrigger = DialogTrigger;
+exports.Drawer = Drawer;
+exports.DrawerBody = DrawerBody;
+exports.DrawerClose = DrawerClose;
+exports.DrawerContent = DrawerContent;
+exports.DrawerDescription = DrawerDescription;
+exports.DrawerFooter = DrawerFooter;
+exports.DrawerHandle = DrawerHandle;
+exports.DrawerHeader = DrawerHeader;
+exports.DrawerTitle = DrawerTitle;
+exports.DrawerTrigger = DrawerTrigger;
 exports.DropdownMenu = DropdownMenu;
 exports.DropdownMenuCheckboxItem = DropdownMenuCheckboxItem;
 exports.DropdownMenuContent = DropdownMenuContent;
@@ -17625,11 +20569,14 @@ exports.FormField = FormField;
 exports.HoverCard = HoverCard;
 exports.HoverCardContent = HoverCardContent;
 exports.HoverCardTrigger = HoverCardTrigger;
+exports.ImageGallery = ImageGallery;
+exports.InfiniteScroll = InfiniteScroll;
 exports.InlineCode = InlineCode;
 exports.Input = Input;
 exports.InputGroup = InputGroup;
 exports.Kbd = Kbd;
 exports.Label = Label;
+exports.Markdown = Markdown;
 exports.Menubar = Menubar;
 exports.MenubarCheckboxItem = MenubarCheckboxItem;
 exports.MenubarContent = MenubarContent;
@@ -17704,6 +20651,7 @@ exports.SkeletonCircle = SkeletonCircle;
 exports.SkeletonRect = SkeletonRect;
 exports.SkeletonText = SkeletonText;
 exports.Slider = Slider;
+exports.SonnerToaster = SonnerToaster;
 exports.Spinner = Spinner;
 exports.Stat = Stat;
 exports.Step = Step;
@@ -17723,6 +20671,7 @@ exports.TabsList = TabsList;
 exports.TabsTrigger = TabsTrigger;
 exports.Tag = Tag;
 exports.Textarea = Textarea;
+exports.ThemeToggle = ThemeToggle;
 exports.Timeline = Timeline;
 exports.TimelineItem = TimelineItem;
 exports.ToastItem = ToastItem;
@@ -17732,6 +20681,9 @@ exports.ToggleGroup = ToggleGroup;
 exports.ToggleGroupItem = ToggleGroupItem;
 exports.Tooltip = Tooltip;
 exports.TooltipProvider = TooltipProvider;
+exports.TreeView = TreeView;
+exports.VideoPlayer = VideoPlayer;
+exports.VirtualList = VirtualList;
 exports.VisuallyHidden = VisuallyHidden;
 exports.accordionRootVariants = accordionRootVariants;
 exports.accordionTriggerVariants = accordionTriggerVariants;
@@ -17743,6 +20695,7 @@ exports.buttonVariants = buttonVariants;
 exports.calendarDayVariants = calendarDayVariants;
 exports.calloutVariants = calloutVariants;
 exports.cardVariants = cardVariants;
+exports.chartColors = chartColors;
 exports.checkboxVariants = checkboxVariants;
 exports.codeBlockVariants = codeBlockVariants;
 exports.comboboxTriggerVariants = comboboxTriggerVariants;
@@ -17750,6 +20703,7 @@ exports.copyButtonVariants = copyButtonVariants;
 exports.createColumnHelper = createColumnHelper;
 exports.dataListVariants = dataListVariants;
 exports.dialogContentVariants = dialogContentVariants;
+exports.drawerContentVariants = drawerContentVariants;
 exports.fileUploadZoneVariants = fileUploadZoneVariants;
 exports.inlineCodeVariants = inlineCodeVariants;
 exports.inputVariants = inputVariants;

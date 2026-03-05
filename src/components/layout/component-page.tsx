@@ -1,6 +1,7 @@
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import type { ReactNode } from "react";
 import { ComponentPageTabShell } from "./component-page-tab-shell";
+import { VSCodeCodeBlock } from "@/components/docs/vscode-code-block";
 
 // ---------------------------------------------------------------------------
 // Server Component — no "use client" directive.
@@ -29,6 +30,9 @@ export function ComponentPage({
 	code,
 	children,
 }: ComponentPageProps) {
+	// Derive filename from title: "Alert Dialog" → "alert-dialog.tsx"
+	const filename = `${title.toLowerCase().replace(/\s+/g, "-")}.tsx`;
+
 	const previewSlot = (
 		<div className="relative p-6 sm:p-8 md:p-10 flex items-center justify-center min-h-75">
 			{/* Subtle dot-grid background */}
@@ -43,19 +47,28 @@ export function ComponentPage({
 	);
 
 	const codeSlot = (
-		<div className="relative [&_figure]:rounded-none! [&_figure]:shadow-none! [&_figure]:border-0! [&_figure]:my-0! [&_figure]:bg-transparent!">
+		<VSCodeCodeBlock
+			code={code ?? ""}
+			filename={filename}
+			language="tsx"
+			maxHeight={560}
+			collapsible
+			showWordWrapToggle
+			defaultCollapsed={false}
+			className="rounded-none border-x-0 border-b-0"
+		>
 			{code ? (
 				<DynamicCodeBlock
 					lang="tsx"
 					code={code}
-					codeblock={{ allowCopy: true }}
+					codeblock={{ allowCopy: false }}
 				/>
 			) : (
 				<pre className="p-4 text-sm text-fd-muted-foreground overflow-x-auto">
 					<code>{"// No code provided"}</code>
 				</pre>
 			)}
-		</div>
+		</VSCodeCodeBlock>
 	);
 
 	return (

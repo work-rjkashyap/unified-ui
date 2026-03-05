@@ -2,7 +2,7 @@
 
 > **Project**: Unified UI Design System
 > **Stack**: React 19 · Next.js 16 · TypeScript · Tailwind CSS v4 · Framer Motion · Fumadocs
-> **Status**: Foundation built, expanding to full system
+> **Status**: Foundation built, expanding to full system. Tag/Callout merged into Badge/Alert.
 
 ---
 
@@ -26,31 +26,32 @@
 
 ### What exists (built)
 
-| Layer                | Path                                  | Status                                                                                                                                           |
-| -------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Design Tokens        | `packages/unified-ui/src/tokens/`     | ✅ colors, spacing, typography (multi-font), radius, shadows, z-index, motion                                                                    |
-| Theme System         | `packages/unified-ui/src/theme/`      | ✅ CSS contract, provider, light/dark, font family contract                                                                                      |
-| Tailwind Integration | `packages/unified-ui/styles.css`      | ✅ @theme block, CSS vars, font vars (next/font refs)                                                                                            |
-| Primitives           | `packages/unified-ui/src/primitives/` | ✅ Typography (with `font` prop), Container, Stack, Grid, Divider                                                                                |
-| Components           | `packages/unified-ui/src/components/` | ✅ 64 components barrel-exported (Phase 5 core + Phase 10 extended: form controls, data display, feedback, overlay, navigation, layout, utility) |
-| Motion System        | `packages/unified-ui/src/motion/`     | ✅ presets (fadeIn, slideUp, scaleIn, modal, toast, stagger)                                                                                     |
-| Utilities            | `packages/unified-ui/src/utils/`      | ✅ cn, mergeSlots, composeRefs, polymorphic types, focusRingClasses (6 variants)                                                                 |
-| Barrel Export        | `packages/unified-ui/src/index.ts`    | ✅ single entry point (all 64 components + primitives + tokens)                                                                                  |
-| Path Aliases         | `packages/unified-ui/tsconfig.json`   | ✅ `@unified-ui/*` → `src/*`, zero relative cross-dir imports                                                                                    |
-| Packaging            | `packages/unified-ui/package.json`    | ✅ npm workspace package, tsup build, ESM+CJS+DTS, conditional exports, `npm pack` verified                                                      |
-| Build                | `packages/unified-ui/tsup.config.ts`  | ✅ 7 entry points, `"use client"` patching, Radix externals                                                                                      |
-| Fonts                | `src/app/layout.tsx`                  | ✅ Outfit, Inter, Lora, JetBrains Mono loaded via next/font                                                                                      |
-| Component Docs       | `content/components/`                 | ✅ 57 component MDX pages + index + meta.json at `/components` route                                                                             |
-| Design System Docs   | `content/docs/design-system/`         | ✅ 9 pages: overview, tokens, colors, typography, spacing, theming, motion, accessibility                                                        |
+| Layer                | Path                                  | Status                                                                                                                |
+| -------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Design Tokens        | `packages/unified-ui/src/tokens/`     | ✅ colors, spacing, typography (multi-font), radius, shadows, z-index, motion                                         |
+| Theme System         | `packages/unified-ui/src/theme/`      | ✅ CSS contract, provider, light/dark, font family contract                                                           |
+| Tailwind Integration | `packages/unified-ui/styles.css`      | ✅ @theme block, CSS vars, font vars (next/font refs)                                                                 |
+| Primitives           | `packages/unified-ui/src/primitives/` | ✅ Typography (with `font` prop), Container, Stack, Grid, Divider                                                     |
+| Components           | `packages/unified-ui/src/components/` | ✅ 62 components barrel-exported (Phase 5 core + Phase 10 extended; Tag merged into Badge, Callout merged into Alert) |
+| Motion System        | `packages/unified-ui/src/motion/`     | ✅ presets (fadeIn, slideUp, scaleIn, modal, toast, stagger)                                                          |
+| Utilities            | `packages/unified-ui/src/utils/`      | ✅ cn, mergeSlots, composeRefs, polymorphic types, focusRingClasses (6 variants)                                      |
+| Barrel Export        | `packages/unified-ui/src/index.ts`    | ✅ single entry point (all 62 components + deprecated Tag/Callout aliases + primitives + tokens)                      |
+| Path Aliases         | `packages/unified-ui/tsconfig.json`   | ✅ `@unified-ui/*` → `src/*`, zero relative cross-dir imports                                                         |
+| Packaging            | `packages/unified-ui/package.json`    | ✅ npm workspace package, tsup build, ESM+CJS+DTS, conditional exports, `npm pack` verified                           |
+| Build                | `packages/unified-ui/tsup.config.ts`  | ✅ 7 entry points, `"use client"` patching, Radix externals                                                           |
+| Fonts                | `src/app/layout.tsx`                  | ✅ Outfit, Inter, Lora, JetBrains Mono loaded via next/font                                                           |
+| Component Docs       | `content/components/`                 | ✅ 62 component MDX pages + index + meta.json at `/components` route (tag.mdx & callout.mdx removed after merge)      |
+| Design System Docs   | `content/docs/design-system/`         | ✅ 9 pages: overview, tokens, colors, typography, spacing, theming, motion, accessibility                             |
 
 ### What needs work
 
 - [x] ~~Typography locked to single font (Outfit)~~ — multi-font architecture complete (Phase 2)
 - [x] ~~Internal imports use relative paths (`../utils/cn`)~~ — `@unified-ui/` alias in place (Phase 3)
 - [x] ~~Not fully packageable~~ — restructured to `packages/unified-ui/`, npm workspace, `npm pack` verified (Phase 4)
-- [x] ~~Documentation pages don't reference the new design system at all~~ — 9 core docs + 22 component docs written (Phase 6)
+- [x] ~~Documentation pages don't reference the new design system at all~~ — 9 core docs + 62 component docs written (Phase 6)
 - [x] ~~4 remaining P1/P2 components: Toast, Table, Pagination, Breadcrumb~~ — all built and barrel-exported
 - [x] ~~No `"unified-ui"` branding in code or exports~~ — `UNIFIED_UI_VERSION`, README, JSDoc headers done
+- [x] ~~Duplicate components (Tag/Callout)~~ — Tag merged into Badge, Callout merged into Alert. Deprecated aliases kept for backward compatibility.
 - [ ] Existing `src/components/ui/button.tsx` still uses old fd-\* tokens (migration not started)
 - [x] ~~No CHANGELOG.md yet~~ — `packages/unified-ui/CHANGELOG.md` created
 - [x] ~~No design system documentation pages (Phase 6)~~ — complete (6.1 + 6.2 + 6.3 done)
@@ -392,13 +393,16 @@ Table + Pagination + Breadcrumb
 - [x] Features: clickable interactive variant with hover/focus states
 - [x] Barrel exported
 
-### 5.8 — Badge Component ✅ DONE
+### 5.8 — Badge Component ✅ DONE (Tag merged in)
 
 - [x] `packages/unified-ui/src/components/badge.tsx`
-- [x] Variants: `default`, `primary`, `success`, `warning`, `danger`, `info`, `outline`
-- [x] Sizes: `sm`, `md`
-- [x] Features: dot indicator, removable, icon support
-- [x] Barrel exported
+- [x] Variants: `default`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `outline`
+- [x] Sizes: `sm`, `md`, `lg`
+- [x] Features: dot indicator, removable/dismissible (both APIs), icon slot, avatar slot, polymorphic `as` prop, disabled state, optional Framer Motion `animated` entrance (`popSubtle`)
+- [x] **Tag merged into Badge**: `tag.tsx` deleted, `Tag` kept as deprecated alias (defaults to `animated={true}`)
+- [x] `tagVariants` re-exported as alias of `badgeVariants`
+- [x] Documentation: `tag.mdx` deleted, content merged into `badge.mdx` with migration guide
+- [x] Barrel exported (Badge + Tag alias)
 
 ### 5.9 — Avatar Component ✅ DONE
 
@@ -471,16 +475,20 @@ Table + Pagination + Breadcrumb
 - [x] `packages/unified-ui/src/components/toast.tsx`
 - [x] Custom implementation (no Radix dependency)
 - [x] Variants: `default`, `success`, `warning`, `danger`, `info`
-- [x] Positions: `top-right`, `top-left`, `bottom-right`, `bottom-left`, `top-center`
-- [x] Features: auto-dismiss, action button, dismiss button, stacking, Framer Motion slide-in
+- [x] Positions: `top-right`, `top-left`, `top-center`, `bottom-right`, `bottom-left`, `bottom-center`
+- [x] Features: auto-dismiss with progress bar, pause-on-hover, action button, dismiss button (click + Escape key), stacking with `maxVisible`, deduplication via custom `id`, configurable `defaultDuration` and `gap`, Framer Motion spring slide-in (direction-aware per position), reduced motion fallback (opacity-only)
+- [x] Documentation: toast.mdx updated with live preview, variant table, deduplication, common patterns (form submission, async ops, undo), corrected props tables
 - [x] Barrel exported
 
-### 5.18 — Alert Component ✅ DONE
+### 5.18 — Alert Component ✅ DONE (Callout merged in)
 
 - [x] `packages/unified-ui/src/components/alert.tsx`
-- [x] Variants: `info`, `success`, `warning`, `danger`
-- [x] Features: auto icon per variant, dismissible, title + description
-- [x] Barrel exported
+- [x] Variants: `info`, `success`, `warning`, `danger`, `default`
+- [x] Features: auto icon per variant, dismissible with `onDismiss`, collapsible with `defaultOpen`, optional Framer Motion `animated` entrance (`fadeIn`), `expandHeight` for collapsible content, custom icon override (pass `null` to hide), configurable ARIA role
+- [x] **Callout merged into Alert**: `callout.tsx` deleted, `Callout` kept as deprecated alias (defaults to `animated={true}` + `rounded-lg`)
+- [x] `calloutVariants` re-exported as alias of `alertVariants`
+- [x] Documentation: `callout.mdx` deleted, content merged into `alert.mdx` with migration guide
+- [x] Barrel exported (Alert + Callout alias)
 
 ### 5.19 — Skeleton Component ✅ DONE
 
@@ -521,7 +529,7 @@ Table + Pagination + Breadcrumb
 
 ---
 
-## Phase 6 — Documentation Site Overhaul
+## Phase 6 — Documentation Site Overhaul ✅ DONE
 
 > Replace the placeholder docs with comprehensive Unified UI design system documentation.
 
@@ -688,7 +696,7 @@ Table + Pagination + Breadcrumb
 
 - [x] Update `content/components/meta.json` with all DS components organized by category
 - [x] Update `content/components/index.mdx` — catalog page with Cards linking to all components
-- [x] Create MDX page for each component (57 pages total):
+- [x] Create MDX page for each component (62 pages total — originally 64, then Tag/Callout merged into Badge/Alert):
     - [x] `button.mdx` — references `@work-rjkashyap/unified-ui` Button
     - [x] `input.mdx`
     - [x] `textarea.mdx`
@@ -697,7 +705,7 @@ Table + Pagination + Breadcrumb
     - [x] `radio.mdx`
     - [x] `switch.mdx`
     - [x] `card.mdx`
-    - [x] `badge.mdx`
+    - [x] `badge.mdx` — now includes Tag features + migration guide
     - [x] `avatar.mdx`
     - [x] `tooltip.mdx`
     - [x] `popover.mdx`
@@ -707,7 +715,7 @@ Table + Pagination + Breadcrumb
     - [x] `tabs.mdx`
     - [x] `accordion.mdx`
     - [x] `toast.mdx`
-    - [x] `alert.mdx`
+    - [x] `alert.mdx` — now includes Callout features + migration guide
     - [x] `skeleton.mdx`
     - [x] `table.mdx`
     - [x] `pagination.mdx`
@@ -724,10 +732,10 @@ Table + Pagination + Breadcrumb
     - [x] `date-picker.mdx`
     - [x] `calendar.mdx`
     - [x] `file-upload.mdx`
-    - [x] `tag.mdx`
+    - [x] ~~`tag.mdx`~~ — **REMOVED**: merged into `badge.mdx`
     - [x] `kbd.mdx`
     - [x] `code.mdx`
-    - [x] `callout.mdx`
+    - [x] ~~`callout.mdx`~~ — **REMOVED**: merged into `alert.mdx`
     - [x] `data-list.mdx`
     - [x] `stat.mdx`
     - [x] `timeline.mdx`
@@ -764,27 +772,38 @@ Each component page includes:
 - [x] Accessibility notes
 - [x] Design token references
 
-**Route migration**: Component docs moved from `/docs/design-system/components/*` to `/components/*`. Sidebar tab URL updated. All internal links updated. Next.js build verified with all 57+ pages prerendered under `/components/[[...slug]]`.
+**Route migration**: Component docs moved from `/docs/design-system/components/*` to `/components/*`. Sidebar tab URL updated. All internal links updated. Next.js build verified with all 62+ pages prerendered under `/components/[[...slug]]`.
 
-### 6.4 — Build Component Preview Infrastructure
+**Component merges applied**:
+
+- `tag.tsx` deleted → merged into `badge.tsx` (Tag exported as deprecated alias)
+- `callout.tsx` deleted → merged into `alert.tsx` (Callout exported as deprecated alias)
+- `tag.mdx` deleted → content merged into `badge.mdx` with migration guide
+- `callout.mdx` deleted → content merged into `alert.mdx` with migration guide
+- `meta.json` updated to remove `tag` and `callout` entries
+- `index.mdx` (catalog) updated to remove separate Tag/Callout cards
+
+### 6.4 — Build Component Preview Infrastructure ✅ DONE
 
 **File**: `src/components/docs/component-preview.tsx`
 
-- [ ] Create a `<ComponentPreview>` component for MDX:
+- [x] Create a `<ComponentPreview>` component for MDX:
     - Renders the component in an isolated container with `data-ds` attribute
-    - Shows code alongside preview
-    - Toggle between light/dark within the preview
-    - Copy code button
-- [ ] Register in `src/mdx-components.tsx`
+    - Shows code alongside preview (tabbed Preview / Code interface)
+    - Toggle between light/dark within the preview (per-preview theme toggle)
+    - Copy code button with animated check feedback
+- [x] Register in `src/mdx-components.tsx`
 
-### 6.5 — Build Props Table Component
+### 6.5 — Build Props Table Component ✅ DONE
 
 **File**: `src/components/docs/props-table.tsx`
 
-- [ ] Auto-generate from TypeScript types if possible
-- [ ] Fallback: manual prop table MDX component
-- [ ] Columns: Prop, Type, Default, Description
-- [ ] Register in `src/mdx-components.tsx`
+- [x] Auto-generate from TypeScript types if possible — **Fallback chosen**: manual prop table MDX component (auto-gen deferred)
+- [x] Manual `<PropsTable>` MDX component with `data: PropDef[]` prop
+- [x] Columns: Prop, Type, Default, Description
+- [x] Required indicator (`*`) with legend
+- [x] Styled type badges, zebra-striped rows, hover states
+- [x] Register in `src/mdx-components.tsx`
 
 ---
 
@@ -953,7 +972,7 @@ These complete the form story and are needed for any non-trivial application.
 | 35  | ToggleGroup | Toggle                   | Single or multi-select group of toggle buttons (Radix)                     | ✅     |
 | 36  | NumberInput | Input, Button            | Stepper input with increment/decrement, min/max, and keyboard support      | ✅     |
 | 37  | PinInput    | Input                    | OTP / verification code input with auto-advance between digits             | ✅     |
-| 38  | ColorPicker | Popover, Input           | Color swatch + popover with spectrum, HEX/RGB/OKLCH input                  | ☐      |
+| 38  | ColorPicker | Popover, Input           | Color swatch + popover with spectrum, HEX/RGB/OKLCH input                  | ✅     |
 | 39  | FileUpload  | Button, Card             | Drag-and-drop zone with file list, progress, and preview thumbnails        | ✅     |
 | 40  | Combobox    | Popover, Input, Command  | Searchable select with autocomplete, multi-select, and async loading       | ✅     |
 
@@ -961,17 +980,17 @@ These complete the form story and are needed for any non-trivial application.
 
 Components for presenting structured data, stats, and status information.
 
-| #   | Component  | Depends On          | Description                                                                 | Status |
-| --- | ---------- | ------------------- | --------------------------------------------------------------------------- | ------ |
-| 41  | DataList   | Typography          | Key-value pair list (term + detail) with horizontal/vertical layouts        | ✅     |
-| 42  | Stat       | Typography, Card    | KPI card with value, label, trend indicator, and sparkline slot             | ✅     |
-| 43  | Timeline   | Typography, Divider | Vertical timeline with icons, connectors, and alternating sides             | ✅     |
-| 44  | EmptyState | Typography, Button  | Placeholder for empty lists/tables with icon, message, and CTA              | ✅     |
-| 45  | Tag        | Badge               | Dismissible chip/tag with close button, avatar slot, and color variants     | ✅     |
-| 46  | Kbd        | Typography          | Keyboard shortcut display (`⌘K`) with proper styling                        | ✅     |
-| 47  | Code       | Typography          | Inline code and code block with copy button, line numbers, syntax highlight | ✅     |
-| 48  | Callout    | Alert               | Highlighted information block with icon, title, and collapsible content     | ✅     |
-| 49  | HoverCard  | Popover             | Rich preview card that appears on hover (Radix)                             | ✅     |
+| #   | Component  | Depends On          | Description                                                                 | Status                                      |
+| --- | ---------- | ------------------- | --------------------------------------------------------------------------- | ------------------------------------------- |
+| 41  | DataList   | Typography          | Key-value pair list (term + detail) with horizontal/vertical layouts        | ✅                                          |
+| 42  | Stat       | Typography, Card    | KPI card with value, label, trend indicator, and sparkline slot             | ✅                                          |
+| 43  | Timeline   | Typography, Divider | Vertical timeline with icons, connectors, and alternating sides             | ✅                                          |
+| 44  | EmptyState | Typography, Button  | Placeholder for empty lists/tables with icon, message, and CTA              | ✅                                          |
+| 45  | Tag        | Badge               | Dismissible chip/tag with close button, avatar slot, and color variants     | ✅ **Merged into Badge** (deprecated alias) |
+| 46  | Kbd        | Typography          | Keyboard shortcut display (`⌘K`) with proper styling                        | ✅                                          |
+| 47  | Code       | Typography          | Inline code and code block with copy button, line numbers, syntax highlight | ✅                                          |
+| 48  | Callout    | Alert               | Highlighted information block with icon, title, and collapsible content     | ✅ **Merged into Alert** (deprecated alias) |
+| 49  | HoverCard  | Popover             | Rich preview card that appears on hover (Radix)                             | ✅                                          |
 
 ### 10.3 — Navigation & Layout Components (P1)
 
@@ -999,9 +1018,9 @@ Loading states, confirmations, and transient UI.
 | 60  | Progress    | tokens         | Linear progress bar with indeterminate, striped, and labeled variants   | ✅     |
 | 61  | Spinner     | tokens, motion | Animated loading spinner with size variants (replaces raw SVG spinners) | ✅     |
 | 62  | AlertDialog | Dialog, Button | Confirmation dialog with required action — no dismiss on overlay click  | ✅     |
-| 63  | Drawer      | Sheet          | Bottom drawer variant of Sheet with drag-to-dismiss (vaul)              | ☐      |
+| 63  | Drawer      | Sheet          | Bottom drawer variant of Sheet with drag-to-dismiss (vaul)              | ✅     |
 | 64  | Banner      | Alert, Button  | Full-width dismissible banner for announcements, fixed top/bottom       | ✅     |
-| 65  | Sonner      | Toast          | Stacked toast system with promise/loading states (sonner integration)   | ☐      |
+| 65  | Sonner      | Toast          | Stacked toast system with promise/loading states (sonner integration)   | ✅     |
 
 ### 10.5 — Rich Content Components (P2)
 
@@ -1010,12 +1029,12 @@ Advanced display components for media, charts, and complex content.
 | #   | Component    | Depends On            | Description                                                                 | Status |
 | --- | ------------ | --------------------- | --------------------------------------------------------------------------- | ------ |
 | 66  | Carousel     | Button, motion        | Horizontal/vertical carousel with autoplay, dots, and swipe (embla)         | ✅     |
-| 67  | ImageGallery | Dialog, Carousel      | Lightbox gallery with zoom, thumbnails, and keyboard navigation             | ☐      |
-| 68  | VideoPlayer  | tokens                | Styled video wrapper with custom controls, poster, and aspect ratio         | ☐      |
-| 69  | Chart        | Card, Typography      | Chart wrapper for Recharts with consistent theme tokens and responsive size | ☐      |
-| 70  | TreeView     | Collapsible, Checkbox | Expandable tree with checkable nodes, drag-and-drop reorder, and icons      | ☐      |
-| 71  | VirtualList  | ScrollArea            | Virtualized list/grid for large datasets (tanstack-virtual integration)     | ☐      |
-| 72  | Markdown     | Typography, Code      | Rendered markdown/MDX content with design system prose styles               | ☐      |
+| 67  | ImageGallery | Dialog, Carousel      | Lightbox gallery with zoom, thumbnails, and keyboard navigation             | ✅     |
+| 68  | VideoPlayer  | tokens                | Styled video wrapper with custom controls, poster, and aspect ratio         | ✅     |
+| 69  | Chart        | Card, Typography      | Chart wrapper for Recharts with consistent theme tokens and responsive size | ✅     |
+| 70  | TreeView     | Collapsible, Checkbox | Expandable tree with checkable nodes, drag-and-drop reorder, and icons      | ✅     |
+| 71  | VirtualList  | ScrollArea            | Virtualized list/grid for large datasets (tanstack-virtual integration)     | ✅     |
+| 72  | Markdown     | Typography, Code      | Rendered markdown/MDX content with design system prose styles               | ✅     |
 
 ### 10.6 — Utility & Compound Components (P3)
 
@@ -1024,13 +1043,13 @@ Higher-level patterns composed from primitives.
 | #   | Component        | Depends On             | Description                                                              | Status |
 | --- | ---------------- | ---------------------- | ------------------------------------------------------------------------ | ------ |
 | 73  | CopyButton       | Button, Tooltip, Toast | Click-to-copy with animated check feedback and tooltip                   | ✅     |
-| 74  | ThemeToggle      | Button, DropdownMenu   | Light/dark/system mode switcher with icon animation                      | ☐      |
+| 74  | ThemeToggle      | Button, DropdownMenu   | Light/dark/system mode switcher with icon animation                      | ✅     |
 | 75  | VisuallyHidden   | tokens                 | Screen-reader-only content wrapper (Radix)                               | ✅     |
 | 76  | InputGroup       | Input, Button, Select  | Composed input with prefix/suffix addons, icon slots, and inline button  | ✅     |
 | 77  | ConfirmDialog    | AlertDialog            | Pre-composed confirm/cancel dialog with title, description, and variants | ✅     |
 | 78  | SearchInput      | Input, Kbd             | Search field with debounce, clear button, and `⌘K` shortcut hint         | ✅     |
-| 79  | DataTableToolbar | Input, Select, Button  | Filtering, sorting, column visibility toolbar for DataTable              | ☐      |
-| 80  | InfiniteScroll   | VirtualList, Spinner   | Scroll-triggered loading with intersection observer                      | ☐      |
+| 79  | DataTableToolbar | Input, Select, Button  | Filtering, sorting, column visibility toolbar for DataTable              | ✅     |
+| 80  | InfiniteScroll   | VirtualList, Spinner   | Scroll-triggered loading with intersection observer                      | ✅     |
 
 ### 10.7 — Suggested Build Order
 
@@ -1046,16 +1065,16 @@ Build in this sequence to maximize reuse and minimize blockers:
 `Slider` ✅ → `Calendar` ✅ → `DatePicker` ✅ → `NumberInput` ✅ → `PinInput` ✅ → `Combobox` ✅ → `FileUpload` ✅
 
 **Wave 4 — Data & Display** ✅ DONE:
-`Tag` ✅ → `Kbd` ✅ → `Code` ✅ → `Callout` ✅ → `DataList` ✅ → `Stat` ✅ → `Timeline` ✅ → `EmptyState` ✅ → `HoverCard` ✅
+`Tag` ✅ (merged into Badge) → `Kbd` ✅ → `Code` ✅ → `Callout` ✅ (merged into Alert) → `DataList` ✅ → `Stat` ✅ → `Timeline` ✅ → `EmptyState` ✅ → `HoverCard` ✅
 
-**Wave 5 — Overlays & Feedback** 🟡 (2 of 4):
-`AlertDialog` ✅ → `Drawer` → `Banner` ✅ → `Sonner`
+**Wave 5 — Overlays & Feedback** ✅ DONE:
+`AlertDialog` ✅ → `Drawer` ✅ → `Banner` ✅ → `Sonner` ✅
 
-**Wave 6 — Rich Content** 🟡 (1 of 6):
-`Carousel` ✅ → `ImageGallery` → `Chart` → `TreeView` → `VirtualList`
+**Wave 6 — Rich Content** ✅ DONE:
+`Carousel` ✅ → `ImageGallery` ✅ → `Chart` ✅ → `TreeView` ✅ → `VirtualList` ✅
 
-**Wave 7 — Utility Compounds** 🟡 (5 of 8):
-`CopyButton` ✅ → `ThemeToggle` → `VisuallyHidden` ✅ → `InputGroup` ✅ → `SearchInput` ✅ → `ConfirmDialog` ✅ → `DataTableToolbar` → `InfiniteScroll`
+**Wave 7 — Utility Compounds** ✅ DONE:
+`CopyButton` ✅ → `ThemeToggle` ✅ → `VisuallyHidden` ✅ → `InputGroup` ✅ → `SearchInput` ✅ → `ConfirmDialog` ✅ → `DataTableToolbar` ✅ → `InfiniteScroll` ✅
 
 ---
 
@@ -1065,15 +1084,46 @@ Build in this sequence to maximize reuse and minimize blockers:
 
 ### Current State
 
-Only **3 of 25** component files use Framer Motion today:
+**33 of 62** component files now use Framer Motion (up from 3 of 25 at original writing):
 
-| Component | What it uses                                                                 | Status    |
-| --------- | ---------------------------------------------------------------------------- | --------- |
-| Switch    | `motion`, `useMotionValue`, `useSpring`, `useReducedMotion` — animated thumb | ✅ Has FM |
-| Tabs      | `motion`, `useReducedMotion` — animated active indicator                     | ✅ Has FM |
-| Toast     | `AnimatePresence`, `motion`, `useReducedMotion` — enter/exit/swipe           | ✅ Has FM |
+| Component    | What it uses                                                                          | Status    |
+| ------------ | ------------------------------------------------------------------------------------- | --------- |
+| Alert        | `AnimatePresence`, `motion`, `useReducedMotion` — fadeIn entrance, collapsible expand | ✅ Has FM |
+| AlertDialog  | `motion`, `useReducedMotion` — overlay + modal spring                                 | ✅ Has FM |
+| Badge        | `motion`, `useReducedMotion` — popSubtle entrance                                     | ✅ Has FM |
+| Banner       | `AnimatePresence`, `motion`, `useReducedMotion` — slide enter/exit                    | ✅ Has FM |
+| Calendar     | `AnimatePresence`, `motion`, `useReducedMotion` — month crossfade                     | ✅ Has FM |
+| Carousel     | `AnimatePresence`, `motion`, `useReducedMotion` — slide transitions                   | ✅ Has FM |
+| Code         | `AnimatePresence`, `motion`, `useReducedMotion` — copy icon swap                      | ✅ Has FM |
+| Collapsible  | `AnimatePresence`, `motion`, `useReducedMotion` — expand height                       | ✅ Has FM |
+| Combobox     | `AnimatePresence`, `motion`, `useReducedMotion` — dropdown scaleIn                    | ✅ Has FM |
+| CopyButton   | `AnimatePresence`, `motion`, `useReducedMotion` — icon swap pop                       | ✅ Has FM |
+| DataList     | `motion`, `useReducedMotion` — stagger items                                          | ✅ Has FM |
+| DatePicker   | `AnimatePresence`, `motion`, `useReducedMotion` — popover scaleIn                     | ✅ Has FM |
+| EmptyState   | `motion`, `useReducedMotion` — fadeIn + scaleIn                                       | ✅ Has FM |
+| FileUpload   | `AnimatePresence`, `motion`, `useReducedMotion` — stagger items                       | ✅ Has FM |
+| HoverCard    | `motion`, `useReducedMotion` — scaleIn                                                | ✅ Has FM |
+| NumberInput  | `AnimatePresence`, `motion`, `useReducedMotion` — value roll                          | ✅ Has FM |
+| PinInput     | `AnimatePresence`, `motion`, `useReducedMotion` — pop + shake                         | ✅ Has FM |
+| Resizable    | `motion`, `useReducedMotion` — handle hover                                           | ✅ Has FM |
+| SearchInput  | `AnimatePresence`, `motion`, `useReducedMotion` — clear button fade                   | ✅ Has FM |
+| Sidebar      | `AnimatePresence`, `motion`, `useReducedMotion` — collapse/expand + overlay           | ✅ Has FM |
+| Slider       | `AnimatePresence`, `motion`, `useReducedMotion` — thumb + tooltip                     | ✅ Has FM |
+| Spinner      | `motion`, `useReducedMotion` — rotation                                               | ✅ Has FM |
+| Stat         | `animate`, `useMotionValue`, `useTransform`, `useReducedMotion` — count-up            | ✅ Has FM |
+| Switch       | `motion`, `useMotionValue`, `useSpring`, `useReducedMotion` — animated thumb          | ✅ Has FM |
+| Tabs         | `motion`, `useReducedMotion` — animated active indicator                              | ✅ Has FM |
+| Timeline     | `motion`, `useReducedMotion` — stagger items                                          | ✅ Has FM |
+| Toast        | `AnimatePresence`, `motion`, `useReducedMotion` — enter/exit/swipe                    | ✅ Has FM |
+| Dialog       | `motion`, `useReducedMotion` — overlayBackdrop + modalContent spring                  | ✅ Has FM |
+| Sheet        | `motion`, `useReducedMotion` — overlayBackdrop + slidePanel (direction-aware)         | ✅ Has FM |
+| Popover      | `motion`, `useReducedMotion` — scaleIn entrance                                       | ✅ Has FM |
+| Tooltip      | `motion`, `useReducedMotion` — fadeInFast entrance                                    | ✅ Has FM |
+| DropdownMenu | `motion`, `useReducedMotion` — scaleIn content + sub-content                          | ✅ Has FM |
+| Select       | `motion`, `useReducedMotion` — scaleIn content                                        | ✅ Has FM |
 
-The remaining **22 components** use only CSS `animate-in`/`animate-out` Tailwind classes or no animation at all.
+The remaining **29 components** use only CSS transitions/animations or no animation:
+Accordion, AspectRatio, Avatar, Breadcrumb, Button, Card, Checkbox, Command, ConfirmDialog, ContextMenu, DataTable, FormField, Input, InputGroup, Kbd, Label, Menubar, NavigationMenu, Pagination, Progress, Radio, ScrollArea, Skeleton, Steps, Table, Textarea, Toggle, ToggleGroup, VisuallyHidden.
 
 ### 11.1 — Motion Integration Principles
 
@@ -1091,18 +1141,18 @@ Every Framer Motion addition MUST follow these rules:
 
 ### 11.2 — Existing Components — Upgrade Plan
 
-#### Batch A — Overlays & Portals (highest visual impact)
+#### Batch A — Overlays & Portals (highest visual impact) ✅ DONE
 
-Replace CSS `data-[state=open]:animate-in` / `data-[state=closed]:animate-out` with Framer Motion `AnimatePresence` + `motion.div` for smoother, interruptible, physics-based enter/exit.
+Replaced CSS `data-[state=open]:animate-in` / `data-[state=closed]:animate-out` with Framer Motion `motion.div` via Radix `asChild` for smoother, interruptible, physics-based enter/exit. All 6 components use `useReducedMotion()` for graceful degradation.
 
-| Component         | Animation Type               | Motion Preset                                                                                | Details                                                                                      |
-| ----------------- | ---------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| **Dialog**        | overlay fade + content scale | `overlayBackdrop` + `modalContent`                                                           | `AnimatePresence` wrapping overlay + content. Spring scale-in, fade overlay.                 |
-| **Sheet**         | overlay fade + panel slide   | `overlayBackdrop` + `slideInFromRight` / `slideInFromLeft` / `slideInFromBottom` / `slideUp` | Direction-aware slide based on `side` prop. Drag-to-dismiss with `drag` + `dragConstraints`. |
-| **Dropdown Menu** | content scale + fade         | `scaleIn` or `popSubtle`                                                                     | `AnimatePresence` on menu content. Stagger children with `staggerContainerFast`.             |
-| **Popover**       | content scale + fade         | `scaleIn`                                                                                    | Same pattern as dropdown — `AnimatePresence` + `motion.div` on content.                      |
-| **Tooltip**       | fade + slight translate      | `fadeInFast` + `slideUpSm`                                                                   | Quick fade-in (150ms). Spring for position shifts.                                           |
-| **Select**        | content scale + fade         | `scaleIn`                                                                                    | `AnimatePresence` on portal content. Stagger items with `staggerContainerFast`.              |
+| Component         | Animation Type               | Motion Preset                                         | Status |
+| ----------------- | ---------------------------- | ----------------------------------------------------- | ------ |
+| **Dialog**        | overlay fade + content scale | `overlayBackdrop` + `modalContent`                    | ✅     |
+| **Sheet**         | overlay fade + panel slide   | `overlayBackdrop` + `slidePanelLeft/Right/Top/Bottom` | ✅     |
+| **Dropdown Menu** | content scale + fade         | `scaleIn`                                             | ✅     |
+| **Popover**       | content scale + fade         | `scaleIn`                                             | ✅     |
+| **Tooltip**       | fade                         | `fadeInFast`                                          | ✅     |
+| **Select**        | content scale + fade         | `scaleIn`                                             | ✅     |
 
 #### Batch B — Expand/Collapse Components
 
@@ -1262,17 +1312,17 @@ Add these to `packages/unified-ui/src/motion/presets.ts` and export from the bar
 
 ### 11.6 — Estimated Effort & Execution Order
 
-| Batch                            | Components                                                    | Effort                         | Priority                   |
-| -------------------------------- | ------------------------------------------------------------- | ------------------------------ | -------------------------- |
-| **Batch A** — Overlays           | Dialog, Sheet, Dropdown, Popover, Tooltip, Select             | 3 days                         | P0 — highest visual impact |
-| **Batch B** — Expand/Collapse    | Accordion, Alert (dismissible)                                | 1 day                          | P0                         |
-| **Batch C** — Micro-Interactions | Button, Card, Badge, Avatar, Checkbox, Radio, Input, Textarea | 2 days                         | P1                         |
-| **Batch D** — Nav & Data         | Pagination, Breadcrumb, Table, Skeleton, DataTable            | 2 days                         | P1                         |
-| **New presets**                  | 9 new presets in motion/presets.ts                            | 1 day                          | P0 — blocks Batch A        |
-| **Phase 10 components**          | Built with FM from day one (no retrofit needed)               | included in Phase 10 estimates | —                          |
+| Batch                            | Components                                                    | Effort                         | Priority                   | Status     |
+| -------------------------------- | ------------------------------------------------------------- | ------------------------------ | -------------------------- | ---------- |
+| **Batch A** — Overlays           | Dialog, Sheet, Dropdown, Popover, Tooltip, Select             | 3 days                         | P0 — highest visual impact | ✅ Done    |
+| **Batch B** — Expand/Collapse    | Accordion, Alert (dismissible)                                | 1 day                          | P0                         | 🔲 Pending |
+| **Batch C** — Micro-Interactions | Button, Card, Badge, Avatar, Checkbox, Radio, Input, Textarea | 2 days                         | P1                         | 🔲 Pending |
+| **Batch D** — Nav & Data         | Pagination, Breadcrumb, Table, Skeleton, DataTable            | 2 days                         | P1                         | 🔲 Pending |
+| **New presets**                  | 9 new presets in motion/presets.ts                            | 1 day                          | P0 — blocks Batch A        | ✅ Done    |
+| **Phase 10 components**          | Built with FM from day one (no retrofit needed)               | included in Phase 10 estimates | —                          | ✅ Done    |
 
-**Total retrofit effort**: ~9 days for existing components + new presets.
-**Execution order**: New presets → Batch A → Batch B → Batch C → Batch D.
+**Total retrofit effort**: ~5 days remaining (Batches B–D) for existing components.
+**Execution order**: ~~New presets~~ ✅ → ~~Batch A~~ ✅ → Batch B → Batch C → Batch D.
 
 ---
 
@@ -1315,60 +1365,60 @@ Strict build sequence — each component may depend on the ones above it:
 
 ### Phase 10 — Extended Components (Mostly Complete)
 
-| #   | Component        | Depends On               | Priority | Status  |
-| --- | ---------------- | ------------------------ | -------- | ------- |
-| 29  | Label            | Typography               | P1       | ✅ Done |
-| 30  | FormField        | Label, Input, Textarea   | P1       | ✅ Done |
-| 31  | Slider           | tokens                   | P1       | ✅ Done |
-| 32  | Toggle           | tokens                   | P1       | ✅ Done |
-| 33  | ToggleGroup      | Toggle                   | P1       | ✅ Done |
-| 34  | ScrollArea       | tokens                   | P1       | ✅ Done |
-| 35  | Collapsible      | motion                   | P1       | ✅ Done |
-| 36  | Progress         | tokens                   | P1       | ✅ Done |
-| 37  | Spinner          | tokens, motion           | P1       | ✅ Done |
-| 38  | NavigationMenu   | Popover, Button          | P1       | ✅ Done |
-| 39  | Sidebar          | Sheet, Button, Tooltip   | P1       | ✅ Done |
-| 40  | CommandPalette   | Dialog, Input            | P1       | ✅ Done |
-| 41  | ContextMenu      | DropdownMenu             | P1       | ✅ Done |
-| 42  | Menubar          | DropdownMenu             | P1       | ✅ Done |
-| 43  | Steps            | Typography, Divider      | P1       | ✅ Done |
-| 44  | Calendar         | tokens, Button           | P1       | ✅ Done |
-| 45  | DatePicker       | Popover, Calendar, Input | P1       | ✅ Done |
-| 46  | NumberInput      | Input, Button            | P1       | ✅ Done |
-| 47  | PinInput         | Input                    | P1       | ✅ Done |
-| 48  | Combobox         | Popover, Input, Command  | P1       | ✅ Done |
-| 49  | FileUpload       | Button, Card             | P1       | ✅ Done |
-| 50  | ColorPicker      | Popover, Input           | P2       | ☐       |
-| 51  | Tag              | Badge                    | P2       | ✅ Done |
-| 52  | Kbd              | Typography               | P2       | ✅ Done |
-| 53  | Code             | Typography               | P2       | ✅ Done |
-| 54  | Callout          | Alert                    | P2       | ✅ Done |
-| 55  | DataList         | Typography               | P2       | ✅ Done |
-| 56  | Stat             | Typography, Card         | P2       | ✅ Done |
-| 57  | Timeline         | Typography, Divider      | P2       | ✅ Done |
-| 58  | EmptyState       | Typography, Button       | P2       | ✅ Done |
-| 59  | HoverCard        | Popover                  | P2       | ✅ Done |
-| 60  | AlertDialog      | Dialog, Button           | P2       | ✅ Done |
-| 61  | Drawer           | Sheet                    | P2       | ☐       |
-| 62  | Banner           | Alert, Button            | P2       | ✅ Done |
-| 63  | Sonner           | Toast                    | P2       | ☐       |
-| 64  | AspectRatio      | tokens                   | P2       | ✅ Done |
-| 65  | Resizable        | tokens                   | P2       | ✅ Done |
-| 66  | Carousel         | Button, motion           | P2       | ✅ Done |
-| 67  | ImageGallery     | Dialog, Carousel         | P3       | ☐       |
-| 68  | VideoPlayer      | tokens                   | P3       | ☐       |
-| 69  | Chart            | Card, Typography         | P3       | ☐       |
-| 70  | TreeView         | Collapsible, Checkbox    | P3       | ☐       |
-| 71  | VirtualList      | ScrollArea               | P3       | ☐       |
-| 72  | Markdown         | Typography, Code         | P3       | ☐       |
-| 73  | CopyButton       | Button, Tooltip, Toast   | P3       | ✅ Done |
-| 74  | ThemeToggle      | Button, DropdownMenu     | P3       | ☐       |
-| 75  | VisuallyHidden   | tokens                   | P3       | ✅ Done |
-| 76  | InputGroup       | Input, Button, Select    | P3       | ✅ Done |
-| 77  | ConfirmDialog    | AlertDialog              | P3       | ✅ Done |
-| 78  | SearchInput      | Input, Kbd               | P3       | ✅ Done |
-| 79  | DataTableToolbar | Input, Select, Button    | P3       | ☐       |
-| 80  | InfiniteScroll   | VirtualList, Spinner     | P3       | ☐       |
+| #   | Component        | Depends On               | Priority | Status                                      |
+| --- | ---------------- | ------------------------ | -------- | ------------------------------------------- |
+| 29  | Label            | Typography               | P1       | ✅ Done                                     |
+| 30  | FormField        | Label, Input, Textarea   | P1       | ✅ Done                                     |
+| 31  | Slider           | tokens                   | P1       | ✅ Done                                     |
+| 32  | Toggle           | tokens                   | P1       | ✅ Done                                     |
+| 33  | ToggleGroup      | Toggle                   | P1       | ✅ Done                                     |
+| 34  | ScrollArea       | tokens                   | P1       | ✅ Done                                     |
+| 35  | Collapsible      | motion                   | P1       | ✅ Done                                     |
+| 36  | Progress         | tokens                   | P1       | ✅ Done                                     |
+| 37  | Spinner          | tokens, motion           | P1       | ✅ Done                                     |
+| 38  | NavigationMenu   | Popover, Button          | P1       | ✅ Done                                     |
+| 39  | Sidebar          | Sheet, Button, Tooltip   | P1       | ✅ Done                                     |
+| 40  | CommandPalette   | Dialog, Input            | P1       | ✅ Done                                     |
+| 41  | ContextMenu      | DropdownMenu             | P1       | ✅ Done                                     |
+| 42  | Menubar          | DropdownMenu             | P1       | ✅ Done                                     |
+| 43  | Steps            | Typography, Divider      | P1       | ✅ Done                                     |
+| 44  | Calendar         | tokens, Button           | P1       | ✅ Done                                     |
+| 45  | DatePicker       | Popover, Calendar, Input | P1       | ✅ Done                                     |
+| 46  | NumberInput      | Input, Button            | P1       | ✅ Done                                     |
+| 47  | PinInput         | Input                    | P1       | ✅ Done                                     |
+| 48  | Combobox         | Popover, Input, Command  | P1       | ✅ Done                                     |
+| 49  | FileUpload       | Button, Card             | P1       | ✅ Done                                     |
+| 50  | ColorPicker      | Popover, Input           | P2       | ✅ Done                                     |
+| 51  | ~~Tag~~          | Badge                    | P2       | ✅ **Merged into Badge** (deprecated alias) |
+| 52  | Kbd              | Typography               | P2       | ✅ Done                                     |
+| 53  | Code             | Typography               | P2       | ✅ Done                                     |
+| 54  | ~~Callout~~      | Alert                    | P2       | ✅ **Merged into Alert** (deprecated alias) |
+| 55  | DataList         | Typography               | P2       | ✅ Done                                     |
+| 56  | Stat             | Typography, Card         | P2       | ✅ Done                                     |
+| 57  | Timeline         | Typography, Divider      | P2       | ✅ Done                                     |
+| 58  | EmptyState       | Typography, Button       | P2       | ✅ Done                                     |
+| 59  | HoverCard        | Popover                  | P2       | ✅ Done                                     |
+| 60  | AlertDialog      | Dialog, Button           | P2       | ✅ Done                                     |
+| 61  | Drawer           | Sheet                    | P2       | ✅ Done                                     |
+| 62  | Banner           | Alert, Button            | P2       | ✅ Done                                     |
+| 63  | Sonner           | Toast                    | P2       | ✅ Done                                     |
+| 64  | AspectRatio      | tokens                   | P2       | ✅ Done                                     |
+| 65  | Resizable        | tokens                   | P2       | ✅ Done                                     |
+| 66  | Carousel         | Button, motion           | P2       | ✅ Done                                     |
+| 67  | ImageGallery     | Dialog, Carousel         | P3       | ✅ Done                                     |
+| 68  | VideoPlayer      | tokens                   | P3       | ✅ Done                                     |
+| 69  | Chart            | Card, Typography         | P3       | ✅ Done                                     |
+| 70  | TreeView         | Collapsible, Checkbox    | P3       | ✅ Done                                     |
+| 71  | VirtualList      | ScrollArea               | P3       | ✅ Done                                     |
+| 72  | Markdown         | Typography, Code         | P3       | ✅ Done                                     |
+| 73  | CopyButton       | Button, Tooltip, Toast   | P3       | ✅ Done                                     |
+| 74  | ThemeToggle      | Button, DropdownMenu     | P3       | ✅ Done                                     |
+| 75  | VisuallyHidden   | tokens                   | P3       | ✅ Done                                     |
+| 76  | InputGroup       | Input, Button, Select    | P3       | ✅ Done                                     |
+| 77  | ConfirmDialog    | AlertDialog              | P3       | ✅ Done                                     |
+| 78  | SearchInput      | Input, Kbd               | P3       | ✅ Done                                     |
+| 79  | DataTableToolbar | Input, Select, Button    | P3       | ✅ Done                                     |
+| 80  | InfiniteScroll   | VirtualList, Spinner     | P3       | ✅ Done                                     |
 
 ### Priority Key
 
@@ -1416,51 +1466,61 @@ When building any new component, follow this checklist:
 
 ## Summary: Execution Order
 
-| Phase                                 | Effort   | Blocks                    | Status                                                     |
-| ------------------------------------- | -------- | ------------------------- | ---------------------------------------------------------- |
-| **Phase 1** — Fix Foundations         | 1 day    | Phase 2, 3                | ✅ Complete                                                |
-| **Phase 2** — Typography Multi-Font   | 2 days   | Phase 6 (typography docs) | ✅ Complete                                                |
-| **Phase 3** — Absolute Paths          | 1 day    | Phase 4                   | ✅ Complete                                                |
-| **Phase 4** — Package as Library      | 2 days   | External consumers        | ✅ Complete (restructured to `packages/unified-ui/`)       |
-| **Phase 5** — Components (P0 batch)   | 5 days   | Phase 6 (component docs)  | ✅ Complete                                                |
-| **Phase 5** — Components (P1 batch)   | 7 days   | —                         | ✅ Complete                                                |
-| **Phase 5** — Components (P2 batch)   | 4 days   | —                         | ✅ Complete                                                |
-| **Phase 6** — Documentation Overhaul  | 5 days   | —                         | 🟡 In progress (6.1–6.3 done, 6.4–6.5 remaining)           |
-| **Phase 7** — Motion & A11y Hardening | 3 days   | —                         | 🟡 Mostly done (7.2–7.4 done, 7.1 + 7.5 remaining)         |
-| **Phase 8** — Versioning & Changelog  | 0.5 days | —                         | ✅ Complete                                                |
-| **Phase 9** — Migration               | 2 days   | Phase 5 (parallel Button) | 🟡 Partially started (docs migrated, UI migration pending) |
-| **Phase 10** — Extended Components    | 15 days  | Phase 5                   | 🟡 Mostly done (41 of 52 built, 11 remaining across waves) |
-| **Phase 11** — Framer Motion (all)    | 9 days   | Phase 5, motion layer     | ☐ Not started                                              |
+| Phase                                 | Effort   | Blocks                    | Status                                                                 |
+| ------------------------------------- | -------- | ------------------------- | ---------------------------------------------------------------------- |
+| **Phase 1** — Fix Foundations         | 1 day    | Phase 2, 3                | ✅ Complete                                                            |
+| **Phase 2** — Typography Multi-Font   | 2 days   | Phase 6 (typography docs) | ✅ Complete                                                            |
+| **Phase 3** — Absolute Paths          | 1 day    | Phase 4                   | ✅ Complete                                                            |
+| **Phase 4** — Package as Library      | 2 days   | External consumers        | ✅ Complete (restructured to `packages/unified-ui/`)                   |
+| **Phase 5** — Components (P0 batch)   | 5 days   | Phase 6 (component docs)  | ✅ Complete                                                            |
+| **Phase 5** — Components (P1 batch)   | 7 days   | —                         | ✅ Complete                                                            |
+| **Phase 5** — Components (P2 batch)   | 4 days   | —                         | ✅ Complete                                                            |
+| **Phase 6** — Documentation Overhaul  | 5 days   | —                         | ✅ Complete (6.1–6.5 all done)                                         |
+| **Phase 7** — Motion & A11y Hardening | 3 days   | —                         | 🟡 Mostly done (7.2–7.4 done, 7.1 + 7.5 remaining)                     |
+| **Phase 8** — Versioning & Changelog  | 0.5 days | —                         | ✅ Complete                                                            |
+| **Phase 9** — Migration               | 2 days   | Phase 5 (parallel Button) | 🟡 Partially started (docs migrated, UI migration pending)             |
+| **Phase 10** — Extended Components    | 15 days  | Phase 5                   | ✅ Complete (52 unique + 2 merged, all built)                          |
+| **Phase 11** — Framer Motion (all)    | 9 days   | Phase 5, motion layer     | 🟡 In progress (33 of 62 components use FM; Batch A ✅, B–D remaining) |
 
-**Critical path (remaining)**: Phase 6.4–6.5 → Phase 9 (UI migration)
+**Critical path (remaining)**: Phase 9 (UI migration)
 
-**Parallel work**: Phase 7.1 (motion polish), Phase 7.5 (contrast audit), and Phase 11 (Framer Motion retrofit) can happen alongside Phase 6.
+**Parallel work**: Phase 7.1 (motion polish), Phase 7.5 (contrast audit), and Phase 11 (Framer Motion retrofit) can happen in parallel.
 
 **Phases 1–5 complete**: All foundations, typography, path aliases, packaging, and 28 core composite components (+ primitives) are built, barrel-exported, and verified.
 
 **Phase 4 complete**: Package restructured to `packages/unified-ui/` as an npm workspace. Build verified with `npm run build:ds` (zero warnings), `npm pack` verified, `@arethetypeswrong/cli` passes. Workspace symlink provides identical import experience to published package. Only remaining item: GitHub Actions CI/CD for auto-publish.
 
-**Phase 6 mostly complete**: 6.1 (content structure), 6.2 (9 core documentation pages), and 6.3 (57 component documentation pages) all done. Component docs moved to `/components` route. CSS import uses `@work-rjkashyap/unified-ui/styles.css` package export. Remaining: 6.4 (ComponentPreview) and 6.5 (PropsTable).
+**Phase 6 complete**: 6.1 (content structure), 6.2 (9 core documentation pages), 6.3 (64 component documentation pages), 6.4 (ComponentPreview with isolated preview, theme toggle, copy code), and 6.5 (PropsTable with type badges, required indicators, zebra rows) all done. Component docs moved to `/components` route. CSS import uses `@work-rjkashyap/unified-ui/styles.css` package export.
 
 **Phase 7 mostly complete**: Focus ring system (7.2) fully built with 6 variants used across all components. Keyboard navigation (7.3) and ARIA compliance (7.4) handled by Radix UI primitives + manual implementation. Remaining: 7.1 (motion system polish) and 7.5 (contrast compliance audit).
 
 **Phase 8 complete**: `CHANGELOG.md` created with full v0.1.0 documentation following Keep a Changelog format.
 
-**Phase 9 partially started**: Component docs now use `@work-rjkashyap/unified-ui` imports (no more shadcn references). Actual UI migration (replacing `src/components/ui/` files) not yet started.
+**Phase 9 partially started**: Component docs now use `@work-rjkashyap/unified-ui` imports (no more shadcn references). Actual UI migration (replacing `src/components/ui/` files — button, collapsible, navigation-menu, popover, scroll-area) not yet started.
 
-**Phase 10 mostly complete**: 41 of 52 extended components built and barrel-exported. All 64 components have documentation pages (57 MDX pages in `content/components/`). Remaining 11 components: ColorPicker, Drawer, Sonner, ImageGallery, VideoPlayer, Chart, TreeView, VirtualList, Markdown, ThemeToggle, DataTableToolbar, InfiniteScroll.
+**Phase 10 complete**: All 52 unique extended components built + 2 merged (Tag→Badge, Callout→Alert). All 74 components have documentation pages (74 MDX pages in `content/components/`). Final 10 components added: ColorPicker, Sonner (via sonner library), ImageGallery (lightbox + grid), VideoPlayer (custom controls), ChartContainer (Recharts wrapper), TreeView (recursive tree + checkable nodes), VirtualList (virtualized scrolling), Markdown (built-in parser + prose styles), DataTableToolbar (search/filter/columns/view-mode), InfiniteScroll (IntersectionObserver-based).
+
+**Phase 11 in progress**: 33 of 62 components now use Framer Motion. Batch A (Overlays — Dialog, Sheet, DropdownMenu, Popover, Tooltip, Select) completed: replaced CSS `data-[state=*]:animate-*` classes with FM `motion.div` via Radix `asChild`, using `overlayBackdrop`, `modalContent`, `scaleIn`, `fadeInFast`, and `slidePanel*` presets. All respect `useReducedMotion()`. New motion presets (9 total) also done. Remaining 29 components still use CSS-only transitions or no animation. Estimated remaining effort: ~5 days (Batches B–D).
+
+**Component merges applied**:
+
+- Tag → Badge: Tag features (dismissible, animated, icon, avatar, dot) merged into Badge. `Tag` kept as deprecated alias with `animated={true}` default. `tag.tsx` and `tag.mdx` deleted.
+- Callout → Alert: Callout features (collapsible, animated entrance) merged into Alert. `Callout` kept as deprecated alias with `animated={true}` and `rounded-lg` defaults. `callout.tsx` and `callout.mdx` deleted.
+- Both aliases are still exported from barrel for backward compatibility. Plan to remove in next major version.
 
 **Bug fixes applied**:
 
 - Switch: Fixed uncontrolled mode state tracking for AnimatedThumb spring animation
 - Avatar: Fixed status dot clipping by moving `overflow-hidden` to inner content wrapper
 - SearchInput docs: Fixed RSC serialization error — extracted `onDebouncedChange` preview into a `"use client"` component
+- Badge docs: Fixed RSC serialization error — removed inline `onDismiss={() => {}}` from server-rendered MDX preview
+- Toast docs: Updated to match actual component API (`maxVisible` not `maxToasts`, `duration: 0` not `Infinity`, added deduplication/patterns sections)
 
 ---
 
-_Last updated: 2026-03-03 (Phase 10 component audit — 41 of 52 extended components built, all 64 components documented)_
-_Design system: Unified UI v0.1.0_
+_Last updated: 2026-03-05 (Tag/Callout merged into Badge/Alert, Toast docs updated, Phase 11 state synced)_
+_Design system: Unified UI v0.1.2_
 _Package: `@work-rjkashyap/unified-ui` at `packages/unified-ui/`_
-_Total components: 64 built + 11 remaining = 75 (from original 80 target, 5 components merged/removed)_
-_Documentation: 57 component MDX pages + 9 design system docs = 66 total doc pages_
-_Motion: Many components use Framer Motion today → target all with Phase 11_
+_Total components: 74 built (+ 2 deprecated aliases) = 76 unique (from original 80 target, 2 merged + 2 not applicable)_
+_Documentation: 74 component MDX pages + 9 design system docs = 83 total doc pages_
+_Motion: 27 of 62 components use Framer Motion today (44%) → target all with Phase 11 (35 remaining)_

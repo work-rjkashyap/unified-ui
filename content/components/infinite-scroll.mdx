@@ -1,0 +1,285 @@
+---
+title: Infinite Scroll
+description: Scroll-triggered infinite loading with Intersection Observer, loading indicator, and end-of-list detection.
+icon: ArrowDownToLine
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import {
+	DemoBasic,
+	DemoCards,
+	DemoCustomLoader,
+	DemoLoading,
+	DemoEnd,
+} from "@/components/docs/infinite-scroll-demos";
+
+<ComponentPage
+	title="Infinite Scroll"
+	description="Scroll-triggered infinite loading with Intersection Observer, loading indicator, and end-of-list detection. Scroll down inside the container below to load more items."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoBasic />
+		</div>
+	}
+	code={`const [items, setItems] = useState(initialItems);
+const [loading, setLoading] = useState(false);
+const [hasMore, setHasMore] = useState(true);
+
+const loadMore = async () => {
+setLoading(true);
+const newItems = await fetchItems(items.length);
+setItems(prev => [...prev, ...newItems]);
+if (items.length + newItems.length >= total) setHasMore(false);
+setLoading(false);
+};
+
+<InfiniteScroll
+  loading={loading}
+  hasMore={hasMore}
+  onLoadMore={loadMore}
+  endMessage={<p className="text-center text-sm text-muted-foreground py-4">You've reached the end!</p>}
+>
+  {items.map(item => (
+    <div key={item.id}>{item.name}</div>
+  ))}
+</InfiniteScroll>`}
+>
+
+## Import
+
+```tsx
+import { InfiniteScroll } from "@work-rjkashyap/unified-ui";
+// or
+import { InfiniteScroll } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Basic List
+
+<ComponentPage
+	title="Basic List"
+	description="A scrollable list that automatically loads more items as you reach the bottom. Scroll down to trigger loading."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoBasic />
+		</div>
+	}
+	code={`const [items, setItems] = useState(initialItems);
+const [loading, setLoading] = useState(false);
+const [hasMore, setHasMore] = useState(true);
+
+const loadMore = () => {
+setLoading(true);
+fetchMore().then(newItems => {
+setItems(prev => [...prev, ...newItems]);
+if (total >= limit) setHasMore(false);
+setLoading(false);
+});
+};
+
+<InfiniteScroll
+  loading={loading}
+  hasMore={hasMore}
+  onLoadMore={loadMore}
+  endMessage={<p>You've reached the end!</p>}
+>
+  {items.map(item => (
+    <div key={item.id}>{item.name}</div>
+  ))}
+</InfiniteScroll>`}
+/>
+
+### Card Grid
+
+<ComponentPage
+	title="Card Grid Layout"
+	description="InfiniteScroll works with any layout — here it wraps a responsive card grid that loads more cards on scroll."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoCards />
+		</div>
+	}
+	code={`<InfiniteScroll
+  loading={loading}
+  hasMore={hasMore}
+  onLoadMore={loadMore}
+  endMessage={<p>All cards loaded.</p>}
+>
+  <div className="grid grid-cols-2 gap-3">
+    {items.map(item => (
+      <Card key={item.id}>
+        <CardHeader>{item.title}</CardHeader>
+        <CardBody>{item.description}</CardBody>
+      </Card>
+    ))}
+  </div>
+</InfiniteScroll>`}
+/>
+
+### Custom Loading Indicator
+
+<ComponentPage
+	title="Custom Loading Indicator"
+	description="Replace the default loading spinner with a custom indicator using the loadingIndicator prop."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoCustomLoader />
+		</div>
+	}
+	code={`<InfiniteScroll
+  loading={loading}
+  hasMore={hasMore}
+  onLoadMore={loadMore}
+  loadingIndicator={
+    <div className="flex items-center justify-center gap-2 py-4">
+      <Spinner size="sm" />
+      <span className="text-sm text-muted-foreground font-medium">
+        Fetching more records...
+      </span>
+    </div>
+  }
+  endMessage={
+    <div className="text-center py-4">
+      <p className="text-sm font-medium">All done!</p>
+      <p className="text-xs text-muted-foreground">{items.length} records loaded</p>
+    </div>
+  }
+>
+  {items.map(item => <Row key={item.id} {...item} />)}
+</InfiniteScroll>`}
+/>
+
+### Loading State
+
+<ComponentPage
+	title="Loading State"
+	description="The built-in loading indicator appears at the bottom of the list while data is being fetched."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoLoading />
+		</div>
+	}
+	code={`<InfiniteScroll
+  loading={true}
+  hasMore={true}
+  onLoadMore={loadMore}
+>
+  {items.map(item => <div key={item.id}>{item.name}</div>)}
+</InfiniteScroll>`}
+/>
+
+### End of List
+
+<ComponentPage
+	title="End of List"
+	description="When hasMore is false, the sentinel is removed and the endMessage is shown."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoEnd />
+		</div>
+	}
+	code={`<InfiniteScroll
+  loading={false}
+  hasMore={false}
+  onLoadMore={loadMore}
+  endMessage={
+    <p className="text-center text-sm text-muted-foreground py-4">
+      🎉 You've seen everything!
+    </p>
+  }
+>
+  {items.map(item => <div key={item.id}>{item.name}</div>)}
+</InfiniteScroll>`}
+/>
+
+### With React Query
+
+<ComponentPage
+	title="React Query Integration"
+	description="InfiniteScroll pairs naturally with React Query's useInfiniteQuery hook."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoBasic />
+		</div>
+	}
+	code={`import { useInfiniteQuery } from "@tanstack/react-query";
+
+const {
+data,
+fetchNextPage,
+hasNextPage,
+isFetchingNextPage,
+} = useInfiniteQuery({
+queryKey: ["users"],
+queryFn: ({ pageParam = 0 }) => fetchUsers(pageParam),
+getNextPageParam: (lastPage) => lastPage.nextCursor,
+});
+
+<InfiniteScroll
+  loading={isFetchingNextPage}
+  hasMore={!!hasNextPage}
+  onLoadMore={() => fetchNextPage()}
+  endMessage={<p>All users loaded</p>}
+>
+  {data?.pages.flatMap(page => page.users).map(user => (
+    <UserRow key={user.id} user={user} />
+  ))}
+</InfiniteScroll>`}
+/>
+
+---
+
+## How It Works
+
+1. A hidden **sentinel element** is placed at the bottom of the children.
+2. An `IntersectionObserver` watches the sentinel with a configurable `rootMargin` (the `threshold` prop).
+3. When the sentinel enters the viewport, `onLoadMore` is called.
+4. While `loading` is true, the observer pauses to prevent duplicate calls.
+5. When `hasMore` is false, the sentinel is removed and the `endMessage` is shown.
+
+---
+
+## Props
+
+| Prop                | Type         | Default   | Description                                     |
+| ------------------- | ------------ | --------- | ----------------------------------------------- |
+| `children`          | `ReactNode`  | —         | Content to render (the list items).             |
+| `loading`           | `boolean`    | `false`   | Whether more data is being loaded.              |
+| `hasMore`           | `boolean`    | `true`    | Whether there is more data to load.             |
+| `onLoadMore`        | `() => void` | —         | Callback to trigger loading more data.          |
+| `threshold`         | `string`     | `"200px"` | Root margin for IntersectionObserver.           |
+| `loadingIndicator`  | `ReactNode`  | —         | Custom loading indicator.                       |
+| `endMessage`        | `ReactNode`  | —         | Content when all data has been loaded.          |
+| `className`         | `string`     | —         | Additional CSS classes on the container.        |
+| `sentinelClassName` | `string`     | —         | Additional CSS classes on the sentinel element. |
+
+---
+
+## Accessibility
+
+- Container uses `aria-busy="true"` when loading to announce state to screen readers.
+- The sentinel element is `aria-hidden` — invisible to assistive technologies.
+- Works with keyboard scrolling and assistive technologies.
+- Loading indicator provides visual and programmatic feedback.
+
+<Callout type="info">
+	For very large datasets where you need virtualization, combine
+	`InfiniteScroll` with `VirtualList` for optimal performance — InfiniteScroll
+	handles data fetching while VirtualList handles efficient rendering.
+</Callout>
+
+---
+
+## Design Tokens
+
+| Token                | Usage                        |
+| -------------------- | ---------------------------- |
+| `--foreground`       | List item text               |
+| `--muted-foreground` | Loading text, end message    |
+| `--border`           | Default loading spinner ring |
+| `--primary`          | Loading spinner accent       |
+
+</ComponentPage>

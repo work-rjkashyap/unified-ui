@@ -749,7 +749,119 @@ var SURFACE_STYLE_PRESETS = [
   }
 ];
 var DEFAULT_SURFACE_STYLE_KEY = "bordered";
+var STYLE_PRESETS = [
+  {
+    name: "Vega",
+    key: "vega",
+    description: "The classic shadcn/ui look. Clean, neutral, and familiar.",
+    iconPath: "M3 3h18v18H3V3zm2 2v14h14V5H7z",
+    defaults: {
+      radius: "0.625",
+      font: "outfit",
+      shadow: "default",
+      surfaceStyle: "bordered"
+    },
+    vars: {
+      spacingUnit: "1",
+      paddingCard: "1.5rem",
+      paddingButtonX: "1rem",
+      paddingButtonY: "0.5rem",
+      gapDefault: "0.75rem",
+      borderWidth: "1px",
+      controlHeight: "2.25rem"
+    }
+  },
+  {
+    name: "Nova",
+    key: "nova",
+    description: "Reduced padding and margins for compact layouts.",
+    iconPath: "M4 4h16v16H4V4zm1.5 1.5v13h13v-13h-13z",
+    defaults: {
+      radius: "0.5",
+      font: "inter",
+      shadow: "subtle",
+      surfaceStyle: "bordered"
+    },
+    vars: {
+      spacingUnit: "0.875",
+      paddingCard: "1rem",
+      paddingButtonX: "0.75rem",
+      paddingButtonY: "0.375rem",
+      gapDefault: "0.5rem",
+      borderWidth: "1px",
+      controlHeight: "2rem"
+    }
+  },
+  {
+    name: "Maia",
+    key: "maia",
+    description: "Soft and rounded, with generous spacing.",
+    iconPath: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z",
+    defaults: {
+      radius: "0.75",
+      font: "outfit",
+      shadow: "default",
+      surfaceStyle: "mixed"
+    },
+    vars: {
+      spacingUnit: "1.125",
+      paddingCard: "1.75rem",
+      paddingButtonX: "1.25rem",
+      paddingButtonY: "0.625rem",
+      gapDefault: "1rem",
+      borderWidth: "1px",
+      controlHeight: "2.5rem"
+    }
+  },
+  {
+    name: "Lyra",
+    key: "lyra",
+    description: "Boxy and sharp. Pairs well with mono fonts.",
+    iconPath: "M3 3h18v18H3V3zm1 1v16h16V4H4z",
+    defaults: {
+      radius: "0",
+      font: "system",
+      shadow: "none",
+      surfaceStyle: "bordered"
+    },
+    vars: {
+      spacingUnit: "1",
+      paddingCard: "1.25rem",
+      paddingButtonX: "1rem",
+      paddingButtonY: "0.5rem",
+      gapDefault: "0.75rem",
+      borderWidth: "1px",
+      controlHeight: "2.25rem"
+    }
+  },
+  {
+    name: "Mira",
+    key: "mira",
+    description: "Compact. Made for dense interfaces.",
+    iconPath: "M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm0 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z",
+    defaults: {
+      radius: "0.375",
+      font: "inter",
+      shadow: "none",
+      surfaceStyle: "bordered"
+    },
+    vars: {
+      spacingUnit: "0.75",
+      paddingCard: "0.75rem",
+      paddingButtonX: "0.625rem",
+      paddingButtonY: "0.25rem",
+      gapDefault: "0.375rem",
+      borderWidth: "1px",
+      controlHeight: "1.75rem"
+    }
+  }
+];
+var DEFAULT_STYLE_KEY = "vega";
+function getStylePreset(key) {
+  return STYLE_PRESETS.find((s) => s.key === key) ?? STYLE_PRESETS[0];
+}
 var DEFAULT_THEME_CONFIG = {
+  style: DEFAULT_STYLE_KEY,
   colorPreset: "zinc",
   radius: DEFAULT_RADIUS_KEY,
   font: DEFAULT_FONT_KEY,
@@ -835,7 +947,15 @@ function buildThemeOverrides(config, mode) {
     }
   }
   const radiusPreset = getRadiusPreset(config.radius);
+  const baseRem = Number.parseFloat(radiusPreset.value);
+  const isZero = radiusPreset.key === "0";
   vars["--radius"] = radiusPreset.value;
+  vars["--radius-none"] = "0px";
+  vars["--radius-sm"] = isZero ? "0px" : `${Math.max(baseRem * 0.4, 0.125)}rem`;
+  vars["--radius-md"] = isZero ? "0px" : `${Math.max(baseRem * 0.6, 0.25)}rem`;
+  vars["--radius-lg"] = isZero ? "0px" : `${Math.max(baseRem * 0.8, 0.375)}rem`;
+  vars["--radius-xl"] = isZero ? "0px" : `${Math.max(baseRem * 1.2, 0.5)}rem`;
+  vars["--radius-full"] = "9999px";
   const fontPreset = getFontPreset(config.font);
   vars["--font-sans"] = fontPreset.value;
   const shadowPreset = getShadowPreset(config.shadow);
@@ -847,6 +967,23 @@ function buildThemeOverrides(config, mode) {
   vars["--shadow-lg"] = shadows.lg;
   vars["--shadow-xl"] = shadows.xl;
   vars["--shadow-2xl"] = shadows["2xl"];
+  const stylePreset = getStylePreset(config.style);
+  const sv = stylePreset.vars;
+  vars["--ds-spacing-unit"] = sv.spacingUnit;
+  vars["--ds-padding-card"] = sv.paddingCard;
+  vars["--ds-padding-button-x"] = sv.paddingButtonX;
+  vars["--ds-padding-button-y"] = sv.paddingButtonY;
+  vars["--ds-gap-default"] = sv.gapDefault;
+  vars["--ds-border-width"] = sv.borderWidth;
+  vars["--ds-control-height"] = sv.controlHeight;
+  if (config.surfaceStyle === "elevated") {
+    vars["--card"] = mode === "dark" ? "oklch(0.205 0 0)" : "oklch(1 0 0)";
+    vars["--border"] = mode === "dark" ? "oklch(0.205 0 0 / 0)" : "oklch(0.922 0 0 / 0)";
+    vars["--border-muted"] = mode === "dark" ? "oklch(0.205 0 0 / 0)" : "oklch(0.922 0 0 / 0)";
+  } else if (config.surfaceStyle === "mixed") {
+    vars["--border"] = mode === "dark" ? "oklch(0.4 0 0 / 0.15)" : "oklch(0.8 0 0 / 0.3)";
+    vars["--border-muted"] = mode === "dark" ? "oklch(0.4 0 0 / 0.1)" : "oklch(0.85 0 0 / 0.25)";
+  }
   return vars;
 }
 function generateThemeCSS(config) {
@@ -857,6 +994,7 @@ function generateThemeCSS(config) {
     "/* ============================================",
     " * Unified UI \u2014 Custom Theme",
     ` * Preset: ${getColorPreset(config.colorPreset).name}`,
+    ` * Style: ${getStylePreset(config.style).name}`,
     ` * Radius: ${getRadiusPreset(config.radius).label}`,
     ` * Font: ${getFontPreset(config.font).name}`,
     ` * Shadows: ${getShadowPreset(config.shadow).name}`,
@@ -890,6 +1028,7 @@ function loadConfig() {
     if (!raw) return DEFAULT_THEME_CONFIG;
     const parsed = JSON.parse(raw);
     return {
+      style: STYLE_PRESETS.some((s) => s.key === parsed.style) ? parsed.style : DEFAULT_THEME_CONFIG.style,
       colorPreset: COLOR_PRESET_KEYS.includes(parsed.colorPreset ?? "") ? parsed.colorPreset : DEFAULT_THEME_CONFIG.colorPreset,
       radius: RADIUS_PRESETS.some((r) => r.key === parsed.radius) ? parsed.radius : DEFAULT_THEME_CONFIG.radius,
       font: FONT_PRESETS.some((f) => f.key === parsed.font) ? parsed.font : DEFAULT_THEME_CONFIG.font,
@@ -940,7 +1079,7 @@ function removeStyles() {
   }
 }
 function configsEqual(a, b) {
-  return a.colorPreset === b.colorPreset && a.radius === b.radius && a.font === b.font && a.shadow === b.shadow && a.surfaceStyle === b.surfaceStyle;
+  return a.style === b.style && a.colorPreset === b.colorPreset && a.radius === b.radius && a.font === b.font && a.shadow === b.shadow && a.surfaceStyle === b.surfaceStyle;
 }
 function ThemeCustomizerProvider({
   children,
@@ -1002,6 +1141,20 @@ function ThemeCustomizerProvider({
   const setConfig = useCallback((newConfig) => {
     setConfigState(newConfig);
   }, []);
+  const setStyle = useCallback((key) => {
+    const preset = getStylePreset(key);
+    setConfigState((prev) => {
+      if (prev.style === key) return prev;
+      return {
+        ...prev,
+        style: key,
+        radius: preset.defaults.radius,
+        font: preset.defaults.font,
+        shadow: preset.defaults.shadow,
+        surfaceStyle: preset.defaults.surfaceStyle
+      };
+    });
+  }, []);
   const setColorPreset = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.colorPreset === key) return prev;
@@ -1043,6 +1196,7 @@ function ThemeCustomizerProvider({
     () => ({
       config,
       setConfig,
+      setStyle,
       setColorPreset,
       setRadius,
       setFont,
@@ -1055,6 +1209,7 @@ function ThemeCustomizerProvider({
     [
       config,
       setConfig,
+      setStyle,
       setColorPreset,
       setRadius,
       setFont,
@@ -1244,6 +1399,69 @@ function PillToggle({
     }
   );
 }
+function StyleOption({
+  preset,
+  isActive,
+  onClick
+}) {
+  return /* @__PURE__ */ jsxs(
+    "button",
+    {
+      type: "button",
+      onClick,
+      className: cn(
+        "flex items-start gap-3 rounded-md border px-3 py-3 text-left transition-all duration-fast ease-standard",
+        "hover:border-border-strong hover:bg-muted/50",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        isActive ? "border-primary bg-muted/60 shadow-sm" : "border-border bg-transparent"
+      ),
+      title: preset.description,
+      children: [
+        /* @__PURE__ */ jsx(
+          "svg",
+          {
+            className: cn(
+              "size-5 shrink-0 mt-0.5",
+              isActive ? "text-primary" : "text-muted-foreground"
+            ),
+            xmlns: "http://www.w3.org/2000/svg",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: "1.5",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            "aria-hidden": "true",
+            children: /* @__PURE__ */ jsx("path", { d: preset.iconPath })
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1", children: [
+          /* @__PURE__ */ jsx(
+            "div",
+            {
+              className: cn(
+                "text-sm font-semibold leading-tight",
+                isActive ? "text-foreground" : "text-foreground"
+              ),
+              children: preset.name
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            "div",
+            {
+              className: cn(
+                "mt-0.5 text-xs leading-snug",
+                isActive ? "text-muted-foreground" : "text-muted-foreground/70"
+              ),
+              children: preset.description
+            }
+          )
+        ] }),
+        isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "shrink-0 mt-0.5 text-primary" })
+      ]
+    }
+  );
+}
 function CopyButton({
   getText,
   className,
@@ -1309,6 +1527,7 @@ function ThemeCustomizer({
 }) {
   const {
     config,
+    setStyle,
     setColorPreset,
     setRadius,
     setFont,
@@ -1325,6 +1544,15 @@ function ThemeCustomizer({
       "data-ds": "",
       "data-ds-component": "theme-customizer",
       children: [
+        /* @__PURE__ */ jsx(Section, { title: "Style", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-1 gap-2", children: STYLE_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+          StyleOption,
+          {
+            preset,
+            isActive: config.style === preset.key,
+            onClick: () => setStyle(preset.key)
+          },
+          preset.key
+        )) }) }),
         /* @__PURE__ */ jsx(Section, { title: "Color", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 gap-2", children: COLOR_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           ColorSwatch,
           {
@@ -1504,4 +1732,4 @@ function DSThemeProvider({
   return /* @__PURE__ */ jsx(DSThemeContext.Provider, { value, children });
 }
 
-export { COLOR_PRESETS, COLOR_PRESET_KEYS, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, DSThemeProvider, FONT_PRESETS, RADIUS_PRESETS, SHADOW_PRESETS, SURFACE_STYLE_PRESETS, ThemeCustomizer, ThemeCustomizerProvider, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, useDSTheme, useThemeCustomizer };
+export { COLOR_PRESETS, COLOR_PRESET_KEYS, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_STYLE_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, DSThemeProvider, FONT_PRESETS, RADIUS_PRESETS, SHADOW_PRESETS, STYLE_PRESETS, SURFACE_STYLE_PRESETS, ThemeCustomizer, ThemeCustomizerProvider, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, getStylePreset, useDSTheme, useThemeCustomizer };

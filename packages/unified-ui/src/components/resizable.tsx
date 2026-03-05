@@ -1,124 +1,73 @@
 "use client";
 
-import { cn } from "@unified-ui/utils/cn";
 // ============================================================================
 // Unified UI — Resizable Component
 // ============================================================================
-// Resizable split panels using CSS resize or a drag handle.
-// Provides a simple layout primitive without heavy dependencies.
+// Resizable split panels built on top of `react-resizable-panels` v4.
+// Provides ResizablePanelGroup, ResizablePanel, and ResizableHandle with
+// consistent design-system styling, optional grip handle, and Framer Motion
+// hover animation on the handle.
+
+import { cn } from "@unified-ui/utils/cn";
 import { motion, useReducedMotion } from "framer-motion";
+import type { ComponentProps } from "react";
 import {
-  createContext,
-  forwardRef,
-  type ReactNode,
-  useContext,
-  useState,
-} from "react";
+  Group,
+  Panel,
+  Separator,
+  type GroupProps,
+  type PanelProps,
+  type SeparatorProps,
+} from "react-resizable-panels";
 
 // ---------------------------------------------------------------------------
-// Context
-// ---------------------------------------------------------------------------
-
-interface ResizableContextValue {
-  direction: "horizontal" | "vertical";
-  sizes: number[];
-  setSizes: (sizes: number[]) => void;
-}
-
-const ResizableContext = createContext<ResizableContextValue>({
-  direction: "horizontal",
-  sizes: [],
-  setSizes: () => {},
-});
-
-// ---------------------------------------------------------------------------
-// Types
+// ResizablePanelGroup
 // ---------------------------------------------------------------------------
 
 export interface ResizablePanelGroupProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends Omit<GroupProps, "orientation"> {
+  /** Resize direction — maps to the underlying `orientation` prop. */
   direction?: "horizontal" | "vertical";
-  defaultSizes?: number[];
-  className?: string;
-  children?: ReactNode;
 }
 
-export interface ResizablePanelProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  minSize?: number;
-  maxSize?: number;
-  defaultSize?: number;
-  className?: string;
-  children?: ReactNode;
-}
-
-export interface ResizableHandleProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  withHandle?: boolean;
-  className?: string;
-}
-
-// ---------------------------------------------------------------------------
-// Components
-// ---------------------------------------------------------------------------
-
-export const ResizablePanelGroup = forwardRef<
-  HTMLDivElement,
-  ResizablePanelGroupProps
->(function ResizablePanelGroup(
-  { direction = "horizontal", defaultSizes, className, children, ...rest },
-  ref,
-) {
-  const [sizes, setSizes] = useState<number[]>(defaultSizes ?? []);
-
+export function ResizablePanelGroup({
+  direction = "horizontal",
+  className,
+  ...rest
+}: ResizablePanelGroupProps) {
   return (
-    <ResizableContext.Provider value={{ direction, sizes, setSizes }}>
-      <div
-        ref={ref}
-        className={cn(
-          "flex w-full h-full",
-          direction === "vertical" ? "flex-col" : "flex-row",
-          className,
-        )}
-        data-ds=""
-        data-ds-component="resizable-panel-group"
-        data-ds-direction={direction}
-        {...rest}
-      >
-        {children}
-      </div>
-    </ResizableContext.Provider>
+    <Group
+      orientation={direction}
+      className={cn(
+        "flex h-full w-full",
+        direction === "vertical" && "flex-col",
+        className,
+      )}
+      data-ds=""
+      data-ds-component="resizable-panel-group"
+      data-ds-direction={direction}
+      {...rest}
+    />
   );
-});
+}
 ResizablePanelGroup.displayName = "ResizablePanelGroup";
 
-export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
-  function ResizablePanel(
-    { minSize = 10, maxSize = 90, defaultSize, className, children, ...rest },
-    ref,
-  ) {
-    return (
-      <div
-        ref={ref}
-        className={cn("relative overflow-auto", className)}
-        style={
-          defaultSize !== undefined
-            ? {
-                flexBasis: `${defaultSize}%`,
-                minWidth: `${minSize}%`,
-                maxWidth: `${maxSize}%`,
-              }
-            : { flex: "1 1 0%" }
-        }
-        data-ds-component="resizable-panel"
-        {...rest}
-      >
-        {children}
-      </div>
-    );
-  },
-);
-ResizablePanel.displayName = "ResizablePanel";
+// ---------------------------------------------------------------------------
+// ResizablePanel
+// ---------------------------------------------------------------------------
+
+export type ResizablePanelProps = PanelProps;
+
+export const ResizablePanel = Panel;
+
+// ---------------------------------------------------------------------------
+// ResizableHandle
+// ---------------------------------------------------------------------------
+
+export interface ResizableHandleProps extends SeparatorProps {
+  /** Show a visible grip handle in the center of the separator. */
+  withHandle?: boolean;
+}
 
 function GripIcon({ className }: { className?: string }) {
   return (
@@ -143,50 +92,42 @@ function GripIcon({ className }: { className?: string }) {
   );
 }
 
-export const ResizableHandle = forwardRef<HTMLDivElement, ResizableHandleProps>(
-  function ResizableHandle({ withHandle = false, className, ...rest }, ref) {
-    const shouldReduce = useReducedMotion();
-    const { direction } = useContext(ResizableContext);
-    const isHorizontal = direction === "horizontal";
+export function ResizableHandle({
+  withHandle = false,
+  className,
+  ...rest
+}: ResizableHandleProps) {
+  const shouldReduce = useReducedMotion();
 
-    return (
-      <div
-        ref={ref}
-        role="separator"
-        aria-orientation={isHorizontal ? "vertical" : "horizontal"}
-        aria-valuenow={50}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        tabIndex={0}
-        className={cn(
-          "relative flex shrink-0 items-center justify-center",
-          "bg-border",
-          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-          "transition-colors duration-fast",
-          "hover:bg-primary/40",
-          "cursor-col-resize",
-          isHorizontal
-            ? "w-px h-full after:absolute after:inset-y-0 after:left-1/2 after:-translate-x-1/2 after:w-4 after:cursor-col-resize"
-            : "h-px w-full cursor-row-resize after:absolute after:inset-x-0 after:top-1/2 after:-translate-y-1/2 after:h-4",
-          className,
-        )}
-        data-ds-component="resizable-handle"
-        {...rest}
-      >
-        {withHandle && (
-          <motion.div
-            className={cn(
-              "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-border bg-border",
-            )}
-            whileHover={shouldReduce ? undefined : { opacity: 1, scale: 1.15 }}
-            initial={{ opacity: 0.7 }}
-            data-ds-animated=""
-          >
-            <GripIcon className="size-2.5 text-muted-foreground" />
-          </motion.div>
-        )}
-      </div>
-    );
-  },
-);
+  return (
+    <Separator
+      className={cn(
+        "relative flex w-px items-center justify-center bg-border",
+        "after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2",
+        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1",
+        "[&[aria-orientation=horizontal]]:h-px [&[aria-orientation=horizontal]]:w-full",
+        "[&[aria-orientation=horizontal]]:after:left-0 [&[aria-orientation=horizontal]]:after:h-1",
+        "[&[aria-orientation=horizontal]]:after:w-full [&[aria-orientation=horizontal]]:after:-translate-y-1/2",
+        "[&[aria-orientation=horizontal]]:after:translate-x-0",
+        "[&[aria-orientation=horizontal]>div]:rotate-90",
+        className,
+      )}
+      data-ds-component="resizable-handle"
+      {...rest}
+    >
+      {withHandle && (
+        <motion.div
+          className={cn(
+            "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-border bg-border",
+          )}
+          whileHover={shouldReduce ? undefined : { opacity: 1, scale: 1.15 }}
+          initial={{ opacity: 0.7 }}
+          data-ds-animated=""
+        >
+          <GripIcon className="size-2.5 text-muted-foreground" />
+        </motion.div>
+      )}
+    </Separator>
+  );
+}
 ResizableHandle.displayName = "ResizableHandle";

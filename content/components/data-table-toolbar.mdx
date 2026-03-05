@@ -1,0 +1,290 @@
+---
+title: Data Table Toolbar
+description: A composable toolbar with search, faceted filters, column visibility toggle, and view mode switcher for DataTable.
+icon: SlidersHorizontal
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import {
+	DemoToolbarBasic,
+	DemoToolbarFilters,
+	DemoToolbarColumns,
+	DemoToolbarViewMode,
+	DemoToolbarFull,
+} from "@/components/docs/data-table-toolbar-demos";
+
+<ComponentPage
+	title="Data Table Toolbar"
+	description="A composable toolbar with search, faceted filters, column visibility toggle, and view mode switcher for DataTable."
+	preview={
+		<div className="w-full max-w-2xl">
+			<DemoToolbarFull />
+		</div>
+	}
+	code={`<DataTableToolbar
+  searchValue={search}
+  onSearchChange={setSearch}
+  searchPlaceholder="Search projects..."
+  filters={[
+    {
+      id: "status",
+      label: "Status",
+      options: [
+        { label: "Active", value: "active", count: 24 },
+        { label: "Archived", value: "archived", count: 8 },
+        { label: "Draft", value: "draft", count: 5 },
+      ],
+      selected: statusFilter,
+    },
+  ]}
+  onFilterChange={(id, selected) => setStatusFilter(selected)}
+  onClearFilters={() => setStatusFilter([])}
+  columns={columns}
+  onColumnVisibilityChange={toggleColumn}
+  viewModes={["table", "grid"]}
+  viewMode={viewMode}
+  onViewModeChange={setViewMode}
+  actions={
+    <Button size="sm" variant="primary" iconLeft={<Plus />}>New</Button>
+  }
+/>`}
+>
+
+## Import
+
+```tsx
+import { DataTableToolbar } from "@work-rjkashyap/unified-ui";
+// or
+import { DataTableToolbar } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Search Only
+
+<ComponentPage
+	title="Search Only"
+	description="The simplest toolbar with just a debounced search input."
+	preview={
+		<div className="w-full max-w-2xl">
+			<DemoToolbarBasic />
+		</div>
+	}
+	code={`const [search, setSearch] = useState("");
+
+<DataTableToolbar
+  searchValue={search}
+  onSearchChange={setSearch}
+  searchPlaceholder="Search users..."
+/>`}
+/>
+
+### With Faceted Filters
+
+<ComponentPage
+	title="Faceted Filters"
+	description="Add filter dropdowns with multi-select checkboxes and optional item counts."
+	preview={
+		<div className="w-full max-w-2xl">
+			<DemoToolbarFilters />
+		</div>
+	}
+	code={`const [statusFilter, setStatusFilter] = useState([]);
+const [roleFilter, setRoleFilter] = useState([]);
+
+<DataTableToolbar
+  searchValue={search}
+  onSearchChange={setSearch}
+  filters={[
+    {
+      id: "status",
+      label: "Status",
+      options: [
+        { label: "Active", value: "active", count: 12 },
+        { label: "Inactive", value: "inactive", count: 5 },
+        { label: "Pending", value: "pending", count: 3 },
+      ],
+      selected: statusFilter,
+    },
+    {
+      id: "role",
+      label: "Role",
+      options: [
+        { label: "Admin", value: "admin", count: 3 },
+        { label: "Editor", value: "editor", count: 8 },
+        { label: "Viewer", value: "viewer", count: 9 },
+      ],
+      selected: roleFilter,
+    },
+  ]}
+  onFilterChange={(id, selected) => {
+    if (id === "status") setStatusFilter(selected);
+    if (id === "role") setRoleFilter(selected);
+  }}
+  onClearFilters={() => {
+    setStatusFilter([]);
+    setRoleFilter([]);
+  }}
+/>`}
+/>
+
+### Column Visibility
+
+<ComponentPage
+	title="Column Visibility"
+	description="Allow users to toggle which columns are visible in the table."
+	preview={
+		<div className="w-full max-w-2xl">
+			<DemoToolbarColumns />
+		</div>
+	}
+	code={`const [columns, setColumns] = useState([
+  { id: "name", label: "Name", visible: true },
+  { id: "email", label: "Email", visible: true },
+  { id: "role", label: "Role", visible: true },
+  { id: "status", label: "Status", visible: false },
+  { id: "created", label: "Created", visible: false },
+]);
+
+<DataTableToolbar
+  searchValue={search}
+  onSearchChange={setSearch}
+  columns={columns}
+  onColumnVisibilityChange={(id, visible) =>
+    setColumns(prev => prev.map(c => c.id === id ? { ...c, visible } : c))
+  }
+/>`}
+/>
+
+### View Mode Switcher
+
+<ComponentPage
+	title="View Mode Switcher"
+	description="Toggle between table, grid, and list views."
+	preview={
+		<div className="w-full max-w-2xl">
+			<DemoToolbarViewMode />
+		</div>
+	}
+	code={`const [viewMode, setViewMode] = useState("table");
+
+<DataTableToolbar
+  searchValue={search}
+  onSearchChange={setSearch}
+  viewModes={["table", "grid", "list"]}
+  viewMode={viewMode}
+  onViewModeChange={setViewMode}
+/>`}
+/>
+
+### Full Featured
+
+<ComponentPage
+	title="Full Featured"
+	description="All features combined: search, filters, column visibility, view modes, and custom action buttons."
+	preview={
+		<div className="w-full max-w-2xl">
+			<DemoToolbarFull />
+		</div>
+	}
+	code={`<DataTableToolbar
+  searchValue={search}
+  onSearchChange={setSearch}
+  searchPlaceholder="Search projects..."
+  filters={[{
+    id: "status",
+    label: "Status",
+    options: [
+      { label: "Active", value: "active", count: 24 },
+      { label: "Archived", value: "archived", count: 8 },
+      { label: "Draft", value: "draft", count: 5 },
+    ],
+    selected: statusFilter,
+  }]}
+  onFilterChange={(id, selected) => setStatusFilter(selected)}
+  onClearFilters={() => setStatusFilter([])}
+  columns={columns}
+  onColumnVisibilityChange={toggleColumn}
+  viewModes={["table", "grid"]}
+  viewMode={viewMode}
+  onViewModeChange={setViewMode}
+  actions={
+    <Button size="sm" variant="primary" iconLeft={<Plus />}>
+      New
+    </Button>
+  }
+/>`}
+/>
+
+---
+
+## Props
+
+| Prop                       | Type                                       | Default       | Description                        |
+| -------------------------- | ------------------------------------------ | ------------- | ---------------------------------- |
+| `searchValue`              | `string`                                   | `""`          | Current search value.              |
+| `onSearchChange`           | `(value: string) => void`                  | —             | Search change callback.            |
+| `searchPlaceholder`        | `string`                                   | `"Search..."` | Placeholder text.                  |
+| `searchDebounce`           | `number`                                   | `300`         | Debounce delay in ms.              |
+| `filters`                  | `DataTableFilter[]`                        | —             | Filter definitions.                |
+| `onFilterChange`           | `(id: string, selected: string[]) => void` | —             | Filter change callback.            |
+| `onClearFilters`           | `() => void`                               | —             | Clear all filters callback.        |
+| `columns`                  | `ColumnVisibility[]`                       | —             | Column visibility state.           |
+| `onColumnVisibilityChange` | `(id: string, visible: boolean) => void`   | —             | Column visibility change callback. |
+| `viewMode`                 | `"table" \| "grid" \| "list"`              | —             | Current view mode.                 |
+| `viewModes`                | `ViewMode[]`                               | —             | Available view modes.              |
+| `onViewModeChange`         | `(mode: ViewMode) => void`                 | —             | View mode change callback.         |
+| `actions`                  | `ReactNode`                                | —             | Extra action buttons on the right. |
+| `className`                | `string`                                   | —             | Additional CSS classes.            |
+
+### DataTableFilter
+
+| Property   | Type                              | Description                |
+| ---------- | --------------------------------- | -------------------------- |
+| `id`       | `string`                          | Unique filter identifier.  |
+| `label`    | `string`                          | Display label.             |
+| `options`  | `Array<{ label, value, count? }>` | Available filter options.  |
+| `selected` | `string[]`                        | Currently selected values. |
+
+### ColumnVisibility
+
+| Property  | Type      | Description                |
+| --------- | --------- | -------------------------- |
+| `id`      | `string`  | Column identifier.         |
+| `label`   | `string`  | Display label.             |
+| `visible` | `boolean` | Whether column is visible. |
+
+---
+
+## Accessibility
+
+- Search input has `aria-label` for screen readers.
+- Filter and column dropdowns are fully keyboard navigable.
+- Clear button removes all active filters at once.
+- View mode buttons use `aria-pressed` to indicate active state.
+- All interactive elements have visible focus rings.
+
+<Callout type="info">
+	For best results, pair `DataTableToolbar` with `DataTable` so that filter
+	and column visibility state is shared between the toolbar and the table
+	body.
+</Callout>
+
+---
+
+## Design Tokens
+
+| Token                | Usage                         |
+| -------------------- | ----------------------------- |
+| `--background`       | Input and dropdown background |
+| `--foreground`       | Text color                    |
+| `--muted-foreground` | Placeholder text, counts      |
+| `--border`           | Input and dropdown borders    |
+| `--primary`          | Active filter badge, checkbox |
+| `--muted`            | Hover backgrounds             |
+| `--radius-md`        | Input and button radius       |
+| `--duration-fast`    | Transition speed              |
+
+</ComponentPage>

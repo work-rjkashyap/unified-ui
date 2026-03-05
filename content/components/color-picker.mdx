@@ -1,0 +1,112 @@
+---
+title: Color Picker
+description: A color selection component with spectrum picker, hue slider, HEX input, and preset swatches.
+icon: Palette
+---
+
+import { ColorPicker } from "@work-rjkashyap/unified-ui";
+
+## Overview
+
+The `ColorPicker` component provides an interactive color selection experience with a trigger swatch, saturation/lightness spectrum, hue slider, HEX input field, and preset color swatches.
+
+---
+
+## Import
+
+```tsx
+import { ColorPicker } from "@work-rjkashyap/unified-ui";
+// or
+import { ColorPicker } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Default
+
+<ComponentPage
+  title="Default Color Picker"
+  description="Click the swatch to open the picker popover."
+  preview={
+    <div className="flex gap-4 items-center justify-center">
+      <ColorPicker defaultValue="#3b82f6" />
+      <ColorPicker defaultValue="#ef4444" />
+      <ColorPicker defaultValue="#22c55e" />
+    </div>
+  }
+  code={`<ColorPicker defaultValue="#3b82f6" />
+<ColorPicker defaultValue="#ef4444" />
+<ColorPicker defaultValue="#22c55e" />`}
+/>
+
+### Sizes
+
+<ComponentPage
+  title="Sizes"
+  description="Three trigger swatch sizes: sm, md, lg."
+  preview={
+    <div className="flex gap-4 items-end justify-center">
+      <ColorPicker defaultValue="#8b5cf6" size="sm" />
+      <ColorPicker defaultValue="#8b5cf6" size="md" />
+      <ColorPicker defaultValue="#8b5cf6" size="lg" />
+    </div>
+  }
+  code={`<ColorPicker defaultValue="#8b5cf6" size="sm" />
+<ColorPicker defaultValue="#8b5cf6" size="md" />
+<ColorPicker defaultValue="#8b5cf6" size="lg" />`}
+/>
+
+### Custom Presets
+
+<ComponentPage
+  title="Custom Preset Swatches"
+  description="Pass a custom array of HEX colors as presets."
+  preview={
+    <ColorPicker
+      defaultValue="#f97316"
+      presets={["#ef4444", "#f97316", "#eab308", "#22c55e", "#3b82f6", "#8b5cf6"]}
+    />
+  }
+  code={`<ColorPicker
+  defaultValue="#f97316"
+  presets={["#ef4444", "#f97316", "#eab308", "#22c55e", "#3b82f6", "#8b5cf6"]}
+/>`}
+/>
+
+### Disabled
+
+<ComponentPage
+  title="Disabled"
+  description="The picker trigger is disabled and cannot be opened."
+  preview={
+    <ColorPicker defaultValue="#6b7280" disabled />
+  }
+  code={`<ColorPicker defaultValue="#6b7280" disabled />`}
+/>
+
+---
+
+## Props
+
+| Prop           | Type                      | Default       | Description                                    |
+| -------------- | ------------------------- | ------------- | ---------------------------------------------- |
+| `value`        | `string`                  | —             | Controlled HEX color value.                    |
+| `defaultValue` | `string`                  | `"#000000"`   | Default color for uncontrolled mode.           |
+| `onChange`      | `(color: string) => void` | —             | Callback when the color changes.               |
+| `presets`       | `string[]`                | 18 defaults   | Preset color swatches to display.              |
+| `showInput`     | `boolean`                 | `true`        | Whether to show the HEX input field.           |
+| `disabled`      | `boolean`                 | `false`       | Whether the picker is disabled.                |
+| `size`          | `"sm" \| "md" \| "lg"`   | `"md"`        | Size of the trigger swatch.                    |
+| `label`         | `string`                  | `"Choose color"` | Accessibility label for the trigger.       |
+| `className`     | `string`                  | —             | Additional CSS classes.                        |
+
+---
+
+## Accessibility
+
+- Trigger button has `aria-label`, `aria-expanded`, and `aria-haspopup` attributes.
+- Popover closes on `Escape` key and outside click.
+- Hue slider and spectrum area are keyboard navigable.
+- HEX input validates on blur.

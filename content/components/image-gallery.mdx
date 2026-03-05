@@ -1,0 +1,329 @@
+---
+title: Image Gallery
+description: A responsive grid of images with an interactive lightbox viewer featuring zoom, keyboard navigation, and thumbnail strip.
+icon: Image
+---
+
+import { ImageGallery } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+export const sampleImages = [
+	{
+		src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&h=400&fit=crop",
+		alt: "Mountain landscape with lake",
+		caption: "Mountain Lake, Dolomites",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop",
+		alt: "Sunlit valley with mountains",
+		caption: "Golden Valley",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&h=400&fit=crop",
+		alt: "Forest path with tall trees",
+		caption: "Ancient Forest Trail",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&h=400&fit=crop",
+		alt: "Waterfall in tropical forest",
+		caption: "Hidden Waterfall",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=400&fit=crop",
+		alt: "Sunset over a calm lake",
+		caption: "Sunset Reflections",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=400&fit=crop",
+		alt: "Misty morning in the hills",
+		caption: "Morning Mist",
+	},
+];
+
+<ComponentPage
+	title="Image Gallery"
+	description="A responsive grid of images with an interactive lightbox viewer featuring zoom, keyboard navigation, and thumbnail strip. Click any image to open the lightbox."
+	preview={
+		<div className="w-full max-w-2xl">
+			<ImageGallery
+				images={sampleImages}
+				columns={3}
+				aspectRatio="video"
+			/>
+		</div>
+	}
+	code={`<ImageGallery
+  images={[
+    { src: "/photo-1.jpg", alt: "Mountain landscape", caption: "Dolomites" },
+    { src: "/photo-2.jpg", alt: "Sunlit valley", caption: "Golden Valley" },
+    { src: "/photo-3.jpg", alt: "Forest path", caption: "Ancient Trail" },
+    { src: "/photo-4.jpg", alt: "Waterfall", caption: "Hidden Waterfall" },
+    { src: "/photo-5.jpg", alt: "Sunset lake", caption: "Sunset Reflections" },
+    { src: "/photo-6.jpg", alt: "Misty hills", caption: "Morning Mist" },
+  ]}
+  columns={3}
+  aspectRatio="video"
+/>`}
+>
+
+## Import
+
+```tsx
+import { ImageGallery } from "@work-rjkashyap/unified-ui";
+// or
+import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Columns
+
+<ComponentPage
+	title="Column Layouts"
+	description="Control the number of grid columns from 1 to 4."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-2xl">
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">2 columns</p>
+				<ImageGallery
+					images={sampleImages.slice(0, 4)}
+					columns={2}
+					aspectRatio="video"
+				/>
+			</div>
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">4 columns</p>
+				<ImageGallery
+					images={sampleImages.slice(0, 4)}
+					columns={4}
+					aspectRatio="square"
+				/>
+			</div>
+		</div>
+	}
+	code={`{/* 2 columns */}
+<ImageGallery images={images} columns={2} />
+
+{/* 4 columns */}
+
+<ImageGallery images={images} columns={4} />`}
+/>
+
+### Aspect Ratios
+
+<ComponentPage
+	title="Aspect Ratios"
+	description="Control thumbnail shape with square, video (16:9), or auto aspect ratios."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-2xl">
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">square</p>
+				<ImageGallery
+					images={sampleImages.slice(0, 3)}
+					columns={3}
+					aspectRatio="square"
+				/>
+			</div>
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">video (16:9)</p>
+				<ImageGallery
+					images={sampleImages.slice(0, 3)}
+					columns={3}
+					aspectRatio="video"
+				/>
+			</div>
+		</div>
+	}
+	code={`{/* Square thumbnails */}
+<ImageGallery images={images} columns={3} aspectRatio="square" />
+
+{/* 16:9 thumbnails */}
+
+<ImageGallery images={images} columns={3} aspectRatio="video" />
+
+{/* Natural aspect ratio */}
+
+<ImageGallery images={images} columns={3} aspectRatio="auto" />`}
+/>
+
+### Custom Gap
+
+<ComponentPage
+	title="Custom Gap"
+	description="Adjust the spacing between grid items using the gap prop (in pixels)."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-2xl">
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">gap={2}</p>
+				<ImageGallery
+					images={sampleImages.slice(0, 3)}
+					columns={3}
+					aspectRatio="video"
+					gap={2}
+				/>
+			</div>
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">gap={16}</p>
+				<ImageGallery
+					images={sampleImages.slice(0, 3)}
+					columns={3}
+					aspectRatio="video"
+					gap={16}
+				/>
+			</div>
+		</div>
+	}
+	code={`{/* Tight gap */}
+<ImageGallery images={images} columns={3} gap={2} />
+
+{/* Spacious gap */}
+
+<ImageGallery images={images} columns={3} gap={16} />`}
+/>
+
+### Without Lightbox
+
+<ComponentPage
+	title="Lightbox Disabled"
+	description="Set lightbox={false} to display a static grid without click-to-open behavior."
+	preview={
+		<div className="w-full max-w-2xl">
+			<ImageGallery
+				images={sampleImages.slice(0, 3)}
+				columns={3}
+				aspectRatio="video"
+				lightbox={false}
+			/>
+		</div>
+	}
+	code={`<ImageGallery
+  images={images}
+  columns={3}
+  lightbox={false}
+/>`}
+/>
+
+### With Captions
+
+<ComponentPage
+	title="Images with Captions"
+	description="Add a caption property to each image — captions appear in the lightbox viewer below the active image."
+	preview={
+		<div className="w-full max-w-2xl">
+			<ImageGallery
+				images={[
+					{
+						src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&h=400&fit=crop",
+						alt: "Mountain landscape with lake",
+						caption: "Mountain Lake — Dolomites, Italy",
+					},
+					{
+						src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop",
+						alt: "Sunlit valley with mountains",
+						caption: "Golden Valley — Swiss Alps",
+					},
+					{
+						src: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&h=400&fit=crop",
+						alt: "Forest path with tall trees",
+						caption: "Ancient Forest — Pacific Northwest",
+					},
+				]}
+				columns={3}
+				aspectRatio="video"
+			/>
+		</div>
+	}
+	code={`<ImageGallery
+  images={[
+    { src: "/photo-1.jpg", alt: "Mountain lake", caption: "Mountain Lake — Dolomites, Italy" },
+    { src: "/photo-2.jpg", alt: "Sunlit valley", caption: "Golden Valley — Swiss Alps" },
+    { src: "/photo-3.jpg", alt: "Forest path", caption: "Ancient Forest — Pacific Northwest" },
+  ]}
+  columns={3}
+/>`}
+/>
+
+### Single Image
+
+<ComponentPage
+	title="Single Image"
+	description="Works with a single image too — the lightbox opens directly without navigation controls."
+	preview={
+		<div className="w-full max-w-xs">
+			<ImageGallery
+				images={[sampleImages[0]]}
+				columns={1}
+				aspectRatio="video"
+			/>
+		</div>
+	}
+	code={`<ImageGallery
+  images={[{ src: "/hero.jpg", alt: "Hero image", caption: "Featured" }]}
+  columns={1}
+/>`}
+/>
+
+---
+
+## Props
+
+| Prop              | Type                            | Default    | Description                              |
+| ----------------- | ------------------------------- | ---------- | ---------------------------------------- |
+| `images`          | `GalleryImage[]`                | —          | Array of images to display.              |
+| `columns`         | `1 \| 2 \| 3 \| 4`              | `3`        | Number of grid columns.                  |
+| `gap`             | `number`                        | `8`        | Gap between grid items in pixels.        |
+| `aspectRatio`     | `"square" \| "video" \| "auto"` | `"square"` | Aspect ratio for thumbnails.             |
+| `lightbox`        | `boolean`                       | `true`     | Whether to enable the lightbox on click. |
+| `className`       | `string`                        | —          | Additional CSS classes on the grid.      |
+| `renderThumbnail` | `(image, index) => ReactNode`   | —          | Custom thumbnail renderer.               |
+
+### GalleryImage
+
+| Property    | Type     | Description                                 |
+| ----------- | -------- | ------------------------------------------- |
+| `src`       | `string` | Image source URL.                           |
+| `alt`       | `string` | Alt text for accessibility.                 |
+| `thumbnail` | `string` | Optional thumbnail URL (falls back to src). |
+| `caption`   | `string` | Optional caption shown in lightbox.         |
+
+---
+
+## Keyboard Navigation
+
+| Key         | Action                |
+| ----------- | --------------------- |
+| `←` / `→`   | Previous / Next image |
+| `Escape`    | Close lightbox        |
+| Click image | Toggle zoom           |
+
+---
+
+## Accessibility
+
+- Grid uses `role="group"` with `aria-label`.
+- Lightbox uses `role="dialog"` with `aria-modal`.
+- All images require `alt` text for screen readers.
+- Full keyboard navigation support in lightbox.
+- Thumbnail strip buttons use `aria-current` for the active image.
+- Respects `prefers-reduced-motion` — animations are disabled when the user prefers reduced motion.
+
+<Callout type="info">
+	Always provide descriptive `alt` text for each image. Captions are optional
+	but recommended for galleries with meaningful content.
+</Callout>
+
+---
+
+## Design Tokens
+
+| Token             | Usage                      |
+| ----------------- | -------------------------- |
+| `--border`        | Thumbnail border           |
+| `--muted`         | Thumbnail background       |
+| `--radius-lg`     | Thumbnail border radius    |
+| `--shadow-md`     | Hover shadow on thumbnails |
+| `--duration-fast` | Transition speed           |
+
+</ComponentPage>

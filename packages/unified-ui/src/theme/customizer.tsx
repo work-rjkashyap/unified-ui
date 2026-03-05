@@ -16,6 +16,7 @@ import {
   type FontPreset,
   RADIUS_PRESETS,
   SHADOW_PRESETS,
+  STYLE_PRESETS,
   SURFACE_STYLE_PRESETS,
 } from "./presets";
 
@@ -217,6 +218,68 @@ function PillToggle({
   );
 }
 
+function StyleOption({
+  preset,
+  isActive,
+  onClick,
+}: {
+  preset: (typeof STYLE_PRESETS)[number];
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex items-start gap-3 rounded-md border px-3 py-3 text-left transition-all duration-fast ease-standard",
+        "hover:border-border-strong hover:bg-muted/50",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        isActive
+          ? "border-primary bg-muted/60 shadow-sm"
+          : "border-border bg-transparent",
+      )}
+      title={preset.description}
+    >
+      <svg
+        className={cn(
+          "size-5 shrink-0 mt-0.5",
+          isActive ? "text-primary" : "text-muted-foreground",
+        )}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d={preset.iconPath} />
+      </svg>
+      <div className="min-w-0 flex-1">
+        <div
+          className={cn(
+            "text-sm font-semibold leading-tight",
+            isActive ? "text-foreground" : "text-foreground",
+          )}
+        >
+          {preset.name}
+        </div>
+        <div
+          className={cn(
+            "mt-0.5 text-xs leading-snug",
+            isActive ? "text-muted-foreground" : "text-muted-foreground/70",
+          )}
+        >
+          {preset.description}
+        </div>
+      </div>
+      {isActive && <CheckIcon className="shrink-0 mt-0.5 text-primary" />}
+    </button>
+  );
+}
+
 function CopyButton({
   getText,
   className,
@@ -296,6 +359,7 @@ export function ThemeCustomizer({
 }: ThemeCustomizerProps) {
   const {
     config,
+    setStyle,
     setColorPreset,
     setRadius,
     setFont,
@@ -312,6 +376,19 @@ export function ThemeCustomizer({
       data-ds=""
       data-ds-component="theme-customizer"
     >
+      <Section title="Style">
+        <div className="grid grid-cols-1 gap-2">
+          {STYLE_PRESETS.map((preset) => (
+            <StyleOption
+              key={preset.key}
+              preset={preset}
+              isActive={config.style === preset.key}
+              onClick={() => setStyle(preset.key)}
+            />
+          ))}
+        </div>
+      </Section>
+
       <Section title="Color">
         <div className="grid grid-cols-2 gap-2">
           {COLOR_PRESETS.map((preset) => (

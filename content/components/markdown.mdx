@@ -1,0 +1,523 @@
+---
+title: Markdown
+description: Renders markdown strings into styled HTML with design system prose styling, supporting headings, lists, code blocks, and more.
+icon: FileText
+---
+
+import { Markdown, Badge } from "@work-rjkashyap/unified-ui";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+	title="Markdown"
+	description="Renders markdown strings into styled HTML with design system prose styling. Supports headings, bold, italic, inline code, code blocks, links, lists, blockquotes, horizontal rules, and images — all without external markdown libraries."
+	preview={
+		<div className="w-full max-w-lg">
+			<Markdown
+				content={[
+					"# Hello World",
+					"",
+					"Some **bold** and _italic_ text with `inline code`.",
+					"",
+					"- First item",
+					"- Second item",
+					"- Third item",
+					"",
+					"> A blockquote for emphasis.",
+					"",
+					"```tsx",
+					'const greeting = "Hello!";',
+					"console.log(greeting);",
+					"```",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		'<Markdown content={`',
+		"# Hello World",
+		"",
+		"Some **bold** and _italic_ text with \\`inline code\\`.",
+		"",
+		"- First item",
+		"- Second item",
+		"- Third item",
+		"",
+		"> A blockquote for emphasis.",
+		"",
+		"\\`\\`\\`tsx",
+		'const greeting = "Hello!";',
+		"console.log(greeting);",
+		"\\`\\`\\`",
+		"`} />",
+	].join("\n")}
+>
+
+<Callout type="info">
+	For full MDX rendering with custom components, use Fumadocs or a dedicated
+	MDX processor. This component is designed for simple markdown-to-HTML
+	display use cases like rendering user-authored content, API descriptions, or
+	chat messages.
+</Callout>
+
+## Import
+
+```tsx
+import { Markdown } from "@work-rjkashyap/unified-ui";
+// or
+import { Markdown } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Headings
+
+<ComponentPage
+	title="Headings"
+	description="Supports all six heading levels with appropriate sizing and spacing from design tokens."
+	preview={
+		<div className="w-full max-w-lg">
+			<Markdown
+				content={[
+					"# Heading 1",
+					"## Heading 2",
+					"### Heading 3",
+					"#### Heading 4",
+					"##### Heading 5",
+					"###### Heading 6",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		"<Markdown content={`",
+		"# Heading 1",
+		"## Heading 2",
+		"### Heading 3",
+		"#### Heading 4",
+		"##### Heading 5",
+		"###### Heading 6",
+		"`} />",
+	].join("\n")}
+/>
+
+### Inline Formatting
+
+<ComponentPage
+	title="Inline Formatting"
+	description="Bold, italic, strikethrough, inline code, and links are all supported inline."
+	preview={
+		<div className="w-full max-w-lg">
+			<Markdown
+				content={[
+					"This is **bold text** and this is *italic text*.",
+					"",
+					"You can also use **underscores for bold** and _underscores for italic_.",
+					"",
+					"Here's some ~~strikethrough text~~ for deletions.",
+					"",
+					"Use `inline code` for technical terms.",
+					"",
+					"Visit [Unified UI](https://example.com) for more info.",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		"<Markdown content={`",
+		"This is **bold text** and this is _italic text_.",
+		"",
+		"You can also use **underscores for bold** and _underscores for italic_.",
+		"",
+		"Here's some ~~strikethrough text~~ for deletions.",
+		"",
+		"Use \\`inline code\\` for technical terms.",
+		"",
+		"Visit [Unified UI](https://example.com) for more info.",
+		"`} />",
+	].join("\n")}
+/>
+
+### Lists
+
+<ComponentPage
+	title="Lists"
+	description="Both unordered (bullet) and ordered (numbered) lists with proper indentation and spacing."
+	preview={
+		<div className="w-full max-w-lg">
+			<Markdown
+				content={[
+					"### Unordered List",
+					"- First item with **bold**",
+					"- Second item with `code`",
+					"- Third item with a [link](https://example.com)",
+					"",
+					"### Ordered List",
+					"",
+					"1. Install the package",
+					"2. Import the component",
+					"3. Pass your markdown string",
+					"4. Enjoy styled output",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		"<Markdown content={`",
+		"### Unordered List",
+		"- First item with **bold**",
+		"- Second item with \\`code\\`",
+		"- Third item with a [link](https://example.com)",
+		"",
+		"### Ordered List",
+		"",
+		"1. Install the package",
+		"2. Import the component",
+		"3. Pass your markdown string",
+		"4. Enjoy styled output",
+		"`} />",
+	].join("\n")}
+/>
+
+### Blockquotes
+
+<ComponentPage
+	title="Blockquotes"
+	description="Styled blockquotes with a left border accent, ideal for callouts and citations."
+	preview={
+		<div className="w-full max-w-lg">
+			<Markdown
+				content={[
+					"> Design is not just what it looks like and feels like. Design is how it works.",
+					"",
+					"> Code is read much more often than it is written. Write for **readability** first.",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		"<Markdown content={`",
+		"> Design is not just what it looks like and feels like. Design is how it works.",
+		"",
+		"> Code is read much more often than it is written. Write for **readability** first.",
+		"`} />",
+	].join("\n")}
+/>
+
+### Code Blocks
+
+<ComponentPage
+	title="Code Blocks"
+	description="Fenced code blocks with monospace font, rounded container, and muted background."
+	preview={
+		<div className="w-full max-w-lg">
+			<Markdown
+				content={[
+					"Here's a TypeScript example:",
+					"",
+					"```tsx",
+					"interface User {",
+					"  id: string;",
+					"  name: string;",
+					"  email: string;",
+					"}",
+					"",
+					"function getUser(id: string): Promise<User> {",
+					"  return fetch(`/api/users/${id}`).then(r => r.json());",
+					"}",
+					"```",
+					"",
+					"And some inline `const x = 42;` code too.",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		"<Markdown content={`",
+		"Here's a TypeScript example:",
+		"",
+		"\\`\\`\\`tsx",
+		"interface User {",
+		"  id: string;",
+		"  name: string;",
+		"  email: string;",
+		"}",
+		"",
+		"function getUser(id: string): Promise<User> {",
+		"  return fetch(\\`/api/users/\\${id}\\`).then(r => r.json());",
+		"}",
+		"\\`\\`\\`",
+		"",
+		"And some inline \\`const x = 42;\\` code too.",
+		"`} />",
+	].join("\n")}
+/>
+
+### Horizontal Rules
+
+<ComponentPage
+	title="Horizontal Rules"
+	description="Use three or more dashes, asterisks, or underscores to create a horizontal divider."
+	preview={
+		<div className="w-full max-w-lg">
+			<Markdown
+				content={[
+					"## Section One",
+					"",
+					"Some content in the first section.",
+					"",
+					"---",
+					"",
+					"## Section Two",
+					"",
+					"Some content in the second section.",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		"<Markdown content={`",
+		"## Section One",
+		"",
+		"Some content in the first section.",
+		"",
+		"---",
+		"",
+		"## Section Two",
+		"",
+		"Some content in the second section.",
+		"`} />",
+	].join("\n")}
+/>
+
+### Size Variants
+
+<ComponentPage
+	title="Size Variants"
+	description="Three text size variants — sm, base (default), and lg — for different content density needs."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-lg">
+			<div>
+				<Badge variant="secondary" className="mb-2">
+					sm
+				</Badge>
+				<Markdown
+					size="sm"
+					content="**Small size** — Compact text for sidebars, tooltips, or dense layouts. Supports `inline code` and *emphasis*."
+				/>
+			</div>
+			<div>
+				<Badge variant="secondary" className="mb-2">
+					base (default)
+				</Badge>
+				<Markdown
+					size="base"
+					content="**Base size** — Default text size for general content. Supports `inline code` and *emphasis*."
+				/>
+			</div>
+			<div>
+				<Badge variant="secondary" className="mb-2">
+					lg
+				</Badge>
+				<Markdown
+					size="lg"
+					content="**Large size** — Bigger text for hero sections or feature descriptions. Supports `inline code` and *emphasis*."
+				/>
+			</div>
+		</div>
+	}
+	code={`<Markdown size="sm" content="**Small** text for compact layouts." />
+<Markdown size="base" content="**Base** text for general content." />
+<Markdown size="lg" content="**Large** text for hero sections." />`}
+/>
+
+### Fluid Width
+
+<ComponentPage
+	title="Fluid Width"
+	description="By default, Markdown is constrained to max-w-prose (~65ch). Set fluid to remove this constraint and fill the container."
+	preview={
+		<div className="flex flex-col gap-6 w-full">
+			<div className="border border-border rounded-md p-4">
+				<Badge variant="secondary" className="mb-2">
+					Default (max-w-prose)
+				</Badge>
+				<Markdown content="This paragraph is constrained to a comfortable reading width of approximately 65 characters per line, which is optimal for readability in long-form content." />
+			</div>
+			<div className="border border-border rounded-md p-4">
+				<Badge variant="secondary" className="mb-2">
+					Fluid (full width)
+				</Badge>
+				<Markdown
+					fluid
+					content="This paragraph stretches to fill the entire width of its container, which is useful for dashboard panels, chat messages, or any layout where the parent already controls width."
+				/>
+			</div>
+		</div>
+	}
+	code={[
+		"{/* Constrained to ~65ch (default) */}",
+		'<Markdown content="Long paragraph..." />',
+		"",
+		"{/* Full width */}",
+		'<Markdown fluid content="Long paragraph..." />',
+	].join("\n")}
+/>
+
+### Rich Document
+
+<ComponentPage
+	title="Rich Document"
+	description="A complete document showcasing all supported markdown features combined."
+	preview={
+		<div className="w-full max-w-lg border border-border rounded-lg p-4">
+			<Markdown
+				content={[
+					"# Project Setup Guide",
+					"",
+					"Welcome to the **Unified UI** setup guide. Follow these steps to get started.",
+					"",
+					"## Prerequisites",
+					"",
+					"Before you begin, make sure you have:",
+					"",
+					"- **Node.js** 18+ installed",
+					"- `npm` or `pnpm` package manager",
+					"- A [Next.js](https://nextjs.org) project",
+					"",
+					"## Installation",
+					"",
+					"1. Install the package",
+					"2. Import the stylesheet",
+					"3. Wrap your app with the theme provider",
+					"",
+					"```bash",
+					"npm install @work-rjkashyap/unified-ui",
+					"```",
+					"",
+					"> **Note**: The package includes TypeScript declarations out of the box.",
+					"",
+					"---",
+					"",
+					"## Quick Start",
+					"",
+					"Import and use any component:",
+					"",
+					"```tsx",
+					'import { Button } from "@work-rjkashyap/unified-ui";',
+					"",
+					"export default function App() {",
+					'  return <Button variant="primary">Get Started</Button>;',
+					"}",
+					"```",
+					"",
+					"That's it! You're ready to build with ~~plain HTML~~ **Unified UI**.",
+				].join("\n")}
+			/>
+		</div>
+	}
+	code={[
+		"<Markdown content={`",
+		"# Project Setup Guide",
+		"",
+		"Welcome to the **Unified UI** setup guide. Follow these steps to get started.",
+		"",
+		"## Prerequisites",
+		"",
+		"Before you begin, make sure you have:",
+		"",
+		"- **Node.js** 18+ installed",
+		"- \\`npm\\` or \\`pnpm\\` package manager",
+		"- A [Next.js](https://nextjs.org) project",
+		"",
+		"## Installation",
+		"",
+		"1. Install the package",
+		"2. Import the stylesheet",
+		"3. Wrap your app with the theme provider",
+		"",
+		"\\`\\`\\`bash",
+		"npm install @work-rjkashyap/unified-ui",
+		"\\`\\`\\`",
+		"",
+		"> **Note**: The package includes TypeScript declarations out of the box.",
+		"",
+		"---",
+		"",
+		"That's it! You're ready to build with ~~plain HTML~~ **Unified UI**.",
+		"`} />",
+	].join("\n")}
+/>
+
+---
+
+## Props
+
+| Prop        | Type                     | Default  | Description                                 |
+| ----------- | ------------------------ | -------- | ------------------------------------------- |
+| `content`   | `string`                 | —        | Markdown string to render.                  |
+| `size`      | `"sm" \| "base" \| "lg"` | `"base"` | Text size variant.                          |
+| `fluid`     | `boolean`                | `false`  | Whether to remove the max-width constraint. |
+| `allowHtml` | `boolean`                | `false`  | Whether to allow raw HTML in the markdown.  |
+| `className` | `string`                 | —        | Additional CSS classes.                     |
+
+---
+
+## Supported Syntax
+
+| Feature         | Syntax                  | Example                       |
+| --------------- | ----------------------- | ----------------------------- |
+| Heading 1–6     | `# … ######`            | `# Title`                     |
+| Bold            | `**text**` / `__text__` | `**bold**`                    |
+| Italic          | `*text*` / `_text_`     | `*italic*`                    |
+| Strikethrough   | `~~text~~`              | `~~deleted~~`                 |
+| Inline code     | `` `code` ``            | `` `variable` ``              |
+| Code block      | ` ``` `                 | Fenced with optional language |
+| Link            | `[text](url)`           | `[Docs](https://example.com)` |
+| Image           | `![alt](src)`           | `![Logo](/logo.png)`          |
+| Unordered list  | `- item`                | `- First`                     |
+| Ordered list    | `1. item`               | `1. Step one`                 |
+| Blockquote      | `> text`                | `> A wise quote`              |
+| Horizontal rule | `---` / `***` / `___`   | `---`                         |
+
+---
+
+## Security
+
+By default, all HTML tags in the markdown input are escaped to prevent XSS attacks. Only set `allowHtml={true}` if you fully trust the source of the markdown content.
+
+```tsx
+// Safe — HTML is escaped (default)
+<Markdown content='Hello <script>alert("xss")</script>' />
+// Renders: Hello &lt;script&gt;alert("xss")&lt;/script&gt;
+
+// Unsafe — only use with trusted content
+<Markdown content="Hello <em>world</em>" allowHtml />
+// Renders: Hello <em>world</em>
+```
+
+---
+
+## Accessibility
+
+- Output uses semantic HTML elements (`h1`–`h6`, `ul`, `ol`, `blockquote`, `pre`, `code`, `a`, etc.).
+- Links include `target="_blank"` with `rel="noopener noreferrer"` for security.
+- Images include the provided `alt` text and `loading="lazy"`.
+- Code blocks use `<pre>` and `<code>` for proper screen reader semantics.
+
+---
+
+## Design Tokens
+
+| Token                | Usage                                 |
+| -------------------- | ------------------------------------- |
+| `--foreground`       | Body text color                       |
+| `--muted-foreground` | Heading 6, blockquote text            |
+| `--muted`            | Inline code and code block background |
+| `--primary`          | Link text color                       |
+| `--primary-hover`    | Link hover color                      |
+| `--border`           | Blockquote border, horizontal rules   |
+| `--radius-lg`        | Code block border radius              |
+
+</ComponentPage>

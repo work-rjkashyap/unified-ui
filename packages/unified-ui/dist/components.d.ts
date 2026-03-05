@@ -6,6 +6,9 @@ import * as class_variance_authority_types from 'class-variance-authority/types'
 import { VariantProps } from 'class-variance-authority';
 import { ColumnDef, SortingState, OnChangeFn, ColumnFiltersState, PaginationState, RowSelectionState, Row, VisibilityState, ColumnPinningState, Table as Table$1 } from '@tanstack/react-table';
 export { ColumnDef, ColumnFiltersState, PaginationState, Row, RowSelectionState, SortingState, VisibilityState, createColumnHelper } from '@tanstack/react-table';
+import { Drawer as Drawer$1 } from 'vaul';
+import { SeparatorProps, Panel, GroupProps, PanelProps } from 'react-resizable-panels';
+export { ExternalToast as SonnerToastOptions, toast } from 'sonner';
 
 declare const accordionRootVariants: (props?: ({
     variant?: "bordered" | "borderless" | null | undefined;
@@ -155,9 +158,9 @@ declare const AccordionTrigger: react.ForwardRefExoticComponent<AccordionTrigger
 declare const AccordionContent: react.ForwardRefExoticComponent<AccordionContentProps & react.RefAttributes<HTMLDivElement>>;
 
 declare const alertVariants: (props?: ({
-    variant?: "info" | "success" | "warning" | "danger" | null | undefined;
+    variant?: "info" | "success" | "warning" | "danger" | "default" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
-type AlertVariant = "info" | "success" | "warning" | "danger";
+type AlertVariant = "info" | "success" | "warning" | "danger" | "default";
 interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">, VariantProps<typeof alertVariants> {
     /**
      * Semantic variant of the alert.
@@ -174,20 +177,18 @@ interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">
     /**
      * Custom icon to display instead of the default variant icon.
      * Pass `null` to hide the icon entirely.
-     * The icon is sized to match the alert's text and colored to match the variant.
      */
     icon?: ReactNode | null;
     /**
      * Whether the alert can be dismissed/closed.
      * When true, a close button (×) is rendered in the top-right corner.
+     * Cannot be combined with `collapsible`.
      * @default false
      */
     dismissible?: boolean;
     /**
      * Callback fired when the dismiss (close) button is clicked.
      * Only relevant when `dismissible` is true.
-     * If not provided when `dismissible` is true, the alert manages its
-     * own visibility internally.
      */
     onDismiss?: () => void;
     /**
@@ -196,13 +197,26 @@ interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">
      */
     dismissLabel?: string;
     /**
+     * Whether the alert body can be toggled open/closed.
+     * When true, the title row becomes clickable and a chevron is shown.
+     * Cannot be combined with `dismissible`.
+     * @default false
+     */
+    collapsible?: boolean;
+    /**
+     * Initial open state when `collapsible` is true.
+     * @default true
+     */
+    defaultOpen?: boolean;
+    /**
+     * Whether to animate the alert entrance with a fade-in animation.
+     * Uses the `fadeIn` Framer Motion preset.
+     * @default false
+     */
+    animated?: boolean;
+    /**
      * The ARIA role for the alert element.
-     * - `"alert"` — for important messages that require immediate attention
-     *   (assertive live region). Use for errors and critical warnings.
-     * - `"status"` — for informational messages that don't require immediate
-     *   attention (polite live region). Use for success/info messages.
-     *
-     * @default "alert" for danger/warning, "status" for info/success
+     * @default "alert" for danger/warning, "status" for info/success/default
      */
     role?: "alert" | "status";
     /** Description content. Rendered as the alert body text. */
@@ -213,22 +227,24 @@ interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">
 /**
  * Alert — a static notification component for contextual feedback.
  *
+ * This is the unified Alert component that merges the former Alert and
+ * Callout components into a single API. All features from both are available:
+ * - Dismissible, collapsible, animated entrance, 5 variants (including
+ *   the neutral "default" variant formerly exclusive to Callout).
+ *
  * Built on the design system's token layer with CVA for variant composition.
  * All colors, radii, spacing, and transitions come from CSS custom properties
  * defined in design-system.css.
  *
- * Alerts are non-interactive by default. They communicate important
- * information to the user within the normal page flow (unlike Toast, which
- * appears as an overlay). Use alerts for inline validation feedback, system
- * status messages, and contextual tips.
- *
  * Accessibility:
  *   - Danger/warning alerts use `role="alert"` (assertive live region)
- *   - Info/success alerts use `role="status"` (polite live region)
+ *   - Info/success/default alerts use `role="status"` (polite live region)
  *   - Icon is decorative (`aria-hidden`) — variant meaning conveyed by text
  *   - Dismiss button has configurable `aria-label`
+ *   - Collapsible header uses `aria-expanded` for screen readers
  *   - Color is never the sole indicator of meaning — icons + text provide
  *     redundant signaling
+ *   - Animated entrance respects `prefers-reduced-motion`
  *
  * @example
  * ```tsx
@@ -239,12 +255,12 @@ interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">
  *
  * // Success alert
  * <Alert variant="success" title="Payment received">
- *   Your order #12345 has been confirmed and is being processed.
+ *   Your order #12345 has been confirmed.
  * </Alert>
  *
  * // Warning alert
  * <Alert variant="warning">
- *   Your session will expire in 5 minutes. Save your work.
+ *   Your session will expire in 5 minutes.
  * </Alert>
  *
  * // Danger alert (dismissible)
@@ -254,31 +270,103 @@ interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">
  *   dismissible
  *   onDismiss={() => setShowError(false)}
  * >
- *   Unable to reach the server. Check your network connection and try again.
+ *   Unable to reach the server.
  * </Alert>
  *
- * // Without title (single-line)
- * <Alert variant="info">
- *   This feature is currently in beta.
+ * // Neutral default variant
+ * <Alert variant="default" title="Note">
+ *   This is a generic note without semantic meaning.
+ * </Alert>
+ *
+ * // Collapsible (formerly Callout feature)
+ * <Alert
+ *   variant="info"
+ *   title="How does billing work?"
+ *   collapsible
+ *   defaultOpen={false}
+ * >
+ *   You are billed at the start of each month...
+ * </Alert>
+ *
+ * // Animated entrance
+ * <Alert variant="success" title="Deployed" animated>
+ *   Version 2.4.1 is live on production.
  * </Alert>
  *
  * // Custom icon
  * <Alert variant="success" icon={<RocketIcon className="size-4" />}>
- *   Your app has been deployed successfully!
+ *   Your app has been deployed!
  * </Alert>
  *
  * // No icon
  * <Alert variant="warning" icon={null}>
- *   Maintenance scheduled for tomorrow at 3:00 AM UTC.
- * </Alert>
- *
- * // Self-managed dismissible (no onDismiss callback)
- * <Alert variant="info" dismissible>
- *   This alert will hide itself when dismissed.
+ *   Maintenance scheduled for tomorrow.
  * </Alert>
  * ```
  */
 declare const Alert: react.ForwardRefExoticComponent<AlertProps & react.RefAttributes<HTMLDivElement>>;
+type CalloutVariant = AlertVariant;
+interface CalloutProps extends Omit<AlertProps, "dismissible" | "onDismiss" | "dismissLabel" | "role"> {
+    /**
+     * Semantic color variant.
+     * @default "info"
+     */
+    variant?: CalloutVariant;
+    /**
+     * Optional heading rendered in bold above the body.
+     */
+    title?: ReactNode;
+    /**
+     * Custom icon. Pass `null` to hide the default icon.
+     */
+    icon?: ReactNode | null;
+    /**
+     * Whether the body can be toggled open/closed.
+     * @default false
+     */
+    collapsible?: boolean;
+    /**
+     * Initial open state when `collapsible` is true.
+     * @default true
+     */
+    defaultOpen?: boolean;
+    /**
+     * Whether to animate the callout entrance.
+     * Callouts default to `true` to preserve original Callout behavior.
+     * @default true
+     */
+    animated?: boolean;
+    /** Additional CSS classes on the root element. */
+    className?: string;
+    /** The body content of the callout. */
+    children?: ReactNode;
+}
+/**
+ * Callout — backward-compatible alias for Alert.
+ *
+ * Renders an animated Alert by default (`animated={true}`) with
+ * `rounded-lg` styling to preserve the original Callout appearance.
+ *
+ * @deprecated Use `Alert` directly with `animated` and `collapsible`
+ *   props if needed. The `Callout` alias will be removed in a future
+ *   major version.
+ *
+ * @example
+ * ```tsx
+ * <Callout variant="info" title="Did you know?">
+ *   Unified UI components are fully tree-shakeable.
+ * </Callout>
+ *
+ * // Equivalent Alert usage:
+ * <Alert variant="info" title="Did you know?" animated className="rounded-lg">
+ *   Unified UI components are fully tree-shakeable.
+ * </Alert>
+ * ```
+ */
+declare const Callout: react.ForwardRefExoticComponent<CalloutProps & react.RefAttributes<HTMLDivElement>>;
+declare const calloutVariants: (props?: ({
+    variant?: "info" | "success" | "warning" | "danger" | "default" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
 
 declare const AlertDialog: react.FC<AlertDialog$1.AlertDialogProps>;
 declare const AlertDialogTrigger: react.ForwardRefExoticComponent<AlertDialog$1.AlertDialogTriggerProps & react.RefAttributes<HTMLButtonElement>>;
@@ -527,11 +615,11 @@ interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 declare const AvatarGroup: react.ForwardRefExoticComponent<AvatarGroupProps & react.RefAttributes<HTMLDivElement>>;
 
 declare const badgeVariants: (props?: ({
-    variant?: "info" | "success" | "warning" | "danger" | "outline" | "default" | "primary" | null | undefined;
-    size?: "sm" | "md" | null | undefined;
+    variant?: "outline" | "info" | "success" | "warning" | "danger" | "default" | "primary" | "secondary" | null | undefined;
+    size?: "sm" | "md" | "lg" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
-type BadgeVariant = "default" | "primary" | "success" | "warning" | "danger" | "info" | "outline";
-type BadgeSize = "sm" | "md";
+type BadgeVariant = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | "info" | "outline";
+type BadgeSize = "sm" | "md" | "lg";
 interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color">, VariantProps<typeof badgeVariants> {
     /**
      * Visual variant of the badge.
@@ -553,20 +641,40 @@ interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"
     /**
      * Whether the badge can be dismissed/removed.
      * When true, a small "×" button is rendered after the text.
+     * Alias for `dismissible` — both work identically.
      * @default false
      */
     removable?: boolean;
     /**
-     * Callback fired when the remove (×) button is clicked.
-     * Only relevant when `removable` is true.
+     * Whether the badge can be dismissed/removed.
+     * When true, a small "×" button is rendered after the text.
+     * Alias for `removable` — both work identically.
+     * @default false
+     */
+    dismissible?: boolean;
+    /**
+     * Callback fired when the remove/dismiss (×) button is clicked.
+     * Only relevant when `removable` or `dismissible` is true.
      */
     onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     /**
-     * Accessible label for the remove button.
+     * Callback fired when the remove/dismiss (×) button is clicked.
+     * Alias for `onRemove` — both work identically.
+     * Only relevant when `removable` or `dismissible` is true.
+     */
+    onDismiss?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+    /**
+     * Accessible label for the remove/dismiss button.
      * Screen readers will announce this when the remove button is focused.
      * @default "Remove"
      */
     removeLabel?: string;
+    /**
+     * Accessible label for the remove/dismiss button.
+     * Alias for `removeLabel` — both work identically.
+     * @default "Remove"
+     */
+    dismissLabel?: string;
     /**
      * The HTML element or component to render as.
      * @default "span"
@@ -577,6 +685,23 @@ interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"
      * Typically a small Lucide icon.
      */
     icon?: ReactNode;
+    /**
+     * Avatar element to display before the label.
+     * Common for user-mention chips and team tags.
+     */
+    avatar?: ReactNode;
+    /**
+     * Whether the badge is disabled.
+     * Reduces opacity and disables pointer events.
+     * @default false
+     */
+    disabled?: boolean;
+    /**
+     * Whether to animate the badge entrance with a subtle pop animation.
+     * Uses the `popSubtle` Framer Motion preset.
+     * @default false
+     */
+    animated?: boolean;
     /** Content to render inside the badge. */
     children?: ReactNode;
     /** Additional CSS classes to merge. */
@@ -584,6 +709,11 @@ interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"
 }
 /**
  * Badge — a compact inline label for categorization, status, and metadata.
+ *
+ * This is the unified Badge component that merges the former Badge and Tag
+ * components into a single API. All features from both are available:
+ * - Dot indicators, icons, avatars, removable/dismissible, polymorphic `as`,
+ *   disabled state, and optional Framer Motion animation.
  *
  * Built on the design system's token layer with CVA for variant composition.
  * All colors, radii, spacing, and transitions come from CSS custom properties
@@ -596,14 +726,16 @@ interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"
  * Accessibility:
  *   - Color is never the sole means of conveying information — use text labels
  *   - Dot indicators are decorative (`aria-hidden`)
- *   - Remove button has a configurable `aria-label` (defaults to "Remove")
+ *   - Remove/dismiss button has a configurable `aria-label` (defaults to "Remove")
  *   - Semantic colors meet WCAG AA contrast on their muted backgrounds
+ *   - Disabled state applies `pointer-events-none` and reduced opacity
  *
  * @example
  * ```tsx
  * // Basic variants
  * <Badge>Default</Badge>
  * <Badge variant="primary">Primary</Badge>
+ * <Badge variant="secondary">Secondary</Badge>
  * <Badge variant="success">Active</Badge>
  * <Badge variant="warning">Pending</Badge>
  * <Badge variant="danger">Critical</Badge>
@@ -613,6 +745,7 @@ interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"
  * // Sizes
  * <Badge size="sm">Small</Badge>
  * <Badge size="md">Medium</Badge>
+ * <Badge size="lg">Large</Badge>
  *
  * // Dot indicator (status badges)
  * <Badge variant="success" dot>Online</Badge>
@@ -624,20 +757,26 @@ interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"
  *   Featured
  * </Badge>
  *
- * // Removable
+ * // With avatar (user mention chips)
+ * <Badge variant="secondary" avatar={<Avatar name="RK" size="xs" className="size-4" />}>
+ *   @rjkashyap
+ * </Badge>
+ *
+ * // Removable (Badge-style API)
  * <Badge variant="primary" removable onRemove={handleRemove}>
  *   Tag Name
  * </Badge>
  *
- * // Custom remove label for accessibility
- * <Badge
- *   variant="danger"
- *   removable
- *   onRemove={handleRemove}
- *   removeLabel="Remove critical alert"
- * >
- *   Alert
+ * // Dismissible (Tag-style API — both work identically)
+ * <Badge variant="primary" dismissible onDismiss={handleDismiss}>
+ *   React
  * </Badge>
+ *
+ * // Animated entrance
+ * <Badge variant="success" animated>Live</Badge>
+ *
+ * // Disabled
+ * <Badge variant="primary" disabled>Disabled</Badge>
  *
  * // As a link
  * <Badge as="a" href="/category/react" variant="primary">
@@ -651,6 +790,82 @@ interface BadgeProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"
  * ```
  */
 declare const Badge: react.ForwardRefExoticComponent<BadgeProps & react.RefAttributes<HTMLSpanElement>>;
+type TagVariant = BadgeVariant;
+type TagSize = BadgeSize;
+interface TagProps extends Omit<BadgeProps, "as" | "dot" | "removable" | "onRemove" | "removeLabel"> {
+    /**
+     * Visual variant of the tag.
+     * @default "default"
+     */
+    variant?: TagVariant;
+    /**
+     * Size of the tag.
+     * @default "md"
+     */
+    size?: TagSize;
+    /**
+     * Leading avatar or icon slot.
+     */
+    avatar?: ReactNode;
+    /**
+     * Trailing icon (shown before close button).
+     */
+    icon?: ReactNode;
+    /**
+     * Whether the tag can be dismissed.
+     */
+    dismissible?: boolean;
+    /**
+     * Called when the dismiss button is clicked.
+     */
+    onDismiss?: () => void;
+    /**
+     * Accessible label for the dismiss button.
+     * @default "Remove tag"
+     */
+    dismissLabel?: string;
+    /**
+     * Whether the tag is disabled.
+     */
+    disabled?: boolean;
+    /**
+     * Whether to animate the badge entrance.
+     * Tags default to `true` to preserve original Tag behavior.
+     * @default true
+     */
+    animated?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    children?: ReactNode;
+}
+/**
+ * Tag — backward-compatible alias for Badge.
+ *
+ * Renders an animated Badge by default (`animated={true}`).
+ * All Tag-specific props (dismissible, onDismiss, avatar, disabled)
+ * map directly to Badge props.
+ *
+ * @deprecated Use `Badge` directly with `animated` prop if entrance
+ *   animation is desired. The `Tag` alias will be removed in a future
+ *   major version.
+ *
+ * @example
+ * ```tsx
+ * <Tag variant="primary" dismissible onDismiss={handleDismiss}>
+ *   React
+ * </Tag>
+ *
+ * // Equivalent Badge usage:
+ * <Badge variant="primary" dismissible onDismiss={handleDismiss} animated>
+ *   React
+ * </Badge>
+ * ```
+ */
+declare const Tag: react.ForwardRefExoticComponent<TagProps & react.RefAttributes<HTMLSpanElement>>;
+declare const tagVariants: (props?: ({
+    variant?: "outline" | "info" | "success" | "warning" | "danger" | "default" | "primary" | "secondary" | null | undefined;
+    size?: "sm" | "md" | "lg" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
 
 declare const bannerVariants: (props?: ({
     variant?: "info" | "success" | "warning" | "danger" | "default" | "primary" | null | undefined;
@@ -1042,21 +1257,6 @@ interface CalendarProps {
  * />
  */
 declare const Calendar: react.ForwardRefExoticComponent<CalendarProps & react.RefAttributes<HTMLDivElement>>;
-
-declare const calloutVariants: (props?: ({
-    variant?: "info" | "success" | "warning" | "danger" | "default" | null | undefined;
-} & class_variance_authority_types.ClassProp) | undefined) => string;
-type CalloutVariant = "info" | "success" | "warning" | "danger" | "default";
-interface CalloutProps {
-    variant?: CalloutVariant;
-    title?: ReactNode;
-    icon?: ReactNode | null;
-    collapsible?: boolean;
-    defaultOpen?: boolean;
-    className?: string;
-    children?: ReactNode;
-}
-declare const Callout: react.ForwardRefExoticComponent<CalloutProps & react.RefAttributes<HTMLDivElement>>;
 
 type CardPadding = "compact" | "comfortable";
 declare const cardVariants: (props?: ({
@@ -1466,7 +1666,9 @@ interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement> {
  */
 declare const InlineCode: react.ForwardRefExoticComponent<InlineCodeProps & react.RefAttributes<HTMLElement>>;
 /**
- * CodeBlock — a styled code block with optional copy button, line numbers, and filename.
+ * CodeBlock — a styled code block with optional copy button, line numbers,
+ * and filename. Uses a dark editor background with built-in syntax
+ * highlighting for JS/TS/JSX/TSX, shell, and more.
  *
  * @example
  * <CodeBlock language="tsx" showCopyButton filename="Button.tsx">
@@ -2827,6 +3029,11 @@ interface DatePickerProps {
  */
 declare const DatePicker: react.ForwardRefExoticComponent<DatePickerProps & react.RefAttributes<HTMLButtonElement>>;
 
+/**
+ * CVA variants for DialogContent sizing.
+ * Animation is handled by Framer Motion (overlayBackdrop + modalContent presets),
+ * so no CSS animation classes are included here.
+ */
 declare const dialogContentVariants: (props?: ({
     size?: "sm" | "md" | "lg" | "full" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
@@ -3201,7 +3408,7 @@ declare const HoverCardTrigger: react.ForwardRefExoticComponent<HoverCard$1.Hove
 declare const HoverCardContent: react.ForwardRefExoticComponent<HoverCardContentProps & react.RefAttributes<HTMLDivElement>>;
 
 declare const inputVariants: (props?: ({
-    variant?: "success" | "error" | "default" | null | undefined;
+    variant?: "success" | "default" | "error" | null | undefined;
     size?: "sm" | "md" | "lg" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 type InputVariant = "default" | "error" | "success";
@@ -4313,26 +4520,24 @@ declare const RadioGroupItem: react.ForwardRefExoticComponent<RadioGroupItemProp
  */
 declare const RadioCard: react.ForwardRefExoticComponent<RadioCardProps & react.RefAttributes<HTMLButtonElement>>;
 
-interface ResizablePanelGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ResizablePanelGroupProps extends Omit<GroupProps, "orientation"> {
+    /** Resize direction — maps to the underlying `orientation` prop. */
     direction?: "horizontal" | "vertical";
-    defaultSizes?: number[];
-    className?: string;
-    children?: ReactNode;
 }
-interface ResizablePanelProps extends React.HTMLAttributes<HTMLDivElement> {
-    minSize?: number;
-    maxSize?: number;
-    defaultSize?: number;
-    className?: string;
-    children?: ReactNode;
+declare function ResizablePanelGroup({ direction, className, ...rest }: ResizablePanelGroupProps): react_jsx_runtime.JSX.Element;
+declare namespace ResizablePanelGroup {
+    var displayName: string;
 }
-interface ResizableHandleProps extends React.HTMLAttributes<HTMLDivElement> {
+type ResizablePanelProps = PanelProps;
+declare const ResizablePanel: typeof Panel;
+interface ResizableHandleProps extends SeparatorProps {
+    /** Show a visible grip handle in the center of the separator. */
     withHandle?: boolean;
-    className?: string;
 }
-declare const ResizablePanelGroup: react.ForwardRefExoticComponent<ResizablePanelGroupProps & react.RefAttributes<HTMLDivElement>>;
-declare const ResizablePanel: react.ForwardRefExoticComponent<ResizablePanelProps & react.RefAttributes<HTMLDivElement>>;
-declare const ResizableHandle: react.ForwardRefExoticComponent<ResizableHandleProps & react.RefAttributes<HTMLDivElement>>;
+declare function ResizableHandle({ withHandle, className, ...rest }: ResizableHandleProps): react_jsx_runtime.JSX.Element;
+declare namespace ResizableHandle {
+    var displayName: string;
+}
 
 declare const scrollbarThumbVariants: (props?: ({
     size?: "sm" | "md" | null | undefined;
@@ -4481,7 +4686,7 @@ interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "
 declare const SearchInput: react.ForwardRefExoticComponent<SearchInputProps & react.RefAttributes<HTMLInputElement>>;
 
 declare const selectTriggerVariants: (props?: ({
-    variant?: "success" | "error" | "default" | null | undefined;
+    variant?: "success" | "default" | "error" | null | undefined;
     size?: "sm" | "md" | "lg" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 type SelectVariant = "default" | "error" | "success";
@@ -4729,6 +4934,112 @@ declare const SheetDescription: react.ForwardRefExoticComponent<SheetDescription
  * ```
  */
 declare const SheetClose: react.ForwardRefExoticComponent<SheetCloseProps & react.RefAttributes<HTMLButtonElement>>;
+
+declare const drawerContentVariants: (props?: ({
+    size?: "sm" | "md" | "lg" | "full" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+type DrawerSize = "sm" | "md" | "lg" | "full";
+interface DrawerProps {
+    children: ReactNode;
+    /**
+     * Whether the drawer should scale the background content when open.
+     * Requires `[vaul-drawer-wrapper]` attribute on your app wrapper element.
+     * @default true
+     */
+    shouldScaleBackground?: boolean;
+    /** Controlled open state. */
+    open?: boolean;
+    /** Callback when open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** Whether the drawer starts open. */
+    defaultOpen?: boolean;
+    /** Whether to dismiss on outside click. @default true */
+    dismissible?: boolean;
+    /** Direction the drawer opens from. @default "bottom" */
+    direction?: "top" | "bottom" | "left" | "right";
+    /** Whether to nest inside another drawer. */
+    nested?: boolean;
+    /** Whether to block body scroll when drawer is open. @default true */
+    modal?: boolean;
+    /** Called when drawer is closed. */
+    onClose?: () => void;
+}
+interface DrawerTriggerProps extends ComponentPropsWithoutRef<typeof Drawer$1.Trigger> {
+    className?: string;
+}
+interface DrawerContentProps extends Omit<ComponentPropsWithoutRef<typeof Drawer$1.Content>, "asChild"> {
+    /** Controls the maximum height of the drawer. @default "md" */
+    size?: DrawerSize;
+    /** Whether to show the drag handle at the top. @default true */
+    showHandle?: boolean;
+    /** Extra classes for the overlay backdrop. */
+    overlayClassName?: string;
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerHandleProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+}
+interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerBodyProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerTitleProps extends ComponentPropsWithoutRef<typeof Drawer$1.Title> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerDescriptionProps extends ComponentPropsWithoutRef<typeof Drawer$1.Description> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerCloseProps extends ComponentPropsWithoutRef<typeof Drawer$1.Close> {
+    className?: string;
+}
+/**
+ * Drawer — a bottom sheet with drag-to-dismiss interaction.
+ *
+ * Wraps vaul's `Drawer.Root` with sensible defaults for the Unified UI
+ * design system. Set `shouldScaleBackground` to control whether the
+ * background content scales down when the drawer opens (requires the
+ * `[vaul-drawer-wrapper]` attribute on your app wrapper).
+ */
+declare function Drawer({ shouldScaleBackground, children, ...rest }: DrawerProps): react_jsx_runtime.JSX.Element;
+declare namespace Drawer {
+    var displayName: string;
+}
+declare const DrawerTrigger: react.ForwardRefExoticComponent<DrawerTriggerProps & react.RefAttributes<HTMLButtonElement>>;
+/**
+ * A visual drag handle rendered at the top of the drawer content.
+ * Provides a clear affordance that the drawer can be dragged to dismiss.
+ */
+declare function DrawerHandle({ className, ...rest }: DrawerHandleProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerHandle {
+    var displayName: string;
+}
+declare const DrawerContent: react.ForwardRefExoticComponent<DrawerContentProps & react.RefAttributes<HTMLDivElement>>;
+declare function DrawerHeader({ className, children, ...rest }: DrawerHeaderProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerHeader {
+    var displayName: string;
+}
+declare function DrawerBody({ className, children, ...rest }: DrawerBodyProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerBody {
+    var displayName: string;
+}
+declare function DrawerFooter({ className, children, ...rest }: DrawerFooterProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerFooter {
+    var displayName: string;
+}
+declare const DrawerTitle: react.ForwardRefExoticComponent<DrawerTitleProps & react.RefAttributes<HTMLHeadingElement>>;
+declare const DrawerDescription: react.ForwardRefExoticComponent<DrawerDescriptionProps & react.RefAttributes<HTMLParagraphElement>>;
+declare const DrawerClose: react.ForwardRefExoticComponent<DrawerCloseProps & react.RefAttributes<HTMLButtonElement>>;
 
 interface SidebarContextValue {
     collapsed: boolean;
@@ -5488,35 +5799,8 @@ declare const TabsTrigger: react.ForwardRefExoticComponent<TabsTriggerProps & re
  */
 declare const TabsContent: react.ForwardRefExoticComponent<TabsContentProps & react.RefAttributes<HTMLDivElement>>;
 
-declare const tagVariants: (props?: ({
-    variant?: "info" | "success" | "warning" | "danger" | "default" | "primary" | "secondary" | null | undefined;
-    size?: "sm" | "md" | "lg" | null | undefined;
-} & class_variance_authority_types.ClassProp) | undefined) => string;
-type TagVariant = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | "info";
-type TagSize = "sm" | "md" | "lg";
-interface TagProps extends VariantProps<typeof tagVariants> {
-    variant?: TagVariant;
-    size?: TagSize;
-    /** Leading avatar or icon slot. */
-    avatar?: ReactNode;
-    /** Trailing icon (shown before close button). */
-    icon?: ReactNode;
-    /** Whether the tag can be dismissed. */
-    dismissible?: boolean;
-    /** Called when the dismiss button is clicked. */
-    onDismiss?: () => void;
-    /** Accessible label for the dismiss button. */
-    dismissLabel?: string;
-    /** Whether the tag is disabled. */
-    disabled?: boolean;
-    /** Additional CSS classes. */
-    className?: string;
-    children?: ReactNode;
-}
-declare const Tag: react.ForwardRefExoticComponent<TagProps & react.RefAttributes<HTMLSpanElement>>;
-
 declare const textareaVariants: (props?: ({
-    variant?: "success" | "error" | "default" | null | undefined;
+    variant?: "success" | "default" | "error" | null | undefined;
     size?: "sm" | "md" | "lg" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 type TextareaVariant = "default" | "error" | "success";
@@ -6124,6 +6408,600 @@ declare const ToggleGroup: react.ForwardRefExoticComponent<ToggleGroupProps & re
  */
 declare const ToggleGroupItem: react.ForwardRefExoticComponent<ToggleGroupItemProps & react.RefAttributes<HTMLButtonElement>>;
 
+type ThemeToggleMode = "light-dark" | "light-dark-system";
+type ThemeToggleVariant = "icon" | "segmented";
+type ThemeToggleSize = "sm" | "md" | "lg";
+type ThemeValue = "light" | "dark" | "system";
+interface ThemeToggleProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
+    /** Current theme value. */
+    value: ThemeValue;
+    /** Callback when the theme changes. */
+    onChange: (value: ThemeValue) => void;
+    /**
+     * Toggle mode.
+     * - "light-dark": cycles between light and dark only
+     * - "light-dark-system": cycles through light, dark, and system
+     * @default "light-dark"
+     */
+    mode?: ThemeToggleMode;
+    /**
+     * Visual variant.
+     * - "icon": single button that cycles on click
+     * - "segmented": inline pill group with one button per option
+     * @default "icon"
+     */
+    variant?: ThemeToggleVariant;
+    /**
+     * Size of the toggle.
+     * @default "md"
+     */
+    size?: ThemeToggleSize;
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * ThemeToggle — a light/dark/system mode switcher.
+ *
+ * This is a headless, controlled component: you provide `value` and
+ * `onChange`. It works with any theme provider (next-themes, custom
+ * context, etc.).
+ *
+ * @example
+ * ```tsx
+ * // With next-themes
+ * const { theme, setTheme } = useTheme();
+ * <ThemeToggle value={theme as ThemeValue} onChange={setTheme} />
+ *
+ * // Segmented variant with system option
+ * <ThemeToggle
+ *   value={theme as ThemeValue}
+ *   onChange={setTheme}
+ *   variant="segmented"
+ *   mode="light-dark-system"
+ * />
+ * ```
+ */
+declare const ThemeToggle: react.ForwardRefExoticComponent<ThemeToggleProps & react.RefAttributes<HTMLElement>>;
+
+interface ColorPickerProps {
+    /** Current color value in HEX format (e.g., "#ff0000"). */
+    value?: string;
+    /** Default color for uncontrolled mode. @default "#000000" */
+    defaultValue?: string;
+    /** Callback when color changes. */
+    onChange?: (color: string) => void;
+    /** Preset color swatches to display. */
+    presets?: string[];
+    /** Whether to show the HEX input field. @default true */
+    showInput?: boolean;
+    /** Whether the picker is disabled. @default false */
+    disabled?: boolean;
+    /** Size of the trigger swatch. @default "md" */
+    size?: "sm" | "md" | "lg";
+    /** Additional CSS classes. */
+    className?: string;
+    /** Placeholder label for accessibility. @default "Choose color" */
+    label?: string;
+}
+/**
+ * `ColorPicker` — a color selection component with spectrum, hue slider,
+ * HEX input, and preset swatches.
+ *
+ * @example
+ * ```tsx
+ * <ColorPicker value={color} onChange={setColor} />
+ * <ColorPicker defaultValue="#3b82f6" presets={["#ef4444", "#22c55e", "#3b82f6"]} />
+ * ```
+ */
+declare const ColorPicker: react.ForwardRefExoticComponent<ColorPickerProps & react.RefAttributes<HTMLDivElement>>;
+
+type SonnerPosition = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
+interface SonnerToasterProps extends Omit<ComponentPropsWithoutRef<"div">, "dir"> {
+    /** @default "bottom-right" */
+    position?: SonnerPosition;
+    /** @default true */
+    richColors?: boolean;
+    /** @default true */
+    closeButton?: boolean;
+    /** @default 4000 */
+    duration?: number;
+    /** @default 3 */
+    visibleToasts?: number;
+    /** @default true */
+    expand?: boolean;
+    /** @default "system" */
+    theme?: "light" | "dark" | "system";
+    /** @default 16 */
+    offset?: number | string;
+    /** @default 14 */
+    gap?: number;
+    dir?: "ltr" | "rtl" | "auto";
+    className?: string;
+    toastOptions?: {
+        className?: string;
+        descriptionClassName?: string;
+        style?: React.CSSProperties;
+        classNames?: Partial<Record<string, string>>;
+    };
+}
+/**
+ * `SonnerToaster` — design-system-styled toast container.
+ *
+ * Place once in your root layout. Uses the `sonner` library under the hood
+ * with Unified UI token styling applied automatically.
+ *
+ * @example
+ * ```tsx
+ * import { SonnerToaster, toast } from "@work-rjkashyap/unified-ui/components";
+ *
+ * // In layout:
+ * <SonnerToaster />
+ *
+ * // Anywhere:
+ * toast("Hello!");
+ * toast.success("Saved!");
+ * toast.error("Failed!");
+ * toast.promise(saveData(), {
+ *   loading: "Saving...",
+ *   success: "Done!",
+ *   error: "Error!",
+ * });
+ * ```
+ */
+declare const SonnerToaster: react.ForwardRefExoticComponent<SonnerToasterProps & react.RefAttributes<HTMLDivElement>>;
+
+interface TreeNode {
+    /** Unique identifier for this node. */
+    id: string;
+    /** Display label for the node. */
+    label: string;
+    /** Optional icon to render before the label. */
+    icon?: ReactNode;
+    /** Child nodes. If present, the node is treated as a branch (folder). */
+    children?: TreeNode[];
+    /** Whether this node is disabled. */
+    disabled?: boolean;
+}
+type TreeCheckedState = "checked" | "unchecked" | "indeterminate";
+interface TreeViewProps {
+    /** The tree data structure to render. */
+    items: TreeNode[];
+    /** Default expanded node IDs (uncontrolled). */
+    defaultExpanded?: string[];
+    /** Controlled expanded node IDs. */
+    expanded?: string[];
+    /** Callback when expanded state changes. */
+    onExpandedChange?: (expanded: string[]) => void;
+    /** Whether nodes are checkable. @default false */
+    checkable?: boolean;
+    /** Default checked node IDs (uncontrolled). */
+    defaultChecked?: string[];
+    /** Controlled checked node IDs. */
+    checked?: string[];
+    /** Callback when checked state changes. */
+    onCheckedChange?: (checked: string[]) => void;
+    /** Callback when a node is clicked/selected. */
+    onNodeSelect?: (nodeId: string) => void;
+    /** Currently selected node ID (visual highlight). */
+    selectedId?: string;
+    /** Whether to show connector lines. @default true */
+    showLines?: boolean;
+    /** Whether to show default file/folder icons. @default true */
+    showIcons?: boolean;
+    /** Additional CSS classes on the root. */
+    className?: string;
+}
+/**
+ * `TreeView` — an expandable tree structure with checkable nodes.
+ *
+ * @example
+ * ```tsx
+ * const items = [
+ *   {
+ *     id: "src", label: "src",
+ *     children: [
+ *       { id: "app", label: "app.tsx" },
+ *       { id: "index", label: "index.ts" },
+ *     ],
+ *   },
+ *   { id: "readme", label: "README.md" },
+ * ];
+ *
+ * <TreeView items={items} />
+ * <TreeView items={items} checkable onCheckedChange={console.log} />
+ * ```
+ */
+declare const TreeView: react.ForwardRefExoticComponent<TreeViewProps & react.RefAttributes<HTMLUListElement>>;
+
+interface VirtualListProps<T = unknown> {
+    /** Array of items to render. */
+    items: T[];
+    /** Height of each item in pixels (fixed-height mode). */
+    itemHeight: number;
+    /** Render function for each item. */
+    renderItem: (item: T, index: number) => ReactNode;
+    /** Height of the scrollable container in pixels. @default 400 */
+    height?: number;
+    /** Number of extra items to render above/below the viewport. @default 5 */
+    overscan?: number;
+    /** Optional key extractor. Defaults to index. */
+    getItemKey?: (item: T, index: number) => string | number;
+    /** Callback when scroll reaches the bottom (for infinite scroll). */
+    onEndReached?: () => void;
+    /** Distance from bottom (in px) to trigger onEndReached. @default 100 */
+    endReachedThreshold?: number;
+    /** Loading state — shows a loader at the bottom. */
+    loading?: boolean;
+    /** Custom loading indicator. */
+    loadingIndicator?: ReactNode;
+    /** Empty state content. */
+    emptyContent?: ReactNode;
+    /** Additional class on the outer container. */
+    className?: string;
+    /** Additional class on each item wrapper. */
+    itemClassName?: string;
+}
+/**
+ * `VirtualList` — a performant virtualized list that only renders visible items.
+ *
+ * @example
+ * ```tsx
+ * <VirtualList
+ *   items={users}
+ *   itemHeight={56}
+ *   height={500}
+ *   renderItem={(user, i) => (
+ *     <div className="flex items-center gap-3 px-4 py-3">
+ *       <Avatar src={user.avatar} size="sm" />
+ *       <span>{user.name}</span>
+ *     </div>
+ *   )}
+ * />
+ * ```
+ */
+declare const VirtualList: <T>(props: VirtualListProps<T> & {
+    ref?: React.Ref<HTMLDivElement>;
+}) => ReactNode;
+
+interface GalleryImage {
+    /** Image source URL. */
+    src: string;
+    /** Alt text for accessibility. */
+    alt: string;
+    /** Optional thumbnail URL (falls back to src). */
+    thumbnail?: string;
+    /** Optional caption shown in lightbox. */
+    caption?: string;
+}
+interface ImageGalleryProps {
+    /** Array of images to display. */
+    images: GalleryImage[];
+    /** Number of grid columns. @default 3 */
+    columns?: 1 | 2 | 3 | 4;
+    /** Gap between grid items in pixels. @default 8 */
+    gap?: number;
+    /** Aspect ratio for thumbnails. @default "square" */
+    aspectRatio?: "square" | "video" | "auto";
+    /** Whether to show the lightbox on click. @default true */
+    lightbox?: boolean;
+    /** Additional CSS classes on the grid container. */
+    className?: string;
+    /** Render custom thumbnail. */
+    renderThumbnail?: (image: GalleryImage, index: number) => ReactNode;
+}
+/**
+ * `ImageGallery` — a grid of images with optional lightbox viewer.
+ *
+ * @example
+ * ```tsx
+ * <ImageGallery
+ *   images={[
+ *     { src: "/photo-1.jpg", alt: "Beach sunset", caption: "Malibu, CA" },
+ *     { src: "/photo-2.jpg", alt: "Mountain view" },
+ *   ]}
+ *   columns={3}
+ * />
+ * ```
+ */
+declare const ImageGallery: react.ForwardRefExoticComponent<ImageGalleryProps & react.RefAttributes<HTMLDivElement>>;
+
+interface VideoPlayerProps {
+    /** Video source URL. */
+    src: string;
+    /** Poster image URL. */
+    poster?: string;
+    /** Aspect ratio. @default "video" (16:9) */
+    aspectRatio?: "video" | "square" | "4/3" | "auto";
+    /** @default false */
+    autoPlay?: boolean;
+    /** @default false */
+    loop?: boolean;
+    /** @default false */
+    muted?: boolean;
+    /** Whether to show custom controls. @default true */
+    controls?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    /** Callback when video ends. */
+    onEnded?: () => void;
+}
+/**
+ * `VideoPlayer` — a styled video component with custom controls.
+ *
+ * @example
+ * ```tsx
+ * <VideoPlayer src="/demo.mp4" poster="/poster.jpg" />
+ * <VideoPlayer src="/clip.webm" aspectRatio="4/3" autoPlay loop muted />
+ * ```
+ */
+declare const VideoPlayer: react.ForwardRefExoticComponent<VideoPlayerProps & react.RefAttributes<HTMLDivElement>>;
+
+interface ChartContainerProps {
+    /** Chart title. */
+    title?: string;
+    /** Chart description/subtitle. */
+    description?: string;
+    /** Chart height in pixels. @default 350 */
+    height?: number;
+    /** The Recharts chart component(s) to render. */
+    children: ReactNode;
+    /** Footer content (e.g., legend, notes). */
+    footer?: ReactNode;
+    /** Whether data is loading. @default false */
+    loading?: boolean;
+    /** Custom loading indicator. */
+    loadingIndicator?: ReactNode;
+    /** Content to show when chart has no data. */
+    emptyContent?: ReactNode;
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * Design system chart colors. Use these as `fill` or `stroke` values
+ * in Recharts components for consistent theming.
+ *
+ * @example
+ * ```tsx
+ * <Bar dataKey="revenue" fill={chartColors[0]} />
+ * <Bar dataKey="expenses" fill={chartColors[1]} />
+ * ```
+ */
+declare const chartColors: readonly ["var(--primary)", "var(--info)", "var(--success)", "var(--warning)", "var(--danger)", "var(--secondary)", "var(--muted-foreground)", "oklch(0.65 0.15 250)", "oklch(0.65 0.15 160)", "oklch(0.65 0.15 30)"];
+/**
+ * `ChartContainer` — a card wrapper for Recharts charts with DS styling.
+ *
+ * Place your Recharts `<BarChart>`, `<LineChart>`, `<PieChart>`, etc.
+ * as children. The container provides a responsive wrapper, title, and
+ * optional footer.
+ *
+ * **Important**: This component does NOT bundle Recharts. You must install
+ * `recharts` separately as a peer dependency.
+ *
+ * @example
+ * ```tsx
+ * import { ChartContainer, chartColors } from "@work-rjkashyap/unified-ui/components";
+ * import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+ *
+ * <ChartContainer title="Monthly Revenue" description="Last 6 months">
+ *   <ResponsiveContainer width="100%" height="100%">
+ *     <BarChart data={data}>
+ *       <XAxis dataKey="month" stroke="var(--muted-foreground)" fontSize={12} />
+ *       <YAxis stroke="var(--muted-foreground)" fontSize={12} />
+ *       <Tooltip
+ *         contentStyle={{
+ *           background: "var(--background)",
+ *           border: "1px solid var(--border)",
+ *           borderRadius: "var(--radius-md)",
+ *           fontSize: 13,
+ *         }}
+ *       />
+ *       <Bar dataKey="revenue" fill={chartColors[0]} radius={[4, 4, 0, 0]} />
+ *     </BarChart>
+ *   </ResponsiveContainer>
+ * </ChartContainer>
+ * ```
+ */
+declare const ChartContainer: react.ForwardRefExoticComponent<ChartContainerProps & react.RefAttributes<HTMLDivElement>>;
+interface ChartTooltipContentProps {
+    /** Label for the tooltip header. */
+    label?: string;
+    /** Payload from Recharts tooltip. */
+    payload?: Array<{
+        name: string;
+        value: number | string;
+        color?: string;
+        fill?: string;
+    }>;
+    /** Whether the tooltip is active. */
+    active?: boolean;
+    /** Custom formatter for values. */
+    formatter?: (value: number | string, name: string) => string;
+    /** Additional class names. */
+    className?: string;
+}
+/**
+ * `ChartTooltipContent` — a pre-styled tooltip content component for Recharts.
+ *
+ * Use as the `content` prop of Recharts' `<Tooltip>`:
+ *
+ * @example
+ * ```tsx
+ * <Tooltip content={<ChartTooltipContent />} />
+ * ```
+ */
+declare function ChartTooltipContent({ label, payload, active, formatter, className, }: ChartTooltipContentProps): react_jsx_runtime.JSX.Element | null;
+declare namespace ChartTooltipContent {
+    var displayName: string;
+}
+
+interface MarkdownProps {
+    /** Markdown string to render. */
+    content: string;
+    /** Text size variant. @default "base" */
+    size?: "sm" | "base" | "lg";
+    /** Whether to remove max-width constraint. @default false */
+    fluid?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    /** Whether to allow raw HTML in the markdown. @default false */
+    allowHtml?: boolean;
+}
+/**
+ * `Markdown` — renders a markdown string with design system prose styles.
+ *
+ * For simple markdown display use cases. For full MDX support, use
+ * Fumadocs or a dedicated MDX processor.
+ *
+ * @example
+ * ```tsx
+ * <Markdown content={`
+ * # Hello World
+ *
+ * Some **bold** and *italic* text with \`inline code\`.
+ *
+ * - Item one
+ * - Item two
+ *
+ * > A blockquote
+ *
+ * \`\`\`tsx
+ * const x = 42;
+ * \`\`\`
+ * `} />
+ * ```
+ */
+declare const Markdown: react.ForwardRefExoticComponent<MarkdownProps & react.RefAttributes<HTMLDivElement>>;
+
+interface DataTableFilter {
+    /** Unique identifier for this filter. */
+    id: string;
+    /** Display label. */
+    label: string;
+    /** Available options for this filter. */
+    options: Array<{
+        label: string;
+        value: string;
+        count?: number;
+    }>;
+    /** Currently selected values. */
+    selected: string[];
+}
+interface ColumnVisibility {
+    /** Column identifier. */
+    id: string;
+    /** Display label. */
+    label: string;
+    /** Whether the column is visible. */
+    visible: boolean;
+}
+type ViewMode = "table" | "grid" | "list";
+interface DataTableToolbarProps {
+    /** Current search value. */
+    searchValue?: string;
+    /** Callback when search value changes. */
+    onSearchChange?: (value: string) => void;
+    /** Search placeholder text. @default "Search..." */
+    searchPlaceholder?: string;
+    /** Debounce delay for search in ms. @default 300 */
+    searchDebounce?: number;
+    /** Filter definitions and their current state. */
+    filters?: DataTableFilter[];
+    /** Callback when a filter's selected values change. */
+    onFilterChange?: (filterId: string, selected: string[]) => void;
+    /** Callback to clear all filters. */
+    onClearFilters?: () => void;
+    /** Column visibility state. */
+    columns?: ColumnVisibility[];
+    /** Callback when column visibility changes. */
+    onColumnVisibilityChange?: (columnId: string, visible: boolean) => void;
+    /** Current view mode. */
+    viewMode?: ViewMode;
+    /** Available view modes. */
+    viewModes?: ViewMode[];
+    /** Callback when view mode changes. */
+    onViewModeChange?: (mode: ViewMode) => void;
+    /** Extra actions to render on the right side of the toolbar. */
+    actions?: ReactNode;
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * `DataTableToolbar` — a composable toolbar for DataTable with search,
+ * filters, column visibility, and view mode controls.
+ *
+ * @example
+ * ```tsx
+ * <DataTableToolbar
+ *   searchValue={search}
+ *   onSearchChange={setSearch}
+ *   filters={[
+ *     {
+ *       id: "status",
+ *       label: "Status",
+ *       options: [
+ *         { label: "Active", value: "active", count: 12 },
+ *         { label: "Inactive", value: "inactive", count: 5 },
+ *       ],
+ *       selected: selectedStatuses,
+ *     },
+ *   ]}
+ *   onFilterChange={handleFilter}
+ *   onClearFilters={() => setFilters({})}
+ * />
+ * ```
+ */
+declare const DataTableToolbar: react.ForwardRefExoticComponent<DataTableToolbarProps & react.RefAttributes<HTMLDivElement>>;
+
+interface InfiniteScrollProps {
+    /** Content to render (the list items). */
+    children: ReactNode;
+    /** Whether more data is currently being loaded. */
+    loading?: boolean;
+    /** Whether there is more data to load. */
+    hasMore?: boolean;
+    /** Callback to trigger loading more data. */
+    onLoadMore: () => void;
+    /**
+     * IntersectionObserver rootMargin value. Controls how far from the
+     * bottom the trigger fires.
+     * @default "200px"
+     */
+    threshold?: string;
+    /** Custom loading indicator. */
+    loadingIndicator?: ReactNode;
+    /** Content to show when all data has been loaded. */
+    endMessage?: ReactNode;
+    /** Additional CSS classes on the container. */
+    className?: string;
+    /** Additional CSS classes on the sentinel element. */
+    sentinelClassName?: string;
+}
+/**
+ * `InfiniteScroll` — scroll-triggered infinite loading.
+ *
+ * Renders children with a sentinel element at the bottom. When the
+ * sentinel enters the viewport (via IntersectionObserver), it calls
+ * `onLoadMore`. Shows a loading indicator while fetching and an optional
+ * end message when `hasMore` is false.
+ *
+ * @example
+ * ```tsx
+ * const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(...);
+ *
+ * <InfiniteScroll
+ *   loading={isFetchingNextPage}
+ *   hasMore={hasNextPage}
+ *   onLoadMore={fetchNextPage}
+ *   endMessage={<p className="text-center text-sm text-muted-foreground py-4">That's all!</p>}
+ * >
+ *   {data.pages.flat().map(item => (
+ *     <Card key={item.id}>{item.name}</Card>
+ *   ))}
+ * </InfiniteScroll>
+ * ```
+ */
+declare const InfiniteScroll: react.ForwardRefExoticComponent<InfiniteScrollProps & react.RefAttributes<HTMLDivElement>>;
+
 type TooltipSide = "top" | "right" | "bottom" | "left";
 type TooltipAlign = "start" | "center" | "end";
 interface TooltipProps {
@@ -6251,4 +7129,4 @@ interface VisuallyHiddenProps extends ComponentPropsWithoutRef<typeof VisuallyHi
 }
 declare const VisuallyHidden: react.ForwardRefExoticComponent<VisuallyHiddenProps & react.RefAttributes<HTMLSpanElement>>;
 
-export { Accordion, AccordionContent, type AccordionContentProps, AccordionItem, type AccordionItemProps, type AccordionMultipleProps, type AccordionProps, type AccordionSingleProps, type AccordionSize, AccordionTrigger, type AccordionTriggerProps, type AccordionVariant, Alert, AlertDialog, AlertDialogAction, type AlertDialogActionProps, AlertDialogCancel, type AlertDialogCancelProps, AlertDialogContent, type AlertDialogContentProps, AlertDialogDescription, type AlertDialogDescriptionProps, AlertDialogFooter, type AlertDialogFooterProps, AlertDialogHeader, type AlertDialogHeaderProps, AlertDialogOverlay, type AlertDialogOverlayProps, AlertDialogPortal, AlertDialogTitle, type AlertDialogTitleProps, AlertDialogTrigger, type AlertProps, type AlertVariant, AspectRatio, type AspectRatioProps, Avatar, AvatarGroup, type AvatarGroupProps, type AvatarProps, type AvatarShape, type AvatarSize, type AvatarStatus, Badge, type BadgeProps, type BadgeSize, type BadgeVariant, Banner, type BannerPosition, type BannerProps, type BannerVariant, Breadcrumb, BreadcrumbEllipsis, type BreadcrumbEllipsisProps, BreadcrumbItem, type BreadcrumbItemProps, BreadcrumbLink, type BreadcrumbLinkProps, BreadcrumbList, type BreadcrumbListProps, BreadcrumbNav, type BreadcrumbNavItem, type BreadcrumbNavProps, BreadcrumbPage, type BreadcrumbPageProps, type BreadcrumbProps, BreadcrumbSeparator, type BreadcrumbSeparatorProps, Button, type ButtonProps, type ButtonSize, type ButtonVariant, Calendar, type CalendarMode, type CalendarProps, Callout, type CalloutProps, type CalloutVariant, Card, CardBody, type CardBodyProps, CardFooter, type CardFooterProps, CardHeader, type CardHeaderProps, type CardProps, type CardVariant, Carousel, type CarouselProps, Checkbox, CheckboxGroup, type CheckboxGroupOrientation, type CheckboxGroupProps, type CheckboxProps, type CheckboxSize, CodeBlock, type CodeBlockProps, InlineCode as CodeInline, type InlineCodeProps as CodeInlineProps, type CodeVariant, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, Combobox, type ComboboxGroup, type ComboboxOption, type ComboboxProps, type ComboboxSize, type ComboboxVariant, Command, type CommandGroup, type CommandItem, type CommandProps, CommandTrigger, type CommandTriggerProps, ConfirmDialog, type ConfirmDialogProps, type ConfirmDialogVariant, ContextMenu, ContextMenuCheckboxItem, type ContextMenuCheckboxItemProps, ContextMenuContent, type ContextMenuContentProps, ContextMenuGroup, type ContextMenuGroupProps, ContextMenuItem, type ContextMenuItemProps, type ContextMenuItemVariant, ContextMenuLabel, type ContextMenuLabelProps, type ContextMenuProps, ContextMenuRadioGroup, type ContextMenuRadioGroupProps, ContextMenuRadioItem, type ContextMenuRadioItemProps, ContextMenuSeparator, type ContextMenuSeparatorProps, ContextMenuShortcut, type ContextMenuShortcutProps, ContextMenuSub, ContextMenuSubContent, type ContextMenuSubContentProps, type ContextMenuSubProps, ContextMenuSubTrigger, type ContextMenuSubTriggerProps, ContextMenuTrigger, type ContextMenuTriggerProps, CopyButton, type CopyButtonProps, type CopyButtonSize, type CopyButtonVariant, DataList, DataListDetail, type DataListDetailProps, type DataListItem, type DataListOrientation, type DataListProps, type DataListSize, DataListTerm, type DataListTermProps, DataTable, type DataTableColumnMeta, type DataTableFacetedFilter, type DataTableProps, DatePicker, type DatePickerMode, type DatePickerProps, type DatePickerSize, type DateRange, Dialog, DialogBody, type DialogBodyProps, DialogClose, type DialogCloseProps, DialogContent, type DialogContentProps, DialogDescription, type DialogDescriptionProps, DialogFooter, type DialogFooterProps, DialogHeader, type DialogHeaderProps, type DialogProps, type DialogSize, DialogTitle, type DialogTitleProps, DialogTrigger, type DialogTriggerProps, DropdownMenu, DropdownMenuCheckboxItem, type DropdownMenuCheckboxItemProps, DropdownMenuContent, type DropdownMenuContentProps, DropdownMenuGroup, type DropdownMenuGroupProps, DropdownMenuItem, type DropdownMenuItemProps, type DropdownMenuItemVariant, DropdownMenuLabel, type DropdownMenuLabelProps, type DropdownMenuProps, DropdownMenuRadioGroup, type DropdownMenuRadioGroupProps, DropdownMenuRadioItem, type DropdownMenuRadioItemProps, DropdownMenuSeparator, type DropdownMenuSeparatorProps, DropdownMenuShortcut, type DropdownMenuShortcutProps, DropdownMenuSub, DropdownMenuSubContent, type DropdownMenuSubContentProps, type DropdownMenuSubProps, DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps, DropdownMenuTrigger, type DropdownMenuTriggerProps, EmptyState, type EmptyStateProps, FileUpload, type FileUploadItem, type FileUploadProps, type FileUploadSize, FormField, type FormFieldControlProps, type FormFieldOrientation, type FormFieldProps, type FormFieldSize, HoverCard, HoverCardContent, type HoverCardContentProps, type HoverCardProps, HoverCardTrigger, type HoverCardTriggerProps, Input, InputGroup, type InputGroupProps, type InputGroupSize, type InputGroupVariant, type InputProps, type InputSize, type InputVariant, Kbd, type KbdProps, type KbdSize, Label, type LabelProps, type LabelSize, Menubar, MenubarCheckboxItem, type MenubarCheckboxItemProps, MenubarContent, type MenubarContentProps, MenubarGroup, type MenubarGroupProps, MenubarItem, type MenubarItemProps, type MenubarItemVariant, MenubarLabel, type MenubarLabelProps, MenubarMenu, type MenubarMenuProps, type MenubarProps, MenubarRadioGroup, type MenubarRadioGroupProps, MenubarRadioItem, type MenubarRadioItemProps, MenubarSeparator, type MenubarSeparatorProps, MenubarShortcut, type MenubarShortcutProps, MenubarSub, MenubarSubContent, type MenubarSubContentProps, type MenubarSubProps, MenubarSubTrigger, type MenubarSubTriggerProps, MenubarTrigger, type MenubarTriggerProps, NavigationMenu, NavigationMenuCardLink, type NavigationMenuCardLinkProps, NavigationMenuContent, type NavigationMenuContentProps, NavigationMenuIndicator, type NavigationMenuIndicatorProps, NavigationMenuItem, type NavigationMenuItemProps, NavigationMenuLink, type NavigationMenuLinkProps, NavigationMenuList, type NavigationMenuListProps, type NavigationMenuProps, NavigationMenuTrigger, type NavigationMenuTriggerProps, NavigationMenuViewport, type NavigationMenuViewportProps, NumberInput, type NumberInputProps, type NumberInputSize, type NumberInputVariant, Pagination, type PaginationProps, type PaginationSize, type PaginationVariant, PinInput, type PinInputProps, type PinInputSize, type PinInputType, type PinInputVariant, Popover, PopoverArrow, type PopoverArrowProps, PopoverClose, type PopoverCloseProps, PopoverContent, type PopoverContentProps, type PopoverProps, PopoverTrigger, type PopoverTriggerProps, Progress, type ProgressProps, type ProgressSize, type ProgressVariant, RadioCard, type RadioCardProps, RadioGroup, RadioGroupItem, type RadioGroupItemProps, type RadioGroupProps, type RadioOrientation, type RadioSize, ResizableHandle, type ResizableHandleProps, ResizablePanel, ResizablePanelGroup, type ResizablePanelGroupProps, type ResizablePanelProps, ScrollArea, type ScrollAreaProps, type ScrollAreaType, ScrollBar, type ScrollBarOrientation, type ScrollBarProps, type ScrollBarSize, SearchInput, type SearchInputProps, type SearchInputSize, type SearchInputVariant, Select, SelectContent, type SelectContentProps, SelectGroup, type SelectGroupProps, SelectItem, type SelectItemProps, SelectLabel, type SelectLabelProps, SelectScrollDownButton, type SelectScrollDownButtonProps, SelectScrollUpButton, type SelectScrollUpButtonProps, SelectSeparator, type SelectSeparatorProps, type SelectSize, SelectTrigger, type SelectTriggerProps, SelectValue, type SelectVariant, Sheet, SheetClose, type SheetCloseProps, SheetContent, type SheetContentProps, SheetDescription, type SheetDescriptionProps, SheetFooter, type SheetFooterProps, SheetHeader, type SheetHeaderProps, type SheetProps, type SheetSide, type SheetSize, SheetTitle, type SheetTitleProps, SheetTrigger, type SheetTriggerProps, Sidebar, SidebarContent, type SidebarContentProps, SidebarFooter, type SidebarFooterProps, SidebarHeader, type SidebarHeaderProps, SidebarItem, type SidebarItemProps, SidebarMobileOverlay, type SidebarMobileOverlayProps, type SidebarProps, SidebarProvider, type SidebarProviderProps, SidebarSection, type SidebarSectionProps, SidebarToggle, type SidebarToggleProps, Skeleton, SkeletonCircle, type SkeletonCircleProps, type SkeletonProps, SkeletonRect, type SkeletonRectProps, type SkeletonSize, SkeletonText, type SkeletonTextProps, type SkeletonTextSize, Slider, type SliderMark, type SliderOrientation, type SliderProps, type SliderSize, type SliderVariant, Spinner, type SpinnerProps, type SpinnerSize, type SpinnerVariant, Stat, type StatProps, type StatTrend, Step, type StepProps, type StepStatus, Steps, type StepsOrientation, type StepsProps, type StepsVariant, Switch, type SwitchLabelPosition, type SwitchProps, type SwitchSize, Table, type TableAlign, TableBody, type TableBodyProps, TableCaption, type TableCaptionProps, TableCell, type TableCellProps, type TableDensity, TableFooter, type TableFooterProps, TableHead, type TableHeadProps, TableHeader, type TableHeaderProps, type TableProps, TableRow, type TableRowProps, type TableSortDirection, Tabs, TabsContent, type TabsContentProps, TabsList, type TabsListProps, type TabsOrientation, type TabsProps, type TabsSize, TabsTrigger, type TabsTriggerProps, type TabsVariant, Tag, type TagProps, type TagSize, type TagVariant, Textarea, type TextareaProps, type TextareaSize, type TextareaVariant, Timeline, type TimelineAlign, TimelineItem, type TimelineItemData, type TimelineItemProps, type TimelineItemStatus, type TimelineProps, type TimelineSize, type TimelineVariant, type ToastAPI, type ToastAction, type ToastData, ToastItem, type ToastItemProps, type ToastOptions, type ToastPosition, ToastProvider, type ToastProviderProps, type ToastVariant, Toggle, ToggleGroup, ToggleGroupItem, type ToggleGroupItemProps, type ToggleGroupMultipleProps, type ToggleGroupOrientation, type ToggleGroupProps, type ToggleGroupSingleProps, type ToggleGroupSize, type ToggleGroupVariant, type ToggleProps, type ToggleSize, type ToggleVariant, Tooltip, type TooltipAlign, type TooltipProps, TooltipProvider, type TooltipProviderProps, type TooltipSide, type UseDataTableOptions, type UseDataTableReturn, VisuallyHidden, type VisuallyHiddenProps, accordionRootVariants, accordionTriggerVariants, alertVariants, avatarVariants, badgeVariants, bannerVariants, buttonVariants, calendarDayVariants, calloutVariants, cardVariants, checkboxVariants, codeBlockVariants, comboboxTriggerVariants, copyButtonVariants, dataListVariants, dialogContentVariants, fileUploadZoneVariants, inlineCodeVariants, inputVariants, kbdVariants, labelVariants, numberInputVariants, paginationButtonVariants, pinCellVariants, progressIndicatorVariants, progressTrackVariants, radioCardVariants, radioGroupVariants, radioIndicatorVariants, scrollbarThumbVariants, scrollbarVariants, searchInputVariants, selectTriggerVariants, sheetContentVariants, skeletonVariants, sliderRangeVariants, sliderThumbVariants, sliderTrackVariants, spinnerVariants, statVariants, switchThumbVariants, switchTrackVariants, tableRootVariants, tabsListVariants, tabsTriggerVariants, tagVariants, textareaVariants, toastVariants, toggleGroupItemVariants, toggleGroupVariants, toggleVariants, useCarouselContext, useCheckboxGroupContext, useCollapsibleContext, useDataTable, useSidebarContext, useToast, useToggleGroupContext };
+export { Accordion, AccordionContent, type AccordionContentProps, AccordionItem, type AccordionItemProps, type AccordionMultipleProps, type AccordionProps, type AccordionSingleProps, type AccordionSize, AccordionTrigger, type AccordionTriggerProps, type AccordionVariant, Alert, AlertDialog, AlertDialogAction, type AlertDialogActionProps, AlertDialogCancel, type AlertDialogCancelProps, AlertDialogContent, type AlertDialogContentProps, AlertDialogDescription, type AlertDialogDescriptionProps, AlertDialogFooter, type AlertDialogFooterProps, AlertDialogHeader, type AlertDialogHeaderProps, AlertDialogOverlay, type AlertDialogOverlayProps, AlertDialogPortal, AlertDialogTitle, type AlertDialogTitleProps, AlertDialogTrigger, type AlertProps, type AlertVariant, AspectRatio, type AspectRatioProps, Avatar, AvatarGroup, type AvatarGroupProps, type AvatarProps, type AvatarShape, type AvatarSize, type AvatarStatus, Badge, type BadgeProps, type BadgeSize, type BadgeVariant, Banner, type BannerPosition, type BannerProps, type BannerVariant, Breadcrumb, BreadcrumbEllipsis, type BreadcrumbEllipsisProps, BreadcrumbItem, type BreadcrumbItemProps, BreadcrumbLink, type BreadcrumbLinkProps, BreadcrumbList, type BreadcrumbListProps, BreadcrumbNav, type BreadcrumbNavItem, type BreadcrumbNavProps, BreadcrumbPage, type BreadcrumbPageProps, type BreadcrumbProps, BreadcrumbSeparator, type BreadcrumbSeparatorProps, Button, type ButtonProps, type ButtonSize, type ButtonVariant, Calendar, type CalendarMode, type CalendarProps, Callout, type CalloutProps, type CalloutVariant, Card, CardBody, type CardBodyProps, CardFooter, type CardFooterProps, CardHeader, type CardHeaderProps, type CardProps, type CardVariant, Carousel, type CarouselProps, ChartContainer, type ChartContainerProps, ChartTooltipContent, type ChartTooltipContentProps, Checkbox, CheckboxGroup, type CheckboxGroupOrientation, type CheckboxGroupProps, type CheckboxProps, type CheckboxSize, CodeBlock, type CodeBlockProps, InlineCode as CodeInline, type InlineCodeProps as CodeInlineProps, type CodeVariant, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, ColorPicker, type ColorPickerProps, type ColumnVisibility, Combobox, type ComboboxGroup, type ComboboxOption, type ComboboxProps, type ComboboxSize, type ComboboxVariant, Command, type CommandGroup, type CommandItem, type CommandProps, CommandTrigger, type CommandTriggerProps, ConfirmDialog, type ConfirmDialogProps, type ConfirmDialogVariant, ContextMenu, ContextMenuCheckboxItem, type ContextMenuCheckboxItemProps, ContextMenuContent, type ContextMenuContentProps, ContextMenuGroup, type ContextMenuGroupProps, ContextMenuItem, type ContextMenuItemProps, type ContextMenuItemVariant, ContextMenuLabel, type ContextMenuLabelProps, type ContextMenuProps, ContextMenuRadioGroup, type ContextMenuRadioGroupProps, ContextMenuRadioItem, type ContextMenuRadioItemProps, ContextMenuSeparator, type ContextMenuSeparatorProps, ContextMenuShortcut, type ContextMenuShortcutProps, ContextMenuSub, ContextMenuSubContent, type ContextMenuSubContentProps, type ContextMenuSubProps, ContextMenuSubTrigger, type ContextMenuSubTriggerProps, ContextMenuTrigger, type ContextMenuTriggerProps, CopyButton, type CopyButtonProps, type CopyButtonSize, type CopyButtonVariant, DataList, DataListDetail, type DataListDetailProps, type DataListItem, type DataListOrientation, type DataListProps, type DataListSize, DataListTerm, type DataListTermProps, DataTable, type DataTableColumnMeta, type DataTableFacetedFilter, type DataTableFilter, type DataTableProps, DataTableToolbar, type DataTableToolbarProps, DatePicker, type DatePickerMode, type DatePickerProps, type DatePickerSize, type DateRange, Dialog, DialogBody, type DialogBodyProps, DialogClose, type DialogCloseProps, DialogContent, type DialogContentProps, DialogDescription, type DialogDescriptionProps, DialogFooter, type DialogFooterProps, DialogHeader, type DialogHeaderProps, type DialogProps, type DialogSize, DialogTitle, type DialogTitleProps, DialogTrigger, type DialogTriggerProps, Drawer, DrawerBody, type DrawerBodyProps, DrawerClose, type DrawerCloseProps, DrawerContent, type DrawerContentProps, DrawerDescription, type DrawerDescriptionProps, DrawerFooter, type DrawerFooterProps, DrawerHandle, type DrawerHandleProps, DrawerHeader, type DrawerHeaderProps, type DrawerProps, type DrawerSize, DrawerTitle, type DrawerTitleProps, DrawerTrigger, type DrawerTriggerProps, DropdownMenu, DropdownMenuCheckboxItem, type DropdownMenuCheckboxItemProps, DropdownMenuContent, type DropdownMenuContentProps, DropdownMenuGroup, type DropdownMenuGroupProps, DropdownMenuItem, type DropdownMenuItemProps, type DropdownMenuItemVariant, DropdownMenuLabel, type DropdownMenuLabelProps, type DropdownMenuProps, DropdownMenuRadioGroup, type DropdownMenuRadioGroupProps, DropdownMenuRadioItem, type DropdownMenuRadioItemProps, DropdownMenuSeparator, type DropdownMenuSeparatorProps, DropdownMenuShortcut, type DropdownMenuShortcutProps, DropdownMenuSub, DropdownMenuSubContent, type DropdownMenuSubContentProps, type DropdownMenuSubProps, DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps, DropdownMenuTrigger, type DropdownMenuTriggerProps, EmptyState, type EmptyStateProps, FileUpload, type FileUploadItem, type FileUploadProps, type FileUploadSize, FormField, type FormFieldControlProps, type FormFieldOrientation, type FormFieldProps, type FormFieldSize, type GalleryImage, HoverCard, HoverCardContent, type HoverCardContentProps, type HoverCardProps, HoverCardTrigger, type HoverCardTriggerProps, ImageGallery, type ImageGalleryProps, InfiniteScroll, type InfiniteScrollProps, Input, InputGroup, type InputGroupProps, type InputGroupSize, type InputGroupVariant, type InputProps, type InputSize, type InputVariant, Kbd, type KbdProps, type KbdSize, Label, type LabelProps, type LabelSize, Markdown, type MarkdownProps, Menubar, MenubarCheckboxItem, type MenubarCheckboxItemProps, MenubarContent, type MenubarContentProps, MenubarGroup, type MenubarGroupProps, MenubarItem, type MenubarItemProps, type MenubarItemVariant, MenubarLabel, type MenubarLabelProps, MenubarMenu, type MenubarMenuProps, type MenubarProps, MenubarRadioGroup, type MenubarRadioGroupProps, MenubarRadioItem, type MenubarRadioItemProps, MenubarSeparator, type MenubarSeparatorProps, MenubarShortcut, type MenubarShortcutProps, MenubarSub, MenubarSubContent, type MenubarSubContentProps, type MenubarSubProps, MenubarSubTrigger, type MenubarSubTriggerProps, MenubarTrigger, type MenubarTriggerProps, NavigationMenu, NavigationMenuCardLink, type NavigationMenuCardLinkProps, NavigationMenuContent, type NavigationMenuContentProps, NavigationMenuIndicator, type NavigationMenuIndicatorProps, NavigationMenuItem, type NavigationMenuItemProps, NavigationMenuLink, type NavigationMenuLinkProps, NavigationMenuList, type NavigationMenuListProps, type NavigationMenuProps, NavigationMenuTrigger, type NavigationMenuTriggerProps, NavigationMenuViewport, type NavigationMenuViewportProps, NumberInput, type NumberInputProps, type NumberInputSize, type NumberInputVariant, Pagination, type PaginationProps, type PaginationSize, type PaginationVariant, PinInput, type PinInputProps, type PinInputSize, type PinInputType, type PinInputVariant, Popover, PopoverArrow, type PopoverArrowProps, PopoverClose, type PopoverCloseProps, PopoverContent, type PopoverContentProps, type PopoverProps, PopoverTrigger, type PopoverTriggerProps, Progress, type ProgressProps, type ProgressSize, type ProgressVariant, RadioCard, type RadioCardProps, RadioGroup, RadioGroupItem, type RadioGroupItemProps, type RadioGroupProps, type RadioOrientation, type RadioSize, ResizableHandle, type ResizableHandleProps, ResizablePanel, ResizablePanelGroup, type ResizablePanelGroupProps, type ResizablePanelProps, ScrollArea, type ScrollAreaProps, type ScrollAreaType, ScrollBar, type ScrollBarOrientation, type ScrollBarProps, type ScrollBarSize, SearchInput, type SearchInputProps, type SearchInputSize, type SearchInputVariant, Select, SelectContent, type SelectContentProps, SelectGroup, type SelectGroupProps, SelectItem, type SelectItemProps, SelectLabel, type SelectLabelProps, SelectScrollDownButton, type SelectScrollDownButtonProps, SelectScrollUpButton, type SelectScrollUpButtonProps, SelectSeparator, type SelectSeparatorProps, type SelectSize, SelectTrigger, type SelectTriggerProps, SelectValue, type SelectVariant, Sheet, SheetClose, type SheetCloseProps, SheetContent, type SheetContentProps, SheetDescription, type SheetDescriptionProps, SheetFooter, type SheetFooterProps, SheetHeader, type SheetHeaderProps, type SheetProps, type SheetSide, type SheetSize, SheetTitle, type SheetTitleProps, SheetTrigger, type SheetTriggerProps, Sidebar, SidebarContent, type SidebarContentProps, SidebarFooter, type SidebarFooterProps, SidebarHeader, type SidebarHeaderProps, SidebarItem, type SidebarItemProps, SidebarMobileOverlay, type SidebarMobileOverlayProps, type SidebarProps, SidebarProvider, type SidebarProviderProps, SidebarSection, type SidebarSectionProps, SidebarToggle, type SidebarToggleProps, Skeleton, SkeletonCircle, type SkeletonCircleProps, type SkeletonProps, SkeletonRect, type SkeletonRectProps, type SkeletonSize, SkeletonText, type SkeletonTextProps, type SkeletonTextSize, Slider, type SliderMark, type SliderOrientation, type SliderProps, type SliderSize, type SliderVariant, type SonnerPosition, SonnerToaster, type SonnerToasterProps, Spinner, type SpinnerProps, type SpinnerSize, type SpinnerVariant, Stat, type StatProps, type StatTrend, Step, type StepProps, type StepStatus, Steps, type StepsOrientation, type StepsProps, type StepsVariant, Switch, type SwitchLabelPosition, type SwitchProps, type SwitchSize, Table, type TableAlign, TableBody, type TableBodyProps, TableCaption, type TableCaptionProps, TableCell, type TableCellProps, type TableDensity, TableFooter, type TableFooterProps, TableHead, type TableHeadProps, TableHeader, type TableHeaderProps, type TableProps, TableRow, type TableRowProps, type TableSortDirection, Tabs, TabsContent, type TabsContentProps, TabsList, type TabsListProps, type TabsOrientation, type TabsProps, type TabsSize, TabsTrigger, type TabsTriggerProps, type TabsVariant, Tag, type TagProps, type TagSize, type TagVariant, Textarea, type TextareaProps, type TextareaSize, type TextareaVariant, ThemeToggle, type ThemeToggleMode, type ThemeToggleProps, type ThemeToggleSize, type ThemeToggleVariant, type ThemeValue, Timeline, type TimelineAlign, TimelineItem, type TimelineItemData, type TimelineItemProps, type TimelineItemStatus, type TimelineProps, type TimelineSize, type TimelineVariant, type ToastAPI, type ToastAction, type ToastData, ToastItem, type ToastItemProps, type ToastOptions, type ToastPosition, ToastProvider, type ToastProviderProps, type ToastVariant, Toggle, ToggleGroup, ToggleGroupItem, type ToggleGroupItemProps, type ToggleGroupMultipleProps, type ToggleGroupOrientation, type ToggleGroupProps, type ToggleGroupSingleProps, type ToggleGroupSize, type ToggleGroupVariant, type ToggleProps, type ToggleSize, type ToggleVariant, Tooltip, type TooltipAlign, type TooltipProps, TooltipProvider, type TooltipProviderProps, type TooltipSide, type TreeCheckedState, type TreeNode, TreeView, type TreeViewProps, type UseDataTableOptions, type UseDataTableReturn, VideoPlayer, type VideoPlayerProps, type ViewMode, VirtualList, type VirtualListProps, VisuallyHidden, type VisuallyHiddenProps, accordionRootVariants, accordionTriggerVariants, alertVariants, avatarVariants, badgeVariants, bannerVariants, buttonVariants, calendarDayVariants, calloutVariants, cardVariants, chartColors, checkboxVariants, codeBlockVariants, comboboxTriggerVariants, copyButtonVariants, dataListVariants, dialogContentVariants, drawerContentVariants, fileUploadZoneVariants, inlineCodeVariants, inputVariants, kbdVariants, labelVariants, numberInputVariants, paginationButtonVariants, pinCellVariants, progressIndicatorVariants, progressTrackVariants, radioCardVariants, radioGroupVariants, radioIndicatorVariants, scrollbarThumbVariants, scrollbarVariants, searchInputVariants, selectTriggerVariants, sheetContentVariants, skeletonVariants, sliderRangeVariants, sliderThumbVariants, sliderTrackVariants, spinnerVariants, statVariants, switchThumbVariants, switchTrackVariants, tableRootVariants, tabsListVariants, tabsTriggerVariants, tagVariants, textareaVariants, toastVariants, toggleGroupItemVariants, toggleGroupVariants, toggleVariants, useCarouselContext, useCheckboxGroupContext, useCollapsibleContext, useDataTable, useSidebarContext, useToast, useToggleGroupContext };

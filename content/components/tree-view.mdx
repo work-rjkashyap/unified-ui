@@ -1,0 +1,195 @@
+---
+title: Tree View
+description: An expandable tree structure with checkable nodes, custom icons, keyboard navigation, and smooth animations.
+icon: GitBranch
+---
+
+import { TreeView } from "@work-rjkashyap/unified-ui";
+
+## Overview
+
+The `TreeView` component renders a recursive tree structure with expand/collapse animations, optional checkboxes, file/folder icons, and full keyboard navigation. Built on Framer Motion for smooth transitions.
+
+---
+
+## Import
+
+```tsx
+import { TreeView } from "@work-rjkashyap/unified-ui";
+// or
+import { TreeView } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Basic File Tree
+
+<ComponentPage
+  title="File Tree"
+  description="A simple file tree with default folder/file icons."
+  preview={
+    <div className="w-full max-w-xs">
+      <TreeView
+        items={[
+          {
+            id: "src",
+            label: "src",
+            children: [
+              {
+                id: "components",
+                label: "components",
+                children: [
+                  { id: "button", label: "button.tsx" },
+                  { id: "input", label: "input.tsx" },
+                  { id: "dialog", label: "dialog.tsx" },
+                ],
+              },
+              { id: "app", label: "app.tsx" },
+              { id: "index", label: "index.ts" },
+            ],
+          },
+          { id: "package", label: "package.json" },
+          { id: "readme", label: "README.md" },
+        ]}
+        defaultExpanded={["src", "components"]}
+      />
+    </div>
+  }
+  code={`const items = [
+  {
+    id: "src",
+    label: "src",
+    children: [
+      {
+        id: "components",
+        label: "components",
+        children: [
+          { id: "button", label: "button.tsx" },
+          { id: "input", label: "input.tsx" },
+          { id: "dialog", label: "dialog.tsx" },
+        ],
+      },
+      { id: "app", label: "app.tsx" },
+      { id: "index", label: "index.ts" },
+    ],
+  },
+  { id: "package", label: "package.json" },
+  { id: "readme", label: "README.md" },
+];
+
+<TreeView items={items} defaultExpanded={["src", "components"]} />`}
+/>
+
+### With Checkboxes
+
+<ComponentPage
+  title="Checkable Tree"
+  description="Enable checkable to add checkboxes with parent/child cascade."
+  preview={
+    <div className="w-full max-w-xs">
+      <TreeView
+        checkable
+        items={[
+          {
+            id: "perms",
+            label: "Permissions",
+            children: [
+              { id: "read", label: "Read" },
+              { id: "write", label: "Write" },
+              { id: "delete", label: "Delete" },
+            ],
+          },
+          {
+            id: "settings",
+            label: "Settings",
+            children: [
+              { id: "profile", label: "Profile" },
+              { id: "notifications", label: "Notifications" },
+            ],
+          },
+        ]}
+        defaultExpanded={["perms", "settings"]}
+      />
+    </div>
+  }
+  code={`<TreeView
+  checkable
+  items={items}
+  onCheckedChange={(checked) => console.log(checked)}
+/>`}
+/>
+
+### Without Icons
+
+<ComponentPage
+  title="No Icons"
+  description="Set showIcons={false} to hide default file/folder icons."
+  preview={
+    <div className="w-full max-w-xs">
+      <TreeView
+        showIcons={false}
+        items={[
+          {
+            id: "a",
+            label: "Section A",
+            children: [
+              { id: "a1", label: "Item A.1" },
+              { id: "a2", label: "Item A.2" },
+            ],
+          },
+          {
+            id: "b",
+            label: "Section B",
+            children: [
+              { id: "b1", label: "Item B.1" },
+            ],
+          },
+        ]}
+        defaultExpanded={["a"]}
+      />
+    </div>
+  }
+  code={`<TreeView showIcons={false} items={items} />`}
+/>
+
+---
+
+## Props
+
+| Prop               | Type                            | Default | Description                                      |
+| ------------------ | ------------------------------- | ------- | ------------------------------------------------ |
+| `items`            | `TreeNode[]`                    | —       | The tree data structure.                         |
+| `defaultExpanded`  | `string[]`                      | `[]`    | Default expanded node IDs (uncontrolled).        |
+| `expanded`         | `string[]`                      | —       | Controlled expanded node IDs.                    |
+| `onExpandedChange` | `(expanded: string[]) => void`  | —       | Callback when expanded state changes.            |
+| `checkable`        | `boolean`                       | `false` | Enable checkboxes on nodes.                      |
+| `defaultChecked`   | `string[]`                      | `[]`    | Default checked node IDs (uncontrolled).         |
+| `checked`          | `string[]`                      | —       | Controlled checked node IDs.                     |
+| `onCheckedChange`  | `(checked: string[]) => void`   | —       | Callback when checked state changes.             |
+| `onNodeSelect`     | `(nodeId: string) => void`      | —       | Callback when a node is clicked.                 |
+| `selectedId`       | `string`                        | —       | Currently selected node ID (visual highlight).   |
+| `showLines`        | `boolean`                       | `true`  | Show connector lines for hierarchy.              |
+| `showIcons`        | `boolean`                       | `true`  | Show default file/folder icons.                  |
+| `className`        | `string`                        | —       | Additional CSS classes.                          |
+
+### TreeNode
+
+| Property   | Type          | Description                                    |
+| ---------- | ------------- | ---------------------------------------------- |
+| `id`       | `string`      | Unique identifier.                             |
+| `label`    | `string`      | Display label.                                 |
+| `icon`     | `ReactNode`   | Custom icon (overrides default).               |
+| `children` | `TreeNode[]`  | Child nodes (makes it a branch/folder).        |
+| `disabled` | `boolean`     | Whether the node is disabled.                  |
+
+---
+
+## Accessibility
+
+- Uses `role="tree"` on the root and `role="treeitem"` on each node.
+- `aria-expanded` on branch nodes.
+- `aria-selected` on the active node.
+- Keyboard: **Arrow keys** to navigate, **Enter/Space** to expand/collapse, **ArrowRight** to expand, **ArrowLeft** to collapse.
+- Respects `prefers-reduced-motion`.

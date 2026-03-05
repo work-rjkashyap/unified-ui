@@ -7,9 +7,17 @@ import { cva } from "class-variance-authority";
 // ============================================================================
 // Unified UI — Code Component
 // ============================================================================
-// Inline code and block code display with copy button and line numbers.
+// Inline code and block code display with copy button, line numbers,
+// built-in syntax highlighting, and a proper code-editor appearance.
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { forwardRef, type ReactNode, useCallback, useState } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+import { TOKEN_COLORS, tokenizeLine } from "./code-highlight";
 
 export const inlineCodeVariants = cva([
   "inline font-mono font-medium rounded",
@@ -22,15 +30,15 @@ export const inlineCodeVariants = cva([
 export const codeBlockVariants = cva(
   [
     "relative rounded-lg overflow-hidden",
-    "border border-border",
-    "bg-muted/50",
+    "border border-code-border",
+    "bg-code-bg text-code-foreground",
     "font-mono text-sm leading-relaxed",
   ],
   {
     variants: {
       variant: {
-        default: "bg-muted/50",
-        dark: "bg-[oklch(0.12_0_0)] text-[oklch(0.9_0_0)] border-border/30",
+        default: "",
+        dark: "",
       },
     },
     defaultVariants: { variant: "default" },
@@ -91,6 +99,41 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
+// ============================================================================
+// HighlightedLine — renders a single line with syntax-colored tokens
+// ============================================================================
+
+function HighlightedLine({
+  line,
+  language,
+}: {
+  line: string;
+  language?: string;
+}) {
+  const tokens = useMemo(() => tokenizeLine(line, language), [line, language]);
+
+  return (
+    <>
+      {tokens.map((token, i) => (
+        <span
+          key={i}
+          style={
+            token.type !== "plain"
+              ? { color: TOKEN_COLORS[token.type] }
+              : undefined
+          }
+        >
+          {token.value}
+        </span>
+      ))}
+    </>
+  );
+}
+
+// ============================================================================
+// InlineCode
+// ============================================================================
+
 /**
  * InlineCode — renders code in a monospaced, styled span.
  * @example <InlineCode>npm install</InlineCode>
@@ -112,8 +155,14 @@ export const InlineCode = forwardRef<HTMLElement, InlineCodeProps>(
 );
 InlineCode.displayName = "InlineCode";
 
+// ============================================================================
+// CodeBlock
+// ============================================================================
+
 /**
- * CodeBlock — a styled code block with optional copy button, line numbers, and filename.
+ * CodeBlock — a styled code block with optional copy button, line numbers,
+ * and filename. Uses a dark editor background with built-in syntax
+ * highlighting for JS/TS/JSX/TSX, shell, and more.
  *
  * @example
  * <CodeBlock language="tsx" showCopyButton filename="Button.tsx">
@@ -138,19 +187,20 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
     const [copied, setCopied] = useState(false);
 
     const handleCopy = useCallback(() => {
-      const text =
+      const text = (
         typeof children === "string"
-          ? children
+          ? children.replace(/^\n+|\n+$/g, "")
           : ref && "current" in ref && ref.current
             ? (ref.current.textContent ?? "")
-            : "";
+            : ""
+      ).trim();
       navigator.clipboard.writeText(text).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       });
     }, [children, ref]);
 
-    const code = typeof children === "string" ? children : "";
+    const code = typeof children === "string" ? children.replace(/^\n+|\n+$/g, "") : "";
     const lines = code.split("\n");
 
     return (
@@ -165,24 +215,21 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
           <div
             className={cn(
               "flex items-center justify-between px-4 py-2 border-b",
-              variant === "dark"
-                ? "border-border/20 bg-[oklch(0.10_0_0)]"
-                : "border-border bg-muted",
+              "border-code-header-border bg-code-header-bg",
             )}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 min-w-0">
               {filename && (
-                <span className="text-xs font-medium text-muted-foreground">
+                <span className="text-xs font-medium text-code-header-foreground truncate">
                   {filename}
                 </span>
               )}
               {language && (
                 <span
                   className={cn(
-                    "text-xs px-2 py-0.5 rounded-full font-mono",
-                    variant === "dark"
-                      ? "bg-[oklch(0.20_0_0)] text-[oklch(0.7_0_0)]"
-                      : "bg-background text-muted-foreground border border-border",
+                    "text-[10px] px-2 py-0.5 rounded font-mono font-medium leading-none",
+                    "bg-code-badge-bg text-code-badge-foreground",
+                    "border border-code-badge-border",
                   )}
                 >
                   {language}
@@ -194,9 +241,10 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
                 type="button"
                 onClick={handleCopy}
                 className={cn(
-                  "inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs",
-                  "text-muted-foreground hover:text-foreground",
-                  "transition-colors duration-fast",
+                  "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs shrink-0",
+                  "text-code-copy-foreground hover:text-code-copy-hover-foreground",
+                  "hover:bg-code-copy-hover-bg",
+                  "transition-colors duration-150",
                   focusRingClasses,
                 )}
                 aria-label={copied ? "Copied!" : "Copy code"}
@@ -215,8 +263,8 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
                       }
                       data-ds-animated=""
                     >
-                      <CheckIcon className="size-3.5 text-success" />
-                      <span>Copied!</span>
+                      <CheckIcon className="size-3.5 text-code-success" />
+                      <span className="text-code-success">Copied!</span>
                     </motion.span>
                   ) : (
                     <motion.span
@@ -241,31 +289,38 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
           </div>
         )}
 
-        {/* Code content */}
+        {/* Code content with syntax highlighting */}
         <pre
           ref={ref}
           className={cn(
             "overflow-x-auto p-4 m-0",
-            variant === "dark" ? "text-[oklch(0.88_0_0)]" : "text-foreground",
+            "text-[13px] leading-[1.7]",
+            "bg-transparent border-0 shadow-none rounded-none",
           )}
           {...rest}
         >
-          {showLineNumbers && code ? (
-            <code>
+          {code ? (
+            <code
+              className="bg-transparent border-0 p-0 rounded-none shadow-none text-inherit"
+            >
               {lines.map((line, i) => (
                 <span key={i} className="block">
-                  <span
-                    className="inline-block w-8 text-right mr-4 text-muted-foreground/50 select-none text-xs"
-                    aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
-                  {line}
+                  {showLineNumbers && (
+                    <span
+                      className="inline-block w-8 text-right mr-4 text-code-line-number select-none text-xs"
+                      aria-hidden="true"
+                    >
+                      {i + 1}
+                    </span>
+                  )}
+                  <HighlightedLine line={line} language={language} />
                 </span>
               ))}
             </code>
           ) : (
-            <code>{children}</code>
+            <code
+              className="bg-transparent border-0 p-0 rounded-none shadow-none text-inherit"
+            >{children}</code>
           )}
         </pre>
       </div>

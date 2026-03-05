@@ -6,11 +6,17 @@
 // A static notification component for displaying contextual feedback messages.
 // Built on the Unified UI token layer with CVA for variant composition.
 //
+// This component merges the former Alert and Callout components into a single
+// unified API. All Callout features (collapsible mode, Framer Motion animation,
+// default variant, expandHeight animation) are now part of Alert.
+//
 // Features:
-//   - 4 semantic variants: info, success, warning, danger
+//   - 5 semantic variants: info, success, warning, danger, default
 //   - Auto-selected icon per variant (can be overridden or hidden)
 //   - Title + description slots for structured content
 //   - Dismissible option with close button and onDismiss callback
+//   - Collapsible option with animated expand/collapse
+//   - Optional Framer Motion entrance animation (fadeIn)
 //   - Full ref forwarding
 //   - WCAG AA accessible: role="alert", aria-live, proper color contrast
 //
@@ -28,21 +34,20 @@
 //     Something went wrong. Please try again.
 //   </Alert>
 //
-//   <Alert variant="success" title="Payment received">
-//     Your order has been confirmed and is being processed.
+//   <Alert variant="info" title="FAQ" collapsible defaultOpen={false}>
+//     Expandable content goes here.
 //   </Alert>
 // ============================================================================
 
+import { expandHeight, fadeIn } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
+import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { forwardRef, type ReactNode, useState } from "react";
 
 // ---------------------------------------------------------------------------
 // Default Icons (Internal)
-// ---------------------------------------------------------------------------
-// Lightweight inline SVG icons used as default per-variant indicators.
-// Each icon communicates the semantic meaning of the alert variant.
-// Consumers can override these via the `icon` prop.
 // ---------------------------------------------------------------------------
 
 function InfoIcon({ className }: { className?: string }) {
@@ -143,12 +148,26 @@ function CloseIcon({ className }: { className?: string }) {
   );
 }
 
+function ChevronDownIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Icon Map
-// ---------------------------------------------------------------------------
-// Maps alert variants to their default icon component. Each icon visually
-// reinforces the semantic meaning of the variant without relying on color
-// alone (WCAG requirement).
 // ---------------------------------------------------------------------------
 
 const defaultIconMap: Record<AlertVariant, React.FC<{ className?: string }>> = {
@@ -156,15 +175,11 @@ const defaultIconMap: Record<AlertVariant, React.FC<{ className?: string }>> = {
   success: SuccessIcon,
   warning: WarningIcon,
   danger: DangerIcon,
+  default: InfoIcon,
 };
 
 // ---------------------------------------------------------------------------
 // CVA Variant Definition
-// ---------------------------------------------------------------------------
-// All color values reference design system CSS custom properties via the
-// Tailwind utilities defined in design-system.css. Uses the semantic
-// "muted" color variants for background (subtle) with the corresponding
-// "muted-foreground" for text (higher contrast against the muted bg).
 // ---------------------------------------------------------------------------
 
 export const alertVariants = cva(
@@ -180,22 +195,19 @@ export const alertVariants = cva(
     "text-sm leading-5",
     // Border
     "border",
+    // Transition
+    "transition-colors duration-fast",
   ],
   {
     variants: {
-      // -----------------------------------------------------------------
-      // Semantic Variants
-      // -----------------------------------------------------------------
       variant: {
         /**
          * Info — informational messages, tips, notes.
-         * Uses info-muted bg with info-muted-foreground text.
          */
         info: ["bg-info-muted", "text-info-muted-foreground", "border-info/20"],
 
         /**
          * Success — positive outcomes, confirmations.
-         * Uses success-muted bg with success-muted-foreground text.
          */
         success: [
           "bg-success-muted",
@@ -205,7 +217,6 @@ export const alertVariants = cva(
 
         /**
          * Warning — caution messages, deprecation notices.
-         * Uses warning-muted bg with warning-muted-foreground text.
          */
         warning: [
           "bg-warning-muted",
@@ -215,13 +226,18 @@ export const alertVariants = cva(
 
         /**
          * Danger — error messages, destructive action warnings.
-         * Uses danger-muted bg with danger-muted-foreground text.
          */
         danger: [
           "bg-danger-muted",
           "text-danger-muted-foreground",
           "border-danger/20",
         ],
+
+        /**
+         * Default — neutral, generic notes without semantic meaning.
+         * (Formerly only available in Callout.)
+         */
+        default: ["bg-muted", "text-muted-foreground", "border-border"],
       },
     },
 
@@ -234,22 +250,25 @@ export const alertVariants = cva(
 // ---------------------------------------------------------------------------
 // Icon color classes per variant
 // ---------------------------------------------------------------------------
-// The icon uses the solid (non-muted) semantic color for high visibility
-// against the muted background.
-// ---------------------------------------------------------------------------
 
 const iconColorMap: Record<AlertVariant, string> = {
   info: "text-info",
   success: "text-success",
   warning: "text-warning",
   danger: "text-danger",
+  default: "text-muted-foreground",
 };
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-export type AlertVariant = "info" | "success" | "warning" | "danger";
+export type AlertVariant =
+  | "info"
+  | "success"
+  | "warning"
+  | "danger"
+  | "default";
 
 export interface AlertProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title">,
@@ -271,13 +290,13 @@ export interface AlertProps
   /**
    * Custom icon to display instead of the default variant icon.
    * Pass `null` to hide the icon entirely.
-   * The icon is sized to match the alert's text and colored to match the variant.
    */
   icon?: ReactNode | null;
 
   /**
    * Whether the alert can be dismissed/closed.
    * When true, a close button (×) is rendered in the top-right corner.
+   * Cannot be combined with `collapsible`.
    * @default false
    */
   dismissible?: boolean;
@@ -285,8 +304,6 @@ export interface AlertProps
   /**
    * Callback fired when the dismiss (close) button is clicked.
    * Only relevant when `dismissible` is true.
-   * If not provided when `dismissible` is true, the alert manages its
-   * own visibility internally.
    */
   onDismiss?: () => void;
 
@@ -297,13 +314,29 @@ export interface AlertProps
   dismissLabel?: string;
 
   /**
+   * Whether the alert body can be toggled open/closed.
+   * When true, the title row becomes clickable and a chevron is shown.
+   * Cannot be combined with `dismissible`.
+   * @default false
+   */
+  collapsible?: boolean;
+
+  /**
+   * Initial open state when `collapsible` is true.
+   * @default true
+   */
+  defaultOpen?: boolean;
+
+  /**
+   * Whether to animate the alert entrance with a fade-in animation.
+   * Uses the `fadeIn` Framer Motion preset.
+   * @default false
+   */
+  animated?: boolean;
+
+  /**
    * The ARIA role for the alert element.
-   * - `"alert"` — for important messages that require immediate attention
-   *   (assertive live region). Use for errors and critical warnings.
-   * - `"status"` — for informational messages that don't require immediate
-   *   attention (polite live region). Use for success/info messages.
-   *
-   * @default "alert" for danger/warning, "status" for info/success
+   * @default "alert" for danger/warning, "status" for info/success/default
    */
   role?: "alert" | "status";
 
@@ -317,16 +350,13 @@ export interface AlertProps
 // ---------------------------------------------------------------------------
 // Default role map
 // ---------------------------------------------------------------------------
-// Danger and warning alerts use role="alert" (assertive) because they
-// typically require user attention. Info and success use role="status"
-// (polite) because they are informational.
-// ---------------------------------------------------------------------------
 
 const defaultRoleMap: Record<AlertVariant, "alert" | "status"> = {
   info: "status",
   success: "status",
   warning: "alert",
   danger: "alert",
+  default: "status",
 };
 
 // ---------------------------------------------------------------------------
@@ -336,22 +366,24 @@ const defaultRoleMap: Record<AlertVariant, "alert" | "status"> = {
 /**
  * Alert — a static notification component for contextual feedback.
  *
+ * This is the unified Alert component that merges the former Alert and
+ * Callout components into a single API. All features from both are available:
+ * - Dismissible, collapsible, animated entrance, 5 variants (including
+ *   the neutral "default" variant formerly exclusive to Callout).
+ *
  * Built on the design system's token layer with CVA for variant composition.
  * All colors, radii, spacing, and transitions come from CSS custom properties
  * defined in design-system.css.
  *
- * Alerts are non-interactive by default. They communicate important
- * information to the user within the normal page flow (unlike Toast, which
- * appears as an overlay). Use alerts for inline validation feedback, system
- * status messages, and contextual tips.
- *
  * Accessibility:
  *   - Danger/warning alerts use `role="alert"` (assertive live region)
- *   - Info/success alerts use `role="status"` (polite live region)
+ *   - Info/success/default alerts use `role="status"` (polite live region)
  *   - Icon is decorative (`aria-hidden`) — variant meaning conveyed by text
  *   - Dismiss button has configurable `aria-label`
+ *   - Collapsible header uses `aria-expanded` for screen readers
  *   - Color is never the sole indicator of meaning — icons + text provide
  *     redundant signaling
+ *   - Animated entrance respects `prefers-reduced-motion`
  *
  * @example
  * ```tsx
@@ -362,12 +394,12 @@ const defaultRoleMap: Record<AlertVariant, "alert" | "status"> = {
  *
  * // Success alert
  * <Alert variant="success" title="Payment received">
- *   Your order #12345 has been confirmed and is being processed.
+ *   Your order #12345 has been confirmed.
  * </Alert>
  *
  * // Warning alert
  * <Alert variant="warning">
- *   Your session will expire in 5 minutes. Save your work.
+ *   Your session will expire in 5 minutes.
  * </Alert>
  *
  * // Danger alert (dismissible)
@@ -377,27 +409,37 @@ const defaultRoleMap: Record<AlertVariant, "alert" | "status"> = {
  *   dismissible
  *   onDismiss={() => setShowError(false)}
  * >
- *   Unable to reach the server. Check your network connection and try again.
+ *   Unable to reach the server.
  * </Alert>
  *
- * // Without title (single-line)
- * <Alert variant="info">
- *   This feature is currently in beta.
+ * // Neutral default variant
+ * <Alert variant="default" title="Note">
+ *   This is a generic note without semantic meaning.
+ * </Alert>
+ *
+ * // Collapsible (formerly Callout feature)
+ * <Alert
+ *   variant="info"
+ *   title="How does billing work?"
+ *   collapsible
+ *   defaultOpen={false}
+ * >
+ *   You are billed at the start of each month...
+ * </Alert>
+ *
+ * // Animated entrance
+ * <Alert variant="success" title="Deployed" animated>
+ *   Version 2.4.1 is live on production.
  * </Alert>
  *
  * // Custom icon
  * <Alert variant="success" icon={<RocketIcon className="size-4" />}>
- *   Your app has been deployed successfully!
+ *   Your app has been deployed!
  * </Alert>
  *
  * // No icon
  * <Alert variant="warning" icon={null}>
- *   Maintenance scheduled for tomorrow at 3:00 AM UTC.
- * </Alert>
- *
- * // Self-managed dismissible (no onDismiss callback)
- * <Alert variant="info" dismissible>
- *   This alert will hide itself when dismissed.
+ *   Maintenance scheduled for tomorrow.
  * </Alert>
  * ```
  */
@@ -409,6 +451,9 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
     dismissible = false,
     onDismiss,
     dismissLabel = "Dismiss alert",
+    collapsible = false,
+    defaultOpen = true,
+    animated = false,
     role: roleProp,
     className,
     children,
@@ -416,8 +461,13 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   },
   ref,
 ) {
+  const shouldReduce = useReducedMotion();
+
   // Internal visibility state for self-managed dismissible alerts
   const [visible, setVisible] = useState(true);
+
+  // Collapsible open/close state
+  const [open, setOpen] = useState(defaultOpen);
 
   // If dismissed and no external onDismiss handler, hide the alert
   if (!visible && !onDismiss) {
@@ -450,16 +500,77 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
     }
   };
 
-  return (
-    <div
-      ref={ref}
-      role={resolvedRole}
-      className={cn("not-prose", alertVariants({ variant }), className)}
-      data-ds=""
-      data-ds-component="alert"
-      data-ds-variant={variant}
-      {...rest}
-    >
+  // Determine if we should use Framer Motion for entrance animation
+  const useAnimation = animated && !shouldReduce;
+
+  // Shared root props
+  const rootClasses = cn("not-prose", alertVariants({ variant }), className);
+  const rootDataAttrs = {
+    "data-ds": "",
+    "data-ds-component": "alert",
+    "data-ds-variant": variant,
+    ...(animated ? { "data-ds-animated": "" } : {}),
+  };
+
+  // Collapsible inner content (shared between animated / non-animated)
+  const collapsibleInner = collapsible ? (
+    <>
+      {/* Collapsible header — button for a11y */}
+      <button
+        type="button"
+        className={cn(
+          "flex items-start gap-3 w-full text-left cursor-pointer",
+          focusRingClasses,
+          "rounded-sm",
+        )}
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+      >
+        {showIcon && resolvedIcon}
+        <div className="flex-1 min-w-0">
+          {title && <div className="font-semibold leading-5">{title}</div>}
+        </div>
+        <motion.span
+          className="shrink-0 mt-0.5"
+          animate={open ? { rotate: 180 } : { rotate: 0 }}
+          transition={{ duration: 0.2 }}
+          data-ds-animated=""
+        >
+          <ChevronDownIcon className="size-4 opacity-70" />
+        </motion.span>
+      </button>
+
+      {/* Collapsible content */}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            variants={shouldReduce ? undefined : expandHeight.variants}
+            initial={shouldReduce ? { opacity: 0 } : "initial"}
+            animate={shouldReduce ? { opacity: 1 } : "animate"}
+            exit={shouldReduce ? { opacity: 0 } : "exit"}
+            transition={
+              shouldReduce ? { duration: 0.15 } : expandHeight.transition
+            }
+            data-ds-animated=""
+          >
+            <div
+              className={cn(
+                "leading-5 pt-2",
+                showIcon && "pl-7",
+                title && "opacity-90",
+              )}
+            >
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  ) : null;
+
+  // Standard inner content (shared between animated / non-animated)
+  const standardInner = !collapsible ? (
+    <>
       {/* Icon */}
       {showIcon && resolvedIcon}
 
@@ -495,8 +606,141 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
           <CloseIcon className="size-4" />
         </button>
       )}
+    </>
+  ) : null;
+
+  // --- Animated root (motion.div) ---
+  if (useAnimation) {
+    return (
+      <motion.div
+        ref={ref}
+        role={resolvedRole}
+        className={rootClasses}
+        variants={fadeIn.variants}
+        initial="initial"
+        animate="animate"
+        transition={fadeIn.transition}
+        {...rootDataAttrs}
+      >
+        {collapsible ? collapsibleInner : standardInner}
+      </motion.div>
+    );
+  }
+
+  // --- Static root (plain div) ---
+  return (
+    <div
+      ref={ref}
+      role={resolvedRole}
+      className={rootClasses}
+      {...rootDataAttrs}
+      {...rest}
+    >
+      {collapsible ? collapsibleInner : standardInner}
     </div>
   );
 });
 
 Alert.displayName = "Alert";
+
+// ---------------------------------------------------------------------------
+// Callout — backward-compatible alias
+// ---------------------------------------------------------------------------
+// The Callout component has been merged into Alert. This alias preserves
+// backward compatibility for existing imports. All Callout props map
+// directly to Alert props:
+//   - `collapsible` → `collapsible`
+//   - `defaultOpen` → `defaultOpen`
+//   - `variant="default"` → `variant="default"`
+//
+// Callout always renders with `animated={true}` to preserve the original
+// Callout behavior of animating on mount with the fadeIn preset.
+// ---------------------------------------------------------------------------
+
+export type CalloutVariant = AlertVariant;
+
+export interface CalloutProps
+  extends Omit<
+    AlertProps,
+    "dismissible" | "onDismiss" | "dismissLabel" | "role"
+  > {
+  /**
+   * Semantic color variant.
+   * @default "info"
+   */
+  variant?: CalloutVariant;
+
+  /**
+   * Optional heading rendered in bold above the body.
+   */
+  title?: ReactNode;
+
+  /**
+   * Custom icon. Pass `null` to hide the default icon.
+   */
+  icon?: ReactNode | null;
+
+  /**
+   * Whether the body can be toggled open/closed.
+   * @default false
+   */
+  collapsible?: boolean;
+
+  /**
+   * Initial open state when `collapsible` is true.
+   * @default true
+   */
+  defaultOpen?: boolean;
+
+  /**
+   * Whether to animate the callout entrance.
+   * Callouts default to `true` to preserve original Callout behavior.
+   * @default true
+   */
+  animated?: boolean;
+
+  /** Additional CSS classes on the root element. */
+  className?: string;
+
+  /** The body content of the callout. */
+  children?: ReactNode;
+}
+
+/**
+ * Callout — backward-compatible alias for Alert.
+ *
+ * Renders an animated Alert by default (`animated={true}`) with
+ * `rounded-lg` styling to preserve the original Callout appearance.
+ *
+ * @deprecated Use `Alert` directly with `animated` and `collapsible`
+ *   props if needed. The `Callout` alias will be removed in a future
+ *   major version.
+ *
+ * @example
+ * ```tsx
+ * <Callout variant="info" title="Did you know?">
+ *   Unified UI components are fully tree-shakeable.
+ * </Callout>
+ *
+ * // Equivalent Alert usage:
+ * <Alert variant="info" title="Did you know?" animated className="rounded-lg">
+ *   Unified UI components are fully tree-shakeable.
+ * </Alert>
+ * ```
+ */
+export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
+  function Callout({ animated = true, className, ...rest }, ref) {
+    return (
+      <Alert
+        ref={ref}
+        animated={animated}
+        className={cn("rounded-lg", className)}
+        {...rest}
+      />
+    );
+  },
+);
+
+Callout.displayName = "Callout";
+
+export const calloutVariants = alertVariants;

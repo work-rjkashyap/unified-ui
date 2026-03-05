@@ -25,7 +25,7 @@
 // ============================================================================
 
 /** Current version of the Unified UI design system. */
-export const UNIFIED_UI_VERSION = "0.1.2" as const;
+export const UNIFIED_UI_VERSION = "0.2.0" as const;
 
 export {
   Accordion,
@@ -48,6 +48,11 @@ export {
   type AlertProps,
   type AlertVariant,
   alertVariants,
+  // Callout — backward-compatible alias (merged into Alert)
+  Callout,
+  type CalloutProps,
+  type CalloutVariant,
+  calloutVariants,
 } from "./components/alert";
 // ---------------------------------------------------------------------------
 // Phase 10 — Extended Components
@@ -90,6 +95,12 @@ export {
   type BadgeSize,
   type BadgeVariant,
   badgeVariants,
+  // Tag — backward-compatible alias (merged into Badge)
+  Tag,
+  type TagProps,
+  type TagSize,
+  type TagVariant,
+  tagVariants,
 } from "./components/badge";
 export {
   Banner,
@@ -138,12 +149,7 @@ export {
   calendarDayVariants,
   type DateRange,
 } from "./components/calendar";
-export {
-  Callout,
-  type CalloutProps,
-  type CalloutVariant,
-  calloutVariants,
-} from "./components/callout";
+// Callout is now re-exported from "./components/alert" above (merged into Alert)
 export {
   Card,
   CardBody,
@@ -586,6 +592,30 @@ export {
   sheetContentVariants,
 } from "./components/sheet";
 export {
+  Drawer,
+  DrawerBody,
+  type DrawerBodyProps,
+  DrawerClose,
+  type DrawerCloseProps,
+  DrawerContent,
+  type DrawerContentProps,
+  DrawerDescription,
+  type DrawerDescriptionProps,
+  DrawerFooter,
+  type DrawerFooterProps,
+  DrawerHandle,
+  type DrawerHandleProps,
+  DrawerHeader,
+  type DrawerHeaderProps,
+  type DrawerProps,
+  type DrawerSize,
+  DrawerTitle,
+  type DrawerTitleProps,
+  DrawerTrigger,
+  type DrawerTriggerProps,
+  drawerContentVariants,
+} from "./components/drawer";
+export {
   Sidebar,
   SidebarContent,
   type SidebarContentProps,
@@ -703,13 +733,7 @@ export {
   tabsListVariants,
   tabsTriggerVariants,
 } from "./components/tabs";
-export {
-  Tag,
-  type TagProps,
-  type TagSize,
-  type TagVariant,
-  tagVariants,
-} from "./components/tag";
+// Tag is now re-exported from "./components/badge" above (merged into Badge)
 export {
   Textarea,
   type TextareaProps,
@@ -769,6 +793,96 @@ export {
   toggleGroupVariants,
   useToggleGroupContext,
 } from "./components/toggle-group";
+export {
+  ThemeToggle,
+  type ThemeToggleMode,
+  type ThemeToggleProps,
+  type ThemeToggleSize,
+  type ThemeToggleVariant,
+  type ThemeValue,
+} from "./components/theme-toggle";
+// ---------------------------------------------------------------------------
+// ColorPicker
+// ---------------------------------------------------------------------------
+export {
+  ColorPicker,
+  type ColorPickerProps,
+} from "./components/color-picker";
+// ---------------------------------------------------------------------------
+// Sonner (Toast via sonner)
+// ---------------------------------------------------------------------------
+export {
+  SonnerToaster,
+  type SonnerToasterProps,
+  type SonnerPosition,
+  toast,
+  type SonnerToastOptions,
+} from "./components/sonner";
+// ---------------------------------------------------------------------------
+// TreeView
+// ---------------------------------------------------------------------------
+export {
+  TreeView,
+  type TreeViewProps,
+  type TreeNode,
+  type TreeCheckedState,
+} from "./components/tree-view";
+// ---------------------------------------------------------------------------
+// VirtualList
+// ---------------------------------------------------------------------------
+export {
+  VirtualList,
+  type VirtualListProps,
+} from "./components/virtual-list";
+// ---------------------------------------------------------------------------
+// ImageGallery
+// ---------------------------------------------------------------------------
+export {
+  ImageGallery,
+  type ImageGalleryProps,
+  type GalleryImage,
+} from "./components/image-gallery";
+// ---------------------------------------------------------------------------
+// VideoPlayer
+// ---------------------------------------------------------------------------
+export {
+  VideoPlayer,
+  type VideoPlayerProps,
+} from "./components/video-player";
+// ---------------------------------------------------------------------------
+// Chart
+// ---------------------------------------------------------------------------
+export {
+  ChartContainer,
+  type ChartContainerProps,
+  ChartTooltipContent,
+  type ChartTooltipContentProps,
+  chartColors,
+} from "./components/chart";
+// ---------------------------------------------------------------------------
+// Markdown
+// ---------------------------------------------------------------------------
+export {
+  Markdown,
+  type MarkdownProps,
+} from "./components/markdown";
+// ---------------------------------------------------------------------------
+// DataTableToolbar
+// ---------------------------------------------------------------------------
+export {
+  DataTableToolbar,
+  type DataTableToolbarProps,
+  type DataTableFilter,
+  type ColumnVisibility,
+  type ViewMode,
+} from "./components/data-table-toolbar";
+// ---------------------------------------------------------------------------
+// InfiniteScroll
+// ---------------------------------------------------------------------------
+export {
+  InfiniteScroll,
+  type InfiniteScrollProps,
+} from "./components/infinite-scroll";
 export {
   Tooltip,
   type TooltipAlign,
@@ -943,6 +1057,7 @@ export {
   DEFAULT_FONT_KEY,
   DEFAULT_RADIUS_KEY,
   DEFAULT_SHADOW_KEY,
+  DEFAULT_STYLE_KEY,
   DEFAULT_SURFACE_STYLE_KEY,
   DEFAULT_THEME_CONFIG,
   type DSThemeContextValue,
@@ -959,6 +1074,7 @@ export {
   getFontPreset,
   getRadiusPreset,
   getShadowPreset,
+  getStylePreset,
   type PresetSemanticColors,
   RADIUS_PRESETS,
   type RadiusPreset,
@@ -967,6 +1083,8 @@ export {
   SHADOW_PRESETS,
   type ShadowPreset,
   type ShadowVarName,
+  STYLE_PRESETS,
+  type StylePreset,
   SURFACE_STYLE_PRESETS,
   type SurfaceStylePreset,
   type ThemeConfig,

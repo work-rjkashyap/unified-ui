@@ -50,8 +50,10 @@ import {
   DEFAULT_THEME_CONFIG,
   FONT_PRESETS,
   generateThemeCSS,
+  getStylePreset,
   RADIUS_PRESETS,
   SHADOW_PRESETS,
+  STYLE_PRESETS,
   SURFACE_STYLE_PRESETS,
   type ThemeConfig,
 } from "./presets";
@@ -73,6 +75,9 @@ export interface ThemeCustomizerContextValue {
 
   /** Replace the entire theme config at once */
   setConfig: (config: ThemeConfig) => void;
+
+  /** Set the style preset (e.g. "vega", "nova", "maia", "lyra", "mira") and apply its defaults */
+  setStyle: (key: string) => void;
 
   /** Set just the color preset (e.g. "zinc", "blue", "rose") */
   setColorPreset: (key: string) => void;
@@ -144,6 +149,9 @@ function loadConfig(): ThemeConfig {
 
     // Validate each field — fall back to defaults for invalid values
     return {
+      style: STYLE_PRESETS.some((s) => s.key === parsed.style)
+        ? parsed.style!
+        : DEFAULT_THEME_CONFIG.style,
       colorPreset: COLOR_PRESET_KEYS.includes(parsed.colorPreset ?? "")
         ? parsed.colorPreset!
         : DEFAULT_THEME_CONFIG.colorPreset,
@@ -241,6 +249,7 @@ function removeStyles(): void {
 
 function configsEqual(a: ThemeConfig, b: ThemeConfig): boolean {
   return (
+    a.style === b.style &&
     a.colorPreset === b.colorPreset &&
     a.radius === b.radius &&
     a.font === b.font &&
@@ -371,6 +380,21 @@ export function ThemeCustomizerProvider({
     setConfigState(newConfig);
   }, []);
 
+  const setStyle = useCallback((key: string) => {
+    const preset = getStylePreset(key);
+    setConfigState((prev) => {
+      if (prev.style === key) return prev;
+      return {
+        ...prev,
+        style: key,
+        radius: preset.defaults.radius,
+        font: preset.defaults.font,
+        shadow: preset.defaults.shadow,
+        surfaceStyle: preset.defaults.surfaceStyle,
+      };
+    });
+  }, []);
+
   const setColorPreset = useCallback((key: string) => {
     setConfigState((prev) => {
       if (prev.colorPreset === key) return prev;
@@ -424,6 +448,7 @@ export function ThemeCustomizerProvider({
     () => ({
       config,
       setConfig,
+      setStyle,
       setColorPreset,
       setRadius,
       setFont,
@@ -436,6 +461,7 @@ export function ThemeCustomizerProvider({
     [
       config,
       setConfig,
+      setStyle,
       setColorPreset,
       setRadius,
       setFont,

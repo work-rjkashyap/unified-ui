@@ -1,0 +1,187 @@
+---
+title: ThemeToggle
+description: A light/dark/system mode switcher with icon and segmented variants. Headless and controlled — works with any theme provider.
+icon: SunMoon
+---
+
+import { ThemeToggle, Button } from "@work-rjkashyap/unified-ui";
+
+## Overview
+
+The `ThemeToggle` component is a controlled light/dark/system mode switcher. It supports two visual variants — a single icon button that cycles on click, and a segmented pill group with one button per option. It's fully headless: you provide the current `value` and an `onChange` callback, so it works with any theme provider (`next-themes`, custom context, etc.).
+
+---
+
+## Import
+
+```tsx
+import { ThemeToggle } from "@work-rjkashyap/unified-ui";
+// or
+import { ThemeToggle } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Icon Variant (Default)
+
+<ComponentPage
+	title="Icon Toggle"
+	description="A single button that cycles between light and dark mode with an animated icon transition."
+	preview={<ThemeToggleIconPreview />}
+	code={`import { useTheme } from "next-themes";
+import { ThemeToggle } from "@work-rjkashyap/unified-ui";
+
+function MyToggle() {
+const { resolvedTheme, setTheme } = useTheme();
+return (
+<ThemeToggle
+value={resolvedTheme as "light" | "dark"}
+onChange={setTheme}
+/>
+);
+}`}
+/>
+
+### Segmented Variant
+
+<ComponentPage
+	title="Segmented Toggle"
+	description="An inline pill group showing all available options at once. Great for settings pages."
+	preview={<ThemeToggleSegmentedPreview />}
+	code={`<ThemeToggle
+  value={theme}
+  onChange={setTheme}
+  variant="segmented"
+/>`}
+/>
+
+### Three-State Mode (Light / Dark / System)
+
+<ComponentPage
+	title="Light / Dark / System"
+	description="Set mode='light-dark-system' to include a system/auto option that follows the OS preference."
+	preview={
+		<div className="flex flex-col gap-6 items-center justify-center">
+			<ThemeToggleSystemIconPreview />
+			<ThemeToggleSystemSegmentedPreview />
+		</div>
+	}
+	code={`// Icon variant — cycles: light → dark → system
+<ThemeToggle
+  value={theme}
+  onChange={setTheme}
+  mode="light-dark-system"
+/>
+
+// Segmented variant — shows all three options
+
+<ThemeToggle
+  value={theme}
+  onChange={setTheme}
+  variant="segmented"
+  mode="light-dark-system"
+/>`}
+/>
+
+### Sizes
+
+<ComponentPage
+	title="Icon Sizes"
+	description="Three sizes: sm, md (default), and lg."
+	preview={<ThemeToggleSizesPreview />}
+	code={`<ThemeToggle value={theme} onChange={setTheme} size="sm" />
+<ThemeToggle value={theme} onChange={setTheme} size="md" />
+<ThemeToggle value={theme} onChange={setTheme} size="lg" />`}
+/>
+
+<ComponentPage
+	title="Segmented Sizes"
+	description="Segmented variant also supports all three sizes."
+	preview={<ThemeToggleSegmentedSizesPreview />}
+	code={`<ThemeToggle value={theme} onChange={setTheme} variant="segmented" size="sm" />
+<ThemeToggle value={theme} onChange={setTheme} variant="segmented" size="md" />
+<ThemeToggle value={theme} onChange={setTheme} variant="segmented" size="lg" />`}
+/>
+
+---
+
+## Integration with next-themes
+
+The most common integration is with [next-themes](https://github.com/pacocoursey/next-themes):
+
+```tsx
+"use client";
+
+import { useTheme } from "next-themes";
+import { ThemeToggle, type ThemeValue } from "@work-rjkashyap/unified-ui";
+import { useEffect, useState } from "react";
+
+export function SiteThemeToggle() {
+	const { theme, setTheme, resolvedTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => setMounted(true), []);
+
+	if (!mounted) return null;
+
+	// For 2-state mode, use resolvedTheme (never "system")
+	// For 3-state mode, use theme (can be "system")
+	return (
+		<ThemeToggle
+			value={(theme ?? "system") as ThemeValue}
+			onChange={setTheme}
+			mode="light-dark-system"
+			variant="segmented"
+		/>
+	);
+}
+```
+
+---
+
+## Props
+
+### ThemeToggle
+
+| Prop        | Type                                  | Default        | Description                                    |
+| ----------- | ------------------------------------- | -------------- | ---------------------------------------------- |
+| `value`     | `"light" \| "dark" \| "system"`       | —              | **Required.** The current theme value.         |
+| `onChange`  | `(value: ThemeValue) => void`         | —              | **Required.** Callback when the theme changes. |
+| `mode`      | `"light-dark" \| "light-dark-system"` | `"light-dark"` | Whether to include the system/auto option.     |
+| `variant`   | `"icon" \| "segmented"`               | `"icon"`       | Visual variant.                                |
+| `size`      | `"sm" \| "md" \| "lg"`                | `"md"`         | Size of the toggle.                            |
+| `className` | `string`                              | —              | Extra classes on the outer element.            |
+
+---
+
+## Variants Reference
+
+| Variant     | Description                                                      | Best For                          |
+| ----------- | ---------------------------------------------------------------- | --------------------------------- |
+| `icon`      | Single button that cycles on click with animated icon transition | Navbars, toolbars, compact spaces |
+| `segmented` | Inline pill group with one button per option                     | Settings pages, preference panels |
+
+---
+
+## Accessibility
+
+- **Keyboard**: The icon variant is a standard `<button>` — focusable and activatable with `Enter` or `Space`. The segmented variant uses `role="radiogroup"` with `role="radio"` on each option, supporting `aria-checked`.
+- **Focus ring**: Uses the design system's standard `focusRingClasses` for visible keyboard focus.
+- **Labels**: The icon variant sets a descriptive `aria-label` indicating which theme it will switch to. Each segmented button has an `aria-label` matching its theme name.
+- **Motion**: Icon transitions use `transition-all` with `duration-300` and respect `prefers-reduced-motion` via the standard Tailwind `motion-safe` / `motion-reduce` utilities.
+
+---
+
+## Design Tokens
+
+| Token       | CSS Variable             | Tailwind                    | Usage                          |
+| ----------- | ------------------------ | --------------------------- | ------------------------------ |
+| Background  | `--secondary`            | `bg-secondary`              | Icon button background         |
+| Border      | `--border`               | `border-border`             | Button border                  |
+| Text        | `--secondary-foreground` | `text-secondary-foreground` | Icon color                     |
+| Active bg   | `--background`           | `bg-background`             | Active segment background      |
+| Active text | `--foreground`           | `text-foreground`           | Active segment icon            |
+| Muted       | `--muted`                | `bg-muted`                  | Segmented container background |
+| Transition  | `--duration-fast`        | `duration-fast`             | Hover/active transitions       |

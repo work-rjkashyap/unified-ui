@@ -1,6 +1,6 @@
 ---
 title: Toast
-description: Stackable notification toasts with 5 positions, semantic variants, action support, and auto-dismiss.
+description: Stackable notification toasts with 6 positions, semantic variants, action support, progress indicator, and auto-dismiss with pause-on-hover.
 icon: Bell
 ---
 
@@ -61,25 +61,33 @@ import { ToastProvider, useToast } from "@work-rjkashyap/unified-ui";
 import { ToastProvider, useToast } from "@work-rjkashyap/unified-ui/components";
 ```
 
+<Callout type="info">
+	The toast system uses an **imperative hook pattern**. Wrap your app with
+	`ToastProvider`, then call `useToast()` inside any child component to
+	trigger toasts. No JSX elements are needed at the call site.
+</Callout>
+
 ---
 
 ## Setup
 
-Wrap your application (or layout) with `ToastProvider` to enable the toast system. This renders the toast container and manages the toast stack.
+Wrap your application (or layout) with `ToastProvider` to enable the toast system. This renders the toast container portal and manages the toast stack.
 
 ```tsx
 import { ToastProvider } from "@work-rjkashyap/unified-ui";
 
 export default function RootLayout({ children }) {
-	return <ToastProvider>{children}</ToastProvider>;
+	return (
+		<ToastProvider position="top-right" maxVisible={5}>
+			{children}
+		</ToastProvider>
+	);
 }
 ```
 
 ---
 
-## Examples
-
-### Basic Usage
+## Basic Usage
 
 Use the `useToast` hook inside any component to trigger toasts imperatively.
 
@@ -101,12 +109,17 @@ function SaveButton() {
 }
 ```
 
-### Variants
+---
 
-Toasts support five semantic variants that match the Alert component's visual language.
+## Variants
 
-```tsx
-const toast = useToast();
+Toasts support five semantic variants that match the Alert component's visual language. Each variant renders with a semantic background color, an auto-selected icon, and appropriate visual weight.
+
+<ComponentPage
+	title="Variants"
+	description="Five semantic variants for different message types."
+	preview={<ToastPreview showPositionPicker={false} />}
+	code={`const toast = useToast();
 
 // Default — neutral notification
 toast.toast("A new version is available.");
@@ -121,18 +134,22 @@ toast.warning("Your session expires in 5 minutes.");
 toast.danger("Failed to save changes. Please try again.");
 
 // Info — informational messages
-toast.info("Tip: Press Ctrl+S to save at any time.");
-```
+toast.info("Tip: Press Ctrl+S to save at any time.");`}
+/>
 
-Each variant renders with:
+| Variant   | Background         | Icon      | Use Case                                |
+| --------- | ------------------ | --------- | --------------------------------------- |
+| `default` | `--surface-raised` | None      | Neutral notifications, general messages |
+| `success` | `--success-muted`  | Checkmark | Positive outcomes, confirmations        |
+| `warning` | `--warning-muted`  | Warning   | Caution messages, expiring sessions     |
+| `danger`  | `--danger-muted`   | Error     | Errors, failures, destructive outcomes  |
+| `info`    | `--info-muted`     | Info      | Tips, informational, non-urgent updates |
 
-- A semantic background color from the design system tokens
-- An auto-selected icon matching the variant
-- Appropriate visual weight for the message severity
+---
 
-### With Title and Description
+## With Title and Description
 
-Pass an options object to include a title alongside the description.
+Pass an options object to include a title alongside the description. The title renders in bold above the description text.
 
 ```tsx
 toast.success({
@@ -147,9 +164,11 @@ toast.danger({
 });
 ```
 
-### With Actions
+---
 
-Toasts can include action buttons for quick user responses. Actions render as small buttons inside the toast.
+## With Actions
+
+Toasts can include action buttons for quick user responses. Actions render as underlined text links inside the toast. Clicking an action automatically dismisses the toast.
 
 ```tsx
 toast.info({
@@ -175,7 +194,7 @@ toast.danger({
 
 ## Duration
 
-By default, toasts auto-dismiss after 5 seconds. Customize the duration (in milliseconds) or set it to `Infinity` for persistent toasts.
+By default, toasts auto-dismiss after **5 seconds** (5000ms). A subtle progress bar at the bottom of each toast shows the remaining time. Customize the duration per-toast, or set a `defaultDuration` on the provider.
 
 ```tsx
 // Quick toast — 2 seconds
@@ -184,13 +203,21 @@ toast.success("Copied!", { duration: 2000 });
 // Long toast — 10 seconds
 toast.warning("Please review the changes.", { duration: 10000 });
 
-// Persistent — won't auto-dismiss
-toast.info("Waiting for server response...", { duration: Infinity });
+// Persistent — won't auto-dismiss (no progress bar)
+toast.info("Waiting for server response...", { duration: 0 });
 ```
+
+<Callout type="info">
+	Auto-dismiss is **paused on hover** so users have time to read and interact.
+	The progress bar animation also pauses. When the pointer leaves, the
+	remaining time resumes.
+</Callout>
+
+---
 
 ## Position
 
-Configure the toast position on the `ToastProvider`. All toasts in the stack will appear at the configured position.
+Configure the toast position on the `ToastProvider`. All toasts in the stack appear at the configured position. Use the position picker in the live preview above to see each option.
 
 ```tsx
 <ToastProvider position="top-right">      {/* Default */}
@@ -201,29 +228,26 @@ Configure the toast position on the `ToastProvider`. All toasts in the stack wil
 <ToastProvider position="bottom-center">
 ```
 
-| Position        | Description                |
-| --------------- | -------------------------- |
-| `top-right`     | Top-right corner (default) |
-| `top-left`      | Top-left corner            |
-| `top-center`    | Top center                 |
-| `bottom-right`  | Bottom-right corner        |
-| `bottom-left`   | Bottom-left corner         |
-| `bottom-center` | Bottom center              |
+| Position        | Description                | Animation Direction    |
+| --------------- | -------------------------- | ---------------------- |
+| `top-right`     | Top-right corner (default) | Slides in from right   |
+| `top-left`      | Top-left corner            | Slides in from left    |
+| `top-center`    | Top center                 | Slides down from above |
+| `bottom-right`  | Bottom-right corner        | Slides in from right   |
+| `bottom-left`   | Bottom-left corner         | Slides in from left    |
+| `bottom-center` | Bottom center              | Slides up from below   |
 
-<Callout type="info">
-	Use the **Position** picker in the live preview above to see each position
-	in action.
-</Callout>
+---
 
 ## Dismissing Toasts
 
-Toasts can be dismissed manually by the user (close button) or programmatically.
+Toasts can be dismissed by the user via the close button, by pressing `Escape` while hovered, or programmatically using the returned toast ID.
 
 ```tsx
 const toast = useToast();
 
 // Returns a toast ID
-const id = toast.success("Uploading...", { duration: Infinity });
+const id = toast.success("Uploading...", { duration: 0 });
 
 // Dismiss a specific toast
 toast.dismiss(id);
@@ -232,33 +256,105 @@ toast.dismiss(id);
 toast.dismissAll();
 ```
 
-## Custom Rendering
+---
 
-For advanced use cases, pass a custom `render` function to control the toast content entirely.
+## Deduplication
+
+Pass a custom `id` to prevent duplicate toasts. If a toast with the same ID already exists, it is replaced rather than stacked.
 
 ```tsx
-toast.toast({
-	render: ({ dismiss }) => (
-		<div className="flex items-center gap-3">
-			<Avatar src="/user.jpg" alt="Jane" size="sm" />
-			<div>
-				<p className="text-sm font-medium">Jane sent you a message</p>
-				<p className="text-xs text-muted-foreground">Just now</p>
-			</div>
-			<Button variant="ghost" size="sm" onClick={dismiss}>
-				Dismiss
-			</Button>
-		</div>
-	),
-});
+// Only one "connectivity" toast at a time
+toast.warning("Connection lost. Retrying...", { id: "connectivity" });
+
+// Later — replaces the existing toast
+toast.success("Reconnected!", { id: "connectivity" });
 ```
+
+---
 
 ## Stacking
 
-Multiple toasts stack automatically. New toasts appear at the edge closest to the configured position. The stack has a default maximum of 5 visible toasts — older ones are dismissed when the limit is reached.
+Multiple toasts stack automatically. New toasts appear at the edge closest to the configured position. The stack has a configurable maximum — older toasts are dismissed when the limit is reached.
 
 ```tsx
-<ToastProvider maxToasts={3}>{/* Limit to 3 visible toasts */}</ToastProvider>
+// Limit to 3 visible toasts
+<ToastProvider maxVisible={3}>{children}</ToastProvider>
+```
+
+---
+
+## Common Patterns
+
+### Form Submission
+
+```tsx
+async function handleSubmit(data: FormData) {
+	const toast = useToast();
+
+	try {
+		await saveProfile(data);
+		toast.success({
+			title: "Profile updated",
+			description: "Your changes are now live.",
+		});
+	} catch (err) {
+		toast.danger({
+			title: "Save failed",
+			description: err.message,
+			duration: 8000,
+		});
+	}
+}
+```
+
+### Async Operations
+
+```tsx
+function UploadButton() {
+	const toast = useToast();
+
+	const handleUpload = async () => {
+		const id = toast.info("Uploading file...", { duration: 0 });
+
+		try {
+			await uploadFile(file);
+			toast.dismiss(id);
+			toast.success("File uploaded successfully!");
+		} catch {
+			toast.dismiss(id);
+			toast.danger("Upload failed. Please try again.");
+		}
+	};
+
+	return <Button onClick={handleUpload}>Upload</Button>;
+}
+```
+
+### Undo Actions
+
+```tsx
+function DeleteButton({ itemId }: { itemId: string }) {
+	const toast = useToast();
+
+	const handleDelete = () => {
+		softDelete(itemId);
+		toast.danger({
+			title: "Item deleted",
+			description: "This action can be undone.",
+			duration: 8000,
+			action: {
+				label: "Undo",
+				onClick: () => restoreItem(itemId),
+			},
+		});
+	};
+
+	return (
+		<Button variant="destructive" onClick={handleDelete}>
+			Delete
+		</Button>
+	);
+}
 ```
 
 ---
@@ -267,11 +363,13 @@ Multiple toasts stack automatically. New toasts appear at the edge closest to th
 
 ### ToastProvider
 
-| Prop        | Type                                                                                              | Default       | Description                                                   |
-| ----------- | ------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------- |
-| `position`  | `"top-right" \| "top-left" \| "top-center" \| "bottom-right" \| "bottom-left" \| "bottom-center"` | `"top-right"` | Where toasts appear on the screen.                            |
-| `maxToasts` | `number`                                                                                          | `5`           | Maximum number of visible toasts before oldest are dismissed. |
-| `className` | `string`                                                                                          | —             | Additional CSS classes for the toast container.               |
+| Prop              | Type                                                                                              | Default       | Description                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------- | ------------- | ----------------------------------------------------------------- |
+| `position`        | `"top-right" \| "top-left" \| "top-center" \| "bottom-right" \| "bottom-left" \| "bottom-center"` | `"top-right"` | Where toasts appear on the screen.                                |
+| `maxVisible`      | `number`                                                                                          | `5`           | Maximum visible toasts before oldest are dismissed.               |
+| `defaultDuration` | `number`                                                                                          | `5000`        | Default auto-dismiss duration in ms for all toasts.               |
+| `gap`             | `number`                                                                                          | `8`           | Gap between stacked toasts in pixels.                             |
+| `children`        | `ReactNode`                                                                                       | —             | Application content that can access the toast API via `useToast`. |
 
 ### useToast (returned API)
 
@@ -287,13 +385,23 @@ Multiple toasts stack automatically. New toasts appear at the edge closest to th
 
 ### ToastOptions
 
-| Prop          | Type                                            | Default | Description                                                 |
-| ------------- | ----------------------------------------------- | ------- | ----------------------------------------------------------- |
-| `title`       | `string`                                        | —       | Toast title text.                                           |
-| `description` | `string`                                        | —       | Toast description / body text.                              |
-| `duration`    | `number`                                        | `5000`  | Auto-dismiss duration in ms. Use `Infinity` for persistent. |
-| `action`      | `{ label: string; onClick: () => void }`        | —       | Action button config.                                       |
-| `render`      | `(props: { dismiss: () => void }) => ReactNode` | —       | Custom render function for full control.                    |
+| Prop          | Type                                     | Default | Description                                                   |
+| ------------- | ---------------------------------------- | ------- | ------------------------------------------------------------- |
+| `title`       | `ReactNode`                              | —       | Toast title text (renders bold above description).            |
+| `description` | `ReactNode`                              | —       | Toast body text.                                              |
+| `duration`    | `number`                                 | `5000`  | Auto-dismiss duration in ms. Use `0` for persistent.          |
+| `action`      | `{ label: string; onClick: () => void }` | —       | Action button config. Clicking the action also dismisses.     |
+| `id`          | `string`                                 | Auto    | Custom toast ID for deduplication. Auto-generated if not set. |
+
+---
+
+## Motion
+
+- **Enter** — Spring-based slide + scale animation from the nearest viewport edge (direction adapts to position). Uses `stiffness: 400`, `damping: 30`, `mass: 0.8`.
+- **Exit** — Quick fade + slide out (150ms tween) back toward the origin direction.
+- **Layout** — Toasts animate smoothly when the stack reorders (via Framer Motion `layout` prop).
+- **Progress bar** — CSS `@keyframes` animation that scales from full width to zero over the toast duration.
+- **Reduced motion** — When `prefers-reduced-motion` is active, slide and scale transforms are disabled; only a simple opacity fade (150ms) is used for enter/exit.
 
 ---
 
@@ -304,27 +412,35 @@ Multiple toasts stack automatically. New toasts appear at the edge closest to th
 	announce them without interrupting the current task.
 </Callout>
 
-- Toasts are rendered in a **live region** (`aria-live="polite"`) so assistive technology announces them.
-- The close button has an accessible `aria-label="Close notification"`.
-- Action buttons are keyboard focusable and reachable via Tab.
-- Toast animations respect `prefers-reduced-motion` — when reduced motion is preferred, toasts appear/disappear without slide/fade transitions.
-- Toasts don't steal focus from the current interaction.
-- Auto-dismiss is paused on hover to give users time to read and interact.
+- Each toast is rendered in a **live region** (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`) so assistive technology announces it at the next opportunity.
+- The close button has an accessible `aria-label="Dismiss notification"`.
+- Action buttons are keyboard focusable and reachable via `Tab`.
+- Pressing `Escape` while a toast is focused or hovered dismisses it.
+- Toast animations respect `prefers-reduced-motion` — when reduced motion is preferred, only opacity fades are used.
+- Toasts **never steal focus** from the current interaction.
+- Auto-dismiss **pauses on hover** to give users time to read and interact.
+- The progress bar is marked `aria-hidden="true"` (decorative).
 
 ---
 
 ## Design Tokens
 
-| Token                       | Usage                       |
-| --------------------------- | --------------------------- |
-| `--success`        | Success variant accent      |
-| `--warning`        | Warning variant accent      |
-| `--danger`         | Danger variant accent       |
-| `--info`           | Info variant accent         |
-| `--surface-raised` | Toast background            |
-| `--shadow-lg`            | Toast elevation shadow      |
-| `--z-toast`              | Z-index for toast layer     |
-| `--duration-normal`      | Enter/exit animation timing |
-| `--radius-md`            | Toast border radius         |
+| Token               | Usage                       |
+| ------------------- | --------------------------- |
+| `--success`         | Success variant accent      |
+| `--success-muted`   | Success variant background  |
+| `--warning`         | Warning variant accent      |
+| `--warning-muted`   | Warning variant background  |
+| `--danger`          | Danger variant accent       |
+| `--danger-muted`    | Danger variant background   |
+| `--info`            | Info variant accent         |
+| `--info-muted`      | Info variant background     |
+| `--surface-raised`  | Default variant background  |
+| `--border`          | Default variant border      |
+| `--shadow-lg`       | Toast elevation shadow      |
+| `--z-toast`         | Z-index for toast layer     |
+| `--duration-fast`   | Action/close hover speed    |
+| `--duration-normal` | Enter/exit animation timing |
+| `--radius-lg`       | Toast border radius         |
 
 </ComponentPage>

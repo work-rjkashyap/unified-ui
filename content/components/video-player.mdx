@@ -1,0 +1,256 @@
+---
+title: Video Player
+description: A styled video component with custom play/pause, mute, seek, and fullscreen controls, poster image, and keyboard shortcuts.
+icon: SquarePlay
+---
+
+import { VideoPlayer, Button } from "@work-rjkashyap/unified-ui";
+import { DemoOnEnded } from "@/components/docs/video-player-demos";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+	title="Video Player"
+	description="A styled video component with custom play/pause, mute, seek, and fullscreen controls, poster image, and keyboard shortcuts. Click the play button to interact."
+	preview={
+		<div className="w-full max-w-lg">
+			<VideoPlayer
+				src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+				poster="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
+			/>
+		</div>
+	}
+	code={`<VideoPlayer
+  src="/demo.mp4"
+  poster="/poster.jpg"
+/>`}
+>
+
+## Import
+
+```tsx
+import { VideoPlayer } from "@work-rjkashyap/unified-ui";
+// or
+import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Default (16:9)
+
+<ComponentPage
+	title="Default Aspect Ratio"
+	description="The default aspect ratio is 'video' (16:9), the standard for most video content."
+	preview={
+		<div className="w-full max-w-lg">
+			<VideoPlayer
+				src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+				poster="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg"
+			/>
+		</div>
+	}
+	code={`<VideoPlayer
+  src="/video.mp4"
+  poster="/poster.jpg"
+/>`}
+/>
+
+### Aspect Ratios
+
+<ComponentPage
+	title="Aspect Ratios"
+	description="Control the video container shape with video (16:9), square (1:1), 4/3, or auto aspect ratios."
+	preview={
+		<div className="flex flex-col gap-6 w-full max-w-lg">
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">video (16:9) — default</p>
+				<VideoPlayer
+					src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+					poster="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
+					aspectRatio="video"
+				/>
+			</div>
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">4/3</p>
+				<VideoPlayer
+					src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+					poster="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
+					aspectRatio="4/3"
+				/>
+			</div>
+		</div>
+	}
+	code={`{/* 16:9 (default) */}
+<VideoPlayer src="/video.mp4" poster="/poster.jpg" aspectRatio="video" />
+
+{/* 4:3 */}
+
+<VideoPlayer src="/video.mp4" poster="/poster.jpg" aspectRatio="4/3" />
+
+{/* Square */}
+
+<VideoPlayer src="/video.mp4" poster="/poster.jpg" aspectRatio="square" />
+
+{/* Natural (no constraint) */}
+
+<VideoPlayer src="/video.mp4" aspectRatio="auto" />`}
+/>
+
+### Autoplay, Loop & Muted
+
+<ComponentPage
+	title="Autoplay with Loop"
+	description="Combine autoPlay, loop, and muted for background-video-style playback. Browsers require muted for autoplay to work."
+	preview={
+		<div className="w-full max-w-lg">
+			<VideoPlayer
+				src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+				poster="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
+				autoPlay
+				loop
+				muted
+			/>
+		</div>
+	}
+	code={`<VideoPlayer
+  src="/background.mp4"
+  autoPlay
+  loop
+  muted
+/>`}
+/>
+
+### Without Controls
+
+<ComponentPage
+	title="Hidden Controls"
+	description="Set controls={false} to hide the custom control bar. The big play button overlay still appears when paused."
+	preview={
+		<div className="w-full max-w-lg">
+			<VideoPlayer
+				src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+				poster="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg"
+				controls={false}
+			/>
+		</div>
+	}
+	code={`<VideoPlayer
+  src="/clip.mp4"
+  poster="/poster.jpg"
+  controls={false}
+/>`}
+/>
+
+### Without Poster
+
+<ComponentPage
+	title="No Poster Image"
+	description="When no poster is provided, the first frame of the video is shown instead."
+	preview={
+		<div className="w-full max-w-lg">
+			<VideoPlayer src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" />
+		</div>
+	}
+	code={`<VideoPlayer src="/video.mp4" />`}
+/>
+
+### Muted by Default
+
+<ComponentPage
+	title="Muted by Default"
+	description="Start the video muted — users can unmute via the volume control or the M keyboard shortcut."
+	preview={
+		<div className="w-full max-w-lg">
+			<VideoPlayer
+				src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+				poster="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg"
+				muted
+			/>
+		</div>
+	}
+	code={`<VideoPlayer
+  src="/video.mp4"
+  poster="/poster.jpg"
+  muted
+/>`}
+/>
+
+### onEnded Callback
+
+<ComponentPage
+	title="End Callback"
+	description="Use the onEnded callback to trigger actions when the video finishes playing, such as showing a replay button or loading the next video."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoOnEnded />
+		</div>
+	}
+	code={`<VideoPlayer
+  src="/video.mp4"
+  poster="/poster.jpg"
+  onEnded={() => {
+    console.log("Video ended");
+    showNextVideo();
+  }}
+/>`}
+/>
+
+---
+
+## Props
+
+| Prop          | Type                                     | Default   | Description                   |
+| ------------- | ---------------------------------------- | --------- | ----------------------------- |
+| `src`         | `string`                                 | —         | Video source URL.             |
+| `poster`      | `string`                                 | —         | Poster image URL.             |
+| `aspectRatio` | `"video" \| "square" \| "4/3" \| "auto"` | `"video"` | Aspect ratio constraint.      |
+| `autoPlay`    | `boolean`                                | `false`   | Auto-play the video.          |
+| `loop`        | `boolean`                                | `false`   | Loop the video.               |
+| `muted`       | `boolean`                                | `false`   | Start muted.                  |
+| `controls`    | `boolean`                                | `true`    | Show custom controls overlay. |
+| `className`   | `string`                                 | —         | Additional CSS classes.       |
+| `onEnded`     | `() => void`                             | —         | Callback when video finishes. |
+
+---
+
+## Keyboard Shortcuts
+
+| Key           | Action                  |
+| ------------- | ----------------------- |
+| `Space` / `K` | Toggle play/pause       |
+| `M`           | Toggle mute             |
+| `F`           | Toggle fullscreen       |
+| `→`           | Seek forward 5 seconds  |
+| `←`           | Seek backward 5 seconds |
+
+---
+
+## Accessibility
+
+- Uses `role="region"` with `aria-label="Video player"`.
+- All control buttons have descriptive `aria-label` attributes.
+- Fully keyboard navigable — all shortcuts work when the player is focused.
+- Big play button overlay when paused for clear affordance.
+- Time display and progress bar provide temporal orientation.
+- Focus ring visible on keyboard navigation via `focus-visible`.
+
+<Callout type="info">
+	Browsers require `muted` to be set for `autoPlay` to work without user
+	interaction. Always pair `autoPlay` with `muted` for reliable behavior.
+</Callout>
+
+---
+
+## Design Tokens
+
+| Token             | Usage                    |
+| ----------------- | ------------------------ |
+| `--border`        | Player container border  |
+| `--radius-lg`     | Player border radius     |
+| `--background`    | Controls gradient base   |
+| `--foreground`    | Control icon colors      |
+| `--primary`       | Focus ring color         |
+| `--duration-fast` | Control transition speed |
+
+</ComponentPage>

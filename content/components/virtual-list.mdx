@@ -1,0 +1,368 @@
+---
+title: Virtual List
+description: A performant virtualized list that only renders visible items, supporting thousands of rows with smooth scrolling.
+icon: List
+---
+
+import {
+	DemoOverview,
+	DemoBasic,
+	DemoRich,
+	DemoOverscanLow,
+	DemoOverscanHigh,
+	DemoKeys,
+	DemoEndReached,
+	DemoLoading,
+	DemoCustomLoading,
+	DemoEmpty,
+	DemoHeightSmall,
+	DemoHeightLarge,
+} from "@/components/docs/virtual-list-demos";
+import { Callout } from "fumadocs-ui/components/callout";
+
+<ComponentPage
+	title="Virtual List"
+	description="A performant virtualized list that only renders visible items in the DOM, enabling smooth scrolling through thousands of rows without impacting performance."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoOverview />
+		</div>
+	}
+	code={`<VirtualList
+  items={users} // 1,000 items
+  itemHeight={56}
+  height={350}
+  renderItem={(user, index) => (
+    <div className="flex items-center justify-between px-4 h-full border-b border-border">
+      <div className="flex items-center gap-3">
+        <Avatar src={user.avatar} size="sm" />
+        <div>
+          <p className="text-sm font-medium">{user.name}</p>
+          <p className="text-xs text-muted-foreground">{user.email}</p>
+        </div>
+      </div>
+      <Badge variant="secondary" size="sm">{user.role}</Badge>
+    </div>
+  )}
+/>`}
+>
+
+## Import
+
+```tsx
+import { VirtualList } from "@work-rjkashyap/unified-ui";
+// or
+import { VirtualList } from "@work-rjkashyap/unified-ui/components";
+```
+
+---
+
+## Examples
+
+### Basic List
+
+<ComponentPage
+	title="Basic List"
+	description="A simple virtualized list rendering 1,000 rows. Only the visible rows (plus an overscan buffer) are mounted in the DOM."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoBasic />
+		</div>
+	}
+	code={`<VirtualList
+  items={users} // 1,000 items
+  itemHeight={48}
+  height={300}
+  renderItem={(user, index) => (
+    <div className="flex items-center gap-3 px-4 h-full border-b border-border">
+      <span className="text-sm font-medium">{user.name}</span>
+    </div>
+  )}
+/>`}
+/>
+
+### With Rich Content
+
+<ComponentPage
+	title="Rich Content Rows"
+	description="Each row can contain any React content — avatars, badges, descriptions, and action buttons."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoRich />
+		</div>
+	}
+	code={`<VirtualList
+  items={users}
+  itemHeight={64}
+  height={320}
+  renderItem={(user) => (
+    <div className="flex items-center justify-between px-4 h-full border-b border-border">
+      <div className="flex items-center gap-3">
+        <Avatar src={user.avatar} size="sm" />
+        <div>
+          <p className="text-sm font-medium">{user.name}</p>
+          <p className="text-xs text-muted-foreground">{user.email}</p>
+        </div>
+      </div>
+      <Badge variant={user.role === "Admin" ? "primary" : "secondary"} size="sm">
+        {user.role}
+      </Badge>
+    </div>
+  )}
+/>`}
+/>
+
+### Custom Overscan
+
+<ComponentPage
+	title="Custom Overscan"
+	description="The overscan prop controls how many extra items are rendered above and below the visible area. A higher value gives smoother scrolling at the cost of more DOM nodes."
+	preview={
+		<div className="flex flex-col gap-4 w-full max-w-lg">
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">
+					overscan=2 (minimal)
+				</p>
+				<DemoOverscanLow />
+			</div>
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">
+					overscan=10 (smoother)
+				</p>
+				<DemoOverscanHigh />
+			</div>
+		</div>
+	}
+	code={`{/* Minimal overscan — fewer DOM nodes */}
+<VirtualList items={items} itemHeight={40} height={200} overscan={2} renderItem={...} />
+
+{/* Higher overscan — smoother fast scrolling */}
+
+<VirtualList items={items} itemHeight={40} height={200} overscan={10} renderItem={...} />`}
+/>
+
+### Custom Item Keys
+
+<ComponentPage
+	title="Custom Item Keys"
+	description="Use getItemKey to provide stable, unique keys for each item instead of relying on array indices. This is important when items can be reordered or removed."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoKeys />
+		</div>
+	}
+	code={`<VirtualList
+  items={users}
+  itemHeight={44}
+  height={250}
+  getItemKey={(user) => user.id}
+  renderItem={(user) => (
+    <div className="flex items-center justify-between px-4 h-full">
+      <span>{user.name}</span>
+      <span className="text-xs text-muted-foreground">ID: {user.id}</span>
+    </div>
+  )}
+/>`}
+/>
+
+### End Reached (Infinite Loading)
+
+<ComponentPage
+	title="End Reached Callback"
+	description="Use onEndReached and endReachedThreshold to trigger data fetching as the user scrolls near the bottom. Combine with the loading prop to show a loading indicator."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoEndReached />
+		</div>
+	}
+	code={`const [items, setItems] = useState(initialItems);
+const [loading, setLoading] = useState(false);
+
+const loadMore = async () => {
+setLoading(true);
+const newItems = await fetchMore(items.length);
+setItems(prev => [...prev, ...newItems]);
+setLoading(false);
+};
+
+<VirtualList
+  items={items}
+  itemHeight={40}
+  height={300}
+  loading={loading}
+  onEndReached={loadMore}
+  endReachedThreshold={200}
+  renderItem={(item) => (
+    <div className="flex items-center px-4 h-full border-b border-border">
+      {item.name}
+    </div>
+  )}
+/>`}
+/>
+
+### Loading State
+
+<ComponentPage
+	title="Loading State"
+	description="When loading is true, a spinner indicator appears at the bottom of the list."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoLoading />
+		</div>
+	}
+	code={`<VirtualList
+  items={items}
+  itemHeight={44}
+  height={250}
+  loading={true}
+  renderItem={(item) => <Row item={item} />}
+/>`}
+/>
+
+### Custom Loading Indicator
+
+<ComponentPage
+	title="Custom Loading Indicator"
+	description="Replace the default spinner with a custom loading indicator."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoCustomLoading />
+		</div>
+	}
+	code={`<VirtualList
+  items={items}
+  itemHeight={44}
+  height={250}
+  loading={true}
+  loadingIndicator={
+    <div className="flex items-center justify-center gap-2 py-3">
+      <Spinner size="sm" />
+      <span className="text-sm text-muted-foreground">Loading more users...</span>
+    </div>
+  }
+  renderItem={(item) => <Row item={item} />}
+/>`}
+/>
+
+### Empty State
+
+<ComponentPage
+	title="Empty State"
+	description="When the items array is empty, emptyContent is shown instead of the virtualized list."
+	preview={
+		<div className="w-full max-w-lg">
+			<DemoEmpty />
+		</div>
+	}
+	code={`<VirtualList
+  items={[]}
+  itemHeight={48}
+  height={250}
+  emptyContent={
+    <div className="text-center">
+      <p className="text-base font-semibold">No users found</p>
+      <p className="text-sm text-muted-foreground mt-1">
+        Try adjusting your search or filters.
+      </p>
+    </div>
+  }
+  renderItem={() => null}
+/>`}
+/>
+
+### Custom Container Height
+
+<ComponentPage
+	title="Custom Height"
+	description="Adjust the height of the scrollable container to fit your layout. The default is 400px."
+	preview={
+		<div className="flex flex-col gap-4 w-full max-w-lg">
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">
+					height=150
+				</p>
+				<DemoHeightSmall />
+			</div>
+			<div>
+				<p className="text-xs font-medium text-muted-foreground mb-2">
+					height=300
+				</p>
+				<DemoHeightLarge />
+			</div>
+		</div>
+	}
+	code={`{/* Compact */}
+<VirtualList items={items} itemHeight={36} height={150} renderItem={...} />
+
+{/* Taller */}
+
+<VirtualList items={items} itemHeight={36} height={300} renderItem={...} />`}
+/>
+
+---
+
+## Props
+
+| Prop                  | Type                                           | Default | Description                                       |
+| --------------------- | ---------------------------------------------- | ------- | ------------------------------------------------- |
+| `items`               | `T[]`                                          | —       | Array of items to render.                         |
+| `itemHeight`          | `number`                                       | —       | Height of each item in pixels.                    |
+| `renderItem`          | `(item: T, index: number) => ReactNode`        | —       | Render function for each item.                    |
+| `height`              | `number`                                       | `400`   | Height of the scrollable container.               |
+| `overscan`            | `number`                                       | `5`     | Extra items to render above/below viewport.       |
+| `getItemKey`          | `(item: T, index: number) => string \| number` | —       | Custom key extractor.                             |
+| `onEndReached`        | `() => void`                                   | —       | Callback when scroll reaches the bottom.          |
+| `endReachedThreshold` | `number`                                       | `100`   | Distance from bottom (px) to trigger end reached. |
+| `loading`             | `boolean`                                      | `false` | Shows a loading indicator at the bottom.          |
+| `loadingIndicator`    | `ReactNode`                                    | —       | Custom loading indicator.                         |
+| `emptyContent`        | `ReactNode`                                    | —       | Content when items array is empty.                |
+| `className`           | `string`                                       | —       | Additional CSS classes on the container.          |
+| `itemClassName`       | `string`                                       | —       | Additional CSS classes on each item wrapper.      |
+
+---
+
+## How It Works
+
+1. The **total scroll height** is calculated as `items.length × itemHeight`.
+2. On scroll, the component calculates which items are in the **visible window**.
+3. Only the visible items ± the `overscan` buffer are rendered to the DOM.
+4. Items are **absolutely positioned** within a container matching the total height, creating a native scrollbar.
+5. When `onEndReached` is provided, it fires when the scroll distance from the bottom is less than `endReachedThreshold`.
+
+---
+
+## Accessibility
+
+- Uses `role="list"` on the container and `role="listitem"` on each item.
+- Each item includes `aria-setsize` (total count) and `aria-posinset` (position) for screen readers.
+- Keyboard scrolling works via native scroll behavior.
+- Empty state container maintains the same `role` and dimensions.
+
+<Callout type="info">
+	For variable-height items or bidirectional scrolling, consider using
+	`@tanstack/react-virtual` directly. This component is optimized for
+	**fixed-height** items only.
+</Callout>
+
+---
+
+## Performance Tips
+
+- **Keep `renderItem` lightweight** — avoid expensive computations inside the render function.
+- **Memoize items** — if your items array is recreated on every render, wrap it with `useMemo`.
+- **Use `getItemKey`** — stable keys prevent unnecessary re-renders when items change.
+- **Pair with `InfiniteScroll`** — for paginated data, use `onEndReached` to fetch the next page.
+
+---
+
+## Design Tokens
+
+| Token                | Usage                      |
+| -------------------- | -------------------------- |
+| `--background`       | Container background       |
+| `--border`           | Container and item borders |
+| `--radius-lg`        | Container border radius    |
+| `--primary`          | Loading spinner accent     |
+| `--muted-foreground` | Empty state text           |
+
+</ComponentPage>

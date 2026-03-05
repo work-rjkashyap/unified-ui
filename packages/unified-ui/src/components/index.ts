@@ -157,6 +157,11 @@ export {
   type AlertProps,
   type AlertVariant,
   alertVariants,
+  // Callout — backward-compatible alias (merged into Alert)
+  Callout,
+  type CalloutProps,
+  type CalloutVariant,
+  calloutVariants,
 } from "./alert";
 // ---------------------------------------------------------------------------
 // AlertDialog
@@ -211,6 +216,12 @@ export {
   type BadgeSize,
   type BadgeVariant,
   badgeVariants,
+  // Tag — backward-compatible alias (merged into Badge)
+  Tag,
+  type TagProps,
+  type TagSize,
+  type TagVariant,
+  tagVariants,
 } from "./badge";
 // ---------------------------------------------------------------------------
 // Banner
@@ -265,14 +276,8 @@ export {
   type DateRange,
 } from "./calendar";
 // ---------------------------------------------------------------------------
-// Callout
+// Callout (merged into Alert — re-exported from ./alert above)
 // ---------------------------------------------------------------------------
-export {
-  Callout,
-  type CalloutProps,
-  type CalloutVariant,
-  calloutVariants,
-} from "./callout";
 // ---------------------------------------------------------------------------
 // Card
 // ---------------------------------------------------------------------------
@@ -561,6 +566,33 @@ export {
   sheetContentVariants,
 } from "./sheet";
 // ---------------------------------------------------------------------------
+// Drawer
+// ---------------------------------------------------------------------------
+export {
+  Drawer,
+  DrawerBody,
+  type DrawerBodyProps,
+  DrawerClose,
+  type DrawerCloseProps,
+  DrawerContent,
+  type DrawerContentProps,
+  DrawerDescription,
+  type DrawerDescriptionProps,
+  DrawerFooter,
+  type DrawerFooterProps,
+  DrawerHandle,
+  type DrawerHandleProps,
+  DrawerHeader,
+  type DrawerHeaderProps,
+  type DrawerProps,
+  type DrawerSize,
+  DrawerTitle,
+  type DrawerTitleProps,
+  DrawerTrigger,
+  type DrawerTriggerProps,
+  drawerContentVariants,
+} from "./drawer";
+// ---------------------------------------------------------------------------
 // Skeleton
 // ---------------------------------------------------------------------------
 export {
@@ -695,6 +727,17 @@ export {
   useToggleGroupContext,
 } from "./toggle-group";
 // ---------------------------------------------------------------------------
+// ThemeToggle
+// ---------------------------------------------------------------------------
+export {
+  ThemeToggle,
+  type ThemeToggleMode,
+  type ThemeToggleProps,
+  type ThemeToggleSize,
+  type ThemeToggleVariant,
+  type ThemeValue,
+} from "./theme-toggle";
+// ---------------------------------------------------------------------------
 // Tooltip
 // ---------------------------------------------------------------------------
 export {
@@ -707,8 +750,12 @@ export {
 } from "./tooltip";
 
 // ---------------------------------------------------------------------------
-// ColorPicker — placeholder (P2, not yet built)
+// ColorPicker
 // ---------------------------------------------------------------------------
+export {
+  ColorPicker,
+  type ColorPickerProps,
+} from "./color-picker";
 
 // ---------------------------------------------------------------------------
 // Combobox
@@ -917,15 +964,8 @@ export {
 } from "./stat";
 
 // ---------------------------------------------------------------------------
-// Tag
+// Tag (merged into Badge — re-exported from ./badge above)
 // ---------------------------------------------------------------------------
-export {
-  Tag,
-  type TagProps,
-  type TagSize,
-  type TagVariant,
-  tagVariants,
-} from "./tag";
 
 // ---------------------------------------------------------------------------
 // Timeline
@@ -959,3 +999,87 @@ export {
 // Resizable
 // ---------------------------------------------------------------------------
 // (already exported above)
+
+// ---------------------------------------------------------------------------
+// Sonner (Toast via sonner)
+// ---------------------------------------------------------------------------
+export {
+  SonnerToaster,
+  type SonnerToasterProps,
+  type SonnerPosition,
+  toast,
+  type SonnerToastOptions,
+} from "./sonner";
+
+// ---------------------------------------------------------------------------
+// TreeView
+// ---------------------------------------------------------------------------
+export {
+  TreeView,
+  type TreeViewProps,
+  type TreeNode,
+  type TreeCheckedState,
+} from "./tree-view";
+
+// ---------------------------------------------------------------------------
+// VirtualList
+// ---------------------------------------------------------------------------
+export {
+  VirtualList,
+  type VirtualListProps,
+} from "./virtual-list";
+
+// ---------------------------------------------------------------------------
+// ImageGallery
+// ---------------------------------------------------------------------------
+export {
+  ImageGallery,
+  type ImageGalleryProps,
+  type GalleryImage,
+} from "./image-gallery";
+
+// ---------------------------------------------------------------------------
+// VideoPlayer
+// ---------------------------------------------------------------------------
+export {
+  VideoPlayer,
+  type VideoPlayerProps,
+} from "./video-player";
+
+// ---------------------------------------------------------------------------
+// Chart
+// ---------------------------------------------------------------------------
+export {
+  ChartContainer,
+  type ChartContainerProps,
+  ChartTooltipContent,
+  type ChartTooltipContentProps,
+  chartColors,
+} from "./chart";
+
+// ---------------------------------------------------------------------------
+// Markdown
+// ---------------------------------------------------------------------------
+export {
+  Markdown,
+  type MarkdownProps,
+} from "./markdown";
+
+// ---------------------------------------------------------------------------
+// DataTableToolbar
+// ---------------------------------------------------------------------------
+export {
+  DataTableToolbar,
+  type DataTableToolbarProps,
+  type DataTableFilter,
+  type ColumnVisibility,
+  type ViewMode,
+} from "./data-table-toolbar";
+
+// ---------------------------------------------------------------------------
+// InfiniteScroll
+// ---------------------------------------------------------------------------
+export {
+  InfiniteScroll,
+  type InfiniteScrollProps,
+} from "./infinite-scroll";

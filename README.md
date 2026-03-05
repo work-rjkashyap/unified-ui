@@ -283,7 +283,7 @@ Contributions are welcome! Here's how to get started:
 5. Add `data-ds`, `data-ds-component`, and relevant `data-ds-*` state attributes (these are HTML data attributes, not CSS variable prefixes)
 6. Export from `packages/unified-ui/src/components/index.ts`
 7. Re-export from `packages/unified-ui/src/index.ts`
-8. Write documentation in `content/docs/design-system/components/<name>.mdx`
+8. Write documentation in `content/components/<name>.mdx`
 
 ### Code Style
 

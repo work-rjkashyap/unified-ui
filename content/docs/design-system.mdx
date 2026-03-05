@@ -1,6 +1,6 @@
 ---
 title: Design System
-description: A token-driven, accessible React design system built with Tailwind CSS v4 and Framer Motion.
+description: A token-driven, accessible React design system with 75+ components, built with Tailwind CSS v4, Radix UI, and Framer Motion.
 icon: Palette
 ---
 
@@ -8,7 +8,9 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
-Unified UI is a **6-layer design system** that enforces a strict separation of concerns. Each layer has a clear responsibility, and dependencies only flow downward — components can use primitives and tokens, but tokens never depend on components.
+Unified UI is a **6-layer design system** with **75+ production-ready components** that enforces a strict separation of concerns. Each layer has a clear responsibility, and dependencies only flow downward — components can use primitives and tokens, but tokens never depend on components.
+
+Inspired by [shadcn/ui](https://ui.shadcn.com), it takes the same Radix + Tailwind + CVA foundation and structures it into a proper design system with tokens, strict layers, versioned releases, and two distribution modes (npm package or copy-paste CLI).
 
 This architecture ensures that changes to low-level values (like a color or spacing unit) propagate consistently across the entire system without manual updates.
 
@@ -18,8 +20,8 @@ This architecture ensures that changes to low-level values (like a color or spac
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                  Components                      │  Layer 4 — 24+ composite UI components
-│          Button · Dialog · Tabs · Toast          │  Built from primitives + tokens
+│                  Components                      │  Layer 4 — 75+ composite UI components
+│    Button · Dialog · DataTable · Sidebar · …     │  Built from primitives + tokens
 ├─────────────────────────────────────────────────┤
 │                  Primitives                       │  Layer 3 — Typography, Stack, Grid,
 │       Heading · Body · Container · Divider       │  Container, Divider
@@ -66,9 +68,25 @@ Every visual property in the system — color, spacing, radius, shadow, font siz
 <div className="bg-blue-600 text-white rounded-lg p-4" />
 ```
 
+### Two Distribution Modes
+
+Unified UI supports two ways to consume components — choose the one that fits your team:
+
+- **npm Package** — `npm i @work-rjkashyap/unified-ui`. Single install, everything included. Versioned releases, tree-shakeable imports, always in sync across projects.
+- **Copy & Paste CLI** — `npx @work-rjkashyap/unified-ui add button`. Components are copied into your project as local files. You own the source, customize freely, and the CLI resolves all dependencies automatically.
+
+```tsx
+// npm package — import from the library
+import { Button, Dialog } from "@work-rjkashyap/unified-ui";
+
+// Copy & Paste — import from your project
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
+```
+
 ### Accessible by Default
 
-All interactive components meet **WCAG AA** standards:
+All interactive components are built on [Radix UI](https://www.radix-ui.com/) primitives and meet **WCAG AA** standards:
 
 - **Focus management** — Visible focus rings via the `focusRingClasses` utility.
 - **Keyboard navigation** — Full keyboard support powered by Radix UI primitives.
@@ -135,12 +153,13 @@ packages/unified-ui/src/
 │   ├── layout.tsx       ← Container, Stack, Grid, Divider
 │   └── index.ts
 │
-├── components/          ← Layer 4: 24+ composite components
+├── components/          ← Layer 4: 75+ composite components
 │   ├── button.tsx
 │   ├── input.tsx
 │   ├── dialog.tsx
-│   ├── toast.tsx
-│   ├── ... (22 more)
+│   ├── data-table.tsx
+│   ├── sidebar.tsx
+│   ├── ... (70+ more)
 │   └── index.ts
 │
 ├── motion/              ← Layer 5: Framer Motion presets
@@ -176,6 +195,38 @@ All design system CSS variables use plain `--` prefix with no namespace infix. T
 
 ---
 
+## Distribution & Build
+
+The design system package (`@work-rjkashyap/unified-ui`) is built with [tsup](https://tsup.egoist.dev/) and produces:
+
+- **ESM** (`.mjs`) — For modern bundlers and `import` statements
+- **CJS** (`.cjs`) — For legacy `require()` environments
+- **TypeScript declarations** (`.d.ts` / `.d.cts`) — Full type safety
+
+Client entry points (`index`, `theme`, `primitives`, `components`, `motion`) are patched with `"use client"` for Next.js App Router compatibility. Token and utility entry points are pure JS with no React dependency.
+
+### Registry (Copy & Paste Mode)
+
+When using the CLI, components are served from a public registry at `/r/`. Each registry item includes:
+
+- Full source file content (with internal `@unified-ui/*` imports rewritten to local paths)
+- npm dependencies that need to be installed
+- Registry dependencies (cross-component references)
+- Whether the file requires `"use client"`
+
+```bash
+# Build the registry locally
+npm run build:registry
+
+# Registry outputs to public/r/
+# ├── index.json         ← Full registry manifest
+# ├── button.json        ← Per-component metadata + source
+# ├── card.json
+# └── ...
+```
+
+---
+
 ## Data Attributes
 
 Every Unified UI component renders semantic `data-ds-*` attributes for styling hooks and debugging:
@@ -203,23 +254,33 @@ These attributes make it easy to target design system components in CSS, tests, 
 
 <Cards>
 	<Card
+		title="Getting Started"
+		description="Install via npm or the copy-paste CLI and start building."
+		href="/docs"
+	/>
+	<Card
 		title="Tokens"
 		description="The raw design values that power every component."
-		href="/docs/design-system/tokens"
+		href="/docs/tokens"
 	/>
 	<Card
 		title="Colors"
 		description="Color palettes, semantic mappings, and dark mode."
-		href="/docs/design-system/colors"
+		href="/docs/colors"
 	/>
 	<Card
 		title="Typography"
 		description="Font families, size scale, and typography components."
-		href="/docs/design-system/typography"
+		href="/docs/typography"
 	/>
 	<Card
 		title="Theming"
 		description="CSS variable architecture and runtime theme switching."
-		href="/docs/design-system/theming"
+		href="/docs/theming"
+	/>
+	<Card
+		title="Components"
+		description="Browse the full 75+ component library with live examples."
+		href="/components"
 	/>
 </Cards>
