@@ -48,6 +48,7 @@ jobs:
                   node-version: "20"
 
             - name: Generate and prepend changelog entries
+              shell: bash
               run: |
                   set -euo pipefail
 
