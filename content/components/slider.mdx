@@ -5,10 +5,14 @@ icon: SlidersHorizontal
 ---
 
 import { Slider, Button } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Slider"
-  description="A fully accessible range slider with single and dual-thumb support, step marks, value tooltip, and spring-animated thumb interactions."
+## Basic
+
+A fully accessible range slider with single and dual-thumb support, step marks, value tooltip, and spring-animated thumb interactions.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-sm flex flex-col gap-6 py-4">
       <Slider defaultValue={[40]} />
@@ -17,14 +21,90 @@ import { Slider, Button } from "@work-rjkashyap/unified-ui";
   }
   code={`<Slider defaultValue={[40]} />
 <Slider defaultValue={[20, 70]} />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add slider
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add slider
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add slider
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add slider
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Slider } from "@work-rjkashyap/unified-ui";
-// or
-import { Slider } from "@work-rjkashyap/unified-ui/components";
+import {
+	Slider,
+	Button,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -45,9 +125,7 @@ Pass an array to `defaultValue` for an uncontrolled slider. A single value rende
 
 ## Variants
 
-<ComponentPage
-	title="Slider Variants"
-	description="Four color variants mapping to design system semantic tokens."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-5 py-2">
 			<Slider defaultValue={[60]} variant="default" />
@@ -71,9 +149,7 @@ Pass an array to `defaultValue` for an uncontrolled slider. A single value rende
 
 ## Sizes
 
-<ComponentPage
-	title="Slider Sizes"
-	description="Three sizes controlling track height and thumb diameter."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-5 py-2">
 			<Slider defaultValue={[50]} size="sm" />
@@ -90,9 +166,7 @@ Pass an array to `defaultValue` for an uncontrolled slider. A single value rende
 
 Set `showTooltip` to display the current value above the thumb on hover or focus.
 
-<ComponentPage
-  title="Value Tooltip"
-  description="Shows the current value above the active thumb. Supports custom format functions."
+<PreviewCard
   preview={<SliderTooltipFormatPreview />}
   code={`<Slider defaultValue={[65]} showTooltip />
 
@@ -109,9 +183,7 @@ Set `showTooltip` to display the current value above the thumb on hover or focus
 
 Enable `showMarks` to display tick marks at each step interval. Pair with `step` to control granularity.
 
-<ComponentPage
-  title="Step Marks"
-  description="Tick marks rendered at every step interval along the track."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm flex flex-col gap-8 py-4">
       <Slider defaultValue={[40]} step={10} showMarks />
@@ -282,5 +354,3 @@ Control the numeric bounds and increment precision.
 | `--border`        | Step mark color               |
 | `--radius-full`   | Track and thumb border radius |
 | `--duration-fast` | Thumb transition speed        |
-
-</ComponentPage>

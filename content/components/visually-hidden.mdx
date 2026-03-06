@@ -6,10 +6,13 @@ icon: EyeOff
 
 import { VisuallyHidden } from "@work-rjkashyap/unified-ui/components";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Visually Hidden"
-	description="A screen-reader-only content wrapper using Radix UI VisuallyHidden. Renders content that is invisible to sighted users but fully accessible to screen readers and other assistive technologies."
+## Basic
+
+A screen-reader-only content wrapper using Radix UI VisuallyHidden. Renders content that is invisible to sighted users but fully accessible to screen readers and other assistive technologies.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col items-center gap-3">
 			<p className="text-sm text-muted-foreground">
@@ -27,13 +30,86 @@ import { Callout } from "fumadocs-ui/components/callout";
   <VisuallyHidden>This text is only visible to screen readers</VisuallyHidden>
   <span>Secured</span>
 </div>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add visually-hidden
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add visually-hidden
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add visually-hidden
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add visually-hidden
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { VisuallyHidden } from "@work-rjkashyap/unified-ui/components";
-// or
 import { VisuallyHidden } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -191,5 +267,3 @@ This technique is widely recognized as the correct way to hide content visually 
 ## Design Tokens
 
 This component does not use any design tokens — it is a pure utility wrapper that applies screen-reader-only CSS styles.
-
-</ComponentPage>

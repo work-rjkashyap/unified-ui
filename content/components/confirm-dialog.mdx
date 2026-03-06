@@ -17,24 +17,24 @@ import {
 	AlertDialogCancel,
 	Button,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Confirm Dialog"
-  description="A pre-composed confirmation dialog with title, description, confirm/cancel actions, danger variant, and loading state. Built on AlertDialog primitives — no overlay-click dismissal by default."
+## Basic
+
+A pre-composed confirmation dialog with title, description, confirm/cancel actions, danger variant, and loading state. Built on AlertDialog primitives — no overlay-click dismissal by default.
+
+<PreviewCard
   preview={
     <div className="flex gap-3 flex-wrap items-center justify-center">
       <ConfirmDialog
         trigger={<Button variant="secondary">Confirm Action</Button>}
-        title="Are you sure?"
-        description="This action will take effect immediately and may affect other users."
         confirmLabel="Yes, proceed"
         cancelLabel="Cancel"
       />
       <ConfirmDialog
         trigger={<Button variant="danger">Delete Record</Button>}
         variant="danger"
-        title="Delete this record?"
-        description="This action cannot be undone. The record and all associated data will be permanently removed."
         confirmLabel="Delete"
         cancelLabel="Keep it"
       />
@@ -42,8 +42,6 @@ import {
   }
   code={`<ConfirmDialog
   trigger={<Button variant="secondary">Confirm Action</Button>}
-  title="Are you sure?"
-  description="This action will take effect immediately."
   confirmLabel="Yes, proceed"
   cancelLabel="Cancel"
 />
@@ -51,25 +49,91 @@ import {
 <ConfirmDialog
   trigger={<Button variant="danger">Delete Record</Button>}
   variant="danger"
-  title="Delete this record?"
-  description="This action cannot be undone."
   confirmLabel="Delete"
   cancelLabel="Keep it"
 />`}
->
 
-## Import
+/>
 
-```tsx
-import { ConfirmDialog } from "@work-rjkashyap/unified-ui";
-// or
-import { ConfirmDialog } from "@work-rjkashyap/unified-ui/components";
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add confirm-dialog
 ```
 
-For custom compositions, also import the AlertDialog primitives:
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add confirm-dialog
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add confirm-dialog
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add confirm-dialog
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
+	ConfirmDialog,
 	AlertDialog,
 	AlertDialogTrigger,
 	AlertDialogContent,
@@ -79,6 +143,7 @@ import {
 	AlertDialogFooter,
 	AlertDialogAction,
 	AlertDialogCancel,
+	Button,
 } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -103,22 +168,16 @@ import {
 
 The default variant uses the primary action style for the confirm button — suitable for non-destructive confirmations like archiving, publishing, or submitting.
 
-<ComponentPage
-	title="Default Variant"
-	description="Primary-colored confirm button for non-destructive confirmation flows."
+<PreviewCard
 	preview={
 		<ConfirmDialog
 			trigger={<Button variant="primary">Publish Changes</Button>}
-			title="Publish changes?"
-			description="Your changes will be visible to all users immediately after publishing."
 			confirmLabel="Publish"
 			cancelLabel="Not yet"
 		/>
 	}
 	code={`<ConfirmDialog
   trigger={<Button variant="primary">Publish Changes</Button>}
-  title="Publish changes?"
-  description="Your changes will be visible to all users immediately after publishing."
   confirmLabel="Publish"
   cancelLabel="Not yet"
   onConfirm={handlePublish}
@@ -129,24 +188,18 @@ The default variant uses the primary action style for the confirm button — sui
 
 The `danger` variant applies a red background to the confirm button. Use it for destructive, irreversible actions like deletion.
 
-<ComponentPage
-	title="Danger Variant"
-	description="Red confirm button for destructive or irreversible actions."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 flex-wrap items-center justify-center">
 			<ConfirmDialog
 				trigger={<Button variant="danger">Delete Account</Button>}
 				variant="danger"
-				title="Delete your account?"
-				description="This will permanently delete your account, all projects, and data. This action cannot be undone."
 				confirmLabel="Delete my account"
 				cancelLabel="Keep account"
 			/>
 			<ConfirmDialog
 				trigger={<Button variant="danger" size="sm">Remove Member</Button>}
 				variant="danger"
-				title="Remove team member?"
-				description="They will lose access to all projects and cannot be re-invited for 24 hours."
 				confirmLabel="Remove"
 				cancelLabel="Cancel"
 			/>
@@ -155,8 +208,6 @@ The `danger` variant applies a red background to the confirm button. Use it for 
 	code={`<ConfirmDialog
   trigger={<Button variant="danger">Delete Account</Button>}
   variant="danger"
-  title="Delete your account?"
-  description="This will permanently delete your account, all projects, and data."
   confirmLabel="Delete my account"
   cancelLabel="Keep account"
   onConfirm={handleDeleteAccount}
@@ -165,8 +216,6 @@ The `danger` variant applies a red background to the confirm button. Use it for 
 <ConfirmDialog
   trigger={<Button variant="danger" size="sm">Remove Member</Button>}
   variant="danger"
-  title="Remove team member?"
-  description="They will lose access to all projects and cannot be re-invited for 24 hours."
   confirmLabel="Remove"
   cancelLabel="Cancel"
   onConfirm={() => removeMember(userId)}
@@ -177,15 +226,11 @@ The `danger` variant applies a red background to the confirm button. Use it for 
 
 Set `loading={true}` to disable both action buttons and show a spinner on the confirm button. Use this while an async operation is in progress.
 
-<ComponentPage
-	title="Loading State"
-	description="Disables both buttons and shows a spinner while an async operation is running."
+<PreviewCard
 	preview={
 		<ConfirmDialog
 			trigger={<Button variant="danger">Delete (with loading)</Button>}
 			variant="danger"
-			title="Delete this item?"
-			description="Simulates a loading state — both buttons are disabled while processing."
 			confirmLabel="Delete"
 			cancelLabel="Cancel"
 			loading
@@ -196,8 +241,6 @@ Set `loading={true}` to disable both action buttons and show a spinner on the co
 <ConfirmDialog
   trigger={<Button variant="danger">Delete</Button>}
   variant="danger"
-  title="Delete this item?"
-  description="This action cannot be undone."
   confirmLabel="Delete"
   cancelLabel="Cancel"
   loading={loading}
@@ -410,5 +453,3 @@ Use `ConfirmDialog` or `AlertDialog` when the user **must** make an active choic
 | `--z-overlay`     | Z-index for backdrop              |
 | `--shadow-xl`     | Dialog panel shadow               |
 | `--duration-fast` | Button transition speed           |
-
-</ComponentPage>

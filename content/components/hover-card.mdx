@@ -13,10 +13,14 @@ import {
 	Badge,
 } from "@work-rjkashyap/unified-ui";
 import { CalendarDays, Link2, MapPin } from "lucide-react";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Hover Card"
-  description="A rich preview card that floats above content on hover. Ideal for user profiles, link previews, and contextual information panels. Built on Radix UI with a spring scaleIn entrance animation."
+## Basic
+
+A rich preview card that floats above content on hover. Ideal for user profiles, link previews, and contextual information panels. Built on Radix UI with a spring scaleIn entrance animation.
+
+<PreviewCard
   preview={
     <div className="flex items-center justify-center py-8">
       <HoverCard>
@@ -67,22 +71,94 @@ import { CalendarDays, Link2, MapPin } from "lucide-react";
     </div>
   </HoverCardContent>
 </HoverCard>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add hover-card
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add hover-card
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add hover-card
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add hover-card
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
 	HoverCard,
 	HoverCardTrigger,
 	HoverCardContent,
+	Avatar,
+	Button,
+	Badge,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	HoverCard,
-	HoverCardTrigger,
-	HoverCardContent,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -106,9 +182,7 @@ Wrap a trigger in `HoverCardTrigger` and your preview content in `HoverCardConte
 
 Use the `side` and `align` props on `HoverCardContent` to control where the card appears relative to the trigger.
 
-<ComponentPage
-	title="Placement"
-	description="Control the card's side and alignment relative to its trigger."
+<PreviewCard
 	preview={
 		<div className="grid grid-cols-2 gap-4 items-center justify-items-center py-8">
 			<HoverCard>
@@ -215,9 +289,7 @@ The delay prevents the card from flickering when the cursor briefly passes over 
 
 A rich user profile preview — the most common HoverCard pattern.
 
-<ComponentPage
-	title="User Profile Card"
-	description="A rich user profile preview with avatar, name, bio, and metadata."
+<PreviewCard
 	preview={
 		<div className="flex items-center gap-4 justify-center py-6">
 			<p className="text-sm text-muted-foreground">
@@ -316,9 +388,7 @@ A rich user profile preview — the most common HoverCard pattern.
 
 Show a preview card for external or internal links on hover.
 
-<ComponentPage
-	title="Link Preview"
-	description="A preview card for links showing metadata before navigating."
+<PreviewCard
 	preview={
 		<div className="flex items-center justify-center py-6">
 			<HoverCard>
@@ -494,5 +564,3 @@ All other `HoverCardContent` props are forwarded to the underlying Radix `HoverC
 | `--radius-lg`  | Card border radius            |
 | `--shadow-lg`  | Card drop shadow              |
 | `--z-popover`  | Z-index for the floating card |
-
-</ComponentPage>

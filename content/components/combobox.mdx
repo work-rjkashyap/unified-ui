@@ -5,10 +5,14 @@ icon: ChevronsUpDown
 ---
 
 import { Combobox } from "@work-rjkashyap/unified-ui/components";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-	title="Combobox"
-	description="A production-ready searchable select / autocomplete built by composing Popover + Command primitives with Framer Motion animation. Supports single and multi-select, grouped options, custom rendering, and keyboard navigation."
+## Basic
+
+A production-ready searchable select / autocomplete built by composing Popover + Command primitives with Framer Motion animation. Supports single and multi-select, grouped options, custom rendering, and keyboard navigation.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Combobox
@@ -33,13 +37,86 @@ import { Combobox } from "@work-rjkashyap/unified-ui/components";
   ]}
   placeholder="Select framework..."
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add combobox
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add combobox
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add combobox
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add combobox
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Combobox } from "@work-rjkashyap/unified-ui/components";
-// or
 import { Combobox } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -59,9 +136,7 @@ const frameworks = [
 
 ## Sizes
 
-<ComponentPage
-	title="Sizes"
-	description="Three sizes designed to match Input, Button, and Select heights."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-3">
 			<Combobox
@@ -103,9 +178,7 @@ const frameworks = [
 
 ## Variants
 
-<ComponentPage
-	title="Variants"
-	description="Default uses a standard border; primary uses a tinted primary border."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-3">
 			<Combobox
@@ -134,9 +207,7 @@ const frameworks = [
 
 Enable multi-select mode with the `multi` prop. Selected items appear as removable tags in the trigger.
 
-<ComponentPage
-	title="Multi-Select"
-	description="Select multiple options. Chosen items appear as removable tags in the trigger area."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Combobox
@@ -171,9 +242,7 @@ Enable multi-select mode with the `multi` prop. Selected items appear as removab
 
 Organize options into visual groups using the `group` property on options and the `groups` prop for section labels.
 
-<ComponentPage
-	title="Grouped Options"
-	description="Options are organized into labeled sections for better scannability."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Combobox
@@ -251,9 +320,7 @@ Individual options can be disabled by setting `disabled: true`:
 
 Disable the search input to use the component as a styled select:
 
-<ComponentPage
-	title="Non-Searchable"
-	description="Behaves like a traditional select dropdown without the search input."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Combobox
@@ -284,9 +351,7 @@ Disable the search input to use the component as a styled select:
 
 By default, a clear button appears when a value is selected. Set `clearable={false}` to disable it.
 
-<ComponentPage
-	title="Clearable"
-	description="Control whether the clear button is shown after selection."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-3">
 			<Combobox
@@ -488,5 +553,3 @@ Use `renderOption` to customize how each option is displayed, and `renderValue` 
 | `--radius-md`     | Trigger and option border radius         |
 | `--radius-lg`     | Dropdown border radius                   |
 | `--duration-fast` | Transition speed                         |
-
-</ComponentPage>

@@ -11,10 +11,13 @@ import {
 	AccordionContent,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-  title="Accordion"
-  description="Collapsible content sections for organizing information. Supports single and multiple expand modes with animated transitions."
+## Basic
+
+Collapsible content sections for organizing information. Supports single and multiple expand modes with animated transitions.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-sm">
       <Accordion type="single" collapsible defaultValue="item-1">
@@ -62,9 +65,84 @@ import { Callout } from "fumadocs-ui/components/callout";
     </AccordionContent>
   </AccordionItem>
 </Accordion>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add accordion
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add accordion
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add accordion
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add accordion
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -73,22 +151,13 @@ import {
 	AccordionTrigger,
 	AccordionContent,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Accordion,
-	AccordionItem,
-	AccordionTrigger,
-	AccordionContent,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Single Expand Mode
 
 Only one item can be open at a time. Set `collapsible` to allow closing all items.
 
-<ComponentPage
-	title="Single Expand Mode"
-	description="Only one item can be open at a time. Set collapsible to allow closing all items."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Accordion type="single" collapsible>
@@ -133,9 +202,7 @@ Only one item can be open at a time. Set `collapsible` to allow closing all item
 
 Multiple items can be open simultaneously.
 
-<ComponentPage
-	title="Multiple Expand Mode"
-	description="Multiple items can be open simultaneously using type='multiple'."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Accordion type="multiple" defaultValue={["item-1", "item-3"]}>
@@ -176,9 +243,7 @@ Multiple items can be open simultaneously.
 
 The default variant renders items with borders between them.
 
-<ComponentPage
-	title="Bordered Variant"
-	description="The default variant with borders between items."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Accordion type="single" collapsible variant="bordered">
@@ -209,9 +274,7 @@ The default variant renders items with borders between them.
 
 A cleaner look without dividing borders. Useful inside cards or already-bordered containers.
 
-<ComponentPage
-	title="Borderless Variant"
-	description="A cleaner look without dividing borders. Useful inside cards or already-bordered containers."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Accordion type="single" collapsible variant="borderless">
@@ -242,9 +305,7 @@ A cleaner look without dividing borders. Useful inside cards or already-bordered
 
 Two sizes are available for different content density needs.
 
-<ComponentPage
-	title="Accordion Sizes"
-	description="Two sizes for different content density needs: sm and md (default)."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
 			<div>
@@ -286,9 +347,7 @@ Two sizes are available for different content density needs.
 
 Individual accordion items can be disabled.
 
-<ComponentPage
-	title="Disabled Items"
-	description="Individual accordion items can be disabled to prevent interaction."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Accordion type="single" collapsible>
@@ -367,9 +426,7 @@ const [values, setValues] = useState(["item-1"]);
 
 A common pattern for FAQ sections.
 
-<ComponentPage
-	title="FAQ Pattern"
-	description="A common pattern for FAQ sections using a collapsible accordion."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Accordion type="single" collapsible>
@@ -497,5 +554,3 @@ A common pattern for FAQ sections.
 | `--border`           | Bordered variant dividers              |
 | `--duration-normal`  | Chevron rotation and content animation |
 | `--easing-standard`  | Animation easing curve                 |
-
-</ComponentPage>

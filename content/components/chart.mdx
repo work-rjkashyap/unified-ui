@@ -10,10 +10,13 @@ import {
 	Badge,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Chart"
-	description="A card wrapper for Recharts with consistent design system theming, pre-configured color palette, loading/empty states, and responsive sizing."
+## Basic
+
+A card wrapper for Recharts with consistent design system theming, pre-configured color palette, loading/empty states, and responsive sizing.
+
+<PreviewCard
 	preview={<ChartBarPreview />}
 	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
@@ -27,7 +30,7 @@ const data = [
 { month: "Jun", revenue: 5500 },
 ];
 
-<ChartContainer title="Monthly Revenue" description="Jan – Jun 2025" height={240}>
+<ChartContainer height={240}>
   <ResponsiveContainer width="100%" height="100%">
     <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
       <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -38,38 +41,98 @@ const data = [
     </BarChart>
   </ResponsiveContainer>
 </ChartContainer>`}
->
+
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add chart
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add chart
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add chart
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add chart
+```
+
+</Tab>
+</Tabs>
 
 <Callout type="info">
-	This component does **not** bundle Recharts. Install `recharts` as a
-	separate dependency in your project.
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
 </Callout>
 
-## Import
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
 	ChartContainer,
 	ChartTooltipContent,
-	chartColors,
+	Badge,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	ChartContainer,
-	ChartTooltipContent,
-	chartColors,
-} from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Bar Chart
 
-<ComponentPage
-	title="Bar Chart"
-	description="A simple bar chart inside ChartContainer with title, description, and axis labels."
+<PreviewCard
 	preview={<ChartWeeklySalesPreview />}
 	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
@@ -82,7 +145,7 @@ const data = [
 { week: "W5", sales: 420 },
 ];
 
-<ChartContainer title="Weekly Sales" description="Last 5 weeks" height={220}>
+<ChartContainer height={220}>
   <ResponsiveContainer width="100%" height="100%">
     <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
       <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -97,9 +160,7 @@ const data = [
 
 ### Multi-Series Bar Chart
 
-<ComponentPage
-	title="Multi-Series with Footer"
-	description="Compare multiple data series with a footer legend for context."
+<PreviewCard
 	preview={<ChartMultiSeriesPreview />}
 	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
@@ -114,8 +175,6 @@ const data = [
 ];
 
 <ChartContainer
-  title="Revenue vs Expenses"
-  description="Q1 – Q2 2025"
   height={240}
   footer={
     <div className="flex items-center gap-4">
@@ -145,9 +204,7 @@ const data = [
 
 ### Line Chart
 
-<ComponentPage
-	title="Line Chart"
-	description="Display trends over time with a smooth line chart and interactive tooltip."
+<PreviewCard
 	preview={<ChartLinePreview />}
 	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
@@ -162,7 +219,7 @@ const data = [
 { day: "Sun", visitors: 380 },
 ];
 
-<ChartContainer title="Daily Visitors" description="This week" height={240}>
+<ChartContainer height={240}>
   <ResponsiveContainer width="100%" height="100%">
     <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -12 }}>
       <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -184,9 +241,7 @@ const data = [
 
 ### Area Chart
 
-<ComponentPage
-	title="Area Chart"
-	description="Visualize cumulative data with gradient-filled areas and a footer legend."
+<PreviewCard
 	preview={<ChartAreaPreview />}
 	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
@@ -201,8 +256,6 @@ const data = [
 ];
 
 <ChartContainer
-  title="Users & Sessions"
-  description="Growth over 6 months"
   height={240}
   footer={
     <div className="flex items-center gap-4">
@@ -242,9 +295,7 @@ const data = [
 
 ### Pie / Donut Chart
 
-<ComponentPage
-	title="Pie Chart"
-	description="Display proportional data with a donut-style pie chart and footer legend."
+<PreviewCard
 	preview={<ChartPiePreview />}
 	code={`import { ChartContainer, ChartTooltipContent, chartColors } from "@work-rjkashyap/unified-ui";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
@@ -258,8 +309,6 @@ const data = [
 const colors = [chartColors[0], chartColors[1], chartColors[2]];
 
 <ChartContainer
-  title="Traffic Sources"
-  description="Device breakdown"
   height={240}
   footer={
     <div className="flex items-center justify-center gap-4">
@@ -297,32 +346,24 @@ const colors = [chartColors[0], chartColors[1], chartColors[2]];
 
 ### Loading State
 
-<ComponentPage
-	title="Loading State"
-	description="Show a loading spinner while chart data is being fetched."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<ChartContainer
-				title="Loading Chart"
-				description="Fetching data..."
 				height={180}
 				loading
 			/>
 		</div>
 	}
-	code={`<ChartContainer title="Loading Chart" description="Fetching data..." height={300} loading />`}
+	code={`<ChartContainer height={300} loading />`}
 />
 
 ### Empty State
 
-<ComponentPage
-	title="Empty State"
-	description="Display a message when there is no data to chart."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<ChartContainer
-				title="User Signups"
-				description="This month"
 				height={180}
 				emptyContent={
 					<div className="text-center">
@@ -338,8 +379,6 @@ const colors = [chartColors[0], chartColors[1], chartColors[2]];
 		</div>
 	}
 	code={`<ChartContainer
-  title="User Signups"
-  description="This month"
   height={300}
   emptyContent={
     <div className="text-center">
@@ -430,5 +469,3 @@ import { chartColors } from "@work-rjkashyap/unified-ui";
 | `--primary`          | Chart color 1            |
 | `--info`             | Chart color 2            |
 | `--success`          | Chart color 3            |
-
-</ComponentPage>

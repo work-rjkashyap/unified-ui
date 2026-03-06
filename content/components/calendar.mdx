@@ -5,23 +5,100 @@ icon: Calendar
 ---
 
 import { Calendar } from "@work-rjkashyap/unified-ui/components";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-	title="Calendar"
-	description="A full-featured month calendar with single date selection, range selection, keyboard navigation, and smooth animated month transitions."
+## Basic
+
+A full-featured month calendar with single date selection, range selection, keyboard navigation, and smooth animated month transitions.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<Calendar />
 		</div>
 	}
 	code={`<Calendar />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add calendar
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add calendar
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add calendar
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add calendar
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Calendar } from "@work-rjkashyap/unified-ui/components";
-// or
 import { Calendar } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -37,9 +114,7 @@ Drop `Calendar` anywhere you need a date picker grid. It manages its own interna
 
 The default mode selects a single date. Pass `onSelect` to receive the selected date.
 
-<ComponentPage
-	title="Single Selection"
-	description="Click a day to select it. The selected date is highlighted with a primary background."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<Calendar mode="single" />
@@ -58,9 +133,7 @@ The default mode selects a single date. Pass `onSelect` to receive the selected 
 
 Set `mode="range"` to allow selecting a date range. Click once for the start date, then again for the end date.
 
-<ComponentPage
-	title="Range Selection"
-	description="Select a start and end date. The range is visually highlighted between both endpoints."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<Calendar mode="range" />
@@ -79,9 +152,7 @@ Set `mode="range"` to allow selecting a date range. Click once for the start dat
 
 Show ISO week numbers in a leading column with `showWeekNumbers`.
 
-<ComponentPage
-	title="Week Numbers"
-	description="Displays the ISO week number alongside each row of dates."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<Calendar showWeekNumbers />
@@ -220,5 +291,3 @@ The calendar uses CVA variants for day cell styling:
 | `--radius-md`     | Day cell border radius                     |
 | `--radius-lg`     | Calendar container border radius           |
 | `--duration-fast` | Month transition speed                     |
-
-</ComponentPage>

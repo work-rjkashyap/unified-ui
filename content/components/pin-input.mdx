@@ -8,10 +8,14 @@ import {
   PinInput,
   Button,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="PinInput"
-  description="A verification code input with per-cell auto-advance, paste distribution, backspace navigation, shake-on-error, and pop animation on digit entry."
+## Basic
+
+A verification code input with per-cell auto-advance, paste distribution, backspace navigation, shake-on-error, and pop animation on digit entry.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-6 items-center justify-center py-4">
       <PinInput length={6} />
@@ -23,14 +27,90 @@ import {
 
 {/* 4-digit masked PIN */}
 <PinInput length={4} mask />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add pin-input
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add pin-input
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add pin-input
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add pin-input
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { PinInput } from "@work-rjkashyap/unified-ui";
-// or
-import { PinInput } from "@work-rjkashyap/unified-ui/components";
+import {
+	PinInput,
+	Button,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -46,9 +126,7 @@ The simplest use case is an uncontrolled 6-cell OTP input. Use `onComplete` to r
 
 ## Sizes
 
-<ComponentPage
-  title="PinInput Sizes"
-  description="Three size variants controlling cell dimensions and font size."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 items-center justify-center py-2">
       <PinInput length={4} size="sm" />
@@ -69,9 +147,7 @@ The simplest use case is an uncontrolled 6-cell OTP input. Use `onComplete` to r
 
 ## Variants
 
-<ComponentPage
-  title="PinInput Variants"
-  description="Default uses the input ring color; primary uses the brand primary color on focus."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 items-center justify-center py-2">
       <PinInput length={5} variant="default" />
@@ -86,9 +162,7 @@ The simplest use case is an uncontrolled 6-cell OTP input. Use `onComplete` to r
 
 Control the allowed character set with the `type` prop.
 
-<ComponentPage
-  title="Input Types"
-  description="Numeric (digits only), alphanumeric (letters and digits), and alphabetic (letters only)."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 items-center justify-center py-2">
       <div className="flex flex-col items-center gap-1">
@@ -119,9 +193,7 @@ Control the allowed character set with the `type` prop.
 
 Set `mask` to hide entered characters behind a bullet (`•`), suitable for PIN entry.
 
-<ComponentPage
-  title="Masked Mode"
-  description="Replaces visible characters with bullet symbols for secure PIN input."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 items-center py-2">
       <PinInput length={4} mask />
@@ -136,9 +208,7 @@ Set `mask` to hide entered characters behind a bullet (`•`), suitable for PIN 
 
 Setting `error={true}` applies danger border styling to all cells and triggers a `shakeX` animation. Each time `error` transitions from `false` to `true`, the shake re-fires.
 
-<ComponentPage
-  title="Error State"
-  description="Danger styling and shake animation triggered when error becomes true."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 items-center py-2">
       <PinInput length={6} error />
@@ -323,5 +393,3 @@ function OTPVerification() {
 | `--accent`       | Filled cell background tint    |
 | `--radius-md`    | Cell border radius             |
 | `--duration-fast`| Transition speed               |
-
-</ComponentPage>

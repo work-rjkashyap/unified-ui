@@ -9,10 +9,14 @@ import {
 	ResizablePanel,
 	ResizableHandle,
 } from "@work-rjkashyap/unified-ui/components";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-	title="Resizable"
-	description="Resizable split panels with a drag handle for building adjustable layouts. Supports horizontal and vertical directions, default sizes, and an optional grip handle indicator."
+## Basic
+
+Resizable split panels with a drag handle for building adjustable layouts. Supports horizontal and vertical directions, default sizes, and an optional grip handle indicator.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg h-48 rounded-lg border border-border overflow-hidden">
 			<ResizablePanelGroup direction="horizontal">
@@ -39,21 +43,90 @@ import {
     <div>Panel B</div>
   </ResizablePanel>
 </ResizablePanelGroup>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add resizable
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add resizable
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add resizable
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add resizable
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
-  ResizablePanelGroup,
-  ResizablePanel,
-  ResizableHandle,
-} from "@work-rjkashyap/unified-ui/components";
-// or
-import {
-  ResizablePanelGroup,
-  ResizablePanel,
-  ResizableHandle,
+	ResizablePanelGroup,
+	ResizablePanel,
+	ResizableHandle,
 } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -77,9 +150,7 @@ Wrap panels and handles inside a `ResizablePanelGroup`. Each `ResizablePanel` fi
 
 The default direction is `"horizontal"`, which places panels side by side.
 
-<ComponentPage
-	title="Horizontal Split"
-	description="Panels are arranged side by side with a vertical drag handle between them."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg h-40 rounded-lg border border-border overflow-hidden">
 			<ResizablePanelGroup direction="horizontal">
@@ -112,9 +183,7 @@ The default direction is `"horizontal"`, which places panels side by side.
 
 Set `direction="vertical"` to stack panels on top of each other with a horizontal drag handle.
 
-<ComponentPage
-	title="Vertical Split"
-	description="Panels are stacked vertically with a horizontal drag handle between them."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg h-64 rounded-lg border border-border overflow-hidden">
 			<ResizablePanelGroup direction="vertical">
@@ -147,9 +216,7 @@ Set `direction="vertical"` to stack panels on top of each other with a horizonta
 
 Pass `withHandle` to `ResizableHandle` to show a visual grip indicator on the drag handle. This makes the handle more discoverable.
 
-<ComponentPage
-	title="Grip Handle"
-	description="A visible grip icon on the handle improves discoverability for drag resizing."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg h-40 rounded-lg border border-border overflow-hidden">
 			<ResizablePanelGroup direction="horizontal">
@@ -178,9 +245,7 @@ Pass `withHandle` to `ResizableHandle` to show a visual grip indicator on the dr
 
 You can nest any number of panels and handles:
 
-<ComponentPage
-	title="Three Panels"
-	description="Multiple panels with handles between each pair."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg h-40 rounded-lg border border-border overflow-hidden">
 			<ResizablePanelGroup direction="horizontal">
@@ -354,5 +419,3 @@ All standard `<div>` HTML attributes are also forwarded.
 | `--ring`          | Focus ring color                         |
 | `--muted-foreground` | Grip icon color                       |
 | `--duration-fast` | Transition speed                         |
-
-</ComponentPage>

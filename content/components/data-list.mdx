@@ -7,10 +7,14 @@ icon: List
 import {
   DataList,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Data List"
-  description="A semantic key-value pair list for structured metadata display. Supports horizontal (grid) and vertical layouts, dividers, and staggered Framer Motion entrance animations."
+## Basic
+
+A semantic key-value pair list for structured metadata display. Supports horizontal (grid) and vertical layouts, dividers, and staggered Framer Motion entrance animations.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-md">
       <DataList
@@ -31,14 +35,92 @@ import {
     { term: "Created", detail: "January 14, 2025" },
   ]}
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add data-list
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add data-list
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add data-list
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add data-list
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { DataList } from "@work-rjkashyap/unified-ui";
-// or
-import { DataList } from "@work-rjkashyap/unified-ui/components";
+import {
+	DataList,
+	Card,
+	CardHeader,
+	CardBody,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -61,9 +143,7 @@ Pass an `items` array with `term` (key) and `detail` (value) entries. The defaul
 
 Terms and details are rendered in a two-column grid. Labels are right-aligned to the first column and values fill the remaining width.
 
-<ComponentPage
-  title="Horizontal Orientation"
-  description="Two-column grid with aligned terms and details — the default layout."
+<PreviewCard
   preview={
     <div className="w-full max-w-md">
       <DataList
@@ -94,9 +174,7 @@ Terms and details are rendered in a two-column grid. Labels are right-aligned to
 
 Terms and details are stacked vertically — the term appears above its detail. Useful for narrow containers or mobile-first layouts.
 
-<ComponentPage
-  title="Vertical Orientation"
-  description="Stacked layout with the term rendered above its detail value."
+<PreviewCard
   preview={
     <div className="w-full max-w-xs">
       <DataList
@@ -125,9 +203,7 @@ Terms and details are stacked vertically — the term appears above its detail. 
 
 Set `dividers` to add horizontal rules between items for visual separation.
 
-<ComponentPage
-  title="With Dividers"
-  description="Horizontal rules between each item for clear visual separation."
+<PreviewCard
   preview={
     <div className="w-full max-w-md">
       <DataList
@@ -158,9 +234,7 @@ Set `dividers` to add horizontal rules between items for visual separation.
 
 Three text size presets for different density contexts.
 
-<ComponentPage
-  title="Sizes"
-  description="Small, medium, and large text sizes for different density levels."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-6 w-full max-w-md">
       <div>
@@ -210,9 +284,7 @@ Three text size presets for different density contexts.
 
 Both `term` and `detail` accept `ReactNode`, so you can embed badges, links, avatars, or any other component.
 
-<ComponentPage
-  title="Rich Detail Values"
-  description="Embed any ReactNode as a term or detail — badges, links, status dots, and more."
+<PreviewCard
   preview={
     <div className="w-full max-w-md">
       <DataList
@@ -404,5 +476,3 @@ function ResponsiveDataList() {
 | `--muted-fg`    | Term (key) text color              |
 | `--foreground`  | Detail (value) text color          |
 | `--border`      | Divider line color                 |
-
-</ComponentPage>

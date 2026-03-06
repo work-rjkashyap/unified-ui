@@ -7,10 +7,14 @@ icon: Copy
 import {
   CopyButton,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Copy Button"
-  description="A compact icon button that copies text to the clipboard with animated clipboard-to-checkmark feedback and an informative tooltip."
+## Basic
+
+A compact icon button that copies text to the clipboard with animated clipboard-to-checkmark feedback and an informative tooltip.
+
+<PreviewCard
   preview={
     <div className="flex gap-4 items-center justify-center">
       <CopyButton text="npm install @work-rjkashyap/unified-ui" tooltip="Copy install command" />
@@ -21,14 +25,90 @@ import {
   code={`<CopyButton text="npm install @work-rjkashyap/unified-ui" tooltip="Copy install command" />
 <CopyButton text="https://unified-ui.dev" tooltip="Copy URL" variant="ghost" />
 <CopyButton text="sk_live_abc123" tooltip="Copy API key" size="lg" />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add copy-button
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add copy-button
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add copy-button
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add copy-button
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { CopyButton } from "@work-rjkashyap/unified-ui";
-// or
-import { CopyButton } from "@work-rjkashyap/unified-ui/components";
+import {
+	CopyButton,
+	InputGroup,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -41,9 +121,7 @@ Pass the `text` prop with the string to copy to clipboard. The button shows a ch
 
 ## Sizes
 
-<ComponentPage
-  title="Sizes"
-  description="Three sizes for different density contexts."
+<PreviewCard
   preview={
     <div className="flex gap-4 items-end justify-center">
       <div className="flex flex-col items-center gap-1.5">
@@ -73,9 +151,7 @@ Pass the `text` prop with the string to copy to clipboard. The button shows a ch
 
 ## Variants
 
-<ComponentPage
-  title="Variants"
-  description="Default has a visible border and background; ghost is borderless and transparent."
+<PreviewCard
   preview={
     <div className="flex gap-4 items-center justify-center">
       <div className="flex flex-col items-center gap-1.5">
@@ -101,9 +177,7 @@ Pass the `text` prop with the string to copy to clipboard. The button shows a ch
 
 Set `tooltip` to customize the label shown on hover. After a successful copy, the tooltip automatically shows `"Copied!"`.
 
-<ComponentPage
-  title="Custom Tooltip"
-  description="Customize the tooltip text shown on hover. Automatically shows 'Copied!' after copy."
+<PreviewCard
   preview={
     <div className="flex gap-4 items-center justify-center">
       <CopyButton text="npm install @work-rjkashyap/unified-ui" tooltip="Copy install command" />
@@ -151,9 +225,7 @@ Use `onCopy` and `onCopyError` for side effects after copy success or failure.
 
 The most common use case — a ghost copy button overlaid in the top-right corner of a code block.
 
-<ComponentPage
-  title="In a Code Block"
-  description="The ghost variant is designed to sit cleanly inside code blocks and toolbars."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm relative rounded-lg border border-border bg-muted/50 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted">
@@ -295,5 +367,3 @@ Standard `<button>` HTML attributes are **not** forwarded — the component mana
 | `--success`       | Checkmark icon color                 |
 | `--radius-md`     | Button border radius                 |
 | `--duration-fast` | Hover/focus transition speed         |
-
-</ComponentPage>

@@ -10,10 +10,14 @@ import {
   Card,
   Badge,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Carousel"
-  description="A fully-featured carousel with animated slide transitions, previous/next arrows, dot indicators, autoplay, loop mode, and keyboard-accessible controls."
+## Basic
+
+A fully-featured carousel with animated slide transitions, previous/next arrows, dot indicators, autoplay, loop mode, and keyboard-accessible controls.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-lg">
       <Carousel
@@ -32,14 +36,92 @@ import {
     <div>Slide 3</div>,
   ]}
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add carousel
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add carousel
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add carousel
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add carousel
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Carousel } from "@work-rjkashyap/unified-ui";
-// or
-import { Carousel } from "@work-rjkashyap/unified-ui/components";
+import {
+	Carousel,
+	Button,
+	Card,
+	Badge,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -60,9 +142,7 @@ Pass an array of `ReactNode` elements to `items`. The carousel manages its own i
 
 A common pattern — cycling through card content.
 
-<ComponentPage
-  title="Card Carousel"
-  description="Each slide is a full card with content, suitable for testimonials, features, or media."
+<PreviewCard
   preview={
     <div className="w-full max-w-lg">
       <Carousel
@@ -126,9 +206,7 @@ A common pattern — cycling through card content.
 
 Set `autoplay` to automatically advance slides at a configurable interval. Autoplay pauses when the user interacts with the carousel.
 
-<ComponentPage
-  title="Autoplay"
-  description="Slides advance automatically every 3 seconds (configurable). Loop is enabled by default."
+<PreviewCard
   preview={
     <div className="w-full max-w-lg">
       <Carousel
@@ -169,9 +247,7 @@ Set `autoplay` to automatically advance slides at a configurable interval. Autop
 
 Disable navigation controls for minimal, gesture-only carousels.
 
-<ComponentPage
-  title="Controls Toggle"
-  description="Arrows and dots can be independently shown or hidden."
+<PreviewCard
   preview={
     <div className="w-full max-w-lg flex flex-col gap-4">
       <div>
@@ -491,5 +567,3 @@ function OnboardingFlow() {
 | `--radius-lg`    | Carousel container border radius  |
 | `--shadow-sm`    | Arrow button shadow               |
 | `--duration-fast`| Arrow button hover transition     |
-
-</ComponentPage>

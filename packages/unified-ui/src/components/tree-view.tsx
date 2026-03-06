@@ -437,7 +437,7 @@ function TreeItem({ node, depth }: { node: TreeNode; depth: number }) {
               exit={{ height: 0, opacity: 0, overflow: "hidden" }}
               transition={motionTransition}
               className={cn(
-                "relative",
+                "relative list-none",
                 showLines &&
                   "before:absolute before:left-[calc(var(--tree-indent))] before:top-0 before:bottom-2 before:w-px before:bg-border",
               )}
@@ -615,7 +615,7 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
         <ul
           ref={ref}
           role="tree"
-          className={cn("text-sm", className)}
+          className={cn("list-none text-sm", className)}
           data-ds=""
           data-ds-component="tree-view"
         >

@@ -451,18 +451,18 @@ export const overlayBackdrop: MotionPreset = {
 
 export const modalContent: MotionPreset = {
   variants: {
-    initial: { opacity: 0, scale: 0.96, y: 8 },
+    initial: { opacity: 0, scale: 0.95, y: 10 },
     animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.96, y: 8 },
+    exit: { opacity: 0, scale: 0.97, y: 4 },
   },
-  transition: buildTransition(durationSeconds.normal, easing.decelerate),
+  transition: spring.stiff,
 };
 
 export const modalContentSpring: MotionPreset = {
   variants: {
     initial: { opacity: 0, scale: 0.95, y: 10 },
     animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.95, y: 10 },
+    exit: { opacity: 0, scale: 0.97, y: 4 },
   },
   transition: spring.stiff,
 };
@@ -665,38 +665,38 @@ export const crossfade: MotionPreset = {
  */
 export const slidePanelRight: MotionPreset = {
   variants: {
-    initial: { x: "100%", opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: "100%", opacity: 0 },
+    initial: { x: "100%" },
+    animate: { x: 0 },
+    exit: { x: "100%" },
   },
-  transition: spring.gentle,
+  transition: spring.stiff,
 };
 
 export const slidePanelLeft: MotionPreset = {
   variants: {
-    initial: { x: "-100%", opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: "-100%", opacity: 0 },
+    initial: { x: "-100%" },
+    animate: { x: 0 },
+    exit: { x: "-100%" },
   },
-  transition: spring.gentle,
+  transition: spring.stiff,
 };
 
 export const slidePanelBottom: MotionPreset = {
   variants: {
-    initial: { y: "100%", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: "100%", opacity: 0 },
+    initial: { y: "100%" },
+    animate: { y: 0 },
+    exit: { y: "100%" },
   },
-  transition: spring.gentle,
+  transition: spring.stiff,
 };
 
 export const slidePanelTop: MotionPreset = {
   variants: {
-    initial: { y: "-100%", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: "-100%", opacity: 0 },
+    initial: { y: "-100%" },
+    animate: { y: 0 },
+    exit: { y: "-100%" },
   },
-  transition: spring.gentle,
+  transition: spring.stiff,
 };
 
 /**

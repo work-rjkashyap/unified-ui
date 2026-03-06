@@ -15,6 +15,7 @@ import {
 	Underline,
 } from "lucide-react";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -22,18 +23,88 @@ The `Tooltip` component provides contextual information when users hover over or
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add tooltip
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add tooltip
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add tooltip
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add tooltip
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Tooltip, TooltipProvider } from "@work-rjkashyap/unified-ui";
-// or
 import {
 	Tooltip,
 	TooltipProvider,
-} from "@work-rjkashyap/unified-ui/components";
+} from "@work-rjkashyap/unified-ui";
 ```
-
----
 
 ## Setup
 
@@ -53,9 +124,7 @@ export default function RootLayout({ children }) {
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Tooltip"
-	description="Wrap any element with Tooltip and provide a content prop. The tooltip appears on hover and focus."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<TooltipProvider>
@@ -77,9 +146,7 @@ export default function RootLayout({ children }) {
 
 ### Placement
 
-<ComponentPage
-	title="Placement"
-	description="Control which side of the trigger the tooltip appears on with the side prop."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center flex-wrap">
 			<TooltipProvider>
@@ -117,9 +184,7 @@ export default function RootLayout({ children }) {
 
 ### Alignment
 
-<ComponentPage
-	title="Alignment"
-	description="Fine-tune the tooltip position with the align prop."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center flex-wrap">
 			<TooltipProvider>
@@ -150,9 +215,7 @@ export default function RootLayout({ children }) {
 
 ### With Icon-Only Buttons
 
-<ComponentPage
-	title="Icon-Only Buttons"
-	description="Tooltips are especially useful with icon-only buttons to provide accessible labels."
+<PreviewCard
 	preview={
 		<div className="flex gap-2 items-center justify-center">
 			<TooltipProvider>
@@ -206,9 +269,7 @@ export default function RootLayout({ children }) {
 
 ### Toolbar Pattern
 
-<ComponentPage
-	title="Toolbar with Tooltips"
-	description="A common pattern combining tooltips with a row of icon-only buttons in a toolbar."
+<PreviewCard
 	preview={
 		<div className="flex items-center gap-1 p-1 border border-fd-border rounded-md">
 			<TooltipProvider>

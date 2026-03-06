@@ -14,6 +14,7 @@ import {
 	NavigationMenuCardLink,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -21,29 +22,99 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add navigation-menu
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add navigation-menu
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add navigation-menu
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add navigation-menu
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuTrigger,
-  NavigationMenuContent,
-  NavigationMenuLink,
-  NavigationMenuCardLink,
+	NavigationMenu,
+	NavigationMenuList,
+	NavigationMenuItem,
+	NavigationMenuTrigger,
+	NavigationMenuContent,
+	NavigationMenuLink,
+	NavigationMenuCardLink,
 } from "@work-rjkashyap/unified-ui";
 ```
-
----
 
 ## Examples
 
 ### Basic with Dropdown
 
-<ComponentPage
-	title="Navigation Menu with Dropdown"
-	description="A top nav with a dropdown panel containing card-style links."
+<PreviewCard
 	preview={
 		<NavigationMenu>
 			<NavigationMenuList>
@@ -53,23 +124,15 @@ import {
 						<ul className="grid grid-cols-2 gap-1 p-3 w-[480px]">
 							<NavigationMenuCardLink
 								href="#"
-								title="Button"
-								description="The primary interactive element for triggering actions."
 							/>
 							<NavigationMenuCardLink
 								href="#"
-								title="Input"
-								description="Text input with variants, sizes, and icon slots."
 							/>
 							<NavigationMenuCardLink
 								href="#"
-								title="Dialog"
-								description="Modal dialog with header, body, and footer."
 							/>
 							<NavigationMenuCardLink
 								href="#"
-								title="Card"
-								description="Flexible container for content and actions."
 							/>
 						</ul>
 					</NavigationMenuContent>
@@ -80,18 +143,12 @@ import {
 						<ul className="grid gap-1 p-3 w-[300px]">
 							<NavigationMenuCardLink
 								href="#"
-								title="Documentation"
-								description="Browse the full API reference and guides."
 							/>
 							<NavigationMenuCardLink
 								href="#"
-								title="Changelog"
-								description="See what has changed in recent releases."
 							/>
 							<NavigationMenuCardLink
 								href="#"
-								title="GitHub"
-								description="Contribute and file issues on GitHub."
 							/>
 						</ul>
 					</NavigationMenuContent>
@@ -113,23 +170,15 @@ import {
         <ul className="grid grid-cols-2 gap-1 p-3 w-[480px]">
           <NavigationMenuCardLink
             href="/components/button"
-            title="Button"
-            description="The primary interactive element for triggering actions."
           />
           <NavigationMenuCardLink
             href="/components/input"
-            title="Input"
-            description="Text input with variants, sizes, and icon slots."
           />
           <NavigationMenuCardLink
             href="/components/dialog"
-            title="Dialog"
-            description="Modal dialog with header, body, and footer."
           />
           <NavigationMenuCardLink
             href="/components/card"
-            title="Card"
-            description="Flexible container for content and actions."
           />
         </ul>
       </NavigationMenuContent>
@@ -146,9 +195,7 @@ import {
 
 ### Plain Links Only
 
-<ComponentPage
-	title="Plain Link Navigation"
-	description="When no dropdown is needed, use NavigationMenuLink directly inside NavigationMenuItem."
+<PreviewCard
 	preview={
 		<NavigationMenu>
 			<NavigationMenuList>
@@ -187,9 +234,7 @@ import {
 
 ### Featured + Grid Layout
 
-<ComponentPage
-	title="Featured + Grid Content"
-	description="Mix a featured card with a grid of links in the dropdown panel."
+<PreviewCard
 	preview={
 		<NavigationMenu>
 			<NavigationMenuList>
@@ -206,9 +251,9 @@ import {
 							</div>
 							{/* Grid of links */}
 							<ul className="grid gap-1">
-								<NavigationMenuCardLink href="#" title="Installation" description="Get started in under 2 minutes." />
-								<NavigationMenuCardLink href="#" title="Design Tokens" description="Colors, spacing, and typography." />
-								<NavigationMenuCardLink href="#" title="Theming" description="Dark mode and custom themes." />
+								<NavigationMenuCardLink href="#" />
+								<NavigationMenuCardLink href="#" />
+								<NavigationMenuCardLink href="#" />
 							</ul>
 						</div>
 					</NavigationMenuContent>
@@ -231,9 +276,9 @@ import {
           </div>
           {/* Link grid */}
           <ul className="grid gap-1">
-            <NavigationMenuCardLink href="/docs/installation" title="Installation" description="Get started in under 2 minutes." />
-            <NavigationMenuCardLink href="/docs/tokens" title="Design Tokens" description="Colors, spacing, and typography." />
-            <NavigationMenuCardLink href="/docs/theming" title="Theming" description="Dark mode and custom themes." />
+            <NavigationMenuCardLink href="/docs/installation" />
+            <NavigationMenuCardLink href="/docs/tokens" />
+            <NavigationMenuCardLink href="/docs/theming" />
           </ul>
         </div>
       </NavigationMenuContent>

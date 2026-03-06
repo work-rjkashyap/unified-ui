@@ -7,10 +7,13 @@ icon: SquarePlay
 import { VideoPlayer, Button } from "@work-rjkashyap/unified-ui";
 import { DemoOnEnded } from "@/components/docs/video-player-demos";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Video Player"
-	description="A styled video component with custom play/pause, mute, seek, and fullscreen controls, poster image, and keyboard shortcuts. Click the play button to interact."
+## Basic
+
+A styled video component with custom play/pause, mute, seek, and fullscreen controls, poster image, and keyboard shortcuts. Click the play button to interact.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<VideoPlayer
@@ -23,25 +26,97 @@ import { Callout } from "fumadocs-ui/components/callout";
   src="/demo.mp4"
   poster="/poster.jpg"
 />`}
->
 
-## Import
+/>
 
-```tsx
-import { VideoPlayer } from "@work-rjkashyap/unified-ui";
-// or
-import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add video-player
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add video-player
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add video-player
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add video-player
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	VideoPlayer,
+	Button,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Default (16:9)
 
-<ComponentPage
-	title="Default Aspect Ratio"
-	description="The default aspect ratio is 'video' (16:9), the standard for most video content."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<VideoPlayer
@@ -58,9 +133,7 @@ import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
 
 ### Aspect Ratios
 
-<ComponentPage
-	title="Aspect Ratios"
-	description="Control the video container shape with video (16:9), square (1:1), 4/3, or auto aspect ratios."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-lg">
 			<div>
@@ -99,9 +172,7 @@ import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
 
 ### Autoplay, Loop & Muted
 
-<ComponentPage
-	title="Autoplay with Loop"
-	description="Combine autoPlay, loop, and muted for background-video-style playback. Browsers require muted for autoplay to work."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<VideoPlayer
@@ -123,9 +194,7 @@ import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
 
 ### Without Controls
 
-<ComponentPage
-	title="Hidden Controls"
-	description="Set controls={false} to hide the custom control bar. The big play button overlay still appears when paused."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<VideoPlayer
@@ -144,9 +213,7 @@ import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
 
 ### Without Poster
 
-<ComponentPage
-	title="No Poster Image"
-	description="When no poster is provided, the first frame of the video is shown instead."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<VideoPlayer src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" />
@@ -157,9 +224,7 @@ import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
 
 ### Muted by Default
 
-<ComponentPage
-	title="Muted by Default"
-	description="Start the video muted — users can unmute via the volume control or the M keyboard shortcut."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<VideoPlayer
@@ -178,9 +243,7 @@ import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
 
 ### onEnded Callback
 
-<ComponentPage
-	title="End Callback"
-	description="Use the onEnded callback to trigger actions when the video finishes playing, such as showing a replay button or loading the next video."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoOnEnded />
@@ -252,5 +315,3 @@ import { VideoPlayer } from "@work-rjkashyap/unified-ui/components";
 | `--foreground`    | Control icon colors      |
 | `--primary`       | Focus ring color         |
 | `--duration-fast` | Control transition speed |
-
-</ComponentPage>

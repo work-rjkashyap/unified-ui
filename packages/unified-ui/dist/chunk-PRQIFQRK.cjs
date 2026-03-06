@@ -1,6 +1,6 @@
 'use strict';
 
-var chunkHITTFB2U_cjs = require('./chunk-HITTFB2U.cjs');
+var chunkF4JJFWWU_cjs = require('./chunk-F4JJFWWU.cjs');
 var chunk3EHT6IOA_cjs = require('./chunk-3EHT6IOA.cjs');
 var chunk4ON3M3OM_cjs = require('./chunk-4ON3M3OM.cjs');
 var classVarianceAuthority = require('class-variance-authority');
@@ -483,11 +483,11 @@ var Alert = React.forwardRef(function Alert2({
     /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { initial: false, children: open && /* @__PURE__ */ jsxRuntime.jsx(
       framerMotion.motion.div,
       {
-        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.expandHeight.variants,
+        variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.expandHeight.variants,
         initial: shouldReduce ? { opacity: 0 } : "initial",
         animate: shouldReduce ? { opacity: 1 } : "animate",
         exit: shouldReduce ? { opacity: 0 } : "exit",
-        transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.expandHeight.transition,
+        transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.expandHeight.transition,
         "data-ds-animated": "",
         children: /* @__PURE__ */ jsxRuntime.jsx(
           "div",
@@ -535,10 +535,10 @@ var Alert = React.forwardRef(function Alert2({
         ref,
         role: resolvedRole,
         className: rootClasses,
-        variants: chunkHITTFB2U_cjs.fadeIn.variants,
+        variants: chunkF4JJFWWU_cjs.fadeIn.variants,
         initial: "initial",
         animate: "animate",
-        transition: chunkHITTFB2U_cjs.fadeIn.transition,
+        transition: chunkF4JJFWWU_cjs.fadeIn.transition,
         ...rootDataAttrs,
         children: collapsible ? collapsibleInner : standardInner
       }
@@ -572,7 +572,39 @@ var Callout = React.forwardRef(
 );
 Callout.displayName = "Callout";
 var calloutVariants = alertVariants;
-var AlertDialog = radixUi.AlertDialog.Root;
+var AlertDialogContext = React.createContext({
+  open: false
+});
+function useAlertDialogContext() {
+  return React.useContext(AlertDialogContext);
+}
+function AlertDialog({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  const handleOpenChange = React.useCallback(
+    (next) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  return /* @__PURE__ */ jsxRuntime.jsx(AlertDialogContext.Provider, { value: { open }, children: /* @__PURE__ */ jsxRuntime.jsx(
+    radixUi.AlertDialog.Root,
+    {
+      open,
+      onOpenChange: handleOpenChange,
+      ...rest,
+      children
+    }
+  ) });
+}
 AlertDialog.displayName = "AlertDialog";
 var AlertDialogTrigger = radixUi.AlertDialog.Trigger;
 AlertDialogTrigger.displayName = "AlertDialogTrigger";
@@ -580,18 +612,18 @@ var AlertDialogPortal = radixUi.AlertDialog.Portal;
 AlertDialogPortal.displayName = "AlertDialogPortal";
 var AlertDialogOverlay = React.forwardRef(function AlertDialogOverlay2({ className, ...rest }, ref) {
   const shouldReduce = framerMotion.useReducedMotion();
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.AlertDialog.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.AlertDialog.Overlay, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
     framerMotion.motion.div,
     {
       className: chunk4ON3M3OM_cjs.cn(
         "fixed inset-0 z-overlay bg-black/50 backdrop-blur-sm",
         className
       ),
-      variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.overlayBackdrop.variants,
+      variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.overlayBackdrop.variants,
       initial: shouldReduce ? { opacity: 0 } : "initial",
       animate: shouldReduce ? { opacity: 1 } : "animate",
       exit: shouldReduce ? { opacity: 0 } : "exit",
-      transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.overlayBackdrop.transition,
+      transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.overlayBackdrop.transition,
       "data-ds-animated": ""
     }
   ) });
@@ -599,9 +631,10 @@ var AlertDialogOverlay = React.forwardRef(function AlertDialogOverlay2({ classNa
 AlertDialogOverlay.displayName = "AlertDialogOverlay";
 var AlertDialogContent = React.forwardRef(function AlertDialogContent2({ className, children, ...rest }, ref) {
   const shouldReduce = framerMotion.useReducedMotion();
-  return /* @__PURE__ */ jsxRuntime.jsxs(radixUi.AlertDialog.Portal, { children: [
+  const { open } = useAlertDialogContext();
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.AlertDialog.Portal, { forceMount: true, children: /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { children: open && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(AlertDialogOverlay, {}),
-    /* @__PURE__ */ jsxRuntime.jsx(radixUi.AlertDialog.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
+    /* @__PURE__ */ jsxRuntime.jsx(radixUi.AlertDialog.Content, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
       framerMotion.motion.div,
       {
         className: chunk4ON3M3OM_cjs.cn(
@@ -613,18 +646,18 @@ var AlertDialogContent = React.forwardRef(function AlertDialogContent2({ classNa
           chunk3EHT6IOA_cjs.focusRingClasses,
           className
         ),
-        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.modalContent.variants,
+        variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.modalContent.variants,
         initial: shouldReduce ? { opacity: 0 } : "initial",
         animate: shouldReduce ? { opacity: 1 } : "animate",
         exit: shouldReduce ? { opacity: 0 } : "exit",
-        transition: shouldReduce ? { duration: 0.2 } : chunkHITTFB2U_cjs.modalContent.transition,
+        transition: shouldReduce ? { duration: 0.2 } : chunkF4JJFWWU_cjs.modalContent.transition,
         "data-ds": "",
         "data-ds-component": "alert-dialog-content",
         "data-ds-animated": "",
         children
       }
     ) })
-  ] });
+  ] }) }) });
 });
 AlertDialogContent.displayName = "AlertDialogContent";
 function AlertDialogHeader({
@@ -1279,10 +1312,10 @@ var Badge = React.forwardRef(function Badge2({
       {
         ref,
         className: classes,
-        variants: chunkHITTFB2U_cjs.popSubtle.variants,
+        variants: chunkF4JJFWWU_cjs.popSubtle.variants,
         initial: "initial",
         animate: "animate",
-        transition: chunkHITTFB2U_cjs.popSubtle.transition,
+        transition: chunkF4JJFWWU_cjs.popSubtle.transition,
         ...dataAttrs,
         children: content
       }
@@ -1380,7 +1413,7 @@ var Banner = React.forwardRef(function Banner2({
     if (controlledVisible === void 0) setInternalVisible(false);
     onDismiss?.();
   };
-  const slidePreset = position === "bottom" ? chunkHITTFB2U_cjs.slideUp : chunkHITTFB2U_cjs.slideDown;
+  const slidePreset = position === "bottom" ? chunkF4JJFWWU_cjs.slideUp : chunkF4JJFWWU_cjs.slideDown;
   return /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { initial: false, children: isVisible && /* @__PURE__ */ jsxRuntime.jsxs(
     framerMotion.motion.div,
     {
@@ -3464,11 +3497,11 @@ var CodeBlock = React.forwardRef(
                       framerMotion.motion.span,
                       {
                         className: "flex items-center gap-1",
-                        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.variants,
+                        variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.variants,
                         initial: shouldReduce ? void 0 : "initial",
                         animate: shouldReduce ? void 0 : "animate",
                         exit: shouldReduce ? void 0 : "exit",
-                        transition: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.transition,
+                        transition: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.transition,
                         "data-ds-animated": "",
                         children: [
                           /* @__PURE__ */ jsxRuntime.jsx(CheckIcon2, { className: "size-3.5 text-code-success" }),
@@ -3480,11 +3513,11 @@ var CodeBlock = React.forwardRef(
                       framerMotion.motion.span,
                       {
                         className: "flex items-center gap-1",
-                        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.variants,
+                        variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.variants,
                         initial: shouldReduce ? void 0 : "initial",
                         animate: shouldReduce ? void 0 : "animate",
                         exit: shouldReduce ? void 0 : "exit",
-                        transition: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.transition,
+                        transition: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.transition,
                         "data-ds-animated": "",
                         children: [
                           /* @__PURE__ */ jsxRuntime.jsx(CopyIcon, { className: "size-3.5" }),
@@ -4050,11 +4083,11 @@ var Combobox = React.forwardRef(
                 "outline-none",
                 contentClassName
               ),
-              variants: chunkHITTFB2U_cjs.scaleIn.variants,
+              variants: chunkF4JJFWWU_cjs.scaleIn.variants,
               initial: shouldReduce ? { opacity: 0 } : "initial",
               animate: "animate",
               exit: shouldReduce ? { opacity: 0 } : "exit",
-              transition: chunkHITTFB2U_cjs.scaleIn.transition,
+              transition: chunkF4JJFWWU_cjs.scaleIn.transition,
               "data-ds-animated": "",
               children: [
                 searchable && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center border-b border-border px-3 gap-2", children: [
@@ -4105,10 +4138,10 @@ var Combobox = React.forwardRef(
                         framerMotion.motion.div,
                         {
                           className: "py-6 text-center text-sm text-muted-foreground",
-                          variants: chunkHITTFB2U_cjs.fadeIn.variants,
+                          variants: chunkF4JJFWWU_cjs.fadeIn.variants,
                           initial: "initial",
                           animate: "animate",
-                          transition: chunkHITTFB2U_cjs.fadeIn.transition,
+                          transition: chunkF4JJFWWU_cjs.fadeIn.transition,
                           "data-ds-animated": "",
                           children: emptyMessage
                         }
@@ -4118,7 +4151,7 @@ var Combobox = React.forwardRef(
                       /* @__PURE__ */ jsxRuntime.jsx(
                         framerMotion.motion.div,
                         {
-                          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.staggerContainerFast.variants,
+                          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.staggerContainerFast.variants,
                           initial: shouldReduce ? void 0 : "initial",
                           animate: shouldReduce ? void 0 : "animate",
                           children: groupedOptions.map((section, sectionIdx) => /* @__PURE__ */ jsxRuntime.jsxs("div", { children: [
@@ -4134,7 +4167,7 @@ var Combobox = React.forwardRef(
                                   id: `${id}-option-${option.value}`,
                                   "aria-selected": isSelected,
                                   "aria-disabled": option.disabled,
-                                  variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.slideUpSm.variants,
+                                  variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.slideUpSm.variants,
                                   className: chunk4ON3M3OM_cjs.cn(
                                     "relative flex items-center gap-2 px-3 py-2 text-sm rounded-sm mx-1",
                                     "cursor-pointer select-none",
@@ -4187,6 +4220,41 @@ var Combobox = React.forwardRef(
   }
 );
 Combobox.displayName = "Combobox";
+var kbdVariants = classVarianceAuthority.cva(
+  [
+    "inline-flex items-center gap-0.5",
+    "font-mono font-medium leading-none",
+    "rounded border border-border",
+    "bg-muted text-muted-foreground",
+    "shadow-[0_1px_0_1px_hsl(var(--border))]",
+    "select-none whitespace-nowrap"
+  ],
+  {
+    variants: {
+      size: {
+        sm: "px-1.5 py-0.5 text-[10px]",
+        md: "px-2 py-1 text-xs",
+        lg: "px-2.5 py-1 text-sm"
+      }
+    },
+    defaultVariants: { size: "md" }
+  }
+);
+var Kbd = React.forwardRef(function Kbd2({ size = "md", className, children, ...rest }, ref) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "kbd",
+    {
+      ref,
+      className: chunk4ON3M3OM_cjs.cn(kbdVariants({ size }), className),
+      "data-ds": "",
+      "data-ds-component": "kbd",
+      "data-ds-size": size,
+      ...rest,
+      children
+    }
+  );
+});
+Kbd.displayName = "Kbd";
 function SearchIcon2({ className }) {
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "svg",
@@ -4209,8 +4277,20 @@ function SearchIcon2({ className }) {
     }
   );
 }
-function KbdHint({ keys }) {
-  return /* @__PURE__ */ jsxRuntime.jsx("kbd", { className: "inline-flex items-center gap-0.5 rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground", children: keys });
+function ShortcutKeys({ keys }) {
+  const modifiers = /* @__PURE__ */ new Set(["\u2318", "\u21E7", "\u2325", "\u2303"]);
+  const tokens = [];
+  let rest = keys;
+  while (rest.length > 0) {
+    if (modifiers.has(rest[0])) {
+      tokens.push(rest[0]);
+      rest = rest.slice(1);
+    } else {
+      tokens.push(rest);
+      break;
+    }
+  }
+  return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex items-center gap-0.5", children: tokens.map((token, i) => /* @__PURE__ */ jsxRuntime.jsx(Kbd, { size: "sm", children: token }, i)) });
 }
 function matchesSearch(item, query) {
   if (!query) return true;
@@ -4285,30 +4365,39 @@ function Command({
     el?.scrollIntoView({ block: "nearest" });
   }, []);
   let flatIndex = 0;
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Root, { open, onOpenChange, children: /* @__PURE__ */ jsxRuntime.jsxs(radixUi.Dialog.Portal, { children: [
-    /* @__PURE__ */ jsxRuntime.jsx(
-      radixUi.Dialog.Overlay,
+  const shouldReduce = framerMotion.useReducedMotion();
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Root, { open, onOpenChange, children: /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Portal, { forceMount: true, children: /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { children: open && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Overlay, { forceMount: true, asChild: true, children: /* @__PURE__ */ jsxRuntime.jsx(
+      framerMotion.motion.div,
       {
         className: chunk4ON3M3OM_cjs.cn(
-          "fixed inset-0 z-[var(--z-modal)] bg-black/50",
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0"
-        )
+          "fixed inset-0 z-[var(--z-modal)] bg-black/50"
+        ),
+        variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.overlayBackdrop.variants,
+        initial: shouldReduce ? { opacity: 0 } : "initial",
+        animate: shouldReduce ? { opacity: 1 } : "animate",
+        exit: shouldReduce ? { opacity: 0 } : "exit",
+        transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.overlayBackdrop.transition,
+        "data-ds-animated": ""
       }
-    ),
-    /* @__PURE__ */ jsxRuntime.jsxs(
-      radixUi.Dialog.Content,
+    ) }),
+    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Content, { forceMount: true, asChild: true, children: /* @__PURE__ */ jsxRuntime.jsxs(
+      framerMotion.motion.div,
       {
         className: chunk4ON3M3OM_cjs.cn(
           "fixed left-1/2 top-[20%] z-[var(--z-modal)]",
           "w-full max-w-lg -translate-x-1/2",
           "rounded-lg border border-border bg-background shadow-xl",
-          "overflow-hidden",
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-4",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+          "overflow-hidden"
         ),
+        variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.modalContent.variants,
+        initial: shouldReduce ? { opacity: 0 } : "initial",
+        animate: shouldReduce ? { opacity: 1 } : "animate",
+        exit: shouldReduce ? { opacity: 0 } : "exit",
+        transition: shouldReduce ? { duration: 0.2 } : chunkF4JJFWWU_cjs.modalContent.transition,
         "data-ds": "",
         "data-ds-component": "command",
+        "data-ds-animated": "",
         "aria-label": "Command Palette",
         children: [
           /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Title, { className: "sr-only", children: "Command Palette" }),
@@ -4340,7 +4429,7 @@ function Command({
                 )
               }
             ),
-            /* @__PURE__ */ jsxRuntime.jsx(KbdHint, { keys: "Esc" })
+            /* @__PURE__ */ jsxRuntime.jsx(ShortcutKeys, { keys: "Esc" })
           ] }),
           /* @__PURE__ */ jsxRuntime.jsx(
             "div",
@@ -4402,7 +4491,7 @@ function Command({
                             /* @__PURE__ */ jsxRuntime.jsx("p", { className: "truncate font-medium", children: item.label }),
                             item.description && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "truncate text-xs text-muted-foreground", children: item.description })
                           ] }),
-                          item.shortcut && /* @__PURE__ */ jsxRuntime.jsx(KbdHint, { keys: item.shortcut })
+                          item.shortcut && /* @__PURE__ */ jsxRuntime.jsx(ShortcutKeys, { keys: item.shortcut })
                         ]
                       },
                       item.id
@@ -4414,22 +4503,22 @@ function Command({
           ),
           /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-3 border-t border-border px-3 py-2", children: [
             /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "flex items-center gap-1 text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ jsxRuntime.jsx(KbdHint, { keys: "\u2191\u2193" }),
+              /* @__PURE__ */ jsxRuntime.jsx(ShortcutKeys, { keys: "\u2191\u2193" }),
               " navigate"
             ] }),
             /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "flex items-center gap-1 text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ jsxRuntime.jsx(KbdHint, { keys: "\u21B5" }),
+              /* @__PURE__ */ jsxRuntime.jsx(ShortcutKeys, { keys: "\u21B5" }),
               " select"
             ] }),
             /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "flex items-center gap-1 text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ jsxRuntime.jsx(KbdHint, { keys: "Esc" }),
+              /* @__PURE__ */ jsxRuntime.jsx(ShortcutKeys, { keys: "Esc" }),
               " close"
             ] })
           ] })
         ]
       }
-    )
-  ] }) });
+    ) })
+  ] }) }) }) });
 }
 Command.displayName = "Command";
 var CommandTrigger = React.forwardRef(function CommandTrigger2({ label = "Search commands...", onClick, className }, ref) {
@@ -4454,7 +4543,7 @@ var CommandTrigger = React.forwardRef(function CommandTrigger2({ label = "Search
       children: [
         /* @__PURE__ */ jsxRuntime.jsx(SearchIcon2, { className: "size-3.5 shrink-0" }),
         /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex-1 truncate text-left", children: label }),
-        /* @__PURE__ */ jsxRuntime.jsx(KbdHint, { keys: "\u2318K" })
+        /* @__PURE__ */ jsxRuntime.jsx(ShortcutKeys, { keys: "\u2318K" })
       ]
     }
   );
@@ -4896,11 +4985,11 @@ var CopyButton = React.forwardRef(
             "bg-foreground text-background text-xs font-medium whitespace-nowrap",
             "pointer-events-none z-tooltip"
           ),
-          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.variants,
+          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.variants,
           initial: shouldReduce ? { opacity: 0 } : "initial",
           animate: shouldReduce ? { opacity: 1 } : "animate",
           exit: shouldReduce ? { opacity: 0 } : "exit",
-          transition: shouldReduce ? { duration: 0.1 } : chunkHITTFB2U_cjs.fadeInFast.transition,
+          transition: shouldReduce ? { duration: 0.1 } : chunkF4JJFWWU_cjs.fadeInFast.transition,
           "data-ds-animated": "",
           children: [
             copied ? "Copied!" : tooltip,
@@ -4934,11 +5023,11 @@ var CopyButton = React.forwardRef(
             framerMotion.motion.span,
             {
               className: chunk4ON3M3OM_cjs.cn("text-success", iconSizeMap3[size]),
-              variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.pop.variants,
+              variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.pop.variants,
               initial: shouldReduce ? { opacity: 0 } : "initial",
               animate: shouldReduce ? { opacity: 1 } : "animate",
               exit: shouldReduce ? { opacity: 0 } : "exit",
-              transition: shouldReduce ? { duration: 0.1 } : chunkHITTFB2U_cjs.pop.transition,
+              transition: shouldReduce ? { duration: 0.1 } : chunkF4JJFWWU_cjs.pop.transition,
               "data-ds-animated": "",
               children: /* @__PURE__ */ jsxRuntime.jsx(CheckIcon5, { className: iconSizeMap3[size] })
             },
@@ -4946,11 +5035,11 @@ var CopyButton = React.forwardRef(
           ) : /* @__PURE__ */ jsxRuntime.jsx(
             framerMotion.motion.span,
             {
-              variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.variants,
+              variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.variants,
               initial: shouldReduce ? { opacity: 0 } : "initial",
               animate: shouldReduce ? { opacity: 1 } : "animate",
               exit: shouldReduce ? { opacity: 0 } : "exit",
-              transition: shouldReduce ? { duration: 0.1 } : chunkHITTFB2U_cjs.fadeInFast.transition,
+              transition: shouldReduce ? { duration: 0.1 } : chunkF4JJFWWU_cjs.fadeInFast.transition,
               "data-ds-animated": "",
               children: /* @__PURE__ */ jsxRuntime.jsx(CopyIcon2, { className: iconSizeMap3[size] })
             },
@@ -4965,8 +5054,8 @@ CopyButton.displayName = "CopyButton";
 var dataListVariants = classVarianceAuthority.cva(["w-full"], {
   variants: {
     orientation: {
-      horizontal: "grid grid-cols-[auto_1fr] gap-x-6 gap-y-3",
-      vertical: "flex flex-col gap-3"
+      horizontal: "grid grid-cols-[auto_1fr] items-baseline gap-x-6",
+      vertical: "flex flex-col gap-2"
     },
     size: {
       sm: "text-xs",
@@ -4992,7 +5081,7 @@ var DataListTerm = React.forwardRef(
 DataListTerm.displayName = "DataListTerm";
 var DataListDetail = React.forwardRef(
   function DataListDetail2({ className, children, ...rest }, ref) {
-    return /* @__PURE__ */ jsxRuntime.jsx("dd", { ref, className: chunk4ON3M3OM_cjs.cn("text-foreground", className), ...rest, children });
+    return /* @__PURE__ */ jsxRuntime.jsx("dd", { ref, className: chunk4ON3M3OM_cjs.cn("text-foreground m-0", className), ...rest, children });
   }
 );
 DataListDetail.displayName = "DataListDetail";
@@ -5007,12 +5096,13 @@ var DataList = React.forwardRef(
   }, ref) {
     const shouldReduce = framerMotion.useReducedMotion();
     const isHorizontal = orientation === "horizontal";
+    const horizontalCellPadding = "py-2";
     return /* @__PURE__ */ jsxRuntime.jsx(
       framerMotion.motion.dl,
       {
         ref,
         className: chunk4ON3M3OM_cjs.cn(dataListVariants({ orientation, size }), className),
-        variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.staggerContainer.variants : void 0,
+        variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.staggerContainer.variants : void 0,
         initial: animated && !shouldReduce ? "initial" : void 0,
         animate: animated && !shouldReduce ? "animate" : void 0,
         "data-ds": "",
@@ -5026,14 +5116,15 @@ var DataList = React.forwardRef(
               isHorizontal ? "contents" : "flex flex-col gap-1",
               dividers && i > 0 && !isHorizontal && "pt-3 border-t border-border"
             ),
-            variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.fadeIn.variants : void 0,
-            transition: animated && !shouldReduce ? chunkHITTFB2U_cjs.fadeIn.transition : void 0,
+            variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.fadeIn.variants : void 0,
+            transition: animated && !shouldReduce ? chunkF4JJFWWU_cjs.fadeIn.transition : void 0,
             children: isHorizontal ? /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
               /* @__PURE__ */ jsxRuntime.jsx(
                 DataListTerm,
                 {
                   className: chunk4ON3M3OM_cjs.cn(
-                    dividers && i > 0 && "pt-3 border-t border-border"
+                    horizontalCellPadding,
+                    dividers && i > 0 && "border-t border-border"
                   ),
                   children: item.term
                 }
@@ -5042,7 +5133,8 @@ var DataList = React.forwardRef(
                 DataListDetail,
                 {
                   className: chunk4ON3M3OM_cjs.cn(
-                    dividers && i > 0 && "pt-3 border-t border-border"
+                    horizontalCellPadding,
+                    dividers && i > 0 && "border-t border-border"
                   ),
                   children: item.detail
                 }
@@ -9818,11 +9910,11 @@ var DatePicker = React.forwardRef(
                 "outline-none",
                 contentClassName
               ),
-              variants: chunkHITTFB2U_cjs.scaleIn.variants,
+              variants: chunkF4JJFWWU_cjs.scaleIn.variants,
               initial: shouldReduce ? { opacity: 0 } : "initial",
               animate: "animate",
               exit: shouldReduce ? { opacity: 0 } : "exit",
-              transition: chunkHITTFB2U_cjs.scaleIn.transition,
+              transition: chunkF4JJFWWU_cjs.scaleIn.transition,
               "data-ds-animated": "",
               children: /* @__PURE__ */ jsxRuntime.jsx(
                 Calendar,
@@ -9879,6 +9971,10 @@ var dialogContentVariants = classVarianceAuthority.cva(
     }
   }
 );
+var DialogContext = React.createContext({ open: false });
+function useDialogContext() {
+  return React.useContext(DialogContext);
+}
 function CloseIcon2({ className }) {
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "svg",
@@ -9899,8 +9995,32 @@ function CloseIcon2({ className }) {
     }
   );
 }
-function Dialog({ children, ...rest }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Root, { ...rest, children });
+function Dialog({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  const handleOpenChange = React.useCallback(
+    (next) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  return /* @__PURE__ */ jsxRuntime.jsx(DialogContext.Provider, { value: { open }, children: /* @__PURE__ */ jsxRuntime.jsx(
+    radixUi.Dialog.Root,
+    {
+      open,
+      onOpenChange: handleOpenChange,
+      ...rest,
+      children
+    }
+  ) });
 }
 Dialog.displayName = "Dialog";
 var DialogTrigger = React.forwardRef(function DialogTrigger2({ className, ...rest }, ref) {
@@ -9918,7 +10038,7 @@ var DialogTrigger = React.forwardRef(function DialogTrigger2({ className, ...res
 DialogTrigger.displayName = "DialogTrigger";
 var DialogOverlay = React.forwardRef(function DialogOverlay2({ className, ...rest }, ref) {
   const shouldReduce = framerMotion.useReducedMotion();
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Overlay, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
     framerMotion.motion.div,
     {
       className: chunk4ON3M3OM_cjs.cn(
@@ -9927,11 +10047,11 @@ var DialogOverlay = React.forwardRef(function DialogOverlay2({ className, ...res
         "bg-black/50",
         className
       ),
-      variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.overlayBackdrop.variants,
+      variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.overlayBackdrop.variants,
       initial: shouldReduce ? { opacity: 0 } : "initial",
       animate: shouldReduce ? { opacity: 1 } : "animate",
       exit: shouldReduce ? { opacity: 0 } : "exit",
-      transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.overlayBackdrop.transition,
+      transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.overlayBackdrop.transition,
       "data-ds-animated": ""
     }
   ) });
@@ -9946,9 +10066,10 @@ var DialogContent = React.forwardRef(function DialogContent2({
   ...rest
 }, ref) {
   const shouldReduce = framerMotion.useReducedMotion();
-  return /* @__PURE__ */ jsxRuntime.jsxs(radixUi.Dialog.Portal, { children: [
+  const { open } = useDialogContext();
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Portal, { forceMount: true, children: /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { children: open && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(DialogOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsxs(
+    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Content, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsxs(
       framerMotion.motion.div,
       {
         className: chunk4ON3M3OM_cjs.cn(
@@ -9956,11 +10077,11 @@ var DialogContent = React.forwardRef(function DialogContent2({
           dialogContentVariants({ size }),
           className
         ),
-        variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.modalContent.variants,
+        variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.modalContent.variants,
         initial: shouldReduce ? { opacity: 0 } : "initial",
         animate: shouldReduce ? { opacity: 1 } : "animate",
         exit: shouldReduce ? { opacity: 0 } : "exit",
-        transition: shouldReduce ? { duration: 0.2 } : chunkHITTFB2U_cjs.modalContent.transition,
+        transition: shouldReduce ? { duration: 0.2 } : chunkF4JJFWWU_cjs.modalContent.transition,
         "data-ds": "",
         "data-ds-component": "dialog",
         "data-ds-size": size,
@@ -9985,7 +10106,7 @@ var DialogContent = React.forwardRef(function DialogContent2({
         ]
       }
     ) })
-  ] });
+  ] }) }) });
 });
 DialogContent.displayName = "DialogContent";
 function DialogHeader({
@@ -10180,11 +10301,11 @@ var DropdownMenuContent = React.forwardRef(function DropdownMenuContent2({ class
         framerMotion.motion.div,
         {
           className: chunk4ON3M3OM_cjs.cn(...menuContentBase2, className),
-          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.scaleIn.variants,
           initial: shouldReduce ? { opacity: 0 } : "initial",
           animate: shouldReduce ? { opacity: 1 } : "animate",
           exit: shouldReduce ? { opacity: 0 } : "exit",
-          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.scaleIn.transition,
           "data-ds": "",
           "data-ds-component": "dropdown-menu-content",
           "data-ds-animated": "",
@@ -10328,11 +10449,11 @@ var DropdownMenuSubContent = React.forwardRef(function DropdownMenuSubContent2({
         framerMotion.motion.div,
         {
           className: chunk4ON3M3OM_cjs.cn(...menuContentBase2, className),
-          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.scaleIn.variants,
           initial: shouldReduce ? { opacity: 0 } : "initial",
           animate: shouldReduce ? { opacity: 1 } : "animate",
           exit: shouldReduce ? { opacity: 0 } : "exit",
-          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.scaleIn.transition,
           "data-ds": "",
           "data-ds-component": "dropdown-menu-sub-content",
           "data-ds-animated": "",
@@ -10408,10 +10529,10 @@ var EmptyState = React.forwardRef(
             framerMotion.motion.div,
             {
               className: "flex items-center justify-center size-16 rounded-full bg-muted text-muted-foreground",
-              variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.scaleIn.variants : void 0,
+              variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.scaleIn.variants : void 0,
               initial: animated && !shouldReduce ? "initial" : void 0,
               animate: animated && !shouldReduce ? "animate" : void 0,
-              transition: animated && !shouldReduce ? chunkHITTFB2U_cjs.scaleIn.transition : void 0,
+              transition: animated && !shouldReduce ? chunkF4JJFWWU_cjs.scaleIn.transition : void 0,
               "data-ds-animated": animated ? "" : void 0,
               children: icon ?? /* @__PURE__ */ jsxRuntime.jsx(InboxIcon, { className: "size-8" })
             }
@@ -10420,10 +10541,10 @@ var EmptyState = React.forwardRef(
             framerMotion.motion.div,
             {
               className: "flex flex-col gap-1.5 max-w-xs",
-              variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.fadeIn.variants : void 0,
+              variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.fadeIn.variants : void 0,
               initial: animated && !shouldReduce ? "initial" : void 0,
               animate: animated && !shouldReduce ? "animate" : void 0,
-              transition: animated && !shouldReduce ? { ...chunkHITTFB2U_cjs.fadeIn.transition, delay: 0.15 } : void 0,
+              transition: animated && !shouldReduce ? { ...chunkF4JJFWWU_cjs.fadeIn.transition, delay: 0.15 } : void 0,
               "data-ds-animated": animated ? "" : void 0,
               children: [
                 title && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-base font-semibold text-foreground leading-5", children: title }),
@@ -10435,10 +10556,10 @@ var EmptyState = React.forwardRef(
           action && /* @__PURE__ */ jsxRuntime.jsx(
             framerMotion.motion.div,
             {
-              variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.fadeIn.variants : void 0,
+              variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.fadeIn.variants : void 0,
               initial: animated && !shouldReduce ? "initial" : void 0,
               animate: animated && !shouldReduce ? "animate" : void 0,
-              transition: animated && !shouldReduce ? { ...chunkHITTFB2U_cjs.fadeIn.transition, delay: 0.25 } : void 0,
+              transition: animated && !shouldReduce ? { ...chunkF4JJFWWU_cjs.fadeIn.transition, delay: 0.25 } : void 0,
               "data-ds-animated": animated ? "" : void 0,
               children: action
             }
@@ -10770,7 +10891,7 @@ var FileUpload = React.forwardRef(
             framerMotion.motion.div,
             {
               className: "flex flex-col gap-2",
-              variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.staggerContainerFast.variants,
+              variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.staggerContainerFast.variants,
               initial: shouldReduce ? void 0 : "initial",
               animate: shouldReduce ? void 0 : "animate",
               "data-ds-animated": "",
@@ -10778,7 +10899,7 @@ var FileUpload = React.forwardRef(
                 framerMotion.motion.div,
                 {
                   layout: true,
-                  variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.slideUpSm.variants,
+                  variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.slideUpSm.variants,
                   initial: shouldReduce ? { opacity: 0 } : "initial",
                   animate: shouldReduce ? { opacity: 1 } : "animate",
                   exit: shouldReduce ? { opacity: 0 } : {
@@ -11057,11 +11178,11 @@ var HoverCardContent = React.forwardRef(function HoverCardContent2({
             "text-sm text-popover-foreground",
             className
           ),
-          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.scaleIn.variants,
           initial: shouldReduce ? { opacity: 0 } : "initial",
           animate: shouldReduce ? { opacity: 1 } : "animate",
           exit: shouldReduce ? { opacity: 0 } : "exit",
-          transition: shouldReduce ? { duration: 0.12 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          transition: shouldReduce ? { duration: 0.12 } : chunkF4JJFWWU_cjs.scaleIn.transition,
           "data-ds": "",
           "data-ds-component": "hover-card-content",
           "data-ds-animated": "",
@@ -11389,7 +11510,7 @@ var addonVariants = classVarianceAuthority.cva(
   [
     "inline-flex items-center justify-center shrink-0",
     "bg-muted text-muted-foreground font-medium",
-    "px-3 select-none",
+    "select-none",
     "border-border"
   ],
   {
@@ -11407,21 +11528,51 @@ var addonVariants = classVarianceAuthority.cva(
     defaultVariants: { position: "left", size: "md" }
   }
 );
-var prefixSuffixVariants = classVarianceAuthority.cva(
-  [
-    "inline-flex items-center shrink-0",
-    "text-muted-foreground pointer-events-none"
-  ],
-  {
-    variants: {
-      position: {
-        left: "pl-3",
-        right: "pr-3"
-      }
-    },
-    defaultVariants: { position: "left" }
-  }
-);
+var iconSizeMap5 = {
+  sm: "[&>svg]:size-3.5",
+  md: "[&>svg]:size-4",
+  lg: "[&>svg]:size-4"
+};
+var prefixPaddingMap = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3"
+};
+var suffixPaddingMap = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3"
+};
+var inputLeftPaddingWithPrefix = {
+  sm: "pl-1.5",
+  md: "pl-2",
+  lg: "pl-2"
+};
+var inputLeftPaddingWithAddon = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3"
+};
+var inputLeftPaddingWithoutPrefix = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3"
+};
+var inputRightPaddingWithSuffix = {
+  sm: "pr-1.5",
+  md: "pr-2",
+  lg: "pr-2"
+};
+var inputRightPaddingWithAddon = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3"
+};
+var inputRightPaddingWithoutSuffix = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3"
+};
 var InputGroup = React.forwardRef(
   function InputGroup2({
     size = "md",
@@ -11437,7 +11588,11 @@ var InputGroup = React.forwardRef(
     inputProps,
     children
   }, ref) {
-    const iconSize = size === "lg" ? "size-4" : "size-3.5";
+    const hasPrefix = !!prefix;
+    const hasSuffix = !!suffix;
+    const hasAddonRight = !!addonRight;
+    const inputPaddingLeft = hasPrefix ? inputLeftPaddingWithPrefix[size] : addonLeft ? inputLeftPaddingWithAddon[size] : inputLeftPaddingWithoutPrefix[size];
+    const inputPaddingRight = hasSuffix ? inputRightPaddingWithSuffix[size] : hasAddonRight ? inputRightPaddingWithAddon[size] : inputRightPaddingWithoutSuffix[size];
     return /* @__PURE__ */ jsxRuntime.jsxs(
       "div",
       {
@@ -11453,8 +11608,10 @@ var InputGroup = React.forwardRef(
             "span",
             {
               className: chunk4ON3M3OM_cjs.cn(
-                prefixSuffixVariants({ position: "left" }),
-                `[&>svg]:${iconSize}`
+                "inline-flex items-center justify-center shrink-0",
+                "text-muted-foreground pointer-events-none",
+                prefixPaddingMap[size],
+                iconSizeMap5[size]
               ),
               children: prefix
             }
@@ -11464,10 +11621,10 @@ var InputGroup = React.forwardRef(
             {
               disabled,
               className: chunk4ON3M3OM_cjs.cn(
-                "flex-1 h-full bg-transparent outline-none text-foreground",
+                "flex-1 h-full bg-transparent outline-none text-foreground min-w-0",
                 "placeholder:text-muted-foreground",
-                !prefix && "pl-3",
-                !suffix && !addonRight && "pr-3",
+                inputPaddingLeft,
+                inputPaddingRight,
                 inputClassName
               ),
               ...inputProps
@@ -11477,8 +11634,10 @@ var InputGroup = React.forwardRef(
             "span",
             {
               className: chunk4ON3M3OM_cjs.cn(
-                prefixSuffixVariants({ position: "right" }),
-                `[&>svg]:${iconSize}`
+                "inline-flex items-center justify-center shrink-0",
+                "text-muted-foreground pointer-events-none",
+                suffixPaddingMap[size],
+                iconSizeMap5[size]
               ),
               children: suffix
             }
@@ -11490,41 +11649,6 @@ var InputGroup = React.forwardRef(
   }
 );
 InputGroup.displayName = "InputGroup";
-var kbdVariants = classVarianceAuthority.cva(
-  [
-    "inline-flex items-center gap-0.5",
-    "font-mono font-medium leading-none",
-    "rounded border border-border",
-    "bg-muted text-muted-foreground",
-    "shadow-[0_1px_0_1px_hsl(var(--border))]",
-    "select-none whitespace-nowrap"
-  ],
-  {
-    variants: {
-      size: {
-        sm: "px-1.5 py-0.5 text-[10px]",
-        md: "px-2 py-1 text-xs",
-        lg: "px-2.5 py-1 text-sm"
-      }
-    },
-    defaultVariants: { size: "md" }
-  }
-);
-var Kbd = React.forwardRef(function Kbd2({ size = "md", className, children, ...rest }, ref) {
-  return /* @__PURE__ */ jsxRuntime.jsx(
-    "kbd",
-    {
-      ref,
-      className: chunk4ON3M3OM_cjs.cn(kbdVariants({ size }), className),
-      "data-ds": "",
-      "data-ds-component": "kbd",
-      "data-ds-size": size,
-      ...rest,
-      children
-    }
-  );
-});
-Kbd.displayName = "Kbd";
 var labelVariants = classVarianceAuthority.cva(
   // Base styles — shared across all sizes
   [
@@ -12245,10 +12369,16 @@ function roundToPrecision(value, precision) {
   const factor = 10 ** precision;
   return Math.round(value * factor) / factor;
 }
+var ROLL_DISTANCE = 12;
+var ROLL_TRANSITION = {
+  duration: 0.2,
+  ease: [0.4, 0, 0.2, 1]
+};
 function AnimatedValue({
   value,
   formatValue,
-  shouldReduce
+  shouldReduce,
+  direction
 }) {
   const [displayValue, setDisplayValue] = React.useState(value);
   const [key, setKey] = React.useState(0);
@@ -12259,6 +12389,13 @@ function AnimatedValue({
   if (shouldReduce) {
     return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "tabular-nums", children: formatValue(displayValue) });
   }
+  const enterY = direction === "down" ? -ROLL_DISTANCE : ROLL_DISTANCE;
+  const exitY = direction === "down" ? ROLL_DISTANCE : -ROLL_DISTANCE;
+  const variants = {
+    initial: { opacity: 0, y: enterY },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: exitY }
+  };
   return /* @__PURE__ */ jsxRuntime.jsx(
     "span",
     {
@@ -12269,11 +12406,11 @@ function AnimatedValue({
         framerMotion.motion.span,
         {
           className: "inline-block tabular-nums",
-          variants: chunkHITTFB2U_cjs.numberRoll.variants,
+          variants,
           initial: "initial",
           animate: "animate",
           exit: "exit",
-          transition: chunkHITTFB2U_cjs.numberRoll.transition,
+          transition: ROLL_TRANSITION,
           "data-ds-animated": "",
           children: formatValue(displayValue)
         },
@@ -12287,7 +12424,7 @@ var buttonWidthMap = {
   md: "w-8",
   lg: "w-9"
 };
-var iconSizeMap5 = {
+var iconSizeMap6 = {
   sm: "size-3",
   md: "size-3.5",
   lg: "size-4"
@@ -12323,13 +12460,27 @@ var NumberInput = React.forwardRef(
       () => roundToPrecision(clamp(defaultValue, min2, max2), precision)
     );
     const [inputRaw, setInputRaw] = React.useState(null);
+    const [direction, setDirection] = React.useState("none");
     const inputRef = React.useRef(null);
+    const prevValueRef = React.useRef(
+      controlledValue ?? roundToPrecision(clamp(defaultValue, min2, max2), precision)
+    );
     const currentValue = controlledValue !== void 0 ? controlledValue : internalValue;
+    React.useEffect(() => {
+      if (controlledValue !== void 0 && controlledValue !== prevValueRef.current) {
+        setDirection(controlledValue > prevValueRef.current ? "up" : "down");
+        prevValueRef.current = controlledValue;
+      }
+    }, [controlledValue]);
     const resolvedFormat = formatValue ?? ((v) => v.toFixed(precision));
     const resolvedParse = parseValue ?? ((raw) => Number.parseFloat(raw.replace(/[^0-9.-]/g, "")));
     const commit = React.useCallback(
       (next) => {
         const clamped = roundToPrecision(clamp(next, min2, max2), precision);
+        if (clamped !== currentValue) {
+          setDirection(clamped > currentValue ? "up" : "down");
+          prevValueRef.current = clamped;
+        }
         if (controlledValue === void 0) {
           setInternalValue(clamped);
         }
@@ -12442,7 +12593,7 @@ var NumberInput = React.forwardRef(
                 buttonWidthMap[size],
                 "border-r border-input/60"
               ),
-              children: /* @__PURE__ */ jsxRuntime.jsx(MinusIcon, { className: iconSizeMap5[size] })
+              children: /* @__PURE__ */ jsxRuntime.jsx(MinusIcon, { className: iconSizeMap6[size] })
             }
           ),
           /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative flex-1 flex items-center justify-center", children: inputRaw !== null ? (
@@ -12490,7 +12641,8 @@ var NumberInput = React.forwardRef(
                   {
                     value: currentValue,
                     formatValue: resolvedFormat,
-                    shouldReduce: shouldReduce ?? false
+                    shouldReduce: shouldReduce ?? false,
+                    direction
                   }
                 )
               }
@@ -12509,7 +12661,7 @@ var NumberInput = React.forwardRef(
                 buttonWidthMap[size],
                 "border-l border-input/60"
               ),
-              children: /* @__PURE__ */ jsxRuntime.jsx(PlusIcon, { className: iconSizeMap5[size] })
+              children: /* @__PURE__ */ jsxRuntime.jsx(PlusIcon, { className: iconSizeMap6[size] })
             }
           )
         ]
@@ -12612,7 +12764,7 @@ function computePageRange(currentPage, totalPages, siblings, boundary) {
   }
   return items;
 }
-var iconSizeMap6 = {
+var iconSizeMap7 = {
   sm: "size-3.5",
   md: "size-4"
 };
@@ -12685,7 +12837,7 @@ var Pagination = React.forwardRef(
                   })
                 ),
                 "aria-label": prevLabel,
-                children: /* @__PURE__ */ jsxRuntime.jsx(ChevronLeftIcon2, { className: iconSizeMap6[size] })
+                children: /* @__PURE__ */ jsxRuntime.jsx(ChevronLeftIcon2, { className: iconSizeMap7[size] })
               }
             ),
             /* @__PURE__ */ jsxRuntime.jsxs(
@@ -12717,7 +12869,7 @@ var Pagination = React.forwardRef(
                   })
                 ),
                 "aria-label": nextLabel,
-                children: /* @__PURE__ */ jsxRuntime.jsx(ChevronRightIcon6, { className: iconSizeMap6[size] })
+                children: /* @__PURE__ */ jsxRuntime.jsx(ChevronRightIcon6, { className: iconSizeMap7[size] })
               }
             )
           ]
@@ -12745,7 +12897,7 @@ var Pagination = React.forwardRef(
               className: chunk4ON3M3OM_cjs.cn(paginationButtonVariants({ size, active: false })),
               "aria-label": prevLabel,
               children: [
-                /* @__PURE__ */ jsxRuntime.jsx(ChevronLeftIcon2, { className: iconSizeMap6[size] }),
+                /* @__PURE__ */ jsxRuntime.jsx(ChevronLeftIcon2, { className: iconSizeMap7[size] }),
                 /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only sm:not-sr-only", children: prevLabel })
               ]
             }
@@ -12795,7 +12947,7 @@ var Pagination = React.forwardRef(
               "aria-label": nextLabel,
               children: [
                 /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only sm:not-sr-only", children: nextLabel }),
-                /* @__PURE__ */ jsxRuntime.jsx(ChevronRightIcon6, { className: iconSizeMap6[size] })
+                /* @__PURE__ */ jsxRuntime.jsx(ChevronRightIcon6, { className: iconSizeMap7[size] })
               ]
             }
           )
@@ -13018,10 +13170,10 @@ var PinInput = React.forwardRef(
       {
         ref: containerRef,
         className: chunk4ON3M3OM_cjs.cn("inline-flex", gap, className),
-        variants: chunkHITTFB2U_cjs.shakeX.variants,
+        variants: chunkF4JJFWWU_cjs.shakeX.variants,
         initial: shakeKey === 0 ? false : "initial",
         animate: shakeKey > 0 ? "animate" : "initial",
-        transition: chunkHITTFB2U_cjs.shakeX.transition,
+        transition: chunkF4JJFWWU_cjs.shakeX.transition,
         "aria-label": ariaLabel,
         "data-ds": "",
         "data-ds-component": "pin-input",
@@ -13037,11 +13189,11 @@ var PinInput = React.forwardRef(
               framerMotion.motion.div,
               {
                 className: "absolute inset-0 rounded-md bg-primary/15 pointer-events-none",
-                variants: chunkHITTFB2U_cjs.pop.variants,
+                variants: chunkF4JJFWWU_cjs.pop.variants,
                 initial: "initial",
                 animate: "animate",
                 exit: "exit",
-                transition: chunkHITTFB2U_cjs.pop.transition,
+                transition: chunkF4JJFWWU_cjs.pop.transition,
                 "data-ds-animated": ""
               }
             ) }),
@@ -13168,11 +13320,11 @@ var PopoverContent = React.forwardRef(function PopoverContent2({
             "outline-none",
             className
           ),
-          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.scaleIn.variants,
           initial: shouldReduce ? { opacity: 0 } : "initial",
           animate: shouldReduce ? { opacity: 1 } : "animate",
           exit: shouldReduce ? { opacity: 0 } : "exit",
-          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.scaleIn.transition,
           "data-ds": "",
           "data-ds-component": "popover-content",
           "data-ds-animated": "",
@@ -14040,11 +14192,20 @@ function LoaderIcon({ className }) {
     }
   );
 }
-var iconSizeMap7 = {
+var iconSizeMap8 = {
   sm: "size-3.5",
   md: "size-4",
   lg: "size-4"
 };
+function useIsMac() {
+  const [isMac, setIsMac] = React.useState(false);
+  React.useEffect(() => {
+    setIsMac(
+      typeof navigator !== "undefined" && /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
+    );
+  }, []);
+  return isMac;
+}
 var SearchInput = React.forwardRef(
   function SearchInput2({
     value: controlledValue,
@@ -14063,9 +14224,11 @@ var SearchInput = React.forwardRef(
     ...rest
   }, ref) {
     const shouldReduce = framerMotion.useReducedMotion();
+    const isMac = useIsMac();
     const [internalValue, setInternalValue] = React.useState(defaultValue);
     const debounceTimer = React.useRef(null);
     const inputRef = React.useRef(null);
+    React.useImperativeHandle(ref, () => inputRef.current);
     const currentValue = controlledValue !== void 0 ? controlledValue : internalValue;
     const hasValue = currentValue.length > 0;
     const handleChange = React.useCallback(
@@ -14087,21 +14250,19 @@ var SearchInput = React.forwardRef(
       if (controlledValue === void 0) setInternalValue("");
       onChange?.("");
       onDebouncedChange?.("");
-      const inputEl = ref?.current ?? inputRef.current;
-      inputEl?.focus();
-    }, [controlledValue, onChange, onDebouncedChange, ref]);
+      inputRef.current?.focus();
+    }, [controlledValue, onChange, onDebouncedChange]);
     React.useEffect(() => {
       if (!shortcut) return;
       const handler = (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === shortcut.toLowerCase()) {
           e.preventDefault();
-          const inputEl = ref?.current ?? inputRef.current;
-          inputEl?.focus();
+          inputRef.current?.focus();
         }
       };
       window.addEventListener("keydown", handler);
       return () => window.removeEventListener("keydown", handler);
-    }, [shortcut, ref]);
+    }, [shortcut]);
     return /* @__PURE__ */ jsxRuntime.jsxs(
       "div",
       {
@@ -14110,11 +14271,11 @@ var SearchInput = React.forwardRef(
         "data-ds-component": "search-input",
         "data-ds-size": size,
         children: [
-          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "shrink-0 text-muted-foreground pointer-events-none", children: loading ? /* @__PURE__ */ jsxRuntime.jsx(LoaderIcon, { className: iconSizeMap7[size] }) : /* @__PURE__ */ jsxRuntime.jsx(SearchIcon3, { className: iconSizeMap7[size] }) }),
+          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "shrink-0 text-muted-foreground pointer-events-none", children: loading ? /* @__PURE__ */ jsxRuntime.jsx(LoaderIcon, { className: iconSizeMap8[size] }) : /* @__PURE__ */ jsxRuntime.jsx(SearchIcon3, { className: iconSizeMap8[size] }) }),
           /* @__PURE__ */ jsxRuntime.jsx(
             "input",
             {
-              ref: ref ?? inputRef,
+              ref: inputRef,
               type: "search",
               value: currentValue,
               onChange: handleChange,
@@ -14141,26 +14302,32 @@ var SearchInput = React.forwardRef(
                   "text-muted-foreground hover:text-foreground transition-colors duration-fast",
                   "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                 ),
-                variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.variants,
+                variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.variants,
                 initial: shouldReduce ? { opacity: 0 } : "initial",
                 animate: shouldReduce ? { opacity: 1 } : "animate",
                 exit: shouldReduce ? { opacity: 0 } : "exit",
-                transition: shouldReduce ? { duration: 0.1 } : chunkHITTFB2U_cjs.fadeInFast.transition,
+                transition: shouldReduce ? { duration: 0.1 } : chunkF4JJFWWU_cjs.fadeInFast.transition,
                 "data-ds-animated": "",
-                children: /* @__PURE__ */ jsxRuntime.jsx(XIcon5, { className: iconSizeMap7[size] })
+                children: /* @__PURE__ */ jsxRuntime.jsx(XIcon5, { className: iconSizeMap8[size] })
               },
               "clear"
             ) }),
-            shortcut && !hasValue && /* @__PURE__ */ jsxRuntime.jsx(
+            shortcut && !hasValue && /* @__PURE__ */ jsxRuntime.jsxs(
               "kbd",
               {
                 className: chunk4ON3M3OM_cjs.cn(
-                  "hidden sm:inline-flex items-center gap-0.5 rounded border border-border",
-                  "bg-muted text-muted-foreground font-mono font-medium",
+                  "hidden sm:inline-flex items-center gap-0.5",
+                  "rounded-md border border-border",
+                  "bg-muted/80 text-muted-foreground",
+                  "font-sans font-medium tracking-wide",
+                  "shadow-[0_1px_0_1px_rgba(0,0,0,0.15)] dark:shadow-[0_1px_0_1px_rgba(255,255,255,0.06)]",
                   "pointer-events-none select-none",
-                  size === "sm" ? "px-1 py-0.5 text-[9px]" : "px-1.5 py-0.5 text-[10px]"
+                  size === "sm" ? "h-5 min-w-5 px-1 text-[10px]" : "h-6 min-w-6 px-1.5 text-[11px]"
                 ),
-                children: shortcut
+                children: [
+                  /* @__PURE__ */ jsxRuntime.jsx("span", { className: "opacity-70", children: isMac ? "\u2318" : "Ctrl" }),
+                  /* @__PURE__ */ jsxRuntime.jsx("span", { children: shortcut.toUpperCase() })
+                ]
               }
             )
           ] })
@@ -14266,7 +14433,7 @@ function CheckIconInternal({ className }) {
     }
   );
 }
-var iconSizeMap8 = {
+var iconSizeMap9 = {
   sm: "size-3.5",
   md: "size-4",
   lg: "size-4"
@@ -14288,7 +14455,7 @@ var SelectTrigger = React.forwardRef(function SelectTrigger2({ className, childr
         /* @__PURE__ */ jsxRuntime.jsx(radixUi.Select.Icon, { asChild: true, children: /* @__PURE__ */ jsxRuntime.jsx(
           ChevronDownIcon4,
           {
-            className: chunk4ON3M3OM_cjs.cn(iconSizeMap8[size], "shrink-0 text-muted-foreground")
+            className: chunk4ON3M3OM_cjs.cn(iconSizeMap9[size], "shrink-0 text-muted-foreground")
           }
         ) })
       ]
@@ -14321,11 +14488,11 @@ var SelectContent = React.forwardRef(function SelectContent2({ className, childr
             "shadow-lg",
             className
           ),
-          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.scaleIn.variants,
+          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.scaleIn.variants,
           initial: shouldReduce ? { opacity: 0 } : "initial",
           animate: shouldReduce ? { opacity: 1 } : "animate",
           exit: shouldReduce ? { opacity: 0 } : "exit",
-          transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.scaleIn.transition,
+          transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.scaleIn.transition,
           "data-ds-animated": "",
           children: [
             /* @__PURE__ */ jsxRuntime.jsx(SelectScrollUpButton, {}),
@@ -14569,6 +14736,10 @@ var sheetContentVariants = classVarianceAuthority.cva(
     }
   }
 );
+var SheetContext = React.createContext({ open: false });
+function useSheetContext() {
+  return React.useContext(SheetContext);
+}
 function CloseIcon4({ className }) {
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "svg",
@@ -14589,8 +14760,32 @@ function CloseIcon4({ className }) {
     }
   );
 }
-function Sheet({ children, ...rest }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Root, { ...rest, children });
+function Sheet({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  const handleOpenChange = React.useCallback(
+    (next) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  return /* @__PURE__ */ jsxRuntime.jsx(SheetContext.Provider, { value: { open }, children: /* @__PURE__ */ jsxRuntime.jsx(
+    radixUi.Dialog.Root,
+    {
+      open,
+      onOpenChange: handleOpenChange,
+      ...rest,
+      children
+    }
+  ) });
 }
 Sheet.displayName = "Sheet";
 var SheetTrigger = React.forwardRef(function SheetTrigger2({ className, ...rest }, ref) {
@@ -14608,7 +14803,7 @@ var SheetTrigger = React.forwardRef(function SheetTrigger2({ className, ...rest 
 SheetTrigger.displayName = "SheetTrigger";
 var SheetOverlay = React.forwardRef(function SheetOverlay2({ className, ...rest }, ref) {
   const shouldReduce = framerMotion.useReducedMotion();
-  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Overlay, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsx(
     framerMotion.motion.div,
     {
       className: chunk4ON3M3OM_cjs.cn(
@@ -14617,21 +14812,21 @@ var SheetOverlay = React.forwardRef(function SheetOverlay2({ className, ...rest 
         "bg-black/50",
         className
       ),
-      variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.overlayBackdrop.variants,
+      variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.overlayBackdrop.variants,
       initial: shouldReduce ? { opacity: 0 } : "initial",
       animate: shouldReduce ? { opacity: 1 } : "animate",
       exit: shouldReduce ? { opacity: 0 } : "exit",
-      transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.overlayBackdrop.transition,
+      transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.overlayBackdrop.transition,
       "data-ds-animated": ""
     }
   ) });
 });
 SheetOverlay.displayName = "SheetOverlay";
 var sidePresetMap = {
-  left: chunkHITTFB2U_cjs.slidePanelLeft,
-  right: chunkHITTFB2U_cjs.slidePanelRight,
-  top: chunkHITTFB2U_cjs.slidePanelTop,
-  bottom: chunkHITTFB2U_cjs.slidePanelBottom
+  left: chunkF4JJFWWU_cjs.slidePanelLeft,
+  right: chunkF4JJFWWU_cjs.slidePanelRight,
+  top: chunkF4JJFWWU_cjs.slidePanelTop,
+  bottom: chunkF4JJFWWU_cjs.slidePanelBottom
 };
 var SheetContent = React.forwardRef(function SheetContent2({
   side = "right",
@@ -14643,10 +14838,11 @@ var SheetContent = React.forwardRef(function SheetContent2({
   ...rest
 }, ref) {
   const shouldReduce = framerMotion.useReducedMotion();
+  const { open } = useSheetContext();
   const preset = sidePresetMap[side];
-  return /* @__PURE__ */ jsxRuntime.jsxs(radixUi.Dialog.Portal, { children: [
+  return /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Portal, { forceMount: true, children: /* @__PURE__ */ jsxRuntime.jsx(framerMotion.AnimatePresence, { children: open && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     /* @__PURE__ */ jsxRuntime.jsx(SheetOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsxs(
+    /* @__PURE__ */ jsxRuntime.jsx(radixUi.Dialog.Content, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxRuntime.jsxs(
       framerMotion.motion.div,
       {
         className: chunk4ON3M3OM_cjs.cn(
@@ -14684,7 +14880,7 @@ var SheetContent = React.forwardRef(function SheetContent2({
         ]
       }
     ) })
-  ] });
+  ] }) }) });
 });
 SheetContent.displayName = "SheetContent";
 function SheetHeader({ className, children }) {
@@ -15251,11 +15447,11 @@ function SidebarMobileOverlay({ className }) {
         "fixed inset-0 z-overlay bg-black/50 backdrop-blur-sm md:hidden",
         className
       ),
-      variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.overlayBackdrop.variants,
+      variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.overlayBackdrop.variants,
       initial: shouldReduce ? { opacity: 0 } : "initial",
       animate: shouldReduce ? { opacity: 1 } : "animate",
       exit: shouldReduce ? { opacity: 0 } : "exit",
-      transition: shouldReduce ? { duration: 0.15 } : chunkHITTFB2U_cjs.overlayBackdrop.transition,
+      transition: shouldReduce ? { duration: 0.15 } : chunkF4JJFWWU_cjs.overlayBackdrop.transition,
       onClick: () => setMobileOpen(false),
       "data-ds-animated": ""
     }
@@ -15530,11 +15726,11 @@ function SliderTooltip({
         "pointer-events-none select-none",
         "z-tooltip"
       ),
-      variants: chunkHITTFB2U_cjs.fadeInFast.variants,
+      variants: chunkF4JJFWWU_cjs.fadeInFast.variants,
       initial: shouldReduce ? false : "initial",
       animate: "animate",
       exit: "exit",
-      transition: chunkHITTFB2U_cjs.fadeInFast.transition,
+      transition: chunkF4JJFWWU_cjs.fadeInFast.transition,
       "data-ds-animated": "",
       children: [
         format(value),
@@ -15559,35 +15755,33 @@ function SliderThumbItem({
   shouldReduce
 }) {
   const [isActive, setIsActive] = React.useState(false);
-  return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "relative", children: [
-    showTooltip && /* @__PURE__ */ jsxRuntime.jsx(
-      SliderTooltip,
-      {
-        value,
-        visible: isActive,
-        format: formatTooltip
-      }
-    ),
-    /* @__PURE__ */ jsxRuntime.jsx(
-      MotionThumb,
-      {
-        className: chunk4ON3M3OM_cjs.cn(sliderThumbVariants({ variant, size })),
-        onMouseEnter: () => setIsActive(true),
-        onMouseLeave: () => setIsActive(false),
-        onFocus: () => setIsActive(true),
-        onBlur: () => setIsActive(false),
-        whileTap: shouldReduce ? void 0 : {
-          scale: 1.2,
-          transition: { type: "spring", stiffness: 400, damping: 25 }
-        },
-        whileHover: shouldReduce ? void 0 : {
-          scale: 1.1,
-          transition: { type: "spring", stiffness: 400, damping: 30 }
-        },
-        "data-ds-animated": ""
-      }
-    )
-  ] });
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    MotionThumb,
+    {
+      className: chunk4ON3M3OM_cjs.cn("relative overflow-visible", sliderThumbVariants({ variant, size })),
+      onMouseEnter: () => setIsActive(true),
+      onMouseLeave: () => setIsActive(false),
+      onFocus: () => setIsActive(true),
+      onBlur: () => setIsActive(false),
+      whileTap: shouldReduce ? void 0 : {
+        scale: 1.2,
+        transition: { type: "spring", stiffness: 400, damping: 25 }
+      },
+      whileHover: shouldReduce ? void 0 : {
+        scale: 1.1,
+        transition: { type: "spring", stiffness: 400, damping: 30 }
+      },
+      "data-ds-animated": "",
+      children: showTooltip && /* @__PURE__ */ jsxRuntime.jsx(
+        SliderTooltip,
+        {
+          value,
+          visible: isActive,
+          format: formatTooltip
+        }
+      )
+    }
+  );
 }
 var Slider = React.forwardRef(function Slider2({
   variant = "default",
@@ -16012,10 +16206,10 @@ var Stat = React.forwardRef(function Stat2({
           framerMotion.motion.div,
           {
             className: "text-2xl font-bold text-foreground leading-none tabular-nums",
-            variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.countUp.variants : void 0,
+            variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.countUp.variants : void 0,
             initial: animated && !shouldReduce ? "initial" : void 0,
             animate: animated && !shouldReduce ? "animate" : void 0,
-            transition: animated && !shouldReduce ? chunkHITTFB2U_cjs.countUp.transition : void 0,
+            transition: animated && !shouldReduce ? chunkF4JJFWWU_cjs.countUp.transition : void 0,
             "data-ds-animated": animated ? "" : void 0,
             children: isNumeric && animated ? /* @__PURE__ */ jsxRuntime.jsx(
               AnimatedNumber,
@@ -16038,10 +16232,10 @@ var Stat = React.forwardRef(function Stat2({
               "flex items-center gap-1 text-xs font-medium",
               trendColor
             ),
-            variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.slideUpSm.variants : void 0,
+            variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.slideUpSm.variants : void 0,
             initial: animated && !shouldReduce ? "initial" : void 0,
             animate: animated && !shouldReduce ? "animate" : void 0,
-            transition: animated && !shouldReduce ? { ...chunkHITTFB2U_cjs.slideUpSm.transition, delay: 0.3 } : void 0,
+            transition: animated && !shouldReduce ? { ...chunkF4JJFWWU_cjs.slideUpSm.transition, delay: 0.3 } : void 0,
             "data-ds-animated": animated ? "" : void 0,
             children: [
               trend === "up" && /* @__PURE__ */ jsxRuntime.jsx(TrendUpIcon, { className: "size-3.5" }),
@@ -16982,7 +17176,7 @@ var dotSizeMap2 = {
   md: "size-3",
   lg: "size-4"
 };
-var iconSizeMap9 = {
+var iconSizeMap10 = {
   sm: "size-6",
   md: "size-8",
   lg: "size-10"
@@ -17003,7 +17197,7 @@ var TimelineItem = React.forwardRef(
     ...rest
   }, ref) {
     const shouldReduce = framerMotion.useReducedMotion();
-    const slidePreset = side === "left" ? chunkHITTFB2U_cjs.slideInFromRight : chunkHITTFB2U_cjs.slideInFromLeft;
+    const slidePreset = side === "left" ? chunkF4JJFWWU_cjs.slideInFromRight : chunkF4JJFWWU_cjs.slideInFromLeft;
     return /* @__PURE__ */ jsxRuntime.jsxs(
       framerMotion.motion.div,
       {
@@ -17020,7 +17214,7 @@ var TimelineItem = React.forwardRef(
               {
                 className: chunk4ON3M3OM_cjs.cn(
                   "flex items-center justify-center rounded-full shrink-0 z-10",
-                  iconSizeMap9[size],
+                  iconSizeMap10[size],
                   statusIconColorMap[status]
                 ),
                 children: icon
@@ -17075,7 +17269,7 @@ var Timeline = React.forwardRef(
       {
         ref,
         className: chunk4ON3M3OM_cjs.cn("relative", className),
-        variants: animated && !shouldReduce ? chunkHITTFB2U_cjs.staggerContainerSlow.variants : void 0,
+        variants: animated && !shouldReduce ? chunkF4JJFWWU_cjs.staggerContainerSlow.variants : void 0,
         initial: animated && !shouldReduce ? "initial" : void 0,
         animate: animated && !shouldReduce ? "animate" : void 0,
         "data-ds": "",
@@ -18815,7 +19009,7 @@ function TreeItem({ node, depth }) {
             exit: { height: 0, opacity: 0, overflow: "hidden" },
             transition: motionTransition,
             className: chunk4ON3M3OM_cjs.cn(
-              "relative",
+              "relative list-none",
               showLines && "before:absolute before:left-[calc(var(--tree-indent))] before:top-0 before:bottom-2 before:w-px before:bg-border"
             ),
             style: {
@@ -18942,7 +19136,7 @@ var TreeView = React.forwardRef(
       {
         ref,
         role: "tree",
-        className: chunk4ON3M3OM_cjs.cn("text-sm", className),
+        className: chunk4ON3M3OM_cjs.cn("list-none text-sm", className),
         "data-ds": "",
         "data-ds-component": "tree-view",
         children: items.map((item) => /* @__PURE__ */ jsxRuntime.jsx(TreeItem, { node: item, depth: 0 }, item.id))
@@ -19006,7 +19200,7 @@ var VirtualList = React.forwardRef(function VirtualList2({
       {
         ref: containerRef,
         className: chunk4ON3M3OM_cjs.cn(
-          "flex items-center justify-center border border-border rounded-lg bg-background",
+          "flex items-center justify-center rounded-lg border border-border bg-background shadow-sm not-prose",
           className
         ),
         style: { height },
@@ -19023,7 +19217,14 @@ var VirtualList = React.forwardRef(function VirtualList2({
       /* @__PURE__ */ jsxRuntime.jsx(
         "div",
         {
-          className: chunk4ON3M3OM_cjs.cn("absolute left-0 right-0", itemClassName),
+          className: chunk4ON3M3OM_cjs.cn(
+            "absolute left-0 right-0 flex items-center",
+            "transition-colors duration-fast ease-standard",
+            "hover:bg-muted/50",
+            "border-b border-border/50",
+            "[&_p]:m-0 [&_p]:leading-tight [&_span]:leading-tight",
+            itemClassName
+          ),
           style: {
             height: itemHeight,
             top: i * itemHeight
@@ -19042,7 +19243,12 @@ var VirtualList = React.forwardRef(function VirtualList2({
     {
       ref: containerRef,
       className: chunk4ON3M3OM_cjs.cn(
-        "relative overflow-auto border border-border rounded-lg bg-background",
+        "relative overflow-auto rounded-lg border border-border bg-background",
+        "shadow-sm not-prose",
+        "[scrollbar-width:thin] [scrollbar-color:hsl(var(--border))_transparent]",
+        "[&::-webkit-scrollbar]:w-1.5",
+        "[&::-webkit-scrollbar-track]:bg-transparent",
+        "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border",
         className
       ),
       style: { height },
@@ -19052,7 +19258,7 @@ var VirtualList = React.forwardRef(function VirtualList2({
       "data-ds-component": "virtual-list",
       children: [
         /* @__PURE__ */ jsxRuntime.jsx("div", { className: "relative w-full", style: { height: totalHeight }, children: visibleItems }),
-        loading && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "sticky bottom-0 flex items-center justify-center py-3 bg-background/80 backdrop-blur-sm", children: loadingIndicator ?? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "size-5 animate-spin rounded-full border-2 border-border border-t-primary" }) })
+        loading && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "sticky bottom-0 flex items-center justify-center py-3 bg-background/80 backdrop-blur-sm border-t border-border/50", children: loadingIndicator ?? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "size-5 animate-spin rounded-full border-2 border-border border-t-primary" }) })
       ]
     }
   );
@@ -20348,11 +20554,11 @@ var TooltipContent = React.forwardRef(function TooltipContent2({
             className
           ),
           style: { maxWidth },
-          variants: shouldReduce ? void 0 : chunkHITTFB2U_cjs.fadeInFast.variants,
+          variants: shouldReduce ? void 0 : chunkF4JJFWWU_cjs.fadeInFast.variants,
           initial: shouldReduce ? { opacity: 0 } : "initial",
           animate: shouldReduce ? { opacity: 1 } : "animate",
           exit: shouldReduce ? { opacity: 0 } : "exit",
-          transition: shouldReduce ? { duration: 0.1 } : chunkHITTFB2U_cjs.fadeInFast.transition,
+          transition: shouldReduce ? { duration: 0.1 } : chunkF4JJFWWU_cjs.fadeInFast.transition,
           "data-ds": "",
           "data-ds-component": "tooltip",
           "data-ds-animated": "",

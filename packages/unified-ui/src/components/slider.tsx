@@ -264,7 +264,30 @@ function SliderThumbItem({
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <div className="relative">
+    <MotionThumb
+      className={cn("relative overflow-visible", sliderThumbVariants({ variant, size }))}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
+      onFocus={() => setIsActive(true)}
+      onBlur={() => setIsActive(false)}
+      whileTap={
+        shouldReduce
+          ? undefined
+          : {
+              scale: 1.2,
+              transition: { type: "spring", stiffness: 400, damping: 25 },
+            }
+      }
+      whileHover={
+        shouldReduce
+          ? undefined
+          : {
+              scale: 1.1,
+              transition: { type: "spring", stiffness: 400, damping: 30 },
+            }
+      }
+      data-ds-animated=""
+    >
       {showTooltip && (
         <SliderTooltip
           value={value}
@@ -272,31 +295,7 @@ function SliderThumbItem({
           format={formatTooltip}
         />
       )}
-      <MotionThumb
-        className={cn(sliderThumbVariants({ variant, size }))}
-        onMouseEnter={() => setIsActive(true)}
-        onMouseLeave={() => setIsActive(false)}
-        onFocus={() => setIsActive(true)}
-        onBlur={() => setIsActive(false)}
-        whileTap={
-          shouldReduce
-            ? undefined
-            : {
-                scale: 1.2,
-                transition: { type: "spring", stiffness: 400, damping: 25 },
-              }
-        }
-        whileHover={
-          shouldReduce
-            ? undefined
-            : {
-                scale: 1.1,
-                transition: { type: "spring", stiffness: 400, damping: 30 },
-              }
-        }
-        data-ds-animated=""
-      />
-    </div>
+    </MotionThumb>
   );
 }
 

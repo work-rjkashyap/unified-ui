@@ -19,10 +19,13 @@ import {
 	DemoHeightLarge,
 } from "@/components/docs/virtual-list-demos";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Virtual List"
-	description="A performant virtualized list that only renders visible items in the DOM, enabling smooth scrolling through thousands of rows without impacting performance."
+## Basic
+
+A performant virtualized list that only renders visible items in the DOM, enabling smooth scrolling through thousands of rows without impacting performance.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoOverview />
@@ -33,37 +36,108 @@ import { Callout } from "fumadocs-ui/components/callout";
   itemHeight={56}
   height={350}
   renderItem={(user, index) => (
-    <div className="flex items-center justify-between px-4 h-full border-b border-border">
-      <div className="flex items-center gap-3">
+    <div className="flex w-full items-center justify-between gap-3 px-3">
+      <div className="flex min-w-0 items-center gap-3">
         <Avatar src={user.avatar} size="sm" />
-        <div>
-          <p className="text-sm font-medium">{user.name}</p>
-          <p className="text-xs text-muted-foreground">{user.email}</p>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-medium">{user.name}</p>
+          <p className="truncate text-xs text-muted-foreground">{user.email}</p>
         </div>
       </div>
       <Badge variant="secondary" size="sm">{user.role}</Badge>
     </div>
   )}
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add virtual-list
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add virtual-list
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add virtual-list
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add virtual-list
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx
+	@work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for
+	details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { VirtualList } from "@work-rjkashyap/unified-ui";
-// or
-import { VirtualList } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Basic List
 
-<ComponentPage
-	title="Basic List"
-	description="A simple virtualized list rendering 1,000 rows. Only the visible rows (plus an overscan buffer) are mounted in the DOM."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoBasic />
@@ -74,8 +148,8 @@ import { VirtualList } from "@work-rjkashyap/unified-ui/components";
   itemHeight={48}
   height={300}
   renderItem={(user, index) => (
-    <div className="flex items-center gap-3 px-4 h-full border-b border-border">
-      <span className="text-sm font-medium">{user.name}</span>
+    <div className="flex w-full items-center gap-3 px-3">
+      <span className="truncate text-sm font-medium">{user.name}</span>
     </div>
   )}
 />`}
@@ -83,9 +157,7 @@ import { VirtualList } from "@work-rjkashyap/unified-ui/components";
 
 ### With Rich Content
 
-<ComponentPage
-	title="Rich Content Rows"
-	description="Each row can contain any React content — avatars, badges, descriptions, and action buttons."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoRich />
@@ -96,12 +168,12 @@ import { VirtualList } from "@work-rjkashyap/unified-ui/components";
   itemHeight={64}
   height={320}
   renderItem={(user) => (
-    <div className="flex items-center justify-between px-4 h-full border-b border-border">
-      <div className="flex items-center gap-3">
+    <div className="flex w-full items-center justify-between gap-3 px-3">
+      <div className="flex min-w-0 items-center gap-3">
         <Avatar src={user.avatar} size="sm" />
-        <div>
-          <p className="text-sm font-medium">{user.name}</p>
-          <p className="text-xs text-muted-foreground">{user.email}</p>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-medium">{user.name}</p>
+          <p className="truncate text-xs text-muted-foreground">{user.email}</p>
         </div>
       </div>
       <Badge variant={user.role === "Admin" ? "primary" : "secondary"} size="sm">
@@ -114,9 +186,7 @@ import { VirtualList } from "@work-rjkashyap/unified-ui/components";
 
 ### Custom Overscan
 
-<ComponentPage
-	title="Custom Overscan"
-	description="The overscan prop controls how many extra items are rendered above and below the visible area. A higher value gives smoother scrolling at the cost of more DOM nodes."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-lg">
 			<div>
@@ -134,18 +204,42 @@ import { VirtualList } from "@work-rjkashyap/unified-ui/components";
 		</div>
 	}
 	code={`{/* Minimal overscan — fewer DOM nodes */}
-<VirtualList items={items} itemHeight={40} height={200} overscan={2} renderItem={...} />
+<VirtualList
+  items={items}
+  itemHeight={40}
+  height={200}
+  overscan={2}
+  renderItem={(item, index) => (
+    <div className="flex w-full items-center gap-3 px-3">
+      <span className="w-6 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
+        {index + 1}
+      </span>
+      <span className="truncate text-sm">{item.name}</span>
+    </div>
+  )}
+/>
 
 {/* Higher overscan — smoother fast scrolling */}
 
-<VirtualList items={items} itemHeight={40} height={200} overscan={10} renderItem={...} />`}
+<VirtualList
+  items={items}
+  itemHeight={40}
+  height={200}
+  overscan={10}
+  renderItem={(item, index) => (
+    <div className="flex w-full items-center gap-3 px-3">
+      <span className="w-6 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
+        {index + 1}
+      </span>
+      <span className="truncate text-sm">{item.name}</span>
+    </div>
+  )}
+/>`}
 />
 
 ### Custom Item Keys
 
-<ComponentPage
-	title="Custom Item Keys"
-	description="Use getItemKey to provide stable, unique keys for each item instead of relying on array indices. This is important when items can be reordered or removed."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoKeys />
@@ -157,9 +251,11 @@ import { VirtualList } from "@work-rjkashyap/unified-ui/components";
   height={250}
   getItemKey={(user) => user.id}
   renderItem={(user) => (
-    <div className="flex items-center justify-between px-4 h-full">
-      <span>{user.name}</span>
-      <span className="text-xs text-muted-foreground">ID: {user.id}</span>
+    <div className="flex w-full items-center justify-between px-3">
+      <span className="truncate text-sm">{user.name}</span>
+      <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-xs tabular-nums text-muted-foreground">
+        ID: {user.id}
+      </span>
     </div>
   )}
 />`}
@@ -167,9 +263,7 @@ import { VirtualList } from "@work-rjkashyap/unified-ui/components";
 
 ### End Reached (Infinite Loading)
 
-<ComponentPage
-	title="End Reached Callback"
-	description="Use onEndReached and endReachedThreshold to trigger data fetching as the user scrolls near the bottom. Combine with the loading prop to show a loading indicator."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoEndReached />
@@ -193,8 +287,8 @@ setLoading(false);
   onEndReached={loadMore}
   endReachedThreshold={200}
   renderItem={(item) => (
-    <div className="flex items-center px-4 h-full border-b border-border">
-      {item.name}
+    <div className="flex w-full items-center gap-3 px-3">
+      <span className="truncate text-sm">{item.name}</span>
     </div>
   )}
 />`}
@@ -202,9 +296,7 @@ setLoading(false);
 
 ### Loading State
 
-<ComponentPage
-	title="Loading State"
-	description="When loading is true, a spinner indicator appears at the bottom of the list."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoLoading />
@@ -215,15 +307,17 @@ setLoading(false);
   itemHeight={44}
   height={250}
   loading={true}
-  renderItem={(item) => <Row item={item} />}
+  renderItem={(item) => (
+    <div className="flex w-full items-center gap-3 px-3">
+      <span className="truncate text-sm">{item.name}</span>
+    </div>
+  )}
 />`}
 />
 
 ### Custom Loading Indicator
 
-<ComponentPage
-	title="Custom Loading Indicator"
-	description="Replace the default spinner with a custom loading indicator."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoCustomLoading />
@@ -237,18 +331,20 @@ setLoading(false);
   loadingIndicator={
     <div className="flex items-center justify-center gap-2 py-3">
       <Spinner size="sm" />
-      <span className="text-sm text-muted-foreground">Loading more users...</span>
+      <span className="text-sm font-medium text-muted-foreground">Loading more users...</span>
     </div>
   }
-  renderItem={(item) => <Row item={item} />}
+  renderItem={(item) => (
+    <div className="flex w-full items-center gap-3 px-3">
+      <span className="truncate text-sm">{item.name}</span>
+    </div>
+  )}
 />`}
 />
 
 ### Empty State
 
-<ComponentPage
-	title="Empty State"
-	description="When the items array is empty, emptyContent is shown instead of the virtualized list."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoEmpty />
@@ -259,9 +355,9 @@ setLoading(false);
   itemHeight={48}
   height={250}
   emptyContent={
-    <div className="text-center">
-      <p className="text-base font-semibold">No users found</p>
-      <p className="text-sm text-muted-foreground mt-1">
+    <div className="flex flex-col items-center gap-1.5 text-center">
+      <p className="text-sm font-semibold text-foreground">No users found</p>
+      <p className="text-xs text-muted-foreground">
         Try adjusting your search or filters.
       </p>
     </div>
@@ -272,9 +368,7 @@ setLoading(false);
 
 ### Custom Container Height
 
-<ComponentPage
-	title="Custom Height"
-	description="Adjust the height of the scrollable container to fit your layout. The default is 400px."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-lg">
 			<div>
@@ -292,11 +386,29 @@ setLoading(false);
 		</div>
 	}
 	code={`{/* Compact */}
-<VirtualList items={items} itemHeight={36} height={150} renderItem={...} />
+<VirtualList
+  items={items}
+  itemHeight={36}
+  height={150}
+  renderItem={(item) => (
+    <div className="flex w-full items-center px-3">
+      <span className="truncate text-sm">{item.name}</span>
+    </div>
+  )}
+/>
 
 {/* Taller */}
 
-<VirtualList items={items} itemHeight={36} height={300} renderItem={...} />`}
+<VirtualList
+  items={items}
+  itemHeight={36}
+  height={300}
+  renderItem={(item) => (
+    <div className="flex w-full items-center px-3">
+      <span className="truncate text-sm">{item.name}</span>
+    </div>
+  )}
+/>`}
 />
 
 ---
@@ -364,5 +476,3 @@ setLoading(false);
 | `--radius-lg`        | Container border radius    |
 | `--primary`          | Loading spinner accent     |
 | `--muted-foreground` | Empty state text           |
-
-</ComponentPage>

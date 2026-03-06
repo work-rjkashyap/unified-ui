@@ -5,6 +5,8 @@ icon: GitBranch
 ---
 
 import { TreeView } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
@@ -12,23 +14,91 @@ The `TreeView` component renders a recursive tree structure with expand/collapse
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add tree-view
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add tree-view
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add tree-view
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add tree-view
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { TreeView } from "@work-rjkashyap/unified-ui";
-// or
-import { TreeView } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Basic File Tree
 
-<ComponentPage
-  title="File Tree"
-  description="A simple file tree with default folder/file icons."
+<PreviewCard
   preview={
     <div className="w-full max-w-xs">
       <TreeView
@@ -84,9 +154,7 @@ import { TreeView } from "@work-rjkashyap/unified-ui/components";
 
 ### With Checkboxes
 
-<ComponentPage
-  title="Checkable Tree"
-  description="Enable checkable to add checkboxes with parent/child cascade."
+<PreviewCard
   preview={
     <div className="w-full max-w-xs">
       <TreeView
@@ -123,9 +191,7 @@ import { TreeView } from "@work-rjkashyap/unified-ui/components";
 
 ### Without Icons
 
-<ComponentPage
-  title="No Icons"
-  description="Set showIcons={false} to hide default file/folder icons."
+<PreviewCard
   preview={
     <div className="w-full max-w-xs">
       <TreeView

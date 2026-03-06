@@ -1,6 +1,6 @@
 ---
 title: Button
-description: The primary interactive element for triggering actions. 4 variants, 3 sizes, loading state, icon support, and polymorphic rendering.
+description: The primary interactive element for triggering actions. Supports 4 variants, 3 sizes, loading state, icon support, and polymorphic rendering.
 icon: MousePointer2
 ---
 
@@ -17,33 +17,330 @@ import {
 	Trash2,
 	ExternalLink,
 	ChevronRight,
+	ChevronLeft,
 	Loader2,
 } from "lucide-react";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-## Overview
+## Basic
 
-The `Button` component is the primary interactive element for triggering actions. It supports 4 visual variants, 3 sizes, loading states, icons, icon-only mode, full-width layout, and polymorphic rendering.
+A button allows users to perform actions through clicks, presses, taps, or keystrokes.
 
----
+<PreviewCard
+	preview={
+		<Button variant="primary">Label</Button>
+	}
+	code={`"use client"
 
-## Import
+import { Button } from "@work-rjkashyap/unified-ui"
+
+export function Component() {
+  return <Button variant="primary">Label</Button>
+}`}
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add button
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add button
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add button
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add button
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Manual installation
+
+Use this approach if you prefer to install and wire up the component yourself instead of using the CLI.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install class-variance-authority tailwind-merge
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add class-variance-authority tailwind-merge
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add class-variance-authority tailwind-merge
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add class-variance-authority tailwind-merge
+```
+
+</Tab>
+</Tabs>
+
+Copy the code below and paste it into your component folder.
+
+```tsx title="button.tsx"
+"use client";
+
+import { twMerge as cn } from "tailwind-merge";
+import { cva, type VariantProps } from "class-variance-authority";
+import { type ElementType, forwardRef, type ReactNode } from "react";
+
+const focusRingClasses =
+  "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none";
+
+export const buttonVariants = cva(
+  [
+    "not-prose no-underline",
+    "inline-flex items-center justify-center gap-2",
+    "text-sm font-medium leading-5",
+    "rounded-md",
+    "transition-[color,background-color,border-color,box-shadow,opacity,transform]",
+    "duration-fast ease-standard",
+    focusRingClasses,
+    "disabled:pointer-events-none disabled:opacity-50",
+    "cursor-pointer disabled:cursor-not-allowed",
+    "select-none",
+    "active:scale-[0.98] disabled:active:scale-100",
+  ],
+  {
+    variants: {
+      variant: {
+        primary: [
+          "bg-primary text-primary-foreground",
+          "hover:bg-primary-hover",
+          "active:bg-primary-active",
+        ],
+        secondary: [
+          "bg-secondary text-secondary-foreground",
+          "border border-border",
+          "hover:bg-secondary-hover",
+          "active:bg-secondary-active",
+        ],
+        ghost: [
+          "bg-transparent text-foreground",
+          "hover:bg-muted hover:text-foreground",
+          "active:bg-secondary-active",
+        ],
+        danger: [
+          "bg-danger text-danger-foreground",
+          "hover:bg-danger-hover",
+          "active:bg-danger-active",
+        ],
+      },
+      size: {
+        sm: "h-8 px-3 text-xs gap-1.5",
+        md: "h-9 px-4 text-sm gap-2",
+        lg: "h-10 px-5 text-sm gap-2",
+      },
+      fullWidth: { true: "w-full", false: "" },
+      iconOnly: { true: "!px-0", false: "" },
+    },
+    compoundVariants: [
+      { iconOnly: true, size: "sm", className: "w-8" },
+      { iconOnly: true, size: "md", className: "w-9" },
+      { iconOnly: true, size: "lg", className: "w-10" },
+    ],
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+      fullWidth: false,
+      iconOnly: false,
+    },
+  },
+);
+
+function ButtonSpinner({ className }: { className?: string }) {
+  return (
+    <svg className={cn("animate-spin size-4", className)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+    </svg>
+  );
+}
+
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
+export type ButtonSize = "sm" | "md" | "lg";
+
+export interface ButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">,
+    VariantProps<typeof buttonVariants> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  loading?: boolean;
+  loadingText?: string;
+  iconLeft?: ReactNode;
+  iconRight?: ReactNode;
+  iconOnly?: boolean;
+  disabled?: boolean;
+  as?: ElementType;
+  children?: ReactNode;
+  className?: string;
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      variant = "primary",
+      size = "md",
+      fullWidth = false,
+      loading = false,
+      loadingText,
+      iconLeft,
+      iconRight,
+      iconOnly = false,
+      disabled = false,
+      as: Component = "button",
+      className,
+      children,
+      ...rest
+    },
+    ref,
+  ) {
+    const isDisabled = disabled || loading;
+    const iconSizeClass = size === "sm" ? "[&>svg]:size-3.5" : "[&>svg]:size-4";
+
+    return (
+      <Component
+        ref={ref}
+        type={Component === "button" ? "button" : undefined}
+        disabled={isDisabled}
+        aria-disabled={isDisabled || undefined}
+        aria-busy={loading || undefined}
+        className={cn(
+          buttonVariants({ variant, size, fullWidth, iconOnly }),
+          iconSizeClass,
+          className,
+        )}
+        {...rest}
+      >
+        {loading && <ButtonSpinner className={size === "sm" ? "size-3.5" : "size-4"} />}
+        {loading && loadingText ? (
+          <span>{loadingText}</span>
+        ) : (
+          <>
+            {!loading && iconLeft && <span className="shrink-0" aria-hidden="true">{iconLeft}</span>}
+            {children && <span className={cn(loading && !loadingText && "invisible")}>{children}</span>}
+            {!loading && iconRight && <span className="shrink-0" aria-hidden="true">{iconRight}</span>}
+          </>
+        )}
+      </Component>
+    );
+  },
+);
+
+Button.displayName = "Button";
+```
+
+## Anatomy
 
 ```tsx
 import { Button } from "@work-rjkashyap/unified-ui";
-// or
-import { Button } from "@work-rjkashyap/unified-ui/components";
+import { Settings, Trash2 } from "lucide-react";
 ```
 
----
+```tsx
+<>
+  {/* Variants */}
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="danger">Danger</Button>
 
-## Examples
+  {/* Sizes */}
+  <Button size="sm">Small</Button>
+  <Button size="md">Medium</Button>
+  <Button size="lg">Large</Button>
 
-### Variants
+  {/* With icons */}
+  <Button iconLeft={<Settings />}>Settings</Button>
+  <Button iconRight={<Trash2 />}>Delete</Button>
 
-<ComponentPage
-	title="Button Variants"
-	description="Four visual variants for different levels of prominence and intent."
+  {/* Icon-only */}
+  <Button iconOnly aria-label="Settings">
+    <Settings className="size-4" />
+  </Button>
+</>
+```
+
+## Variants
+
+Buttons come in four variants, each with its own color scheme for different levels of prominence and intent.
+
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center flex-wrap justify-center">
 			<Button variant="primary">Primary</Button>
@@ -52,38 +349,47 @@ import { Button } from "@work-rjkashyap/unified-ui/components";
 			<Button variant="danger">Danger</Button>
 		</div>
 	}
-	code={`<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="danger">Danger</Button>`}
+	code={`"use client"
+
+import { Button } from "@work-rjkashyap/unified-ui"
+
+export function Component() {
+  return (
+    <div className="flex gap-3 items-center flex-wrap">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="danger">Danger</Button>
+    </div>
+  )
+}`}
 />
 
-### Sizes
+## Size
 
-<ComponentPage
-	title="Button Sizes"
-	description="Three sizes designed to align with Input and Select heights."
+Buttons are available in three sizes designed to align with Input and Select heights.
+
+<PreviewCard
 	preview={
-		<div className="flex flex-col gap-6 items-center w-full">
-			<div className="flex gap-3 items-end flex-wrap justify-center">
-				<Button variant="primary" size="sm">Small (h-8)</Button>
-				<Button variant="primary" size="md">Medium (h-9)</Button>
-				<Button variant="primary" size="lg">Large (h-10)</Button>
-			</div>
-			<div className="flex gap-3 items-end flex-wrap justify-center">
-				<Button variant="secondary" size="sm">Small</Button>
-				<Button variant="secondary" size="md">Medium</Button>
-				<Button variant="secondary" size="lg">Large</Button>
-			</div>
+		<div className="flex gap-3 items-end flex-wrap justify-center">
+			<Button variant="primary" size="sm">Small</Button>
+			<Button variant="primary" size="md">Medium</Button>
+			<Button variant="primary" size="lg">Large</Button>
 		</div>
 	}
-	code={`<Button variant="primary" size="sm">Small (h-8)</Button>
-<Button variant="primary" size="md">Medium (h-9)</Button>
-<Button variant="primary" size="lg">Large (h-10)</Button>
+	code={`"use client"
 
-<Button variant="secondary" size="sm">Small</Button>
-<Button variant="secondary" size="md">Medium</Button>
-<Button variant="secondary" size="lg">Large</Button>`}
+import { Button } from "@work-rjkashyap/unified-ui"
+
+export function Component() {
+  return (
+    <div className="flex gap-3 items-end">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+    </div>
+  )
+}`}
 />
 
 | Size | Height | Padding | Font Size |
@@ -92,42 +398,11 @@ import { Button } from "@work-rjkashyap/unified-ui/components";
 | `md` | 36px   | 16px    | 14px      |
 | `lg` | 40px   | 20px    | 14px      |
 
-### Loading State
+## With icon
 
-<ComponentPage
-	title="Loading State"
-	description="Shows a spinner and disables interaction. Optionally display loading text."
-	preview={
-		<div className="flex flex-col gap-4 items-center w-full">
-			<div className="flex gap-3 items-center flex-wrap justify-center">
-				<Button variant="primary" loading>Save</Button>
-				<Button variant="secondary" loading>Processing</Button>
-				<Button variant="danger" loading>Deleting</Button>
-			</div>
-			<div className="flex gap-3 items-center flex-wrap justify-center">
-				<Button variant="primary" loading loadingText="Saving...">Save</Button>
-				<Button variant="secondary" loading loadingText="Please wait...">Submit</Button>
-				<Button variant="danger" loading loadingText="Deleting...">Delete</Button>
-			</div>
-		</div>
-	}
-	code={`{/* Spinner only */}
-<Button variant="primary" loading>Save</Button>
-<Button variant="secondary" loading>Processing</Button>
-<Button variant="danger" loading>Deleting</Button>
+You can add icons to buttons using `iconLeft` and `iconRight` props. Their color will match the button's color automatically.
 
-{/* Spinner with text */}
-
-<Button variant="primary" loading loadingText="Saving...">Save</Button>
-<Button variant="secondary" loading loadingText="Please wait...">Submit</Button>
-<Button variant="danger" loading loadingText="Deleting...">Delete</Button>`}
-/>
-
-### With Icons
-
-<ComponentPage
-	title="Icons"
-	description="Use iconLeft and iconRight props to place icons before or after the label."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-center w-full">
 			<div className="flex gap-3 items-center flex-wrap justify-center">
@@ -138,162 +413,191 @@ import { Button } from "@work-rjkashyap/unified-ui/components";
 			<div className="flex gap-3 items-center flex-wrap justify-center">
 				<Button variant="secondary" iconLeft={<Search />}>Search</Button>
 				<Button variant="secondary" iconLeft={<Mail />}>Compose</Button>
-				<Button variant="secondary" iconRight={<ExternalLink />}>Open Link</Button>
-			</div>
-			<div className="flex gap-3 items-center flex-wrap justify-center">
 				<Button variant="ghost" iconLeft={<Settings />}>Settings</Button>
-				<Button variant="danger" iconLeft={<Trash2 />}>Delete</Button>
 			</div>
 		</div>
 	}
-	code={`import { Plus, ArrowRight, Search, Download, Mail, ExternalLink, Settings, Trash2 } from "lucide-react";
+	code={`"use client"
 
-{/* Primary with icons */}
+import { Button } from "@work-rjkashyap/unified-ui"
+import { Plus, ArrowRight, Download, Search, Mail, Settings } from "lucide-react"
 
-<Button variant="primary" iconLeft={<Plus />}>
-	Add Item
-</Button>
-<Button variant="primary" iconRight={<ArrowRight />}>
-	Continue
-</Button>
-<Button variant="primary" iconLeft={<Download />}>
-	Download
-</Button>
-
-{/* Secondary with icons */}
-
-<Button variant="secondary" iconLeft={<Search />}>
-	Search
-</Button>
-<Button variant="secondary" iconLeft={<Mail />}>
-	Compose
-</Button>
-<Button variant="secondary" iconRight={<ExternalLink />}>
-	Open Link
-</Button>
-
-{/* Ghost & Danger with icons */}
-
-<Button variant="ghost" iconLeft={<Settings />}>Settings</Button>
-<Button variant="danger" iconLeft={<Trash2 />}>Delete</Button>`}
+export function Component() {
+  return (
+    <div className="flex gap-3 items-center flex-wrap">
+      <Button iconLeft={<Plus />}>Add Item</Button>
+      <Button iconRight={<ArrowRight />}>Continue</Button>
+      <Button iconLeft={<Download />}>Download</Button>
+      <Button variant="secondary" iconLeft={<Search />}>Search</Button>
+      <Button variant="secondary" iconLeft={<Mail />}>Compose</Button>
+      <Button variant="ghost" iconLeft={<Settings />}>Settings</Button>
+    </div>
+  )
+}`}
 />
 
-### Icon-Only
+## Icon-only
 
-<ComponentPage
-	title="Icon-Only Buttons"
-	description="Square buttons for compact actions. Requires aria-label for accessibility."
+Square buttons for compact actions like toolbars and table rows. Requires `aria-label` for accessibility.
+
+<PreviewCard
+	preview={
+		<div className="flex gap-3 items-center flex-wrap justify-center">
+			<Button variant="primary" iconOnly size="sm" aria-label="Add">
+				<Plus className="size-4" />
+			</Button>
+			<Button variant="primary" iconOnly size="md" aria-label="Add">
+				<Plus className="size-4" />
+			</Button>
+			<Button variant="primary" iconOnly size="lg" aria-label="Add">
+				<Plus className="size-4" />
+			</Button>
+			<Button variant="secondary" iconOnly aria-label="Settings">
+				<Settings className="size-4" />
+			</Button>
+			<Button variant="ghost" iconOnly aria-label="Close">
+				<X className="size-4" />
+			</Button>
+			<Button variant="danger" iconOnly aria-label="Delete">
+				<Trash2 className="size-4" />
+			</Button>
+		</div>
+	}
+	code={`"use client"
+
+import { Button } from "@work-rjkashyap/unified-ui"
+import { Plus, Settings, X, Trash2 } from "lucide-react"
+
+export function Component() {
+  return (
+    <div className="flex gap-3 items-center">
+      <Button iconOnly size="sm" aria-label="Add">
+        <Plus className="size-4" />
+      </Button>
+      <Button iconOnly size="md" aria-label="Add">
+        <Plus className="size-4" />
+      </Button>
+      <Button iconOnly size="lg" aria-label="Add">
+        <Plus className="size-4" />
+      </Button>
+      <Button variant="secondary" iconOnly aria-label="Settings">
+        <Settings className="size-4" />
+      </Button>
+      <Button variant="ghost" iconOnly aria-label="Close">
+        <X className="size-4" />
+      </Button>
+      <Button variant="danger" iconOnly aria-label="Delete">
+        <Trash2 className="size-4" />
+      </Button>
+    </div>
+  )
+}`}
+/>
+
+## Disabled
+
+A disabled button cannot be interacted with and is visually styled to reflect its state.
+
+<PreviewCard
+	preview={
+		<div className="flex gap-3 items-center flex-wrap justify-center">
+			<Button variant="primary" disabled>Primary</Button>
+			<Button variant="secondary" disabled>Secondary</Button>
+			<Button variant="ghost" disabled>Ghost</Button>
+			<Button variant="danger" disabled>Danger</Button>
+		</div>
+	}
+	code={`"use client"
+
+import { Button } from "@work-rjkashyap/unified-ui"
+
+export function Component() {
+  return (
+    <div className="flex gap-3 items-center flex-wrap">
+      <Button variant="primary" disabled>Primary</Button>
+      <Button variant="secondary" disabled>Secondary</Button>
+      <Button variant="ghost" disabled>Ghost</Button>
+      <Button variant="danger" disabled>Danger</Button>
+    </div>
+  )
+}`}
+/>
+
+## Loading
+
+A button can indicate a loading state using the `loading` prop. This shows a spinner, disables interaction, and sets `aria-busy="true"` for assistive technologies.
+
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-center w-full">
 			<div className="flex gap-3 items-center flex-wrap justify-center">
-				<Button variant="primary" iconOnly size="sm" aria-label="Add">
-					<Plus className="size-4" />
-				</Button>
-				<Button variant="primary" iconOnly size="md" aria-label="Add">
-					<Plus className="size-4" />
-				</Button>
-				<Button variant="primary" iconOnly size="lg" aria-label="Add">
-					<Plus className="size-4" />
-				</Button>
+				<Button variant="primary" loading>Save</Button>
+				<Button variant="secondary" loading>Processing</Button>
+				<Button variant="danger" loading>Deleting</Button>
 			</div>
 			<div className="flex gap-3 items-center flex-wrap justify-center">
-				<Button variant="secondary" iconOnly aria-label="Settings">
-					<Settings className="size-4" />
-				</Button>
-				<Button variant="ghost" iconOnly aria-label="Close">
-					<X className="size-4" />
-				</Button>
-				<Button variant="danger" iconOnly aria-label="Delete">
-					<Trash2 className="size-4" />
-				</Button>
-				<Button variant="ghost" iconOnly aria-label="Favorite">
-					<Heart className="size-4" />
-				</Button>
+				<Button variant="primary" loading loadingText="Saving...">Save</Button>
+				<Button variant="secondary" loading loadingText="Please wait...">Submit</Button>
 			</div>
 		</div>
 	}
-	code={`import { Plus, Settings, X, Trash2, Heart } from "lucide-react";
+	code={`"use client"
 
-{/* Sizes */}
+import { Button } from "@work-rjkashyap/unified-ui"
 
-<Button variant="primary" iconOnly size="sm" aria-label="Add">
-	<Plus className="size-4" />
-</Button>
-<Button variant="primary" iconOnly size="md" aria-label="Add">
-	<Plus className="size-4" />
-</Button>
-<Button variant="primary" iconOnly size="lg" aria-label="Add">
-	<Plus className="size-4" />
-</Button>
+export function Component() {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Spinner only — original label is hidden */}
+      <div className="flex gap-3">
+        <Button loading>Save</Button>
+        <Button variant="secondary" loading>Processing</Button>
+        <Button variant="danger" loading>Deleting</Button>
+      </div>
 
-{/* Variants */}
-
-<Button variant="secondary" iconOnly aria-label="Settings">
-  <Settings className="size-4" />
-</Button>
-<Button variant="ghost" iconOnly aria-label="Close">
-  <X className="size-4" />
-</Button>
-<Button variant="danger" iconOnly aria-label="Delete">
-  <Trash2 className="size-4" />
-</Button>`}
+      {/* Spinner with loading text */}
+      <div className="flex gap-3">
+        <Button loading loadingText="Saving...">Save</Button>
+        <Button variant="secondary" loading loadingText="Please wait...">Submit</Button>
+      </div>
+    </div>
+  )
+}`}
 />
 
-### Full Width
+## Full width
 
-<ComponentPage
-	title="Full Width"
-	description="Stretches the button to fill its container. Useful for forms and mobile layouts."
+Stretches the button to fill its container. Useful for forms and mobile layouts.
+
+<PreviewCard
+	fluid
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-sm">
-			<Button variant="primary" fullWidth>
-				Continue to Checkout
-			</Button>
-			<Button variant="secondary" fullWidth>
-				Back to Cart
-			</Button>
-			<Button variant="ghost" fullWidth>
-				Cancel
-			</Button>
+			<Button variant="primary" fullWidth>Continue to Checkout</Button>
+			<Button variant="secondary" fullWidth>Back to Cart</Button>
+			<Button variant="ghost" fullWidth>Cancel</Button>
 		</div>
 	}
-	code={`<Button variant="primary" fullWidth>Continue to Checkout</Button>
-<Button variant="secondary" fullWidth>Back to Cart</Button>
-<Button variant="ghost" fullWidth>Cancel</Button>`}
+	code={`"use client"
+
+import { Button } from "@work-rjkashyap/unified-ui"
+
+export function Component() {
+  return (
+    <div className="flex flex-col gap-3 w-full max-w-sm">
+      <Button fullWidth>Continue to Checkout</Button>
+      <Button variant="secondary" fullWidth>Back to Cart</Button>
+      <Button variant="ghost" fullWidth>Cancel</Button>
+    </div>
+  )
+}`}
 />
 
-### Disabled State
+## Link
 
-<ComponentPage
-	title="Disabled State"
-	description="Disabled buttons have reduced opacity and no pointer events."
-	preview={
-		<div className="flex gap-3 items-center flex-wrap justify-center">
-			<Button variant="primary" disabled>
-				Primary
-			</Button>
-			<Button variant="secondary" disabled>
-				Secondary
-			</Button>
-			<Button variant="ghost" disabled>
-				Ghost
-			</Button>
-			<Button variant="danger" disabled>
-				Danger
-			</Button>
-		</div>
-	}
-	code={`<Button variant="primary" disabled>Primary</Button>
-<Button variant="secondary" disabled>Secondary</Button>
-<Button variant="ghost" disabled>Ghost</Button>
-<Button variant="danger" disabled>Danger</Button>`}
-/>
+Use the `as` prop to render the button as an anchor or any other element like Next.js `Link`.
 
-### Polymorphic Rendering
-
-<ComponentPage
-	title="Polymorphic Rendering"
-	description="Render the button as any HTML element or component using the as prop."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center flex-wrap justify-center">
 			<Button as="a" href="#" variant="primary" iconRight={<ExternalLink />}>
@@ -307,26 +611,39 @@ import { Button } from "@work-rjkashyap/unified-ui/components";
 			</Button>
 		</div>
 	}
-	code={`import Link from "next/link";
+	code={`"use client"
 
-{/* Render as anchor */}
+import Link from "next/link"
+import { Button } from "@work-rjkashyap/unified-ui"
+import { ExternalLink, ChevronRight } from "lucide-react"
 
-<Button as="a" href="/login" variant="secondary">
-	Log In
-</Button>
+export function Component() {
+  return (
+    <div className="flex gap-3 items-center flex-wrap">
+      {/* Render as anchor */}
+      <Button as="a" href="/login" iconRight={<ExternalLink />}>
+        Link Button
+      </Button>
 
-{/* Render as Next.js Link */}
+      {/* Render as Next.js Link */}
+      <Button as={Link} href="/dashboard" variant="secondary" iconRight={<ChevronRight />}>
+        Navigate
+      </Button>
 
-<Button as={Link} href="/dashboard" variant="primary">
-  Go to Dashboard
-</Button>`}
+      <Button as="a" href="/about" variant="ghost">
+        Plain Link
+      </Button>
+    </div>
+  )
+}`}
 />
 
-### Combined Features
+## Combined
 
-<ComponentPage
-	title="Combined Features"
-	description="All features can be composed together for real-world use cases."
+All features can be composed together for real-world use cases.
+
+<PreviewCard
+	fluid
 	preview={
 		<div className="flex flex-col gap-4 items-center w-full max-w-sm">
 			<Button variant="primary" fullWidth iconLeft={<Download />} size="lg">
@@ -339,31 +656,42 @@ import { Button } from "@work-rjkashyap/unified-ui/components";
 				</Button>
 			</div>
 			<div className="flex gap-3 items-center justify-center">
-				<Button variant="ghost" size="sm" iconLeft={<ChevronRight />}>Previous</Button>
+				<Button variant="ghost" size="sm" iconLeft={<ChevronLeft />}>Previous</Button>
 				<Button variant="primary" size="sm" iconRight={<ChevronRight />}>Next</Button>
 			</div>
 		</div>
 	}
-	code={`{/* Full-width with icon */}
-<Button variant="primary" fullWidth iconLeft={<Download />} size="lg">
-  Download Report
-</Button>
+	code={`"use client"
 
-{/* Button group with icon-only */}
+import { Button } from "@work-rjkashyap/unified-ui"
+import { Download, Mail, Trash2, ChevronLeft, ChevronRight } from "lucide-react"
 
-<div className="flex gap-3 w-full">
-	<Button variant="secondary" fullWidth iconLeft={<Mail />}>
-		Compose
-	</Button>
-	<Button variant="danger" iconOnly aria-label="Delete">
-		<Trash2 className="size-4" />
-	</Button>
-</div>
+export function Component() {
+  return (
+    <div className="flex flex-col gap-4 w-full max-w-sm">
+      {/* Full-width with icon */}
+      <Button fullWidth iconLeft={<Download />} size="lg">
+        Download Report
+      </Button>
 
-{/* Navigation pair */}
+      {/* Button group with icon-only */}
+      <div className="flex gap-3 w-full">
+        <Button variant="secondary" fullWidth iconLeft={<Mail />}>
+          Compose
+        </Button>
+        <Button variant="danger" iconOnly aria-label="Delete">
+          <Trash2 className="size-4" />
+        </Button>
+      </div>
 
-<Button variant="ghost" size="sm" iconLeft={<ChevronRight />}>Previous</Button>
-<Button variant="primary" size="sm" iconRight={<ChevronRight />}>Next</Button>`}
+      {/* Navigation pair */}
+      <div className="flex gap-3 items-center justify-center">
+        <Button variant="ghost" size="sm" iconLeft={<ChevronLeft />}>Previous</Button>
+        <Button size="sm" iconRight={<ChevronRight />}>Next</Button>
+      </div>
+    </div>
+  )
+}`}
 />
 
 ---
@@ -406,12 +734,12 @@ import { Button } from "@work-rjkashyap/unified-ui/components";
 
 The Button uses the following design system tokens:
 
-| Token                      | Usage                            |
-| -------------------------- | -------------------------------- |
-| `--primary`       | Primary variant background       |
-| `--primary-hover` | Primary variant hover background |
-| `--secondary`     | Secondary variant background     |
-| `--danger`        | Danger variant background        |
-| `--radius-md`           | Border radius                    |
-| `--duration-fast`       | Transition speed for hover/focus |
-| `--easing-standard`       | Easing curve for transitions     |
+| Token               | Usage                            |
+| ------------------- | -------------------------------- |
+| `--primary`         | Primary variant background       |
+| `--primary-hover`   | Primary variant hover background |
+| `--secondary`       | Secondary variant background     |
+| `--danger`          | Danger variant background        |
+| `--radius-md`       | Border radius                    |
+| `--duration-fast`   | Transition speed for hover/focus |
+| `--easing-standard` | Easing curve for transitions     |

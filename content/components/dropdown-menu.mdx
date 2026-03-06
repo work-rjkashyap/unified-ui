@@ -22,6 +22,7 @@ import {
 	Button,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -29,7 +30,83 @@ The `DropdownMenu` component provides a context menu triggered by a button or ot
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add dropdown-menu
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add dropdown-menu
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add dropdown-menu
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add dropdown-menu
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx
+	@work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for
+	details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -48,25 +125,13 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuSubContent,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	// ...
-} from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Menu"
-	description="A simple dropdown menu with standard menu items."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -99,9 +164,7 @@ import {
 
 ### With Labels and Separators
 
-<ComponentPage
-	title="Labels & Separators"
-	description="Use labels to add section headings and separators to visually divide groups."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -146,9 +209,7 @@ import {
 
 ### With Groups
 
-<ComponentPage
-	title="Grouped Items"
-	description="Logically group related items for semantic grouping and assistive technology."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -197,9 +258,7 @@ import {
 
 ### Keyboard Shortcuts
 
-<ComponentPage
-	title="Keyboard Shortcuts"
-	description="Display keyboard shortcut hints alongside menu items. The hint is purely visual — you handle actual key bindings separately."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -256,9 +315,7 @@ import {
 
 ### Submenus
 
-<ComponentPage
-	title="Submenus"
-	description="Nest submenus using DropdownMenuSub, DropdownMenuSubTrigger, and DropdownMenuSubContent."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -311,8 +368,7 @@ import {
 
 ### Danger / Destructive Items
 
-<ComponentPage
-	title="Danger Items"
+<PreviewCard
 	description='Use variant="danger" for destructive actions. These render in red to visually distinguish them from safe actions.'
 	preview={
 		<div className="flex gap-3 items-center justify-center">
@@ -346,9 +402,7 @@ import {
 
 ### Disabled Items
 
-<ComponentPage
-	title="Disabled Items"
-	description="Individual items can be disabled to prevent interaction."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -383,9 +437,7 @@ import {
 
 Use `DropdownMenuCheckboxItem` for togglable menu items. Manage the checked state externally.
 
-<ComponentPage
-	title="Checkbox Items"
-	description="Togglable menu items with checkmark indicators. Manage the checked state externally with useState."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -445,9 +497,7 @@ const [showToolbar, setShowToolbar] = useState(true);
 
 Use `DropdownMenuRadioGroup` and `DropdownMenuRadioItem` for single-select option groups.
 
-<ComponentPage
-	title="Radio Items"
-	description="Single-select option groups within a dropdown menu using radio items."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -488,9 +538,7 @@ Use `DropdownMenuRadioGroup` and `DropdownMenuRadioItem` for single-select optio
 
 Each `DropdownMenuItem` fires an `onSelect` callback when clicked or activated via keyboard.
 
-<ComponentPage
-	title="onSelect Handler"
-	description="Each menu item fires an onSelect callback when clicked or activated via keyboard."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -541,9 +589,7 @@ Each `DropdownMenuItem` fires an `onSelect` callback when clicked or activated v
 
 Combining all features into a comprehensive example.
 
-<ComponentPage
-	title="Kitchen Sink"
-	description="A comprehensive example combining labels, groups, shortcuts, checkboxes, submenus, and danger items."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<DropdownMenu>
@@ -761,14 +807,14 @@ Uses Radix UI's trigger API. Use `asChild` to render as your own element.
 
 ## Design Tokens
 
-| Token                         | Usage                             |
-| ----------------------------- | --------------------------------- |
+| Token                | Usage                             |
+| -------------------- | --------------------------------- |
 | `--surface-raised`   | Menu panel background             |
 | `--border`           | Menu border color                 |
 | `--primary`          | Focused item background highlight |
 | `--danger`           | Danger variant item text color    |
 | `--muted-foreground` | Label and shortcut text color     |
-| `--shadow-md`              | Menu panel elevation shadow       |
-| `--radius-md`              | Menu panel border radius          |
-| `--z-dropdown`             | Z-index for the menu layer        |
-| `--duration-fast`          | Enter/exit animation timing       |
+| `--shadow-md`        | Menu panel elevation shadow       |
+| `--radius-md`        | Menu panel border radius          |
+| `--z-dropdown`       | Z-index for the menu layer        |
+| `--duration-fast`    | Enter/exit animation timing       |

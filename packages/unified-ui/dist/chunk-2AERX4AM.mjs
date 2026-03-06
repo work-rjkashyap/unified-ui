@@ -1,4 +1,4 @@
-import { expandHeight, fadeIn, overlayBackdrop, modalContent, popSubtle, slideUp, slideDown, fadeInFast, scaleIn, staggerContainerFast, slideUpSm, pop, staggerContainer, shakeX, slidePanelBottom, slidePanelTop, slidePanelRight, slidePanelLeft, countUp, slideInFromRight, slideInFromLeft, staggerContainerSlow, numberRoll } from './chunk-3OZJ4JLW.mjs';
+import { expandHeight, fadeIn, overlayBackdrop, modalContent, popSubtle, slideUp, slideDown, fadeInFast, scaleIn, staggerContainerFast, slideUpSm, pop, staggerContainer, shakeX, slidePanelBottom, slidePanelTop, slidePanelRight, slidePanelLeft, countUp, slideInFromRight, slideInFromLeft, staggerContainerSlow } from './chunk-PLRSH37T.mjs';
 import { focusRingClasses, focusRingCompactClasses, focusRingInsetClasses } from './chunk-MBYCK2JJ.mjs';
 import { cn, composeRefs } from './chunk-ZT3PCXDF.mjs';
 import { cva } from 'class-variance-authority';
@@ -552,7 +552,39 @@ var Callout = forwardRef(
 );
 Callout.displayName = "Callout";
 var calloutVariants = alertVariants;
-var AlertDialog = AlertDialog$1.Root;
+var AlertDialogContext = createContext({
+  open: false
+});
+function useAlertDialogContext() {
+  return useContext(AlertDialogContext);
+}
+function AlertDialog({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  const handleOpenChange = useCallback(
+    (next) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  return /* @__PURE__ */ jsx(AlertDialogContext.Provider, { value: { open }, children: /* @__PURE__ */ jsx(
+    AlertDialog$1.Root,
+    {
+      open,
+      onOpenChange: handleOpenChange,
+      ...rest,
+      children
+    }
+  ) });
+}
 AlertDialog.displayName = "AlertDialog";
 var AlertDialogTrigger = AlertDialog$1.Trigger;
 AlertDialogTrigger.displayName = "AlertDialogTrigger";
@@ -560,7 +592,7 @@ var AlertDialogPortal = AlertDialog$1.Portal;
 AlertDialogPortal.displayName = "AlertDialogPortal";
 var AlertDialogOverlay = forwardRef(function AlertDialogOverlay2({ className, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
-  return /* @__PURE__ */ jsx(AlertDialog$1.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx(AlertDialog$1.Overlay, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
     motion.div,
     {
       className: cn(
@@ -579,9 +611,10 @@ var AlertDialogOverlay = forwardRef(function AlertDialogOverlay2({ className, ..
 AlertDialogOverlay.displayName = "AlertDialogOverlay";
 var AlertDialogContent = forwardRef(function AlertDialogContent2({ className, children, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
-  return /* @__PURE__ */ jsxs(AlertDialog$1.Portal, { children: [
+  const { open } = useAlertDialogContext();
+  return /* @__PURE__ */ jsx(AlertDialog$1.Portal, { forceMount: true, children: /* @__PURE__ */ jsx(AnimatePresence, { children: open && /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(AlertDialogOverlay, {}),
-    /* @__PURE__ */ jsx(AlertDialog$1.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsx(AlertDialog$1.Content, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
       motion.div,
       {
         className: cn(
@@ -604,7 +637,7 @@ var AlertDialogContent = forwardRef(function AlertDialogContent2({ className, ch
         children
       }
     ) })
-  ] });
+  ] }) }) });
 });
 AlertDialogContent.displayName = "AlertDialogContent";
 function AlertDialogHeader({
@@ -4167,6 +4200,41 @@ var Combobox = forwardRef(
   }
 );
 Combobox.displayName = "Combobox";
+var kbdVariants = cva(
+  [
+    "inline-flex items-center gap-0.5",
+    "font-mono font-medium leading-none",
+    "rounded border border-border",
+    "bg-muted text-muted-foreground",
+    "shadow-[0_1px_0_1px_hsl(var(--border))]",
+    "select-none whitespace-nowrap"
+  ],
+  {
+    variants: {
+      size: {
+        sm: "px-1.5 py-0.5 text-[10px]",
+        md: "px-2 py-1 text-xs",
+        lg: "px-2.5 py-1 text-sm"
+      }
+    },
+    defaultVariants: { size: "md" }
+  }
+);
+var Kbd = forwardRef(function Kbd2({ size = "md", className, children, ...rest }, ref) {
+  return /* @__PURE__ */ jsx(
+    "kbd",
+    {
+      ref,
+      className: cn(kbdVariants({ size }), className),
+      "data-ds": "",
+      "data-ds-component": "kbd",
+      "data-ds-size": size,
+      ...rest,
+      children
+    }
+  );
+});
+Kbd.displayName = "Kbd";
 function SearchIcon2({ className }) {
   return /* @__PURE__ */ jsxs(
     "svg",
@@ -4189,8 +4257,20 @@ function SearchIcon2({ className }) {
     }
   );
 }
-function KbdHint({ keys }) {
-  return /* @__PURE__ */ jsx("kbd", { className: "inline-flex items-center gap-0.5 rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground", children: keys });
+function ShortcutKeys({ keys }) {
+  const modifiers = /* @__PURE__ */ new Set(["\u2318", "\u21E7", "\u2325", "\u2303"]);
+  const tokens = [];
+  let rest = keys;
+  while (rest.length > 0) {
+    if (modifiers.has(rest[0])) {
+      tokens.push(rest[0]);
+      rest = rest.slice(1);
+    } else {
+      tokens.push(rest);
+      break;
+    }
+  }
+  return /* @__PURE__ */ jsx("span", { className: "inline-flex items-center gap-0.5", children: tokens.map((token, i) => /* @__PURE__ */ jsx(Kbd, { size: "sm", children: token }, i)) });
 }
 function matchesSearch(item, query) {
   if (!query) return true;
@@ -4265,30 +4345,39 @@ function Command({
     el?.scrollIntoView({ block: "nearest" });
   }, []);
   let flatIndex = 0;
-  return /* @__PURE__ */ jsx(Dialog$1.Root, { open, onOpenChange, children: /* @__PURE__ */ jsxs(Dialog$1.Portal, { children: [
-    /* @__PURE__ */ jsx(
-      Dialog$1.Overlay,
+  const shouldReduce = useReducedMotion();
+  return /* @__PURE__ */ jsx(Dialog$1.Root, { open, onOpenChange, children: /* @__PURE__ */ jsx(Dialog$1.Portal, { forceMount: true, children: /* @__PURE__ */ jsx(AnimatePresence, { children: open && /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(Dialog$1.Overlay, { forceMount: true, asChild: true, children: /* @__PURE__ */ jsx(
+      motion.div,
       {
         className: cn(
-          "fixed inset-0 z-[var(--z-modal)] bg-black/50",
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0"
-        )
+          "fixed inset-0 z-[var(--z-modal)] bg-black/50"
+        ),
+        variants: shouldReduce ? void 0 : overlayBackdrop.variants,
+        initial: shouldReduce ? { opacity: 0 } : "initial",
+        animate: shouldReduce ? { opacity: 1 } : "animate",
+        exit: shouldReduce ? { opacity: 0 } : "exit",
+        transition: shouldReduce ? { duration: 0.15 } : overlayBackdrop.transition,
+        "data-ds-animated": ""
       }
-    ),
-    /* @__PURE__ */ jsxs(
-      Dialog$1.Content,
+    ) }),
+    /* @__PURE__ */ jsx(Dialog$1.Content, { forceMount: true, asChild: true, children: /* @__PURE__ */ jsxs(
+      motion.div,
       {
         className: cn(
           "fixed left-1/2 top-[20%] z-[var(--z-modal)]",
           "w-full max-w-lg -translate-x-1/2",
           "rounded-lg border border-border bg-background shadow-xl",
-          "overflow-hidden",
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-4",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+          "overflow-hidden"
         ),
+        variants: shouldReduce ? void 0 : modalContent.variants,
+        initial: shouldReduce ? { opacity: 0 } : "initial",
+        animate: shouldReduce ? { opacity: 1 } : "animate",
+        exit: shouldReduce ? { opacity: 0 } : "exit",
+        transition: shouldReduce ? { duration: 0.2 } : modalContent.transition,
         "data-ds": "",
         "data-ds-component": "command",
+        "data-ds-animated": "",
         "aria-label": "Command Palette",
         children: [
           /* @__PURE__ */ jsx(Dialog$1.Title, { className: "sr-only", children: "Command Palette" }),
@@ -4320,7 +4409,7 @@ function Command({
                 )
               }
             ),
-            /* @__PURE__ */ jsx(KbdHint, { keys: "Esc" })
+            /* @__PURE__ */ jsx(ShortcutKeys, { keys: "Esc" })
           ] }),
           /* @__PURE__ */ jsx(
             "div",
@@ -4382,7 +4471,7 @@ function Command({
                             /* @__PURE__ */ jsx("p", { className: "truncate font-medium", children: item.label }),
                             item.description && /* @__PURE__ */ jsx("p", { className: "truncate text-xs text-muted-foreground", children: item.description })
                           ] }),
-                          item.shortcut && /* @__PURE__ */ jsx(KbdHint, { keys: item.shortcut })
+                          item.shortcut && /* @__PURE__ */ jsx(ShortcutKeys, { keys: item.shortcut })
                         ]
                       },
                       item.id
@@ -4394,22 +4483,22 @@ function Command({
           ),
           /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3 border-t border-border px-3 py-2", children: [
             /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-1 text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ jsx(KbdHint, { keys: "\u2191\u2193" }),
+              /* @__PURE__ */ jsx(ShortcutKeys, { keys: "\u2191\u2193" }),
               " navigate"
             ] }),
             /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-1 text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ jsx(KbdHint, { keys: "\u21B5" }),
+              /* @__PURE__ */ jsx(ShortcutKeys, { keys: "\u21B5" }),
               " select"
             ] }),
             /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-1 text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ jsx(KbdHint, { keys: "Esc" }),
+              /* @__PURE__ */ jsx(ShortcutKeys, { keys: "Esc" }),
               " close"
             ] })
           ] })
         ]
       }
-    )
-  ] }) });
+    ) })
+  ] }) }) }) });
 }
 Command.displayName = "Command";
 var CommandTrigger = forwardRef(function CommandTrigger2({ label = "Search commands...", onClick, className }, ref) {
@@ -4434,7 +4523,7 @@ var CommandTrigger = forwardRef(function CommandTrigger2({ label = "Search comma
       children: [
         /* @__PURE__ */ jsx(SearchIcon2, { className: "size-3.5 shrink-0" }),
         /* @__PURE__ */ jsx("span", { className: "flex-1 truncate text-left", children: label }),
-        /* @__PURE__ */ jsx(KbdHint, { keys: "\u2318K" })
+        /* @__PURE__ */ jsx(ShortcutKeys, { keys: "\u2318K" })
       ]
     }
   );
@@ -4945,8 +5034,8 @@ CopyButton.displayName = "CopyButton";
 var dataListVariants = cva(["w-full"], {
   variants: {
     orientation: {
-      horizontal: "grid grid-cols-[auto_1fr] gap-x-6 gap-y-3",
-      vertical: "flex flex-col gap-3"
+      horizontal: "grid grid-cols-[auto_1fr] items-baseline gap-x-6",
+      vertical: "flex flex-col gap-2"
     },
     size: {
       sm: "text-xs",
@@ -4972,7 +5061,7 @@ var DataListTerm = forwardRef(
 DataListTerm.displayName = "DataListTerm";
 var DataListDetail = forwardRef(
   function DataListDetail2({ className, children, ...rest }, ref) {
-    return /* @__PURE__ */ jsx("dd", { ref, className: cn("text-foreground", className), ...rest, children });
+    return /* @__PURE__ */ jsx("dd", { ref, className: cn("text-foreground m-0", className), ...rest, children });
   }
 );
 DataListDetail.displayName = "DataListDetail";
@@ -4987,6 +5076,7 @@ var DataList = forwardRef(
   }, ref) {
     const shouldReduce = useReducedMotion();
     const isHorizontal = orientation === "horizontal";
+    const horizontalCellPadding = "py-2";
     return /* @__PURE__ */ jsx(
       motion.dl,
       {
@@ -5013,7 +5103,8 @@ var DataList = forwardRef(
                 DataListTerm,
                 {
                   className: cn(
-                    dividers && i > 0 && "pt-3 border-t border-border"
+                    horizontalCellPadding,
+                    dividers && i > 0 && "border-t border-border"
                   ),
                   children: item.term
                 }
@@ -5022,7 +5113,8 @@ var DataList = forwardRef(
                 DataListDetail,
                 {
                   className: cn(
-                    dividers && i > 0 && "pt-3 border-t border-border"
+                    horizontalCellPadding,
+                    dividers && i > 0 && "border-t border-border"
                   ),
                   children: item.detail
                 }
@@ -9859,6 +9951,10 @@ var dialogContentVariants = cva(
     }
   }
 );
+var DialogContext = createContext({ open: false });
+function useDialogContext() {
+  return useContext(DialogContext);
+}
 function CloseIcon2({ className }) {
   return /* @__PURE__ */ jsxs(
     "svg",
@@ -9879,8 +9975,32 @@ function CloseIcon2({ className }) {
     }
   );
 }
-function Dialog({ children, ...rest }) {
-  return /* @__PURE__ */ jsx(Dialog$1.Root, { ...rest, children });
+function Dialog({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  const handleOpenChange = useCallback(
+    (next) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  return /* @__PURE__ */ jsx(DialogContext.Provider, { value: { open }, children: /* @__PURE__ */ jsx(
+    Dialog$1.Root,
+    {
+      open,
+      onOpenChange: handleOpenChange,
+      ...rest,
+      children
+    }
+  ) });
 }
 Dialog.displayName = "Dialog";
 var DialogTrigger = forwardRef(function DialogTrigger2({ className, ...rest }, ref) {
@@ -9898,7 +10018,7 @@ var DialogTrigger = forwardRef(function DialogTrigger2({ className, ...rest }, r
 DialogTrigger.displayName = "DialogTrigger";
 var DialogOverlay = forwardRef(function DialogOverlay2({ className, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
-  return /* @__PURE__ */ jsx(Dialog$1.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx(Dialog$1.Overlay, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
     motion.div,
     {
       className: cn(
@@ -9926,9 +10046,10 @@ var DialogContent = forwardRef(function DialogContent2({
   ...rest
 }, ref) {
   const shouldReduce = useReducedMotion();
-  return /* @__PURE__ */ jsxs(Dialog$1.Portal, { children: [
+  const { open } = useDialogContext();
+  return /* @__PURE__ */ jsx(Dialog$1.Portal, { forceMount: true, children: /* @__PURE__ */ jsx(AnimatePresence, { children: open && /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(DialogOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsx(Dialog$1.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxs(
+    /* @__PURE__ */ jsx(Dialog$1.Content, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxs(
       motion.div,
       {
         className: cn(
@@ -9965,7 +10086,7 @@ var DialogContent = forwardRef(function DialogContent2({
         ]
       }
     ) })
-  ] });
+  ] }) }) });
 });
 DialogContent.displayName = "DialogContent";
 function DialogHeader({
@@ -11369,7 +11490,7 @@ var addonVariants = cva(
   [
     "inline-flex items-center justify-center shrink-0",
     "bg-muted text-muted-foreground font-medium",
-    "px-3 select-none",
+    "select-none",
     "border-border"
   ],
   {
@@ -11387,21 +11508,51 @@ var addonVariants = cva(
     defaultVariants: { position: "left", size: "md" }
   }
 );
-var prefixSuffixVariants = cva(
-  [
-    "inline-flex items-center shrink-0",
-    "text-muted-foreground pointer-events-none"
-  ],
-  {
-    variants: {
-      position: {
-        left: "pl-3",
-        right: "pr-3"
-      }
-    },
-    defaultVariants: { position: "left" }
-  }
-);
+var iconSizeMap5 = {
+  sm: "[&>svg]:size-3.5",
+  md: "[&>svg]:size-4",
+  lg: "[&>svg]:size-4"
+};
+var prefixPaddingMap = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3"
+};
+var suffixPaddingMap = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3"
+};
+var inputLeftPaddingWithPrefix = {
+  sm: "pl-1.5",
+  md: "pl-2",
+  lg: "pl-2"
+};
+var inputLeftPaddingWithAddon = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3"
+};
+var inputLeftPaddingWithoutPrefix = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3"
+};
+var inputRightPaddingWithSuffix = {
+  sm: "pr-1.5",
+  md: "pr-2",
+  lg: "pr-2"
+};
+var inputRightPaddingWithAddon = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3"
+};
+var inputRightPaddingWithoutSuffix = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3"
+};
 var InputGroup = forwardRef(
   function InputGroup2({
     size = "md",
@@ -11417,7 +11568,11 @@ var InputGroup = forwardRef(
     inputProps,
     children
   }, ref) {
-    const iconSize = size === "lg" ? "size-4" : "size-3.5";
+    const hasPrefix = !!prefix;
+    const hasSuffix = !!suffix;
+    const hasAddonRight = !!addonRight;
+    const inputPaddingLeft = hasPrefix ? inputLeftPaddingWithPrefix[size] : addonLeft ? inputLeftPaddingWithAddon[size] : inputLeftPaddingWithoutPrefix[size];
+    const inputPaddingRight = hasSuffix ? inputRightPaddingWithSuffix[size] : hasAddonRight ? inputRightPaddingWithAddon[size] : inputRightPaddingWithoutSuffix[size];
     return /* @__PURE__ */ jsxs(
       "div",
       {
@@ -11433,8 +11588,10 @@ var InputGroup = forwardRef(
             "span",
             {
               className: cn(
-                prefixSuffixVariants({ position: "left" }),
-                `[&>svg]:${iconSize}`
+                "inline-flex items-center justify-center shrink-0",
+                "text-muted-foreground pointer-events-none",
+                prefixPaddingMap[size],
+                iconSizeMap5[size]
               ),
               children: prefix
             }
@@ -11444,10 +11601,10 @@ var InputGroup = forwardRef(
             {
               disabled,
               className: cn(
-                "flex-1 h-full bg-transparent outline-none text-foreground",
+                "flex-1 h-full bg-transparent outline-none text-foreground min-w-0",
                 "placeholder:text-muted-foreground",
-                !prefix && "pl-3",
-                !suffix && !addonRight && "pr-3",
+                inputPaddingLeft,
+                inputPaddingRight,
                 inputClassName
               ),
               ...inputProps
@@ -11457,8 +11614,10 @@ var InputGroup = forwardRef(
             "span",
             {
               className: cn(
-                prefixSuffixVariants({ position: "right" }),
-                `[&>svg]:${iconSize}`
+                "inline-flex items-center justify-center shrink-0",
+                "text-muted-foreground pointer-events-none",
+                suffixPaddingMap[size],
+                iconSizeMap5[size]
               ),
               children: suffix
             }
@@ -11470,41 +11629,6 @@ var InputGroup = forwardRef(
   }
 );
 InputGroup.displayName = "InputGroup";
-var kbdVariants = cva(
-  [
-    "inline-flex items-center gap-0.5",
-    "font-mono font-medium leading-none",
-    "rounded border border-border",
-    "bg-muted text-muted-foreground",
-    "shadow-[0_1px_0_1px_hsl(var(--border))]",
-    "select-none whitespace-nowrap"
-  ],
-  {
-    variants: {
-      size: {
-        sm: "px-1.5 py-0.5 text-[10px]",
-        md: "px-2 py-1 text-xs",
-        lg: "px-2.5 py-1 text-sm"
-      }
-    },
-    defaultVariants: { size: "md" }
-  }
-);
-var Kbd = forwardRef(function Kbd2({ size = "md", className, children, ...rest }, ref) {
-  return /* @__PURE__ */ jsx(
-    "kbd",
-    {
-      ref,
-      className: cn(kbdVariants({ size }), className),
-      "data-ds": "",
-      "data-ds-component": "kbd",
-      "data-ds-size": size,
-      ...rest,
-      children
-    }
-  );
-});
-Kbd.displayName = "Kbd";
 var labelVariants = cva(
   // Base styles — shared across all sizes
   [
@@ -12225,10 +12349,16 @@ function roundToPrecision(value, precision) {
   const factor = 10 ** precision;
   return Math.round(value * factor) / factor;
 }
+var ROLL_DISTANCE = 12;
+var ROLL_TRANSITION = {
+  duration: 0.2,
+  ease: [0.4, 0, 0.2, 1]
+};
 function AnimatedValue({
   value,
   formatValue,
-  shouldReduce
+  shouldReduce,
+  direction
 }) {
   const [displayValue, setDisplayValue] = useState(value);
   const [key, setKey] = useState(0);
@@ -12239,6 +12369,13 @@ function AnimatedValue({
   if (shouldReduce) {
     return /* @__PURE__ */ jsx("span", { className: "tabular-nums", children: formatValue(displayValue) });
   }
+  const enterY = direction === "down" ? -ROLL_DISTANCE : ROLL_DISTANCE;
+  const exitY = direction === "down" ? ROLL_DISTANCE : -ROLL_DISTANCE;
+  const variants = {
+    initial: { opacity: 0, y: enterY },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: exitY }
+  };
   return /* @__PURE__ */ jsx(
     "span",
     {
@@ -12249,11 +12386,11 @@ function AnimatedValue({
         motion.span,
         {
           className: "inline-block tabular-nums",
-          variants: numberRoll.variants,
+          variants,
           initial: "initial",
           animate: "animate",
           exit: "exit",
-          transition: numberRoll.transition,
+          transition: ROLL_TRANSITION,
           "data-ds-animated": "",
           children: formatValue(displayValue)
         },
@@ -12267,7 +12404,7 @@ var buttonWidthMap = {
   md: "w-8",
   lg: "w-9"
 };
-var iconSizeMap5 = {
+var iconSizeMap6 = {
   sm: "size-3",
   md: "size-3.5",
   lg: "size-4"
@@ -12303,13 +12440,27 @@ var NumberInput = forwardRef(
       () => roundToPrecision(clamp(defaultValue, min2, max2), precision)
     );
     const [inputRaw, setInputRaw] = useState(null);
+    const [direction, setDirection] = useState("none");
     const inputRef = useRef(null);
+    const prevValueRef = useRef(
+      controlledValue ?? roundToPrecision(clamp(defaultValue, min2, max2), precision)
+    );
     const currentValue = controlledValue !== void 0 ? controlledValue : internalValue;
+    useEffect(() => {
+      if (controlledValue !== void 0 && controlledValue !== prevValueRef.current) {
+        setDirection(controlledValue > prevValueRef.current ? "up" : "down");
+        prevValueRef.current = controlledValue;
+      }
+    }, [controlledValue]);
     const resolvedFormat = formatValue ?? ((v) => v.toFixed(precision));
     const resolvedParse = parseValue ?? ((raw) => Number.parseFloat(raw.replace(/[^0-9.-]/g, "")));
     const commit = useCallback(
       (next) => {
         const clamped = roundToPrecision(clamp(next, min2, max2), precision);
+        if (clamped !== currentValue) {
+          setDirection(clamped > currentValue ? "up" : "down");
+          prevValueRef.current = clamped;
+        }
         if (controlledValue === void 0) {
           setInternalValue(clamped);
         }
@@ -12422,7 +12573,7 @@ var NumberInput = forwardRef(
                 buttonWidthMap[size],
                 "border-r border-input/60"
               ),
-              children: /* @__PURE__ */ jsx(MinusIcon, { className: iconSizeMap5[size] })
+              children: /* @__PURE__ */ jsx(MinusIcon, { className: iconSizeMap6[size] })
             }
           ),
           /* @__PURE__ */ jsx("div", { className: "relative flex-1 flex items-center justify-center", children: inputRaw !== null ? (
@@ -12470,7 +12621,8 @@ var NumberInput = forwardRef(
                   {
                     value: currentValue,
                     formatValue: resolvedFormat,
-                    shouldReduce: shouldReduce ?? false
+                    shouldReduce: shouldReduce ?? false,
+                    direction
                   }
                 )
               }
@@ -12489,7 +12641,7 @@ var NumberInput = forwardRef(
                 buttonWidthMap[size],
                 "border-l border-input/60"
               ),
-              children: /* @__PURE__ */ jsx(PlusIcon, { className: iconSizeMap5[size] })
+              children: /* @__PURE__ */ jsx(PlusIcon, { className: iconSizeMap6[size] })
             }
           )
         ]
@@ -12592,7 +12744,7 @@ function computePageRange(currentPage, totalPages, siblings, boundary) {
   }
   return items;
 }
-var iconSizeMap6 = {
+var iconSizeMap7 = {
   sm: "size-3.5",
   md: "size-4"
 };
@@ -12665,7 +12817,7 @@ var Pagination = forwardRef(
                   })
                 ),
                 "aria-label": prevLabel,
-                children: /* @__PURE__ */ jsx(ChevronLeftIcon2, { className: iconSizeMap6[size] })
+                children: /* @__PURE__ */ jsx(ChevronLeftIcon2, { className: iconSizeMap7[size] })
               }
             ),
             /* @__PURE__ */ jsxs(
@@ -12697,7 +12849,7 @@ var Pagination = forwardRef(
                   })
                 ),
                 "aria-label": nextLabel,
-                children: /* @__PURE__ */ jsx(ChevronRightIcon6, { className: iconSizeMap6[size] })
+                children: /* @__PURE__ */ jsx(ChevronRightIcon6, { className: iconSizeMap7[size] })
               }
             )
           ]
@@ -12725,7 +12877,7 @@ var Pagination = forwardRef(
               className: cn(paginationButtonVariants({ size, active: false })),
               "aria-label": prevLabel,
               children: [
-                /* @__PURE__ */ jsx(ChevronLeftIcon2, { className: iconSizeMap6[size] }),
+                /* @__PURE__ */ jsx(ChevronLeftIcon2, { className: iconSizeMap7[size] }),
                 /* @__PURE__ */ jsx("span", { className: "sr-only sm:not-sr-only", children: prevLabel })
               ]
             }
@@ -12775,7 +12927,7 @@ var Pagination = forwardRef(
               "aria-label": nextLabel,
               children: [
                 /* @__PURE__ */ jsx("span", { className: "sr-only sm:not-sr-only", children: nextLabel }),
-                /* @__PURE__ */ jsx(ChevronRightIcon6, { className: iconSizeMap6[size] })
+                /* @__PURE__ */ jsx(ChevronRightIcon6, { className: iconSizeMap7[size] })
               ]
             }
           )
@@ -14020,11 +14172,20 @@ function LoaderIcon({ className }) {
     }
   );
 }
-var iconSizeMap7 = {
+var iconSizeMap8 = {
   sm: "size-3.5",
   md: "size-4",
   lg: "size-4"
 };
+function useIsMac() {
+  const [isMac, setIsMac] = useState(false);
+  useEffect(() => {
+    setIsMac(
+      typeof navigator !== "undefined" && /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
+    );
+  }, []);
+  return isMac;
+}
 var SearchInput = forwardRef(
   function SearchInput2({
     value: controlledValue,
@@ -14043,9 +14204,11 @@ var SearchInput = forwardRef(
     ...rest
   }, ref) {
     const shouldReduce = useReducedMotion();
+    const isMac = useIsMac();
     const [internalValue, setInternalValue] = useState(defaultValue);
     const debounceTimer = useRef(null);
     const inputRef = useRef(null);
+    useImperativeHandle(ref, () => inputRef.current);
     const currentValue = controlledValue !== void 0 ? controlledValue : internalValue;
     const hasValue = currentValue.length > 0;
     const handleChange = useCallback(
@@ -14067,21 +14230,19 @@ var SearchInput = forwardRef(
       if (controlledValue === void 0) setInternalValue("");
       onChange?.("");
       onDebouncedChange?.("");
-      const inputEl = ref?.current ?? inputRef.current;
-      inputEl?.focus();
-    }, [controlledValue, onChange, onDebouncedChange, ref]);
+      inputRef.current?.focus();
+    }, [controlledValue, onChange, onDebouncedChange]);
     useEffect(() => {
       if (!shortcut) return;
       const handler = (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === shortcut.toLowerCase()) {
           e.preventDefault();
-          const inputEl = ref?.current ?? inputRef.current;
-          inputEl?.focus();
+          inputRef.current?.focus();
         }
       };
       window.addEventListener("keydown", handler);
       return () => window.removeEventListener("keydown", handler);
-    }, [shortcut, ref]);
+    }, [shortcut]);
     return /* @__PURE__ */ jsxs(
       "div",
       {
@@ -14090,11 +14251,11 @@ var SearchInput = forwardRef(
         "data-ds-component": "search-input",
         "data-ds-size": size,
         children: [
-          /* @__PURE__ */ jsx("span", { className: "shrink-0 text-muted-foreground pointer-events-none", children: loading ? /* @__PURE__ */ jsx(LoaderIcon, { className: iconSizeMap7[size] }) : /* @__PURE__ */ jsx(SearchIcon3, { className: iconSizeMap7[size] }) }),
+          /* @__PURE__ */ jsx("span", { className: "shrink-0 text-muted-foreground pointer-events-none", children: loading ? /* @__PURE__ */ jsx(LoaderIcon, { className: iconSizeMap8[size] }) : /* @__PURE__ */ jsx(SearchIcon3, { className: iconSizeMap8[size] }) }),
           /* @__PURE__ */ jsx(
             "input",
             {
-              ref: ref ?? inputRef,
+              ref: inputRef,
               type: "search",
               value: currentValue,
               onChange: handleChange,
@@ -14127,20 +14288,26 @@ var SearchInput = forwardRef(
                 exit: shouldReduce ? { opacity: 0 } : "exit",
                 transition: shouldReduce ? { duration: 0.1 } : fadeInFast.transition,
                 "data-ds-animated": "",
-                children: /* @__PURE__ */ jsx(XIcon5, { className: iconSizeMap7[size] })
+                children: /* @__PURE__ */ jsx(XIcon5, { className: iconSizeMap8[size] })
               },
               "clear"
             ) }),
-            shortcut && !hasValue && /* @__PURE__ */ jsx(
+            shortcut && !hasValue && /* @__PURE__ */ jsxs(
               "kbd",
               {
                 className: cn(
-                  "hidden sm:inline-flex items-center gap-0.5 rounded border border-border",
-                  "bg-muted text-muted-foreground font-mono font-medium",
+                  "hidden sm:inline-flex items-center gap-0.5",
+                  "rounded-md border border-border",
+                  "bg-muted/80 text-muted-foreground",
+                  "font-sans font-medium tracking-wide",
+                  "shadow-[0_1px_0_1px_rgba(0,0,0,0.15)] dark:shadow-[0_1px_0_1px_rgba(255,255,255,0.06)]",
                   "pointer-events-none select-none",
-                  size === "sm" ? "px-1 py-0.5 text-[9px]" : "px-1.5 py-0.5 text-[10px]"
+                  size === "sm" ? "h-5 min-w-5 px-1 text-[10px]" : "h-6 min-w-6 px-1.5 text-[11px]"
                 ),
-                children: shortcut
+                children: [
+                  /* @__PURE__ */ jsx("span", { className: "opacity-70", children: isMac ? "\u2318" : "Ctrl" }),
+                  /* @__PURE__ */ jsx("span", { children: shortcut.toUpperCase() })
+                ]
               }
             )
           ] })
@@ -14246,7 +14413,7 @@ function CheckIconInternal({ className }) {
     }
   );
 }
-var iconSizeMap8 = {
+var iconSizeMap9 = {
   sm: "size-3.5",
   md: "size-4",
   lg: "size-4"
@@ -14268,7 +14435,7 @@ var SelectTrigger = forwardRef(function SelectTrigger2({ className, children, va
         /* @__PURE__ */ jsx(Select$1.Icon, { asChild: true, children: /* @__PURE__ */ jsx(
           ChevronDownIcon4,
           {
-            className: cn(iconSizeMap8[size], "shrink-0 text-muted-foreground")
+            className: cn(iconSizeMap9[size], "shrink-0 text-muted-foreground")
           }
         ) })
       ]
@@ -14549,6 +14716,10 @@ var sheetContentVariants = cva(
     }
   }
 );
+var SheetContext = createContext({ open: false });
+function useSheetContext() {
+  return useContext(SheetContext);
+}
 function CloseIcon4({ className }) {
   return /* @__PURE__ */ jsxs(
     "svg",
@@ -14569,8 +14740,32 @@ function CloseIcon4({ className }) {
     }
   );
 }
-function Sheet({ children, ...rest }) {
-  return /* @__PURE__ */ jsx(Dialog$1.Root, { ...rest, children });
+function Sheet({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== void 0;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  const handleOpenChange = useCallback(
+    (next) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+  return /* @__PURE__ */ jsx(SheetContext.Provider, { value: { open }, children: /* @__PURE__ */ jsx(
+    Dialog$1.Root,
+    {
+      open,
+      onOpenChange: handleOpenChange,
+      ...rest,
+      children
+    }
+  ) });
 }
 Sheet.displayName = "Sheet";
 var SheetTrigger = forwardRef(function SheetTrigger2({ className, ...rest }, ref) {
@@ -14588,7 +14783,7 @@ var SheetTrigger = forwardRef(function SheetTrigger2({ className, ...rest }, ref
 SheetTrigger.displayName = "SheetTrigger";
 var SheetOverlay = forwardRef(function SheetOverlay2({ className, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
-  return /* @__PURE__ */ jsx(Dialog$1.Overlay, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx(Dialog$1.Overlay, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsx(
     motion.div,
     {
       className: cn(
@@ -14623,10 +14818,11 @@ var SheetContent = forwardRef(function SheetContent2({
   ...rest
 }, ref) {
   const shouldReduce = useReducedMotion();
+  const { open } = useSheetContext();
   const preset = sidePresetMap[side];
-  return /* @__PURE__ */ jsxs(Dialog$1.Portal, { children: [
+  return /* @__PURE__ */ jsx(Dialog$1.Portal, { forceMount: true, children: /* @__PURE__ */ jsx(AnimatePresence, { children: open && /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(SheetOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsx(Dialog$1.Content, { ref, asChild: true, ...rest, children: /* @__PURE__ */ jsxs(
+    /* @__PURE__ */ jsx(Dialog$1.Content, { ref, forceMount: true, asChild: true, ...rest, children: /* @__PURE__ */ jsxs(
       motion.div,
       {
         className: cn(
@@ -14664,7 +14860,7 @@ var SheetContent = forwardRef(function SheetContent2({
         ]
       }
     ) })
-  ] });
+  ] }) }) });
 });
 SheetContent.displayName = "SheetContent";
 function SheetHeader({ className, children }) {
@@ -15539,35 +15735,33 @@ function SliderThumbItem({
   shouldReduce
 }) {
   const [isActive, setIsActive] = useState(false);
-  return /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-    showTooltip && /* @__PURE__ */ jsx(
-      SliderTooltip,
-      {
-        value,
-        visible: isActive,
-        format: formatTooltip
-      }
-    ),
-    /* @__PURE__ */ jsx(
-      MotionThumb,
-      {
-        className: cn(sliderThumbVariants({ variant, size })),
-        onMouseEnter: () => setIsActive(true),
-        onMouseLeave: () => setIsActive(false),
-        onFocus: () => setIsActive(true),
-        onBlur: () => setIsActive(false),
-        whileTap: shouldReduce ? void 0 : {
-          scale: 1.2,
-          transition: { type: "spring", stiffness: 400, damping: 25 }
-        },
-        whileHover: shouldReduce ? void 0 : {
-          scale: 1.1,
-          transition: { type: "spring", stiffness: 400, damping: 30 }
-        },
-        "data-ds-animated": ""
-      }
-    )
-  ] });
+  return /* @__PURE__ */ jsx(
+    MotionThumb,
+    {
+      className: cn("relative overflow-visible", sliderThumbVariants({ variant, size })),
+      onMouseEnter: () => setIsActive(true),
+      onMouseLeave: () => setIsActive(false),
+      onFocus: () => setIsActive(true),
+      onBlur: () => setIsActive(false),
+      whileTap: shouldReduce ? void 0 : {
+        scale: 1.2,
+        transition: { type: "spring", stiffness: 400, damping: 25 }
+      },
+      whileHover: shouldReduce ? void 0 : {
+        scale: 1.1,
+        transition: { type: "spring", stiffness: 400, damping: 30 }
+      },
+      "data-ds-animated": "",
+      children: showTooltip && /* @__PURE__ */ jsx(
+        SliderTooltip,
+        {
+          value,
+          visible: isActive,
+          format: formatTooltip
+        }
+      )
+    }
+  );
 }
 var Slider = forwardRef(function Slider2({
   variant = "default",
@@ -16962,7 +17156,7 @@ var dotSizeMap2 = {
   md: "size-3",
   lg: "size-4"
 };
-var iconSizeMap9 = {
+var iconSizeMap10 = {
   sm: "size-6",
   md: "size-8",
   lg: "size-10"
@@ -17000,7 +17194,7 @@ var TimelineItem = forwardRef(
               {
                 className: cn(
                   "flex items-center justify-center rounded-full shrink-0 z-10",
-                  iconSizeMap9[size],
+                  iconSizeMap10[size],
                   statusIconColorMap[status]
                 ),
                 children: icon
@@ -18795,7 +18989,7 @@ function TreeItem({ node, depth }) {
             exit: { height: 0, opacity: 0, overflow: "hidden" },
             transition: motionTransition,
             className: cn(
-              "relative",
+              "relative list-none",
               showLines && "before:absolute before:left-[calc(var(--tree-indent))] before:top-0 before:bottom-2 before:w-px before:bg-border"
             ),
             style: {
@@ -18922,7 +19116,7 @@ var TreeView = forwardRef(
       {
         ref,
         role: "tree",
-        className: cn("text-sm", className),
+        className: cn("list-none text-sm", className),
         "data-ds": "",
         "data-ds-component": "tree-view",
         children: items.map((item) => /* @__PURE__ */ jsx(TreeItem, { node: item, depth: 0 }, item.id))
@@ -18986,7 +19180,7 @@ var VirtualList = forwardRef(function VirtualList2({
       {
         ref: containerRef,
         className: cn(
-          "flex items-center justify-center border border-border rounded-lg bg-background",
+          "flex items-center justify-center rounded-lg border border-border bg-background shadow-sm not-prose",
           className
         ),
         style: { height },
@@ -19003,7 +19197,14 @@ var VirtualList = forwardRef(function VirtualList2({
       /* @__PURE__ */ jsx(
         "div",
         {
-          className: cn("absolute left-0 right-0", itemClassName),
+          className: cn(
+            "absolute left-0 right-0 flex items-center",
+            "transition-colors duration-fast ease-standard",
+            "hover:bg-muted/50",
+            "border-b border-border/50",
+            "[&_p]:m-0 [&_p]:leading-tight [&_span]:leading-tight",
+            itemClassName
+          ),
           style: {
             height: itemHeight,
             top: i * itemHeight
@@ -19022,7 +19223,12 @@ var VirtualList = forwardRef(function VirtualList2({
     {
       ref: containerRef,
       className: cn(
-        "relative overflow-auto border border-border rounded-lg bg-background",
+        "relative overflow-auto rounded-lg border border-border bg-background",
+        "shadow-sm not-prose",
+        "[scrollbar-width:thin] [scrollbar-color:hsl(var(--border))_transparent]",
+        "[&::-webkit-scrollbar]:w-1.5",
+        "[&::-webkit-scrollbar-track]:bg-transparent",
+        "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border",
         className
       ),
       style: { height },
@@ -19032,7 +19238,7 @@ var VirtualList = forwardRef(function VirtualList2({
       "data-ds-component": "virtual-list",
       children: [
         /* @__PURE__ */ jsx("div", { className: "relative w-full", style: { height: totalHeight }, children: visibleItems }),
-        loading && /* @__PURE__ */ jsx("div", { className: "sticky bottom-0 flex items-center justify-center py-3 bg-background/80 backdrop-blur-sm", children: loadingIndicator ?? /* @__PURE__ */ jsx("div", { className: "size-5 animate-spin rounded-full border-2 border-border border-t-primary" }) })
+        loading && /* @__PURE__ */ jsx("div", { className: "sticky bottom-0 flex items-center justify-center py-3 bg-background/80 backdrop-blur-sm border-t border-border/50", children: loadingIndicator ?? /* @__PURE__ */ jsx("div", { className: "size-5 animate-spin rounded-full border-2 border-border border-t-primary" }) })
       ]
     }
   );

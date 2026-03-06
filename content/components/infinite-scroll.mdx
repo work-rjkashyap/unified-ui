@@ -12,10 +12,13 @@ import {
 	DemoLoading,
 	DemoEnd,
 } from "@/components/docs/infinite-scroll-demos";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Infinite Scroll"
-	description="Scroll-triggered infinite loading with Intersection Observer, loading indicator, and end-of-list detection. Scroll down inside the container below to load more items."
+## Basic
+
+Scroll-triggered infinite loading with Intersection Observer, loading indicator, and end-of-list detection. Scroll down inside the container below to load more items.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoBasic />
@@ -43,25 +46,94 @@ setLoading(false);
     <div key={item.id}>{item.name}</div>
   ))}
 </InfiniteScroll>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add infinite-scroll
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add infinite-scroll
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add infinite-scroll
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add infinite-scroll
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { InfiniteScroll } from "@work-rjkashyap/unified-ui";
-// or
-import { InfiniteScroll } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Basic List
 
-<ComponentPage
-	title="Basic List"
-	description="A scrollable list that automatically loads more items as you reach the bottom. Scroll down to trigger loading."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoBasic />
@@ -94,9 +166,7 @@ setLoading(false);
 
 ### Card Grid
 
-<ComponentPage
-	title="Card Grid Layout"
-	description="InfiniteScroll works with any layout — here it wraps a responsive card grid that loads more cards on scroll."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoCards />
@@ -121,9 +191,7 @@ setLoading(false);
 
 ### Custom Loading Indicator
 
-<ComponentPage
-	title="Custom Loading Indicator"
-	description="Replace the default loading spinner with a custom indicator using the loadingIndicator prop."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoCustomLoader />
@@ -154,9 +222,7 @@ setLoading(false);
 
 ### Loading State
 
-<ComponentPage
-	title="Loading State"
-	description="The built-in loading indicator appears at the bottom of the list while data is being fetched."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoLoading />
@@ -173,9 +239,7 @@ setLoading(false);
 
 ### End of List
 
-<ComponentPage
-	title="End of List"
-	description="When hasMore is false, the sentinel is removed and the endMessage is shown."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoEnd />
@@ -197,9 +261,7 @@ setLoading(false);
 
 ### With React Query
 
-<ComponentPage
-	title="React Query Integration"
-	description="InfiniteScroll pairs naturally with React Query's useInfiniteQuery hook."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<DemoBasic />
@@ -281,5 +343,3 @@ getNextPageParam: (lastPage) => lastPage.nextCursor,
 | `--muted-foreground` | Loading text, end message    |
 | `--border`           | Default loading spinner ring |
 | `--primary`          | Loading spinner accent       |
-
-</ComponentPage>

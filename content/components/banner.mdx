@@ -9,10 +9,14 @@ import {
   Button,
 } from "@work-rjkashyap/unified-ui";
 import { Megaphone, AlertTriangle, Zap } from "lucide-react";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Banner"
-  description="A full-width announcement banner for system notices, promotions, and alerts. Supports 6 color variants, top/bottom/inline positioning, dismissible mode, and slide animations."
+## Basic
+
+A full-width announcement banner for system notices, promotions, and alerts. Supports 6 color variants, top/bottom/inline positioning, dismissible mode, and slide animations.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 w-full">
       <Banner variant="default" dismissible>
@@ -37,14 +41,90 @@ import { Megaphone, AlertTriangle, Zap } from "lucide-react";
 <Banner variant="warning" dismissible>
   Your trial expires in 3 days. Upgrade to keep your data.
 </Banner>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add banner
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add banner
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add banner
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add banner
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Banner } from "@work-rjkashyap/unified-ui";
-// or
-import { Banner } from "@work-rjkashyap/unified-ui/components";
+import {
+	Banner,
+	Button,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -61,9 +141,7 @@ Render a simple inline banner by wrapping your message in `<Banner>`. It manages
 
 Six semantic color variants for different message types and urgency levels.
 
-<ComponentPage
-  title="Variants"
-  description="Six color variants from neutral to danger for different announcement contexts."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-2 w-full">
       <Banner variant="default">Default — neutral announcement or promotion.</Banner>
@@ -95,9 +173,7 @@ Six semantic color variants for different message types and urgency levels.
 
 Set `dismissible` to show a close button. The banner animates out on dismiss.
 
-<ComponentPage
-  title="Dismissible"
-  description="A close button appears in the trailing edge. The banner slides out on click."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-2 w-full">
       <Banner variant="info" dismissible>
@@ -121,9 +197,7 @@ Set `dismissible` to show a close button. The banner animates out on dismiss.
 
 Use the `icon` prop to render a leading icon before the message content.
 
-<ComponentPage
-  title="With Icon"
-  description="A leading icon slot for reinforcing the banner's semantic meaning."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-2 w-full">
       <Banner
@@ -165,9 +239,7 @@ Use the `icon` prop to render a leading icon before the message content.
 
 Pass an `action` prop to render a button or link in the trailing area (before the dismiss button).
 
-<ComponentPage
-  title="With Action"
-  description="Render a CTA button in the trailing area for immediate user action."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-2 w-full">
       <Banner
@@ -404,5 +476,3 @@ Standard HTML `div` attributes (`id`, `style`, `role`, `aria-label`, `aria-live`
 | `--danger`              | Danger variant background              |
 | `--z-banner`            | Z-index for sticky top/bottom banners  |
 | `--duration-fast`       | Dismiss button transition speed        |
-
-</ComponentPage>

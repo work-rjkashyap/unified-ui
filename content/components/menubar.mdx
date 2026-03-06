@@ -22,6 +22,7 @@ import {
 	MenubarShortcut,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -29,7 +30,81 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add menubar
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add menubar
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add menubar
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add menubar
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -51,15 +126,11 @@ import {
 } from "@work-rjkashyap/unified-ui";
 ```
 
----
-
 ## Examples
 
 ### Basic
 
-<ComponentPage
-	title="Basic Menubar"
-	description="A minimal menubar with File and Edit menus and keyboard shortcuts."
+<PreviewCard
 	preview={
 		<Menubar>
 			<MenubarMenu>
@@ -164,9 +235,7 @@ import {
 
 ### With Submenus
 
-<ComponentPage
-	title="Submenus"
-	description="Use MenubarSub, MenubarSubTrigger, and MenubarSubContent to nest menus."
+<PreviewCard
 	preview={
 		<Menubar>
 			<MenubarMenu>
@@ -219,9 +288,7 @@ import {
 
 ### Checkbox and Radio Items
 
-<ComponentPage
-	title="Checkbox and Radio Items"
-	description="Track toggleable settings and exclusive selections within a menu."
+<PreviewCard
 	preview={
 		<MenubarCheckboxRadioPreview />
 	}

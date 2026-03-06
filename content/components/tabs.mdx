@@ -11,10 +11,13 @@ import {
 	TabsContent,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab as FumaTab, Tabs as FumaTabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-  title="Tabs"
-  description="A tabbed navigation component for switching between content panels. Built on Radix UI with an animated active indicator powered by Framer Motion."
+## Basic
+
+A tabbed navigation component for switching between content panels. Built on Radix UI with an animated active indicator powered by Framer Motion.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-md">
       <Tabs defaultValue="account">
@@ -57,9 +60,86 @@ import { Callout } from "fumadocs-ui/components/callout";
     <p>Configure your notification preferences.</p>
   </TabsContent>
 </Tabs>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<FumaTabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<FumaTab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add tabs
+```
+
+</FumaTab>
+<FumaTab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add tabs
+```
+
+</FumaTab>
+<FumaTab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add tabs
+```
+
+</FumaTab>
+<FumaTab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add tabs
+```
+
+</FumaTab>
+</FumaTabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx
+	@work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for
+	details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<FumaTabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<FumaTab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</FumaTab>
+<FumaTab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</FumaTab>
+<FumaTab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</FumaTab>
+<FumaTab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</FumaTab>
+</FumaTabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -68,22 +148,13 @@ import {
 	TabsTrigger,
 	TabsContent,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Tabs,
-	TabsList,
-	TabsTrigger,
-	TabsContent,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
 
 The `Tabs` component wraps Radix UI's Tabs primitive with design system tokens and an animated active indicator powered by Framer Motion's `layoutId`.
 
-<ComponentPage
-	title="Basic Tabs"
-	description="A simple tabbed interface with two panels."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<Tabs defaultValue="tab1">
@@ -122,9 +193,7 @@ Three visual variants are available to suit different UI contexts.
 
 The standard tab style with a bottom border indicator. Best for top-level page navigation.
 
-<ComponentPage
-	title="Underline Variant"
-	description="The standard tab style with a bottom border indicator. Best for top-level page navigation."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<Tabs variant="underline" defaultValue="tab1">
@@ -167,9 +236,7 @@ The standard tab style with a bottom border indicator. Best for top-level page n
 
 Rounded pill-shaped buttons for the active tab. Great for filtering or secondary navigation.
 
-<ComponentPage
-	title="Pills Variant"
-	description="Rounded pill-shaped buttons for the active tab. Great for filtering or secondary navigation."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<Tabs variant="pills" defaultValue="all">
@@ -212,9 +279,7 @@ Rounded pill-shaped buttons for the active tab. Great for filtering or secondary
 
 Tabs enclosed in a container with a background highlight on the active tab. Works well in card headers and toolbars.
 
-<ComponentPage
-	title="Enclosed Variant"
-	description="Tabs enclosed in a container with a background highlight on the active tab. Works well in card headers and toolbars."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<Tabs variant="enclosed" defaultValue="code">
@@ -257,9 +322,7 @@ Tabs enclosed in a container with a background highlight on the active tab. Work
 
 Two sizes are available for different density requirements.
 
-<ComponentPage
-	title="Tab Sizes"
-	description="Two sizes for different density requirements: sm and md (default)."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-md">
 			<div>
@@ -317,9 +380,7 @@ Two sizes are available for different density requirements.
 
 Set `orientation="vertical"` for a sidebar-style layout where the tab list sits on the left and content on the right.
 
-<ComponentPage
-	title="Vertical Orientation"
-	description="A sidebar-style layout where the tab list sits on the left and content on the right."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Tabs orientation="vertical" defaultValue="general">
@@ -370,9 +431,7 @@ Set `orientation="vertical"` for a sidebar-style layout where the tab list sits 
 
 Set `fullWidth` on the `TabsList` to stretch tabs evenly across the available width.
 
-<ComponentPage
-	title="Full Width"
-	description="Stretch tabs evenly across the available width using the fullWidth prop on TabsList."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<Tabs defaultValue="tab1">
@@ -415,9 +474,7 @@ Set `fullWidth` on the `TabsList` to stretch tabs evenly across the available wi
 
 Individual tabs can be disabled while others remain interactive.
 
-<ComponentPage
-	title="Disabled Tabs"
-	description="Individual tabs can be disabled while others remain interactive."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<Tabs defaultValue="tab1">
@@ -536,13 +593,11 @@ The active tab indicator uses Framer Motion's `layoutId` for smooth animated tra
 
 ## Design Tokens
 
-| Token                         | Usage                                    |
-| ----------------------------- | ---------------------------------------- |
+| Token                | Usage                                    |
+| -------------------- | ---------------------------------------- |
 | `--primary`          | Active tab indicator / highlight         |
 | `--muted`            | Inactive tab background (enclosed/pills) |
 | `--foreground`       | Active tab text color                    |
 | `--muted-foreground` | Inactive tab text color                  |
-| `--radius-md`              | Tab trigger border radius                |
-| `--duration-fast`          | Transition speed for hover/focus states  |
-
-</ComponentPage>
+| `--radius-md`        | Tab trigger border radius                |
+| `--duration-fast`    | Transition speed for hover/focus states  |

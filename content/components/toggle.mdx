@@ -20,6 +20,7 @@ import {
 	Heart,
 } from "lucide-react";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -27,23 +28,91 @@ The `Toggle` component is a pressable on/off button for binary toggleable action
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { Toggle } from "@work-rjkashyap/unified-ui/components";
-// or
-import { Toggle } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add toggle
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add toggle
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add toggle
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add toggle
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import { Toggle } from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Toggle"
-	description="Icon-only toggles for toolbar-style actions. Always provide aria-label for accessibility."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center flex-wrap">
 			<Toggle aria-label="Toggle bold">
@@ -72,9 +141,7 @@ import { Toggle } from "@work-rjkashyap/unified-ui";
 
 ### Variants
 
-<ComponentPage
-	title="Toggle Variants"
-	description="Three visual variants for different levels of prominence."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-center w-full">
 			<div className="flex gap-3 items-center flex-wrap justify-center">
@@ -113,9 +180,7 @@ import { Toggle } from "@work-rjkashyap/unified-ui";
 
 ### Sizes
 
-<ComponentPage
-	title="Toggle Sizes"
-	description="Three sizes designed to match the Button and Input height scale."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-center w-full">
 			<div className="flex gap-3 items-end flex-wrap justify-center">
@@ -170,9 +235,7 @@ import { Toggle } from "@work-rjkashyap/unified-ui";
 
 ### With Text Labels
 
-<ComponentPage
-	title="Text Labels"
-	description="Toggles can include text alongside or instead of icons."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center flex-wrap justify-center">
 			<Toggle variant="outline">
@@ -205,9 +268,7 @@ import { Toggle } from "@work-rjkashyap/unified-ui";
 
 ### With Icon Props
 
-<ComponentPage
-	title="Icon Props"
-	description="Use iconLeft and iconRight props for explicit icon placement."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center flex-wrap justify-center">
 			<Toggle variant="outline" iconLeft={<Volume2 className="size-4" />}>
@@ -228,9 +289,7 @@ import { Toggle } from "@work-rjkashyap/unified-ui";
 
 ### Default Pressed
 
-<ComponentPage
-	title="Default Pressed"
-	description="Use defaultPressed for uncontrolled toggles that start in the pressed state."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center flex-wrap justify-center">
 			<Toggle variant="outline" defaultPressed aria-label="Bookmarked">
@@ -254,9 +313,7 @@ import { Toggle } from "@work-rjkashyap/unified-ui";
 
 ### Disabled State
 
-<ComponentPage
-	title="Disabled Toggle"
-	description="Disabled toggles have reduced opacity and no pointer events."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center flex-wrap justify-center">
 			<Toggle variant="default" disabled aria-label="Disabled default">

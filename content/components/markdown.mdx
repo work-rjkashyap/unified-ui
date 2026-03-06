@@ -6,10 +6,13 @@ icon: FileText
 
 import { Markdown, Badge } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Markdown"
-	description="Renders markdown strings into styled HTML with design system prose styling. Supports headings, bold, italic, inline code, code blocks, links, lists, blockquotes, horizontal rules, and images — all without external markdown libraries."
+## Basic
+
+Renders markdown strings into styled HTML with design system prose styling. Supports headings, bold, italic, inline code, code blocks, links, lists, blockquotes, horizontal rules, and images — all without external markdown libraries.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Markdown
@@ -50,32 +53,98 @@ import { Callout } from "fumadocs-ui/components/callout";
 		"\\`\\`\\`",
 		"`} />",
 	].join("\n")}
->
 
-<Callout type="info">
-	For full MDX rendering with custom components, use Fumadocs or a dedicated
-	MDX processor. This component is designed for simple markdown-to-HTML
-	display use cases like rendering user-authored content, API descriptions, or
-	chat messages.
-</Callout>
+/>
 
-## Import
+## Installation
 
-```tsx
-import { Markdown } from "@work-rjkashyap/unified-ui";
-// or
-import { Markdown } from "@work-rjkashyap/unified-ui/components";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add markdown
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add markdown
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add markdown
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add markdown
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	Markdown,
+	Badge,
+	Button,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Headings
 
-<ComponentPage
-	title="Headings"
-	description="Supports all six heading levels with appropriate sizing and spacing from design tokens."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Markdown
@@ -104,9 +173,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Inline Formatting
 
-<ComponentPage
-	title="Inline Formatting"
-	description="Bold, italic, strikethrough, inline code, and links are all supported inline."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Markdown
@@ -141,9 +208,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Lists
 
-<ComponentPage
-	title="Lists"
-	description="Both unordered (bullet) and ordered (numbered) lists with proper indentation and spacing."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Markdown
@@ -182,9 +247,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Blockquotes
 
-<ComponentPage
-	title="Blockquotes"
-	description="Styled blockquotes with a left border accent, ideal for callouts and citations."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Markdown
@@ -207,9 +270,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Code Blocks
 
-<ComponentPage
-	title="Code Blocks"
-	description="Fenced code blocks with monospace font, rounded container, and muted background."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Markdown
@@ -256,9 +317,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Horizontal Rules
 
-<ComponentPage
-	title="Horizontal Rules"
-	description="Use three or more dashes, asterisks, or underscores to create a horizontal divider."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Markdown
@@ -293,9 +352,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Size Variants
 
-<ComponentPage
-	title="Size Variants"
-	description="Three text size variants — sm, base (default), and lg — for different content density needs."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-lg">
 			<div>
@@ -334,9 +391,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Fluid Width
 
-<ComponentPage
-	title="Fluid Width"
-	description="By default, Markdown is constrained to max-w-prose (~65ch). Set fluid to remove this constraint and fill the container."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full">
 			<div className="border border-border rounded-md p-4">
@@ -367,9 +422,7 @@ import { Markdown } from "@work-rjkashyap/unified-ui/components";
 
 ### Rich Document
 
-<ComponentPage
-	title="Rich Document"
-	description="A complete document showcasing all supported markdown features combined."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg border border-border rounded-lg p-4">
 			<Markdown
@@ -519,5 +572,3 @@ By default, all HTML tags in the markdown input are escaped to prevent XSS attac
 | `--primary-hover`    | Link hover color                      |
 | `--border`           | Blockquote border, horizontal rules   |
 | `--radius-lg`        | Code block border radius              |
-
-</ComponentPage>

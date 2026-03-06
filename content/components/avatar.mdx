@@ -5,10 +5,14 @@ icon: User
 ---
 
 import { Avatar, AvatarGroup } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Avatar"
-  description="A user identity component for displaying profile images, initials, or icon fallbacks. Supports status indicators, 5 sizes, 2 shapes, and group stacking."
+## Basic
+
+A user identity component for displaying profile images, initials, or icon fallbacks. Supports status indicators, 5 sizes, 2 shapes, and group stacking.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-6 items-center w-full">
       <div className="flex gap-3 items-center justify-center">
@@ -36,14 +40,90 @@ import { Avatar, AvatarGroup } from "@work-rjkashyap/unified-ui";
 <Avatar name="Bob Smith" status="busy" />
 <Avatar name="Charlie Davis" status="away" />
 <Avatar name="Diana Evans" status="offline" />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add avatar
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add avatar
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add avatar
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add avatar
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Avatar, AvatarGroup } from "@work-rjkashyap/unified-ui";
-// or
-import { Avatar, AvatarGroup } from "@work-rjkashyap/unified-ui/components";
+import {
+	Avatar,
+	AvatarGroup,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -65,9 +145,7 @@ The Avatar component displays a user image. When no `src` is provided (or the im
 
 Five sizes are available ranging from extra small (24px) to extra large (64px).
 
-<ComponentPage
-	title="Avatar Sizes"
-	description="Five sizes ranging from extra small (24px) to extra large (64px)."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-end justify-center">
 			<Avatar name="XS" size="xs" />
@@ -96,9 +174,7 @@ Five sizes are available ranging from extra small (24px) to extra large (64px).
 
 Two shapes are supported: `circle` (default) and `square`.
 
-<ComponentPage
-	title="Avatar Shapes"
-	description="Two shapes: circle (default) and square with rounded corners."
+<PreviewCard
 	preview={
 		<div className="flex gap-4 items-center justify-center">
 			<Avatar name="Circle" shape="circle" size="lg" />
@@ -113,9 +189,7 @@ Two shapes are supported: `circle` (default) and `square`.
 
 When no `src` is provided (or the image fails to load), the component automatically generates initials from the `name` prop. It takes the first letter of the first and last words.
 
-<ComponentPage
-	title="Initials Fallback"
-	description="Automatic initials generated from the name prop when no image is available."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<Avatar name="Jane Doe" size="lg" />
@@ -132,9 +206,7 @@ When no `src` is provided (or the image fails to load), the component automatica
 
 Add a `status` prop to display a small colored dot indicating the user's availability.
 
-<ComponentPage
-	title="Status Indicator"
-	description="Colored status dots indicating user availability: online, busy, away, or offline."
+<PreviewCard
 	preview={
 		<div className="flex gap-4 items-center justify-center">
 			<Avatar name="Online" status="online" size="lg" />
@@ -160,9 +232,7 @@ Add a `status` prop to display a small colored dot indicating the user's availab
 
 Use `AvatarGroup` to stack multiple avatars with a configurable overlap. When the number of avatars exceeds the `max` prop, a "+N" overflow indicator is shown.
 
-<ComponentPage
-	title="Avatar Group"
-	description="Stack multiple avatars with overlap and a +N overflow indicator when exceeding the max count."
+<PreviewCard
 	preview={
 		<div className="flex justify-center">
 			<AvatarGroup max={3}>
@@ -186,9 +256,7 @@ Use `AvatarGroup` to stack multiple avatars with a configurable overlap. When th
 
 ### Group with Images
 
-<ComponentPage
-	title="Group with Images"
-	description="Avatar group using image sources. When images fail to load, initials or the default icon are shown as fallback."
+<PreviewCard
 	preview={
 		<div className="flex justify-center">
 			<AvatarGroup max={4}>
@@ -215,9 +283,7 @@ Use `AvatarGroup` to stack multiple avatars with a configurable overlap. When th
 
 When a `src` is provided but the image fails to load, the Avatar gracefully falls back to initials (if `name` is set) or the default icon.
 
-<ComponentPage
-	title="Image Error Handling"
-	description="Graceful fallback when image sources fail to load. Shows initials from the name prop, or a default user icon."
+<PreviewCard
 	preview={
 		<div className="flex gap-4 items-center justify-center">
 			<Avatar src="/broken-link.jpg" name="Jane Doe" size="lg" />
@@ -236,9 +302,7 @@ When a `src` is provided but the image fails to load, the Avatar gracefully fall
 
 Always provide descriptive alt text for images via the `alt` prop, or use the `name` prop which doubles as accessible text.
 
-<ComponentPage
-	title="With Alt Text"
-	description="Always provide descriptive alt text via the alt prop, or use the name prop which doubles as accessible text."
+<PreviewCard
 	preview={
 		<div className="flex gap-4 items-center justify-center">
 			<Avatar name="Jane Doe" size="lg" />
@@ -293,5 +357,3 @@ Always provide descriptive alt text for images via the `alt` prop, or use the `n
 | `--warning` | Away status indicator             |
 | `--radius-full`   | Circle shape                      |
 | `--radius-md`     | Square shape border radius        |
-
-</ComponentPage>

@@ -9,14 +9,16 @@ import {
   Button,
 } from "@work-rjkashyap/unified-ui";
 import { FolderOpen, Search, Users, FileText, ShoppingCart, Bell } from "lucide-react";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Empty State"
-  description="A composable placeholder for empty lists, search results, tables, and views. Features animated icon, title, description, and a flexible action slot."
+## Basic
+
+A composable placeholder for empty lists, search results, tables, and views. Features animated icon, title, description, and a flexible action slot.
+
+<PreviewCard
   preview={
     <EmptyState
-      title="No components yet"
-      description="Get started by adding your first component to the design system."
       action={
         <Button variant="primary" size="sm">
           Add Component
@@ -25,22 +27,96 @@ import { FolderOpen, Search, Users, FileText, ShoppingCart, Bell } from "lucide-
     />
   }
   code={`<EmptyState
-  title="No components yet"
-  description="Get started by adding your first component to the design system."
   action={
     <Button variant="primary" size="sm">
       Add Component
     </Button>
   }
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add empty-state
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add empty-state
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add empty-state
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add empty-state
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { EmptyState } from "@work-rjkashyap/unified-ui";
-// or
-import { EmptyState } from "@work-rjkashyap/unified-ui/components";
+import {
+	EmptyState,
+	Button,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -58,13 +134,9 @@ The simplest empty state with just a title and description.
 
 Add a `action` prop to render a call-to-action below the description.
 
-<ComponentPage
-  title="With Action"
-  description="Render a CTA button or link below the description to guide the user."
+<PreviewCard
   preview={
     <EmptyState
-      title="No projects found"
-      description="You haven't created any projects yet. Start building something great."
       action={
         <div className="flex gap-2">
           <Button variant="primary" size="sm">New Project</Button>
@@ -74,8 +146,6 @@ Add a `action` prop to render a call-to-action below the description.
     />
   }
   code={`<EmptyState
-  title="No projects found"
-  description="You haven't created any projects yet. Start building something great."
   action={
     <div className="flex gap-2">
       <Button variant="primary" size="sm">New Project</Button>
@@ -89,20 +159,14 @@ Add a `action` prop to render a call-to-action below the description.
 
 Replace the default inbox icon with any `ReactNode` via the `icon` prop.
 
-<ComponentPage
-  title="Custom Icon"
-  description="Swap the default icon for any Lucide icon or custom element."
+<PreviewCard
   preview={
     <div className="grid grid-cols-2 gap-6">
       <EmptyState
         icon={<Search className="size-8" />}
-        title="No results"
-        description="Try adjusting your search or filters."
       />
       <EmptyState
         icon={<Users className="size-8" />}
-        title="No team members"
-        description="Invite people to collaborate on your project."
         action={<Button variant="primary" size="sm">Invite Members</Button>}
       />
     </div>
@@ -111,14 +175,10 @@ Replace the default inbox icon with any `ReactNode` via the `icon` prop.
 
 <EmptyState
   icon={<Search className="size-8" />}
-  title="No results"
-  description="Try adjusting your search or filters."
 />
 
 <EmptyState
   icon={<Users className="size-8" />}
-  title="No team members"
-  description="Invite people to collaborate on your project."
   action={<Button variant="primary" size="sm">Invite Members</Button>}
 />`}
 />
@@ -127,27 +187,19 @@ Replace the default inbox icon with any `ReactNode` via the `icon` prop.
 
 Use different icons and copy to match the specific empty context.
 
-<ComponentPage
-  title="Contextual Examples"
-  description="Tailor the icon, title, and description to the specific empty context."
+<PreviewCard
   preview={
     <div className="grid grid-cols-3 gap-4">
       <EmptyState
         icon={<FolderOpen className="size-7" />}
-        title="No files"
-        description="Upload a file to get started."
         action={<Button variant="secondary" size="sm">Upload</Button>}
       />
       <EmptyState
         icon={<ShoppingCart className="size-7" />}
-        title="Cart is empty"
-        description="Add items to your cart to see them here."
         action={<Button variant="secondary" size="sm">Browse</Button>}
       />
       <EmptyState
         icon={<Bell className="size-7" />}
-        title="All caught up"
-        description="No new notifications at this time."
       />
     </div>
   }
@@ -156,24 +208,18 @@ Use different icons and copy to match the specific empty context.
 {/* Files */}
 <EmptyState
   icon={<FolderOpen className="size-7" />}
-  title="No files"
-  description="Upload a file to get started."
   action={<Button variant="secondary" size="sm">Upload</Button>}
 />
 
 {/* Cart */}
 <EmptyState
   icon={<ShoppingCart className="size-7" />}
-  title="Cart is empty"
-  description="Add items to your cart to see them here."
   action={<Button variant="secondary" size="sm">Browse</Button>}
 />
 
 {/* Notifications */}
 <EmptyState
   icon={<Bell className="size-7" />}
-  title="All caught up"
-  description="No new notifications at this time."
 />`}
 />
 
@@ -181,21 +227,15 @@ Use different icons and copy to match the specific empty context.
 
 Pass `icon={null}` to render the empty state without any icon — useful for compact in-table or inline contexts.
 
-<ComponentPage
-  title="No Icon"
-  description="Pass icon={null} to hide the icon for compact empty states."
+<PreviewCard
   preview={
     <EmptyState
       icon={null}
-      title="No results match your filters"
-      description="Try removing some filters or broadening your search terms."
       action={<Button variant="ghost" size="sm">Clear Filters</Button>}
     />
   }
   code={`<EmptyState
   icon={null}
-  title="No results match your filters"
-  description="Try removing some filters or broadening your search terms."
   action={<Button variant="ghost" size="sm">Clear Filters</Button>}
 />`}
 />
@@ -341,5 +381,3 @@ Set `animated={false}` to disable entrance animations — useful when rendering 
 | `--muted-fg`     | Icon container foreground color       |
 | `--radius-full`  | Icon container border radius          |
 | `--duration-fast`| Transition speed for child animations |
-
-</ComponentPage>

@@ -368,7 +368,13 @@ declare const calloutVariants: (props?: ({
     variant?: "info" | "success" | "warning" | "danger" | "default" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 
-declare const AlertDialog: react.FC<AlertDialog$1.AlertDialogProps>;
+interface AlertDialogProps extends React.ComponentPropsWithoutRef<typeof AlertDialog$1.Root> {
+    children: ReactNode;
+}
+declare function AlertDialog({ children, open: controlledOpen, onOpenChange, defaultOpen, ...rest }: AlertDialogProps): react_jsx_runtime.JSX.Element;
+declare namespace AlertDialog {
+    var displayName: string;
+}
 declare const AlertDialogTrigger: react.ForwardRefExoticComponent<AlertDialog$1.AlertDialogTriggerProps & react.RefAttributes<HTMLButtonElement>>;
 declare const AlertDialogPortal: react.FC<AlertDialog$1.AlertDialogPortalProps>;
 interface AlertDialogOverlayProps extends ComponentPropsWithoutRef<typeof AlertDialog$1.Overlay> {
@@ -3074,7 +3080,7 @@ interface DialogDescriptionProps extends ComponentPropsWithoutRef<typeof Dialog$
 interface DialogCloseProps extends ComponentPropsWithoutRef<typeof Dialog$1.Close> {
     className?: string;
 }
-declare function Dialog({ children, ...rest }: DialogProps): react_jsx_runtime.JSX.Element;
+declare function Dialog({ children, open: controlledOpen, onOpenChange, defaultOpen, ...rest }: DialogProps): react_jsx_runtime.JSX.Element;
 declare namespace Dialog {
     var displayName: string;
 }
@@ -4802,7 +4808,7 @@ interface SheetCloseProps extends ComponentPropsWithoutRef<typeof Dialog$1.Close
  * </Sheet>
  * ```
  */
-declare function Sheet({ children, ...rest }: SheetProps): react_jsx_runtime.JSX.Element;
+declare function Sheet({ children, open: controlledOpen, onOpenChange, defaultOpen, ...rest }: SheetProps): react_jsx_runtime.JSX.Element;
 declare namespace Sheet {
     var displayName: string;
 }

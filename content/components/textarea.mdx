@@ -6,6 +6,7 @@ icon: NotepadText
 
 import { Textarea } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,23 +14,91 @@ The `Textarea` component is a production-ready multi-line text input. It support
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add textarea
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add textarea
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add textarea
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add textarea
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { Textarea } from "@work-rjkashyap/unified-ui";
-// or
-import { Textarea } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Variants
 
-<ComponentPage
-	title="Textarea Variants"
-	description="Three visual variants to indicate validation state, matching the Input component's API."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Textarea variant="default" placeholder="Default" />
@@ -47,9 +116,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### Sizes
 
-<ComponentPage
-	title="Textarea Sizes"
-	description="Three sizes to match the Input and Button scale for consistent form layouts."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Textarea size="sm" placeholder="Small" />
@@ -70,9 +137,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### Auto Resize
 
-<ComponentPage
-	title="Auto Resize"
-	description="Set autoResize to make the textarea grow with its content. Optionally cap with maxHeight."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Textarea autoResize placeholder="Grows indefinitely — start typing..." />
@@ -89,9 +154,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### Character Count
 
-<ComponentPage
-	title="Character Count"
-	description="Use showCount with maxLength to display a character counter below the textarea."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Textarea
@@ -112,9 +175,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### States
 
-<ComponentPage
-	title="States"
-	description="Enabled, disabled, and read-only states."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Textarea placeholder="Enabled" />
@@ -132,9 +193,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### Custom Rows
 
-<ComponentPage
-	title="Custom Rows"
-	description="Control the initial visible height with the standard rows attribute."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Textarea rows={2} placeholder="2 rows" />
@@ -149,9 +208,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### With Error Message
 
-<ComponentPage
-	title="Error Message"
-	description="Pair the error variant with aria-describedby for accessible validation feedback."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
@@ -187,9 +244,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### With Success Message
 
-<ComponentPage
-	title="Success Message"
-	description="Pair the success variant with helper text for positive validation feedback."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
@@ -228,9 +283,7 @@ import { Textarea } from "@work-rjkashyap/unified-ui/components";
 
 ### Combined Features
 
-<ComponentPage
-	title="Combined Features"
-	description="All features can be composed together for real-world form layouts."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-sm">
 			<div className="flex flex-col gap-1.5">

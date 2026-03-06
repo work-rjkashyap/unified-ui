@@ -697,6 +697,40 @@
   font-size: inherit;
 }
 
+/* ---------------------------------------------------------------------------
+   Layer 5d: DataList Inner Element Resets
+   ---------------------------------------------------------------------------
+   Strip inherited prose/typography styles (e.g. from Tailwind Typography or
+   Fumadocs) from <dd> elements inside DataList. Without this, the `.prose dd`
+   selector applies `padding-inline-start: 1.625em` which causes the detail
+   value to appear indented relative to the term label in vertical orientation.
+   --------------------------------------------------------------------------- */
+
+[data-ds-component="data-list"] dd {
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 5e: VirtualList Inner Element Resets
+   ---------------------------------------------------------------------------
+   Strip inherited prose/typography styles (e.g. from Tailwind Typography or
+   Fumadocs) from elements inside VirtualList rows. Without this, `.prose p`
+   and `.prose span` selectors apply margins and inflated line-heights that
+   break the fixed-height row layout — pushing content apart and misaligning
+   avatars, text, and trailing badges.
+   --------------------------------------------------------------------------- */
+
+[data-ds-component="virtual-list"] p,
+[data-ds-component="virtual-list"] span {
+  margin: 0;
+  padding: 0;
+}
+
+[data-ds-component="virtual-list"] [role="listitem"] {
+  line-height: 1.25;
+}
+
 /* Consistent focus behavior for all interactive DS elements —
    subtle border-color shift only, no ring or outline */
 [data-ds] :focus-visible {

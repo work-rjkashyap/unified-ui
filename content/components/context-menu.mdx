@@ -21,6 +21,7 @@ import {
 	ContextMenuShortcut,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -28,7 +29,81 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add context-menu
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add context-menu
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add context-menu
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add context-menu
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -49,15 +124,11 @@ import {
 } from "@work-rjkashyap/unified-ui";
 ```
 
----
-
 ## Examples
 
 ### Basic
 
-<ComponentPage
-	title="Basic Context Menu"
-	description="Right-click the dashed area to open the context menu."
+<PreviewCard
 	preview={
 		<ContextMenu>
 			<ContextMenuTrigger>
@@ -98,9 +169,7 @@ import {
 
 ### With Labels and Groups
 
-<ComponentPage
-	title="Labels and Groups"
-	description="Use ContextMenuLabel and ContextMenuGroup to organize items into sections."
+<PreviewCard
 	preview={
 		<ContextMenu>
 			<ContextMenuTrigger>
@@ -173,9 +242,7 @@ import {
 
 ### With Submenu
 
-<ComponentPage
-	title="Submenu"
-	description="Nest menus using ContextMenuSub, ContextMenuSubTrigger, and ContextMenuSubContent."
+<PreviewCard
 	preview={
 		<ContextMenu>
 			<ContextMenuTrigger>
@@ -228,9 +295,7 @@ import {
 
 ### Checkbox Items
 
-<ComponentPage
-	title="Checkbox Items"
-	description="Use ContextMenuCheckboxItem for toggleable boolean options."
+<PreviewCard
 	preview={<ContextMenuCheckboxPreview />}
 	code={`const [showStatusBar, setShowStatusBar] = useState(true);
 const [showActivityBar, setShowActivityBar] = useState(false);
@@ -266,9 +331,7 @@ const [showPanel, setShowPanel] = useState(false);
 
 ### Radio Items
 
-<ComponentPage
-	title="Radio Items"
-	description="Use ContextMenuRadioGroup and ContextMenuRadioItem for exclusive selections."
+<PreviewCard
 	preview={<ContextMenuRadioPreview />}
 	code={`const [view, setView] = useState("list");
 
@@ -289,9 +352,7 @@ const [showPanel, setShowPanel] = useState(false);
 
 ### Danger Variant
 
-<ComponentPage
-	title="Danger Items"
-	description="Use variant='danger' to style destructive actions in red."
+<PreviewCard
 	preview={
 		<ContextMenu>
 			<ContextMenuTrigger>

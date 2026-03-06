@@ -17,10 +17,14 @@ import {
 	Button,
 	Input,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Dialog"
-  description="A production-ready modal dialog with focus trap, keyboard dismissal, and slot-based composition. Built on Radix UI for full accessibility."
+## Basic
+
+A production-ready modal dialog with focus trap, keyboard dismissal, and slot-based composition. Built on Radix UI for full accessibility.
+
+<PreviewCard
   preview={
     <div className="flex gap-3 items-center justify-center">
       <Dialog>
@@ -77,9 +81,84 @@ import {
     </DialogFooter>
   </DialogContent>
 </Dialog>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add dialog
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add dialog
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add dialog
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add dialog
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -92,19 +171,9 @@ import {
 	DialogTitle,
 	DialogDescription,
 	DialogClose,
+	Button,
+	Input,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Dialog,
-	DialogTrigger,
-	DialogContent,
-	DialogHeader,
-	DialogBody,
-	DialogFooter,
-	DialogTitle,
-	DialogDescription,
-	DialogClose,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -137,9 +206,7 @@ The Dialog uses a trigger-based pattern. Wrap a button in `DialogTrigger` and th
 
 The Dialog supports four size presets that control the max-width of the content panel.
 
-<ComponentPage
-	title="Dialog Sizes"
-	description="Four size presets controlling the max-width of the dialog panel."
+<PreviewCard
 	preview={
 		<div className="flex flex-wrap gap-3 items-center justify-center">
 			<Dialog>
@@ -300,9 +367,7 @@ const [open, setOpen] = useState(false);
 
 A common pattern for destructive actions requiring user confirmation.
 
-<ComponentPage
-	title="Confirmation Pattern"
-	description="A common pattern for destructive actions requiring user confirmation before proceeding."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 items-center justify-center">
 			<Dialog>
@@ -492,5 +557,3 @@ Uses Radix UI's `DialogClose` API. Use `asChild` to render the close action as y
 | `--z-modal`              | Z-index for dialog content |
 | `--z-overlay`            | Z-index for backdrop       |
 | `--shadow-lg`            | Dialog panel shadow        |
-
-</ComponentPage>

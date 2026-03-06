@@ -6,6 +6,7 @@ icon: SquareCheck
 
 import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,23 +14,94 @@ The `Checkbox` component is an accessible checkbox built on Radix UI. It support
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui";
-// or
-import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add checkbox
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add checkbox
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add checkbox
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add checkbox
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	Checkbox,
+	CheckboxGroup,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Checkbox"
-	description="The simplest checkbox with a clickable label."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Checkbox label="Accept terms and conditions" />
@@ -44,9 +116,7 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 
 ### Sizes
 
-<ComponentPage
-	title="Checkbox Sizes"
-	description="Two sizes are available to match different density needs."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-xs">
 			<div className="flex flex-col gap-3">
@@ -71,46 +141,36 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 
 ### With Description
 
-<ComponentPage
-	title="With Description"
-	description="Add a description prop for additional context below the label."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			<Checkbox
 				label="Marketing emails"
-				description="Receive occasional updates about new features and promotions."
 			/>
 			<Checkbox
 				label="Security alerts"
-				description="Get notified about important security events on your account."
 				defaultChecked
 			/>
 			<Checkbox
 				label="Usage analytics"
-				description="Help us improve by sharing anonymous usage data."
 			/>
 		</div>
 	}
 	code={`<Checkbox
   label="Marketing emails"
-  description="Receive occasional updates about new features and promotions."
 />
 <Checkbox
   label="Security alerts"
-  description="Get notified about important security events on your account."
   defaultChecked
 />
 <Checkbox
   label="Usage analytics"
-  description="Help us improve by sharing anonymous usage data."
 />`}
 />
 
 ### Indeterminate State
 
-<ComponentPage
-	title="Indeterminate State"
-	description="The indeterminate state is useful for 'select all' patterns where only some children are checked."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Checkbox checked="indeterminate" label="Select all items" />
@@ -132,9 +192,7 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 
 ### Disabled State
 
-<ComponentPage
-	title="Disabled State"
-	description="Disabled checkboxes have reduced opacity and no pointer events."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Checkbox disabled label="Disabled unchecked" />
@@ -153,9 +211,7 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 
 ### Error State
 
-<ComponentPage
-	title="Error State"
-	description="Use the error prop to indicate validation failure. Pair with aria-describedby for accessible error messaging."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<Checkbox
@@ -183,9 +239,7 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 
 ### Checkbox Group — Vertical
 
-<ComponentPage
-	title="Checkbox Group (Vertical)"
-	description="Use CheckboxGroup to manage a collection of related checkboxes with a shared label."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<CheckboxGroup label="Notifications">
@@ -204,9 +258,7 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 
 ### Checkbox Group — Horizontal
 
-<ComponentPage
-	title="Checkbox Group (Horizontal)"
-	description="Set orientation to horizontal for inline layout."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<CheckboxGroup label="Interests" orientation="horizontal">
@@ -225,79 +277,64 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 
 ### Checkbox Group — With Description
 
-<ComponentPage
-	title="Group with Descriptions"
-	description="Groups can have a description, and each child checkbox can too."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<CheckboxGroup
 				label="Privacy settings"
-				description="Choose which data you want to share."
 			>
 				<Checkbox
 					value="analytics"
 					label="Analytics"
-					description="Help us improve with usage data"
 				/>
 				<Checkbox
 					value="crashes"
 					label="Crash reports"
-					description="Automatically send crash logs"
 				/>
 				<Checkbox
 					value="personalization"
 					label="Personalization"
-					description="Tailor the experience based on your usage"
 				/>
 			</CheckboxGroup>
 		</div>
 	}
 	code={`<CheckboxGroup
   label="Privacy settings"
-  description="Choose which data you want to share."
 >
   <Checkbox
     value="analytics"
     label="Analytics"
-    description="Help us improve with usage data"
   />
   <Checkbox
     value="crashes"
     label="Crash reports"
-    description="Automatically send crash logs"
   />
   <Checkbox
     value="personalization"
     label="Personalization"
-    description="Tailor the experience based on your usage"
   />
 </CheckboxGroup>`}
 />
 
 ### Combined Features
 
-<ComponentPage
-	title="Combined Features"
-	description="All features can be composed together for real-world form layouts."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
-			<CheckboxGroup label="Account preferences" description="Manage your account settings.">
+			<CheckboxGroup label="Account preferences">
 				<Checkbox
 					value="2fa"
 					label="Two-factor authentication"
-					description="Add an extra layer of security to your account."
 					defaultChecked
 				/>
 				<Checkbox
 					value="sessions"
 					label="Active sessions"
-					description="Get notified when a new device logs in."
 					defaultChecked
 				/>
 				<Checkbox
 					value="marketing"
 					label="Marketing communications"
-					description="Receive product updates and promotions."
 				/>
 			</CheckboxGroup>
 			<div className="flex flex-col gap-1.5">
@@ -312,23 +349,20 @@ import { Checkbox, CheckboxGroup } from "@work-rjkashyap/unified-ui/components";
 			</div>
 		</div>
 	}
-	code={`<CheckboxGroup label="Account preferences" description="Manage your account settings.">
+	code={`<CheckboxGroup label="Account preferences">
   <Checkbox
     value="2fa"
     label="Two-factor authentication"
-    description="Add an extra layer of security to your account."
     defaultChecked
   />
   <Checkbox
     value="sessions"
     label="Active sessions"
-    description="Get notified when a new device logs in."
     defaultChecked
   />
   <Checkbox
     value="marketing"
     label="Marketing communications"
-    description="Receive product updates and promotions."
   />
 </CheckboxGroup>
 

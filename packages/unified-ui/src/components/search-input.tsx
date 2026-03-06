@@ -14,6 +14,7 @@ import {
   type InputHTMLAttributes,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
 } from "react";
@@ -122,6 +123,21 @@ const iconSizeMap: Record<SearchInputSize, string> = {
   lg: "size-4",
 };
 
+// ---------------------------------------------------------------------------
+// Platform detection helper
+// ---------------------------------------------------------------------------
+
+function useIsMac() {
+  const [isMac, setIsMac] = useState(false);
+  useEffect(() => {
+    setIsMac(
+      typeof navigator !== "undefined" &&
+        /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent),
+    );
+  }, []);
+  return isMac;
+}
+
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput(
     {
@@ -143,9 +159,13 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref,
   ) {
     const shouldReduce = useReducedMotion();
+    const isMac = useIsMac();
     const [internalValue, setInternalValue] = useState(defaultValue);
     const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // Forward the internal ref to the consumer's ref
+    useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     const currentValue =
       controlledValue !== undefined ? controlledValue : internalValue;
@@ -172,10 +192,8 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       if (controlledValue === undefined) setInternalValue("");
       onChange?.("");
       onDebouncedChange?.("");
-      const inputEl =
-        (ref as React.RefObject<HTMLInputElement>)?.current ?? inputRef.current;
-      inputEl?.focus();
-    }, [controlledValue, onChange, onDebouncedChange, ref]);
+      inputRef.current?.focus();
+    }, [controlledValue, onChange, onDebouncedChange]);
 
     // Keyboard shortcut listener
     useEffect(() => {
@@ -186,15 +204,12 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           e.key.toLowerCase() === shortcut.toLowerCase()
         ) {
           e.preventDefault();
-          const inputEl =
-            (ref as React.RefObject<HTMLInputElement>)?.current ??
-            inputRef.current;
-          inputEl?.focus();
+          inputRef.current?.focus();
         }
       };
       window.addEventListener("keydown", handler);
       return () => window.removeEventListener("keydown", handler);
-    }, [shortcut, ref]);
+    }, [shortcut]);
 
     return (
       <div
@@ -214,7 +229,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
         {/* Input */}
         <input
-          ref={ref ?? inputRef}
+          ref={inputRef}
           type="search"
           value={currentValue}
           onChange={handleChange}
@@ -260,15 +275,19 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           {shortcut && !hasValue && (
             <kbd
               className={cn(
-                "hidden sm:inline-flex items-center gap-0.5 rounded border border-border",
-                "bg-muted text-muted-foreground font-mono font-medium",
+                "hidden sm:inline-flex items-center gap-0.5",
+                "rounded-md border border-border",
+                "bg-muted/80 text-muted-foreground",
+                "font-sans font-medium tracking-wide",
+                "shadow-[0_1px_0_1px_rgba(0,0,0,0.15)] dark:shadow-[0_1px_0_1px_rgba(255,255,255,0.06)]",
                 "pointer-events-none select-none",
                 size === "sm"
-                  ? "px-1 py-0.5 text-[9px]"
-                  : "px-1.5 py-0.5 text-[10px]",
+                  ? "h-5 min-w-5 px-1 text-[10px]"
+                  : "h-6 min-w-6 px-1.5 text-[11px]",
               )}
             >
-              {shortcut}
+              <span className="opacity-70">{isMac ? "⌘" : "Ctrl"}</span>
+              <span>{shortcut.toUpperCase()}</span>
             </kbd>
           )}
         </div>

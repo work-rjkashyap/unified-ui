@@ -17,7 +17,10 @@
 // All visual values come from CSS custom properties. NEVER hardcode values.
 // ============================================================================
 
+import { modalContent, overlayBackdrop } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
+import { Kbd } from "./kbd";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
@@ -102,11 +105,32 @@ function SearchIcon({ className }: { className?: string }) {
   );
 }
 
-function KbdHint({ keys }: { keys: string }) {
+/**
+ * ShortcutKeys — splits a compound shortcut string (e.g. "⌘K", "⇧⌘Q")
+ * into individual tokens and renders each as a `<Kbd>` component.
+ */
+function ShortcutKeys({ keys }: { keys: string }) {
+  const modifiers = new Set(["⌘", "⇧", "⌥", "⌃"]);
+  const tokens: string[] = [];
+  let rest = keys;
+  while (rest.length > 0) {
+    if (modifiers.has(rest[0])) {
+      tokens.push(rest[0]);
+      rest = rest.slice(1);
+    } else {
+      tokens.push(rest);
+      break;
+    }
+  }
+
   return (
-    <kbd className="inline-flex items-center gap-0.5 rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
-      {keys}
-    </kbd>
+    <span className="inline-flex items-center gap-0.5">
+      {tokens.map((token, i) => (
+        <Kbd key={i} size="sm">
+          {token}
+        </Kbd>
+      ))}
+    </span>
   );
 }
 
@@ -244,172 +268,202 @@ export function Command({
   // Track flat index across groups for keyboard nav
   let flatIndex = 0;
 
+  const shouldReduce = useReducedMotion();
+
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
-      <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay
-          className={cn(
-            "fixed inset-0 z-[var(--z-modal)] bg-black/50",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-          )}
-        />
-        <DialogPrimitive.Content
-          className={cn(
-            "fixed left-1/2 top-[20%] z-[var(--z-modal)]",
-            "w-full max-w-lg -translate-x-1/2",
-            "rounded-lg border border-border bg-background shadow-xl",
-            "overflow-hidden",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-4",
-            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-          )}
-          data-ds=""
-          data-ds-component="command"
-          aria-label="Command Palette"
-        >
-          {/* Visually hidden title satisfies Radix's DialogContent accessibility requirement */}
-          <DialogPrimitive.Title className="sr-only">
-            Command Palette
-          </DialogPrimitive.Title>
-          <DialogPrimitive.Description className="sr-only">
-            Search and run commands using the keyboard or mouse.
-          </DialogPrimitive.Description>
-          {/* Search input */}
-          <div className="flex items-center gap-2 border-b border-border px-3 py-2.5">
-            <SearchIcon className="shrink-0 text-muted-foreground" />
-            <input
-              ref={inputRef}
-              id={inputId}
-              type="text"
-              role="combobox"
-              aria-expanded={filteredGroups.length > 0}
-              aria-controls={listboxId}
-              aria-activedescendant={
-                flatItems[clampedIndex]
-                  ? `cmd-item-${flatItems[clampedIndex].id}`
-                  : undefined
-              }
-              aria-autocomplete="list"
-              autoComplete="off"
-              spellCheck={false}
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setActiveIndex(0);
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder={placeholder}
-              className={cn(
-                "flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground",
-              )}
-            />
-            <KbdHint keys="Esc" />
-          </div>
+      <DialogPrimitive.Portal forceMount>
+        <AnimatePresence>
+          {open && (
+            <>
+              <DialogPrimitive.Overlay forceMount asChild>
+                <motion.div
+                  className={cn(
+                    "fixed inset-0 z-[var(--z-modal)] bg-black/50",
+                  )}
+                  variants={shouldReduce ? undefined : overlayBackdrop.variants}
+                  initial={shouldReduce ? { opacity: 0 } : "initial"}
+                  animate={shouldReduce ? { opacity: 1 } : "animate"}
+                  exit={shouldReduce ? { opacity: 0 } : "exit"}
+                  transition={
+                    shouldReduce ? { duration: 0.15 } : overlayBackdrop.transition
+                  }
+                  data-ds-animated=""
+                />
+              </DialogPrimitive.Overlay>
+              <DialogPrimitive.Content forceMount asChild>
+                <motion.div
+                  className={cn(
+                    "fixed left-1/2 top-[20%] z-[var(--z-modal)]",
+                    "w-full max-w-lg -translate-x-1/2",
+                    "rounded-lg border border-border bg-background shadow-xl",
+                    "overflow-hidden",
+                  )}
+                  variants={shouldReduce ? undefined : modalContent.variants}
+                  initial={shouldReduce ? { opacity: 0 } : "initial"}
+                  animate={shouldReduce ? { opacity: 1 } : "animate"}
+                  exit={shouldReduce ? { opacity: 0 } : "exit"}
+                  transition={
+                    shouldReduce ? { duration: 0.2 } : modalContent.transition
+                  }
+                  data-ds=""
+                  data-ds-component="command"
+                  data-ds-animated=""
+                  aria-label="Command Palette"
+                >
+                  {/* Visually hidden title satisfies Radix's DialogContent accessibility requirement */}
+                  <DialogPrimitive.Title className="sr-only">
+                    Command Palette
+                  </DialogPrimitive.Title>
+                  <DialogPrimitive.Description className="sr-only">
+                    Search and run commands using the keyboard or mouse.
+                  </DialogPrimitive.Description>
 
-          {/* Results list */}
-          <div
-            ref={listRef}
-            id={listboxId}
-            role="listbox"
-            aria-label="Commands"
-            className="max-h-[320px] overflow-y-auto p-1"
-          >
-            {filteredGroups.length === 0 ? (
-              <p className="py-6 text-center text-sm text-muted-foreground">
-                {emptyText}
-              </p>
-            ) : (
-              filteredGroups.map((group, gi) => {
-                return (
-                  <div key={gi} role="group" aria-label={group.heading}>
-                    {group.heading && (
-                      <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                        {group.heading}
+                  {/* Search input */}
+                  <div className="flex items-center gap-2 border-b border-border px-3 py-2.5">
+                    <SearchIcon className="shrink-0 text-muted-foreground" />
+                    <input
+                      ref={inputRef}
+                      id={inputId}
+                      type="text"
+                      role="combobox"
+                      aria-expanded={filteredGroups.length > 0}
+                      aria-controls={listboxId}
+                      aria-activedescendant={
+                        flatItems[clampedIndex]
+                          ? `cmd-item-${flatItems[clampedIndex].id}`
+                          : undefined
+                      }
+                      aria-autocomplete="list"
+                      autoComplete="off"
+                      spellCheck={false}
+                      value={query}
+                      onChange={(e) => {
+                        setQuery(e.target.value);
+                        setActiveIndex(0);
+                      }}
+                      onKeyDown={handleKeyDown}
+                      placeholder={placeholder}
+                      className={cn(
+                        "flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground",
+                      )}
+                    />
+                    <ShortcutKeys keys="Esc" />
+                  </div>
+
+                  {/* Results list */}
+                  <div
+                    ref={listRef}
+                    id={listboxId}
+                    role="listbox"
+                    aria-label="Commands"
+                    className="max-h-[320px] overflow-y-auto p-1"
+                  >
+                    {filteredGroups.length === 0 ? (
+                      <p className="py-6 text-center text-sm text-muted-foreground">
+                        {emptyText}
                       </p>
-                    )}
-                    {group.items.map((item) => {
-                      // We need to check if item is disabled to skip counting it
-                      const isActive =
-                        !item.disabled && flatIndex === clampedIndex;
-                      if (!item.disabled) flatIndex++;
-
-                      return (
-                        <div
-                          key={item.id}
-                          id={`cmd-item-${item.id}`}
-                          role="option"
-                          aria-selected={isActive}
-                          aria-disabled={item.disabled}
-                          data-cmd-item=""
-                          data-active={isActive ? "true" : undefined}
-                          onMouseEnter={() => {
-                            if (!item.disabled) {
-                              const idx = flatItems.findIndex(
-                                (f) => f.id === item.id,
-                              );
-                              if (idx !== -1) setActiveIndex(idx);
-                            }
-                          }}
-                          onClick={() => {
-                            if (!item.disabled) {
-                              item.onSelect();
-                              onOpenChange(false);
-                            }
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault();
-                              if (!item.disabled) {
-                                item.onSelect();
-                                onOpenChange(false);
-                              }
-                            }
-                          }}
-                          className={cn(
-                            "flex cursor-pointer select-none items-center gap-2",
-                            "rounded-md px-2 py-2",
-                            "text-sm leading-5 outline-none",
-                            "transition-colors duration-fast ease-standard",
-                            isActive && "bg-muted text-foreground",
-                            item.disabled && "pointer-events-none opacity-50",
-                          )}
-                        >
-                          {item.icon && (
-                            <span className="flex size-4 shrink-0 items-center justify-center text-muted-foreground">
-                              {item.icon}
-                            </span>
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <p className="truncate font-medium">{item.label}</p>
-                            {item.description && (
-                              <p className="truncate text-xs text-muted-foreground">
-                                {item.description}
+                    ) : (
+                      filteredGroups.map((group, gi) => {
+                        return (
+                          <div key={gi} role="group" aria-label={group.heading}>
+                            {group.heading && (
+                              <p className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                {group.heading}
                               </p>
                             )}
-                          </div>
-                          {item.shortcut && <KbdHint keys={item.shortcut} />}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })
-            )}
-          </div>
+                            {group.items.map((item) => {
+                              // We need to check if item is disabled to skip counting it
+                              const isActive =
+                                !item.disabled && flatIndex === clampedIndex;
+                              if (!item.disabled) flatIndex++;
 
-          {/* Footer hint */}
-          <div className="flex items-center gap-3 border-t border-border px-3 py-2">
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <KbdHint keys="↑↓" /> navigate
-            </span>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <KbdHint keys="↵" /> select
-            </span>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <KbdHint keys="Esc" /> close
-            </span>
-          </div>
-        </DialogPrimitive.Content>
+                              return (
+                                <div
+                                  key={item.id}
+                                  id={`cmd-item-${item.id}`}
+                                  role="option"
+                                  aria-selected={isActive}
+                                  aria-disabled={item.disabled}
+                                  data-cmd-item=""
+                                  data-active={isActive ? "true" : undefined}
+                                  onMouseEnter={() => {
+                                    if (!item.disabled) {
+                                      const idx = flatItems.findIndex(
+                                        (f) => f.id === item.id,
+                                      );
+                                      if (idx !== -1) setActiveIndex(idx);
+                                    }
+                                  }}
+                                  onClick={() => {
+                                    if (!item.disabled) {
+                                      item.onSelect();
+                                      onOpenChange(false);
+                                    }
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                      e.preventDefault();
+                                      if (!item.disabled) {
+                                        item.onSelect();
+                                        onOpenChange(false);
+                                      }
+                                    }
+                                  }}
+                                  className={cn(
+                                    "flex cursor-pointer select-none items-center gap-2",
+                                    "rounded-md px-2 py-2",
+                                    "text-sm leading-5 outline-none",
+                                    "transition-colors duration-fast ease-standard",
+                                    isActive && "bg-muted text-foreground",
+                                    item.disabled &&
+                                      "pointer-events-none opacity-50",
+                                  )}
+                                >
+                                  {item.icon && (
+                                    <span className="flex size-4 shrink-0 items-center justify-center text-muted-foreground">
+                                      {item.icon}
+                                    </span>
+                                  )}
+                                  <div className="flex-1 min-w-0">
+                                    <p className="truncate font-medium">
+                                      {item.label}
+                                    </p>
+                                    {item.description && (
+                                      <p className="truncate text-xs text-muted-foreground">
+                                        {item.description}
+                                      </p>
+                                    )}
+                                  </div>
+                                  {item.shortcut && (
+                                    <ShortcutKeys keys={item.shortcut} />
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+
+                  {/* Footer hint */}
+                  <div className="flex items-center gap-3 border-t border-border px-3 py-2">
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <ShortcutKeys keys="↑↓" /> navigate
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <ShortcutKeys keys="↵" /> select
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <ShortcutKeys keys="Esc" /> close
+                    </span>
+                  </div>
+                </motion.div>
+              </DialogPrimitive.Content>
+            </>
+          )}
+        </AnimatePresence>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );
@@ -464,7 +518,7 @@ export const CommandTrigger = forwardRef<
     >
       <SearchIcon className="size-3.5 shrink-0" />
       <span className="flex-1 truncate text-left">{label}</span>
-      <KbdHint keys="⌘K" />
+      <ShortcutKeys keys="⌘K" />
     </button>
   );
 });

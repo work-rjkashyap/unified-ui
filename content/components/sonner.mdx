@@ -15,10 +15,13 @@ import {
 	DemoCustomDuration,
 	DemoCustomJSX,
 } from "@/components/docs/sonner-demos";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Sonner"
-	description="Stacked toast notification system with promise/loading states, built on the sonner library with Unified UI styling. Trigger toasts from anywhere using the toast() function."
+## Basic
+
+Stacked toast notification system with promise/loading states, built on the sonner library with Unified UI styling. Trigger toasts from anywhere using the toast() function.
+
+<PreviewCard
 	preview={<DemoOverview />}
 	code={`import { toast } from "@work-rjkashyap/unified-ui";
 
@@ -28,22 +31,88 @@ toast.error("Something went wrong");
 toast.warning("This action is irreversible");
 toast.info("New version available");`}
 
->
 
-<Callout type="info">
-	This component requires the `sonner` package, which is included as a
-	dependency of `@work-rjkashyap/unified-ui`.
-</Callout>
+/>
 
-## Import
+## Installation
 
-```tsx
-import { SonnerToaster, toast } from "@work-rjkashyap/unified-ui";
-// or
-import { SonnerToaster, toast } from "@work-rjkashyap/unified-ui/components";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add sonner
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add sonner
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add sonner
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add sonner
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import { SonnerToaster } from "@work-rjkashyap/unified-ui";
+```
 
 ## Setup
 
@@ -71,9 +140,7 @@ export default function RootLayout({ children }) {
 
 ### Basic Toasts
 
-<ComponentPage
-	title="Basic Toast Types"
-	description="Five semantic toast types for different feedback contexts."
+<PreviewCard
 	preview={<DemoBasicTypes />}
 	code={`toast("A simple notification");
 toast.success("Changes saved successfully");
@@ -84,9 +151,7 @@ toast.info("Update available");`}
 
 ### With Description
 
-<ComponentPage
-	title="Toast with Description"
-	description="Add a longer description below the title for additional context."
+<PreviewCard
 	preview={<DemoWithDescription />}
 	code={`toast.success("Profile updated", {
   description: "Your changes have been saved and will be visible to others.",
@@ -99,9 +164,7 @@ description: "The file exceeds the 10MB size limit. Please compress and try agai
 
 ### With Action
 
-<ComponentPage
-	title="Toast with Action"
-	description="Attach an action button to the toast for undo, retry, or navigation patterns."
+<PreviewCard
 	preview={<DemoWithAction />}
 	code={`toast("File deleted", {
   description: "report-q4.pdf was moved to trash.",
@@ -122,9 +185,7 @@ onClick: () => reconnect(),
 
 ### Promise-Based
 
-<ComponentPage
-	title="Promise Toast"
-	description="Automatically transitions from loading → success or error based on a promise resolution."
+<PreviewCard
 	preview={<DemoPromise />}
 	code={`toast.promise(uploadFile(), {
   loading: "Uploading file...",
@@ -141,9 +202,7 @@ error: "Failed to send email.",
 
 ### Loading Toast
 
-<ComponentPage
-	title="Loading Toast"
-	description="Show a persistent loading toast that you dismiss manually when the operation completes."
+<PreviewCard
 	preview={<DemoLoading />}
 	code={`const id = toast.loading("Processing payment...");
 
@@ -156,9 +215,7 @@ toast.error("Payment failed", { id });`}
 
 ### Custom Duration
 
-<ComponentPage
-	title="Custom Duration"
-	description="Override the default 4-second auto-dismiss with a custom duration, or set Infinity for persistent toasts."
+<PreviewCard
 	preview={<DemoCustomDuration />}
 	code={`// Quick toast
 toast.info("This disappears quickly", { duration: 1500 });
@@ -172,9 +229,7 @@ toast.info("This stays until dismissed", { duration: Infinity });`}
 
 ### Custom JSX
 
-<ComponentPage
-	title="Custom JSX Toast"
-	description="Render completely custom content inside a toast using toast.custom()."
+<PreviewCard
 	preview={<DemoCustomJSX />}
 	code={`toast.custom((id) => (
   <div className="flex items-center gap-3 bg-background border border-border rounded-lg p-3 shadow-lg">
@@ -273,5 +328,3 @@ toast.info("This stays until dismissed", { duration: Infinity });`}
 | `--info`               | Info toast accent        |
 | `--radius-lg`          | Toast border radius      |
 | `--shadow-lg`          | Toast shadow             |
-
-</ComponentPage>

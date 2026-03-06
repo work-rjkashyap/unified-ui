@@ -58,7 +58,7 @@ const addonVariants = cva(
   [
     "inline-flex items-center justify-center shrink-0",
     "bg-muted text-muted-foreground font-medium",
-    "px-3 select-none",
+    "select-none",
     "border-border",
   ],
   {
@@ -77,21 +77,59 @@ const addonVariants = cva(
   },
 );
 
-const prefixSuffixVariants = cva(
-  [
-    "inline-flex items-center shrink-0",
-    "text-muted-foreground pointer-events-none",
-  ],
-  {
-    variants: {
-      position: {
-        left: "pl-3",
-        right: "pr-3",
-      },
-    },
-    defaultVariants: { position: "left" },
-  },
-);
+const iconSizeMap: Record<InputGroupSize, string> = {
+  sm: "[&>svg]:size-3.5",
+  md: "[&>svg]:size-4",
+  lg: "[&>svg]:size-4",
+};
+
+const prefixPaddingMap: Record<InputGroupSize, string> = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3",
+};
+
+const suffixPaddingMap: Record<InputGroupSize, string> = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3",
+};
+
+const inputLeftPaddingWithPrefix: Record<InputGroupSize, string> = {
+  sm: "pl-1.5",
+  md: "pl-2",
+  lg: "pl-2",
+};
+
+const inputLeftPaddingWithAddon: Record<InputGroupSize, string> = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3",
+};
+
+const inputLeftPaddingWithoutPrefix: Record<InputGroupSize, string> = {
+  sm: "pl-2",
+  md: "pl-3",
+  lg: "pl-3",
+};
+
+const inputRightPaddingWithSuffix: Record<InputGroupSize, string> = {
+  sm: "pr-1.5",
+  md: "pr-2",
+  lg: "pr-2",
+};
+
+const inputRightPaddingWithAddon: Record<InputGroupSize, string> = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3",
+};
+
+const inputRightPaddingWithoutSuffix: Record<InputGroupSize, string> = {
+  sm: "pr-2",
+  md: "pr-3",
+  lg: "pr-3",
+};
 
 export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
   function InputGroup(
@@ -111,7 +149,22 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
     },
     ref,
   ) {
-    const iconSize = size === "lg" ? "size-4" : "size-3.5";
+    const hasPrefix = !!prefix;
+    const hasSuffix = !!suffix;
+    const hasAddonRight = !!addonRight;
+
+    // Determine input padding based on surrounding elements
+    const inputPaddingLeft = hasPrefix
+      ? inputLeftPaddingWithPrefix[size]
+      : addonLeft
+        ? inputLeftPaddingWithAddon[size]
+        : inputLeftPaddingWithoutPrefix[size];
+
+    const inputPaddingRight = hasSuffix
+      ? inputRightPaddingWithSuffix[size]
+      : hasAddonRight
+        ? inputRightPaddingWithAddon[size]
+        : inputRightPaddingWithoutSuffix[size];
 
     return (
       <div
@@ -133,8 +186,10 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
         {prefix && (
           <span
             className={cn(
-              prefixSuffixVariants({ position: "left" }),
-              `[&>svg]:${iconSize}`,
+              "inline-flex items-center justify-center shrink-0",
+              "text-muted-foreground pointer-events-none",
+              prefixPaddingMap[size],
+              iconSizeMap[size],
             )}
           >
             {prefix}
@@ -148,10 +203,10 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
           <input
             disabled={disabled}
             className={cn(
-              "flex-1 h-full bg-transparent outline-none text-foreground",
+              "flex-1 h-full bg-transparent outline-none text-foreground min-w-0",
               "placeholder:text-muted-foreground",
-              !prefix && "pl-3",
-              !suffix && !addonRight && "pr-3",
+              inputPaddingLeft,
+              inputPaddingRight,
               inputClassName,
             )}
             {...inputProps}
@@ -162,8 +217,10 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
         {suffix && (
           <span
             className={cn(
-              prefixSuffixVariants({ position: "right" }),
-              `[&>svg]:${iconSize}`,
+              "inline-flex items-center justify-center shrink-0",
+              "text-muted-foreground pointer-events-none",
+              suffixPaddingMap[size],
+              iconSizeMap[size],
             )}
           >
             {suffix}

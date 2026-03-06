@@ -19,6 +19,8 @@ import {
 	Input,
 	Label,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
@@ -26,34 +28,103 @@ The `Drawer` component is a bottom sheet overlay with drag-to-dismiss interactio
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add drawer
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add drawer
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add drawer
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add drawer
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHandle,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerClose,
+	Drawer,
+	DrawerTrigger,
+	DrawerContent,
+	DrawerHandle,
+	DrawerHeader,
+	DrawerBody,
+	DrawerFooter,
+	DrawerTitle,
+	DrawerDescription,
+	DrawerClose,
+	DrawerContent /* ... */,
 } from "@work-rjkashyap/unified-ui";
-// or
-import { Drawer, DrawerTrigger, DrawerContent /* ... */ } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Default
 
-<ComponentPage
-	title="Default Drawer"
-	description="A basic drawer with header, body, and footer slots."
+<PreviewCard
 	preview={
 		<Drawer>
 			<DrawerTrigger asChild>
@@ -109,9 +180,7 @@ import { Drawer, DrawerTrigger, DrawerContent /* ... */ } from "@work-rjkashyap/
 
 ### Sizes
 
-<ComponentPage
-	title="Drawer Sizes"
-	description="Four sizes control the maximum height of the drawer: sm (30vh), md (50vh), lg (75vh), and full."
+<PreviewCard
 	preview={
 		<div className="flex gap-3 flex-wrap justify-center">
 			<Drawer>
@@ -203,9 +272,7 @@ import { Drawer, DrawerTrigger, DrawerContent /* ... */ } from "@work-rjkashyap/
 
 ### Without Handle
 
-<ComponentPage
-	title="Without Drag Handle"
-	description="Set showHandle={false} to hide the drag indicator."
+<PreviewCard
 	preview={
 		<Drawer>
 			<DrawerTrigger asChild>

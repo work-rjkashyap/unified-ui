@@ -9,6 +9,7 @@ import {
 	CommandTrigger,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -16,21 +17,94 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { Command, CommandTrigger } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add command
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add command
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add command
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add command
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	Command,
+	CommandTrigger,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic
 
-<ComponentPage
-	title="Command Palette"
-	description="Click the trigger or press ⌘K to open the command palette. Type to filter commands in real time."
+<PreviewCard
 	preview={<CommandBasicPreview />}
 	code={`const [open, setOpen] = useState(false);
 
@@ -61,9 +135,7 @@ return (
 
 ### With Icons
 
-<ComponentPage
-	title="Commands with Icons"
-	description="Each command item supports an optional icon rendered before the label."
+<PreviewCard
 	preview={<CommandIconsPreview />}
 	code={`import { Home, Settings, FileText } from "lucide-react";
 
@@ -88,9 +160,7 @@ const groups = [
 
 ### Disabled Items
 
-<ComponentPage
-	title="Disabled Items"
-	description="Set disabled: true on any command item to exclude it from navigation and interaction."
+<PreviewCard
 	preview={<CommandDisabledPreview />}
 	code={`const groups = [
   {

@@ -6,60 +6,132 @@ icon: CircleAlert
 
 import { Alert } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Alert"
-	description="Contextual feedback messages for inline notifications, validation, system status, tips, and collapsible information blocks. Supports 5 semantic variants, dismissible close, collapsible mode, and animated entrance."
+## Basic
+
+Contextual feedback messages for inline notifications, validation, system status, tips, and collapsible information blocks. Supports 5 semantic variants, dismissible close, collapsible mode, and animated entrance.
+
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full">
-			<Alert variant="info" title="Tip">
+			<Alert variant="info">
 				You can press Ctrl+S to save your work at any time.
 			</Alert>
-			<Alert variant="success" title="Payment received">
+			<Alert variant="success">
 				Your order has been confirmed and is being processed.
 			</Alert>
 			<Alert variant="warning">
 				Your session will expire in 5 minutes. Save your work.
 			</Alert>
-			<Alert variant="danger" title="Connection failed">
+			<Alert variant="danger">
 				Unable to reach the server. Check your network connection.
 			</Alert>
-			<Alert variant="default" title="Note">
+			<Alert variant="default">
 				This is a generic note without semantic meaning.
 			</Alert>
 		</div>
 	}
-	code={`<Alert variant="info" title="Tip">
+	code={`<Alert variant="info">
   You can press Ctrl+S to save your work at any time.
 </Alert>
-<Alert variant="success" title="Payment received">
+<Alert variant="success">
   Your order has been confirmed and is being processed.
 </Alert>
 <Alert variant="warning">
   Your session will expire in 5 minutes. Save your work.
 </Alert>
-<Alert variant="danger" title="Connection failed">
+<Alert variant="danger">
   Unable to reach the server. Check your network connection.
 </Alert>
-<Alert variant="default" title="Note">
+<Alert variant="default">
   This is a generic note without semantic meaning.
 </Alert>`}
->
 
-## Import
+/>
 
-```tsx
-import { Alert } from "@work-rjkashyap/unified-ui";
-// or
-import { Alert } from "@work-rjkashyap/unified-ui/components";
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add alert
 ```
 
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add alert
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add alert
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add alert
+```
+
+</Tab>
+</Tabs>
+
 <Callout type="info">
-	The `Callout` component has been merged into `Alert`. If you previously used
-	`Callout`, it is still available as a backward-compatible alias that renders
-	an animated Alert with `rounded-lg` by default. Migrate to `Alert` with the
-	`animated` and `collapsible` props when convenient.
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
 </Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	Alert,
+	Callout,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Basic Usage
 
@@ -85,17 +157,15 @@ Alert supports five semantic variants that determine color, icon, and ARIA role.
 
 Used for informational messages, tips, and notes. Renders with `role="status"` (polite live region).
 
-<ComponentPage
-	title="Info Variant"
-	description="Default variant for informational messages, tips, and notes."
+<PreviewCard
 	preview={
 		<div className="w-full">
-			<Alert variant="info" title="Did you know?">
+			<Alert variant="info">
 				You can drag and drop files to upload them.
 			</Alert>
 		</div>
 	}
-	code={`<Alert variant="info" title="Did you know?">
+	code={`<Alert variant="info">
   You can drag and drop files to upload them.
 </Alert>`}
 />
@@ -104,17 +174,15 @@ Used for informational messages, tips, and notes. Renders with `role="status"` (
 
 Used for positive outcomes like confirmations and completions. Renders with `role="status"`.
 
-<ComponentPage
-	title="Success Variant"
-	description="For positive outcomes like confirmations and completions."
+<PreviewCard
 	preview={
 		<div className="w-full">
-			<Alert variant="success" title="Changes saved">
+			<Alert variant="success">
 				Your profile has been updated successfully.
 			</Alert>
 		</div>
 	}
-	code={`<Alert variant="success" title="Changes saved">
+	code={`<Alert variant="success">
   Your profile has been updated successfully.
 </Alert>`}
 />
@@ -123,18 +191,16 @@ Used for positive outcomes like confirmations and completions. Renders with `rol
 
 Used for caution messages and deprecation notices. Renders with `role="alert"` (assertive live region).
 
-<ComponentPage
-	title="Warning Variant"
-	description="For caution messages and deprecation notices."
+<PreviewCard
 	preview={
 		<div className="w-full">
-			<Alert variant="warning" title="Deprecation notice">
+			<Alert variant="warning">
 				This API endpoint will be removed in v3.0. Please migrate to the
 				new endpoint.
 			</Alert>
 		</div>
 	}
-	code={`<Alert variant="warning" title="Deprecation notice">
+	code={`<Alert variant="warning">
   This API endpoint will be removed in v3.0. Please migrate to the new
   endpoint.
 </Alert>`}
@@ -144,18 +210,16 @@ Used for caution messages and deprecation notices. Renders with `role="alert"` (
 
 Used for error messages and destructive action warnings. Renders with `role="alert"`.
 
-<ComponentPage
-	title="Danger Variant"
-	description="For error messages and destructive action warnings."
+<PreviewCard
 	preview={
 		<div className="w-full">
-			<Alert variant="danger" title="Delete failed">
+			<Alert variant="danger">
 				Could not delete the resource. You may not have sufficient
 				permissions.
 			</Alert>
 		</div>
 	}
-	code={`<Alert variant="danger" title="Delete failed">
+	code={`<Alert variant="danger">
   Could not delete the resource. You may not have sufficient permissions.
 </Alert>`}
 />
@@ -164,17 +228,15 @@ Used for error messages and destructive action warnings. Renders with `role="ale
 
 A neutral variant with no semantic color. Use for generic notes that don't fit info/success/warning/danger. Renders with `role="status"`.
 
-<ComponentPage
-	title="Default Variant"
-	description="Neutral variant for generic notes without semantic meaning."
+<PreviewCard
 	preview={
 		<div className="w-full">
-			<Alert variant="default" title="Note">
+			<Alert variant="default">
 				This callout uses the neutral default variant for generic notes.
 			</Alert>
 		</div>
 	}
-	code={`<Alert variant="default" title="Note">
+	code={`<Alert variant="default">
   This callout uses the neutral default variant for generic notes.
 </Alert>`}
 />
@@ -191,9 +253,7 @@ A neutral variant with no semantic color. Use for generic notes that don't fit i
 
 Alerts can be rendered without a title for simpler, single-line messages.
 
-<ComponentPage
-	title="Without Title"
-	description="Simpler, single-line alert messages without a title."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full">
 			<Alert variant="info">
@@ -217,9 +277,7 @@ Alerts can be rendered without a title for simpler, single-line messages.
 
 Add the `dismissible` prop to show a close button. Provide an `onDismiss` callback to control visibility externally, or let the alert manage its own visibility.
 
-<ComponentPage
-	title="Dismissible Alerts"
-	description="Alerts with a close button. Can be self-managed or controlled externally."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full">
 			<Alert variant="danger" dismissible>
@@ -246,14 +304,11 @@ Add the `dismissible` prop to show a close button. Provide an `onDismiss` callba
 
 Set `collapsible` to make the body expandable/collapsible. The chevron animates on toggle. Use `defaultOpen` to control initial state.
 
-<ComponentPage
-	title="Collapsible Alerts"
-	description="Collapsible alerts reduce visual noise while keeping content accessible."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full">
 			<Alert
 				variant="info"
-				title="How does billing work?"
 				collapsible
 				defaultOpen={false}
 			>
@@ -261,7 +316,6 @@ Set `collapsible` to make the body expandable/collapsible. The chevron animates 
 			</Alert>
 			<Alert
 				variant="warning"
-				title="Migration guide (expanded by default)"
 				collapsible
 				defaultOpen
 			>
@@ -272,7 +326,6 @@ Set `collapsible` to make the body expandable/collapsible. The chevron animates 
 	code={`{/* Collapsed by default */}
 <Alert
   variant="info"
-  title="How does billing work?"
   collapsible
   defaultOpen={false}
 >
@@ -283,7 +336,6 @@ Set `collapsible` to make the body expandable/collapsible. The chevron animates 
 
 <Alert
   variant="warning"
-  title="Migration guide"
   collapsible
   defaultOpen
 >
@@ -295,12 +347,10 @@ Set `collapsible` to make the body expandable/collapsible. The chevron animates 
 
 Set `animated` to enable a fade-in entrance animation. The animation respects `prefers-reduced-motion`.
 
-<ComponentPage
-	title="Animated Entrance"
-	description="Fade-in entrance animation for alerts that appear dynamically."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full">
-			<Alert variant="success" title="Deployed" animated>
+			<Alert variant="success" animated>
 				Version 2.4.1 is live on production.
 			</Alert>
 			<Alert variant="info" animated>
@@ -308,7 +358,7 @@ Set `animated` to enable a fade-in entrance animation. The animation respects `p
 			</Alert>
 		</div>
 	}
-	code={`<Alert variant="success" title="Deployed" animated>
+	code={`<Alert variant="success" animated>
   Version 2.4.1 is live on production.
 </Alert>
 
@@ -321,26 +371,22 @@ Set `animated` to enable a fade-in entrance animation. The animation respects `p
 
 Override the default variant icon with the `icon` prop, or pass `null` to hide it entirely.
 
-<ComponentPage
-	title="Custom Icons"
-	description="Override the default variant icon or hide it entirely."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full">
 			<Alert
 				variant="info"
-				title="Pro tip"
 				icon={<span className="text-base leading-none">💡</span>}
 			>
 				You can pin your most-used commands to the sidebar for quick access.
 			</Alert>
 			<Alert
 				variant="success"
-				title="Deployed successfully"
 				icon={<span className="text-base leading-none">🚀</span>}
 			>
 				Version 2.4.1 is live on production. Rollback is available for 24 hours.
 			</Alert>
-			<Alert variant="warning" title="No icon" icon={null}>
+			<Alert variant="warning" icon={null}>
 				This alert has no icon — just the title and content.
 			</Alert>
 		</div>
@@ -348,7 +394,6 @@ Override the default variant icon with the `icon` prop, or pass `null` to hide i
 	code={`{/* Custom emoji icon */}
 <Alert
   variant="info"
-  title="Pro tip"
   icon={<span>💡</span>}
 >
   You can pin your most-used commands to the sidebar.
@@ -356,7 +401,7 @@ Override the default variant icon with the `icon` prop, or pass `null` to hide i
 
 {/* Hide icon entirely */}
 
-<Alert variant="warning" title="No icon" icon={null}>
+<Alert variant="warning" icon={null}>
   This alert has no icon.
 </Alert>`}
 />
@@ -462,5 +507,3 @@ import { Alert } from "@work-rjkashyap/unified-ui";
 | `--radius-md`     | Border radius (`rounded-md`) |
 | `--radius-lg`     | Callout alias radius         |
 | `--duration-fast` | Transition speed             |
-
-</ComponentPage>

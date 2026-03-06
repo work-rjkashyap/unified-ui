@@ -5,10 +5,14 @@ icon: Hash
 ---
 
 import { NumberInput } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Number Input"
-  description="A production-ready numeric stepper with +/− buttons, keyboard navigation, min/max clamping, precision control, and animated digit roll transitions."
+## Basic
+
+A production-ready numeric stepper with +/− buttons, keyboard navigation, min/max clamping, precision control, and animated digit roll transitions.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 items-center">
       <NumberInput defaultValue={0} min={0} max={100} />
@@ -17,14 +21,87 @@ import { NumberInput } from "@work-rjkashyap/unified-ui";
   }
   code={`<NumberInput defaultValue={0} min={0} max={100} />
 <NumberInput defaultValue={42} min={0} max={999} step={5} />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add number-input
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add number-input
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add number-input
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add number-input
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { NumberInput } from "@work-rjkashyap/unified-ui";
-// or
-import { NumberInput } from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -46,9 +123,7 @@ const [qty, setQty] = useState(1);
 
 ## Sizes
 
-<ComponentPage
-	title="Sizes"
-	description="Three sizes designed to align with Input and Button heights."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 items-center">
 			<NumberInput defaultValue={5} size="sm" min={0} max={99} />
@@ -69,9 +144,7 @@ const [qty, setQty] = useState(1);
 
 ## Variants
 
-<ComponentPage
-	title="Variants"
-	description="Two visual variants for different emphasis levels."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 items-center">
 			<NumberInput
@@ -96,9 +169,7 @@ const [qty, setQty] = useState(1);
 
 Control the increment/decrement amount with `step`. Defaults to `1`.
 
-<ComponentPage
-	title="Step"
-	description="Customize how much each +/− click or arrow key press changes the value."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 items-center">
 			<NumberInput defaultValue={0} step={1} min={0} max={10} />
@@ -117,9 +188,7 @@ Hold `Shift` while pressing arrow keys to step by `10×` the current step value.
 
 Use `precision` to allow and display decimal values. Pair with `step` for consistent increments.
 
-<ComponentPage
-  title="Decimal Precision"
-  description="Fractional values with configurable decimal places."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 items-center">
       <NumberInput defaultValue={9.99} precision={2} step={0.01} min={0} max={99.99} />
@@ -150,9 +219,7 @@ Use `precision` to allow and display decimal values. Pair with `step` for consis
 
 Supply a `formatValue` function to display the number with a prefix, suffix, or custom notation.
 
-<ComponentPage
-  title="Custom Format"
-  description="Format the displayed value with a custom function."
+<PreviewCard
   preview={<NumberInputFormatPreview />}
   code={`{/* Percentage */}
 <NumberInput
@@ -297,5 +364,3 @@ The value display uses the `numberRoll` preset — digits animate with a vertica
 | `--accent`        | Stepper button hover background |
 | `--radius-md`     | Container border radius         |
 | `--duration-fast` | Transition speed                |
-
-</ComponentPage>

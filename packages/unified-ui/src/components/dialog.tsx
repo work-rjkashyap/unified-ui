@@ -22,13 +22,17 @@ import { modalContent, overlayBackdrop } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva } from "class-variance-authority";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
+  createContext,
   forwardRef,
   type HTMLAttributes,
   type ReactNode,
+  useCallback,
+  useContext,
+  useState,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -79,6 +83,20 @@ export const dialogContentVariants = cva(
 // ---------------------------------------------------------------------------
 
 export type DialogSize = "sm" | "md" | "lg" | "full";
+
+// ---------------------------------------------------------------------------
+// Internal context — shares open state for AnimatePresence exit animations
+// ---------------------------------------------------------------------------
+
+interface DialogContextValue {
+  open: boolean;
+}
+
+const DialogContext = createContext<DialogContextValue>({ open: false });
+
+function useDialogContext() {
+  return useContext(DialogContext);
+}
 
 export interface DialogProps extends DialogPrimitive.DialogProps {
   children: ReactNode;
@@ -160,8 +178,36 @@ function CloseIcon({ className }: { className?: string }) {
 // Dialog Root
 // ---------------------------------------------------------------------------
 
-export function Dialog({ children, ...rest }: DialogProps) {
-  return <DialogPrimitive.Root {...rest}>{children}</DialogPrimitive.Root>;
+export function Dialog({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}: DialogProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+
+  const handleOpenChange = useCallback(
+    (next: boolean) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange],
+  );
+
+  return (
+    <DialogContext.Provider value={{ open }}>
+      <DialogPrimitive.Root
+        open={open}
+        onOpenChange={handleOpenChange}
+        {...rest}
+      >
+        {children}
+      </DialogPrimitive.Root>
+    </DialogContext.Provider>
+  );
 }
 Dialog.displayName = "Dialog";
 
@@ -195,7 +241,7 @@ const DialogOverlay = forwardRef<
 >(function DialogOverlay({ className, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
   return (
-    <DialogPrimitive.Overlay ref={ref} asChild {...rest}>
+    <DialogPrimitive.Overlay ref={ref} forceMount asChild {...rest}>
       <motion.div
         className={cn(
           "fixed inset-0",
@@ -236,46 +282,54 @@ export const DialogContent = forwardRef<
   ref,
 ) {
   const shouldReduce = useReducedMotion();
+  const { open } = useDialogContext();
+
   return (
-    <DialogPrimitive.Portal>
-      <DialogOverlay className={overlayClassName} />
-      <DialogPrimitive.Content ref={ref} asChild {...rest}>
-        <motion.div
-          className={cn(
-            "not-prose",
-            dialogContentVariants({ size }),
-            className,
-          )}
-          variants={shouldReduce ? undefined : modalContent.variants}
-          initial={shouldReduce ? { opacity: 0 } : "initial"}
-          animate={shouldReduce ? { opacity: 1 } : "animate"}
-          exit={shouldReduce ? { opacity: 0 } : "exit"}
-          transition={
-            shouldReduce ? { duration: 0.2 } : modalContent.transition
-          }
-          data-ds=""
-          data-ds-component="dialog"
-          data-ds-size={size}
-          data-ds-animated=""
-        >
-          {children}
-          {showClose && (
-            <DialogPrimitive.Close
-              className={cn(
-                "absolute right-4 top-4",
-                "inline-flex items-center justify-center",
-                "rounded-sm p-1",
-                "text-muted-foreground hover:text-foreground",
-                "transition-colors duration-fast",
-                focusRingClasses,
-              )}
-              aria-label="Close"
-            >
-              <CloseIcon className="size-4" />
-            </DialogPrimitive.Close>
-          )}
-        </motion.div>
-      </DialogPrimitive.Content>
+    <DialogPrimitive.Portal forceMount>
+      <AnimatePresence>
+        {open && (
+          <>
+            <DialogOverlay className={overlayClassName} />
+            <DialogPrimitive.Content ref={ref} forceMount asChild {...rest}>
+              <motion.div
+                className={cn(
+                  "not-prose",
+                  dialogContentVariants({ size }),
+                  className,
+                )}
+                variants={shouldReduce ? undefined : modalContent.variants}
+                initial={shouldReduce ? { opacity: 0 } : "initial"}
+                animate={shouldReduce ? { opacity: 1 } : "animate"}
+                exit={shouldReduce ? { opacity: 0 } : "exit"}
+                transition={
+                  shouldReduce ? { duration: 0.2 } : modalContent.transition
+                }
+                data-ds=""
+                data-ds-component="dialog"
+                data-ds-size={size}
+                data-ds-animated=""
+              >
+                {children}
+                {showClose && (
+                  <DialogPrimitive.Close
+                    className={cn(
+                      "absolute right-4 top-4",
+                      "inline-flex items-center justify-center",
+                      "rounded-sm p-1",
+                      "text-muted-foreground hover:text-foreground",
+                      "transition-colors duration-fast",
+                      focusRingClasses,
+                    )}
+                    aria-label="Close"
+                  >
+                    <CloseIcon className="size-4" />
+                  </DialogPrimitive.Close>
+                )}
+              </motion.div>
+            </DialogPrimitive.Content>
+          </>
+        )}
+      </AnimatePresence>
     </DialogPrimitive.Portal>
   );
 });

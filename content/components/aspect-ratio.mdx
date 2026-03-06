@@ -5,10 +5,14 @@ icon: Ratio
 ---
 
 import { AspectRatio } from "@work-rjkashyap/unified-ui/components";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-	title="Aspect Ratio"
-	description="Constrains child content to a specified aspect ratio, preventing layout shift for images, videos, and embedded media."
+## Basic
+
+Constrains child content to a specified aspect ratio, preventing layout shift for images, videos, and embedded media.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<AspectRatio ratio={16 / 9} className="rounded-lg bg-muted">
@@ -21,13 +25,86 @@ import { AspectRatio } from "@work-rjkashyap/unified-ui/components";
 	code={`<AspectRatio ratio={16 / 9}>
   <img src="/hero.jpg" alt="Hero" className="object-cover w-full h-full" />
 </AspectRatio>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add aspect-ratio
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add aspect-ratio
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add aspect-ratio
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add aspect-ratio
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { AspectRatio } from "@work-rjkashyap/unified-ui/components";
-// or
 import { AspectRatio } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -43,9 +120,7 @@ Wrap any content in `AspectRatio` to constrain it to a specific ratio. The compo
 
 ## Common Ratios
 
-<ComponentPage
-	title="Common Ratios"
-	description="Popular aspect ratios for different media types."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg grid grid-cols-3 gap-4">
 			<div>
@@ -161,5 +236,3 @@ All standard `<div>` HTML attributes are also forwarded to the underlying elemen
 | Token        | Usage                          |
 | ------------ | ------------------------------ |
 | `--radius-*` | Border radius on the container |
-
-</ComponentPage>

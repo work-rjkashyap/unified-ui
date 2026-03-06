@@ -5,29 +5,104 @@ icon: Upload
 ---
 
 import { FileUpload } from "@work-rjkashyap/unified-ui/components";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-	title="File Upload"
-	description="A production-ready drag-and-drop file upload zone with file list, progress bars, image preview thumbnails, size validation, and stagger animations. Supports single and multiple file uploads."
+## Basic
+
+A production-ready drag-and-drop file upload zone with file list, progress bars, image preview thumbnails, size validation, and stagger animations. Supports single and multiple file uploads.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<FileUpload
 				accept="image/*,.pdf"
-				description="PNG, JPG, PDF up to 10MB"
 			/>
 		</div>
 	}
 	code={`<FileUpload
   accept="image/*,.pdf"
-  description="PNG, JPG, PDF up to 10MB"
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add file-upload
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add file-upload
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add file-upload
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add file-upload
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { FileUpload } from "@work-rjkashyap/unified-ui/components";
-// or
 import { FileUpload } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -41,19 +116,17 @@ Drop `FileUpload` anywhere you need a file input. It manages its own internal fi
 
 ## Sizes
 
-<ComponentPage
-	title="Sizes"
-	description="Three sizes control the padding, minimum height, and icon size of the drop zone."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md flex flex-col gap-4">
-			<FileUpload size="sm" description="Small drop zone" />
-			<FileUpload size="md" description="Medium drop zone (default)" />
-			<FileUpload size="lg" description="Large drop zone" />
+			<FileUpload size="sm" />
+			<FileUpload size="md" />
+			<FileUpload size="lg" />
 		</div>
 	}
-	code={`<FileUpload size="sm" description="Small drop zone" />
-<FileUpload size="md" description="Medium drop zone (default)" />
-<FileUpload size="lg" description="Large drop zone" />`}
+	code={`<FileUpload size="sm" />
+<FileUpload size="md" />
+<FileUpload size="lg" />`}
 />
 
 | Size | Min Height | Use Case                        |
@@ -66,17 +139,15 @@ Drop `FileUpload` anywhere you need a file input. It manages its own internal fi
 
 Restrict accepted file types using the standard HTML `accept` attribute syntax:
 
-<ComponentPage
-	title="Accept Filter"
-	description="Restrict which file types are accepted using MIME types or extensions."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md flex flex-col gap-4">
-			<FileUpload accept="image/*" description="Images only" />
-			<FileUpload accept=".pdf,.doc,.docx" description="Documents only (PDF, DOC)" />
+			<FileUpload accept="image/*" />
+			<FileUpload accept=".pdf,.doc,.docx" />
 		</div>
 	}
-	code={`<FileUpload accept="image/*" description="Images only" />
-<FileUpload accept=".pdf,.doc,.docx" description="Documents only" />`}
+	code={`<FileUpload accept="image/*" />
+<FileUpload accept=".pdf,.doc,.docx" />`}
 />
 
 ```tsx
@@ -111,29 +182,24 @@ Limit the total number of files that can be uploaded with `maxFiles`:
 
 Set `multiple={false}` to allow only one file at a time:
 
-<ComponentPage
-	title="Single File"
-	description="Restrict to a single file upload at a time."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
-			<FileUpload multiple={false} description="Single file only" />
+			<FileUpload multiple={false} />
 		</div>
 	}
-	code={`<FileUpload multiple={false} description="Single file only" />`}
+	code={`<FileUpload multiple={false} />`}
 />
 
 ## Custom Label
 
 Override the default "Click to upload or drag and drop" text with the `label` prop:
 
-<ComponentPage
-	title="Custom Label"
-	description="Provide custom text or JSX for the drop zone label."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
 			<FileUpload
 				label="Drop your resume here"
-				description="PDF or DOCX, max 5MB"
 				accept=".pdf,.docx"
 				maxSize={5 * 1024 * 1024}
 				multiple={false}
@@ -142,7 +208,6 @@ Override the default "Click to upload or drag and drop" text with the `label` pr
 	}
 	code={`<FileUpload
   label="Drop your resume here"
-  description="PDF or DOCX, max 5MB"
   accept=".pdf,.docx"
   maxSize={5 * 1024 * 1024}
   multiple={false}
@@ -151,15 +216,13 @@ Override the default "Click to upload or drag and drop" text with the `label` pr
 
 ## Disabled State
 
-<ComponentPage
-	title="Disabled"
-	description="The drop zone is visually dimmed and non-interactive when disabled."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-md">
-			<FileUpload disabled description="Upload is currently disabled" />
+			<FileUpload disabled />
 		</div>
 	}
-	code={`<FileUpload disabled description="Upload is currently disabled" />`}
+	code={`<FileUpload disabled />`}
 />
 
 ## Handling File Events
@@ -310,5 +373,3 @@ The drop zone uses CVA variants for visual feedback:
 | `--radius-md`     | File item border radius                  |
 | `--radius-lg`     | Drop zone border radius                  |
 | `--duration-fast` | Transition speed                         |
-
-</ComponentPage>

@@ -5,10 +5,14 @@ icon: Keyboard
 ---
 
 import { Kbd } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Kbd"
-  description="Displays keyboard keys and shortcuts in a styled, monospaced element with a tactile inset shadow."
+## Basic
+
+Displays keyboard keys and shortcuts in a styled, monospaced element with a tactile inset shadow.
+
+<PreviewCard
   preview={
     <div className="flex flex-wrap gap-4 items-center justify-center">
       <div className="flex items-center gap-1">
@@ -39,14 +43,87 @@ import { Kbd } from "@work-rjkashyap/unified-ui";
   <span>+</span>
   <Kbd>S</Kbd>
 </div>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add kbd
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add kbd
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add kbd
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add kbd
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { Kbd } from "@work-rjkashyap/unified-ui";
-// or
-import { Kbd } from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -65,9 +142,7 @@ Wrap any key name or symbol in `<Kbd>` to render it as a styled keyboard key.
 
 Three sizes are available. The default is `md`.
 
-<ComponentPage
-  title="Sizes"
-  description="Three size variants for different contexts."
+<PreviewCard
   preview={
     <div className="flex items-end gap-4 justify-center">
       <div className="flex items-center gap-1">
@@ -102,9 +177,7 @@ Three sizes are available. The default is `md`.
 
 Chain multiple `Kbd` components with a separator to show shortcuts.
 
-<ComponentPage
-  title="Key Combinations"
-  description="Multi-key shortcuts using separator characters between Kbd elements."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 items-start">
       <div className="flex items-center gap-1.5">
@@ -183,9 +256,7 @@ Chain multiple `Kbd` components with a separator to show shortcuts.
 
 A common pattern is a keyboard shortcuts reference table.
 
-<ComponentPage
-  title="Shortcuts Table"
-  description="Listing keyboard shortcuts in a reference table."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm border border-border rounded-md overflow-hidden text-sm">
       <div className="px-4 py-3 bg-muted border-b border-border font-medium text-xs text-muted-foreground uppercase tracking-wide">Keyboard Shortcuts</div>
@@ -257,5 +328,3 @@ All standard `<kbd>` HTML attributes are also accepted.
 | `--border`     | Key border and inset shadow        |
 | `--radius-md`  | Border radius                      |
 | `--font-mono`  | Monospaced font for key labels     |
-
-</ComponentPage>

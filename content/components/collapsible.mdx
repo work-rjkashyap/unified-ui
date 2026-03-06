@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@work-rjkas
 import { Button } from "@work-rjkashyap/unified-ui";
 import { ChevronsUpDown } from "lucide-react";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -15,31 +16,95 @@ The `Collapsible` component provides an animated show/hide section. Built on Rad
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add collapsible
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add collapsible
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add collapsible
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add collapsible
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@work-rjkashyap/unified-ui/components";
-// or
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
+	Collapsible,
+	CollapsibleTrigger,
+	CollapsibleContent,
 } from "@work-rjkashyap/unified-ui";
 ```
-
----
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Collapsible"
-	description="A simple collapsible section with a trigger button and animated content."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Collapsible>
@@ -79,9 +144,7 @@ import {
 
 ### Default Open
 
-<ComponentPage
-	title="Default Open"
-	description="Use the defaultOpen prop to have the collapsible expanded on initial render."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Collapsible defaultOpen>
@@ -120,9 +183,7 @@ import {
 
 ### Multiple Sections
 
-<ComponentPage
-	title="Multiple Collapsible Sections"
-	description="Stack multiple collapsible sections to create a custom FAQ or settings panel."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-2">
 			<Collapsible>
@@ -207,9 +268,7 @@ import {
 
 ### Disabled
 
-<ComponentPage
-	title="Disabled Collapsible"
-	description="When disabled, the trigger cannot be interacted with and the content stays in its current state."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Collapsible disabled>
@@ -248,9 +307,7 @@ import {
 
 ### Custom Animation Duration
 
-<ComponentPage
-	title="Custom Duration"
-	description="Adjust the animation speed by setting the duration prop on CollapsibleContent (in seconds)."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Collapsible>

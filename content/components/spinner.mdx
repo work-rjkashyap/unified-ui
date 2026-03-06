@@ -6,6 +6,7 @@ icon: Loader
 
 import { Spinner } from "@work-rjkashyap/unified-ui/components";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,23 +14,91 @@ The `Spinner` component provides an animated loading indicator for communicating
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { Spinner } from "@work-rjkashyap/unified-ui/components";
-// or
-import { Spinner } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add spinner
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add spinner
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add spinner
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add spinner
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import { Spinner } from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Spinner"
-	description="A simple loading spinner with default settings."
+<PreviewCard
 	preview={
 		<div className="flex items-center justify-center gap-6">
 			<Spinner />
@@ -40,9 +109,7 @@ import { Spinner } from "@work-rjkashyap/unified-ui";
 
 ### Sizes
 
-<ComponentPage
-	title="Spinner Sizes"
-	description="Four sizes from extra-small (for inline/button use) to large (for empty states and page loading)."
+<PreviewCard
 	preview={
 		<div className="flex items-end gap-6 justify-center">
 			<div className="flex flex-col items-center gap-2">
@@ -78,9 +145,7 @@ import { Spinner } from "@work-rjkashyap/unified-ui";
 
 ### Variants
 
-<ComponentPage
-	title="Color Variants"
-	description="Four color variants for different visual contexts."
+<PreviewCard
 	preview={
 		<div className="flex items-center gap-8 justify-center">
 			<div className="flex flex-col items-center gap-2">
@@ -116,9 +181,7 @@ import { Spinner } from "@work-rjkashyap/unified-ui";
 
 ### With Label
 
-<ComponentPage
-	title="Spinner with Label"
-	description="Add visible loading text alongside the spinner for extra context."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<Spinner label="Loading…" />
@@ -133,9 +196,7 @@ import { Spinner } from "@work-rjkashyap/unified-ui";
 
 ### Label Position
 
-<ComponentPage
-	title="Label Position"
-	description="Position the label to the right (inline) or below (stacked) the spinner."
+<PreviewCard
 	preview={
 		<div className="flex gap-12 items-start justify-center">
 			<div className="flex flex-col items-center gap-2">
@@ -157,9 +218,7 @@ import { Spinner } from "@work-rjkashyap/unified-ui";
 
 ### In Context
 
-<ComponentPage
-	title="Real-World Usage"
-	description="Common patterns for using the Spinner in production applications."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-8 items-center w-full max-w-sm">
 			<button
@@ -200,9 +259,7 @@ import { Spinner } from "@work-rjkashyap/unified-ui";
 
 ### Custom Stroke Width
 
-<ComponentPage
-	title="Custom Stroke Width"
-	description="Adjust the thickness of the spinner arc with the strokeWidth prop."
+<PreviewCard
 	preview={
 		<div className="flex items-center gap-8 justify-center">
 			<div className="flex flex-col items-center gap-2">

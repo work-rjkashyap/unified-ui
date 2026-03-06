@@ -6,6 +6,7 @@ icon: TextCursorInput
 
 import { FormField } from "@work-rjkashyap/unified-ui/components";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,29 +14,97 @@ The `FormField` component composes a label, form control slot, optional descript
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { FormField } from "@work-rjkashyap/unified-ui/components";
-// or
-import { FormField } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add form-field
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add form-field
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add form-field
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add form-field
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import { FormField } from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic FormField"
-	description="Wraps a form control with a label and optional description text."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
 			<FormField label="Full name">
 				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Enter your name" />
 			</FormField>
-			<FormField label="Email" description="We'll never share your email with anyone.">
+			<FormField label="Email">
 				<input type="email" className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="you@example.com" />
 			</FormField>
 		</div>
@@ -44,22 +113,20 @@ import { FormField } from "@work-rjkashyap/unified-ui";
   <Input placeholder="Enter your name" />
 </FormField>
 
-<FormField label="Email" description="We'll never share your email with anyone.">
+<FormField label="Email">
   <Input type="email" placeholder="you@example.com" />
 </FormField>`}
 />
 
 ### Required Fields
 
-<ComponentPage
-	title="Required Fields"
-	description="Shows a red asterisk after the label. Use the render function form of children to auto-wire aria-required."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
 			<FormField label="Username" required>
 				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Choose a username" />
 			</FormField>
-			<FormField label="Password" required description="Must be at least 8 characters.">
+			<FormField label="Password" required>
 				<input type="password" className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="••••••••" />
 			</FormField>
 		</div>
@@ -68,16 +135,14 @@ import { FormField } from "@work-rjkashyap/unified-ui";
   <Input placeholder="Choose a username" />
 </FormField>
 
-<FormField label="Password" required description="Must be at least 8 characters.">
+<FormField label="Password" required>
   <Input type="password" placeholder="••••••••" />
 </FormField>`}
 />
 
 ### Error State
 
-<ComponentPage
-	title="Error Messages"
-	description="When an error is provided, it replaces the description and renders in danger color with role=alert."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
 			<FormField label="Email" required error="Please enter a valid email address.">
@@ -99,50 +164,45 @@ import { FormField } from "@work-rjkashyap/unified-ui";
 
 ### Sizes
 
-<ComponentPage
-	title="FormField Sizes"
-	description="Three sizes control label text, spacing, and provide the correct sizing context."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
-			<FormField label="Small field" size="sm" description="Compact for dense UIs.">
+			<FormField label="Small field" size="sm">
 				<input className="h-8 w-full px-2.5 rounded-md border border-fd-border bg-fd-background text-xs" placeholder="Small input" />
 			</FormField>
-			<FormField label="Medium field" size="md" description="Default size for most forms.">
+			<FormField label="Medium field" size="md">
 				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Medium input" />
 			</FormField>
-			<FormField label="Large field" size="lg" description="For prominent form fields.">
+			<FormField label="Large field" size="lg">
 				<input className="h-10 w-full px-3.5 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Large input" />
 			</FormField>
 		</div>
 	}
-	code={`<FormField label="Small field" size="sm" description="Compact for dense UIs.">
+	code={`<FormField label="Small field" size="sm">
   <Input size="sm" placeholder="Small input" />
 </FormField>
 
 <FormField
 	label="Medium field"
 	size="md"
-	description="Default size for most forms."
 >
 	<Input size="md" placeholder="Medium input" />
 </FormField>
 
-<FormField label="Large field" size="lg" description="For prominent form fields.">
+<FormField label="Large field" size="lg">
   <Input size="lg" placeholder="Large input" />
 </FormField>`}
 />
 
 ### Horizontal Layout
 
-<ComponentPage
-	title="Horizontal Orientation"
-	description="Places the label to the left and the control to the right for settings-style forms."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-md">
 			<FormField label="Display name" orientation="horizontal">
 				<input className="h-9 w-full px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="Your display name" />
 			</FormField>
-			<FormField label="Bio" orientation="horizontal" description="A short description about you.">
+			<FormField label="Bio" orientation="horizontal">
 				<textarea className="h-20 w-full px-3 py-2 rounded-md border border-fd-border bg-fd-background text-sm resize-none" placeholder="Tell us about yourself" />
 			</FormField>
 			<FormField label="Website" orientation="horizontal" error="Please enter a valid URL.">
@@ -157,7 +217,6 @@ import { FormField } from "@work-rjkashyap/unified-ui";
 <FormField
 	label="Bio"
 	orientation="horizontal"
-	description="A short description about you."
 >
 	<Textarea placeholder="Tell us about yourself" />
 </FormField>
@@ -169,15 +228,12 @@ import { FormField } from "@work-rjkashyap/unified-ui";
 
 ### Disabled State
 
-<ComponentPage
-	title="Disabled FormField"
-	description="Reduces opacity on all elements when disabled. The actual disabling of the control must be done on the control itself."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-sm">
 			<FormField
 				label="Organization"
 				disabled
-				description="Managed by your organization admin."
 			>
 				<input
 					disabled
@@ -188,7 +244,7 @@ import { FormField } from "@work-rjkashyap/unified-ui";
 			</FormField>
 		</div>
 	}
-	code={`<FormField label="Organization" disabled description="Managed by your organization admin.">
+	code={`<FormField label="Organization" disabled>
   <Input disabled value="Acme Corp" />
 </FormField>`}
 />

@@ -5,10 +5,14 @@ icon: Code
 ---
 
 import { InlineCode, CodeBlock, CopyButton } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Code"
-  description="Two composable code display components: InlineCode for short snippets within prose, and CodeBlock for multi-line code with copy button, line numbers, filename label, and dark/light variants."
+## Basic
+
+Two composable code display components: InlineCode for short snippets within prose, and CodeBlock for multi-line code with copy button, line numbers, filename label, and dark/light variants.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 w-full max-w-lg">
       <p className="text-sm text-muted-foreground">
@@ -37,14 +41,95 @@ export function App() {
   return <Button variant="primary">Click me</Button>;
 }\`}
 </CodeBlock>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add code
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add code
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add code
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add code
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { InlineCode, CodeBlock } from "@work-rjkashyap/unified-ui";
-// or
-import { InlineCode, CodeBlock } from "@work-rjkashyap/unified-ui/components";
+import {
+	InlineCode,
+	CodeBlock,
+	CopyButton,
+	Button,
+	Slider,
+	Card,
+	Badge,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## InlineCode
@@ -65,9 +150,7 @@ import { InlineCode, CodeBlock } from "@work-rjkashyap/unified-ui/components";
 
 ### In Context
 
-<ComponentPage
-  title="InlineCode in Prose"
-  description="InlineCode is an inline element that flows naturally within text content."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 max-w-md text-sm leading-6 text-foreground">
       <p>
@@ -119,9 +202,7 @@ console.log(greeting);`}
 
 ### With Filename and Language
 
-<ComponentPage
-  title="Filename & Language"
-  description="The header bar shows the filename on the left and the language badge on the right."
+<PreviewCard
   preview={
     <div className="w-full max-w-lg">
       <CodeBlock language="tsx" filename="slider.tsx">
@@ -160,9 +241,7 @@ export function VolumeControl() {
 
 Set `showCopyButton` (default `true`) to render a copy button in the header bar.
 
-<ComponentPage
-  title="Copy Button"
-  description="The built-in copy button shows a Copied! confirmation after a successful clipboard write."
+<PreviewCard
   preview={
     <div className="w-full max-w-lg">
       <CodeBlock language="bash" showCopyButton>
@@ -185,9 +264,7 @@ Set `showCopyButton` (default `true`) to render a copy button in the header bar.
 
 Set `showLineNumbers` to render gutter line numbers on the left side.
 
-<ComponentPage
-  title="Line Numbers"
-  description="Line numbers are rendered in the gutter alongside the code."
+<PreviewCard
   preview={
     <div className="w-full max-w-lg">
       <CodeBlock language="tsx" showLineNumbers filename="theme-provider.tsx">
@@ -221,9 +298,7 @@ export default function RootLayout({ children }) {
 
 The `dark` variant uses a near-black background with light text — ideal for embedding code examples in dark-themed sections or marketing pages.
 
-<ComponentPage
-  title="Dark Variant"
-  description="A high-contrast dark code block for dark-themed sections or prominent code display."
+<PreviewCard
   preview={
     <div className="w-full max-w-lg">
       <CodeBlock variant="dark" language="tsx" filename="App.tsx" showCopyButton>
@@ -315,9 +390,7 @@ All standard `<pre>` HTML attributes are also accepted and forwarded to the inne
 
 For cases where you need a standalone copy button next to an inline code snippet, compose `InlineCode` with `CopyButton`.
 
-<ComponentPage
-	title="InlineCode + CopyButton"
-	description="Combine InlineCode with a standalone CopyButton for copyable inline snippets."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 max-w-md">
 			<div className="flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-muted/30">
@@ -382,5 +455,3 @@ For cases where you need a standalone copy button next to an inline code snippet
 | `--radius-md` | InlineCode border radius               |
 | `--radius-lg` | CodeBlock border radius                |
 | `--font-mono` | Monospaced font for all code elements  |
-
-</ComponentPage>

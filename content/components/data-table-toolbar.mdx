@@ -12,10 +12,13 @@ import {
 	DemoToolbarViewMode,
 	DemoToolbarFull,
 } from "@/components/docs/data-table-toolbar-demos";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Data Table Toolbar"
-	description="A composable toolbar with search, faceted filters, column visibility toggle, and view mode switcher for DataTable."
+## Basic
+
+A composable toolbar with search, faceted filters, column visibility toggle, and view mode switcher for DataTable.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<DemoToolbarFull />
@@ -48,25 +51,94 @@ import {
     <Button size="sm" variant="primary" iconLeft={<Plus />}>New</Button>
   }
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add data-table-toolbar
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add data-table-toolbar
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add data-table-toolbar
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add data-table-toolbar
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { DataTableToolbar } from "@work-rjkashyap/unified-ui";
-// or
-import { DataTableToolbar } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Search Only
 
-<ComponentPage
-	title="Search Only"
-	description="The simplest toolbar with just a debounced search input."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<DemoToolbarBasic />
@@ -83,9 +155,7 @@ import { DataTableToolbar } from "@work-rjkashyap/unified-ui/components";
 
 ### With Faceted Filters
 
-<ComponentPage
-	title="Faceted Filters"
-	description="Add filter dropdowns with multi-select checkboxes and optional item counts."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<DemoToolbarFilters />
@@ -132,9 +202,7 @@ const [roleFilter, setRoleFilter] = useState([]);
 
 ### Column Visibility
 
-<ComponentPage
-	title="Column Visibility"
-	description="Allow users to toggle which columns are visible in the table."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<DemoToolbarColumns />
@@ -160,9 +228,7 @@ const [roleFilter, setRoleFilter] = useState([]);
 
 ### View Mode Switcher
 
-<ComponentPage
-	title="View Mode Switcher"
-	description="Toggle between table, grid, and list views."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<DemoToolbarViewMode />
@@ -181,9 +247,7 @@ const [roleFilter, setRoleFilter] = useState([]);
 
 ### Full Featured
 
-<ComponentPage
-	title="Full Featured"
-	description="All features combined: search, filters, column visibility, view modes, and custom action buttons."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<DemoToolbarFull />
@@ -286,5 +350,3 @@ const [roleFilter, setRoleFilter] = useState([]);
 | `--muted`            | Hover backgrounds             |
 | `--radius-md`        | Input and button radius       |
 | `--duration-fast`    | Transition speed              |
-
-</ComponentPage>

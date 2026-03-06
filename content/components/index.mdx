@@ -5,6 +5,7 @@ icon: Box
 ---
 
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -22,13 +23,210 @@ Unified UI ships **75+ composite components** that compose the design system's t
 
 ## Installation
 
-### Option A: npm Package
+Unified UI supports two distribution modes — install the full npm package **or** copy individual components into your project with the CLI. Choose the approach that fits your workflow.
+
+### Option A: Copy & Paste CLI
+
+Use the CLI to add individual components to your project. You own the source, can customize freely, and the CLI resolves all dependencies automatically.
+
+#### Initial setup
+
+Before adding components, initialize your project config and path aliases:
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui init
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui init
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui init
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui init
+```
+
+</Tab>
+</Tabs>
+
+#### Add components
+
+Add one or more components by name. The CLI copies the source files into your project and installs any required npm dependencies.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+# Add a single component
+npx @work-rjkashyap/unified-ui add button
+
+# Add multiple components at once
+npx @work-rjkashyap/unified-ui add button card badge tabs dialog
+
+# Add all available components
+npx @work-rjkashyap/unified-ui add --all
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add button
+
+pnpm dlx @work-rjkashyap/unified-ui add button card badge tabs dialog
+
+pnpm dlx @work-rjkashyap/unified-ui add --all
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add button
+
+npx @work-rjkashyap/unified-ui add button card badge tabs dialog
+
+npx @work-rjkashyap/unified-ui add --all
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add button
+
+bunx @work-rjkashyap/unified-ui add button card badge tabs dialog
+
+bunx @work-rjkashyap/unified-ui add --all
+```
+
+</Tab>
+</Tabs>
+
+Then import from your local project:
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+```
+
+#### Overwrite existing files
+
+If you've previously added a component and want to pull the latest version, use the `--overwrite` flag:
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add button --overwrite
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add button --overwrite
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add button --overwrite
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add button --overwrite
+```
+
+</Tab>
+</Tabs>
+
+#### List & diff
+
+Check what's available and compare your local files against the registry:
+
+```bash
+# List all available components in the registry
+npx @work-rjkashyap/unified-ui list
+
+# Compare your local component against the latest registry version
+npx @work-rjkashyap/unified-ui diff button
+```
+
+#### CLI commands reference
+
+| Command                  | Description                                           |
+| ------------------------ | ----------------------------------------------------- |
+| `init`                   | Initialize project config and path aliases            |
+| `add <name...>`          | Add one or more components with dependency resolution |
+| `add --all`              | Add all available components                          |
+| `add <name> --overwrite` | Overwrite an existing local component                 |
+| `list`                   | List all available registry items                     |
+| `diff <name>`            | Compare local file against the registry version       |
+
+<Callout type="info">
+	The CLI automatically resolves and installs all dependencies — other
+	components, utilities, and npm packages. See the [CLI docs](/docs/cli) for
+	the full reference.
+</Callout>
+
+---
+
+### Option B: Full npm Package
+
+Use this approach if you prefer a traditional library install. All components are available immediately — no CLI setup required.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
 
 ```bash
 npm install @work-rjkashyap/unified-ui
 ```
 
-Import the stylesheet in your app's entry point:
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+Import the stylesheet in your app's entry point (e.g. `layout.tsx` or `globals.css`):
 
 ```tsx
 import "@work-rjkashyap/unified-ui/styles.css";
@@ -44,27 +242,30 @@ Or use layer-specific imports for better tree-shaking:
 
 ```tsx
 import { Button, Input } from "@work-rjkashyap/unified-ui/components";
+import { spacing, radius } from "@work-rjkashyap/unified-ui/tokens";
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+import { slideUp } from "@work-rjkashyap/unified-ui/motion";
+import { cn } from "@work-rjkashyap/unified-ui/utils";
 ```
 
-### Option B: Copy & Paste CLI
+---
 
-Add individual components to your project — you own the source:
+### Comparison: CLI vs npm Package
 
-```bash
-npx @work-rjkashyap/unified-ui add button input card dialog
-```
-
-Then import from your local project:
-
-```tsx
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-```
+| Feature           | npm Package                           | Copy & Paste CLI                     |
+| ----------------- | ------------------------------------- | ------------------------------------ |
+| **Installation**  | `npm i @work-rjkashyap/unified-ui`    | `npx @work-rjkashyap/unified-ui add` |
+| **Code location** | `node_modules/`                       | Your project (`src/components/ui/`)  |
+| **Updates**       | `npm update`                          | `diff` + `add --overwrite`           |
+| **Customization** | Override via `className` / variants   | Edit source directly                 |
+| **Bundle size**   | Tree-shaken by bundler                | Only what you add                    |
+| **Type safety**   | Full `.d.ts` declarations             | Full source with types               |
+| **Best for**      | Teams wanting zero-config consistency | Teams wanting full control           |
 
 <Callout type="info">
-	The CLI automatically resolves and installs all dependencies — other
-	components, utilities, and npm packages. See the [Getting Started](/docs)
-	guide for full setup instructions.
+	Both approaches use the same design tokens and CSS custom properties. You
+	can even mix them — install the package for most components and copy a few
+	that you need to customize heavily.
 </Callout>
 
 ---

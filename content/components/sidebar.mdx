@@ -15,10 +15,14 @@ import {
 	SidebarItem,
 } from "@work-rjkashyap/unified-ui/components";
 import { Home, Settings, Users, FileText, BarChart3, Mail, Bell, Search, HelpCircle, LogOut } from "lucide-react";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-	title="Sidebar"
-	description="A collapsible application sidebar with sections, icons, nested items, and animated spring-based width transitions. Includes header/content/footer slots, mobile overlay, and a toggle button."
+## Basic
+
+A collapsible application sidebar with sections, icons, nested items, and animated spring-based width transitions. Includes header/content/footer slots, mobile overlay, and a toggle button.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg h-72 rounded-lg border border-border overflow-hidden">
 			<SidebarProvider>
@@ -29,13 +33,13 @@ import { Home, Settings, Users, FileText, BarChart3, Mail, Bell, Search, HelpCir
 							<span className="text-sm font-semibold truncate">Acme Inc</span>
 						</SidebarHeader>
 						<SidebarContent>
-							<SidebarSection title="Main">
+							<SidebarSection>
 								<SidebarItem icon={<Home className="size-4" />} label="Dashboard" active />
 								<SidebarItem icon={<Users className="size-4" />} label="Team" />
 								<SidebarItem icon={<FileText className="size-4" />} label="Documents" />
 								<SidebarItem icon={<BarChart3 className="size-4" />} label="Analytics" />
 							</SidebarSection>
-							<SidebarSection title="Settings">
+							<SidebarSection>
 								<SidebarItem icon={<Settings className="size-4" />} label="Preferences" />
 								<SidebarItem icon={<HelpCircle className="size-4" />} label="Help" />
 							</SidebarSection>
@@ -59,7 +63,7 @@ import { Home, Settings, Users, FileText, BarChart3, Mail, Bell, Search, HelpCir
         <span className="text-sm font-semibold">Acme Inc</span>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarSection title="Main">
+        <SidebarSection>
           <SidebarItem icon={<Home />} label="Dashboard" active />
           <SidebarItem icon={<Users />} label="Team" />
           <SidebarItem icon={<FileText />} label="Documents" />
@@ -72,35 +76,96 @@ import { Home, Settings, Users, FileText, BarChart3, Mail, Bell, Search, HelpCir
     <main className="flex-1">Content</main>
   </div>
 </SidebarProvider>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add sidebar
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add sidebar
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add sidebar
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add sidebar
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
-  SidebarProvider,
-  Sidebar,
-  SidebarToggle,
-  SidebarHeader,
-  SidebarContent,
-  SidebarFooter,
-  SidebarSection,
-  SidebarItem,
-  SidebarMobileOverlay,
-  useSidebarContext,
-} from "@work-rjkashyap/unified-ui/components";
-// or
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarToggle,
-  SidebarHeader,
-  SidebarContent,
-  SidebarFooter,
-  SidebarSection,
-  SidebarItem,
-  SidebarMobileOverlay,
-  useSidebarContext,
+	SidebarProvider,
+	Sidebar,
+	SidebarToggle,
+	SidebarHeader,
+	SidebarContent,
+	SidebarFooter,
+	SidebarSection,
+	SidebarItem,
+	SidebarMobileOverlay,
 } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -150,9 +215,7 @@ Wrap your layout in `SidebarProvider` to provide collapse state context. Place t
 
 When collapsed, the sidebar shrinks to icon-only width (default `64px`). Section titles and item labels are hidden with fade animations. Item icons remain visible and show a `title` tooltip on hover.
 
-<ComponentPage
-	title="Collapsed"
-	description="The sidebar can start collapsed. Toggle it with the SidebarToggle button or by pressing the toggle programmatically."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg h-56 rounded-lg border border-border overflow-hidden">
 			<SidebarProvider defaultCollapsed>
@@ -467,5 +530,3 @@ All standard `<div>` HTML attributes are also forwarded.
 | `--foreground`       | Item text on hover                       |
 | `--ring`             | Focus ring color                         |
 | `--duration-fast`    | Hover/focus transition speed             |
-
-</ComponentPage>

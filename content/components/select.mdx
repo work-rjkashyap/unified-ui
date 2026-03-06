@@ -15,6 +15,8 @@ import {
 	SelectValue,
 	Button,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
@@ -22,7 +24,81 @@ The `Select` component is a composable dropdown built on Radix UI's Select primi
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add select
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add select
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add select
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add select
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -35,28 +111,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectSeparator,
-	SelectTrigger,
-	SelectValue,
-} from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Select"
-	description="A simple dropdown with placeholder and selectable options."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Select>
@@ -89,9 +150,7 @@ import {
 
 ### Variants
 
-<ComponentPage
-	title="Select Variants"
-	description="Three visual variants to indicate validation state. Mirrors the Input component for consistent form styling."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Select>
@@ -153,9 +212,7 @@ import {
 
 ### Sizes
 
-<ComponentPage
-	title="Select Sizes"
-	description="Three sizes that match the Button and Input height scale for consistent form layouts."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Select>
@@ -217,9 +274,7 @@ import {
 
 ### With Groups
 
-<ComponentPage
-	title="Grouped Options"
-	description="Use SelectGroup and SelectLabel to organize options into labeled sections. Use SelectSeparator for visual dividers."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Select>
@@ -268,9 +323,7 @@ import {
 
 ### Disabled
 
-<ComponentPage
-	title="Disabled State"
-	description="The entire select or individual items can be disabled."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Select disabled>
@@ -321,9 +374,7 @@ import {
 
 ### With Error Message
 
-<ComponentPage
-	title="Error Message"
-	description="Pair the error variant with a label and error text for accessible form validation."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label

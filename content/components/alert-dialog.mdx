@@ -16,10 +16,14 @@ import {
 	AlertDialogCancel,
 	Button,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Alert Dialog"
-  description="A blocking modal that requires the user to make an explicit choice before continuing. Unlike Dialog, clicking the overlay does not dismiss it — the user must press Cancel or confirm the action."
+## Basic
+
+A blocking modal that requires the user to make an explicit choice before continuing. Unlike Dialog, clicking the overlay does not dismiss it — the user must press Cancel or confirm the action.
+
+<PreviewCard
   preview={
     <div className="flex gap-3 items-center justify-center">
       <AlertDialog>
@@ -61,24 +65,98 @@ import {
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add alert-dialog
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add alert-dialog
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add alert-dialog
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add alert-dialog
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
+	AlertDialog,
+	AlertDialogTrigger,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogFooter,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogAction,
+	AlertDialogCancel,
+	Button,
 } from "@work-rjkashyap/unified-ui";
-// or
-import { ... } from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -109,9 +187,7 @@ Wrap a trigger in `AlertDialogTrigger` and provide the content structure. The us
 
 Style the action button as a danger action for destructive operations.
 
-<ComponentPage
-	title="Destructive Action"
-	description="Override the action button styling to use the danger color token for destructive confirmations."
+<PreviewCard
 	preview={
 		<div className="flex flex-wrap gap-3 items-center justify-center">
 			<AlertDialog>
@@ -276,9 +352,7 @@ function DeleteDialog({ onDelete }: { onDelete: () => Promise<void> }) {
 
 Alert dialogs are not only for destructive actions — use them for any critical operation that benefits from explicit confirmation.
 
-<ComponentPage
-	title="Non-Destructive Confirmation"
-	description="Use AlertDialog for any action requiring explicit confirmation, not just deletions."
+<PreviewCard
 	preview={
 		<div className="flex flex-wrap gap-3 items-center justify-center">
 			<AlertDialog>
@@ -459,5 +533,3 @@ Layout wrappers with no interactive behavior.
 | `--shadow-xl`  | Dialog panel shadow             |
 | `--primary`    | Default action button color     |
 | `--danger`     | Destructive action button color |
-
-</ComponentPage>

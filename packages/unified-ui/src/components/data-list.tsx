@@ -14,8 +14,8 @@ import { forwardRef, type ReactNode } from "react";
 export const dataListVariants = cva(["w-full"], {
   variants: {
     orientation: {
-      horizontal: "grid grid-cols-[auto_1fr] gap-x-6 gap-y-3",
-      vertical: "flex flex-col gap-3",
+      horizontal: "grid grid-cols-[auto_1fr] items-baseline gap-x-6",
+      vertical: "flex flex-col gap-2",
     },
     size: {
       sm: "text-xs",
@@ -72,7 +72,7 @@ DataListTerm.displayName = "DataListTerm";
 export const DataListDetail = forwardRef<HTMLElement, DataListDetailProps>(
   function DataListDetail({ className, children, ...rest }, ref) {
     return (
-      <dd ref={ref} className={cn("text-foreground", className)} {...rest}>
+      <dd ref={ref} className={cn("text-foreground m-0", className)} {...rest}>
         {children}
       </dd>
     );
@@ -94,6 +94,11 @@ export const DataList = forwardRef<HTMLDListElement, DataListProps>(
   ) {
     const shouldReduce = useReducedMotion();
     const isHorizontal = orientation === "horizontal";
+
+    // In horizontal mode, each dt/dd is a direct grid child (via `contents`).
+    // We apply vertical padding to dt/dd to create consistent row spacing
+    // and ensure the border-t divider spans the full visual row height.
+    const horizontalCellPadding = "py-2";
 
     return (
       <motion.dl
@@ -128,14 +133,16 @@ export const DataList = forwardRef<HTMLDListElement, DataListProps>(
               <>
                 <DataListTerm
                   className={cn(
-                    dividers && i > 0 && "pt-3 border-t border-border",
+                    horizontalCellPadding,
+                    dividers && i > 0 && "border-t border-border",
                   )}
                 >
                   {item.term}
                 </DataListTerm>
                 <DataListDetail
                   className={cn(
-                    dividers && i > 0 && "pt-3 border-t border-border",
+                    horizontalCellPadding,
+                    dividers && i > 0 && "border-t border-border",
                   )}
                 >
                   {item.detail}

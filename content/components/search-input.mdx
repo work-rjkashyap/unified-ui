@@ -5,10 +5,14 @@ icon: Search
 ---
 
 import { SearchInput } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Search Input"
-  description="A fully-featured search field with built-in debounce, animated clear button, loading spinner, keyboard shortcut hint, and filled variant."
+## Basic
+
+A fully-featured search field with built-in debounce, animated clear button, loading spinner, keyboard shortcut hint, and filled variant.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-sm flex flex-col gap-3">
       <SearchInput placeholder="Search components..." />
@@ -17,14 +21,87 @@ import { SearchInput } from "@work-rjkashyap/unified-ui";
   }
   code={`<SearchInput placeholder="Search components..." />
 <SearchInput placeholder="Search with shortcut..." shortcut="K" />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add search-input
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add search-input
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add search-input
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add search-input
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { SearchInput } from "@work-rjkashyap/unified-ui";
-// or
-import { SearchInput } from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -37,9 +114,7 @@ Drop `SearchInput` anywhere you need a search field. It manages its own internal
 
 ## Sizes
 
-<ComponentPage
-	title="Sizes"
-	description="Three sizes designed to match Input, Button, and Select heights."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-3">
 			<SearchInput placeholder="Small" size="sm" />
@@ -60,9 +135,7 @@ Drop `SearchInput` anywhere you need a search field. It manages its own internal
 
 ## Variants
 
-<ComponentPage
-	title="Variants"
-	description="Default has a visible border; filled uses a muted background with no border."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-3">
 			<SearchInput placeholder="Default variant" variant="default" />
@@ -77,9 +150,7 @@ Drop `SearchInput` anywhere you need a search field. It manages its own internal
 
 Use `onDebouncedChange` for expensive operations like API calls. The callback fires after the user stops typing for `debounce` milliseconds (default `300ms`).
 
-<ComponentPage
-	title="Debounced Change"
-	description="Fire a callback after the user stops typing — ideal for search-as-you-type API calls."
+<PreviewCard
 	preview={<SearchInputDebouncedPreview />}
 	code={`<SearchInput
   placeholder="Type to search..."
@@ -103,9 +174,7 @@ Use `onDebouncedChange` for expensive operations like API calls. The callback fi
 
 Show a spinner instead of the search icon while results are loading.
 
-<ComponentPage
-	title="Loading State"
-	description="Replaces the search icon with a spinning loader while results are fetching."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<SearchInput placeholder="Fetching results..." loading />
@@ -134,9 +203,7 @@ const [results, setResults] = useState([]);
 
 Pass `shortcut` to display a keyboard hint badge in the trailing area when the input is empty. The component also registers a global `Ctrl+<shortcut>` / `⌘+<shortcut>` listener that focuses the input.
 
-<ComponentPage
-  title="Keyboard Shortcut"
-  description="Shows a shortcut badge and registers a global keyboard listener to focus the input."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm flex flex-col gap-3">
       <SearchInput placeholder="Search..." shortcut="K" />
@@ -155,9 +222,7 @@ Pass `shortcut` to display a keyboard hint badge in the trailing area when the i
 
 By default, a clear button appears (with a fade animation) when the input has a value. Set `showClear={false}` to disable it.
 
-<ComponentPage
-  title="Clear Button"
-  description="An animated clear button appears when the input has a value. Disable with showClear={false}."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm flex flex-col gap-3">
       <SearchInput placeholder="With clear button (default)" />
@@ -268,5 +333,3 @@ All standard `<input>` HTML attributes (except `onChange` and `size`) are also f
 | `--ring`          | Focus ring color                  |
 | `--radius-md`     | Wrapper border radius             |
 | `--duration-fast` | Transition speed                  |
-
-</ComponentPage>

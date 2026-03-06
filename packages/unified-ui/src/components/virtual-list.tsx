@@ -177,7 +177,7 @@ export const VirtualList = forwardRef(function VirtualList<T>(
       <div
         ref={containerRef}
         className={cn(
-          "flex items-center justify-center border border-border rounded-lg bg-background",
+          "flex items-center justify-center rounded-lg border border-border bg-background shadow-sm not-prose",
           className,
         )}
         style={{ height }}
@@ -196,7 +196,14 @@ export const VirtualList = forwardRef(function VirtualList<T>(
     visibleItems.push(
       <div
         key={key}
-        className={cn("absolute left-0 right-0", itemClassName)}
+        className={cn(
+          "absolute left-0 right-0 flex items-center",
+          "transition-colors duration-fast ease-standard",
+          "hover:bg-muted/50",
+          "border-b border-border/50",
+          "[&_p]:m-0 [&_p]:leading-tight [&_span]:leading-tight",
+          itemClassName,
+        )}
         style={{
           height: itemHeight,
           top: i * itemHeight,
@@ -214,7 +221,12 @@ export const VirtualList = forwardRef(function VirtualList<T>(
     <div
       ref={containerRef}
       className={cn(
-        "relative overflow-auto border border-border rounded-lg bg-background",
+        "relative overflow-auto rounded-lg border border-border bg-background",
+        "shadow-sm not-prose",
+        "[scrollbar-width:thin] [scrollbar-color:hsl(var(--border))_transparent]",
+        "[&::-webkit-scrollbar]:w-1.5",
+        "[&::-webkit-scrollbar-track]:bg-transparent",
+        "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border",
         className,
       )}
       style={{ height }}
@@ -229,7 +241,7 @@ export const VirtualList = forwardRef(function VirtualList<T>(
 
       {/* Loading indicator at bottom */}
       {loading && (
-        <div className="sticky bottom-0 flex items-center justify-center py-3 bg-background/80 backdrop-blur-sm">
+        <div className="sticky bottom-0 flex items-center justify-center py-3 bg-background/80 backdrop-blur-sm border-t border-border/50">
           {loadingIndicator ?? (
             <div className="size-5 animate-spin rounded-full border-2 border-border border-t-primary" />
           )}

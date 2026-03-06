@@ -6,6 +6,7 @@ icon: ListOrdered
 
 import { Steps, Step } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,157 +14,218 @@ import { Callout } from "fumadocs-ui/components/callout";
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { Steps, Step } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add steps
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add steps
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add steps
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add steps
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	Steps,
+	Step,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic
 
-<ComponentPage
-	title="Basic Steps"
-	description="A horizontal step indicator with a title and description on each step."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Steps currentStep={1}>
-				<Step title="Account" description="Create your account" />
-				<Step title="Profile" description="Fill in your details" />
-				<Step title="Confirm" description="Review and submit" />
+				<Step />
+				<Step />
+				<Step />
 			</Steps>
 		</div>
 	}
 	code={`<Steps currentStep={1}>
-  <Step title="Account" description="Create your account" />
-  <Step title="Profile" description="Fill in your details" />
-  <Step title="Confirm" description="Review and submit" />
+  <Step />
+  <Step />
+  <Step />
 </Steps>`}
 />
 
 ### Completed State
 
-<ComponentPage
-	title="All Steps Complete"
-	description="When currentStep equals or exceeds the total, all steps are marked complete."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg">
 			<Steps currentStep={3}>
-				<Step title="Account" description="Create your account" />
-				<Step title="Profile" description="Fill in your details" />
-				<Step title="Confirm" description="Review and submit" />
+				<Step />
+				<Step />
+				<Step />
 			</Steps>
 		</div>
 	}
 	code={`<Steps currentStep={3}>
-  <Step title="Account" />
-  <Step title="Profile" />
-  <Step title="Confirm" />
+  <Step />
+  <Step />
+  <Step />
 </Steps>`}
 />
 
 ### Vertical Orientation
 
-<ComponentPage
-	title="Vertical Steps"
-	description="Use orientation='vertical' for sidebar or timeline-style layouts."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<Steps currentStep={1} orientation="vertical">
 				<Step
-					title="Install"
-					description="Add the package to your project"
 				/>
 				<Step
-					title="Configure"
-					description="Set up your theme and tokens"
 				/>
-				<Step title="Build" description="Create your first component" />
-				<Step title="Deploy" description="Ship to production" />
+				<Step />
+				<Step />
 			</Steps>
 		</div>
 	}
 	code={`<Steps currentStep={1} orientation="vertical">
-  <Step title="Install" description="Add the package to your project" />
-  <Step title="Configure" description="Set up your theme and tokens" />
-  <Step title="Build" description="Create your first component" />
-  <Step title="Deploy" description="Ship to production" />
+  <Step />
+  <Step />
+  <Step />
+  <Step />
 </Steps>`}
 />
 
 ### Variants
 
-<ComponentPage
-	title="Step Variants"
-	description="Three visual variants: default (filled), outline, and dots."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-8 w-full max-w-lg">
 			<div>
 				<p className="text-xs text-muted-foreground mb-3 font-medium">Default</p>
 				<Steps currentStep={1} variant="default">
-					<Step title="Step 1" />
-					<Step title="Step 2" />
-					<Step title="Step 3" />
+					<Step />
+					<Step />
+					<Step />
 				</Steps>
 			</div>
 			<div>
 				<p className="text-xs text-muted-foreground mb-3 font-medium">Outline</p>
 				<Steps currentStep={1} variant="outline">
-					<Step title="Step 1" />
-					<Step title="Step 2" />
-					<Step title="Step 3" />
+					<Step />
+					<Step />
+					<Step />
 				</Steps>
 			</div>
 			<div>
 				<p className="text-xs text-muted-foreground mb-3 font-medium">Dots</p>
 				<Steps currentStep={1} variant="dots">
-					<Step title="Step 1" />
-					<Step title="Step 2" />
-					<Step title="Step 3" />
+					<Step />
+					<Step />
+					<Step />
 				</Steps>
 			</div>
 		</div>
 	}
 	code={`{/* Default — filled indicator with check mark */}
 <Steps currentStep={1} variant="default">
-  <Step title="Step 1" />
-  <Step title="Step 2" />
-  <Step title="Step 3" />
+  <Step />
+  <Step />
+  <Step />
 </Steps>
 
 {/* Outline — bordered indicator */}
 
 <Steps currentStep={1} variant="outline">
-	<Step title="Step 1" />
-	<Step title="Step 2" />
-	<Step title="Step 3" />
+	<Step />
+	<Step />
+	<Step />
 </Steps>
 
 {/* Dots — minimal dot indicators */}
 
 <Steps currentStep={1} variant="dots">
-  <Step title="Step 1" />
-  <Step title="Step 2" />
-  <Step title="Step 3" />
+  <Step />
+  <Step />
+  <Step />
 </Steps>`}
 />
 
 ### Clickable Steps
 
-<ComponentPage
-	title="Clickable Steps"
-	description="Pass onStepClick to enable wizard navigation. Steps before or at the current index are clickable."
+<PreviewCard
 	preview={<StepsClickablePreview />}
 	code={`const [active, setActive] = useState(0);
 
 <Steps currentStep={active} onStepClick={setActive}>
-	<Step title="Account" description="Create your account" />
-	<Step title="Profile" description="Fill in your details" />
-	<Step title="Payment" description="Add payment method" />
-	<Step title="Confirm" description="Review and submit" />
+	<Step />
+	<Step />
+	<Step />
+	<Step />
 </Steps>
 
 <div className="flex gap-2">
@@ -178,9 +240,7 @@ import { Steps, Step } from "@work-rjkashyap/unified-ui";
 
 ### Minimal (No Labels)
 
-<ComponentPage
-	title="Minimal — No Labels"
-	description="Use steps without title or description for compact progress indicators."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<Steps currentStep={2} variant="dots">

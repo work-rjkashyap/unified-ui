@@ -10,10 +10,14 @@ import {
   Button,
 } from "@work-rjkashyap/unified-ui";
 import { CheckCircle, Clock, AlertCircle, Rocket, Code2, GitMerge } from "lucide-react";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Timeline"
-  description="A vertical timeline for activity feeds, changelogs, version histories, and multi-step processes. Supports icons, status colors, timestamps, and stagger animations."
+## Basic
+
+A vertical timeline for activity feeds, changelogs, version histories, and multi-step processes. Supports icons, status colors, timestamps, and stagger animations.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-sm py-2">
       <Timeline
@@ -79,14 +83,92 @@ import { CheckCircle, Clock, AlertCircle, Rocket, Code2, GitMerge } from "lucide
     },
   ]}
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add timeline
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add timeline
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add timeline
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add timeline
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { Timeline, TimelineItem } from "@work-rjkashyap/unified-ui";
-// or
-import { Timeline, TimelineItem } from "@work-rjkashyap/unified-ui/components";
+import {
+	Timeline,
+	Badge,
+	Button,
+	TimelineItem,
+} from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -122,9 +204,7 @@ Pass an `items` array to `Timeline`. Each item supports a `title`, `description`
 
 The `status` field on each item controls the dot or icon background color and the connector color.
 
-<ComponentPage
-  title="Status Variants"
-  description="Six status states for communicating the state of each timeline event."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm py-2">
       <Timeline
@@ -164,9 +244,7 @@ The `status` field on each item controls the dot or icon background color and th
 
 Pass any `ReactNode` as `icon` to replace the default dot indicator with a styled icon container.
 
-<ComponentPage
-  title="With Icons"
-  description="Custom icons replace the dot indicator with a colored circular icon container."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm py-2">
       <Timeline
@@ -227,9 +305,7 @@ Pass any `ReactNode` as `icon` to replace the default dot indicator with a style
 
 ## Sizes
 
-<ComponentPage
-  title="Sizes"
-  description="Three sizes controlling dot size, icon container size, and body text size."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-8 w-full max-w-sm py-2">
       <div>
@@ -271,9 +347,7 @@ Pass any `ReactNode` as `icon` to replace the default dot indicator with a style
 
 Each item accepts a `content` field for rendering arbitrary content below the description — badges, code snippets, diff previews, etc.
 
-<ComponentPage
-  title="Rich Content Slot"
-  description="Pass any ReactNode as content to render below the item's description."
+<PreviewCard
   preview={
     <div className="w-full max-w-sm py-2">
       <Timeline
@@ -466,5 +540,3 @@ const activity = [
 | `--muted`          | Pending dot and icon background     |
 | `--muted-fg`       | Timestamp text color                |
 | `--foreground`     | Title text color                    |
-
-</ComponentPage>

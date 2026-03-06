@@ -19,6 +19,7 @@ import {
 	X,
 } from "lucide-react";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -26,23 +27,91 @@ The `Input` component is a production-ready text input for capturing user data. 
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add input
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add input
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add input
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add input
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { Input } from "@work-rjkashyap/unified-ui";
-// or
-import { Input } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Variants
 
-<ComponentPage
-	title="Input Variants"
-	description="Three visual variants to indicate validation state."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-3 w-full max-w-xs">
 			<Input variant="default" placeholder="Default" />
@@ -60,9 +129,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 
 ### Sizes
 
-<ComponentPage
-	title="Input Sizes"
-	description="Three sizes that match the Button height scale for consistent form layouts."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Input size="sm" placeholder="Small (h-8)" />
@@ -83,9 +150,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 
 ### With Icons
 
-<ComponentPage
-	title="Icons"
-	description="Add leading or trailing icons to provide visual context."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Input iconLeft={<Search />} placeholder="Search..." />
@@ -130,9 +195,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 
 ### States
 
-<ComponentPage
-	title="States"
-	description="Enabled, disabled, and read-only states."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Input placeholder="Enabled" />
@@ -147,9 +210,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 
 ### Input Types
 
-<ComponentPage
-	title="Input Types"
-	description="Supports all standard HTML input types."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-xs">
 			<Input type="text" iconLeft={<User />} placeholder="Text" />
@@ -174,9 +235,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 
 ### With Error Message
 
-<ComponentPage
-	title="Error Message"
-	description="Pair the error variant with aria-describedby for accessible validation feedback."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
@@ -214,9 +273,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 
 ### With Success Message
 
-<ComponentPage
-	title="Success Message"
-	description="Pair the success variant with helper text for positive validation feedback."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-1.5 w-full max-w-xs">
 			<label
@@ -257,9 +314,7 @@ import { Input } from "@work-rjkashyap/unified-ui/components";
 
 ### Combined Features
 
-<ComponentPage
-	title="Combined Features"
-	description="All features can be composed together for real-world form layouts."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-xs">
 			<div className="flex flex-col gap-1.5">

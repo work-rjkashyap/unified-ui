@@ -12,7 +12,7 @@
 //   - Keyboard: ArrowUp/Down to step, Shift+Arrow to step × 10, Home/End for min/max
 //   - Size variants: sm, md, lg
 //   - Visual variants: default, primary
-//   - Framer Motion: AnimatePresence + numberRoll for digit change animation
+//   - Framer Motion: AnimatePresence + directional slide (up on increment, down on decrement)
 //   - Respects prefers-reduced-motion
 //   - Full ref forwarding
 //   - WCAG AA: role="spinbutton", aria-valuenow/min/max, aria-label
@@ -23,7 +23,6 @@
 //   <NumberInput size="sm" variant="primary" />
 // ============================================================================
 
-import { numberRoll } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva } from "class-variance-authority";
@@ -247,16 +246,26 @@ function roundToPrecision(value: number, precision: number): number {
 // Animated display (Internal)
 // ---------------------------------------------------------------------------
 
+type SlideDirection = "up" | "down" | "none";
+
 interface AnimatedValueProps {
   value: number;
   formatValue: (v: number) => string;
   shouldReduce: boolean;
+  direction: SlideDirection;
 }
+
+const ROLL_DISTANCE = 12;
+const ROLL_TRANSITION = {
+  duration: 0.2,
+  ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
+};
 
 function AnimatedValue({
   value,
   formatValue,
   shouldReduce,
+  direction,
 }: AnimatedValueProps) {
   const [displayValue, setDisplayValue] = useState(value);
   const [key, setKey] = useState(0);
@@ -270,6 +279,17 @@ function AnimatedValue({
     return <span className="tabular-nums">{formatValue(displayValue)}</span>;
   }
 
+  // Slide-up on increment: enter from below (y: +d → 0), exit upward (y: 0 → -d)
+  // Slide-down on decrement: enter from above (y: -d → 0), exit downward (y: 0 → +d)
+  const enterY = direction === "down" ? -ROLL_DISTANCE : ROLL_DISTANCE;
+  const exitY = direction === "down" ? ROLL_DISTANCE : -ROLL_DISTANCE;
+
+  const variants = {
+    initial: { opacity: 0, y: enterY },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: exitY },
+  };
+
   return (
     <span
       className="relative inline-block overflow-hidden leading-none"
@@ -280,11 +300,11 @@ function AnimatedValue({
         <motion.span
           key={key}
           className="inline-block tabular-nums"
-          variants={numberRoll.variants}
+          variants={variants}
           initial="initial"
           animate="animate"
           exit="exit"
-          transition={numberRoll.transition}
+          transition={ROLL_TRANSITION}
           data-ds-animated=""
         >
           {formatValue(displayValue)}
@@ -372,10 +392,22 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
       roundToPrecision(clamp(defaultValue, min, max), precision),
     );
     const [inputRaw, setInputRaw] = useState<string | null>(null); // null = not editing
+    const [direction, setDirection] = useState<SlideDirection>("none");
     const inputRef = useRef<HTMLInputElement>(null);
+    const prevValueRef = useRef<number>(
+      controlledValue ?? roundToPrecision(clamp(defaultValue, min, max), precision),
+    );
 
     const currentValue =
       controlledValue !== undefined ? controlledValue : internalValue;
+
+    // Sync direction when controlled value changes externally
+    useEffect(() => {
+      if (controlledValue !== undefined && controlledValue !== prevValueRef.current) {
+        setDirection(controlledValue > prevValueRef.current ? "up" : "down");
+        prevValueRef.current = controlledValue;
+      }
+    }, [controlledValue]);
 
     const resolvedFormat = formatValue ?? ((v: number) => v.toFixed(precision));
     const resolvedParse =
@@ -386,6 +418,10 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
     const commit = useCallback(
       (next: number) => {
         const clamped = roundToPrecision(clamp(next, min, max), precision);
+        if (clamped !== currentValue) {
+          setDirection(clamped > currentValue ? "up" : "down");
+          prevValueRef.current = clamped;
+        }
         if (controlledValue === undefined) {
           setInternalValue(clamped);
         }
@@ -557,6 +593,7 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
                 value={currentValue}
                 formatValue={resolvedFormat}
                 shouldReduce={shouldReduce ?? false}
+                direction={direction}
               />
             </button>
           )}

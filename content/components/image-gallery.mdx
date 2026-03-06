@@ -6,6 +6,7 @@ icon: Image
 
 import { ImageGallery } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 export const sampleImages = [
 	{
@@ -40,9 +41,11 @@ export const sampleImages = [
 	},
 ];
 
-<ComponentPage
-	title="Image Gallery"
-	description="A responsive grid of images with an interactive lightbox viewer featuring zoom, keyboard navigation, and thumbnail strip. Click any image to open the lightbox."
+## Basic
+
+A responsive grid of images with an interactive lightbox viewer featuring zoom, keyboard navigation, and thumbnail strip. Click any image to open the lightbox.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<ImageGallery
@@ -64,25 +67,94 @@ export const sampleImages = [
   columns={3}
   aspectRatio="video"
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add image-gallery
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add image-gallery
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add image-gallery
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add image-gallery
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { ImageGallery } from "@work-rjkashyap/unified-ui";
-// or
-import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Columns
 
-<ComponentPage
-	title="Column Layouts"
-	description="Control the number of grid columns from 1 to 4."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-2xl">
 			<div>
@@ -113,9 +185,7 @@ import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
 
 ### Aspect Ratios
 
-<ComponentPage
-	title="Aspect Ratios"
-	description="Control thumbnail shape with square, video (16:9), or auto aspect ratios."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-2xl">
 			<div>
@@ -150,9 +220,7 @@ import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
 
 ### Custom Gap
 
-<ComponentPage
-	title="Custom Gap"
-	description="Adjust the spacing between grid items using the gap prop (in pixels)."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-2xl">
 			<div>
@@ -185,9 +253,7 @@ import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
 
 ### Without Lightbox
 
-<ComponentPage
-	title="Lightbox Disabled"
-	description="Set lightbox={false} to display a static grid without click-to-open behavior."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<ImageGallery
@@ -207,9 +273,7 @@ import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
 
 ### With Captions
 
-<ComponentPage
-	title="Images with Captions"
-	description="Add a caption property to each image — captions appear in the lightbox viewer below the active image."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-2xl">
 			<ImageGallery
@@ -247,9 +311,7 @@ import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
 
 ### Single Image
 
-<ComponentPage
-	title="Single Image"
-	description="Works with a single image too — the lightbox opens directly without navigation controls."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<ImageGallery
@@ -325,5 +387,3 @@ import { ImageGallery } from "@work-rjkashyap/unified-ui/components";
 | `--radius-lg`     | Thumbnail border radius    |
 | `--shadow-md`     | Hover shadow on thumbnails |
 | `--duration-fast` | Transition speed           |
-
-</ComponentPage>

@@ -6,6 +6,7 @@ icon: Tag
 
 import { Label } from "@work-rjkashyap/unified-ui/components";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,23 +14,94 @@ The `Label` component provides an accessible `<label>` element for form controls
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { Label } from "@work-rjkashyap/unified-ui/components";
-// or from barrel (aliased to avoid collision with Typography Label)
-import { FormLabel } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add label
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add label
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add label
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add label
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	Label,
+	FormLabel,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Label"
-	description="A simple label linked to a form control via htmlFor."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			<div className="flex flex-col gap-1.5">
@@ -51,9 +123,7 @@ import { FormLabel } from "@work-rjkashyap/unified-ui";
 
 ### Sizes
 
-<ComponentPage
-	title="Label Sizes"
-	description="Three sizes to match the form control size scale: sm, md (default), and lg."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			<Label size="sm">Small label (12px)</Label>
@@ -74,9 +144,7 @@ import { FormLabel } from "@work-rjkashyap/unified-ui";
 
 ### Required Indicator
 
-<ComponentPage
-	title="Required Indicator"
-	description="Shows a red asterisk (*) after the label text when the required prop is set."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			<div className="flex flex-col gap-1.5">
@@ -98,27 +166,25 @@ import { FormLabel } from "@work-rjkashyap/unified-ui";
 
 ### With Description
 
-<ComponentPage
-	title="Label with Description"
-	description="Optional helper text rendered below the label for additional context."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			<div className="flex flex-col gap-1.5">
-				<Label htmlFor="desc-bio" description="Keep it under 200 characters.">Bio</Label>
+				<Label htmlFor="desc-bio">Bio</Label>
 				<textarea id="desc-bio" className="h-20 px-3 py-2 rounded-md border border-fd-border bg-fd-background text-sm resize-none" placeholder="Tell us about yourself" />
 			</div>
 			<div className="flex flex-col gap-1.5">
-				<Label htmlFor="desc-url" description="Include the https:// prefix.">Website URL</Label>
+				<Label htmlFor="desc-url">Website URL</Label>
 				<input id="desc-url" className="h-9 px-3 rounded-md border border-fd-border bg-fd-background text-sm" placeholder="https://example.com" />
 			</div>
 		</div>
 	}
-	code={`<Label htmlFor="bio" description="Keep it under 200 characters.">
+	code={`<Label htmlFor="bio">
   Bio
 </Label>
 <Textarea id="bio" placeholder="Tell us about yourself" />
 
-<Label htmlFor="url" description="Include the https:// prefix.">
+<Label htmlFor="url">
   Website URL
 </Label>
 <Input id="url" placeholder="https://example.com" />`}
@@ -126,9 +192,7 @@ import { FormLabel } from "@work-rjkashyap/unified-ui";
 
 ### Disabled State
 
-<ComponentPage
-	title="Disabled Label"
-	description="Reduces opacity and changes cursor to not-allowed to indicate a disabled field."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			<div className="flex flex-col gap-1.5">
@@ -136,7 +200,7 @@ import { FormLabel } from "@work-rjkashyap/unified-ui";
 				<input id="dis-field" disabled className="h-9 px-3 rounded-md border border-fd-border bg-fd-background text-sm opacity-50 cursor-not-allowed" value="Cannot edit" readOnly />
 			</div>
 			<div className="flex flex-col gap-1.5">
-				<Label htmlFor="dis-desc" disabled description="This field is managed by your organization.">Organization name</Label>
+				<Label htmlFor="dis-desc" disabled>Organization name</Label>
 				<input id="dis-desc" disabled className="h-9 px-3 rounded-md border border-fd-border bg-fd-background text-sm opacity-50 cursor-not-allowed" value="Acme Corp" readOnly />
 			</div>
 		</div>
@@ -144,7 +208,7 @@ import { FormLabel } from "@work-rjkashyap/unified-ui";
 	code={`<Label htmlFor="locked" disabled>Locked field</Label>
 <Input id="locked" disabled value="Cannot edit" />
 
-<Label htmlFor="org" disabled description="This field is managed by your organization.">
+<Label htmlFor="org" disabled>
   Organization name
 </Label>
 <Input id="org" disabled value="Acme Corp" />`}

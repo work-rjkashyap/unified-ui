@@ -12,10 +12,14 @@ import {
 	Button,
 	Badge,
 } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Card"
-  description="A versatile container for grouping related content and actions."
+## Basic
+
+A versatile container for grouping related content and actions.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-4 w-full max-w-sm">
       <Card>
@@ -46,9 +50,84 @@ import {
     <Button variant="primary" size="sm">Save</Button>
   </CardFooter>
 </Card>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add card
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add card
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add card
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add card
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -56,6 +135,8 @@ import {
 	CardHeader,
 	CardBody,
 	CardFooter,
+	Button,
+	Badge,
 } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -65,9 +146,7 @@ import {
 
 The standard card with a subtle background and border.
 
-<ComponentPage
-	title="Default Variant"
-	description="The standard card with a subtle background and border."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<Card>
@@ -93,9 +172,7 @@ The standard card with a subtle background and border.
 
 Transparent background with a stronger border. Use when the card sits on a colored or complex background.
 
-<ComponentPage
-	title="Outlined Variant"
-	description="Transparent background with a stronger border for contrast."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<Card variant="outlined">
@@ -121,9 +198,7 @@ Transparent background with a stronger border. Use when the card sits on a color
 
 Raised card with shadow to draw attention or lift content above the page surface.
 
-<ComponentPage
-	title="Elevated Variant"
-	description="Uses shadow to create depth and visual prominence."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<Card variant="elevated">
@@ -148,9 +223,7 @@ Raised card with shadow to draw attention or lift content above the page surface
 
 Clickable card with hover lift animation, focus ring, and cursor pointer. Ideal for navigation cards.
 
-<ComponentPage
-	title="Interactive Variant"
-	description="Clickable card with hover lift animation and focus ring. Ideal for navigation."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<Card variant="interactive" as="a" href="#interactive">
@@ -174,9 +247,7 @@ Clickable card with hover lift animation, focus ring, and cursor pointer. Ideal 
 
 ## All Variants Side by Side
 
-<ComponentPage
-	title="All Variants"
-	description="All four card variants displayed side by side for comparison."
+<PreviewCard
 	preview={
 		<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
 			<Card>
@@ -252,9 +323,7 @@ Cards use a slot-based pattern with `CardHeader`, `CardBody`, and `CardFooter` s
 
 ### Full Composition
 
-<ComponentPage
-	title="Full Composition"
-	description="Card with header, body, and footer slots for complete structured content."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<Card>
@@ -300,9 +369,7 @@ Cards use a slot-based pattern with `CardHeader`, `CardBody`, and `CardFooter` s
 
 ### Body Only
 
-<ComponentPage
-	title="Body Only"
-	description="A simple card with only a body slot. No header or footer needed."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<Card>
@@ -324,9 +391,7 @@ Cards use a slot-based pattern with `CardHeader`, `CardBody`, and `CardFooter` s
 
 ### Without Borders on Slots
 
-<ComponentPage
-	title="Without Borders"
-	description="Header and footer borders can be removed independently with the bordered prop."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<Card>
@@ -366,9 +431,7 @@ Cards use a slot-based pattern with `CardHeader`, `CardBody`, and `CardFooter` s
 
 The `padding` prop controls the internal spacing of all slot sub-components. Padding is applied to the slots, not the card root, which allows edge-to-edge images or content.
 
-<ComponentPage
-	title="Padding"
-	description="Two padding scales for different content density needs."
+<PreviewCard
 	preview={
 		<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
 			<Card padding="compact">
@@ -416,9 +479,7 @@ The `padding` prop controls the internal spacing of all slot sub-components. Pad
 
 The `CardFooter` supports horizontal alignment of its content via the `align` prop.
 
-<ComponentPage
-	title="Footer Alignment"
-	description="Four alignment options for footer content: end (default), between, start, and center."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-md w-full">
 			<Card>
@@ -467,9 +528,7 @@ The `CardFooter` supports horizontal alignment of its content via the `align` pr
 
 ## Full Width
 
-<ComponentPage
-	title="Full Width"
-	description="The fullWidth prop stretches the card to fill its container."
+<PreviewCard
 	preview={
 		<div className="w-full">
 			<Card fullWidth>
@@ -559,5 +618,3 @@ import Link from "next/link";
 - When used as a link (`as="a"`), the card supports standard link semantics.
 - Content within cards should maintain proper heading hierarchy — don't skip from `h2` to `h4`.
 - The interactive variant removes text decoration for anchor usage.
-
-</ComponentPage>

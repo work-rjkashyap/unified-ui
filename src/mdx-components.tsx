@@ -4,6 +4,7 @@ import { ComponentPreview } from "@/components/docs/component-preview";
 import { PropsTable } from "@/components/docs/props-table";
 import { ComponentCard, ComponentGrid } from "@/components/home/component-card";
 import { ComponentPage } from "@/components/layout/component-page";
+import { PreviewCard } from "@/components/layout/preview-card";
 import {
 	NumberInputFormatPreview,
 	SliderTooltipFormatPreview,
@@ -47,6 +48,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
 		ComponentGrid,
 		ComponentPage,
 		ComponentPreview,
+		PreviewCard,
 		PropsTable,
 		ToastPreview,
 		ContextMenuCheckboxPreview,

@@ -5,6 +5,8 @@ icon: ToggleLeft
 ---
 
 import { Switch } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
@@ -12,23 +14,91 @@ The `Switch` component is a toggle for binary on/off settings. Built on Radix UI
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add switch
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add switch
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add switch
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add switch
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { Switch } from "@work-rjkashyap/unified-ui";
-// or
-import { Switch } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Switch"
-	description="The simplest switch with a label. Supports defaultChecked for uncontrolled mode."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-start">
 			<Switch label="Notifications" />
@@ -41,9 +111,7 @@ import { Switch } from "@work-rjkashyap/unified-ui/components";
 
 ### Sizes
 
-<ComponentPage
-	title="Switch Sizes"
-	description="Two sizes are available: sm and md (default)."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-start">
 			<Switch size="sm" label="Small switch" />
@@ -56,9 +124,7 @@ import { Switch } from "@work-rjkashyap/unified-ui/components";
 
 ### Label Position
 
-<ComponentPage
-	title="Label Position"
-	description="Labels can be placed on the left or right side of the switch track."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-start">
 			<Switch label="Right label (default)" labelPosition="right" />
@@ -71,36 +137,28 @@ import { Switch } from "@work-rjkashyap/unified-ui/components";
 
 ### With Description
 
-<ComponentPage
-	title="With Description"
-	description="Add a description prop for additional context below the label."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-start w-full max-w-sm">
 			<Switch
 				label="Push notifications"
-				description="Receive push notifications on your device when important events occur."
 			/>
 			<Switch
 				label="Marketing emails"
-				description="Receive occasional emails about new features and promotions."
 			/>
 		</div>
 	}
 	code={`<Switch
   label="Push notifications"
-  description="Receive push notifications on your device when important events occur."
 />
 <Switch
   label="Marketing emails"
-  description="Receive occasional emails about new features and promotions."
 />`}
 />
 
 ### Disabled State
 
-<ComponentPage
-	title="Disabled State"
-	description="Disabled switches have reduced opacity and no pointer events."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 items-start">
 			<Switch label="Disabled off" disabled />
@@ -113,35 +171,29 @@ import { Switch } from "@work-rjkashyap/unified-ui/components";
 
 ### Settings Pattern
 
-<ComponentPage
-	title="Settings Panel"
-	description="A common pattern for settings pages using switches in a list."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-0 w-full max-w-sm divide-y divide-fd-border border border-fd-border rounded-md overflow-hidden">
 			<div className="p-4">
 				<Switch
 					label="Email notifications"
-					description="Get notified about new messages"
 					defaultChecked
 				/>
 			</div>
 			<div className="p-4">
 				<Switch
 					label="Push notifications"
-					description="Receive alerts on your device"
 					defaultChecked
 				/>
 			</div>
 			<div className="p-4">
 				<Switch
 					label="SMS notifications"
-					description="Get text messages for urgent alerts"
 				/>
 			</div>
 			<div className="p-4">
 				<Switch
 					label="Marketing emails"
-					description="Occasional product updates and tips"
 				/>
 			</div>
 		</div>
@@ -150,27 +202,23 @@ import { Switch } from "@work-rjkashyap/unified-ui/components";
   <div className="p-4">
     <Switch
       label="Email notifications"
-      description="Get notified about new messages"
       defaultChecked
     />
   </div>
   <div className="p-4">
     <Switch
       label="Push notifications"
-      description="Receive alerts on your device"
       defaultChecked
     />
   </div>
   <div className="p-4">
     <Switch
       label="SMS notifications"
-      description="Get text messages for urgent alerts"
     />
   </div>
   <div className="p-4">
     <Switch
       label="Marketing emails"
-      description="Occasional product updates and tips"
     />
   </div>
 </div>`}

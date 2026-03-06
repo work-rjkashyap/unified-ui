@@ -4,15 +4,24 @@ description: A composed input field with prefix/suffix icons, left/right text ad
 icon: TextCursorInput
 ---
 
+import { InputGroup, Button } from "@work-rjkashyap/unified-ui";
 import {
-  InputGroup,
-  Button,
-} from "@work-rjkashyap/unified-ui";
-import { Search, Mail, Globe, Lock, DollarSign, AtSign, Eye } from "lucide-react";
+	Search,
+	Mail,
+	Globe,
+	Lock,
+	DollarSign,
+	AtSign,
+	Eye,
+} from "lucide-react";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Input Group"
-  description="A composed input with prefix/suffix icon slots and left/right text addons. Maintains consistent height with Input, Select, and Button."
+## Basic
+
+A composed input with prefix/suffix icon slots and left/right text addons. Maintains consistent height with Input, Select, and Button.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 w-full max-w-sm">
       <InputGroup
@@ -37,25 +46,102 @@ import { Search, Mail, Globe, Lock, DollarSign, AtSign, Eye } from "lucide-react
 />
 
 {/* URL with left addon */}
+
 <InputGroup
-  addonLeft="https://"
-  inputProps={{ placeholder: "your-domain.com" }}
+	addonLeft="https://"
+	inputProps={{ placeholder: "your-domain.com" }}
 />
 
 {/* Currency with icon + right addon */}
+
 <InputGroup
   prefix={<DollarSign className="size-4" />}
   addonRight="USD"
   inputProps={{ placeholder: "0.00", type: "number" }}
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add input-group
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add input-group
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add input-group
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add input-group
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx
+	@work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for
+	details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { InputGroup } from "@work-rjkashyap/unified-ui";
-// or
-import { InputGroup } from "@work-rjkashyap/unified-ui/components";
+import { InputGroup, Button } from "@work-rjkashyap/unified-ui";
 ```
 
 ## Basic Usage
@@ -64,8 +150,8 @@ import { InputGroup } from "@work-rjkashyap/unified-ui/components";
 
 ```tsx
 <InputGroup
-  prefix={<Search className="size-4" />}
-  inputProps={{ placeholder: "Search...", type: "search" }}
+	prefix={<Search className="size-4" />}
+	inputProps={{ placeholder: "Search...", type: "search" }}
 />
 ```
 
@@ -73,9 +159,7 @@ import { InputGroup } from "@work-rjkashyap/unified-ui/components";
 
 Use `prefix` and `suffix` for inline icon slots. These sit inside the input border without a divider.
 
-<ComponentPage
-  title="Prefix & Suffix Icons"
-  description="Icon slots positioned inside the input border, on the left or right of the field."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 w-full max-w-sm">
       <InputGroup
@@ -96,19 +180,22 @@ Use `prefix` and `suffix` for inline icon slots. These sit inside the input bord
   code={`import { Mail, Lock, Eye, AtSign } from "lucide-react";
 
 {/* Prefix only */}
+
 <InputGroup
-  prefix={<Mail className="size-4" />}
-  inputProps={{ placeholder: "you@example.com", type: "email" }}
+	prefix={<Mail className="size-4" />}
+	inputProps={{ placeholder: "you@example.com", type: "email" }}
 />
 
 {/* Prefix + Suffix */}
+
 <InputGroup
-  prefix={<Lock className="size-4" />}
-  suffix={<Eye className="size-4" />}
-  inputProps={{ placeholder: "Password", type: "password" }}
+	prefix={<Lock className="size-4" />}
+	suffix={<Eye className="size-4" />}
+	inputProps={{ placeholder: "Password", type: "password" }}
 />
 
 {/* At-sign prefix */}
+
 <InputGroup
   prefix={<AtSign className="size-4" />}
   inputProps={{ placeholder: "username" }}
@@ -119,9 +206,7 @@ Use `prefix` and `suffix` for inline icon slots. These sit inside the input bord
 
 Addons render outside the text field with a distinct background and a dividing border. Use them for units, labels, or fixed text like `http://`.
 
-<ComponentPage
-  title="Left & Right Addons"
-  description="Styled addon segments attached to either side of the input with a dividing border."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 w-full max-w-sm">
       <InputGroup
@@ -150,18 +235,18 @@ Addons render outside the text field with a distinct background and a dividing b
 />
 
 {/* Currency suffix */}
-<InputGroup
-  inputProps={{ placeholder: "0.00" }}
-  addonRight="USD"
-/>
+
+<InputGroup inputProps={{ placeholder: "0.00" }} addonRight="USD" />
 
 {/* Phone prefix */}
+
 <InputGroup
-  addonLeft="+1"
-  inputProps={{ placeholder: "Phone number", type: "tel" }}
+	addonLeft="+1"
+	inputProps={{ placeholder: "Phone number", type: "tel" }}
 />
 
 {/* Both sides */}
+
 <InputGroup
   addonLeft="From"
   inputProps={{ placeholder: "start date" }}
@@ -173,9 +258,7 @@ Addons render outside the text field with a distinct background and a dividing b
 
 Mix icon prefixes/suffixes with addons for rich composed inputs.
 
-<ComponentPage
-  title="Combined Icon + Addon"
-  description="Combine prefix icons with text addons for real-world form fields."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 w-full max-w-sm">
       <InputGroup
@@ -198,15 +281,15 @@ Mix icon prefixes/suffixes with addons for rich composed inputs.
   code={`import { Globe, DollarSign } from "lucide-react";
 
 <InputGroup
-  prefix={<Globe className="size-4" />}
-  addonRight=".com"
-  inputProps={{ placeholder: "your-site" }}
+	prefix={<Globe className="size-4" />}
+	addonRight=".com"
+	inputProps={{ placeholder: "your-site" }}
 />
 
 <InputGroup
-  addonLeft="$"
-  inputProps={{ placeholder: "0.00", type: "number" }}
-  addonRight="per month"
+	addonLeft="$"
+	inputProps={{ placeholder: "0.00", type: "number" }}
+	addonRight="per month"
 />
 
 <InputGroup
@@ -218,73 +301,67 @@ Mix icon prefixes/suffixes with addons for rich composed inputs.
 
 ## Sizes
 
-<ComponentPage
-  title="Sizes"
-  description="Three sizes that align perfectly with Button, Input, and Select heights."
-  preview={
-    <div className="flex flex-col gap-3 w-full max-w-sm">
-      <InputGroup
-        size="sm"
-        prefix={<Search className="size-3.5" />}
-        inputProps={{ placeholder: "Small (h-8)" }}
-      />
-      <InputGroup
-        size="md"
-        prefix={<Search className="size-4" />}
-        inputProps={{ placeholder: "Medium (h-9)" }}
-      />
-      <InputGroup
-        size="lg"
-        prefix={<Search className="size-4" />}
-        inputProps={{ placeholder: "Large (h-10)" }}
-      />
-    </div>
-  }
-  code={`<InputGroup size="sm" prefix={<Search />} inputProps={{ placeholder: "Small" }} />
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-3 w-full max-w-sm">
+			<InputGroup
+				size="sm"
+				prefix={<Search className="size-3.5" />}
+				inputProps={{ placeholder: "Small (h-8)" }}
+			/>
+			<InputGroup
+				size="md"
+				prefix={<Search className="size-4" />}
+				inputProps={{ placeholder: "Medium (h-9)" }}
+			/>
+			<InputGroup
+				size="lg"
+				prefix={<Search className="size-4" />}
+				inputProps={{ placeholder: "Large (h-10)" }}
+			/>
+		</div>
+	}
+	code={`<InputGroup size="sm" prefix={<Search />} inputProps={{ placeholder: "Small" }} />
 <InputGroup size="md" prefix={<Search />} inputProps={{ placeholder: "Medium" }} />
 <InputGroup size="lg" prefix={<Search />} inputProps={{ placeholder: "Large" }} />`}
 />
 
-| Size | Height | Use Case                        |
-| ---- | ------ | ------------------------------- |
-| `sm` | 32px   | Compact toolbars, dense tables  |
-| `md` | 36px   | Default — most form contexts    |
-| `lg` | 40px   | Prominent inputs, hero forms    |
+| Size | Height | Use Case                       |
+| ---- | ------ | ------------------------------ |
+| `sm` | 32px   | Compact toolbars, dense tables |
+| `md` | 36px   | Default — most form contexts   |
+| `lg` | 40px   | Prominent inputs, hero forms   |
 
 ## Variants
 
-<ComponentPage
-  title="Variants"
-  description="Default uses a bordered style; filled uses a muted background with no border."
-  preview={
-    <div className="flex flex-col gap-3 w-full max-w-sm">
-      <InputGroup
-        variant="default"
-        prefix={<Mail className="size-4" />}
-        inputProps={{ placeholder: "Default variant" }}
-      />
-      <InputGroup
-        variant="filled"
-        prefix={<Mail className="size-4" />}
-        inputProps={{ placeholder: "Filled variant" }}
-      />
-    </div>
-  }
-  code={`<InputGroup variant="default" prefix={<Mail />} inputProps={{ placeholder: "Default" }} />
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-3 w-full max-w-sm">
+			<InputGroup
+				variant="default"
+				prefix={<Mail className="size-4" />}
+				inputProps={{ placeholder: "Default variant" }}
+			/>
+			<InputGroup
+				variant="filled"
+				prefix={<Mail className="size-4" />}
+				inputProps={{ placeholder: "Filled variant" }}
+			/>
+		</div>
+	}
+	code={`<InputGroup variant="default" prefix={<Mail />} inputProps={{ placeholder: "Default" }} />
 <InputGroup variant="filled" prefix={<Mail />} inputProps={{ placeholder: "Filled" }} />`}
 />
 
 ## Error State
 
-<ComponentPage
-  title="Error State"
-  description="Red border and focus ring when the field has a validation error."
+<PreviewCard
   preview={
     <div className="flex flex-col gap-3 w-full max-w-sm">
       <InputGroup
         error
         prefix={<Mail className="size-4" />}
-        inputProps={{ placeholder: "Invalid email", value: "not-an-email" }}
+        inputProps={{ placeholder: "Invalid email", defaultValue: "not-an-email" }}
       />
       <InputGroup
         error
@@ -310,9 +387,12 @@ Mix icon prefixes/suffixes with addons for rich composed inputs.
 
 ```tsx
 <InputGroup
-  disabled
-  prefix={<Lock className="size-4" />}
-  inputProps={{ placeholder: "Disabled field", value: "read-only value" }}
+	disabled
+	prefix={<Lock className="size-4" />}
+	inputProps={{
+		placeholder: "Disabled field",
+		defaultValue: "read-only value",
+	}}
 />
 ```
 
@@ -322,13 +402,13 @@ Pass a `Button` (or any element) as `children` to replace the default `<input>` 
 
 ```tsx
 <InputGroup addonLeft="Search">
-  <input
-    className="flex-1 h-full bg-transparent outline-none text-sm px-3 text-foreground placeholder:text-muted-foreground"
-    placeholder="Type to search..."
-  />
-  <Button variant="primary" size="sm" className="m-1 shrink-0">
-    Go
-  </Button>
+	<input
+		className="flex-1 h-full bg-transparent outline-none text-sm px-3 text-foreground placeholder:text-muted-foreground"
+		placeholder="Type to search..."
+	/>
+	<Button variant="primary" size="sm" className="m-1 shrink-0">
+		Go
+	</Button>
 </InputGroup>
 ```
 
@@ -338,30 +418,30 @@ When `children` is provided, it replaces the built-in `<input>`. Use this to com
 
 ```tsx
 <InputGroup addonLeft="Country" addonRight={<Globe className="size-4" />}>
-  <select className="flex-1 h-full bg-transparent outline-none text-sm px-3 text-foreground">
-    <option>United States</option>
-    <option>United Kingdom</option>
-    <option>Germany</option>
-  </select>
+	<select className="flex-1 h-full bg-transparent outline-none text-sm px-3 text-foreground">
+		<option>United States</option>
+		<option>United Kingdom</option>
+		<option>Germany</option>
+	</select>
 </InputGroup>
 ```
 
 ## Props
 
-| Prop             | Type                          | Default     | Description                                                        |
-| ---------------- | ----------------------------- | ----------- | ------------------------------------------------------------------ |
-| `size`           | `"sm" \| "md" \| "lg"`        | `"md"`      | Height variant — aligns with Button and Input sizes.               |
-| `variant`        | `"default" \| "filled"`       | `"default"` | Visual style — bordered or muted-filled background.                |
-| `prefix`         | `ReactNode`                   | —           | Icon or content rendered inside the input on the left (no border). |
-| `suffix`         | `ReactNode`                   | —           | Icon or content rendered inside the input on the right (no border).|
-| `addonLeft`      | `ReactNode`                   | —           | Text or element attached to the left with a distinct background.   |
-| `addonRight`     | `ReactNode`                   | —           | Text or element attached to the right with a distinct background.  |
-| `disabled`       | `boolean`                     | `false`     | Disables pointer events and reduces opacity for the whole group.   |
-| `error`          | `boolean`                     | `false`     | Applies danger-colored border and focus ring.                      |
-| `inputProps`     | `InputHTMLAttributes<HTMLInputElement>` | — | Props spread onto the internal `<input>` element.                  |
-| `inputClassName` | `string`                      | —           | Additional CSS classes applied only to the inner `<input>`.        |
-| `children`       | `ReactNode`                   | —           | Replaces the default `<input>` with a custom element.              |
-| `className`      | `string`                      | —           | Additional CSS classes on the container element.                   |
+| Prop             | Type                                    | Default     | Description                                                         |
+| ---------------- | --------------------------------------- | ----------- | ------------------------------------------------------------------- |
+| `size`           | `"sm" \| "md" \| "lg"`                  | `"md"`      | Height variant — aligns with Button and Input sizes.                |
+| `variant`        | `"default" \| "filled"`                 | `"default"` | Visual style — bordered or muted-filled background.                 |
+| `prefix`         | `ReactNode`                             | —           | Icon or content rendered inside the input on the left (no border).  |
+| `suffix`         | `ReactNode`                             | —           | Icon or content rendered inside the input on the right (no border). |
+| `addonLeft`      | `ReactNode`                             | —           | Text or element attached to the left with a distinct background.    |
+| `addonRight`     | `ReactNode`                             | —           | Text or element attached to the right with a distinct background.   |
+| `disabled`       | `boolean`                               | `false`     | Disables pointer events and reduces opacity for the whole group.    |
+| `error`          | `boolean`                               | `false`     | Applies danger-colored border and focus ring.                       |
+| `inputProps`     | `InputHTMLAttributes<HTMLInputElement>` | —           | Props spread onto the internal `<input>` element.                   |
+| `inputClassName` | `string`                                | —           | Additional CSS classes applied only to the inner `<input>`.         |
+| `children`       | `ReactNode`                             | —           | Replaces the default `<input>` with a custom element.               |
+| `className`      | `string`                                | —           | Additional CSS classes on the container element.                    |
 
 ## Accessibility
 
@@ -373,14 +453,12 @@ When `children` is provided, it replaces the built-in `<input>`. Use this to com
 
 ## Design Tokens
 
-| Token            | Usage                              |
-| ---------------- | ---------------------------------- |
-| `--input`        | Container border (default variant) |
-| `--muted`        | Addon background + filled variant  |
-| `--border`       | Addon divider border               |
-| `--ring`         | Focus ring                         |
-| `--danger`       | Error state border and ring        |
-| `--radius-md`    | Container border radius            |
-| `--duration-fast`| Transition speed                   |
-
-</ComponentPage>
+| Token             | Usage                              |
+| ----------------- | ---------------------------------- |
+| `--input`         | Container border (default variant) |
+| `--muted`         | Addon background + filled variant  |
+| `--border`        | Addon divider border               |
+| `--ring`          | Focus ring                         |
+| `--danger`        | Error state border and ring        |
+| `--radius-md`     | Container border radius            |
+| `--duration-fast` | Transition speed                   |

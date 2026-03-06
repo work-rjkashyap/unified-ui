@@ -55,12 +55,16 @@ import {
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
+  createContext,
   forwardRef,
   type ReactNode,
+  useCallback,
+  useContext,
+  useState,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -221,6 +225,20 @@ export interface SheetProps extends DialogPrimitive.DialogProps {
   children: ReactNode;
 }
 
+// ---------------------------------------------------------------------------
+// Internal context — shares open state for AnimatePresence exit animations
+// ---------------------------------------------------------------------------
+
+interface SheetContextValue {
+  open: boolean;
+}
+
+const SheetContext = createContext<SheetContextValue>({ open: false });
+
+function useSheetContext() {
+  return useContext(SheetContext);
+}
+
 export interface SheetTriggerProps
   extends ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger> {
   /** Additional CSS classes. */
@@ -337,8 +355,36 @@ function CloseIcon({ className }: { className?: string }) {
  * </Sheet>
  * ```
  */
-export function Sheet({ children, ...rest }: SheetProps) {
-  return <DialogPrimitive.Root {...rest}>{children}</DialogPrimitive.Root>;
+export function Sheet({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}: SheetProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+
+  const handleOpenChange = useCallback(
+    (next: boolean) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange],
+  );
+
+  return (
+    <SheetContext.Provider value={{ open }}>
+      <DialogPrimitive.Root
+        open={open}
+        onOpenChange={handleOpenChange}
+        {...rest}
+      >
+        {children}
+      </DialogPrimitive.Root>
+    </SheetContext.Provider>
+  );
 }
 
 Sheet.displayName = "Sheet";
@@ -386,7 +432,7 @@ const SheetOverlay = forwardRef<
 >(function SheetOverlay({ className, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
   return (
-    <DialogPrimitive.Overlay ref={ref} asChild {...rest}>
+    <DialogPrimitive.Overlay ref={ref} forceMount asChild {...rest}>
       <motion.div
         className={cn(
           "fixed inset-0",
@@ -481,50 +527,57 @@ export const SheetContent = forwardRef<
   ref,
 ) {
   const shouldReduce = useReducedMotion();
+  const { open } = useSheetContext();
   const preset = sidePresetMap[side];
 
   return (
-    <DialogPrimitive.Portal>
-      <SheetOverlay className={overlayClassName} />
-      <DialogPrimitive.Content ref={ref} asChild {...rest}>
-        <motion.div
-          className={cn(
-            "not-prose",
-            sheetContentVariants({ side, size }),
-            className,
-          )}
-          variants={shouldReduce ? undefined : preset.variants}
-          initial={shouldReduce ? { opacity: 0 } : "initial"}
-          animate={shouldReduce ? { opacity: 1 } : "animate"}
-          exit={shouldReduce ? { opacity: 0 } : "exit"}
-          transition={
-            shouldReduce ? { duration: 0.2 } : preset.transition
-          }
-          data-ds=""
-          data-ds-component="sheet"
-          data-ds-side={side}
-          data-ds-size={size}
-          data-ds-animated=""
-        >
-          {children}
+    <DialogPrimitive.Portal forceMount>
+      <AnimatePresence>
+        {open && (
+          <>
+            <SheetOverlay className={overlayClassName} />
+            <DialogPrimitive.Content ref={ref} forceMount asChild {...rest}>
+              <motion.div
+                className={cn(
+                  "not-prose",
+                  sheetContentVariants({ side, size }),
+                  className,
+                )}
+                variants={shouldReduce ? undefined : preset.variants}
+                initial={shouldReduce ? { opacity: 0 } : "initial"}
+                animate={shouldReduce ? { opacity: 1 } : "animate"}
+                exit={shouldReduce ? { opacity: 0 } : "exit"}
+                transition={
+                  shouldReduce ? { duration: 0.2 } : preset.transition
+                }
+                data-ds=""
+                data-ds-component="sheet"
+                data-ds-side={side}
+                data-ds-size={size}
+                data-ds-animated=""
+              >
+                {children}
 
-          {showClose && (
-            <DialogPrimitive.Close
-              className={cn(
-                "absolute right-4 top-4",
-                "inline-flex items-center justify-center",
-                "rounded-sm p-1",
-                "text-muted-foreground hover:text-foreground",
-                "transition-colors duration-fast",
-                focusRingClasses,
-              )}
-              aria-label="Close"
-            >
-              <CloseIcon className="size-4" />
-            </DialogPrimitive.Close>
-          )}
-        </motion.div>
-      </DialogPrimitive.Content>
+                {showClose && (
+                  <DialogPrimitive.Close
+                    className={cn(
+                      "absolute right-4 top-4",
+                      "inline-flex items-center justify-center",
+                      "rounded-sm p-1",
+                      "text-muted-foreground hover:text-foreground",
+                      "transition-colors duration-fast",
+                      focusRingClasses,
+                    )}
+                    aria-label="Close"
+                  >
+                    <CloseIcon className="size-4" />
+                  </DialogPrimitive.Close>
+                )}
+              </motion.div>
+            </DialogPrimitive.Content>
+          </>
+        )}
+      </AnimatePresence>
     </DialogPrimitive.Portal>
   );
 });

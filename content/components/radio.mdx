@@ -10,6 +10,7 @@ import {
 	RadioCard,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -17,7 +18,81 @@ The `RadioGroup` component is used for selecting a single option from a set. It 
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add radio
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add radio
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add radio
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add radio
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -25,23 +100,13 @@ import {
 	RadioGroupItem,
 	RadioCard,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	RadioGroup,
-	RadioGroupItem,
-	RadioCard,
-} from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Radio Group"
-	description="The simplest radio group with labeled options. Use defaultValue for uncontrolled mode."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<RadioGroup defaultValue="option-1">
@@ -60,9 +125,7 @@ import {
 
 ### Sizes
 
-<ComponentPage
-	title="Radio Sizes"
-	description="Two sizes are available for different density requirements."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-8 w-full max-w-xs">
 			<RadioGroup size="sm" defaultValue="a">
@@ -95,26 +158,21 @@ import {
 
 ### With Descriptions
 
-<ComponentPage
-	title="With Descriptions"
-	description="Each radio item can include a description for additional context."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<RadioGroup defaultValue="email">
 				<RadioGroupItem
 					value="email"
 					label="Email notifications"
-					description="Receive updates via email. Best for daily summaries."
 				/>
 				<RadioGroupItem
 					value="sms"
 					label="SMS notifications"
-					description="Get instant alerts via text message."
 				/>
 				<RadioGroupItem
 					value="push"
 					label="Push notifications"
-					description="Real-time notifications in the browser."
 				/>
 			</RadioGroup>
 		</div>
@@ -123,26 +181,21 @@ import {
   <RadioGroupItem
     value="email"
     label="Email notifications"
-    description="Receive updates via email. Best for daily summaries."
   />
   <RadioGroupItem
     value="sms"
     label="SMS notifications"
-    description="Get instant alerts via text message."
   />
   <RadioGroupItem
     value="push"
     label="Push notifications"
-    description="Real-time notifications in the browser."
   />
 </RadioGroup>`}
 />
 
 ### Horizontal Orientation
 
-<ComponentPage
-	title="Horizontal Orientation"
-	description="Set orientation to horizontal for inline layout."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<RadioGroup orientation="horizontal" defaultValue="left">
@@ -161,26 +214,21 @@ import {
 
 ### Radio Card Variant
 
-<ComponentPage
-	title="Radio Card"
-	description="The RadioCard variant renders each option as a full clickable card. Ideal for plan selectors, shipping options, and other rich selection interfaces."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<RadioGroup defaultValue="starter">
 				<RadioCard
 					value="starter"
 					label="Starter"
-					description="For individuals and small projects. 5 GB storage."
 				/>
 				<RadioCard
 					value="pro"
 					label="Pro"
-					description="For growing teams. 50 GB storage, priority support."
 				/>
 				<RadioCard
 					value="enterprise"
 					label="Enterprise"
-					description="Custom limits, dedicated support, SLA."
 				/>
 			</RadioGroup>
 		</div>
@@ -189,26 +237,21 @@ import {
   <RadioCard
     value="starter"
     label="Starter"
-    description="For individuals and small projects. 5 GB storage."
   />
   <RadioCard
     value="pro"
     label="Pro"
-    description="For growing teams. 50 GB storage, priority support."
   />
   <RadioCard
     value="enterprise"
     label="Enterprise"
-    description="Custom limits, dedicated support, SLA."
   />
 </RadioGroup>`}
 />
 
 ### Disabled State
 
-<ComponentPage
-	title="Disabled State"
-	description="Disable the entire group or individual items."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-8 w-full max-w-xs">
 			<RadioGroup disabled defaultValue="a">
@@ -239,26 +282,21 @@ import {
 
 ### Combined Features
 
-<ComponentPage
-	title="Combined Features"
-	description="All features can be composed together for real-world use cases."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-8 w-full max-w-sm">
 			<RadioGroup defaultValue="standard" size="sm">
 				<RadioGroupItem
 					value="standard"
 					label="Standard shipping"
-					description="5–7 business days"
 				/>
 				<RadioGroupItem
 					value="express"
 					label="Express shipping"
-					description="2–3 business days"
 				/>
 				<RadioGroupItem
 					value="overnight"
 					label="Overnight"
-					description="Next business day"
 					disabled
 				/>
 			</RadioGroup>
@@ -266,12 +304,10 @@ import {
 				<RadioCard
 					value="monthly"
 					label="Monthly"
-					description="$9/month — Cancel anytime."
 				/>
 				<RadioCard
 					value="yearly"
 					label="Yearly"
-					description="$89/year — Save 18%."
 				/>
 			</RadioGroup>
 		</div>
@@ -281,17 +317,14 @@ import {
   <RadioGroupItem
     value="standard"
     label="Standard shipping"
-    description="5–7 business days"
   />
   <RadioGroupItem
     value="express"
     label="Express shipping"
-    description="2–3 business days"
   />
   <RadioGroupItem
     value="overnight"
     label="Overnight"
-    description="Next business day"
     disabled
   />
 </RadioGroup>
@@ -302,12 +335,10 @@ import {
   <RadioCard
     value="monthly"
     label="Monthly"
-    description="$9/month — Cancel anytime."
   />
   <RadioCard
     value="yearly"
     label="Yearly"
-    description="$89/year — Save 18%."
   />
 </RadioGroup>`}
 />

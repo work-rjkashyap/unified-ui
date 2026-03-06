@@ -266,17 +266,17 @@ var overlayBackdrop = {
 };
 var modalContent = {
   variants: {
-    initial: { opacity: 0, scale: 0.96, y: 8 },
+    initial: { opacity: 0, scale: 0.95, y: 10 },
     animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.96, y: 8 }
+    exit: { opacity: 0, scale: 0.97, y: 4 }
   },
-  transition: buildTransition(chunkXCKK6P46_cjs.durationSeconds.normal, chunkXCKK6P46_cjs.easing.decelerate)
+  transition: chunkXCKK6P46_cjs.spring.stiff
 };
 var modalContentSpring = {
   variants: {
     initial: { opacity: 0, scale: 0.95, y: 10 },
     animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.95, y: 10 }
+    exit: { opacity: 0, scale: 0.97, y: 4 }
   },
   transition: chunkXCKK6P46_cjs.spring.stiff
 };
@@ -404,35 +404,35 @@ var crossfade = {
 };
 var slidePanelRight = {
   variants: {
-    initial: { x: "100%", opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: "100%", opacity: 0 }
+    initial: { x: "100%" },
+    animate: { x: 0 },
+    exit: { x: "100%" }
   },
-  transition: chunkXCKK6P46_cjs.spring.gentle
+  transition: chunkXCKK6P46_cjs.spring.stiff
 };
 var slidePanelLeft = {
   variants: {
-    initial: { x: "-100%", opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: "-100%", opacity: 0 }
+    initial: { x: "-100%" },
+    animate: { x: 0 },
+    exit: { x: "-100%" }
   },
-  transition: chunkXCKK6P46_cjs.spring.gentle
+  transition: chunkXCKK6P46_cjs.spring.stiff
 };
 var slidePanelBottom = {
   variants: {
-    initial: { y: "100%", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: "100%", opacity: 0 }
+    initial: { y: "100%" },
+    animate: { y: 0 },
+    exit: { y: "100%" }
   },
-  transition: chunkXCKK6P46_cjs.spring.gentle
+  transition: chunkXCKK6P46_cjs.spring.stiff
 };
 var slidePanelTop = {
   variants: {
-    initial: { y: "-100%", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: "-100%", opacity: 0 }
+    initial: { y: "-100%" },
+    animate: { y: 0 },
+    exit: { y: "-100%" }
   },
-  transition: chunkXCKK6P46_cjs.spring.gentle
+  transition: chunkXCKK6P46_cjs.spring.stiff
 };
 var dragDismiss = {
   variants: {

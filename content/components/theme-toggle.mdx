@@ -5,6 +5,8 @@ icon: SunMoon
 ---
 
 import { ThemeToggle, Button } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
@@ -12,23 +14,91 @@ The `ThemeToggle` component is a controlled light/dark/system mode switcher. It 
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add theme-toggle
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add theme-toggle
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add theme-toggle
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add theme-toggle
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { ThemeToggle } from "@work-rjkashyap/unified-ui";
-// or
-import { ThemeToggle } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Icon Variant (Default)
 
-<ComponentPage
-	title="Icon Toggle"
-	description="A single button that cycles between light and dark mode with an animated icon transition."
+<PreviewCard
 	preview={<ThemeToggleIconPreview />}
 	code={`import { useTheme } from "next-themes";
 import { ThemeToggle } from "@work-rjkashyap/unified-ui";
@@ -46,9 +116,7 @@ onChange={setTheme}
 
 ### Segmented Variant
 
-<ComponentPage
-	title="Segmented Toggle"
-	description="An inline pill group showing all available options at once. Great for settings pages."
+<PreviewCard
 	preview={<ThemeToggleSegmentedPreview />}
 	code={`<ThemeToggle
   value={theme}
@@ -59,9 +127,7 @@ onChange={setTheme}
 
 ### Three-State Mode (Light / Dark / System)
 
-<ComponentPage
-	title="Light / Dark / System"
-	description="Set mode='light-dark-system' to include a system/auto option that follows the OS preference."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center justify-center">
 			<ThemeToggleSystemIconPreview />
@@ -87,18 +153,14 @@ onChange={setTheme}
 
 ### Sizes
 
-<ComponentPage
-	title="Icon Sizes"
-	description="Three sizes: sm, md (default), and lg."
+<PreviewCard
 	preview={<ThemeToggleSizesPreview />}
 	code={`<ThemeToggle value={theme} onChange={setTheme} size="sm" />
 <ThemeToggle value={theme} onChange={setTheme} size="md" />
 <ThemeToggle value={theme} onChange={setTheme} size="lg" />`}
 />
 
-<ComponentPage
-	title="Segmented Sizes"
-	description="Segmented variant also supports all three sizes."
+<PreviewCard
 	preview={<ThemeToggleSegmentedSizesPreview />}
 	code={`<ThemeToggle value={theme} onChange={setTheme} variant="segmented" size="sm" />
 <ThemeToggle value={theme} onChange={setTheme} variant="segmented" size="md" />

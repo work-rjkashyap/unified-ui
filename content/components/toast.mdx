@@ -6,10 +6,13 @@ icon: Bell
 
 import { ToastProvider, useToast, Button } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-	title="Toast"
-	description="Stackable, non-blocking notifications that appear as overlays. Triggered imperatively via the useToast hook with semantic variants, custom actions, configurable positions, and auto-dismiss with progress indication."
+## Basic
+
+Stackable, non-blocking notifications that appear as overlays. Triggered imperatively via the useToast hook with semantic variants, custom actions, configurable positions, and auto-dismiss with progress indication.
+
+<PreviewCard
 	preview={<ToastPreview />}
 	code={`import { ToastProvider, useToast, Button } from "@work-rjkashyap/unified-ui";
 
@@ -51,23 +54,91 @@ With Action
 );
 }`}
 
->
 
-## Import
+/>
 
-```tsx
-import { ToastProvider, useToast } from "@work-rjkashyap/unified-ui";
-// or
-import { ToastProvider, useToast } from "@work-rjkashyap/unified-ui/components";
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add toast
 ```
 
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add toast
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add toast
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add toast
+```
+
+</Tab>
+</Tabs>
+
 <Callout type="info">
-	The toast system uses an **imperative hook pattern**. Wrap your app with
-	`ToastProvider`, then call `useToast()` inside any child component to
-	trigger toasts. No JSX elements are needed at the call site.
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
 </Callout>
 
----
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	ToastProvider,
+	Button,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Setup
 
@@ -115,9 +186,7 @@ function SaveButton() {
 
 Toasts support five semantic variants that match the Alert component's visual language. Each variant renders with a semantic background color, an auto-selected icon, and appropriate visual weight.
 
-<ComponentPage
-	title="Variants"
-	description="Five semantic variants for different message types."
+<PreviewCard
 	preview={<ToastPreview showPositionPicker={false} />}
 	code={`const toast = useToast();
 
@@ -442,5 +511,3 @@ function DeleteButton({ itemId }: { itemId: string }) {
 | `--duration-fast`   | Action/close hover speed    |
 | `--duration-normal` | Enter/exit animation timing |
 | `--radius-lg`       | Toast border radius         |
-
-</ComponentPage>

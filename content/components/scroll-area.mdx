@@ -6,6 +6,7 @@ icon: PanelTopDashed
 
 import { ScrollArea, ScrollBar } from "@work-rjkashyap/unified-ui/components";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,23 +14,94 @@ The `ScrollArea` component replaces native browser scrollbars with styled, consi
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { ScrollArea, ScrollBar } from "@work-rjkashyap/unified-ui/components";
-// or
-import { ScrollArea, ScrollBar } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add scroll-area
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add scroll-area
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add scroll-area
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add scroll-area
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	ScrollArea,
+	ScrollBar,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Vertical Scroll
 
-<ComponentPage
-	title="Vertical Scroll"
-	description="The default configuration — a vertically scrollable container with a styled scrollbar."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<ScrollArea className="h-48 w-full rounded-md border border-fd-border">
@@ -58,9 +130,7 @@ import { ScrollArea, ScrollBar } from "@work-rjkashyap/unified-ui";
 
 ### Horizontal Scroll
 
-<ComponentPage
-	title="Horizontal Scroll"
-	description="Enable horizontal scrolling with showHorizontal and disable vertical with showVertical={false}."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<ScrollArea className="w-full rounded-md border border-fd-border" showHorizontal showVertical={false}>
@@ -90,9 +160,7 @@ import { ScrollArea, ScrollBar } from "@work-rjkashyap/unified-ui";
 
 ### Scrollbar Sizes
 
-<ComponentPage
-	title="Scrollbar Sizes"
-	description="Two scrollbar track sizes: sm (6px) for compact UIs and md (10px, default) for standard use."
+<PreviewCard
 	preview={
 		<div className="flex gap-4 w-full max-w-md">
 			<div className="flex-1">
@@ -139,9 +207,7 @@ import { ScrollArea, ScrollBar } from "@work-rjkashyap/unified-ui";
 
 ### Visibility Types
 
-<ComponentPage
-	title="Scrollbar Visibility"
-	description="Control when scrollbars appear: auto, always, scroll (during scrolling only), or hover."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 w-full max-w-sm">
 			<div>
@@ -189,9 +255,7 @@ import { ScrollArea, ScrollBar } from "@work-rjkashyap/unified-ui";
 
 ### Both Scrollbars
 
-<ComponentPage
-	title="Both Scrollbars"
-	description="Enable both vertical and horizontal scrollbars for content that overflows in both directions."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-xs">
 			<ScrollArea className="h-48 w-full rounded-md border border-fd-border" showHorizontal type="always">

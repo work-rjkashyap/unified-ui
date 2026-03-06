@@ -16,10 +16,13 @@ import {
 	Badge,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-  title="Table"
-  description="A data table component with sorting indicators, density options, alignment control, and proper semantic HTML markup."
+## Basic
+
+A data table component with sorting indicators, density options, alignment control, and proper semantic HTML markup.
+
+<PreviewCard
   preview={
     <div className="w-full max-w-lg overflow-auto">
       <Table>
@@ -86,9 +89,84 @@ import { Callout } from "fumadocs-ui/components/callout";
     </TableRow>
   </TableBody>
 </Table>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add table
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add table
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add table
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add table
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -100,27 +178,15 @@ import {
 	TableHead,
 	TableCell,
 	TableCaption,
+	Badge,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Table,
-	TableHeader,
-	TableBody,
-	TableFooter,
-	TableRow,
-	TableHead,
-	TableCell,
-	TableCaption,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
 
 The Table component renders semantic HTML table elements (`<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`) styled with design system tokens.
 
-<ComponentPage
-	title="Basic Table"
-	description="A simple table with header and body rows using semantic HTML elements."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg overflow-auto">
 			<Table>
@@ -173,9 +239,7 @@ The Table component renders semantic HTML table elements (`<table>`, `<thead>`, 
 
 The `density` prop on the root `Table` controls the vertical padding of all rows. Two options are available.
 
-<ComponentPage
-	title="Table Density"
-	description="Two density options controlling vertical padding: compact for dense data, comfortable (default) for general use."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-lg">
 			<div>
@@ -265,9 +329,7 @@ The `density` prop on the root `Table` controls the vertical padding of all rows
 
 Use the `align` prop on `TableHead` and `TableCell` to control horizontal text alignment. This is especially useful for numeric columns.
 
-<ComponentPage
-	title="Cell Alignment"
-	description="Control horizontal text alignment with the align prop. Especially useful for numeric columns."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg overflow-auto">
 			<Table>
@@ -326,9 +388,7 @@ Use the `align` prop on `TableHead` and `TableCell` to control horizontal text a
 
 Use `TableCaption` to provide an accessible description of the table's content. The caption is rendered below the table by default.
 
-<ComponentPage
-	title="Table with Caption"
-	description="An accessible description of the table's content rendered below the table."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg overflow-auto">
 			<Table>
@@ -387,9 +447,7 @@ Use `TableCaption` to provide an accessible description of the table's content. 
 
 Use `TableFooter` for summary rows like totals.
 
-<ComponentPage
-	title="Table with Footer"
-	description="Summary rows like totals rendered in the table footer."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg overflow-auto">
 			<Table>
@@ -493,9 +551,7 @@ The `TableHead` component supports a `sortDirection` prop to display a visual so
 
 Add a `striped` prop to the root `Table` for alternating row backgrounds to improve readability in large data sets.
 
-<ComponentPage
-	title="Striped Rows"
-	description="Alternating row backgrounds to improve readability in large data sets."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-lg overflow-auto">
 			<Table striped>
@@ -656,5 +712,3 @@ For tables that may exceed the viewport width on mobile, wrap the `Table` in a h
 | `--foreground`       | Header and cell text                      |
 | `--muted-foreground` | Caption text                              |
 | `--duration-fast`          | Hover transition speed                    |
-
-</ComponentPage>

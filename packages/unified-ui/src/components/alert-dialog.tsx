@@ -3,7 +3,7 @@
 import { modalContent, overlayBackdrop } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 // ============================================================================
 // Unified UI — AlertDialog Component
 // ============================================================================
@@ -12,16 +12,71 @@ import { motion, useReducedMotion } from "framer-motion";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
+  createContext,
   type ElementRef,
   forwardRef,
   type ReactNode,
+  useCallback,
+  useContext,
+  useState,
 } from "react";
 
-export type AlertDialogProps = React.ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Root
->;
+// ---------------------------------------------------------------------------
+// Internal context — shares open state for AnimatePresence exit animations
+// ---------------------------------------------------------------------------
 
-export const AlertDialog = AlertDialogPrimitive.Root;
+interface AlertDialogContextValue {
+  open: boolean;
+}
+
+const AlertDialogContext = createContext<AlertDialogContextValue>({
+  open: false,
+});
+
+function useAlertDialogContext() {
+  return useContext(AlertDialogContext);
+}
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+export interface AlertDialogProps
+  extends React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root> {
+  children: ReactNode;
+}
+
+export function AlertDialog({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  ...rest
+}: AlertDialogProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+
+  const handleOpenChange = useCallback(
+    (next: boolean) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange],
+  );
+
+  return (
+    <AlertDialogContext.Provider value={{ open }}>
+      <AlertDialogPrimitive.Root
+        open={open}
+        onOpenChange={handleOpenChange}
+        {...rest}
+      >
+        {children}
+      </AlertDialogPrimitive.Root>
+    </AlertDialogContext.Provider>
+  );
+}
 AlertDialog.displayName = "AlertDialog";
 
 export const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
@@ -41,7 +96,7 @@ export const AlertDialogOverlay = forwardRef<
 >(function AlertDialogOverlay({ className, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
   return (
-    <AlertDialogPrimitive.Overlay ref={ref} asChild {...rest}>
+    <AlertDialogPrimitive.Overlay ref={ref} forceMount asChild {...rest}>
       <motion.div
         className={cn(
           "fixed inset-0 z-overlay bg-black/50 backdrop-blur-sm",
@@ -72,34 +127,42 @@ export const AlertDialogContent = forwardRef<
   AlertDialogContentProps
 >(function AlertDialogContent({ className, children, ...rest }, ref) {
   const shouldReduce = useReducedMotion();
+  const { open } = useAlertDialogContext();
+
   return (
-    <AlertDialogPrimitive.Portal>
-      <AlertDialogOverlay />
-      <AlertDialogPrimitive.Content ref={ref} asChild {...rest}>
-        <motion.div
-          className={cn(
-            "fixed left-[50%] top-[50%] z-modal",
-            "-translate-x-[50%] -translate-y-[50%]",
-            "w-full max-w-md rounded-lg border border-border bg-background shadow-xl",
-            "p-6",
-            "outline-none",
-            focusRingClasses,
-            className,
-          )}
-          variants={shouldReduce ? undefined : modalContent.variants}
-          initial={shouldReduce ? { opacity: 0 } : "initial"}
-          animate={shouldReduce ? { opacity: 1 } : "animate"}
-          exit={shouldReduce ? { opacity: 0 } : "exit"}
-          transition={
-            shouldReduce ? { duration: 0.2 } : modalContent.transition
-          }
-          data-ds=""
-          data-ds-component="alert-dialog-content"
-          data-ds-animated=""
-        >
-          {children}
-        </motion.div>
-      </AlertDialogPrimitive.Content>
+    <AlertDialogPrimitive.Portal forceMount>
+      <AnimatePresence>
+        {open && (
+          <>
+            <AlertDialogOverlay />
+            <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...rest}>
+              <motion.div
+                className={cn(
+                  "fixed left-[50%] top-[50%] z-modal",
+                  "-translate-x-[50%] -translate-y-[50%]",
+                  "w-full max-w-md rounded-lg border border-border bg-background shadow-xl",
+                  "p-6",
+                  "outline-none",
+                  focusRingClasses,
+                  className,
+                )}
+                variants={shouldReduce ? undefined : modalContent.variants}
+                initial={shouldReduce ? { opacity: 0 } : "initial"}
+                animate={shouldReduce ? { opacity: 1 } : "animate"}
+                exit={shouldReduce ? { opacity: 0 } : "exit"}
+                transition={
+                  shouldReduce ? { duration: 0.2 } : modalContent.transition
+                }
+                data-ds=""
+                data-ds-component="alert-dialog-content"
+                data-ds-animated=""
+              >
+                {children}
+              </motion.div>
+            </AlertDialogPrimitive.Content>
+          </>
+        )}
+      </AnimatePresence>
     </AlertDialogPrimitive.Portal>
   );
 });

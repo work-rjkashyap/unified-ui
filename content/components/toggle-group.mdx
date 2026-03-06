@@ -23,6 +23,7 @@ import {
 	Monitor,
 } from "lucide-react";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -30,23 +31,94 @@ The `ToggleGroup` component provides a group of toggle buttons with either singl
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui/components";
-// or
-import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add toggle-group
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add toggle-group
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add toggle-group
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add toggle-group
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	ToggleGroup,
+	ToggleGroupItem,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Single Select
 
-<ComponentPage
-	title="Single Select"
-	description="Only one item can be active at a time. Behaves like a radio group."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<ToggleGroup type="single" defaultValue="center">
@@ -85,9 +157,7 @@ import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
 
 ### Multiple Select
 
-<ComponentPage
-	title="Multiple Select"
-	description="Multiple items can be active simultaneously. Behaves like a checkbox group."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<ToggleGroup type="multiple" defaultValue={["bold"]}>
@@ -126,9 +196,7 @@ import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
 
 ### Variants
 
-<ComponentPage
-	title="Variants"
-	description="Three visual variants: default, outline, and ghost. The variant is shared across all items in the group."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<div className="flex flex-col gap-2 items-center">
@@ -187,9 +255,7 @@ import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
 
 ### Sizes
 
-<ComponentPage
-	title="Sizes"
-	description="Three sizes: sm, md (default), and lg. Size is shared across all items."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<div className="flex flex-col gap-2 items-center">
@@ -262,9 +328,7 @@ import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
 
 ### With Text Labels
 
-<ComponentPage
-	title="With Text Labels"
-	description="Toggle group items can contain both icons and text, or text only."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<ToggleGroup type="single" variant="outline" defaultValue="system">
@@ -303,9 +367,7 @@ import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
 
 ### Vertical Orientation
 
-<ComponentPage
-	title="Vertical Orientation"
-	description="Stack toggle items vertically with the orientation prop."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<ToggleGroup type="single" variant="outline" orientation="vertical" defaultValue="grid">
@@ -339,9 +401,7 @@ import { ToggleGroup, ToggleGroupItem } from "@work-rjkashyap/unified-ui";
 
 ### Disabled
 
-<ComponentPage
-	title="Disabled Group"
-	description="Disable the entire group or individual items."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 items-center">
 			<div className="flex flex-col gap-2 items-center">

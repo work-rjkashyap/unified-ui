@@ -17,10 +17,13 @@ import {
 	Input,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-  title="Sheet"
-  description="A slide-out panel that appears from any edge of the screen. Built on Radix UI with smooth CSS animations, focus trap, and slot-based composition."
+## Basic
+
+A slide-out panel that appears from any edge of the screen. Built on Radix UI with smooth CSS animations, focus trap, and slot-based composition.
+
+<PreviewCard
   preview={
     <div className="flex gap-3 items-center justify-center flex-wrap">
       <Sheet>
@@ -88,9 +91,84 @@ import { Callout } from "fumadocs-ui/components/callout";
     </SheetFooter>
   </SheetContent>
 </Sheet>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add sheet
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add sheet
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add sheet
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add sheet
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -102,18 +180,9 @@ import {
 	SheetTitle,
 	SheetDescription,
 	SheetClose,
+	Button,
+	Input,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Sheet,
-	SheetTrigger,
-	SheetContent,
-	SheetHeader,
-	SheetFooter,
-	SheetTitle,
-	SheetDescription,
-	SheetClose,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -146,9 +215,7 @@ The Sheet uses a trigger-based pattern similar to Dialog. Wrap a button in `Shee
 
 The `side` prop controls which edge of the screen the sheet slides in from. Four directions are supported.
 
-<ComponentPage
-	title="Side Variants"
-	description="Four directions are supported: right (default), left, top, and bottom."
+<PreviewCard
 	preview={
 		<div className="flex flex-wrap gap-3 items-center justify-center">
 			<Sheet>
@@ -491,5 +558,3 @@ Uses Radix UI's `DialogClose` API. Use `asChild` to render the close action as y
 | `--shadow-lg`       | Sheet panel shadow                       |
 | `--duration-normal` | Slide animation timing                   |
 | `--easing-standard` | Slide animation easing                   |
-
-</ComponentPage>

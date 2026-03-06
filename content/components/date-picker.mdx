@@ -5,23 +5,100 @@ icon: CalendarDays
 ---
 
 import { DatePicker } from "@work-rjkashyap/unified-ui/components";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-	title="Date Picker"
-	description="A production-ready date picker built by composing Popover + Calendar + Input. Supports single date and range selection, locale formatting, disabled dates, and animated popover transitions."
+## Basic
+
+A production-ready date picker built by composing Popover + Calendar + Input. Supports single date and range selection, locale formatting, disabled dates, and animated popover transitions.
+
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<DatePicker placeholder="Pick a date" />
 		</div>
 	}
 	code={`<DatePicker placeholder="Pick a date" />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add date-picker
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add date-picker
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add date-picker
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add date-picker
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
-import { DatePicker } from "@work-rjkashyap/unified-ui/components";
-// or
 import { DatePicker } from "@work-rjkashyap/unified-ui";
 ```
 
@@ -64,9 +141,7 @@ const [range, setRange] = useState<DateRange | null>(null);
 
 ## Sizes
 
-<ComponentPage
-	title="Sizes"
-	description="Three sizes designed to match Input, Button, and Select heights."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-3">
 			<DatePicker placeholder="Small" size="sm" />
@@ -108,9 +183,7 @@ Use the `disabledDate` function to disable specific dates, or pass `minDate` / `
 
 By default, a clear button (×) appears when a date is selected. Set `clearable={false}` to disable it.
 
-<ComponentPage
-	title="Clearable"
-	description="Control whether the clear button is shown after selection."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm flex flex-col gap-3">
 			<DatePicker placeholder="With clear (default)" clearable />
@@ -151,9 +224,7 @@ Control where the calendar popover appears relative to the trigger:
 
 ## Disabled State
 
-<ComponentPage
-	title="Disabled"
-	description="The picker trigger is visually dimmed and non-interactive when disabled."
+<PreviewCard
 	preview={
 		<div className="w-full max-w-sm">
 			<DatePicker placeholder="Disabled" disabled />
@@ -267,5 +338,3 @@ const [range, setRange] = useState<DateRange | null>(null);
 | `--radius-lg`     | Popover border radius                    |
 | `--duration-fast` | Transition speed                         |
 | `--shadow-lg`     | Popover shadow                           |
-
-</ComponentPage>

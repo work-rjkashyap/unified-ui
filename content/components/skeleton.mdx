@@ -11,10 +11,13 @@ import {
 	SkeletonRect,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-  title="Skeleton"
-  description="Loading placeholders that mimic the shape of content before it loads. Supports text lines, circles, and rectangles with a gentle pulse animation."
+## Basic
+
+Loading placeholders that mimic the shape of content before it loads. Supports text lines, circles, and rectangles with a gentle pulse animation.
+
+<PreviewCard
   preview={
     <div className="flex flex-col gap-6 w-full max-w-sm">
       <div className="flex items-center gap-3">
@@ -37,9 +40,84 @@ import { Callout } from "fumadocs-ui/components/callout";
 </div>
 <SkeletonRect width="100%" height={120} />
 <SkeletonText lines={3} />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add skeleton
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add skeleton
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add skeleton
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add skeleton
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -48,13 +126,6 @@ import {
 	SkeletonCircle,
 	SkeletonRect,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Skeleton,
-	SkeletonText,
-	SkeletonCircle,
-	SkeletonRect,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Skeleton
@@ -71,9 +142,7 @@ The base `Skeleton` component renders a single animated placeholder. Use the `sh
 
 Renders one or more text-line placeholders. Use the `lines` prop to control the number of lines. The last line is automatically shorter for a natural appearance.
 
-<ComponentPage
-	title="SkeletonText"
-	description="Renders one or more text-line placeholders. The last line is automatically shorter for a natural appearance."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 max-w-sm w-full">
 			<div>
@@ -99,9 +168,7 @@ Renders one or more text-line placeholders. Use the `lines` prop to control the 
 
 Two sizes control the height of each text line to match your typography scale.
 
-<ComponentPage
-	title="Text Sizes"
-	description="Two sizes control the height of each text line to match your typography scale."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<div>
@@ -124,9 +191,7 @@ Two sizes control the height of each text line to match your typography scale.
 
 Renders a circular placeholder. Perfect for avatar and icon loading states.
 
-<ComponentPage
-	title="SkeletonCircle"
-	description="Circular placeholders in 5 sizes matching the Avatar component dimensions."
+<PreviewCard
 	preview={
 		<div className="flex gap-4 items-end justify-center">
 			<SkeletonCircle size="xs" />
@@ -155,9 +220,7 @@ Renders a circular placeholder. Perfect for avatar and icon loading states.
 
 Renders a rectangular placeholder with configurable width and height. Useful for images, cards, and media content loading states.
 
-<ComponentPage
-	title="SkeletonRect"
-	description="Rectangular placeholders with configurable width and height. Useful for images, cards, and media."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-4 max-w-sm w-full">
 			<SkeletonRect width="100%" height={80} />
@@ -176,9 +239,7 @@ Renders a rectangular placeholder with configurable width and height. Useful for
 
 A common loading pattern for user profile cards.
 
-<ComponentPage
-	title="User Card Skeleton"
-	description="A common loading pattern for user profile cards with avatar, name, and body text."
+<PreviewCard
 	preview={
 		<div className="max-w-sm w-full border border-border rounded-md p-4">
 			<div className="flex items-center gap-3 mb-4">
@@ -209,9 +270,7 @@ A common loading pattern for user profile cards.
 
 A loading placeholder for article or blog post content.
 
-<ComponentPage
-	title="Article Skeleton"
-	description="A loading placeholder for article or blog post content with hero image, title, subtitle, and body."
+<PreviewCard
 	preview={
 		<div className="max-w-sm w-full flex flex-col gap-4">
 			<SkeletonRect width="100%" height={160} />
@@ -230,9 +289,7 @@ A loading placeholder for article or blog post content.
 
 Loading state for data table rows.
 
-<ComponentPage
-	title="Table Row Skeleton"
-	description="Loading state for data table rows with avatar, name, and metadata columns."
+<PreviewCard
 	preview={
 		<div className="max-w-md w-full flex flex-col gap-3">
 			{[1, 2, 3].map((i) => (
@@ -338,5 +395,3 @@ The skeleton pulse animation is defined via `animate-pulse` in Tailwind, which i
 | `--muted` | Skeleton placeholder background  |
 | `--radius-sm`   | Text line and rect border radius |
 | `--radius-full` | Circle shape border radius       |
-
-</ComponentPage>

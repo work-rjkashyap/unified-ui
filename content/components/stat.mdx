@@ -5,10 +5,14 @@ icon: ChartBar
 ---
 
 import { Stat } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
-<ComponentPage
-  title="Stat"
-  description="A KPI metric card with animated count-up value, label, trend indicator (up/down/neutral), and an optional sparkline slot."
+## Basic
+
+A KPI metric card with animated count-up value, label, trend indicator (up/down/neutral), and an optional sparkline slot.
+
+<PreviewCard
   preview={
     <div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
       <Stat
@@ -55,14 +59,87 @@ import { Stat } from "@work-rjkashyap/unified-ui";
   trend="down"
   trendLabel="-0.3% this month"
 />`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add stat
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add stat
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add stat
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add stat
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { Stat } from "@work-rjkashyap/unified-ui";
-// or
-import { Stat } from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -79,9 +156,7 @@ Pass a `label` and `value` to render a minimal stat card. Numeric values get the
 
 Use `trend` to show a directional arrow icon and `trendLabel` for the description text. `up` renders green, `down` renders red, and `neutral` renders muted.
 
-<ComponentPage
-  title="Trend Variants"
-  description="Three trend states: up (green), down (red), and neutral (muted)."
+<PreviewCard
   preview={
     <div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
       <Stat
@@ -142,9 +217,7 @@ Use `trend` to show a directional arrow icon and `trendLabel` for the descriptio
 
 Add a `prefix` for currency symbols or a `suffix` for units. Both are rendered as part of the animated count-up value.
 
-<ComponentPage
-	title="Prefix & Suffix"
-	description="Add currency symbols, units, or other text around the animated value."
+<PreviewCard
 	preview={
 		<div className="grid grid-cols-2 gap-4 w-full max-w-md">
 			<Stat
@@ -171,9 +244,7 @@ Add a `prefix` for currency symbols or a `suffix` for units. Both are rendered a
 
 When `value` is a string, no count-up animation plays — the value is rendered as-is. This is useful for non-numeric KPIs.
 
-<ComponentPage
-	title="String Values"
-	description="String values are rendered statically without animation."
+<PreviewCard
 	preview={
 		<div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
 			<Stat label="Plan" value="Pro" />
@@ -195,9 +266,7 @@ When `value` is a string, no count-up animation plays — the value is rendered 
 
 Pass any `ReactNode` to the `sparkline` prop to render a chart or visual in the top-right corner of the card. The slot is 32px tall and right-aligned.
 
-<ComponentPage
-	title="Sparkline Slot"
-	description="Render a mini chart or visual in the card's top-right corner."
+<PreviewCard
 	preview={
 		<div className="grid grid-cols-2 gap-4 w-full max-w-md">
 			<Stat
@@ -357,5 +426,3 @@ const stats = [
 | `--danger`    | Downward trend color              |
 | `--muted-fg`  | Label and neutral trend color     |
 | `--radius-lg` | Card border radius (`rounded-lg`) |
-
-</ComponentPage>

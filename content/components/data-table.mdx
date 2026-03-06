@@ -8,9 +8,11 @@ import { Callout } from "fumadocs-ui/components/callout";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { DataTableDemo } from "@/components/ui/data-table-demo";
 
-<ComponentPage
-  title="DataTable"
-  description="A feature-rich data table powered by TanStack Table with sorting, filtering, pagination, row selection, and column visibility — rendered with Unified UI's styled Table primitives."
+## Basic
+
+A feature-rich data table powered by TanStack Table with sorting, filtering, pagination, row selection, and column visibility — rendered with Unified UI
+
+<PreviewCard
   preview={
     <div className="w-full max-w-3xl">
       <DataTableDemo variant="basic" />
@@ -51,49 +53,91 @@ meta: { align: "right" },
 ];
 
 <DataTable data={users} columns={columns} sorting hoverable />`}
->
 
-## Import
+/>
 
-```tsx
-import {
-	DataTable,
-	type ColumnDef,
-	createColumnHelper,
-} from "@work-rjkashyap/unified-ui";
-// or layer-specific import
-import {
-	DataTable,
-	type ColumnDef,
-	createColumnHelper,
-} from "@work-rjkashyap/unified-ui/components";
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add data-table
 ```
 
-### Additional type imports
+</Tab>
+<Tab value="pnpm">
 
-When working with controlled state, import the relevant state types:
-
-```tsx
-import type {
-	SortingState,
-	ColumnFiltersState,
-	VisibilityState,
-	RowSelectionState,
-	PaginationState,
-	Row,
-	DataTableColumnMeta,
-	UseDataTableOptions,
-	UseDataTableReturn,
-} from "@work-rjkashyap/unified-ui";
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add data-table
 ```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add data-table
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add data-table
+```
+
+</Tab>
+</Tabs>
 
 <Callout type="info">
-	`DataTable` re-exports all key TanStack Table types so you don't need to
-	install `@tanstack/react-table` separately. It's included as a dependency of
-	the design system package.
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
 </Callout>
 
----
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import {
+	DataTable,
+	Badge,
+} from "@work-rjkashyap/unified-ui";
+```
 
 ## Defining Columns
 
@@ -1738,5 +1782,3 @@ const columns: ColumnDef<Invoice>[] = [
 </Tabs>
 
 The DataTable handles all the state management, sort logic, pagination slicing, and keyboard accessibility that you'd otherwise implement manually.
-
-</ComponentPage>

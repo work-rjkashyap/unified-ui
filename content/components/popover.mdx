@@ -14,10 +14,13 @@ import {
 	Input,
 } from "@work-rjkashyap/unified-ui";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-<ComponentPage
-  title="Popover"
-  description="A floating content panel that appears relative to a trigger element. Built on Radix UI with support for arrow indicators, close buttons, and 4-side placement."
+## Basic
+
+A floating content panel that appears relative to a trigger element. Built on Radix UI with support for arrow indicators, close buttons, and 4-side placement.
+
+<PreviewCard
   preview={
     <div className="flex gap-3 items-center justify-center">
       <Popover>
@@ -70,9 +73,84 @@ import { Callout } from "fumadocs-ui/components/callout";
     </div>
   </PopoverContent>
 </Popover>`}
->
 
-## Import
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add popover
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add popover
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add popover
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add popover
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import {
@@ -81,15 +159,9 @@ import {
 	PopoverContent,
 	PopoverClose,
 	PopoverArrow,
+	Button,
+	Input,
 } from "@work-rjkashyap/unified-ui";
-// or
-import {
-	Popover,
-	PopoverTrigger,
-	PopoverContent,
-	PopoverClose,
-	PopoverArrow,
-} from "@work-rjkashyap/unified-ui/components";
 ```
 
 ## Basic Usage
@@ -140,9 +212,7 @@ Control which side of the trigger the popover appears on using the `side` prop o
 
 Add a `PopoverArrow` inside `PopoverContent` to render a small pointing arrow toward the trigger.
 
-<ComponentPage
-	title="With Arrow"
-	description="Add a pointing arrow toward the trigger element using the arrow prop."
+<PreviewCard
 	preview={
 		<div className="flex justify-center">
 			<Popover>
@@ -182,9 +252,7 @@ Or use the `PopoverArrow` component directly for more control:
 
 Set `showClose` on `PopoverContent` to render a close button in the top-right corner.
 
-<ComponentPage
-	title="With Close Button"
-	description="Render a close button in the top-right corner using the showClose prop."
+<PreviewCard
 	preview={
 		<div className="flex justify-center">
 			<Popover>
@@ -400,5 +468,3 @@ Uses Radix UI's `PopoverClose` API. Use `asChild` to render as your own element.
 | `--radius-md`            | Popover border radius         |
 | `--z-popover`            | Z-index for the popover layer |
 | `--duration-fast`        | Enter/exit animation timing   |
-
-</ComponentPage>

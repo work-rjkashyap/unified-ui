@@ -5,6 +5,8 @@ icon: Palette
 ---
 
 import { ColorPicker } from "@work-rjkashyap/unified-ui";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
 
@@ -12,23 +14,91 @@ The `ColorPicker` component provides an interactive color selection experience w
 
 ---
 
-## Import
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add color-picker
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add color-picker
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add color-picker
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add color-picker
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
 
 ```tsx
 import { ColorPicker } from "@work-rjkashyap/unified-ui";
-// or
-import { ColorPicker } from "@work-rjkashyap/unified-ui/components";
 ```
-
----
 
 ## Examples
 
 ### Default
 
-<ComponentPage
-  title="Default Color Picker"
-  description="Click the swatch to open the picker popover."
+<PreviewCard
   preview={
     <div className="flex gap-4 items-center justify-center">
       <ColorPicker defaultValue="#3b82f6" />
@@ -43,9 +113,7 @@ import { ColorPicker } from "@work-rjkashyap/unified-ui/components";
 
 ### Sizes
 
-<ComponentPage
-  title="Sizes"
-  description="Three trigger swatch sizes: sm, md, lg."
+<PreviewCard
   preview={
     <div className="flex gap-4 items-end justify-center">
       <ColorPicker defaultValue="#8b5cf6" size="sm" />
@@ -60,9 +128,7 @@ import { ColorPicker } from "@work-rjkashyap/unified-ui/components";
 
 ### Custom Presets
 
-<ComponentPage
-  title="Custom Preset Swatches"
-  description="Pass a custom array of HEX colors as presets."
+<PreviewCard
   preview={
     <ColorPicker
       defaultValue="#f97316"
@@ -77,9 +143,7 @@ import { ColorPicker } from "@work-rjkashyap/unified-ui/components";
 
 ### Disabled
 
-<ComponentPage
-  title="Disabled"
-  description="The picker trigger is disabled and cannot be opened."
+<PreviewCard
   preview={
     <ColorPicker defaultValue="#6b7280" disabled />
   }

@@ -6,6 +6,7 @@ icon: Gauge
 
 import { Progress } from "@work-rjkashyap/unified-ui/components";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Overview
 
@@ -13,23 +14,91 @@ The `Progress` component displays a linear progress bar for indicating completio
 
 ---
 
-## Import
+## Installation
 
-```tsx
-import { Progress } from "@work-rjkashyap/unified-ui/components";
-// or
-import { Progress } from "@work-rjkashyap/unified-ui";
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add progress
 ```
 
----
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add progress
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add progress
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add progress
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import { Progress } from "@work-rjkashyap/unified-ui";
+```
 
 ## Examples
 
 ### Basic Usage
 
-<ComponentPage
-	title="Basic Progress"
-	description="A simple determinate progress bar showing completion percentage."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-md">
 			<Progress value={0} />
@@ -48,9 +117,7 @@ import { Progress } from "@work-rjkashyap/unified-ui";
 
 ### Variants
 
-<ComponentPage
-	title="Color Variants"
-	description="Six color variants for different semantic contexts: default, primary, success, warning, danger, and info."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-md">
 			<div className="flex flex-col gap-1.5">
@@ -101,9 +168,7 @@ import { Progress } from "@work-rjkashyap/unified-ui";
 
 ### Sizes
 
-<ComponentPage
-	title="Progress Sizes"
-	description="Three sizes for different levels of visual prominence."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-md">
 			<div className="flex flex-col gap-1.5">
@@ -139,9 +204,7 @@ import { Progress } from "@work-rjkashyap/unified-ui";
 
 ### With Label
 
-<ComponentPage
-	title="Labeled Progress"
-	description="Show a label and percentage value above the progress bar."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-md">
 			<Progress value={45} showLabel />
@@ -184,9 +247,7 @@ The `formatLabel` prop accepts a function to display custom value formats. Since
 />
 ```
 
-<ComponentPage
-	title="Custom Label Format"
-	description="Use formatLabel to display the value in a custom format, such as MB or file counts."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-6 w-full max-w-md">
 			<Progress
@@ -224,9 +285,7 @@ The `formatLabel` prop accepts a function to display custom value formats. Since
 
 ### Indeterminate
 
-<ComponentPage
-	title="Indeterminate Mode"
-	description="When the completion percentage is unknown, use indeterminate mode for a looping sliding animation."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-md">
 			<Progress indeterminate />
@@ -241,9 +300,7 @@ The `formatLabel` prop accepts a function to display custom value formats. Since
 
 ### Striped
 
-<ComponentPage
-	title="Striped Progress"
-	description="Add diagonal stripes for visual emphasis. Combine with animated for a sliding stripe effect."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-5 w-full max-w-md">
 			<div className="flex flex-col gap-1.5">
@@ -279,9 +336,7 @@ The `formatLabel` prop accepts a function to display custom value formats. Since
 
 ### Real-World Examples
 
-<ComponentPage
-	title="Real-World Patterns"
-	description="Common progress bar patterns seen in production applications."
+<PreviewCard
 	preview={
 		<div className="flex flex-col gap-8 w-full max-w-md">
 			<div className="flex flex-col gap-2">
