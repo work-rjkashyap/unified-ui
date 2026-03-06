@@ -13,6 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhance changelog script to scan all commits if no tags are found ([fdbb105](https://github.com/imrj05/unified-ui/commit/fdbb105c47e4afa1f999b0eddfe884a903b76466))
 - Update component links from /docs/components to /components ([d511280](https://github.com/imrj05/unified-ui/commit/d511280063616413efb9235d81d21eabf467b2ca))
 
+### 🔧 Refactors
+
+- **changelog-renderer:** Enhance changelog parsing and rendering logic
+- Improved parsing logic to handle multi-line items and indented sub-items.
+  - Added support for section titles with emojis by stripping them before processing.
+  - Enhanced section color mapping to include additional categories and keywords.
+  - Refactored the rendering of changelog items and sections for better readability and maintainability.
+  - Updated the stats calculation to normalize section titles for accurate feature and fix counts. ([f3b47fe](https://github.com/imrj05/unified-ui/commit/f3b47fe55a9c7637570e833b6256b2adb969dbcc))
+
 ### 🏗️ Miscellaneous
 
 - **changelog:** Auto-update unreleased entries [skip ci] ([8dc0ab8](https://github.com/imrj05/unified-ui/commit/8dc0ab8f9ed198e4b0da315a91869ca374626fd5))
