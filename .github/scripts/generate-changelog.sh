@@ -29,8 +29,15 @@ else
     echo "📌 Last changelog commit: $(git log --oneline -1 "$BOT_COMMIT")"
     SINCE_REF="$BOT_COMMIT"
   else
-    echo "📌 No tag or changelog commit found — using last 50 commits"
-    SINCE_REF="HEAD~50"
+    # Fallback: use the repo root commit so we scan ALL history
+    ROOT_COMMIT=$(git rev-list --max-parents=0 HEAD 2>/dev/null | head -1)
+    if [ -n "$ROOT_COMMIT" ]; then
+      echo "📌 No tag or changelog commit found — scanning all commits from root"
+      SINCE_REF="$ROOT_COMMIT"
+    else
+      echo "❌ Cannot determine commit range — aborting"
+      exit 0
+    fi
   fi
 fi
 
@@ -66,59 +73,68 @@ while IFS= read -r line; do
 
   # Parse conventional commit prefix
   if [[ "$MSG" =~ $RE_FEAT ]]; then
-    SCOPE="${BASH_REMATCH[2]}"
-    BODY="${BASH_REMATCH[3]}"
+    SCOPE="${BASH_REMATCH[2]:-}"
+    BODY="${BASH_REMATCH[3]:-}"
     if [ -n "$SCOPE" ]; then
       FEATURES="${FEATURES}- **${SCOPE}:** ${BODY} (${LINK})\n"
     else
       FEATURES="${FEATURES}- ${BODY} (${LINK})\n"
     fi
   elif [[ "$MSG" =~ $RE_FIX ]]; then
-    SCOPE="${BASH_REMATCH[2]}"
-    BODY="${BASH_REMATCH[3]}"
+    SCOPE="${BASH_REMATCH[2]:-}"
+    BODY="${BASH_REMATCH[3]:-}"
     if [ -n "$SCOPE" ]; then
       FIXES="${FIXES}- **${SCOPE}:** ${BODY} (${LINK})\n"
     else
       FIXES="${FIXES}- ${BODY} (${LINK})\n"
     fi
   elif [[ "$MSG" =~ $RE_REFACTOR ]]; then
-    SCOPE="${BASH_REMATCH[2]}"
-    BODY="${BASH_REMATCH[3]}"
+    SCOPE="${BASH_REMATCH[2]:-}"
+    BODY="${BASH_REMATCH[3]:-}"
     if [ -n "$SCOPE" ]; then
       REFACTORS="${REFACTORS}- **${SCOPE}:** ${BODY} (${LINK})\n"
     else
       REFACTORS="${REFACTORS}- ${BODY} (${LINK})\n"
     fi
   elif [[ "$MSG" =~ $RE_DOCS ]]; then
-    SCOPE="${BASH_REMATCH[2]}"
-    BODY="${BASH_REMATCH[3]}"
+    SCOPE="${BASH_REMATCH[2]:-}"
+    BODY="${BASH_REMATCH[3]:-}"
     if [ -n "$SCOPE" ]; then
       DOCS="${DOCS}- **${SCOPE}:** ${BODY} (${LINK})\n"
     else
       DOCS="${DOCS}- ${BODY} (${LINK})\n"
     fi
   elif [[ "$MSG" =~ $RE_PERF ]]; then
-    SCOPE="${BASH_REMATCH[2]}"
-    BODY="${BASH_REMATCH[3]}"
+    SCOPE="${BASH_REMATCH[2]:-}"
+    BODY="${BASH_REMATCH[3]:-}"
     if [ -n "$SCOPE" ]; then
       PERF="${PERF}- **${SCOPE}:** ${BODY} (${LINK})\n"
     else
       PERF="${PERF}- ${BODY} (${LINK})\n"
     fi
   elif [[ "$MSG" =~ $RE_CHORE ]]; then
+    SCOPE="${BASH_REMATCH[2]:-}"
+    BODY="${BASH_REMATCH[3]:-}"
     # Skip release/changelog chores
     if [[ "$MSG" =~ $RE_CHORE_SKIP ]]; then
       continue
     fi
-    SCOPE="${BASH_REMATCH[2]}"
-    BODY="${BASH_REMATCH[3]}"
     if [ -n "$SCOPE" ]; then
       CHORES="${CHORES}- **${SCOPE}:** ${BODY} (${LINK})\n"
     else
       CHORES="${CHORES}- ${BODY} (${LINK})\n"
     fi
   fi
-done < <(git log "${SINCE_REF}..HEAD" --format="%H %s" --no-merges --reverse 2>/dev/null || true)
+done < <(
+  # Determine the correct git log range
+  ROOT_COMMIT_CHECK=$(git rev-list --max-parents=0 HEAD 2>/dev/null | head -1)
+  if [ "$SINCE_REF" = "$ROOT_COMMIT_CHECK" ]; then
+    # SINCE_REF is the root commit — list ALL commits (including root)
+    git log --format="%H %s" --no-merges --reverse 2>/dev/null
+  else
+    git log "${SINCE_REF}..HEAD" --format="%H %s" --no-merges --reverse 2>/dev/null
+  fi
+)
 
 # ── Build the new unreleased block ──────────────────────────────────────────
 NEW_ENTRIES=""
