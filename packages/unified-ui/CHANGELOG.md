@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Update layouts and navigation components for improved UI and new themes
+- Enhanced the Layout components across various sections (company, docs, legal, resources) to include a transparent navigation mode.
+  - Introduced a new Themes page with a placeholder and updated layout.
+  - Updated the layout configuration to include new links for Blocks, Colors, and Themes, along with a Discord icon.
+  - Refactored the Logo component for better styling and consistency.
+  - Improved the Nav component with new icons and a more dynamic navigation experience.
+  - Updated the ThemeToggle component for better accessibility and visual feedback. ([d9fe590](https://github.com/imrj05/unified-ui/commit/d9fe590b84dbdfaac8473bef324fef756176ad4f))
 - Add TestDropdownPage component with various dropdown menu tests
 - Implemented a new TestDropdownPage component to showcase different dropdown menu functionalities including basic options, keyboard shortcuts, submenus, and standalone shortcut rendering.
   - Added a new AvatarCircle helper component for displaying user initials in a circular format.
@@ -38,6 +45,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([1971cd8](https://github.com/imrj05/unified-ui/commit/1971cd81a04d7b6e92e0ed925a3f33783254bf2c))
 - **changelog:** Auto-update unreleased entries [skip ci] ([c226782](https://github.com/imrj05/unified-ui/commit/c2267822c0705401a6de57a60dbe3227abb76533))
 - **changelog:** Auto-update unreleased entries [skip ci] ([f216b6e](https://github.com/imrj05/unified-ui/commit/f216b6ebb6d436148256b784898833cea8613a14))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6658a0a](https://github.com/imrj05/unified-ui/commit/6658a0a50017a21e4fe868d86381ea0b9a76601e))
@@ -46,6 +54,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### Other
 
+- Merge branch 'main' of github.com:imrj05/unified-ui ([1e620eb](https://github.com/imrj05/unified-ui/commit/1e620ebb87a8f04079f9f266e769e3ba9e327293))
 - Merge branch 'main' of github.com:imrj05/unified-ui ([d85b413](https://github.com/imrj05/unified-ui/commit/d85b413531b6e38eabf397f6347b6cbb740dd961))
 - Merge branch 'main' of github.com:imrj05/unified-ui ([055de42](https://github.com/imrj05/unified-ui/commit/055de4202aa7a813902e5beeeddfd0ae904c29f0))
 - Add CHANGELOG for packages/unified-ui ([06dc82a](https://github.com/imrj05/unified-ui/commit/06dc82a36328e9a289adea9eaade36abd0f49bdf))
