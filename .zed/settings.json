@@ -1,0 +1,23 @@
+{
+  "assistant": {
+    "version": "2",
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4"
+    }
+  },
+  "git": {
+    "git_gutter": "tracked_files",
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "language_models": {
+    "anthropic": {
+      "version": "1"
+    }
+  },
+  "commit_message_generation": {
+    "custom_instructions": "Generate commit messages following the Conventional Commits specification (https://www.conventionalcommits.org/).\n\nFormat:\n<type>(<optional scope>): <short summary in imperative mood>\n\n<optional body>\n\nRules:\n- type MUST be one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert\n- scope should reflect the affected area (e.g., components, tokens, theme, docs, motion, utils, deps, config)\n- summary must be lowercase, imperative mood, no period at end, max 72 characters\n- body (if needed) should explain WHAT changed and WHY, not HOW\n- if a change is breaking, add '!' after the type/scope: e.g. feat(components)!: remove Button size prop\n\nExamples:\n- feat(components): add Accordion component with expand/collapse animation\n- fix(theme): resolve dark mode flickering on initial load\n- docs: add installation guide for design system package\n- refactor(utils): simplify cn utility to reduce bundle size\n- chore(deps): bump next.js to 16.1.1\n- build(ds): update tsup config for esm tree-shaking\n- style(primitives): fix inconsistent spacing in Heading component"
+  }
+}
