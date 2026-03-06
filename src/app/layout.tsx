@@ -30,7 +30,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
 	metadataBase: new URL(
-		process.env.NEXT_PUBLIC_SITE_URL ?? "https://unified-ui.vercel.app",
+		process.env.NEXT_PUBLIC_SITE_URL ??
+			"https://unified-ui-rajeshwar.vercel.app",
 	),
 	title: {
 		default: "Unified UI - Build Faster with Next-Generation UI Components",

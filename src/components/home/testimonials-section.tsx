@@ -135,13 +135,13 @@ function ComparisonTable() {
 		<div className="rounded-xl border border-fd-border overflow-hidden bg-fd-card/40">
 			{/* Header row */}
 			<div className="grid grid-cols-[1fr_100px_100px] sm:grid-cols-[1fr_120px_120px] items-center gap-0 border-b border-fd-border bg-fd-muted/30 px-4 py-2.5">
-				<span className="text-[10px] font-bold uppercase tracking-[0.15em] text-fd-muted-foreground">
+				<span className="text-xs font-bold uppercase tracking-[0.15em] text-fd-muted-foreground">
 					Feature
 				</span>
-				<span className="text-[10px] font-bold uppercase tracking-[0.15em] text-fd-muted-foreground text-center">
+				<span className="text-xs font-bold uppercase tracking-[0.15em] text-fd-muted-foreground text-center">
 					Copy-paste
 				</span>
-				<span className="text-[10px] font-bold uppercase tracking-[0.15em] text-center">
+				<span className="text-xs font-bold uppercase tracking-[0.15em] text-center">
 					<span className="text-purple-600 dark:text-purple-400">
 						Unified UI
 					</span>
@@ -159,7 +159,7 @@ function ComparisonTable() {
 						i % 2 === 1 && "bg-fd-muted/10",
 					)}
 				>
-					<span className="text-xs text-fd-foreground font-medium">
+					<span className="text-sm text-fd-foreground font-medium">
 						{row.feature}
 					</span>
 					<div className="flex justify-center">
@@ -251,10 +251,10 @@ export function TestimonialsSection() {
 					<Badge variant="primary" size="sm" className="mb-3">
 						Why Unified UI
 					</Badge>
-					<h2 className="text-2xl md:text-3xl font-bold tracking-tighter mb-2">
+					<h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-3">
 						Beyond copy-paste.
 					</h2>
-					<p className="text-sm text-fd-muted-foreground leading-6 max-w-xl mx-auto">
+					<p className="text-base text-fd-muted-foreground leading-7 max-w-xl mx-auto">
 						Same shadcn/ui philosophy — composable, accessible,
 						beautifully styled — wrapped in a real, installable
 						design system with tokens, layers, and versioning.
@@ -271,7 +271,7 @@ export function TestimonialsSection() {
 						<div className="mt-3 flex items-center gap-3 rounded-lg border border-fd-border/50 bg-fd-card/30 px-4 py-2.5">
 							<div className="flex items-center gap-2 shrink-0">
 								<Box className="w-3.5 h-3.5 text-purple-500" />
-								<span className="text-[10px] font-bold uppercase tracking-[0.15em] text-fd-muted-foreground">
+								<span className="text-xs font-bold uppercase tracking-[0.15em] text-fd-muted-foreground">
 									Unified UI score
 								</span>
 							</div>
@@ -298,12 +298,12 @@ export function TestimonialsSection() {
 									"hover:border-fd-muted-foreground/20 transition-colors duration-200",
 								)}
 							>
-								<div className="p-1.5 rounded-md bg-fd-background border border-fd-border shrink-0 mt-0.5">
-									<reason.icon className="w-3.5 h-3.5 text-fd-foreground" />
+								<div className="p-2 rounded-md bg-fd-background border border-fd-border shrink-0 mt-0.5">
+									<reason.icon className="w-4 h-4 text-fd-foreground" />
 								</div>
 								<div className="min-w-0">
 									<div className="flex items-center gap-2 mb-0.5">
-										<h3 className="text-sm font-bold tracking-tight truncate">
+										<h3 className="text-base font-bold tracking-tight truncate">
 											{reason.title}
 										</h3>
 										<Badge
@@ -317,7 +317,7 @@ export function TestimonialsSection() {
 											{reason.badge}
 										</Badge>
 									</div>
-									<p className="text-xs text-fd-muted-foreground leading-5">
+									<p className="text-sm text-fd-muted-foreground leading-6">
 										{reason.description}
 									</p>
 								</div>

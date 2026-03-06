@@ -206,7 +206,7 @@ function DependencyFlow() {
 
 	return (
 		<div className="flex flex-col items-center gap-3">
-			<p className="text-[10px] font-bold tracking-[0.2em] text-fd-muted-foreground uppercase">
+			<p className="text-xs font-bold tracking-[0.2em] text-fd-muted-foreground uppercase">
 				Strict Dependency Flow
 			</p>
 			<div className="inline-flex items-center gap-2 flex-wrap justify-center rounded-lg border border-fd-border bg-fd-card/60 px-4 py-2.5">
@@ -257,10 +257,10 @@ export function FeaturesSection() {
 					<Badge variant="primary" size="sm" className="mb-3">
 						Architecture
 					</Badge>
-					<h2 className="text-2xl md:text-3xl font-bold tracking-tighter mb-2">
+					<h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-3">
 						Six layers. One system.
 					</h2>
-					<p className="text-sm text-fd-muted-foreground leading-6 max-w-xl mx-auto">
+					<p className="text-base text-fd-muted-foreground leading-7 max-w-xl mx-auto">
 						Organized into strict, dependency-ordered layers — no
 						upward imports. Composable by design, predictable by
 						architecture.
@@ -289,7 +289,7 @@ export function FeaturesSection() {
 												"transition-colors group-hover:border-fd-muted-foreground/30",
 											)}
 										>
-											<layer.icon className="w-3.5 h-3.5 text-fd-foreground" />
+											<layer.icon className="w-4 h-4 text-fd-foreground" />
 											{/* Dot indicator */}
 											<div
 												className={cn(
@@ -306,10 +306,10 @@ export function FeaturesSection() {
 
 									{/* Title + description */}
 									<div>
-										<h3 className="text-sm font-bold tracking-tight mb-1">
+										<h3 className="text-base font-bold tracking-tight mb-1">
 											{layer.title}
 										</h3>
-										<p className="text-xs text-fd-muted-foreground leading-5">
+										<p className="text-sm text-fd-muted-foreground leading-6">
 											{layer.description}
 										</p>
 									</div>
@@ -321,7 +321,7 @@ export function FeaturesSection() {
 												key={file}
 												variant="outline"
 												size="sm"
-												className="font-mono text-[10px]"
+												className="font-mono text-xs"
 											>
 												{file}
 											</Badge>
@@ -345,14 +345,14 @@ export function FeaturesSection() {
 							key={item.title}
 							className="flex flex-row items-start gap-3 rounded-xl border border-fd-border bg-fd-card/40 p-4 hover:border-fd-muted-foreground/20 transition-colors duration-200"
 						>
-							<div className="p-1.5 rounded-md bg-fd-background border border-fd-border shrink-0 mt-0.5">
-								<item.icon className="w-3.5 h-3.5 text-fd-foreground" />
+							<div className="p-2 rounded-md bg-fd-background border border-fd-border shrink-0 mt-0.5">
+								<item.icon className="w-4 h-4 text-fd-foreground" />
 							</div>
 							<div>
-								<h3 className="text-sm font-bold tracking-tight mb-0.5">
+								<h3 className="text-base font-bold tracking-tight mb-0.5">
 									{item.title}
 								</h3>
-								<p className="text-xs text-fd-muted-foreground leading-5">
+								<p className="text-sm text-fd-muted-foreground leading-6">
 									{item.description}
 								</p>
 							</div>

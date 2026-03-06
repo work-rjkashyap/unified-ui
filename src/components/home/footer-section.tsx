@@ -79,7 +79,7 @@ export function FooterSection() {
 						<Link href="/" className="inline-block">
 							<Logo />
 						</Link>
-						<p className="text-xs text-fd-muted-foreground leading-5 max-w-50">
+						<p className="text-sm text-fd-muted-foreground leading-6 max-w-50">
 							A scalable, token-driven React design system for
 							modern applications.
 						</p>
@@ -112,7 +112,7 @@ export function FooterSection() {
 					{/* Link columns */}
 					{Object.values(footerLinks).map((section) => (
 						<div key={section.title}>
-							<h3 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-3 text-fd-foreground/70">
+							<h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-3 text-fd-foreground/70">
 								{section.title}
 							</h3>
 							<ul className="space-y-2">
@@ -120,7 +120,7 @@ export function FooterSection() {
 									<li key={link.label}>
 										<Link
 											href={link.href}
-											className="text-xs text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-200"
+											className="text-sm text-fd-muted-foreground hover:text-fd-foreground transition-colors duration-200"
 											{...(link.href.startsWith("http")
 												? {
 														target: "_blank",
@@ -140,7 +140,7 @@ export function FooterSection() {
 				{/* ── Bottom bar ── */}
 				<div className="pt-6 border-t border-fd-border/40">
 					<div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-						<div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-[10px] text-fd-muted-foreground font-medium">
+						<div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-xs text-fd-muted-foreground font-medium">
 							<p>© {new Date().getFullYear()} Unified UI</p>
 							<span className="hidden sm:inline opacity-30">
 								·
@@ -154,7 +154,7 @@ export function FooterSection() {
 							</Link>
 						</div>
 
-						<p className="text-[10px] text-fd-muted-foreground/60 text-center sm:text-right">
+						<p className="text-xs text-fd-muted-foreground/60 text-center sm:text-right">
 							Built with Next.js, Radix UI, Tailwind CSS v4 &amp;
 							Fumadocs
 						</p>

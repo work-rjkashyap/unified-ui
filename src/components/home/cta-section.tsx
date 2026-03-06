@@ -174,7 +174,7 @@ function StepCard({
 					<span className="flex items-center justify-center w-5 h-5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[10px] font-bold">
 						{step.step}
 					</span>
-					<span className="text-xs font-semibold text-fd-foreground tracking-tight">
+					<span className="text-sm font-semibold text-fd-foreground tracking-tight">
 						{step.title}
 					</span>
 				</div>
@@ -182,7 +182,7 @@ function StepCard({
 			</div>
 			{/* Code */}
 			<div className="px-3 py-2.5">
-				<pre className="text-[11px] font-mono leading-relaxed text-fd-foreground/80 whitespace-pre-wrap wrap-break-word">
+				<pre className="text-sm font-mono leading-relaxed text-fd-foreground/80 whitespace-pre-wrap wrap-break-word">
 					<code>{step.code}</code>
 				</pre>
 			</div>
@@ -206,10 +206,10 @@ export function CTASection() {
 					<Badge variant="primary" size="sm" className="mb-3">
 						Get Started
 					</Badge>
-					<h2 className="text-2xl md:text-3xl font-bold tracking-tighter mb-2">
+					<h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-3">
 						Two ways to use. One design system.
 					</h2>
-					<p className="text-sm text-fd-muted-foreground leading-6 max-w-lg mx-auto">
+					<p className="text-base text-fd-muted-foreground leading-7 max-w-lg mx-auto">
 						Install the full npm package for zero-config
 						convenience, or copy-paste individual components for
 						full ownership.
@@ -246,11 +246,11 @@ export function CTASection() {
 										Full Package
 									</Badge>
 
-									<h3 className="text-lg font-bold tracking-tight mb-2">
+									<h3 className="text-xl font-bold tracking-tight mb-2">
 										Single install, everything included
 									</h3>
 
-									<p className="text-sm text-fd-muted-foreground leading-6 mb-5">
+									<p className="text-base text-fd-muted-foreground leading-7 mb-5">
 										75+ components, design tokens, theme
 										provider, motion presets, and utilities
 										— all in one versioned npm package.
@@ -286,7 +286,7 @@ export function CTASection() {
 												>
 													<div className="flex items-center gap-2 rounded-lg border border-fd-border bg-fd-background/80 px-3 py-2.5">
 														<Package className="w-3.5 h-3.5 text-purple-500 shrink-0" />
-														<code className="text-xs font-mono text-fd-foreground flex-1 truncate">
+														<code className="text-sm font-mono text-fd-foreground flex-1 truncate">
 															{cmd}
 														</code>
 														<CopyButton
@@ -349,7 +349,7 @@ export function CTASection() {
 
 								{/* Right — Steps */}
 								<div className="border-t lg:border-t-0 lg:border-l border-fd-border bg-fd-muted/15 p-4 md:p-6 flex flex-col gap-2.5">
-									<p className="text-[10px] font-bold uppercase tracking-[0.2em] text-fd-muted-foreground mb-1">
+									<p className="text-xs font-bold uppercase tracking-[0.2em] text-fd-muted-foreground mb-1">
 										Setup Guide
 									</p>
 									{npmSteps.map((step) => (
@@ -375,11 +375,11 @@ export function CTASection() {
 										Copy &amp; Paste
 									</Badge>
 
-									<h3 className="text-lg font-bold tracking-tight mb-2">
+									<h3 className="text-xl font-bold tracking-tight mb-2">
 										Own the source. Customize everything.
 									</h3>
 
-									<p className="text-sm text-fd-muted-foreground leading-6 mb-5">
+									<p className="text-base text-fd-muted-foreground leading-7 mb-5">
 										Like shadcn/ui but for Unified UI.
 										Components are copied directly into your
 										project — you own the code. The CLI
@@ -408,7 +408,7 @@ export function CTASection() {
 												className="flex items-center gap-2 rounded-lg border border-fd-border bg-fd-background/80 px-3 py-2"
 											>
 												<Terminal className="w-3 h-3 text-cyan-500 shrink-0" />
-												<code className="text-xs font-mono text-fd-foreground flex-1 truncate">
+												<code className="text-sm font-mono text-fd-foreground flex-1 truncate">
 													{cmd.code}
 												</code>
 												<CopyButton text={cmd.code} />
@@ -464,7 +464,7 @@ export function CTASection() {
 
 								{/* Right — Steps */}
 								<div className="border-t lg:border-t-0 lg:border-l border-fd-border bg-fd-muted/15 p-4 md:p-6 flex flex-col gap-2.5">
-									<p className="text-[10px] font-bold uppercase tracking-[0.2em] text-fd-muted-foreground mb-1">
+									<p className="text-xs font-bold uppercase tracking-[0.2em] text-fd-muted-foreground mb-1">
 										CLI Workflow
 									</p>
 									{cliSteps.map((step) => (
@@ -483,10 +483,10 @@ export function CTASection() {
 							<Package className="w-3.5 h-3.5 text-purple-500" />
 						</div>
 						<div>
-							<h4 className="text-sm font-bold tracking-tight mb-0.5">
+							<h4 className="text-base font-bold tracking-tight mb-0.5">
 								npm Package
 							</h4>
-							<p className="text-xs text-fd-muted-foreground leading-5">
+							<p className="text-sm text-fd-muted-foreground leading-6">
 								Best for teams that want zero-config setup,
 								automatic updates, and consistent components
 								across projects.
@@ -498,10 +498,10 @@ export function CTASection() {
 							<Blocks className="w-3.5 h-3.5 text-cyan-500" />
 						</div>
 						<div>
-							<h4 className="text-sm font-bold tracking-tight mb-0.5">
+							<h4 className="text-base font-bold tracking-tight mb-0.5">
 								Copy &amp; Paste
 							</h4>
-							<p className="text-xs text-fd-muted-foreground leading-5">
+							<p className="text-sm text-fd-muted-foreground leading-6">
 								Best for developers who want full control over
 								source, deep customization, or the shadcn/ui
 								workflow.
@@ -512,7 +512,7 @@ export function CTASection() {
 
 				{/* ── Bottom note ── */}
 				<div className="mt-6 text-center">
-					<p className="text-xs text-fd-muted-foreground leading-5">
+					<p className="text-sm text-fd-muted-foreground leading-6">
 						Both methods use the same components, tokens, and
 						accessibility.{" "}
 						<a

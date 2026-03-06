@@ -184,12 +184,12 @@ function AnimatedTerminal() {
 					<div className="w-2.5 h-2.5 rounded-full bg-fd-muted-foreground/20" />
 					<div className="w-2.5 h-2.5 rounded-full bg-fd-muted-foreground/20" />
 				</div>
-				<span className="text-[10px] text-fd-muted-foreground font-medium ml-1">
+				<span className="text-xs text-fd-muted-foreground font-medium ml-1">
 					Terminal
 				</span>
 			</div>
 			{/* Body */}
-			<div className="p-3 font-mono text-xs leading-6 min-h-30">
+			<div className="p-4 font-mono text-sm leading-7 min-h-30">
 				{displayedLines.map((line, i) => (
 					<div
 						key={`${i}-${line.text}`}
@@ -235,8 +235,8 @@ function LiveComponentShowcase() {
 		<div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
 			{/* Card 1 — Buttons */}
 			<Card className="bg-fd-card border-fd-border">
-				<CardBody className="space-y-2.5 p-3">
-					<p className="text-[10px] font-bold uppercase tracking-widest text-fd-muted-foreground">
+				<CardBody className="space-y-3 p-4">
+					<p className="text-xs font-bold uppercase tracking-widest text-fd-muted-foreground">
 						Buttons
 					</p>
 					<div className="flex flex-row flex-wrap gap-1.5">
@@ -270,8 +270,8 @@ function LiveComponentShowcase() {
 
 			{/* Card 2 — Badges + Switch */}
 			<Card className="bg-fd-card border-fd-border">
-				<CardBody className="space-y-2.5 p-3">
-					<p className="text-[10px] font-bold uppercase tracking-widest text-fd-muted-foreground">
+				<CardBody className="space-y-3 p-4">
+					<p className="text-xs font-bold uppercase tracking-widest text-fd-muted-foreground">
 						Badges & Toggle
 					</p>
 					<div className="flex flex-row flex-wrap gap-1">
@@ -299,8 +299,8 @@ function LiveComponentShowcase() {
 
 			{/* Card 3 — Input + Progress */}
 			<Card className="bg-fd-card border-fd-border">
-				<CardBody className="space-y-2.5 p-3">
-					<p className="text-[10px] font-bold uppercase tracking-widest text-fd-muted-foreground">
+				<CardBody className="space-y-3 p-4">
+					<p className="text-xs font-bold uppercase tracking-widest text-fd-muted-foreground">
 						Input & Progress
 					</p>
 					<Input
@@ -310,10 +310,10 @@ function LiveComponentShowcase() {
 					/>
 					<div className="space-y-1">
 						<div className="flex items-center justify-between">
-							<span className="text-[10px] text-fd-muted-foreground font-medium">
+							<span className="text-xs text-fd-muted-foreground font-medium">
 								Upload
 							</span>
-							<span className="text-[10px] font-mono text-fd-muted-foreground">
+							<span className="text-xs font-mono text-fd-muted-foreground">
 								{progress}%
 							</span>
 						</div>
@@ -378,13 +378,13 @@ export function HeroSection() {
 
 							{/* Headline */}
 							<div className="animate-fade-in-up">
-								<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter leading-[1.1]">
+								<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.1]">
 									Build faster with{" "}
 									<span className="bg-linear-to-r from-purple-500 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
 										Unified UI
 									</span>
 								</h1>
-								<p className="mt-4 text-sm md:text-base text-fd-muted-foreground leading-relaxed max-w-lg">
+								<p className="mt-4 text-base md:text-lg text-fd-muted-foreground leading-relaxed max-w-lg">
 									A scalable, token-driven React design
 									system.{" "}
 									<span className="text-fd-foreground font-medium">
@@ -399,8 +399,8 @@ export function HeroSection() {
 							{/* Install commands */}
 							<div className="space-y-2.5 animate-fade-in-up animation-delay-200">
 								<Tooltip content="Full package — one install, everything included">
-									<div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-fd-card border border-fd-border font-mono text-xs w-full max-w-md">
-										<Package className="w-3.5 h-3.5 text-purple-500 shrink-0" />
+									<div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-fd-card border border-fd-border font-mono text-sm w-full max-w-md">
+										<Package className="w-4 h-4 text-purple-500 shrink-0" />
 										<code className="text-fd-foreground flex-1 truncate">
 											{installCmd}
 										</code>
@@ -409,8 +409,8 @@ export function HeroSection() {
 								</Tooltip>
 
 								<Tooltip content="Copy individual components into your project">
-									<div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-fd-card border border-fd-border font-mono text-xs w-full max-w-md">
-										<Terminal className="w-3.5 h-3.5 text-cyan-500 shrink-0" />
+									<div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-fd-card border border-fd-border font-mono text-sm w-full max-w-md">
+										<Terminal className="w-4 h-4 text-cyan-500 shrink-0" />
 										<code className="text-fd-foreground flex-1 truncate">
 											{cliCmd}
 										</code>
@@ -457,10 +457,10 @@ export function HeroSection() {
 						<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
 							{stats.map((stat) => (
 								<div key={stat.label} className="text-center">
-									<div className="text-xl md:text-2xl font-bold tracking-tighter text-fd-foreground">
+									<div className="text-2xl md:text-3xl font-bold tracking-tighter text-fd-foreground">
 										{stat.value}
 									</div>
-									<div className="text-[10px] text-fd-muted-foreground uppercase tracking-widest font-semibold mt-0.5">
+									<div className="text-xs text-fd-muted-foreground uppercase tracking-widest font-semibold mt-1">
 										{stat.label}
 									</div>
 								</div>
@@ -470,7 +470,7 @@ export function HeroSection() {
 
 					{/* ── Live component preview ── */}
 					<div className="mt-10 animate-fade-in-up animation-delay-600">
-						<p className="text-[10px] font-bold text-fd-muted-foreground uppercase tracking-[0.2em] mb-4 text-center">
+						<p className="text-xs font-bold text-fd-muted-foreground uppercase tracking-[0.2em] mb-4 text-center">
 							Live components — try them
 						</p>
 						<LiveComponentShowcase />
@@ -488,7 +488,7 @@ export function HeroSection() {
 							].map((tech) => (
 								<span
 									key={tech}
-									className="text-xs font-medium text-fd-muted-foreground/50 hover:text-fd-foreground transition-colors"
+									className="text-sm font-medium text-fd-muted-foreground/50 hover:text-fd-foreground transition-colors"
 								>
 									{tech}
 								</span>

@@ -189,7 +189,7 @@ function CategoryCard({
 				{/* Text */}
 				<div className="flex-1 min-w-0">
 					<div className="flex items-center justify-between gap-2 mb-0.5">
-						<h3 className="text-sm font-bold tracking-tight truncate">
+						<h3 className="text-base font-bold tracking-tight truncate">
 							{category.title}
 						</h3>
 						<Badge
@@ -200,7 +200,7 @@ function CategoryCard({
 							{category.count}
 						</Badge>
 					</div>
-					<p className="text-[11px] text-fd-muted-foreground leading-4 line-clamp-1">
+					<p className="text-sm text-fd-muted-foreground leading-5 line-clamp-1">
 						{category.description}
 					</p>
 				</div>
@@ -332,7 +332,7 @@ function LiveDemoPanel() {
 						</div>
 
 						<div className="space-y-1">
-							<div className="flex items-center justify-between text-[10px] text-fd-muted-foreground font-medium">
+							<div className="flex items-center justify-between text-xs text-fd-muted-foreground font-medium">
 								<span>Build progress</span>
 								<span className="font-mono">72%</span>
 							</div>
@@ -369,7 +369,7 @@ export default function Layout({ children }) {
 				{/* Tab 3 — Skeleton / loading states */}
 				<TabsContent value="loading">
 					<CardBody className="space-y-4 p-4">
-						<p className="text-xs text-fd-muted-foreground leading-5">
+						<p className="text-sm text-fd-muted-foreground leading-6">
 							Built-in loading primitives — Skeleton,
 							SkeletonText, SkeletonCircle, SkeletonRect — that
 							match your component layouts.
@@ -428,12 +428,12 @@ function CodeBlock({ title, code }: { title: string; code: string }) {
 					<div className="w-2 h-2 rounded-full bg-fd-muted-foreground/15" />
 					<div className="w-2 h-2 rounded-full bg-fd-muted-foreground/15" />
 				</div>
-				<span className="text-[10px] font-bold text-fd-muted-foreground uppercase tracking-widest ml-1">
+				<span className="text-xs font-bold text-fd-muted-foreground uppercase tracking-widest ml-1">
 					{title}
 				</span>
 			</div>
 			<div className="p-3 overflow-x-auto">
-				<pre className="text-[11px] font-mono leading-relaxed text-fd-foreground/80 whitespace-pre-wrap wrap-break-word">
+				<pre className="text-sm font-mono leading-relaxed text-fd-foreground/80 whitespace-pre-wrap wrap-break-word">
 					<code>{code}</code>
 				</pre>
 			</div>
@@ -460,7 +460,7 @@ export function ShowcaseSection() {
 						<Badge variant="primary" size="sm" className="mb-3">
 							Component Library
 						</Badge>
-						<h2 className="text-2xl md:text-3xl font-bold tracking-tighter mb-2">
+						<h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-3">
 							75+ components.{" "}
 							<span className="text-fd-muted-foreground">
 								One{" "}
@@ -470,7 +470,7 @@ export function ShowcaseSection() {
 								away.
 							</span>
 						</h2>
-						<p className="text-sm text-fd-muted-foreground leading-6 max-w-lg">
+						<p className="text-base text-fd-muted-foreground leading-7 max-w-lg">
 							Every component from shadcn/ui you love — plus
 							DataTable, Sidebar, Calendar, TreeView, VirtualList,
 							and more — packaged and ready.
@@ -502,7 +502,7 @@ export function ShowcaseSection() {
 						<div className="flex items-center justify-between rounded-lg border border-dashed border-fd-border/60 bg-fd-muted/20 px-3 py-2 mt-0.5">
 							<div className="flex items-center gap-2">
 								<Sparkles className="w-3 h-3 text-purple-500" />
-								<span className="text-xs font-medium text-fd-muted-foreground">
+								<span className="text-sm font-medium text-fd-muted-foreground">
 									Total components
 								</span>
 							</div>

@@ -13,7 +13,7 @@
 //   npx @work-rjkashyap/unified-ui init
 //
 // Components are fetched from the registry at:
-//   https://unified-ui.vercel.app/r/<name>.json
+//   https://unified-ui-rajeshwar.vercel.app/r/<name>.json
 //
 // Files are written into the user's project at:
 //   src/components/ui/<component>.tsx
@@ -35,12 +35,12 @@ import { createInterface } from "node:readline";
 
 const REGISTRY_BASE_URL =
   process.env.UNIFIED_UI_REGISTRY_URL ||
-  "https://unified-ui.vercel.app/r";
+  "https://unified-ui-rajeshwar.vercel.app/r";
 
 const CONFIG_FILE = "unified-ui.json";
 
 const DEFAULT_CONFIG = {
-  $schema: "https://unified-ui.vercel.app/r/schema/config.json",
+  $schema: "https://unified-ui-rajeshwar.vercel.app/r/schema/config.json",
   srcDir: "src",
   aliases: {
     components: "@/components/ui",

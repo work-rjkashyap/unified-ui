@@ -6,7 +6,7 @@
 		"packages/*"
 	],
 	"scripts": {
-		"build": "next build",
+		"build": "npm run build:registry && next build",
 		"build:ds": "npm run build --workspace=@work-rjkashyap/unified-ui",
 		"build:registry": "node scripts/build-registry.mjs",
 		"pack:ds": "npm run build:ds && cd packages/unified-ui && npm pack --pack-destination ../../",
