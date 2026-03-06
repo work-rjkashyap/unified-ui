@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Update Open Graph metadata and enhance OG image content for better SEO ([6e5728d](https://github.com/imrj05/unified-ui/commit/6e5728d6226ea9b11eed5214df30970cc71eb138))
 - Feat: add AppleIcon and Icon components with responsive design and SVG graphics
 feat: implement OGImage component for enhanced Open Graph support
 refactor: update layout component for improved readability and structure
@@ -31,12 +32,14 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([f216b6e](https://github.com/imrj05/unified-ui/commit/f216b6ebb6d436148256b784898833cea8613a14))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6658a0a](https://github.com/imrj05/unified-ui/commit/6658a0a50017a21e4fe868d86381ea0b9a76601e))
 - **changelog:** Auto-update unreleased entries [skip ci] ([8dc0ab8](https://github.com/imrj05/unified-ui/commit/8dc0ab8f9ed198e4b0da315a91869ca374626fd5))
 - Stop tracking CHANGELOG.md locally ([4973cf5](https://github.com/imrj05/unified-ui/commit/4973cf5a401970d23922e39e7590187a40497307))
 
 ### Other
 
+- Merge branch 'main' of github.com:imrj05/unified-ui ([055de42](https://github.com/imrj05/unified-ui/commit/055de4202aa7a813902e5beeeddfd0ae904c29f0))
 - Add CHANGELOG for packages/unified-ui ([06dc82a](https://github.com/imrj05/unified-ui/commit/06dc82a36328e9a289adea9eaade36abd0f49bdf))
 - Add changelog generator and update workflow
 
