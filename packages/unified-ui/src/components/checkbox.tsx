@@ -357,7 +357,7 @@ export const Checkbox = forwardRef<
 
       {/* Label and description */}
       {(label || description) && (
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-0.5 flex-1 min-w-0">
           {label && (
             <label
               htmlFor={id}

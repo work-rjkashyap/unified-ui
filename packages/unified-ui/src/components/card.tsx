@@ -72,24 +72,19 @@ function useCardContext(): CardContextValue {
 // Padding Maps
 // ---------------------------------------------------------------------------
 
-const cardPaddingMap: Record<CardPadding, string> = {
-  compact: "p-(--ds-padding-card)",
-  comfortable: "p-6",
-};
-
 const slotPaddingXMap: Record<CardPadding, string> = {
   compact: "px-(--ds-padding-card)",
   comfortable: "px-6",
 };
 
-const slotPaddingTopMap: Record<CardPadding, string> = {
-  compact: "pt-(--ds-padding-card)",
-  comfortable: "pt-6",
+const cardVerticalPaddingMap: Record<CardPadding, string> = {
+  compact: "py-(--ds-padding-card)",
+  comfortable: "py-6",
 };
 
-const slotPaddingBottomMap: Record<CardPadding, string> = {
-  compact: "pb-(--ds-padding-card)",
-  comfortable: "pb-6",
+const cardGapMap: Record<CardPadding, string> = {
+  compact: "gap-(--ds-gap-default,0.75rem)",
+  comfortable: "gap-4",
 };
 
 // ---------------------------------------------------------------------------
@@ -300,6 +295,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
         className={cn(
           "not-prose",
           cardVariants({ variant, fullWidth }),
+          cardVerticalPaddingMap[padding],
+          cardGapMap[padding],
           className,
         )}
         data-ds=""
@@ -404,9 +401,7 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
         className={cn(
           "flex flex-col gap-1.5",
           slotPaddingXMap[padding],
-          slotPaddingTopMap[padding],
-          slotPaddingBottomMap[padding],
-          bordered && "border-b border-border-muted",
+          bordered && "pb-(--ds-padding-card) border-b border-border-muted",
           className,
         )}
         data-ds=""
@@ -447,7 +442,7 @@ export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
         ref={ref}
         className={cn(
           "flex flex-col gap-2 flex-1",
-          cardPaddingMap[padding],
+          slotPaddingXMap[padding],
           className,
         )}
         data-ds=""
@@ -503,9 +498,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
         className={cn(
           "flex items-center gap-2",
           slotPaddingXMap[padding],
-          slotPaddingTopMap[padding],
-          slotPaddingBottomMap[padding],
-          bordered && "border-t border-border-muted",
+          bordered && "pt-(--ds-padding-card) border-t border-border-muted",
           alignMap[align],
           className,
         )}

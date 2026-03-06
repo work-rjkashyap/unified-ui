@@ -361,7 +361,7 @@ export const Switch = forwardRef<
 
   // Build the label + description block
   const labelBlock = (
-    <div className="flex flex-col gap-0.5">
+    <div className="flex flex-col gap-0.5 flex-1 min-w-0">
       <label
         htmlFor={id}
         className={cn(
@@ -392,7 +392,7 @@ export const Switch = forwardRef<
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-3",
+        "flex items-center gap-3",
         // Reverse order when label is on the left
         labelPosition === "left" ? "flex-row" : "flex-row-reverse",
         // Align to start when description is present

@@ -100,17 +100,10 @@
 	animation: blob 7s infinite;
 }
 
-/* Fix popup z-indices */
-div[role="dialog"] {
-	z-index: 100;
-}
-
+/* Fumadocs search overlay — must sit above design-system modals (--z-modal: 50)
+   and popovers (--z-popover: 70) so the search dialog is never obscured. */
 .fd-search {
-	z-index: 110;
-}
-
-[data-radix-portal] {
-	z-index: 100;
+	z-index: var(--z-max, 9999);
 }
 
 .animate-gradient {

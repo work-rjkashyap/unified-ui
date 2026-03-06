@@ -1,7 +1,7 @@
 'use strict';
 
 var chunk2JFREULQ_cjs = require('./chunk-2JFREULQ.cjs');
-var chunkQEFOXYBO_cjs = require('./chunk-QEFOXYBO.cjs');
+var chunkZBGR7MUW_cjs = require('./chunk-ZBGR7MUW.cjs');
 var chunkECIGDEAH_cjs = require('./chunk-ECIGDEAH.cjs');
 var chunkXCKK6P46_cjs = require('./chunk-XCKK6P46.cjs');
 
@@ -13,75 +13,75 @@ Object.defineProperty(exports, "spacing", {
 });
 Object.defineProperty(exports, "amber", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.amber; }
+  get: function () { return chunkZBGR7MUW_cjs.amber; }
 });
 Object.defineProperty(exports, "blue", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.blue; }
+  get: function () { return chunkZBGR7MUW_cjs.blue; }
 });
 Object.defineProperty(exports, "brand", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.brand; }
+  get: function () { return chunkZBGR7MUW_cjs.brand; }
 });
 Object.defineProperty(exports, "gray", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.gray; }
+  get: function () { return chunkZBGR7MUW_cjs.gray; }
 });
 Object.defineProperty(exports, "green", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.green; }
+  get: function () { return chunkZBGR7MUW_cjs.green; }
 });
 Object.defineProperty(exports, "neutral", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.neutral; }
+  get: function () { return chunkZBGR7MUW_cjs.neutral; }
 });
 Object.defineProperty(exports, "palettes", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.palettes; }
+  get: function () { return chunkZBGR7MUW_cjs.palettes; }
 });
 Object.defineProperty(exports, "pure", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.pure; }
+  get: function () { return chunkZBGR7MUW_cjs.pure; }
 });
 Object.defineProperty(exports, "radius", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.radius; }
+  get: function () { return chunkZBGR7MUW_cjs.radius; }
 });
 Object.defineProperty(exports, "red", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.red; }
+  get: function () { return chunkZBGR7MUW_cjs.red; }
 });
 Object.defineProperty(exports, "semanticDark", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.semanticDark; }
+  get: function () { return chunkZBGR7MUW_cjs.semanticDark; }
 });
 Object.defineProperty(exports, "semanticLight", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.semanticLight; }
+  get: function () { return chunkZBGR7MUW_cjs.semanticLight; }
 });
 Object.defineProperty(exports, "shadow", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.shadow; }
+  get: function () { return chunkZBGR7MUW_cjs.shadow; }
 });
 Object.defineProperty(exports, "shadowDark", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.shadowDark; }
+  get: function () { return chunkZBGR7MUW_cjs.shadowDark; }
 });
 Object.defineProperty(exports, "slate", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.slate; }
+  get: function () { return chunkZBGR7MUW_cjs.slate; }
 });
 Object.defineProperty(exports, "teal", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.teal; }
+  get: function () { return chunkZBGR7MUW_cjs.teal; }
 });
 Object.defineProperty(exports, "zIndex", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.zIndex; }
+  get: function () { return chunkZBGR7MUW_cjs.zIndex; }
 });
 Object.defineProperty(exports, "zinc", {
   enumerable: true,
-  get: function () { return chunkQEFOXYBO_cjs.zinc; }
+  get: function () { return chunkZBGR7MUW_cjs.zinc; }
 });
 Object.defineProperty(exports, "fontFamily", {
   enumerable: true,

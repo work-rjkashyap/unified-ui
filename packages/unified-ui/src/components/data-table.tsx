@@ -460,7 +460,7 @@ function Dropdown({
       {open && (
         <div
           className={cn(
-            "absolute top-full z-[var(--z-dropdown,40)] mt-1",
+            "absolute top-full z-[var(--z-dropdown)] mt-1",
             align === "end" ? "right-0" : "left-0",
             "min-w-[8rem] rounded-md py-1",
             "border border-border bg-popover text-popover-foreground",
@@ -1109,7 +1109,7 @@ function _DataTableColumnVisibility<TData>({
         <>
           {/* Backdrop to close on click outside */}
           <div
-            className="fixed inset-0 z-[var(--z-dropdown,40)]"
+            className="fixed inset-0 z-[var(--z-dropdown)]"
             onClick={() => setOpen(false)}
             onKeyDown={(e) => {
               if (e.key === "Escape") setOpen(false);
@@ -1118,7 +1118,7 @@ function _DataTableColumnVisibility<TData>({
           />
           <div
             className={cn(
-              "absolute right-0 top-full z-[var(--z-dropdown,40)] mt-1",
+              "absolute right-0 top-full z-[var(--z-dropdown)] mt-1",
               "min-w-[10rem] rounded-md p-1",
               "border border-border bg-popover text-popover-foreground",
               "shadow-md",

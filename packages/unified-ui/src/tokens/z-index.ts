@@ -10,14 +10,18 @@
 //
 // Stacking order (bottom → top):
 //   base       →  0    — default document flow
-//   dropdown   →  10   — dropdowns, select menus, popovers
-//   sticky     →  20   — sticky headers, floating toolbars
-//   overlay    →  30   — backdrop overlays behind modals
-//   modal      →  40   — dialogs, sheets, drawers
-//   popover    →  50   — popovers that sit above modals (rare)
-//   toast      →  60   — toast notifications (always visible)
-//   tooltip    →  70   — tooltips (highest interactive layer)
+//   sticky     →  10   — sticky headers, floating toolbars
+//   overlay    →  40   — backdrop overlays behind modals
+//   modal      →  50   — dialogs, sheets, drawers
+//   dropdown   →  60   — dropdowns, select menus, context menus (above modals)
+//   popover    →  70   — popovers, comboboxes, date pickers (above modals)
+//   toast      →  80   — toast notifications (always visible)
+//   tooltip    →  90   — tooltips (highest interactive layer)
 //   max        →  9999 — escape hatch for truly exceptional cases
+//
+// IMPORTANT: dropdown and popover are intentionally higher than modal so that
+// floating UI elements (Select, DropdownMenu, Combobox, Popover, DatePicker)
+// render correctly when opened from inside a Dialog, Sheet, or Drawer.
 //
 // NEVER hardcode z-index values in components. Always use these tokens.
 // ============================================================================
@@ -25,20 +29,20 @@
 export const zIndex = {
   /** Default document flow — no explicit stacking */
   base: "0",
-  /** Dropdowns, select menus, autocomplete lists */
-  dropdown: "10",
   /** Sticky headers, floating action bars, pinned columns */
-  sticky: "20",
+  sticky: "10",
   /** Backdrop overlays behind modals and drawers */
-  overlay: "30",
+  overlay: "40",
   /** Modals, dialogs, sheets, drawers */
-  modal: "40",
-  /** Popovers that must render above modals */
-  popover: "50",
+  modal: "50",
+  /** Dropdowns, select menus, context menus — renders above modals */
+  dropdown: "60",
+  /** Popovers, comboboxes, date pickers — renders above modals */
+  popover: "70",
   /** Toast notifications — always visible above all content */
-  toast: "60",
+  toast: "80",
   /** Tooltips — highest interactive z-layer */
-  tooltip: "70",
+  tooltip: "90",
   /** Emergency escape hatch — use sparingly and document why */
   max: "9999",
 } as const;

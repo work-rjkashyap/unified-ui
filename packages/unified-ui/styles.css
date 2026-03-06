@@ -193,14 +193,17 @@
   --shadow-focus-ring: 0 0 0 2px oklch(0.708 0 0 / 40%);
 
   /* --- Z-Index --- */
+  /* Values use wide spacing so popover-type layers (dropdown, popover,
+     tooltip) always render above modal/overlay layers — even when opened
+     from inside a dialog, sheet, or drawer. */
   --z-base: 0;
-  --z-dropdown: 10;
-  --z-sticky: 20;
-  --z-overlay: 30;
-  --z-modal: 40;
-  --z-popover: 50;
-  --z-toast: 60;
-  --z-tooltip: 70;
+  --z-sticky: 10;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-dropdown: 60;
+  --z-popover: 70;
+  --z-toast: 80;
+  --z-tooltip: 90;
   --z-max: 9999;
 
   /* --- Motion Durations --- */
@@ -522,13 +525,13 @@
 
   /* --- Z-Index --- */
   --z-index-base: 0;
-  --z-index-dropdown: 10;
-  --z-index-sticky: 20;
-  --z-index-overlay: 30;
-  --z-index-modal: 40;
-  --z-index-popover: 50;
-  --z-index-toast: 60;
-  --z-index-tooltip: 70;
+  --z-index-sticky: 10;
+  --z-index-overlay: 40;
+  --z-index-modal: 50;
+  --z-index-dropdown: 60;
+  --z-index-popover: 70;
+  --z-index-toast: 80;
+  --z-index-tooltip: 90;
   --z-index-max: 9999;
 
   /* --- Transition Durations --- */

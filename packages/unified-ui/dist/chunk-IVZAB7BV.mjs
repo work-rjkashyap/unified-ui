@@ -1,5 +1,3 @@
-'use strict';
-
 // src/tokens/colors.ts
 var slate = {
   50: "oklch(0.984 0.003 247.858)",
@@ -360,39 +358,22 @@ var shadowDark = {
 var zIndex = {
   /** Default document flow — no explicit stacking */
   base: "0",
-  /** Dropdowns, select menus, autocomplete lists */
-  dropdown: "10",
   /** Sticky headers, floating action bars, pinned columns */
-  sticky: "20",
+  sticky: "10",
   /** Backdrop overlays behind modals and drawers */
-  overlay: "30",
+  overlay: "40",
   /** Modals, dialogs, sheets, drawers */
-  modal: "40",
-  /** Popovers that must render above modals */
-  popover: "50",
+  modal: "50",
+  /** Dropdowns, select menus, context menus — renders above modals */
+  dropdown: "60",
+  /** Popovers, comboboxes, date pickers — renders above modals */
+  popover: "70",
   /** Toast notifications — always visible above all content */
-  toast: "60",
+  toast: "80",
   /** Tooltips — highest interactive z-layer */
-  tooltip: "70",
+  tooltip: "90",
   /** Emergency escape hatch — use sparingly and document why */
   max: "9999"
 };
 
-exports.amber = amber;
-exports.blue = blue;
-exports.brand = brand;
-exports.gray = gray;
-exports.green = green;
-exports.neutral = neutral;
-exports.palettes = palettes;
-exports.pure = pure;
-exports.radius = radius;
-exports.red = red;
-exports.semanticDark = semanticDark;
-exports.semanticLight = semanticLight;
-exports.shadow = shadow;
-exports.shadowDark = shadowDark;
-exports.slate = slate;
-exports.teal = teal;
-exports.zIndex = zIndex;
-exports.zinc = zinc;
+export { amber, blue, brand, gray, green, neutral, palettes, pure, radius, red, semanticDark, semanticLight, shadow, shadowDark, slate, teal, zIndex, zinc };

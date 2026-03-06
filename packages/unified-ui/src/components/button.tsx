@@ -420,7 +420,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
             {/* Label */}
             {children && (
-              <span className={cn(loading && !loadingText && "invisible")}>
+              <span className={cn("inline-flex items-center gap-[inherit]", loading && !loadingText && "invisible")}>
                 {children}
               </span>
             )}

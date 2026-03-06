@@ -1,6 +1,6 @@
 'use strict';
 
-var chunkQEFOXYBO_cjs = require('./chunk-QEFOXYBO.cjs');
+var chunkZBGR7MUW_cjs = require('./chunk-ZBGR7MUW.cjs');
 var chunkECIGDEAH_cjs = require('./chunk-ECIGDEAH.cjs');
 var chunkXCKK6P46_cjs = require('./chunk-XCKK6P46.cjs');
 var chunk4ON3M3OM_cjs = require('./chunk-4ON3M3OM.cjs');
@@ -138,10 +138,10 @@ function mapRecord(varNames, values) {
 }
 function buildLightThemeVars() {
   return {
-    ...mapRecord(colorVarNames, chunkQEFOXYBO_cjs.semanticLight),
-    ...mapRecord(radiusVarNames, chunkQEFOXYBO_cjs.radius),
-    ...mapRecord(shadowVarNames, chunkQEFOXYBO_cjs.shadow),
-    ...mapRecord(zIndexVarNames, chunkQEFOXYBO_cjs.zIndex),
+    ...mapRecord(colorVarNames, chunkZBGR7MUW_cjs.semanticLight),
+    ...mapRecord(radiusVarNames, chunkZBGR7MUW_cjs.radius),
+    ...mapRecord(shadowVarNames, chunkZBGR7MUW_cjs.shadow),
+    ...mapRecord(zIndexVarNames, chunkZBGR7MUW_cjs.zIndex),
     ...mapRecord(durationVarNames, chunkXCKK6P46_cjs.durationCSS),
     ...mapRecord(easingVarNames, chunkXCKK6P46_cjs.easingCSS),
     ...mapRecord(fontFamilyVarNames, chunkECIGDEAH_cjs.fontFamily)
@@ -149,10 +149,10 @@ function buildLightThemeVars() {
 }
 function buildDarkThemeVars() {
   return {
-    ...mapRecord(colorVarNames, chunkQEFOXYBO_cjs.semanticDark),
-    ...mapRecord(radiusVarNames, chunkQEFOXYBO_cjs.radius),
-    ...mapRecord(shadowVarNames, chunkQEFOXYBO_cjs.shadowDark),
-    ...mapRecord(zIndexVarNames, chunkQEFOXYBO_cjs.zIndex),
+    ...mapRecord(colorVarNames, chunkZBGR7MUW_cjs.semanticDark),
+    ...mapRecord(radiusVarNames, chunkZBGR7MUW_cjs.radius),
+    ...mapRecord(shadowVarNames, chunkZBGR7MUW_cjs.shadowDark),
+    ...mapRecord(zIndexVarNames, chunkZBGR7MUW_cjs.zIndex),
     ...mapRecord(durationVarNames, chunkXCKK6P46_cjs.durationCSS),
     ...mapRecord(easingVarNames, chunkXCKK6P46_cjs.easingCSS),
     ...mapRecord(fontFamilyVarNames, chunkECIGDEAH_cjs.fontFamily)
@@ -215,48 +215,48 @@ var cssVar = {
 
 // src/theme/presets.ts
 var STATUS_LIGHT = {
-  success: chunkQEFOXYBO_cjs.green[600],
+  success: chunkZBGR7MUW_cjs.green[600],
   successForeground: "oklch(0.145 0 0)",
-  successMuted: chunkQEFOXYBO_cjs.green[50],
-  successMutedForeground: chunkQEFOXYBO_cjs.green[700],
-  warning: chunkQEFOXYBO_cjs.amber[500],
+  successMuted: chunkZBGR7MUW_cjs.green[50],
+  successMutedForeground: chunkZBGR7MUW_cjs.green[700],
+  warning: chunkZBGR7MUW_cjs.amber[500],
   warningForeground: "oklch(0.145 0 0)",
-  warningMuted: chunkQEFOXYBO_cjs.amber[50],
-  warningMutedForeground: chunkQEFOXYBO_cjs.amber[700],
-  danger: chunkQEFOXYBO_cjs.red[600],
+  warningMuted: chunkZBGR7MUW_cjs.amber[50],
+  warningMutedForeground: chunkZBGR7MUW_cjs.amber[700],
+  danger: chunkZBGR7MUW_cjs.red[600],
   dangerForeground: "oklch(0.985 0 0)",
-  dangerHover: chunkQEFOXYBO_cjs.red[700],
-  dangerActive: chunkQEFOXYBO_cjs.red[800],
-  dangerMuted: chunkQEFOXYBO_cjs.red[50],
-  dangerMutedForeground: chunkQEFOXYBO_cjs.red[700],
-  destructive: chunkQEFOXYBO_cjs.red[600],
+  dangerHover: chunkZBGR7MUW_cjs.red[700],
+  dangerActive: chunkZBGR7MUW_cjs.red[800],
+  dangerMuted: chunkZBGR7MUW_cjs.red[50],
+  dangerMutedForeground: chunkZBGR7MUW_cjs.red[700],
+  destructive: chunkZBGR7MUW_cjs.red[600],
   destructiveForeground: "oklch(0.985 0 0)",
-  info: chunkQEFOXYBO_cjs.blue[600],
+  info: chunkZBGR7MUW_cjs.blue[600],
   infoForeground: "oklch(0.985 0 0)",
-  infoMuted: chunkQEFOXYBO_cjs.blue[50],
-  infoMutedForeground: chunkQEFOXYBO_cjs.blue[700]
+  infoMuted: chunkZBGR7MUW_cjs.blue[50],
+  infoMutedForeground: chunkZBGR7MUW_cjs.blue[700]
 };
 var STATUS_DARK = {
-  success: chunkQEFOXYBO_cjs.green[500],
+  success: chunkZBGR7MUW_cjs.green[500],
   successForeground: "oklch(0.145 0 0)",
-  successMuted: chunkQEFOXYBO_cjs.green[950],
-  successMutedForeground: chunkQEFOXYBO_cjs.green[300],
-  warning: chunkQEFOXYBO_cjs.amber[400],
+  successMuted: chunkZBGR7MUW_cjs.green[950],
+  successMutedForeground: chunkZBGR7MUW_cjs.green[300],
+  warning: chunkZBGR7MUW_cjs.amber[400],
   warningForeground: "oklch(0.145 0 0)",
-  warningMuted: chunkQEFOXYBO_cjs.amber[950],
-  warningMutedForeground: chunkQEFOXYBO_cjs.amber[300],
-  danger: chunkQEFOXYBO_cjs.red[500],
+  warningMuted: chunkZBGR7MUW_cjs.amber[950],
+  warningMutedForeground: chunkZBGR7MUW_cjs.amber[300],
+  danger: chunkZBGR7MUW_cjs.red[500],
   dangerForeground: "oklch(0.985 0 0)",
-  dangerHover: chunkQEFOXYBO_cjs.red[400],
-  dangerActive: chunkQEFOXYBO_cjs.red[300],
-  dangerMuted: chunkQEFOXYBO_cjs.red[950],
-  dangerMutedForeground: chunkQEFOXYBO_cjs.red[300],
-  destructive: chunkQEFOXYBO_cjs.red[500],
+  dangerHover: chunkZBGR7MUW_cjs.red[400],
+  dangerActive: chunkZBGR7MUW_cjs.red[300],
+  dangerMuted: chunkZBGR7MUW_cjs.red[950],
+  dangerMutedForeground: chunkZBGR7MUW_cjs.red[300],
+  destructive: chunkZBGR7MUW_cjs.red[500],
   destructiveForeground: "oklch(0.985 0 0)",
-  info: chunkQEFOXYBO_cjs.blue[400],
+  info: chunkZBGR7MUW_cjs.blue[400],
   infoForeground: "oklch(0.145 0 0)",
-  infoMuted: chunkQEFOXYBO_cjs.blue[950],
-  infoMutedForeground: chunkQEFOXYBO_cjs.blue[300]
+  infoMuted: chunkZBGR7MUW_cjs.blue[950],
+  infoMutedForeground: chunkZBGR7MUW_cjs.blue[300]
 };
 var CHART_LIGHT = {
   chart1: "oklch(0.646 0.222 41.116)",
@@ -416,7 +416,7 @@ function buildNeutralPreset(name, key, palette) {
       disabledForeground: palette[600],
       sidebar: palette[900],
       sidebarForeground: palette[50],
-      sidebarPrimary: chunkQEFOXYBO_cjs.blue[600],
+      sidebarPrimary: chunkZBGR7MUW_cjs.blue[600],
       sidebarPrimaryForeground: palette[50],
       sidebarAccent: palette[800],
       sidebarAccentForeground: palette[50],
@@ -425,7 +425,7 @@ function buildNeutralPreset(name, key, palette) {
     }
   };
 }
-function buildChromaticPreset(name, key, primary, surface = chunkQEFOXYBO_cjs.zinc) {
+function buildChromaticPreset(name, key, primary, surface = chunkZBGR7MUW_cjs.zinc) {
   return {
     name,
     key,
@@ -527,16 +527,16 @@ var COLOR_PRESETS = [
   // Neutral Presets (achromatic primaries)
   // -------------------------------------------------------------------------
   {
-    swatch: chunkQEFOXYBO_cjs.zinc[900],
-    ...buildNeutralPreset("Zinc", "zinc", chunkQEFOXYBO_cjs.zinc)
+    swatch: chunkZBGR7MUW_cjs.zinc[900],
+    ...buildNeutralPreset("Zinc", "zinc", chunkZBGR7MUW_cjs.zinc)
   },
   {
-    swatch: chunkQEFOXYBO_cjs.slate[900],
-    ...buildNeutralPreset("Slate", "slate", chunkQEFOXYBO_cjs.slate)
+    swatch: chunkZBGR7MUW_cjs.slate[900],
+    ...buildNeutralPreset("Slate", "slate", chunkZBGR7MUW_cjs.slate)
   },
   {
-    swatch: chunkQEFOXYBO_cjs.gray[900],
-    ...buildNeutralPreset("Gray", "gray", chunkQEFOXYBO_cjs.gray)
+    swatch: chunkZBGR7MUW_cjs.gray[900],
+    ...buildNeutralPreset("Gray", "gray", chunkZBGR7MUW_cjs.gray)
   },
   {
     swatch: stone[900],
@@ -550,12 +550,12 @@ var COLOR_PRESETS = [
   // Chromatic Presets (colored primaries)
   // -------------------------------------------------------------------------
   {
-    swatch: chunkQEFOXYBO_cjs.blue[600],
-    ...buildChromaticPreset("Blue", "blue", chunkQEFOXYBO_cjs.blue)
+    swatch: chunkZBGR7MUW_cjs.blue[600],
+    ...buildChromaticPreset("Blue", "blue", chunkZBGR7MUW_cjs.blue)
   },
   {
-    swatch: chunkQEFOXYBO_cjs.green[600],
-    ...buildChromaticPreset("Green", "green", chunkQEFOXYBO_cjs.green)
+    swatch: chunkZBGR7MUW_cjs.green[600],
+    ...buildChromaticPreset("Green", "green", chunkZBGR7MUW_cjs.green)
   },
   {
     swatch: violet[600],
@@ -570,16 +570,16 @@ var COLOR_PRESETS = [
     ...buildChromaticPreset("Orange", "orange", orange)
   },
   {
-    swatch: chunkQEFOXYBO_cjs.red[600],
-    ...buildChromaticPreset("Red", "red", chunkQEFOXYBO_cjs.red)
+    swatch: chunkZBGR7MUW_cjs.red[600],
+    ...buildChromaticPreset("Red", "red", chunkZBGR7MUW_cjs.red)
   },
   {
-    swatch: chunkQEFOXYBO_cjs.teal[600],
-    ...buildChromaticPreset("Teal", "teal", chunkQEFOXYBO_cjs.teal)
+    swatch: chunkZBGR7MUW_cjs.teal[600],
+    ...buildChromaticPreset("Teal", "teal", chunkZBGR7MUW_cjs.teal)
   },
   {
-    swatch: chunkQEFOXYBO_cjs.brand[600],
-    ...buildChromaticPreset("Brand", "brand", chunkQEFOXYBO_cjs.brand)
+    swatch: chunkZBGR7MUW_cjs.brand[600],
+    ...buildChromaticPreset("Brand", "brand", chunkZBGR7MUW_cjs.brand)
   }
 ];
 function getColorPreset(key) {

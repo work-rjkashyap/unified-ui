@@ -407,7 +407,7 @@ export const RadioGroupItem = forwardRef<
       </RadioGroupPrimitive.Item>
 
       {(label || description) && (
-        <div className="flex flex-col gap-0.5 min-w-0">
+        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
           {label && (
             <label
               id={labelId}
