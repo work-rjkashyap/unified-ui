@@ -1,4 +1,3 @@
-import { Twitter } from "lucide-react";
 import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { Nav } from "@/components/layout/nav";
@@ -8,36 +7,28 @@ import { SIDEBAR_TABS } from "@/lib/sidebar";
 import { source } from "@/lib/source";
 
 const DOCS_LAYOUT_PROPS = {
-  ...baseOptions,
-  tree: source.getPageTree(),
-  sidebar: {
-    // ...baseOptions.sidebar,
-    tabs: SIDEBAR_TABS,
-  },
-  links: [
-    ...(baseOptions.links || []),
-    {
-      icon: <Twitter className="size-4" />,
-      url: "https://x.com/i_am_rj05",
-      text: "X",
-      type: "icon" as const,
-    },
-  ],
+	...baseOptions,
+	tree: source.getPageTree(),
+	sidebar: {
+		// ...baseOptions.sidebar,
+		tabs: SIDEBAR_TABS,
+	},
 };
 export default function Layout({ children }: { children: ReactNode }) {
-  return (
-    <DocsLayout
-      {...DOCS_LAYOUT_PROPS}
-      sidebar={{
-        // ...DOCS_LAYOUT_PROPS.sidebar,
-        component: <DocsSidebar {...DOCS_LAYOUT_PROPS} />,
-      }}
-      nav={{
-        ...DOCS_LAYOUT_PROPS.nav,
-        component: <Nav />,
-      }}
-    >
-      {children}
-    </DocsLayout>
-  );
+	return (
+		<DocsLayout
+			{...DOCS_LAYOUT_PROPS}
+			sidebar={{
+				// ...DOCS_LAYOUT_PROPS.sidebar,
+				component: <DocsSidebar {...DOCS_LAYOUT_PROPS} />,
+			}}
+			nav={{
+				...DOCS_LAYOUT_PROPS.nav,
+				transparentMode: "top",
+				component: <Nav />,
+			}}
+		>
+			{children}
+		</DocsLayout>
+	);
 }
