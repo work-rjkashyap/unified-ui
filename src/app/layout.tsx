@@ -9,71 +9,80 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 const outfit = Outfit({
-	subsets: ["latin"],
-	variable: "--font-outfit",
+    subsets: ["latin"],
+    variable: "--font-outfit",
 });
 
 const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-inter",
+    subsets: ["latin"],
+    variable: "--font-inter",
 });
 
 const lora = Lora({
-	subsets: ["latin"],
-	variable: "--font-lora",
+    subsets: ["latin"],
+    variable: "--font-lora",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-	subsets: ["latin"],
-	variable: "--font-jetbrains",
+    subsets: ["latin"],
+    variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL(
-		process.env.NEXT_PUBLIC_SITE_URL ??
-			"https://unified-ui-rajeshwar.vercel.app",
-	),
-	title: {
-		default: "Unified UI - Build Faster with Next-Generation UI Components",
-		template: "%s - Unified UI",
-	},
-	description:
-		"The platform for high-performance, scalable, and beautiful user interfaces. Ship products faster with our comprehensive component library and documentation.",
-	keywords: [
-		"Unified UI",
-		"React",
-		"Next.js",
-		"TypeScript",
-		"Tailwind CSS",
-		"Fumadocs",
-		"Components",
-		"UI Library",
-	],
+    metadataBase: new URL(
+        process.env.NEXT_PUBLIC_SITE_URL ??
+        "https://unified-ui-rajeshwar.vercel.app",
+    ),
+    title: {
+        default: "Unified UI - Build Faster with Next-Generation UI Components",
+        template: "%s - Unified UI",
+    },
+    description:
+        "The platform for high-performance, scalable, and beautiful user interfaces. Ship products faster with our comprehensive component library and documentation.",
+    keywords: [
+        "Unified UI",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Fumadocs",
+        "Components",
+        "UI Library",
+    ],
+    openGraph: {
+        type: "website",
+        locale: "en_US",
+        siteName: "Unified UI",
+    },
+    twitter: {
+        card: "summary_large_image",
+        creator: "@rjkashyap",
+    },
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
-	return (
-		<html
-			lang="en"
-			className={cn(
-				outfit.variable,
-				inter.variable,
-				lora.variable,
-				jetbrainsMono.variable,
-				outfit.className,
-			)}
-			suppressHydrationWarning
-		>
-			<body className={cn("flex flex-col min-h-screen")}>
-				<RootProvider>
-					<ThemeCustomizerProvider>
-						<NuqsAdapter>
-							{children}
-							<ThemeCustomizerTrigger />
-						</NuqsAdapter>
-					</ThemeCustomizerProvider>
-				</RootProvider>
-			</body>
-		</html>
-	);
+    return (
+        <html
+            lang="en"
+            className={cn(
+                outfit.variable,
+                inter.variable,
+                lora.variable,
+                jetbrainsMono.variable,
+                outfit.className,
+            )}
+            suppressHydrationWarning
+        >
+            <body className={cn("flex flex-col min-h-screen")}>
+                <RootProvider>
+                    <ThemeCustomizerProvider>
+                        <NuqsAdapter>
+                            {children}
+                            <ThemeCustomizerTrigger />
+                        </NuqsAdapter>
+                    </ThemeCustomizerProvider>
+                </RootProvider>
+            </body>
+        </html>
+    );
 }
