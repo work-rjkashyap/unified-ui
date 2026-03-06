@@ -83,7 +83,7 @@ const componentCategories = [
 			"Input, Select, Checkbox, Switch, Slider, Radio, DatePicker, NumberInput, PinInput.",
 		icon: SlidersHorizontal,
 		count: 12,
-		href: "/docs/components",
+		href: "/components",
 		color: "purple",
 	},
 	{
@@ -92,7 +92,7 @@ const componentCategories = [
 			"Dialog, AlertDialog, Sheet, Drawer, Popover, HoverCard, Tooltip, ContextMenu.",
 		icon: LayoutGrid,
 		count: 9,
-		href: "/docs/components",
+		href: "/components",
 		color: "blue",
 	},
 	{
@@ -101,7 +101,7 @@ const componentCategories = [
 			"DataTable, Table, Card, Badge, Avatar, Stat, Timeline, DataList, Calendar.",
 		icon: Table,
 		count: 10,
-		href: "/docs/components",
+		href: "/components",
 		color: "cyan",
 	},
 	{
@@ -110,7 +110,7 @@ const componentCategories = [
 			"Sidebar, Tabs, Breadcrumb, NavigationMenu, Menubar, Pagination, Steps, Command.",
 		icon: Grip,
 		count: 8,
-		href: "/docs/components",
+		href: "/components",
 		color: "green",
 	},
 	{
@@ -119,7 +119,7 @@ const componentCategories = [
 			"Alert, Banner, Toast (Sonner), Progress, Spinner, Skeleton, EmptyState.",
 		icon: Bell,
 		count: 7,
-		href: "/docs/components",
+		href: "/components",
 		color: "amber",
 	},
 	{
@@ -128,7 +128,7 @@ const componentCategories = [
 			"Stack, Container, Divider, Heading, Typography, AspectRatio, ScrollArea.",
 		icon: Type,
 		count: 8,
-		href: "/docs/components",
+		href: "/components",
 		color: "rose",
 	},
 ];
@@ -477,7 +477,7 @@ export function ShowcaseSection() {
 						</p>
 					</div>
 					<ButtonLink
-						href="/docs/components"
+						href="/components"
 						variant="primary"
 						size="md"
 						iconRight={<ArrowRight className="size-3.5" />}
