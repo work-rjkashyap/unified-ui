@@ -53,10 +53,16 @@ export const metadata: Metadata = {
         type: "website",
         locale: "en_US",
         siteName: "Unified UI",
+        title: "Unified UI — Production-Ready React Components for Next.js",
+        description:
+            "Ship beautiful interfaces faster with 50+ accessible, customizable React components. Built with TypeScript, Tailwind CSS, and designed for modern Next.js apps.",
     },
     twitter: {
         card: "summary_large_image",
         creator: "@rjkashyap",
+        title: "Unified UI — Production-Ready React Components for Next.js",
+        description:
+            "Ship beautiful interfaces faster with 50+ accessible, customizable React components. Built with TypeScript, Tailwind CSS, and designed for modern Next.js apps.",
     },
 };
 

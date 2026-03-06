@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Unified UI - Build Faster with Next-Generation UI Components";
+export const alt = "Unified UI — Production-Ready React Components for Next.js";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -114,13 +114,33 @@ export default function OGImage() {
                 style={{
                     fontSize: 22,
                     color: "rgba(255, 255, 255, 0.5)",
-                    maxWidth: 600,
+                    maxWidth: 700,
                     textAlign: "center",
                     lineHeight: 1.5,
                     display: "flex",
+                    marginBottom: 36,
                 }}
             >
-                Build faster with next-generation UI components
+                50+ accessible, customizable React components for modern Next.js apps
+            </div>
+
+            {/* CTA Button */}
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    padding: "14px 32px",
+                    borderRadius: 12,
+                    background: "linear-gradient(135deg, #6d28d9, #8b5cf6)",
+                    color: "white",
+                    fontSize: 18,
+                    fontWeight: 600,
+                    letterSpacing: "-0.01em",
+                }}
+            >
+                Get Started
+                <span style={{ marginLeft: 4 }}>→</span>
             </div>
 
             {/* Bottom bar */}
