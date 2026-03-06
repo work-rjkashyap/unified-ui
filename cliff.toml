@@ -1,0 +1,99 @@
+# git-cliff — Changelog Generator Configuration
+# https://git-cliff.org/docs/configuration
+#
+# This config parses Conventional Commit messages and generates a changelog
+# grouped by version and category (feat, fix, refactor, etc.).
+#
+# Used by:
+#   - .github/workflows/changelog.yml (auto-updates CHANGELOG.md on push to main)
+#   - Manual: npx git-cliff --output CHANGELOG.md
+
+[changelog]
+# Template for the full changelog output
+header = """
+# Changelog\n
+All notable changes to the **Unified UI** design system will be documented in this file.\n
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n
+"""
+body = """
+{%- macro remote_url() -%}
+  https://github.com/imrj05/unified-ui
+{%- endmacro -%}
+
+{% if version -%}
+    ## [{{ version | trim_start_matches(pat="v") }}] — {{ timestamp | date(format="%Y-%m-%d") }}
+{% else -%}
+    ## [Unreleased]
+{% endif -%}
+
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | striptags | trim | upper_first }}
+    {% for commit in commits %}
+        - {% if commit.scope %}**{{ commit.scope }}:** {% endif %}{% if commit.breaking %}⚠️ **BREAKING:** {% endif %}\
+          {{ commit.message | upper_first }}\
+          {%- if commit.body %}\
+            \n  {{ commit.body | indent(prefix="  ") }}\
+          {%- endif %}\
+          {%- if commit.links | length > 0 %} \
+            ({% for link in commit.links %}[{{ link.text }}]({{ link.href }}){% if not loop.last %}, {% endif %}{% endfor %})\
+          {%- endif %} \
+          ([{{ commit.id | truncate(length=7, end="") }}]({{ self::remote_url() }}/commit/{{ commit.id }}))
+    {%- endfor %}
+{% endfor %}
+"""
+footer = ""
+trim = true
+
+[git]
+# Parse conventional commits
+# https://www.conventionalcommits.org
+conventional_commits = true
+filter_unconventional = true
+split_commits = false
+
+# Commit message sorting
+commit_parsers = [
+    { message = "^feat", group = "<!-- 0 -->🚀 Features" },
+    { message = "^fix", group = "<!-- 1 -->🐛 Bug Fixes" },
+    { message = "^perf", group = "<!-- 2 -->⚡ Performance" },
+    { message = "^refactor", group = "<!-- 3 -->🔧 Refactors" },
+    { message = "^style", group = "<!-- 4 -->🎨 Styling" },
+    { message = "^docs", group = "<!-- 5 -->📖 Documentation" },
+    { message = "^test", group = "<!-- 6 -->🧪 Tests" },
+    { message = "^chore\\(release\\)", skip = true },
+    { message = "^chore\\(deps\\)", group = "<!-- 7 -->📦 Dependencies" },
+    { message = "^chore\\(ci\\)", group = "<!-- 8 -->⚙️ CI/CD" },
+    { message = "^chore", group = "<!-- 9 -->🏗️ Miscellaneous" },
+    { message = "^ci", group = "<!-- 8 -->⚙️ CI/CD" },
+    { message = "^build", group = "<!-- 10 -->🏗️ Build" },
+    { message = "^revert", group = "<!-- 11 -->⏪ Reverts" },
+    # Catch-all for non-conventional commits (if filter_unconventional = false)
+    { body = ".*", group = "<!-- 99 -->Other" },
+]
+
+# Filter out commits that don't match any parser
+filter_commits = false
+
+# Tag pattern for versions
+tag_pattern = "v[0-9].*"
+
+# Sort commits within each group
+sort_commits = "newest"
+
+# Protect against accidentally including merge commits
+# skip_tags = ""
+# ignore_tags = ""
+
+# Process each tag as a version
+topo_order = false
+
+# Limit to changes within the design system package
+# (remove this if you want full-repo changelogs)
+# commit_preprocessors = []
+
+# Link parsers — auto-link GitHub issues and PRs
+link_parsers = [
+    { pattern = "#(\\d+)", href = "https://github.com/imrj05/unified-ui/issues/$1" },
+    { pattern = "RFC(\\d+)", text = "ietf-rfc-$1", href = "https://datatracker.ietf.org/doc/html/rfc$1" },
+]

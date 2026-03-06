@@ -6,9 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Planned
 - Migration guide — mapping from legacy `--ds-*` tokens to new plain `--*` tokens
-- CI/CD pipeline for automated publishing on git tags
 - `UnifiedUIProvider` component for optional auto CSS injection
 - Component tests with Vitest + Testing Library
+---
+
+## [0.2.1] — 2026-03-06
+### Fixed
+- **CLI: Registry URL** — Fixed the hardcoded registry base URL in the CLI from `unified-ui.vercel.app` (a different, unrelated Vercel project) to the correct `unified-ui-rajeshwar.vercel.app`. This caused `npx @work-rjkashyap/unified-ui add <component>` to fail with a 404 error for all users of the published npm package.
+- **CLI: `$schema` URL** — Updated the default `$schema` reference in `unified-ui.json` config to point to the correct registry domain.
+
+### Changed
+- **Homepage text sizes** — Increased font sizes across all homepage sections (Hero, Features, Showcase, Testimonials/Why, CTA, Footer) for improved readability. Bumped headings, descriptions, card titles, labels, code blocks, and stat numbers up by roughly one Tailwind size step (e.g. `text-[10px]` → `text-xs`, `text-xs` → `text-sm`, `text-sm` → `text-base`).
+
+### Added
+- **Automated changelog generation** — Added GitHub Actions workflow (`.github/workflows/changelog.yml`) that auto-generates changelog entries from Conventional Commit messages on every push to `main`. Uses `git-cliff` to parse `feat:`, `fix:`, `refactor:`, `chore:` prefixes and appends to `CHANGELOG.md`.
+
 ---
 
 ## [0.2.0] — 2026-03-05

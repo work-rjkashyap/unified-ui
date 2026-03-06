@@ -1,0 +1,72 @@
+# ============================================================================
+# Automatic Changelog Generation
+# ============================================================================
+# Generates changelog entries from Conventional Commit messages on every push
+# to `main`. Uses git-cliff to parse feat:, fix:, refactor:, chore: prefixes
+# and updates packages/unified-ui/CHANGELOG.md automatically.
+#
+# Requirements:
+#   - Commits follow Conventional Commits: https://www.conventionalcommits.org
+#   - cliff.toml config exists at repo root
+#   - GITHUB_TOKEN has write permissions (enabled below)
+#
+# Workflow:
+#   1. Push to main with conventional commit messages
+#   2. git-cliff generates changelog from commit history
+#   3. If CHANGELOG.md changed, it commits and pushes the update
+# ============================================================================
+
+name: Changelog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/unified-ui/**"
+      - "cliff.toml"
+
+permissions:
+  contents: write
+
+jobs:
+  changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+
+    # Don't run on commits made by this workflow (prevent infinite loop)
+    if: "!contains(github.event.head_commit.message, 'chore(release)')"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install git-cliff
+        uses: orhun/git-cliff-action@v4
+        id: generate
+        with:
+          config: cliff.toml
+          args: --output packages/unified-ui/CHANGELOG.md
+        env:
+          OUTPUT: packages/unified-ui/CHANGELOG.md
+          GITHUB_REPO: ${{ github.repository }}
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet packages/unified-ui/CHANGELOG.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push changelog
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add packages/unified-ui/CHANGELOG.md
+          git commit -m "chore(release): update changelog [skip ci]"
+          git push
