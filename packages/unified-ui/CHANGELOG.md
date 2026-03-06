@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 🚀 Features
+
+- Feat: add AppleIcon and Icon components with responsive design and SVG graphics
+feat: implement OGImage component for enhanced Open Graph support
+refactor: update layout component for improved readability and structure
+fix: correct site name in route handler for Open Graph image generation ([f92e1fe](https://github.com/imrj05/unified-ui/commit/f92e1fee67ac7753dbbabc39b20ce06168183fae))
+
 ### 🐛 Bug Fixes
 
 - Enhance changelog script to scan all commits if no tags are found ([fdbb105](https://github.com/imrj05/unified-ui/commit/fdbb105c47e4afa1f999b0eddfe884a903b76466))
@@ -24,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([6658a0a](https://github.com/imrj05/unified-ui/commit/6658a0a50017a21e4fe868d86381ea0b9a76601e))
 - **changelog:** Auto-update unreleased entries [skip ci] ([8dc0ab8](https://github.com/imrj05/unified-ui/commit/8dc0ab8f9ed198e4b0da315a91869ca374626fd5))
 - Stop tracking CHANGELOG.md locally ([4973cf5](https://github.com/imrj05/unified-ui/commit/4973cf5a401970d23922e39e7590187a40497307))
 
