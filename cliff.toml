@@ -4,12 +4,9 @@
 # This config parses Conventional Commit messages and generates release notes
 # grouped by category (feat, fix, refactor, etc.).
 #
-# ⚠️  This is NOT used for CHANGELOG.md updates.
-#     The changelog is maintained by .github/workflows/changelog.yml which
-#     uses a custom bash/node script to prepend new entries into the
-#     [Unreleased] section without overwriting hand-written release notes.
-#
 # This config IS used by:
+#   - .github/workflows/changelog.yml → generates CHANGELOG.md via
+#     .github/scripts/generate-changelog.sh (full changelog)
 #   - .github/workflows/release.yml → generates GitHub Release notes via
 #     `git-cliff --latest --strip header` when you push a version tag
 #   - Manual one-off: npx git-cliff --latest --strip header
@@ -50,7 +47,7 @@ trim = true
 # Parse conventional commits
 # https://www.conventionalcommits.org
 conventional_commits = true
-filter_unconventional = true
+filter_unconventional = false
 split_commits = false
 
 # Commit message sorting
