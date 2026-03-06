@@ -1,21 +1,22 @@
-# git-cliff — Changelog Generator Configuration
+# git-cliff — Release Notes Generator Configuration
 # https://git-cliff.org/docs/configuration
 #
-# This config parses Conventional Commit messages and generates a changelog
-# grouped by version and category (feat, fix, refactor, etc.).
+# This config parses Conventional Commit messages and generates release notes
+# grouped by category (feat, fix, refactor, etc.).
 #
-# Used by:
-#   - .github/workflows/changelog.yml (auto-updates CHANGELOG.md on push to main)
-#   - Manual: npx git-cliff --output CHANGELOG.md
+# ⚠️  This is NOT used for CHANGELOG.md updates.
+#     The changelog is maintained by .github/workflows/changelog.yml which
+#     uses a custom bash/node script to prepend new entries into the
+#     [Unreleased] section without overwriting hand-written release notes.
+#
+# This config IS used by:
+#   - .github/workflows/release.yml → generates GitHub Release notes via
+#     `git-cliff --latest --strip header` when you push a version tag
+#   - Manual one-off: npx git-cliff --latest --strip header
 
 [changelog]
-# Template for the full changelog output
-header = """
-# Changelog\n
-All notable changes to the **Unified UI** design system will be documented in this file.\n
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n
-"""
+# Template for release notes output (no header needed — GitHub Release provides context)
+header = ""
 body = """
 {%- macro remote_url() -%}
   https://github.com/imrj05/unified-ui
