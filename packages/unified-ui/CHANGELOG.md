@@ -5,11 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ## [0.2.2] — 2026-03-07
 ### 🚀 Features
-- Add dynamic favicon (icon.tsx) and Apple touch icon using the CircuitBoard logo
-- Add OG image generation (opengraph-image.tsx) with branded design, CTA, and tech stack
-- Add OpenGraph and Twitter card metadata to root layout
-- Fix docs OG route to display "Unified UI" instead of "My App"
-- Optimize OG title (59 chars) and description (160 chars) for SEO best practices
+- Update Open Graph metadata and enhance OG image content for better SEO ([6e5728d](https://github.com/imrj05/unified-ui/commit/6e5728d6226ea9b11eed5214df30970cc71eb138))
+- Feat: add AppleIcon and Icon components with responsive design and SVG graphics
+feat: implement OGImage component for enhanced Open Graph support
+refactor: update layout component for improved readability and structure
+fix: correct site name in route handler for Open Graph image generation ([f92e1fe](https://github.com/imrj05/unified-ui/commit/f92e1fee67ac7753dbbabc39b20ce06168183fae))
 ### 🐛 Bug Fixes
 - Enhance changelog script to scan all commits if no tags are found ([fdbb105](https://github.com/imrj05/unified-ui/commit/fdbb105c47e4afa1f999b0eddfe884a903b76466))
 - Update component links from /docs/components to /components ([d511280](https://github.com/imrj05/unified-ui/commit/d511280063616413efb9235d81d21eabf467b2ca))
@@ -21,10 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Refactored the rendering of changelog items and sections for better readability and maintainability.
   - Updated the stats calculation to normalize section titles for accurate feature and fix counts. ([f3b47fe](https://github.com/imrj05/unified-ui/commit/f3b47fe55a9c7637570e833b6256b2adb969dbcc))
 ### 🏗️ Miscellaneous
+- **changelog:** Auto-update unreleased entries [skip ci] ([f216b6e](https://github.com/imrj05/unified-ui/commit/f216b6ebb6d436148256b784898833cea8613a14))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6658a0a](https://github.com/imrj05/unified-ui/commit/6658a0a50017a21e4fe868d86381ea0b9a76601e))
 - **changelog:** Auto-update unreleased entries [skip ci] ([8dc0ab8](https://github.com/imrj05/unified-ui/commit/8dc0ab8f9ed198e4b0da315a91869ca374626fd5))
 - Stop tracking CHANGELOG.md locally ([4973cf5](https://github.com/imrj05/unified-ui/commit/4973cf5a401970d23922e39e7590187a40497307))
 ### Other
+- Merge branch 'main' of github.com:imrj05/unified-ui ([055de42](https://github.com/imrj05/unified-ui/commit/055de4202aa7a813902e5beeeddfd0ae904c29f0))
 - Add CHANGELOG for packages/unified-ui ([06dc82a](https://github.com/imrj05/unified-ui/commit/06dc82a36328e9a289adea9eaade36abd0f49bdf))
 - Add changelog generator and update workflow
 Add .github/scripts/generate-changelog.sh and call it from the
