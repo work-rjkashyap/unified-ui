@@ -13495,18 +13495,7 @@ var stripedStyle = {
   backgroundSize: "1rem 1rem"
 };
 var PROGRESS_STYLE_ID = "unified-ui-progress-keyframes";
-function ProgressKeyframes() {
-  if (typeof document !== "undefined") {
-    if (document.getElementById(PROGRESS_STYLE_ID)) {
-      return null;
-    }
-  }
-  return /* @__PURE__ */ jsxRuntime.jsx(
-    "style",
-    {
-      id: PROGRESS_STYLE_ID,
-      dangerouslySetInnerHTML: {
-        __html: `
+var PROGRESS_KEYFRAMES_CSS = `
 @keyframes unified-ui-progress-indeterminate {
   0% { transform: translateX(-100%); width: 50%; }
   50% { transform: translateX(50%); width: 30%; }
@@ -13516,10 +13505,17 @@ function ProgressKeyframes() {
   0% { background-position: 1rem 0; }
   100% { background-position: 0 0; }
 }
-`
-      }
+`;
+function useProgressKeyframes() {
+  React.useEffect(() => {
+    if (document.getElementById(PROGRESS_STYLE_ID)) {
+      return;
     }
-  );
+    const style = document.createElement("style");
+    style.id = PROGRESS_STYLE_ID;
+    style.textContent = PROGRESS_KEYFRAMES_CSS;
+    document.head.appendChild(style);
+  }, []);
 }
 var Progress = React.forwardRef(
   function Progress2({
@@ -13540,6 +13536,7 @@ var Progress = React.forwardRef(
     indicatorClassName,
     ...rest
   }, ref) {
+    useProgressKeyframes();
     const clampedValue = Math.max(min2, Math.min(value, max2));
     const range = max2 - min2;
     const percentage = range > 0 ? (clampedValue - min2) / range * 100 : 0;
@@ -13579,7 +13576,6 @@ var Progress = React.forwardRef(
         "data-ds-size": size,
         ...indeterminate ? { "data-ds-indeterminate": "" } : {},
         children: [
-          /* @__PURE__ */ jsxRuntime.jsx(ProgressKeyframes, {}),
           showLabel && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center justify-between mb-1.5", children: [
             /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs font-medium leading-4 text-foreground", children: label ?? "" }),
             /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs font-medium leading-4 text-muted-foreground tabular-nums", children: typeof label === "string" || !label ? labelFormatter(clampedValue, max2) : "" })
