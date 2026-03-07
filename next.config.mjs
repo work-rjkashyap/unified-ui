@@ -6,6 +6,21 @@ const withMDX = createMDX();
 const config = {
   reactStrictMode: true,
 
+  // ---------------------------------------------------------------------------
+  // Bundle Optimization (Vercel best practice: bundle-barrel-imports)
+  // ---------------------------------------------------------------------------
+  // Auto-rewrite barrel imports to direct imports at build time.
+  // This avoids pulling in the entire module graph for libraries with large
+  // barrel files (e.g. lucide-react re-exports 1,500+ icons).
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "recharts",
+      "framer-motion",
+      "@work-rjkashyap/unified-ui",
+    ],
+  },
+
   images: {
     remotePatterns: [
       {
