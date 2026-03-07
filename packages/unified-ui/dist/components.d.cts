@@ -1,13 +1,13 @@
 import * as react from 'react';
 import { ComponentPropsWithoutRef, ReactNode, ElementType, HTMLAttributes, InputHTMLAttributes } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import { Accordion as Accordion$1, AlertDialog as AlertDialog$1, AspectRatio as AspectRatio$1, Checkbox as Checkbox$1, Collapsible as Collapsible$1, ContextMenu as ContextMenu$1, Dialog as Dialog$1, DropdownMenu as DropdownMenu$1, HoverCard as HoverCard$1, Label as Label$1, Menubar as Menubar$1, NavigationMenu as NavigationMenu$1, Popover as Popover$1, RadioGroup as RadioGroup$1, ScrollArea as ScrollArea$1, Select as Select$1, Slider as Slider$1, Switch as Switch$1, Tabs as Tabs$1, Toggle as Toggle$1, ToggleGroup as ToggleGroup$1, Tooltip as Tooltip$1, VisuallyHidden as VisuallyHidden$1 } from 'radix-ui';
+import { Accordion as Accordion$1, AlertDialog as AlertDialog$1, AspectRatio as AspectRatio$1, Checkbox as Checkbox$1, Collapsible as Collapsible$1, ContextMenu as ContextMenu$1, Dialog as Dialog$1, DropdownMenu as DropdownMenu$1, HoverCard as HoverCard$1, Label as Label$1, Menubar as Menubar$1, NavigationMenu as NavigationMenu$1, Popover as Popover$1, RadioGroup as RadioGroup$1, ScrollArea as ScrollArea$1, Select as Select$1, Separator as Separator$1, Slider as Slider$1, Switch as Switch$1, Tabs as Tabs$1, Toggle as Toggle$1, ToggleGroup as ToggleGroup$1, Tooltip as Tooltip$1, VisuallyHidden as VisuallyHidden$1 } from 'radix-ui';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import { VariantProps } from 'class-variance-authority';
 import { ColumnDef, SortingState, OnChangeFn, ColumnFiltersState, PaginationState, RowSelectionState, Row, VisibilityState, ColumnPinningState, Table as Table$1 } from '@tanstack/react-table';
 export { ColumnDef, ColumnFiltersState, PaginationState, Row, RowSelectionState, SortingState, VisibilityState, createColumnHelper } from '@tanstack/react-table';
 import { Drawer as Drawer$1 } from 'vaul';
-import { SeparatorProps, Panel, GroupProps, PanelProps } from 'react-resizable-panels';
+import { SeparatorProps as SeparatorProps$1, Panel, GroupProps, PanelProps } from 'react-resizable-panels';
 export { ExternalToast as SonnerToastOptions, toast } from 'sonner';
 
 declare const accordionRootVariants: (props?: ({
@@ -4536,7 +4536,7 @@ declare namespace ResizablePanelGroup {
 }
 type ResizablePanelProps = PanelProps;
 declare const ResizablePanel: typeof Panel;
-interface ResizableHandleProps extends SeparatorProps {
+interface ResizableHandleProps extends SeparatorProps$1 {
     /** Show a visible grip handle in the center of the separator. */
     withHandle?: boolean;
 }
@@ -4729,6 +4729,91 @@ declare const SelectItem: react.ForwardRefExoticComponent<SelectItemProps & reac
 declare const SelectGroup: react.ForwardRefExoticComponent<SelectGroupProps & react.RefAttributes<HTMLDivElement>>;
 declare const SelectLabel: react.ForwardRefExoticComponent<SelectLabelProps & react.RefAttributes<HTMLDivElement>>;
 declare const SelectSeparator: react.ForwardRefExoticComponent<SelectSeparatorProps & react.RefAttributes<HTMLDivElement>>;
+
+declare const separatorVariants: (props?: ({
+    variant?: "default" | "dashed" | "muted" | "gradient" | null | undefined;
+    orientation?: "horizontal" | "vertical" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+type SeparatorVariant = NonNullable<VariantProps<typeof separatorVariants>["variant"]>;
+type SeparatorOrientation = "horizontal" | "vertical";
+type SeparatorSpacing = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12;
+interface SeparatorProps extends ComponentPropsWithoutRef<typeof Separator$1.Root> {
+    /**
+     * Visual variant of the separator.
+     * @default "default"
+     */
+    variant?: SeparatorVariant;
+    /**
+     * Orientation of the separator.
+     * @default "horizontal"
+     */
+    orientation?: SeparatorOrientation;
+    /**
+     * Whether the separator is purely decorative. When `true`, it is hidden
+     * from the accessibility tree. When `false`, it renders as a semantic
+     * separator with `role="separator"`.
+     * @default true
+     */
+    decorative?: boolean;
+    /**
+     * Vertical margin (horizontal orientation) or horizontal margin
+     * (vertical orientation), using Tailwind spacing scale.
+     * @default 4
+     */
+    spacing?: SeparatorSpacing;
+    /**
+     * Optional label to render centered on the separator.
+     * Creates a "divider with text" pattern (e.g., "OR", "Continue", etc.).
+     * Only supported for horizontal orientation.
+     */
+    label?: ReactNode;
+    /**
+     * Additional CSS classes applied to the separator line (or wrapper
+     * when a label is present).
+     */
+    className?: string;
+}
+/**
+ * Separator — a visual divider between content sections.
+ *
+ * Built on Radix UI's Separator primitive with design system tokens for
+ * consistent styling. Supports horizontal and vertical orientations,
+ * optional labels, and multiple visual variants.
+ *
+ * Accessibility:
+ *   - `decorative={true}` (default) → `role="none"`, hidden from AT
+ *   - `decorative={false}` → `role="separator"` + `aria-orientation`
+ *   - Label text is visible but does not affect semantics when decorative
+ *
+ * @example
+ * ```tsx
+ * // Basic horizontal separator
+ * <Separator />
+ *
+ * // With custom spacing
+ * <Separator spacing={6} />
+ *
+ * // Vertical separator (e.g., in a toolbar)
+ * <Separator orientation="vertical" />
+ *
+ * // With a label
+ * <Separator label="OR" />
+ * <Separator label={<span className="text-muted-foreground">Section</span>} />
+ *
+ * // Muted variant
+ * <Separator variant="muted" />
+ *
+ * // Dashed variant
+ * <Separator variant="dashed" />
+ *
+ * // Gradient variant
+ * <Separator variant="gradient" />
+ *
+ * // Semantic (non-decorative) separator
+ * <Separator decorative={false} />
+ * ```
+ */
+declare const Separator: react.ForwardRefExoticComponent<SeparatorProps & react.RefAttributes<HTMLDivElement>>;
 
 declare const sheetContentVariants: (props?: ({
     side?: "bottom" | "left" | "right" | "top" | null | undefined;
@@ -5047,32 +5132,707 @@ declare const DrawerTitle: react.ForwardRefExoticComponent<DrawerTitleProps & re
 declare const DrawerDescription: react.ForwardRefExoticComponent<DrawerDescriptionProps & react.RefAttributes<HTMLParagraphElement>>;
 declare const DrawerClose: react.ForwardRefExoticComponent<DrawerCloseProps & react.RefAttributes<HTMLButtonElement>>;
 
+type SidebarVariant = "default" | "floating" | "inset";
+type SidebarCollapsible = "offcanvas" | "icon" | "none";
+type SidebarSide = "left" | "right";
 interface SidebarContextValue {
-    collapsed: boolean;
-    setCollapsed: (v: boolean) => void;
+    state: "expanded" | "collapsed";
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    openMobile: boolean;
+    setOpenMobile: (open: boolean) => void;
     isMobile: boolean;
-    mobileOpen: boolean;
-    setMobileOpen: (v: boolean) => void;
+    toggleSidebar: () => void;
+    variant: SidebarVariant;
+    collapsible: SidebarCollapsible;
+    side: SidebarSide;
 }
-declare function useSidebarContext(): SidebarContextValue;
-interface SidebarProviderProps {
-    defaultCollapsed?: boolean;
-    collapsed?: boolean;
-    onCollapsedChange?: (v: boolean) => void;
+/**
+ * Hook to access the sidebar context.
+ *
+ * Must be used within a `<SidebarProvider>`.
+ *
+ * @returns The sidebar context value containing state, open/close handlers,
+ *          mobile state, toggle function, variant, collapsible mode, and side.
+ *
+ * @example
+ * ```tsx
+ * const { open, toggleSidebar, isMobile, state } = useSidebar();
+ *
+ * // state is "expanded" or "collapsed"
+ * // open is the boolean open state
+ * ```
+ */
+declare function useSidebar(): SidebarContextValue;
+declare const useSidebarContext: typeof useSidebar;
+interface SidebarProviderProps extends React.HTMLAttributes<HTMLDivElement> {
+    /**
+     * Whether the sidebar is open (controlled).
+     * When provided, the component is controlled.
+     */
+    open?: boolean;
+    /**
+     * Callback fired when the open state changes.
+     */
+    onOpenChange?: (open: boolean) => void;
+    /**
+     * Default open state for uncontrolled mode.
+     * @default true
+     */
+    defaultOpen?: boolean;
+    /**
+     * Visual variant of the sidebar.
+     * - `"default"` — Standard bordered sidebar
+     * - `"floating"` — Rounded sidebar with gap and shadow
+     * - `"inset"` — Sidebar inset within a parent container
+     * @default "default"
+     */
+    variant?: SidebarVariant;
+    /**
+     * How the sidebar collapses.
+     * - `"offcanvas"` — Slides off-screen
+     * - `"icon"` — Collapses to icon-only width
+     * - `"none"` — Not collapsible
+     * @default "offcanvas"
+     */
+    collapsible?: SidebarCollapsible;
+    /**
+     * Which side to place the sidebar.
+     * @default "left"
+     */
+    side?: SidebarSide;
+    /** Children to render inside the provider. */
     children?: ReactNode;
-}
-interface SidebarProps {
-    side?: "left" | "right";
-    collapsedWidth?: string;
-    expandedWidth?: string;
+    /** Additional CSS classes on the wrapper div. */
     className?: string;
-    children?: ReactNode;
 }
-interface SidebarSectionProps {
-    title?: string;
+/**
+ * SidebarProvider — manages sidebar state and provides context.
+ *
+ * Wraps the sidebar and its sibling content. Handles controlled/uncontrolled
+ * state, mobile detection, keyboard shortcut, and CSS custom properties.
+ *
+ * @example
+ * ```tsx
+ * <SidebarProvider defaultOpen>
+ *   <Sidebar>
+ *     <SidebarHeader />
+ *     <SidebarContent>
+ *       <SidebarGroup>...</SidebarGroup>
+ *     </SidebarContent>
+ *     <SidebarFooter />
+ *   </Sidebar>
+ *   <SidebarInset>
+ *     <main>Page content</main>
+ *   </SidebarInset>
+ * </SidebarProvider>
+ * ```
+ */
+declare const SidebarProvider: react.ForwardRefExoticComponent<SidebarProviderProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+    /**
+     * Which side to place the sidebar. Overrides the provider's side.
+     * @default "left"
+     */
+    side?: SidebarSide;
+    /**
+     * Visual variant. Overrides the provider's variant.
+     * @default "default"
+     */
+    variant?: SidebarVariant;
+    /**
+     * How the sidebar collapses. Overrides the provider's collapsible.
+     * @default "offcanvas"
+     */
+    collapsible?: SidebarCollapsible;
+    /** Additional CSS classes. */
     className?: string;
+    /** Sidebar content. */
     children?: ReactNode;
 }
+/**
+ * Sidebar — the main sidebar container.
+ *
+ * Renders as a `<div>` wrapping an inner `<div>` that holds the sidebar
+ * content. Handles desktop width animation and mobile sheet overlay.
+ *
+ * @example
+ * ```tsx
+ * <Sidebar side="left" variant="default" collapsible="icon">
+ *   <SidebarHeader>
+ *     <TeamSwitcher />
+ *   </SidebarHeader>
+ *   <SidebarContent>
+ *     <SidebarGroup>
+ *       <SidebarGroupLabel>Platform</SidebarGroupLabel>
+ *       <SidebarGroupContent>
+ *         <SidebarMenu>
+ *           <SidebarMenuItem>
+ *             <SidebarMenuButton>Dashboard</SidebarMenuButton>
+ *           </SidebarMenuItem>
+ *         </SidebarMenu>
+ *       </SidebarGroupContent>
+ *     </SidebarGroup>
+ *   </SidebarContent>
+ *   <SidebarFooter>
+ *     <UserNav />
+ *   </SidebarFooter>
+ * </Sidebar>
+ * ```
+ */
+declare const Sidebar: react.ForwardRefExoticComponent<SidebarProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Custom trigger content. Defaults to a PanelLeft icon. */
+    children?: ReactNode;
+}
+/**
+ * SidebarTrigger — a button that toggles the sidebar open/closed.
+ *
+ * @example
+ * ```tsx
+ * <SidebarTrigger className="ml-2" />
+ * ```
+ */
+declare const SidebarTrigger: react.ForwardRefExoticComponent<SidebarTriggerProps & react.RefAttributes<HTMLButtonElement>>;
+declare const SidebarToggle: react.ForwardRefExoticComponent<SidebarTriggerProps & react.RefAttributes<HTMLButtonElement>>;
+type SidebarToggleProps = SidebarTriggerProps;
+interface SidebarRailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * SidebarRail — a thin vertical bar at the sidebar edge that toggles
+ * the sidebar on click. Provides an affordance for quick collapse/expand.
+ *
+ * @example
+ * ```tsx
+ * <Sidebar>
+ *   {/* ... sidebar content ... *\/}
+ *   <SidebarRail />
+ * </Sidebar>
+ * ```
+ */
+declare const SidebarRail: react.ForwardRefExoticComponent<SidebarRailProps & react.RefAttributes<HTMLButtonElement>>;
+interface SidebarInsetProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarInset — the main content area that sits beside the sidebar.
+ *
+ * Use as a sibling of `<Sidebar>` inside `<SidebarProvider>`.
+ *
+ * @example
+ * ```tsx
+ * <SidebarProvider>
+ *   <Sidebar>...</Sidebar>
+ *   <SidebarInset>
+ *     <header>...</header>
+ *     <main>Page content</main>
+ *   </SidebarInset>
+ * </SidebarProvider>
+ * ```
+ */
+declare const SidebarInset: react.ForwardRefExoticComponent<SidebarInsetProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Header content (logo, team switcher, etc.). */
+    children?: ReactNode;
+}
+/**
+ * SidebarHeader — sticky top area of the sidebar.
+ *
+ * Typically contains a logo, team/workspace switcher, or branding.
+ *
+ * @example
+ * ```tsx
+ * <SidebarHeader>
+ *   <SidebarMenu>
+ *     <SidebarMenuItem>
+ *       <DropdownMenu>
+ *         <DropdownMenuTrigger asChild>
+ *           <SidebarMenuButton>
+ *             <Logo />
+ *             <span>Acme Inc</span>
+ *           </SidebarMenuButton>
+ *         </DropdownMenuTrigger>
+ *         <DropdownMenuContent>...</DropdownMenuContent>
+ *       </DropdownMenu>
+ *     </SidebarMenuItem>
+ *   </SidebarMenu>
+ * </SidebarHeader>
+ * ```
+ */
+declare const SidebarHeader: react.ForwardRefExoticComponent<SidebarHeaderProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarContentProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Content (SidebarGroups). */
+    children?: ReactNode;
+}
+/**
+ * SidebarContent — the scrollable middle area of the sidebar.
+ *
+ * Contains one or more `<SidebarGroup>` components. Automatically
+ * scrollable when content overflows.
+ *
+ * @example
+ * ```tsx
+ * <SidebarContent>
+ *   <SidebarGroup>...</SidebarGroup>
+ *   <SidebarGroup>...</SidebarGroup>
+ * </SidebarContent>
+ * ```
+ */
+declare const SidebarContent: react.ForwardRefExoticComponent<SidebarContentProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Footer content (user nav, actions, etc.). */
+    children?: ReactNode;
+}
+/**
+ * SidebarFooter — sticky bottom area of the sidebar.
+ *
+ * Typically contains user navigation, account switcher, or actions.
+ *
+ * @example
+ * ```tsx
+ * <SidebarFooter>
+ *   <SidebarMenu>
+ *     <SidebarMenuItem>
+ *       <DropdownMenu>
+ *         <DropdownMenuTrigger asChild>
+ *           <SidebarMenuButton>
+ *             <Avatar src="/avatar.jpg" />
+ *             <span>shadcn</span>
+ *           </SidebarMenuButton>
+ *         </DropdownMenuTrigger>
+ *         <DropdownMenuContent>...</DropdownMenuContent>
+ *       </DropdownMenu>
+ *     </SidebarMenuItem>
+ *   </SidebarMenu>
+ * </SidebarFooter>
+ * ```
+ */
+declare const SidebarFooter: react.ForwardRefExoticComponent<SidebarFooterProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarSeparatorProps extends React.HTMLAttributes<HTMLHRElement> {
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * SidebarSeparator — a horizontal divider within the sidebar.
+ *
+ * @example
+ * ```tsx
+ * <SidebarContent>
+ *   <SidebarGroup>...</SidebarGroup>
+ *   <SidebarSeparator />
+ *   <SidebarGroup>...</SidebarGroup>
+ * </SidebarContent>
+ * ```
+ */
+declare const SidebarSeparator: react.ForwardRefExoticComponent<SidebarSeparatorProps & react.RefAttributes<HTMLHRElement>>;
+interface SidebarInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * SidebarInput — a search/filter input styled for the sidebar.
+ *
+ * @example
+ * ```tsx
+ * <SidebarHeader>
+ *   <SidebarInput placeholder="Search the docs..." />
+ * </SidebarHeader>
+ * ```
+ */
+declare const SidebarInput: react.ForwardRefExoticComponent<SidebarInputProps & react.RefAttributes<HTMLInputElement>>;
+interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Group content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarGroup — a logical section within the sidebar content.
+ *
+ * Groups contain a label, optional action, and content (menu items).
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>Platform</SidebarGroupLabel>
+ *   <SidebarGroupContent>
+ *     <SidebarMenu>
+ *       <SidebarMenuItem>
+ *         <SidebarMenuButton>Dashboard</SidebarMenuButton>
+ *       </SidebarMenuItem>
+ *     </SidebarMenu>
+ *   </SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ */
+declare const SidebarGroup: react.ForwardRefExoticComponent<SidebarGroupProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarGroupLabelProps extends React.HTMLAttributes<HTMLDivElement> {
+    /**
+     * Render as a different element via `asChild` pattern.
+     * When true, merges props onto the single child element.
+     * @default false
+     */
+    asChild?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    /** Label content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarGroupLabel — the heading for a sidebar group.
+ *
+ * Automatically hides when the sidebar is in icon-only collapsed state.
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroupLabel>Platform</SidebarGroupLabel>
+ *
+ * // With collapsible group (renders as a button):
+ * <Collapsible>
+ *   <SidebarGroupLabel asChild>
+ *     <CollapsibleTrigger>
+ *       Build Your Application
+ *       <ChevronDown />
+ *     </CollapsibleTrigger>
+ *   </SidebarGroupLabel>
+ *   <CollapsibleContent>
+ *     <SidebarGroupContent>...</SidebarGroupContent>
+ *   </CollapsibleContent>
+ * </Collapsible>
+ * ```
+ */
+declare const SidebarGroupLabel: react.ForwardRefExoticComponent<SidebarGroupLabelProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarGroupActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Action content (typically an icon). */
+    children?: ReactNode;
+}
+/**
+ * SidebarGroupAction — an action button in the group header row.
+ *
+ * Positioned absolutely to the right of the group label. Useful for
+ * "add" buttons, expand/collapse toggles, etc.
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>Projects</SidebarGroupLabel>
+ *   <SidebarGroupAction title="Add Project">
+ *     <PlusIcon className="size-4" />
+ *   </SidebarGroupAction>
+ *   <SidebarGroupContent>...</SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ */
+declare const SidebarGroupAction: react.ForwardRefExoticComponent<SidebarGroupActionProps & react.RefAttributes<HTMLButtonElement>>;
+interface SidebarGroupContentProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarGroupContent — wrapper for the items inside a group.
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroupContent>
+ *   <SidebarMenu>...</SidebarMenu>
+ * </SidebarGroupContent>
+ * ```
+ */
+declare const SidebarGroupContent: react.ForwardRefExoticComponent<SidebarGroupContentProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarMenuProps extends React.HTMLAttributes<HTMLUListElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Menu items. */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenu — a navigation list container (`<ul>`).
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenu>
+ *   <SidebarMenuItem>...</SidebarMenuItem>
+ *   <SidebarMenuItem>...</SidebarMenuItem>
+ * </SidebarMenu>
+ * ```
+ */
+declare const SidebarMenu: react.ForwardRefExoticComponent<SidebarMenuProps & react.RefAttributes<HTMLUListElement>>;
+interface SidebarMenuItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Item content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenuItem — a single item wrapper (`<li>`) inside a SidebarMenu.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <HomeIcon />
+ *     <span>Dashboard</span>
+ *   </SidebarMenuButton>
+ * </SidebarMenuItem>
+ * ```
+ */
+declare const SidebarMenuItem: react.ForwardRefExoticComponent<SidebarMenuItemProps & react.RefAttributes<HTMLLIElement>>;
+type SidebarMenuButtonSize = "sm" | "default" | "lg";
+type SidebarMenuButtonVariant = "default" | "outline";
+interface SidebarMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /**
+     * Whether this item is the currently active page.
+     * @default false
+     */
+    isActive?: boolean;
+    /**
+     * Size of the menu button.
+     * @default "default"
+     */
+    size?: SidebarMenuButtonSize;
+    /**
+     * Visual variant.
+     * @default "default"
+     */
+    variant?: SidebarMenuButtonVariant;
+    /**
+     * Tooltip content shown when sidebar is collapsed to icon-only mode.
+     * Can be a string or ReactNode. If not provided, no tooltip is shown.
+     */
+    tooltip?: string | ReactNode;
+    /**
+     * Render as a child element (e.g., <a> or framework Link).
+     * When true, the component does NOT render its own <button>.
+     * Instead it renders a <span> wrapper. Use this with DropdownMenuTrigger
+     * or similar Radix "asChild" patterns.
+     * @default false
+     */
+    asChild?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    /** Button content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenuButton — the clickable navigation element inside a menu item.
+ *
+ * Supports icons, labels, active state, tooltip on icon-collapse, and
+ * multiple sizes and variants.
+ *
+ * @example
+ * ```tsx
+ * // Basic
+ * <SidebarMenuButton tooltip="Dashboard">
+ *   <HomeIcon />
+ *   <span>Dashboard</span>
+ * </SidebarMenuButton>
+ *
+ * // Active
+ * <SidebarMenuButton isActive tooltip="Settings">
+ *   <SettingsIcon />
+ *   <span>Settings</span>
+ * </SidebarMenuButton>
+ *
+ * // As link
+ * <SidebarMenuButton asChild tooltip="Docs">
+ *   <a href="/docs">
+ *     <BookIcon />
+ *     <span>Documentation</span>
+ *   </a>
+ * </SidebarMenuButton>
+ *
+ * // Large size (for header/footer team/user switcher)
+ * <SidebarMenuButton size="lg" tooltip="Acme Inc">
+ *   <Logo />
+ *   <div className="flex flex-col">
+ *     <span className="font-semibold">Acme Inc</span>
+ *     <span className="text-xs">Enterprise</span>
+ *   </div>
+ *   <ChevronsUpDown className="ml-auto" />
+ * </SidebarMenuButton>
+ * ```
+ */
+declare const SidebarMenuButton: react.ForwardRefExoticComponent<SidebarMenuButtonProps & react.RefAttributes<HTMLButtonElement>>;
+interface SidebarMenuActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /**
+     * Whether to always show the action, or only on hover.
+     * @default false
+     */
+    showOnHover?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    /** Action content (typically an icon). */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenuAction — a trailing action button within a menu item.
+ *
+ * Useful for "more options" menus, expand chevrons, or quick actions.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <FolderIcon />
+ *     <span>Projects</span>
+ *   </SidebarMenuButton>
+ *   <SidebarMenuAction showOnHover>
+ *     <MoreHorizontalIcon className="size-4" />
+ *   </SidebarMenuAction>
+ * </SidebarMenuItem>
+ * ```
+ */
+declare const SidebarMenuAction: react.ForwardRefExoticComponent<SidebarMenuActionProps & react.RefAttributes<HTMLButtonElement>>;
+interface SidebarMenuBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Badge content (text, count, icon). */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenuBadge — a badge/count indicator within a menu item.
+ *
+ * Positioned to the right of the menu button label. Automatically
+ * hidden when the sidebar is collapsed to icon-only mode.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <InboxIcon />
+ *     <span>Inbox</span>
+ *   </SidebarMenuButton>
+ *   <SidebarMenuBadge>24</SidebarMenuBadge>
+ * </SidebarMenuItem>
+ * ```
+ */
+declare const SidebarMenuBadge: react.ForwardRefExoticComponent<SidebarMenuBadgeProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarMenuSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
+    /**
+     * Whether to show the icon placeholder.
+     * @default false
+     */
+    showIcon?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * SidebarMenuSkeleton — a loading placeholder for a menu item.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenu>
+ *   {Array.from({ length: 5 }).map((_, i) => (
+ *     <SidebarMenuItem key={i}>
+ *       <SidebarMenuSkeleton showIcon />
+ *     </SidebarMenuItem>
+ *   ))}
+ * </SidebarMenu>
+ * ```
+ */
+declare const SidebarMenuSkeleton: react.ForwardRefExoticComponent<SidebarMenuSkeletonProps & react.RefAttributes<HTMLDivElement>>;
+interface SidebarMenuSubProps extends React.HTMLAttributes<HTMLUListElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Sub-menu items. */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenuSub — a nested sub-menu list within a menu item.
+ *
+ * Renders as an indented `<ul>` with a left border to show hierarchy.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <PlaygroundIcon />
+ *     <span>Playground</span>
+ *   </SidebarMenuButton>
+ *   <SidebarMenuSub>
+ *     <SidebarMenuSubItem>
+ *       <SidebarMenuSubButton>History</SidebarMenuSubButton>
+ *     </SidebarMenuSubItem>
+ *     <SidebarMenuSubItem>
+ *       <SidebarMenuSubButton>Starred</SidebarMenuSubButton>
+ *     </SidebarMenuSubItem>
+ *   </SidebarMenuSub>
+ * </SidebarMenuItem>
+ * ```
+ */
+declare const SidebarMenuSub: react.ForwardRefExoticComponent<SidebarMenuSubProps & react.RefAttributes<HTMLUListElement>>;
+interface SidebarMenuSubItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
+    /** Additional CSS classes. */
+    className?: string;
+    /** Sub-item content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenuSubItem — wrapper for a single sub-menu item (`<li>`).
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuSubItem>
+ *   <SidebarMenuSubButton href="/history">History</SidebarMenuSubButton>
+ * </SidebarMenuSubItem>
+ * ```
+ */
+declare const SidebarMenuSubItem: react.ForwardRefExoticComponent<SidebarMenuSubItemProps & react.RefAttributes<HTMLLIElement>>;
+interface SidebarMenuSubButtonProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    /**
+     * Whether this sub-item is the currently active page.
+     * @default false
+     */
+    isActive?: boolean;
+    /**
+     * Size of the sub-button.
+     * @default "md"
+     */
+    size?: "sm" | "md";
+    /** Additional CSS classes. */
+    className?: string;
+    /** Content. */
+    children?: ReactNode;
+}
+/**
+ * SidebarMenuSubButton — a clickable sub-navigation item.
+ *
+ * Renders as an `<a>` element. For framework links (Next.js Link, etc.),
+ * wrap or compose via `asChild`-like patterns.
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuSubButton href="/history" isActive>
+ *   History
+ * </SidebarMenuSubButton>
+ * ```
+ */
+declare const SidebarMenuSubButton: react.ForwardRefExoticComponent<SidebarMenuSubButtonProps & react.RefAttributes<HTMLAnchorElement>>;
+/**
+ * @deprecated Use `SidebarGroup` instead.
+ */
+declare const SidebarSection: react.ForwardRefExoticComponent<SidebarGroupProps & react.RefAttributes<HTMLDivElement>>;
+type SidebarSectionProps = SidebarGroupProps;
+/**
+ * @deprecated Use `SidebarMenuButton` instead.
+ */
 interface SidebarItemProps {
     icon?: ReactNode;
     label?: ReactNode;
@@ -5083,37 +5843,20 @@ interface SidebarItemProps {
     className?: string;
     children?: ReactNode;
 }
-interface SidebarToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    className?: string;
-    children?: ReactNode;
-}
-declare function SidebarProvider({ defaultCollapsed, collapsed: controlledCollapsed, onCollapsedChange, children, }: SidebarProviderProps): react_jsx_runtime.JSX.Element;
-declare namespace SidebarProvider {
-    var displayName: string;
-}
-declare const Sidebar: react.ForwardRefExoticComponent<SidebarProps & react.RefAttributes<HTMLElement>>;
-declare const SidebarToggle: react.ForwardRefExoticComponent<SidebarToggleProps & react.RefAttributes<HTMLButtonElement>>;
-interface SidebarHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
-    children?: ReactNode;
-}
-declare const SidebarHeader: react.ForwardRefExoticComponent<SidebarHeaderProps & react.RefAttributes<HTMLDivElement>>;
-interface SidebarContentProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
-    children?: ReactNode;
-}
-declare const SidebarContent: react.ForwardRefExoticComponent<SidebarContentProps & react.RefAttributes<HTMLDivElement>>;
-interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
-    children?: ReactNode;
-}
-declare const SidebarFooter: react.ForwardRefExoticComponent<SidebarFooterProps & react.RefAttributes<HTMLDivElement>>;
-declare const SidebarSection: react.ForwardRefExoticComponent<SidebarSectionProps & react.RefAttributes<HTMLDivElement>>;
+/**
+ * @deprecated Use `<SidebarMenuItem>` + `<SidebarMenuButton>` instead.
+ *
+ * Legacy SidebarItem that wraps the new API for backward compatibility.
+ */
 declare const SidebarItem: react.ForwardRefExoticComponent<SidebarItemProps & react.RefAttributes<HTMLButtonElement>>;
 interface SidebarMobileOverlayProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
 }
-declare function SidebarMobileOverlay({ className }: SidebarMobileOverlayProps): react_jsx_runtime.JSX.Element;
+/**
+ * @deprecated The new `<Sidebar>` handles mobile overlay internally.
+ * This component is kept for backward compatibility but is now a no-op.
+ */
+declare function SidebarMobileOverlay(_props: SidebarMobileOverlayProps): null;
 declare namespace SidebarMobileOverlay {
     var displayName: string;
 }
@@ -7135,4 +7878,4 @@ interface VisuallyHiddenProps extends ComponentPropsWithoutRef<typeof VisuallyHi
 }
 declare const VisuallyHidden: react.ForwardRefExoticComponent<VisuallyHiddenProps & react.RefAttributes<HTMLSpanElement>>;
 
-export { Accordion, AccordionContent, type AccordionContentProps, AccordionItem, type AccordionItemProps, type AccordionMultipleProps, type AccordionProps, type AccordionSingleProps, type AccordionSize, AccordionTrigger, type AccordionTriggerProps, type AccordionVariant, Alert, AlertDialog, AlertDialogAction, type AlertDialogActionProps, AlertDialogCancel, type AlertDialogCancelProps, AlertDialogContent, type AlertDialogContentProps, AlertDialogDescription, type AlertDialogDescriptionProps, AlertDialogFooter, type AlertDialogFooterProps, AlertDialogHeader, type AlertDialogHeaderProps, AlertDialogOverlay, type AlertDialogOverlayProps, AlertDialogPortal, AlertDialogTitle, type AlertDialogTitleProps, AlertDialogTrigger, type AlertProps, type AlertVariant, AspectRatio, type AspectRatioProps, Avatar, AvatarGroup, type AvatarGroupProps, type AvatarProps, type AvatarShape, type AvatarSize, type AvatarStatus, Badge, type BadgeProps, type BadgeSize, type BadgeVariant, Banner, type BannerPosition, type BannerProps, type BannerVariant, Breadcrumb, BreadcrumbEllipsis, type BreadcrumbEllipsisProps, BreadcrumbItem, type BreadcrumbItemProps, BreadcrumbLink, type BreadcrumbLinkProps, BreadcrumbList, type BreadcrumbListProps, BreadcrumbNav, type BreadcrumbNavItem, type BreadcrumbNavProps, BreadcrumbPage, type BreadcrumbPageProps, type BreadcrumbProps, BreadcrumbSeparator, type BreadcrumbSeparatorProps, Button, type ButtonProps, type ButtonSize, type ButtonVariant, Calendar, type CalendarMode, type CalendarProps, Callout, type CalloutProps, type CalloutVariant, Card, CardBody, type CardBodyProps, CardFooter, type CardFooterProps, CardHeader, type CardHeaderProps, type CardProps, type CardVariant, Carousel, type CarouselProps, ChartContainer, type ChartContainerProps, ChartTooltipContent, type ChartTooltipContentProps, Checkbox, CheckboxGroup, type CheckboxGroupOrientation, type CheckboxGroupProps, type CheckboxProps, type CheckboxSize, CodeBlock, type CodeBlockProps, InlineCode as CodeInline, type InlineCodeProps as CodeInlineProps, type CodeVariant, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, ColorPicker, type ColorPickerProps, type ColumnVisibility, Combobox, type ComboboxGroup, type ComboboxOption, type ComboboxProps, type ComboboxSize, type ComboboxVariant, Command, type CommandGroup, type CommandItem, type CommandProps, CommandTrigger, type CommandTriggerProps, ConfirmDialog, type ConfirmDialogProps, type ConfirmDialogVariant, ContextMenu, ContextMenuCheckboxItem, type ContextMenuCheckboxItemProps, ContextMenuContent, type ContextMenuContentProps, ContextMenuGroup, type ContextMenuGroupProps, ContextMenuItem, type ContextMenuItemProps, type ContextMenuItemVariant, ContextMenuLabel, type ContextMenuLabelProps, type ContextMenuProps, ContextMenuRadioGroup, type ContextMenuRadioGroupProps, ContextMenuRadioItem, type ContextMenuRadioItemProps, ContextMenuSeparator, type ContextMenuSeparatorProps, ContextMenuShortcut, type ContextMenuShortcutProps, ContextMenuSub, ContextMenuSubContent, type ContextMenuSubContentProps, type ContextMenuSubProps, ContextMenuSubTrigger, type ContextMenuSubTriggerProps, ContextMenuTrigger, type ContextMenuTriggerProps, CopyButton, type CopyButtonProps, type CopyButtonSize, type CopyButtonVariant, DataList, DataListDetail, type DataListDetailProps, type DataListItem, type DataListOrientation, type DataListProps, type DataListSize, DataListTerm, type DataListTermProps, DataTable, type DataTableColumnMeta, type DataTableFacetedFilter, type DataTableFilter, type DataTableProps, DataTableToolbar, type DataTableToolbarProps, DatePicker, type DatePickerMode, type DatePickerProps, type DatePickerSize, type DateRange, Dialog, DialogBody, type DialogBodyProps, DialogClose, type DialogCloseProps, DialogContent, type DialogContentProps, DialogDescription, type DialogDescriptionProps, DialogFooter, type DialogFooterProps, DialogHeader, type DialogHeaderProps, type DialogProps, type DialogSize, DialogTitle, type DialogTitleProps, DialogTrigger, type DialogTriggerProps, Drawer, DrawerBody, type DrawerBodyProps, DrawerClose, type DrawerCloseProps, DrawerContent, type DrawerContentProps, DrawerDescription, type DrawerDescriptionProps, DrawerFooter, type DrawerFooterProps, DrawerHandle, type DrawerHandleProps, DrawerHeader, type DrawerHeaderProps, type DrawerProps, type DrawerSize, DrawerTitle, type DrawerTitleProps, DrawerTrigger, type DrawerTriggerProps, DropdownMenu, DropdownMenuCheckboxItem, type DropdownMenuCheckboxItemProps, DropdownMenuContent, type DropdownMenuContentProps, DropdownMenuGroup, type DropdownMenuGroupProps, DropdownMenuItem, type DropdownMenuItemProps, type DropdownMenuItemVariant, DropdownMenuLabel, type DropdownMenuLabelProps, type DropdownMenuProps, DropdownMenuRadioGroup, type DropdownMenuRadioGroupProps, DropdownMenuRadioItem, type DropdownMenuRadioItemProps, DropdownMenuSeparator, type DropdownMenuSeparatorProps, DropdownMenuShortcut, type DropdownMenuShortcutProps, DropdownMenuSub, DropdownMenuSubContent, type DropdownMenuSubContentProps, type DropdownMenuSubProps, DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps, DropdownMenuTrigger, type DropdownMenuTriggerProps, EmptyState, type EmptyStateProps, FileUpload, type FileUploadItem, type FileUploadProps, type FileUploadSize, FormField, type FormFieldControlProps, type FormFieldOrientation, type FormFieldProps, type FormFieldSize, type GalleryImage, HoverCard, HoverCardContent, type HoverCardContentProps, type HoverCardProps, HoverCardTrigger, type HoverCardTriggerProps, ImageGallery, type ImageGalleryProps, InfiniteScroll, type InfiniteScrollProps, Input, InputGroup, type InputGroupProps, type InputGroupSize, type InputGroupVariant, type InputProps, type InputSize, type InputVariant, Kbd, type KbdProps, type KbdSize, Label, type LabelProps, type LabelSize, Markdown, type MarkdownProps, Menubar, MenubarCheckboxItem, type MenubarCheckboxItemProps, MenubarContent, type MenubarContentProps, MenubarGroup, type MenubarGroupProps, MenubarItem, type MenubarItemProps, type MenubarItemVariant, MenubarLabel, type MenubarLabelProps, MenubarMenu, type MenubarMenuProps, type MenubarProps, MenubarRadioGroup, type MenubarRadioGroupProps, MenubarRadioItem, type MenubarRadioItemProps, MenubarSeparator, type MenubarSeparatorProps, MenubarShortcut, type MenubarShortcutProps, MenubarSub, MenubarSubContent, type MenubarSubContentProps, type MenubarSubProps, MenubarSubTrigger, type MenubarSubTriggerProps, MenubarTrigger, type MenubarTriggerProps, NavigationMenu, NavigationMenuCardLink, type NavigationMenuCardLinkProps, NavigationMenuContent, type NavigationMenuContentProps, NavigationMenuIndicator, type NavigationMenuIndicatorProps, NavigationMenuItem, type NavigationMenuItemProps, NavigationMenuLink, type NavigationMenuLinkProps, NavigationMenuList, type NavigationMenuListProps, type NavigationMenuProps, NavigationMenuTrigger, type NavigationMenuTriggerProps, NavigationMenuViewport, type NavigationMenuViewportProps, NumberInput, type NumberInputProps, type NumberInputSize, type NumberInputVariant, Pagination, type PaginationProps, type PaginationSize, type PaginationVariant, PinInput, type PinInputProps, type PinInputSize, type PinInputType, type PinInputVariant, Popover, PopoverArrow, type PopoverArrowProps, PopoverClose, type PopoverCloseProps, PopoverContent, type PopoverContentProps, type PopoverProps, PopoverTrigger, type PopoverTriggerProps, Progress, type ProgressProps, type ProgressSize, type ProgressVariant, RadioCard, type RadioCardProps, RadioGroup, RadioGroupItem, type RadioGroupItemProps, type RadioGroupProps, type RadioOrientation, type RadioSize, ResizableHandle, type ResizableHandleProps, ResizablePanel, ResizablePanelGroup, type ResizablePanelGroupProps, type ResizablePanelProps, ScrollArea, type ScrollAreaProps, type ScrollAreaType, ScrollBar, type ScrollBarOrientation, type ScrollBarProps, type ScrollBarSize, SearchInput, type SearchInputProps, type SearchInputSize, type SearchInputVariant, Select, SelectContent, type SelectContentProps, SelectGroup, type SelectGroupProps, SelectItem, type SelectItemProps, SelectLabel, type SelectLabelProps, SelectScrollDownButton, type SelectScrollDownButtonProps, SelectScrollUpButton, type SelectScrollUpButtonProps, SelectSeparator, type SelectSeparatorProps, type SelectSize, SelectTrigger, type SelectTriggerProps, SelectValue, type SelectVariant, Sheet, SheetClose, type SheetCloseProps, SheetContent, type SheetContentProps, SheetDescription, type SheetDescriptionProps, SheetFooter, type SheetFooterProps, SheetHeader, type SheetHeaderProps, type SheetProps, type SheetSide, type SheetSize, SheetTitle, type SheetTitleProps, SheetTrigger, type SheetTriggerProps, Sidebar, SidebarContent, type SidebarContentProps, SidebarFooter, type SidebarFooterProps, SidebarHeader, type SidebarHeaderProps, SidebarItem, type SidebarItemProps, SidebarMobileOverlay, type SidebarMobileOverlayProps, type SidebarProps, SidebarProvider, type SidebarProviderProps, SidebarSection, type SidebarSectionProps, SidebarToggle, type SidebarToggleProps, Skeleton, SkeletonCircle, type SkeletonCircleProps, type SkeletonProps, SkeletonRect, type SkeletonRectProps, type SkeletonSize, SkeletonText, type SkeletonTextProps, type SkeletonTextSize, Slider, type SliderMark, type SliderOrientation, type SliderProps, type SliderSize, type SliderVariant, type SonnerPosition, SonnerToaster, type SonnerToasterProps, Spinner, type SpinnerProps, type SpinnerSize, type SpinnerVariant, Stat, type StatProps, type StatTrend, Step, type StepProps, type StepStatus, Steps, type StepsOrientation, type StepsProps, type StepsVariant, Switch, type SwitchLabelPosition, type SwitchProps, type SwitchSize, Table, type TableAlign, TableBody, type TableBodyProps, TableCaption, type TableCaptionProps, TableCell, type TableCellProps, type TableDensity, TableFooter, type TableFooterProps, TableHead, type TableHeadProps, TableHeader, type TableHeaderProps, type TableProps, TableRow, type TableRowProps, type TableSortDirection, Tabs, TabsContent, type TabsContentProps, TabsList, type TabsListProps, type TabsOrientation, type TabsProps, type TabsSize, TabsTrigger, type TabsTriggerProps, type TabsVariant, Tag, type TagProps, type TagSize, type TagVariant, Textarea, type TextareaProps, type TextareaSize, type TextareaVariant, ThemeToggle, type ThemeToggleMode, type ThemeToggleProps, type ThemeToggleSize, type ThemeToggleVariant, type ThemeValue, Timeline, type TimelineAlign, TimelineItem, type TimelineItemData, type TimelineItemProps, type TimelineItemStatus, type TimelineProps, type TimelineSize, type TimelineVariant, type ToastAPI, type ToastAction, type ToastData, ToastItem, type ToastItemProps, type ToastOptions, type ToastPosition, ToastProvider, type ToastProviderProps, type ToastVariant, Toggle, ToggleGroup, ToggleGroupItem, type ToggleGroupItemProps, type ToggleGroupMultipleProps, type ToggleGroupOrientation, type ToggleGroupProps, type ToggleGroupSingleProps, type ToggleGroupSize, type ToggleGroupVariant, type ToggleProps, type ToggleSize, type ToggleVariant, Tooltip, type TooltipAlign, type TooltipProps, TooltipProvider, type TooltipProviderProps, type TooltipSide, type TreeCheckedState, type TreeNode, TreeView, type TreeViewProps, type UseDataTableOptions, type UseDataTableReturn, VideoPlayer, type VideoPlayerProps, type ViewMode, VirtualList, type VirtualListProps, VisuallyHidden, type VisuallyHiddenProps, accordionRootVariants, accordionTriggerVariants, alertVariants, avatarVariants, badgeVariants, bannerVariants, buttonVariants, calendarDayVariants, calloutVariants, cardVariants, chartColors, checkboxVariants, codeBlockVariants, comboboxTriggerVariants, copyButtonVariants, dataListVariants, dialogContentVariants, drawerContentVariants, fileUploadZoneVariants, inlineCodeVariants, inputVariants, kbdVariants, labelVariants, numberInputVariants, paginationButtonVariants, pinCellVariants, progressIndicatorVariants, progressTrackVariants, radioCardVariants, radioGroupVariants, radioIndicatorVariants, scrollbarThumbVariants, scrollbarVariants, searchInputVariants, selectTriggerVariants, sheetContentVariants, skeletonVariants, sliderRangeVariants, sliderThumbVariants, sliderTrackVariants, spinnerVariants, statVariants, switchThumbVariants, switchTrackVariants, tableRootVariants, tabsListVariants, tabsTriggerVariants, tagVariants, textareaVariants, toastVariants, toggleGroupItemVariants, toggleGroupVariants, toggleVariants, useCarouselContext, useCheckboxGroupContext, useCollapsibleContext, useDataTable, useSidebarContext, useToast, useToggleGroupContext };
+export { Accordion, AccordionContent, type AccordionContentProps, AccordionItem, type AccordionItemProps, type AccordionMultipleProps, type AccordionProps, type AccordionSingleProps, type AccordionSize, AccordionTrigger, type AccordionTriggerProps, type AccordionVariant, Alert, AlertDialog, AlertDialogAction, type AlertDialogActionProps, AlertDialogCancel, type AlertDialogCancelProps, AlertDialogContent, type AlertDialogContentProps, AlertDialogDescription, type AlertDialogDescriptionProps, AlertDialogFooter, type AlertDialogFooterProps, AlertDialogHeader, type AlertDialogHeaderProps, AlertDialogOverlay, type AlertDialogOverlayProps, AlertDialogPortal, AlertDialogTitle, type AlertDialogTitleProps, AlertDialogTrigger, type AlertProps, type AlertVariant, AspectRatio, type AspectRatioProps, Avatar, AvatarGroup, type AvatarGroupProps, type AvatarProps, type AvatarShape, type AvatarSize, type AvatarStatus, Badge, type BadgeProps, type BadgeSize, type BadgeVariant, Banner, type BannerPosition, type BannerProps, type BannerVariant, Breadcrumb, BreadcrumbEllipsis, type BreadcrumbEllipsisProps, BreadcrumbItem, type BreadcrumbItemProps, BreadcrumbLink, type BreadcrumbLinkProps, BreadcrumbList, type BreadcrumbListProps, BreadcrumbNav, type BreadcrumbNavItem, type BreadcrumbNavProps, BreadcrumbPage, type BreadcrumbPageProps, type BreadcrumbProps, BreadcrumbSeparator, type BreadcrumbSeparatorProps, Button, type ButtonProps, type ButtonSize, type ButtonVariant, Calendar, type CalendarMode, type CalendarProps, Callout, type CalloutProps, type CalloutVariant, Card, CardBody, type CardBodyProps, CardFooter, type CardFooterProps, CardHeader, type CardHeaderProps, type CardProps, type CardVariant, Carousel, type CarouselProps, ChartContainer, type ChartContainerProps, ChartTooltipContent, type ChartTooltipContentProps, Checkbox, CheckboxGroup, type CheckboxGroupOrientation, type CheckboxGroupProps, type CheckboxProps, type CheckboxSize, CodeBlock, type CodeBlockProps, InlineCode as CodeInline, type InlineCodeProps as CodeInlineProps, type CodeVariant, Collapsible, CollapsibleContent, type CollapsibleContentProps, type CollapsibleProps, CollapsibleTrigger, type CollapsibleTriggerProps, ColorPicker, type ColorPickerProps, type ColumnVisibility, Combobox, type ComboboxGroup, type ComboboxOption, type ComboboxProps, type ComboboxSize, type ComboboxVariant, Command, type CommandGroup, type CommandItem, type CommandProps, CommandTrigger, type CommandTriggerProps, ConfirmDialog, type ConfirmDialogProps, type ConfirmDialogVariant, ContextMenu, ContextMenuCheckboxItem, type ContextMenuCheckboxItemProps, ContextMenuContent, type ContextMenuContentProps, ContextMenuGroup, type ContextMenuGroupProps, ContextMenuItem, type ContextMenuItemProps, type ContextMenuItemVariant, ContextMenuLabel, type ContextMenuLabelProps, type ContextMenuProps, ContextMenuRadioGroup, type ContextMenuRadioGroupProps, ContextMenuRadioItem, type ContextMenuRadioItemProps, ContextMenuSeparator, type ContextMenuSeparatorProps, ContextMenuShortcut, type ContextMenuShortcutProps, ContextMenuSub, ContextMenuSubContent, type ContextMenuSubContentProps, type ContextMenuSubProps, ContextMenuSubTrigger, type ContextMenuSubTriggerProps, ContextMenuTrigger, type ContextMenuTriggerProps, CopyButton, type CopyButtonProps, type CopyButtonSize, type CopyButtonVariant, DataList, DataListDetail, type DataListDetailProps, type DataListItem, type DataListOrientation, type DataListProps, type DataListSize, DataListTerm, type DataListTermProps, DataTable, type DataTableColumnMeta, type DataTableFacetedFilter, type DataTableFilter, type DataTableProps, DataTableToolbar, type DataTableToolbarProps, DatePicker, type DatePickerMode, type DatePickerProps, type DatePickerSize, type DateRange, Dialog, DialogBody, type DialogBodyProps, DialogClose, type DialogCloseProps, DialogContent, type DialogContentProps, DialogDescription, type DialogDescriptionProps, DialogFooter, type DialogFooterProps, DialogHeader, type DialogHeaderProps, type DialogProps, type DialogSize, DialogTitle, type DialogTitleProps, DialogTrigger, type DialogTriggerProps, Drawer, DrawerBody, type DrawerBodyProps, DrawerClose, type DrawerCloseProps, DrawerContent, type DrawerContentProps, DrawerDescription, type DrawerDescriptionProps, DrawerFooter, type DrawerFooterProps, DrawerHandle, type DrawerHandleProps, DrawerHeader, type DrawerHeaderProps, type DrawerProps, type DrawerSize, DrawerTitle, type DrawerTitleProps, DrawerTrigger, type DrawerTriggerProps, DropdownMenu, DropdownMenuCheckboxItem, type DropdownMenuCheckboxItemProps, DropdownMenuContent, type DropdownMenuContentProps, DropdownMenuGroup, type DropdownMenuGroupProps, DropdownMenuItem, type DropdownMenuItemProps, type DropdownMenuItemVariant, DropdownMenuLabel, type DropdownMenuLabelProps, type DropdownMenuProps, DropdownMenuRadioGroup, type DropdownMenuRadioGroupProps, DropdownMenuRadioItem, type DropdownMenuRadioItemProps, DropdownMenuSeparator, type DropdownMenuSeparatorProps, DropdownMenuShortcut, type DropdownMenuShortcutProps, DropdownMenuSub, DropdownMenuSubContent, type DropdownMenuSubContentProps, type DropdownMenuSubProps, DropdownMenuSubTrigger, type DropdownMenuSubTriggerProps, DropdownMenuTrigger, type DropdownMenuTriggerProps, EmptyState, type EmptyStateProps, FileUpload, type FileUploadItem, type FileUploadProps, type FileUploadSize, FormField, type FormFieldControlProps, type FormFieldOrientation, type FormFieldProps, type FormFieldSize, type GalleryImage, HoverCard, HoverCardContent, type HoverCardContentProps, type HoverCardProps, HoverCardTrigger, type HoverCardTriggerProps, ImageGallery, type ImageGalleryProps, InfiniteScroll, type InfiniteScrollProps, Input, InputGroup, type InputGroupProps, type InputGroupSize, type InputGroupVariant, type InputProps, type InputSize, type InputVariant, Kbd, type KbdProps, type KbdSize, Label, type LabelProps, type LabelSize, Markdown, type MarkdownProps, Menubar, MenubarCheckboxItem, type MenubarCheckboxItemProps, MenubarContent, type MenubarContentProps, MenubarGroup, type MenubarGroupProps, MenubarItem, type MenubarItemProps, type MenubarItemVariant, MenubarLabel, type MenubarLabelProps, MenubarMenu, type MenubarMenuProps, type MenubarProps, MenubarRadioGroup, type MenubarRadioGroupProps, MenubarRadioItem, type MenubarRadioItemProps, MenubarSeparator, type MenubarSeparatorProps, MenubarShortcut, type MenubarShortcutProps, MenubarSub, MenubarSubContent, type MenubarSubContentProps, type MenubarSubProps, MenubarSubTrigger, type MenubarSubTriggerProps, MenubarTrigger, type MenubarTriggerProps, NavigationMenu, NavigationMenuCardLink, type NavigationMenuCardLinkProps, NavigationMenuContent, type NavigationMenuContentProps, NavigationMenuIndicator, type NavigationMenuIndicatorProps, NavigationMenuItem, type NavigationMenuItemProps, NavigationMenuLink, type NavigationMenuLinkProps, NavigationMenuList, type NavigationMenuListProps, type NavigationMenuProps, NavigationMenuTrigger, type NavigationMenuTriggerProps, NavigationMenuViewport, type NavigationMenuViewportProps, NumberInput, type NumberInputProps, type NumberInputSize, type NumberInputVariant, Pagination, type PaginationProps, type PaginationSize, type PaginationVariant, PinInput, type PinInputProps, type PinInputSize, type PinInputType, type PinInputVariant, Popover, PopoverArrow, type PopoverArrowProps, PopoverClose, type PopoverCloseProps, PopoverContent, type PopoverContentProps, type PopoverProps, PopoverTrigger, type PopoverTriggerProps, Progress, type ProgressProps, type ProgressSize, type ProgressVariant, RadioCard, type RadioCardProps, RadioGroup, RadioGroupItem, type RadioGroupItemProps, type RadioGroupProps, type RadioOrientation, type RadioSize, ResizableHandle, type ResizableHandleProps, ResizablePanel, ResizablePanelGroup, type ResizablePanelGroupProps, type ResizablePanelProps, ScrollArea, type ScrollAreaProps, type ScrollAreaType, ScrollBar, type ScrollBarOrientation, type ScrollBarProps, type ScrollBarSize, SearchInput, type SearchInputProps, type SearchInputSize, type SearchInputVariant, Select, SelectContent, type SelectContentProps, SelectGroup, type SelectGroupProps, SelectItem, type SelectItemProps, SelectLabel, type SelectLabelProps, SelectScrollDownButton, type SelectScrollDownButtonProps, SelectScrollUpButton, type SelectScrollUpButtonProps, SelectSeparator, type SelectSeparatorProps, type SelectSize, SelectTrigger, type SelectTriggerProps, SelectValue, type SelectVariant, Separator, type SeparatorOrientation, type SeparatorProps, type SeparatorSpacing, type SeparatorVariant, Sheet, SheetClose, type SheetCloseProps, SheetContent, type SheetContentProps, SheetDescription, type SheetDescriptionProps, SheetFooter, type SheetFooterProps, SheetHeader, type SheetHeaderProps, type SheetProps, type SheetSide, type SheetSize, SheetTitle, type SheetTitleProps, SheetTrigger, type SheetTriggerProps, Sidebar, type SidebarCollapsible, SidebarContent, type SidebarContentProps, SidebarFooter, type SidebarFooterProps, SidebarGroup, SidebarGroupAction, type SidebarGroupActionProps, SidebarGroupContent, type SidebarGroupContentProps, SidebarGroupLabel, type SidebarGroupLabelProps, type SidebarGroupProps, SidebarHeader, type SidebarHeaderProps, SidebarInput, type SidebarInputProps, SidebarInset, type SidebarInsetProps, SidebarItem, type SidebarItemProps, SidebarMenu, SidebarMenuAction, type SidebarMenuActionProps, SidebarMenuBadge, type SidebarMenuBadgeProps, SidebarMenuButton, type SidebarMenuButtonProps, type SidebarMenuButtonSize, type SidebarMenuButtonVariant, SidebarMenuItem, type SidebarMenuItemProps, type SidebarMenuProps, SidebarMenuSkeleton, type SidebarMenuSkeletonProps, SidebarMenuSub, SidebarMenuSubButton, type SidebarMenuSubButtonProps, SidebarMenuSubItem, type SidebarMenuSubItemProps, type SidebarMenuSubProps, SidebarMobileOverlay, type SidebarMobileOverlayProps, type SidebarProps, SidebarProvider, type SidebarProviderProps, SidebarRail, type SidebarRailProps, SidebarSection, type SidebarSectionProps, SidebarSeparator, type SidebarSeparatorProps, type SidebarSide, SidebarToggle, type SidebarToggleProps, SidebarTrigger, type SidebarTriggerProps, type SidebarVariant, Skeleton, SkeletonCircle, type SkeletonCircleProps, type SkeletonProps, SkeletonRect, type SkeletonRectProps, type SkeletonSize, SkeletonText, type SkeletonTextProps, type SkeletonTextSize, Slider, type SliderMark, type SliderOrientation, type SliderProps, type SliderSize, type SliderVariant, type SonnerPosition, SonnerToaster, type SonnerToasterProps, Spinner, type SpinnerProps, type SpinnerSize, type SpinnerVariant, Stat, type StatProps, type StatTrend, Step, type StepProps, type StepStatus, Steps, type StepsOrientation, type StepsProps, type StepsVariant, Switch, type SwitchLabelPosition, type SwitchProps, type SwitchSize, Table, type TableAlign, TableBody, type TableBodyProps, TableCaption, type TableCaptionProps, TableCell, type TableCellProps, type TableDensity, TableFooter, type TableFooterProps, TableHead, type TableHeadProps, TableHeader, type TableHeaderProps, type TableProps, TableRow, type TableRowProps, type TableSortDirection, Tabs, TabsContent, type TabsContentProps, TabsList, type TabsListProps, type TabsOrientation, type TabsProps, type TabsSize, TabsTrigger, type TabsTriggerProps, type TabsVariant, Tag, type TagProps, type TagSize, type TagVariant, Textarea, type TextareaProps, type TextareaSize, type TextareaVariant, ThemeToggle, type ThemeToggleMode, type ThemeToggleProps, type ThemeToggleSize, type ThemeToggleVariant, type ThemeValue, Timeline, type TimelineAlign, TimelineItem, type TimelineItemData, type TimelineItemProps, type TimelineItemStatus, type TimelineProps, type TimelineSize, type TimelineVariant, type ToastAPI, type ToastAction, type ToastData, ToastItem, type ToastItemProps, type ToastOptions, type ToastPosition, ToastProvider, type ToastProviderProps, type ToastVariant, Toggle, ToggleGroup, ToggleGroupItem, type ToggleGroupItemProps, type ToggleGroupMultipleProps, type ToggleGroupOrientation, type ToggleGroupProps, type ToggleGroupSingleProps, type ToggleGroupSize, type ToggleGroupVariant, type ToggleProps, type ToggleSize, type ToggleVariant, Tooltip, type TooltipAlign, type TooltipProps, TooltipProvider, type TooltipProviderProps, type TooltipSide, type TreeCheckedState, type TreeNode, TreeView, type TreeViewProps, type UseDataTableOptions, type UseDataTableReturn, VideoPlayer, type VideoPlayerProps, type ViewMode, VirtualList, type VirtualListProps, VisuallyHidden, type VisuallyHiddenProps, accordionRootVariants, accordionTriggerVariants, alertVariants, avatarVariants, badgeVariants, bannerVariants, buttonVariants, calendarDayVariants, calloutVariants, cardVariants, chartColors, checkboxVariants, codeBlockVariants, comboboxTriggerVariants, copyButtonVariants, dataListVariants, dialogContentVariants, drawerContentVariants, fileUploadZoneVariants, inlineCodeVariants, inputVariants, kbdVariants, labelVariants, numberInputVariants, paginationButtonVariants, pinCellVariants, progressIndicatorVariants, progressTrackVariants, radioCardVariants, radioGroupVariants, radioIndicatorVariants, scrollbarThumbVariants, scrollbarVariants, searchInputVariants, selectTriggerVariants, separatorVariants, sheetContentVariants, skeletonVariants, sliderRangeVariants, sliderThumbVariants, sliderTrackVariants, spinnerVariants, statVariants, switchThumbVariants, switchTrackVariants, tableRootVariants, tabsListVariants, tabsTriggerVariants, tagVariants, textareaVariants, toastVariants, toggleGroupItemVariants, toggleGroupVariants, toggleVariants, useCarouselContext, useCheckboxGroupContext, useCollapsibleContext, useDataTable, useSidebar, useSidebarContext, useToast, useToggleGroupContext };

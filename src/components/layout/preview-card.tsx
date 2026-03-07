@@ -36,14 +36,24 @@ interface PreviewCardProps {
 	 * @default false
 	 */
 	fluid?: boolean;
+	/**
+	 * If true, the preview pane has no padding or centering — the preview
+	 * content fills edge-to-edge. Ideal for full-bleed layouts like
+	 * sidebars, app shells, or split-pane demos.
+	 * @default false
+	 */
+	noPadding?: boolean;
 }
 
 export function PreviewCard({
 	preview,
 	code,
 	fluid = false,
+	noPadding = false,
 }: PreviewCardProps) {
-	const previewSlot = (
+	const previewSlot = noPadding ? (
+		<div className="w-full">{preview}</div>
+	) : (
 		<div className="flex items-center justify-center p-6 sm:p-8 md:p-10 min-h-35">
 			<div
 				className={

@@ -325,10 +325,10 @@ export const DropdownMenuItem = forwardRef<
       ref={ref}
       className={cn(
         ...menuItemBase,
+        "gap-2",
         variant === "danger" &&
           "text-danger focus:bg-danger-muted focus:text-danger-muted-foreground",
         variant === "default" && "text-foreground",
-        icon && "gap-2",
         className,
       )}
       data-ds=""
@@ -340,7 +340,7 @@ export const DropdownMenuItem = forwardRef<
           {icon}
         </span>
       )}
-      <span className="flex-1">{children}</span>
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
       {shortcut && <DropdownMenuShortcut>{shortcut}</DropdownMenuShortcut>}
     </DropdownMenuPrimitive.Item>
   );
@@ -358,7 +358,7 @@ export const DropdownMenuCheckboxItem = forwardRef<
   return (
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
-      className={cn(...menuItemBase, "pl-8", className)}
+      className={cn(...menuItemBase, "gap-2 pl-8", className)}
       data-ds=""
       data-ds-component="dropdown-menu-checkbox-item"
       {...rest}
@@ -368,7 +368,7 @@ export const DropdownMenuCheckboxItem = forwardRef<
           <CheckIcon className="size-4" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      {children}
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
     </DropdownMenuPrimitive.CheckboxItem>
   );
 });
@@ -397,7 +397,7 @@ export const DropdownMenuRadioItem = forwardRef<
   return (
     <DropdownMenuPrimitive.RadioItem
       ref={ref}
-      className={cn(...menuItemBase, "pl-8", className)}
+      className={cn(...menuItemBase, "gap-2 pl-8", className)}
       data-ds=""
       data-ds-component="dropdown-menu-radio-item"
       {...rest}
@@ -407,7 +407,7 @@ export const DropdownMenuRadioItem = forwardRef<
           <DotIcon className="size-4" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      {children}
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
     </DropdownMenuPrimitive.RadioItem>
   );
 });
@@ -486,8 +486,7 @@ export const DropdownMenuSubTrigger = forwardRef<
       ref={ref}
       className={cn(
         ...menuItemBase,
-        "data-[state=open]:bg-muted",
-        icon && "gap-2",
+        "gap-2 data-[state=open]:bg-muted",
         inset && "pl-8",
         className,
       )}
@@ -500,7 +499,7 @@ export const DropdownMenuSubTrigger = forwardRef<
           {icon}
         </span>
       )}
-      <span className="flex-1">{children}</span>
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
       <ChevronRightIcon className="ml-auto size-4 text-muted-foreground" />
     </DropdownMenuPrimitive.SubTrigger>
   );

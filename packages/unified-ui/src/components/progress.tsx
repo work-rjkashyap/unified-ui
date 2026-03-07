@@ -34,7 +34,7 @@
 
 import { cn } from "@unified-ui/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
-import { forwardRef, type ReactNode } from "react";
+import { forwardRef, useEffect, type ReactNode } from "react";
 
 // ---------------------------------------------------------------------------
 // CVA Variant Definition — Track (outer container)
@@ -269,19 +269,7 @@ const stripedStyle: React.CSSProperties = {
 
 const PROGRESS_STYLE_ID = "unified-ui-progress-keyframes";
 
-function ProgressKeyframes() {
-  if (typeof document !== "undefined") {
-    // Only inject once
-    if (document.getElementById(PROGRESS_STYLE_ID)) {
-      return null;
-    }
-  }
-
-  return (
-    <style
-      id={PROGRESS_STYLE_ID}
-      dangerouslySetInnerHTML={{
-        __html: `
+const PROGRESS_KEYFRAMES_CSS = `
 @keyframes unified-ui-progress-indeterminate {
   0% { transform: translateX(-100%); width: 50%; }
   50% { transform: translateX(50%); width: 30%; }
@@ -291,10 +279,22 @@ function ProgressKeyframes() {
   0% { background-position: 1rem 0; }
   100% { background-position: 0 0; }
 }
-`,
-      }}
-    />
-  );
+`;
+
+/**
+ * Hook that injects progress keyframe styles into <head> on the client.
+ * Uses useEffect to avoid SSR/client hydration mismatches.
+ */
+function useProgressKeyframes() {
+  useEffect(() => {
+    if (document.getElementById(PROGRESS_STYLE_ID)) {
+      return;
+    }
+    const style = document.createElement("style");
+    style.id = PROGRESS_STYLE_ID;
+    style.textContent = PROGRESS_KEYFRAMES_CSS;
+    document.head.appendChild(style);
+  }, []);
 }
 
 // ---------------------------------------------------------------------------
@@ -368,6 +368,9 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
     },
     ref,
   ) {
+    // Inject keyframe styles into <head> on mount (client-only)
+    useProgressKeyframes();
+
     // Clamp value between min and max
     const clampedValue = Math.max(min, Math.min(value, max));
     const range = max - min;
@@ -422,8 +425,6 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
         data-ds-size={size}
         {...(indeterminate ? { "data-ds-indeterminate": "" } : {})}
       >
-        <ProgressKeyframes />
-
         {/* Label row */}
         {showLabel && (
           <div className="flex items-center justify-between mb-1.5">

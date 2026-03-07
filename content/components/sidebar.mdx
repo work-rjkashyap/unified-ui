@@ -1,83 +1,266 @@
 ---
 title: Sidebar
-description: A collapsible application sidebar with sections, icons, nested items, and animated width transitions. Supports controlled and uncontrolled collapse, mobile overlay, and header/content/footer slots.
+description: A composable, multi-variant application sidebar with collapsible groups, nested menus, icon-only mode, mobile sheet overlay, and keyboard shortcut toggle. Supports default, floating, and inset layouts.
 icon: PanelLeft
 ---
 
 import {
 	SidebarProvider,
 	Sidebar,
-	SidebarToggle,
+	SidebarTrigger,
 	SidebarHeader,
 	SidebarContent,
 	SidebarFooter,
-	SidebarSection,
+	SidebarGroup,
+	SidebarGroupLabel,
+	SidebarGroupAction,
+	SidebarGroupContent,
+	SidebarMenu,
+	SidebarMenuItem,
+	SidebarMenuButton,
+	SidebarMenuAction,
+	SidebarMenuBadge,
+	SidebarMenuSub,
+	SidebarMenuSubItem,
+	SidebarMenuSubButton,
+	SidebarMenuSkeleton,
+	SidebarSeparator,
+	SidebarInput,
+	SidebarRail,
+	SidebarInset,
+	SidebarToggle,
 	SidebarItem,
-} from "@work-rjkashyap/unified-ui/components";
-import { Home, Settings, Users, FileText, BarChart3, Mail, Bell, Search, HelpCircle, LogOut } from "lucide-react";
+	SidebarSection,
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	Collapsible,
+	CollapsibleTrigger,
+	CollapsibleContent,
+	Avatar,
+	Separator,
+} from "@work-rjkashyap/unified-ui";
+import {
+	Home,
+	Settings,
+	Users,
+	FileText,
+	BarChart3,
+	Mail,
+	Bell,
+	Search,
+	HelpCircle,
+	LogOut,
+	ChevronDown,
+	ChevronRight,
+	ChevronsUpDown,
+	Plus,
+	Folder,
+	Star,
+	History,
+	Sparkles,
+	CreditCard,
+	BadgeCheck,
+	SquareTerminal,
+	Bot,
+	BookOpen,
+	LifeBuoy,
+	Send,
+	Frame,
+	PieChart,
+	Map,
+	MoreHorizontal,
+	AudioWaveform,
+	GalleryVerticalEnd,
+	Command,
+	PanelLeft,
+} from "lucide-react";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { Callout } from "fumadocs-ui/components/callout";
 
-## Basic
+## Overview
 
-A collapsible application sidebar with sections, icons, nested items, and animated spring-based width transitions. Includes header/content/footer slots, mobile overlay, and a toggle button.
+The `Sidebar` is a composable, multi-variant application sidebar system. It supports app sidebars with team/user switchers, docs sidebars with collapsible groups, floating and inset layouts, icon-only collapse mode, mobile sheet overlay, and keyboard shortcut toggle (`Ctrl+B` / `⌘B`).
 
 <PreviewCard
+	noPadding
 	preview={
-		<div className="w-full max-w-lg h-72 rounded-lg border border-border overflow-hidden">
-			<SidebarProvider>
-				<div className="flex h-full">
-					<Sidebar>
-						<SidebarHeader>
-							<SidebarToggle />
-							<span className="text-sm font-semibold truncate">Acme Inc</span>
-						</SidebarHeader>
-						<SidebarContent>
-							<SidebarSection>
-								<SidebarItem icon={<Home className="size-4" />} label="Dashboard" active />
-								<SidebarItem icon={<Users className="size-4" />} label="Team" />
-								<SidebarItem icon={<FileText className="size-4" />} label="Documents" />
-								<SidebarItem icon={<BarChart3 className="size-4" />} label="Analytics" />
-							</SidebarSection>
-							<SidebarSection>
-								<SidebarItem icon={<Settings className="size-4" />} label="Preferences" />
-								<SidebarItem icon={<HelpCircle className="size-4" />} label="Help" />
-							</SidebarSection>
-						</SidebarContent>
-						<SidebarFooter>
-							<SidebarItem icon={<LogOut className="size-4" />} label="Log out" />
-						</SidebarFooter>
-					</Sidebar>
-					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground bg-muted/20">
-						Main Content
+		<div
+			className="not-prose w-full h-[480px] overflow-hidden"
+			style={{ transform: "translate(0,0)" }}
+		>
+			<SidebarProvider collapsible="icon" className="!min-h-0 h-full">
+				<Sidebar>
+					<SidebarHeader>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton size="lg" tooltip="Acme Inc">
+									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+										<GalleryVerticalEnd className="size-4" />
+									</div>
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="font-semibold">
+											Acme Inc
+										</span>
+										<span className="text-xs text-muted-foreground">
+											Enterprise
+										</span>
+									</div>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarHeader>
+					<SidebarContent>
+						<SidebarGroup>
+							<SidebarGroupLabel>Platform</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton
+											isActive
+											tooltip="Dashboard"
+										>
+											<Home className="size-4" />
+											<span>Dashboard</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Team">
+											<Users className="size-4" />
+											<span>Team</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Documents">
+											<FileText className="size-4" />
+											<span>Documents</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Settings">
+											<Settings className="size-4" />
+											<span>Settings</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+						<SidebarGroup>
+							<SidebarGroupLabel>Projects</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Design Engineering">
+											<Frame className="size-4" />
+											<span>Design Engineering</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Sales & Marketing">
+											<PieChart className="size-4" />
+											<span>Sales & Marketing</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					</SidebarContent>
+					<SidebarFooter>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton
+									size="lg"
+									tooltip="Rajeshwar"
+								>
+									<Avatar name="Rajeshwar" size="sm" />
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="font-medium text-xs">
+											Rajeshwar
+										</span>
+										<span className="text-xs text-muted-foreground">
+											r@unified-ui.space
+										</span>
+									</div>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarFooter>
+				</Sidebar>
+				<SidebarInset>
+					<div className="flex items-center gap-3 border-b border-border px-4 h-12">
+						<SidebarTrigger />
+						<div className="h-4 w-px bg-border" />
+						<nav className="flex items-center gap-1.5 text-sm">
+							<span className="text-muted-foreground">
+								Platform
+							</span>
+							<ChevronRight className="size-3.5 text-muted-foreground/60" />
+							<span className="font-medium">Dashboard</span>
+						</nav>
 					</div>
-				</div>
+					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-2">
+							<div className="size-10 rounded-lg bg-muted/50 flex items-center justify-center">
+								<FileText className="size-5 text-muted-foreground/50" />
+							</div>
+							<span>Main Content</span>
+						</div>
+					</div>
+				</SidebarInset>
 			</SidebarProvider>
 		</div>
 	}
 	code={`<SidebarProvider>
-  <div className="flex h-screen">
-    <Sidebar>
-      <SidebarHeader>
-        <SidebarToggle />
-        <span className="text-sm font-semibold">Acme Inc</span>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarSection>
-          <SidebarItem icon={<Home />} label="Dashboard" active />
-          <SidebarItem icon={<Users />} label="Team" />
-          <SidebarItem icon={<FileText />} label="Documents" />
-        </SidebarSection>
-      </SidebarContent>
-      <SidebarFooter>
-        <SidebarItem icon={<LogOut />} label="Log out" />
-      </SidebarFooter>
-    </Sidebar>
-    <main className="flex-1">Content</main>
-  </div>
+  <Sidebar>
+    <SidebarHeader>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg">
+            <Logo />
+            <div className="flex flex-col">
+              <span className="font-semibold">Acme Inc</span>
+              <span className="text-xs">Enterprise</span>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton isActive>
+                <Home />
+                <span>Dashboard</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </SidebarContent>
+    <SidebarFooter>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg">
+            <Avatar name="Rajeshwar" size="sm" />
+            <span>Rajeshwar</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarFooter>
+  </Sidebar>
+  <SidebarInset>
+    <main>Page content</main>
+  </SidebarInset>
 </SidebarProvider>`}
-
 />
+
+---
 
 ## Installation
 
@@ -115,7 +298,9 @@ bunx @work-rjkashyap/unified-ui add sidebar
 </Tabs>
 
 <Callout type="info">
-	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+	If you haven't initialized your project yet, run `npx
+	@work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for
+	details.
 </Callout>
 
 ## Or install the full package
@@ -159,374 +344,2933 @@ bun add @work-rjkashyap/unified-ui
 import {
 	SidebarProvider,
 	Sidebar,
-	SidebarToggle,
+	SidebarTrigger,
 	SidebarHeader,
 	SidebarContent,
 	SidebarFooter,
-	SidebarSection,
-	SidebarItem,
-	SidebarMobileOverlay,
+	SidebarGroup,
+	SidebarGroupLabel,
+	SidebarGroupAction,
+	SidebarGroupContent,
+	SidebarMenu,
+	SidebarMenuItem,
+	SidebarMenuButton,
+	SidebarMenuAction,
+	SidebarMenuBadge,
+	SidebarMenuSub,
+	SidebarMenuSubItem,
+	SidebarMenuSubButton,
+	SidebarMenuSkeleton,
+	SidebarSeparator,
+	SidebarInput,
+	SidebarRail,
+	SidebarInset,
 } from "@work-rjkashyap/unified-ui";
 ```
 
 ## Architecture
 
-The Sidebar is a compound component composed of multiple parts:
+The Sidebar is a compound component composed of multiple parts organized in a strict hierarchy:
 
-| Sub-component          | Purpose                                                           |
-| ---------------------- | ----------------------------------------------------------------- |
-| `SidebarProvider`      | Context provider — manages collapsed/expanded state.              |
-| `Sidebar`             | The sidebar `<aside>` element with animated width.                |
-| `SidebarToggle`       | Button to toggle collapse/expand.                                 |
-| `SidebarHeader`       | Fixed top area (logo, brand, toggle).                             |
-| `SidebarContent`      | Scrollable middle area for sections and items.                    |
-| `SidebarFooter`       | Fixed bottom area (user profile, log out).                        |
-| `SidebarSection`      | Grouping with an optional title that hides when collapsed.        |
-| `SidebarItem`         | Individual navigation link/button with icon, label, badge.        |
-| `SidebarMobileOverlay`| Backdrop overlay for mobile sidebar drawer.                       |
-
-## Basic Usage
-
-Wrap your layout in `SidebarProvider` to provide collapse state context. Place the `Sidebar` alongside your main content in a flex container.
-
-```tsx
-<SidebarProvider>
-  <div className="flex h-screen">
-    <Sidebar>
-      <SidebarHeader>
-        <SidebarToggle />
-        <span className="font-semibold">My App</span>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarSection>
-          <SidebarItem icon={<Home />} label="Home" active />
-          <SidebarItem icon={<Settings />} label="Settings" />
-        </SidebarSection>
-      </SidebarContent>
-    </Sidebar>
-    <main className="flex-1 overflow-auto">
-      {/* Page content */}
-    </main>
-  </div>
-</SidebarProvider>
+```
+<SidebarProvider>               ← State management (collapse, mobile, variant)
+  <Sidebar>                     ← The sidebar container
+    <SidebarHeader />           ← Sticky top area (logo, team switcher)
+    <SidebarContent>            ← Scrollable middle area
+      <SidebarGroup>            ← Logical section (collapsible or static)
+        <SidebarGroupLabel />   ← Section heading
+        <SidebarGroupAction />  ← Action button in group header
+        <SidebarGroupContent>   ← Wrapper for items
+          <SidebarMenu>         ← Nav list (<ul>)
+            <SidebarMenuItem>   ← Nav item (<li>)
+              <SidebarMenuButton />   ← Clickable nav button/link
+              <SidebarMenuAction />   ← Trailing action (chevron, more)
+              <SidebarMenuBadge />    ← Badge/count indicator
+              <SidebarMenuSub>        ← Nested sub-menu
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton />
+    <SidebarFooter />           ← Sticky bottom area (user, actions)
+    <SidebarRail />             ← Thin toggle rail at edge
+  <SidebarInset>                ← Main content area (sibling to Sidebar)
 ```
 
-## Collapsed State
+### Sub-component Reference
 
-When collapsed, the sidebar shrinks to icon-only width (default `64px`). Section titles and item labels are hidden with fade animations. Item icons remain visible and show a `title` tooltip on hover.
+| Sub-component          | Purpose                                                                  |
+| ---------------------- | ------------------------------------------------------------------------ |
+| `SidebarProvider`      | Context provider — manages open/collapsed state, variant, mobile detect. |
+| `Sidebar`              | The sidebar container with desktop animation and mobile sheet.           |
+| `SidebarTrigger`       | Button to toggle sidebar open/closed.                                    |
+| `SidebarHeader`        | Sticky top area (logo, team switcher, branding).                         |
+| `SidebarContent`       | Scrollable middle area for groups and items.                             |
+| `SidebarFooter`        | Sticky bottom area (user profile, account actions).                      |
+| `SidebarGroup`         | Logical section container within sidebar content.                        |
+| `SidebarGroupLabel`    | Section heading text (auto-hides in icon-collapse mode).                 |
+| `SidebarGroupAction`   | Action button in group header row (+, −, etc.).                          |
+| `SidebarGroupContent`  | Wrapper for the items inside a group.                                    |
+| `SidebarMenu`          | Navigation list (`<ul>`).                                                |
+| `SidebarMenuItem`      | Single item wrapper (`<li>`).                                            |
+| `SidebarMenuButton`    | Clickable nav button with icon, label, tooltip, sizes, variants.         |
+| `SidebarMenuAction`    | Trailing action button (more options, expand chevron).                   |
+| `SidebarMenuBadge`     | Badge/count indicator within a menu item.                                |
+| `SidebarMenuSkeleton`  | Loading placeholder for a menu item.                                     |
+| `SidebarMenuSub`       | Nested sub-menu list with left border indicator.                         |
+| `SidebarMenuSubItem`   | Sub-menu item wrapper.                                                   |
+| `SidebarMenuSubButton` | Clickable sub-navigation link.                                           |
+| `SidebarSeparator`     | Horizontal divider within the sidebar.                                   |
+| `SidebarInput`         | Search/filter input styled for the sidebar.                              |
+| `SidebarRail`          | Thin vertical bar at sidebar edge for toggle affordance.                 |
+| `SidebarInset`         | Main content area that sits beside the sidebar.                          |
+
+---
+
+## Variants
+
+The sidebar supports three visual variants controlled via the `variant` prop on `SidebarProvider` or `Sidebar`.
+
+### Default Variant
+
+The standard bordered sidebar. This is the default.
 
 <PreviewCard
+	noPadding
 	preview={
-		<div className="w-full max-w-lg h-56 rounded-lg border border-border overflow-hidden">
-			<SidebarProvider defaultCollapsed>
-				<div className="flex h-full">
-					<Sidebar>
+		<div className="not-prose w-full h-[340px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar variant="default">
 						<SidebarHeader>
-							<SidebarToggle />
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<GalleryVerticalEnd className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Acme Inc
+											</span>
+											<span className="text-xs text-muted-foreground">
+												Default
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
 						</SidebarHeader>
 						<SidebarContent>
-							<SidebarSection>
-								<SidebarItem icon={<Home className="size-4" />} label="Dashboard" active />
-								<SidebarItem icon={<Users className="size-4" />} label="Team" />
-								<SidebarItem icon={<Mail className="size-4" />} label="Messages" />
-								<SidebarItem icon={<Settings className="size-4" />} label="Settings" />
-							</SidebarSection>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Navigation
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
 						</SidebarContent>
 					</Sidebar>
-					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground bg-muted/20">
-						Main Content
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<span>variant="default"</span>
 					</div>
 				</div>
 			</SidebarProvider>
 		</div>
 	}
-	code={`<SidebarProvider defaultCollapsed>
-  <div className="flex h-screen">
-    <Sidebar>
-      <SidebarHeader>
-        <SidebarToggle />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarSection>
-          <SidebarItem icon={<Home />} label="Dashboard" active />
-          <SidebarItem icon={<Users />} label="Team" />
-          <SidebarItem icon={<Mail />} label="Messages" />
-          <SidebarItem icon={<Settings />} label="Settings" />
-        </SidebarSection>
-      </SidebarContent>
-    </Sidebar>
-    <main>Content</main>
-  </div>
+	code={`<SidebarProvider variant="default">
+  <Sidebar>{/* ... */}</Sidebar>
+  <SidebarInset>{/* ... */}</SidebarInset>
 </SidebarProvider>`}
 />
 
-## Sections with Titles
+### Floating Variant
 
-Group related items under titled sections. Section titles automatically hide when the sidebar is collapsed.
+A rounded sidebar with margin, shadow, and border — appears as a standalone floating panel.
 
-```tsx
-<SidebarContent>
-  <SidebarSection title="Main">
-    <SidebarItem icon={<Home />} label="Dashboard" active />
-    <SidebarItem icon={<Users />} label="Team" />
-  </SidebarSection>
-  <SidebarSection title="Settings">
-    <SidebarItem icon={<Settings />} label="Preferences" />
-    <SidebarItem icon={<HelpCircle />} label="Help & Support" />
-  </SidebarSection>
-</SidebarContent>
-```
-
-## Item with Badge
-
-Pass a `badge` prop to show a notification indicator or count next to the label:
-
-```tsx
-<SidebarItem
-  icon={<Mail />}
-  label="Messages"
-  badge={<Badge variant="primary" size="sm">5</Badge>}
-/>
-<SidebarItem
-  icon={<Bell />}
-  label="Notifications"
-  badge={<Badge variant="danger" size="sm">12</Badge>}
-/>
-```
-
-## Item as Link
-
-Pass `href` to render the item as an `<a>` tag instead of a `<button>`:
-
-```tsx
-<SidebarItem icon={<Home />} label="Dashboard" href="/dashboard" active />
-<SidebarItem icon={<Users />} label="Team" href="/team" />
-<SidebarItem icon={<FileText />} label="Docs" href="/docs" />
-```
-
-## Disabled Items
-
-```tsx
-<SidebarItem icon={<BarChart3 />} label="Analytics" disabled />
-```
-
-## Right Side
-
-Place the sidebar on the right side of the layout with `side="right"`:
-
-```tsx
-<Sidebar side="right">
-  {/* ... */}
-</Sidebar>
-```
-
-## Custom Widths
-
-Override the collapsed and expanded widths:
-
-```tsx
-<Sidebar collapsedWidth="48px" expandedWidth="280px">
-  {/* ... */}
-</Sidebar>
-```
-
-## Controlled Collapse
-
-Control the collapsed state externally using `collapsed` and `onCollapsedChange`:
-
-```tsx
-const [collapsed, setCollapsed] = useState(false);
-
-<SidebarProvider collapsed={collapsed} onCollapsedChange={setCollapsed}>
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[340px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full gap-2 p-2 bg-muted/30">
+					<Sidebar
+						variant="floating"
+						className="rounded-lg border border-border shadow-sm"
+					>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<GalleryVerticalEnd className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Acme Inc
+											</span>
+											<span className="text-xs text-muted-foreground">
+												Floating
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Navigation
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center rounded-lg bg-background border border-border text-sm text-muted-foreground">
+						<span>variant="floating"</span>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider variant="floating">
   <Sidebar>{/* ... */}</Sidebar>
+  <SidebarInset>{/* ... */}</SidebarInset>
+</SidebarProvider>`}
+/>
+
+### Inset Variant
+
+The sidebar is inset within a parent container. The main content area gets rounded corners and a subtle shadow.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[340px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full bg-muted/30">
+					<Sidebar variant="inset" className="bg-muted/30">
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<GalleryVerticalEnd className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Acme Inc
+											</span>
+											<span className="text-xs text-muted-foreground">
+												Inset
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Navigation
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center m-2 ml-0 rounded-lg bg-background border border-border shadow-sm text-sm text-muted-foreground">
+						<span>variant="inset"</span>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider variant="inset">
+  <Sidebar>{/* ... */}</Sidebar>
+  <SidebarInset>{/* ... */}</SidebarInset>
+</SidebarProvider>`}
+/>
+
+---
+
+## Collapsible Modes
+
+The sidebar supports three collapsible behaviors controlled via the `collapsible` prop.
+
+### Offcanvas (default)
+
+The sidebar slides completely off-screen when collapsed.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div
+			className="not-prose w-full h-[340px] overflow-hidden"
+			style={{ transform: "translate(0,0)" }}
+		>
+			<SidebarProvider
+				collapsible="offcanvas"
+				className="!min-h-0 h-full"
+			>
+				<Sidebar>
+					<SidebarHeader>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton size="lg">
+									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+										<GalleryVerticalEnd className="size-4" />
+									</div>
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="font-semibold">
+											Acme Inc
+										</span>
+										<span className="text-xs text-muted-foreground">
+											Offcanvas
+										</span>
+									</div>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarHeader>
+					<SidebarContent>
+						<SidebarGroup>
+							<SidebarGroupLabel>Platform</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton isActive>
+											<Home className="size-4" />
+											<span>Dashboard</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton>
+											<Users className="size-4" />
+											<span>Team</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton>
+											<Settings className="size-4" />
+											<span>Settings</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					</SidebarContent>
+				</Sidebar>
+				<SidebarInset>
+					<div className="flex items-center gap-3 border-b border-border px-4 h-12">
+						<SidebarTrigger />
+						<div className="h-4 w-px bg-border" />
+						<span className="text-sm font-medium">
+							collapsible="offcanvas"
+						</span>
+					</div>
+					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>Slides off-screen when collapsed.</span>
+							<span className="text-xs text-muted-foreground/60">
+								Click the toggle button to try it.
+							</span>
+						</div>
+					</div>
+				</SidebarInset>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider collapsible="offcanvas">
+  <Sidebar>{/* ... */}</Sidebar>
+  <SidebarInset>{/* ... */}</SidebarInset>
+</SidebarProvider>`}
+/>
+
+### Icon
+
+Collapses to a narrow icon-only width (48px). Labels hide and tooltips appear on hover. This is the mode shown in the second reference image.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div
+			className="not-prose w-full h-[380px] overflow-hidden"
+			style={{ transform: "translate(0,0)" }}
+		>
+			<SidebarProvider
+				defaultOpen={false}
+				collapsible="icon"
+				className="!min-h-0 h-full"
+			>
+				<Sidebar>
+					<SidebarHeader>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton size="lg" tooltip="Acme Inc">
+									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+										<GalleryVerticalEnd className="size-4" />
+									</div>
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="font-semibold">
+											Acme Inc
+										</span>
+										<span className="text-xs text-muted-foreground">
+											Enterprise
+										</span>
+									</div>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarHeader>
+					<SidebarContent>
+						<SidebarGroup>
+							<SidebarGroupLabel>Platform</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton
+											isActive
+											tooltip="Dashboard"
+										>
+											<Home className="size-4" />
+											<span>Dashboard</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Team">
+											<Users className="size-4" />
+											<span>Team</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Documents">
+											<FileText className="size-4" />
+											<span>Documents</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Settings">
+											<Settings className="size-4" />
+											<span>Settings</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					</SidebarContent>
+					<SidebarFooter>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton
+									size="lg"
+									tooltip="Rajeshwar"
+								>
+									<Avatar name="Rajeshwar" size="sm" />
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="font-medium text-xs">
+											Rajeshwar
+										</span>
+										<span className="text-xs text-muted-foreground">
+											r@unified-ui.space
+										</span>
+									</div>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarFooter>
+				</Sidebar>
+				<SidebarInset>
+					<div className="flex items-center gap-3 border-b border-border px-4 h-12">
+						<SidebarTrigger />
+						<div className="h-4 w-px bg-border" />
+						<nav className="flex items-center gap-1.5 text-sm">
+							<span className="text-muted-foreground">
+								Build Your Application
+							</span>
+							<ChevronRight className="size-3.5 text-muted-foreground/60" />
+							<span className="font-medium">Data Fetching</span>
+						</nav>
+					</div>
+					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>Icon-only collapsed mode.</span>
+							<span className="text-xs text-muted-foreground/60">
+								Click the toggle button to expand.
+							</span>
+						</div>
+					</div>
+				</SidebarInset>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider defaultOpen={false} collapsible="icon">
+  <Sidebar>
+    <SidebarHeader>...</SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton isActive tooltip="Dashboard">
+                <Home />
+                <span>Dashboard</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </SidebarContent>
+  </Sidebar>
+  <SidebarInset>
+    <main>Content</main>
+  </SidebarInset>
+</SidebarProvider>`}
+/>
+
+### None
+
+The sidebar is not collapsible. Good for static documentation sidebars.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[300px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<BookOpen className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Docs
+											</span>
+											<span className="text-xs text-muted-foreground">
+												Non-collapsible
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Getting Started
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<span>Installation</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<span>Quick Start</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>collapsible="none"</span>
+							<span className="text-xs text-muted-foreground/60">
+								Always expanded, no toggle.
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider collapsible="none">
+  <Sidebar>{/* ... */}</Sidebar>
+  <SidebarInset>{/* ... */}</SidebarInset>
+</SidebarProvider>`}
+/>
+
+---
+
+## Basic Usage
+
+Wrap your layout in `SidebarProvider` and place `Sidebar` alongside `SidebarInset` for main content.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[400px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<Command className="size-4" />
+										</div>
+										<span className="font-semibold">
+											My App
+										</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Navigation
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Home</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Users className="size-4" />
+												<span>Users</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<FileText className="size-4" />
+												<span>Documents</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex flex-col bg-muted/20 border-l border-border">
+						<div className="flex items-center gap-2 border-b border-border px-4 h-12">
+							<button
+								type="button"
+								className="inline-flex items-center justify-center size-7 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+							>
+								<PanelLeft className="size-4" />
+							</button>
+							<span className="text-sm font-medium">
+								Page Title
+							</span>
+						</div>
+						<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground p-6">
+							Page content goes here
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider>
+  <Sidebar>
+    <SidebarHeader>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg">
+            <AppLogo />
+            <span className="font-semibold">My App</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton isActive tooltip="Home">
+                <Home className="size-4" />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Settings">
+                <Settings className="size-4" />
+                <span>Settings</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </SidebarContent>
+  </Sidebar>
+  <SidebarInset>
+    <header className="flex items-center gap-2 p-4 border-b">
+      <SidebarTrigger />
+      <h1>Page Title</h1>
+    </header>
+    <main className="flex-1 p-6">{/* Page content */}</main>
+  </SidebarInset>
+</SidebarProvider>`}
+/>
+
+---
+
+## Groups
+
+Use `SidebarGroup` to organize navigation items into labeled sections.
+
+### Static Groups
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[380px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Platform</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<SquareTerminal className="size-4" />
+												<span>Playground</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Bot className="size-4" />
+												<span>Models</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<BookOpen className="size-4" />
+												<span>Documentation</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+							<SidebarGroup>
+								<SidebarGroupLabel>Projects</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Frame className="size-4" />
+												<span>Design Engineering</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<PieChart className="size-4" />
+												<span>Sales & Marketing</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Map className="size-4" />
+												<span>Travel</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						Static groups with labeled sections
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarContent>
+  <SidebarGroup>
+    <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroupContent>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <SquareTerminal className="size-4" />
+            <span>Playground</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <Bot className="size-4" />
+            <span>Models</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarGroupContent>
+  </SidebarGroup>
+
+  <SidebarGroup>
+    <SidebarGroupLabel>Projects</SidebarGroupLabel>
+    <SidebarGroupContent>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton>
+            <Frame className="size-4" />
+            <span>Design Engineering</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarGroupContent>
+  </SidebarGroup>
+</SidebarContent>`}
+/>
+
+### Collapsible Groups
+
+Wrap the group label and content with the `Collapsible` component for expand/collapse behavior. This matches the docs sidebar with +/− toggles pattern.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[440px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<BookOpen className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Documentation
+											</span>
+											<span className="text-xs text-muted-foreground">
+												v1.0.0
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<Collapsible defaultOpen>
+									<SidebarGroupLabel asChild>
+										<CollapsibleTrigger className="flex w-full items-center">
+											Build Your Application
+											<ChevronDown className="ml-auto size-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
+										</CollapsibleTrigger>
+									</SidebarGroupLabel>
+									<CollapsibleContent>
+										<SidebarGroupContent>
+											<SidebarMenu>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>Routing</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+												<SidebarMenuItem>
+													<SidebarMenuButton isActive>
+														<span>
+															Data Fetching
+														</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>Rendering</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>Caching</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+											</SidebarMenu>
+										</SidebarGroupContent>
+									</CollapsibleContent>
+								</Collapsible>
+							</SidebarGroup>
+							<SidebarGroup>
+								<Collapsible>
+									<SidebarGroupLabel asChild>
+										<CollapsibleTrigger className="flex w-full items-center">
+											API Reference
+											<Plus className="ml-auto size-4" />
+										</CollapsibleTrigger>
+									</SidebarGroupLabel>
+									<CollapsibleContent>
+										<SidebarGroupContent>
+											<SidebarMenu>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>Components</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>Functions</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+											</SidebarMenu>
+										</SidebarGroupContent>
+									</CollapsibleContent>
+								</Collapsible>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex flex-col bg-muted/20 border-l border-border">
+						<div className="flex items-center gap-3 border-b border-border px-4 h-12">
+							<button
+								type="button"
+								className="inline-flex items-center justify-center size-7 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+							>
+								<PanelLeft className="size-4" />
+							</button>
+							<div className="h-4 w-px bg-border" />
+							<nav className="flex items-center gap-1.5 text-sm">
+								<span className="text-muted-foreground">
+									Build Your Application
+								</span>
+								<ChevronRight className="size-3.5 text-muted-foreground/60" />
+								<span className="font-medium">
+									Data Fetching
+								</span>
+							</nav>
+						</div>
+						<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+							<div className="flex flex-col items-center gap-2">
+								<div className="size-10 rounded-lg bg-muted/50 flex items-center justify-center">
+									<BookOpen className="size-5 text-muted-foreground/50" />
+								</div>
+								<span>Docs Content</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarGroup>
+  <Collapsible defaultOpen>
+    <SidebarGroupLabel asChild>
+      <CollapsibleTrigger>
+        Build Your Application
+        <ChevronDown className="ml-auto size-4" />
+      </CollapsibleTrigger>
+    </SidebarGroupLabel>
+    <CollapsibleContent>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton isActive>
+              <span>Data Fetching</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </CollapsibleContent>
+  </Collapsible>
+</SidebarGroup>`}
+/>
+
+### Group with Action Button
+
+Add an action button to a group header using `SidebarGroupAction`. Useful for "add" buttons.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[280px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Projects</SidebarGroupLabel>
+								<SidebarGroupAction title="Add Project">
+									<Plus className="size-4" />
+								</SidebarGroupAction>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Frame className="size-4" />
+												<span>Design Engineering</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<PieChart className="size-4" />
+												<span>Sales & Marketing</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Map className="size-4" />
+												<span>Travel</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>Group with action button</span>
+							<span className="text-xs text-muted-foreground/60">
+								+ icon next to "Projects" label
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarGroup>
+  <SidebarGroupLabel>Projects</SidebarGroupLabel>
+  <SidebarGroupAction title="Add Project">
+    <Plus className="size-4" />
+  </SidebarGroupAction>
+  <SidebarGroupContent>
+    <SidebarMenu>{/* ... */}</SidebarMenu>
+  </SidebarGroupContent>
+</SidebarGroup>`}
+/>
+
+---
+
+## Menu Items
+
+### Basic Menu Button
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[200px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Users className="size-4" />
+												<span>Team</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						Basic menu buttons
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarMenu>
+  <SidebarMenuItem>
+    <SidebarMenuButton tooltip="Dashboard">
+      <Home className="size-4" />
+      <span>Dashboard</span>
+    </SidebarMenuButton>
+  </SidebarMenuItem>
+</SidebarMenu>`}
+/>
+
+### Active State
+
+Mark the current page with `isActive`:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[200px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Users className="size-4" />
+												<span>Team</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>"Dashboard" is active</span>
+							<span className="text-xs text-muted-foreground/60">
+								isActive highlights the item
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarMenuButton isActive tooltip="Dashboard">
+  <Home className="size-4" />
+  <span>Dashboard</span>
+</SidebarMenuButton>`}
+/>
+
+### Menu Button Sizes
+
+Three sizes are available: `sm`, `default`, and `lg`. Use `lg` for header/footer team or user switchers.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[280px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Small</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton size="sm">
+												<span>Compact Item</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+							<SidebarGroup>
+								<SidebarGroupLabel>Default</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+							<SidebarGroup>
+								<SidebarGroupLabel>Large</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton
+												size="lg"
+												className="border border-border"
+											>
+												<Avatar name="Acme Inc" size="sm" />
+												<div className="flex flex-col">
+													<span className="font-semibold">Acme Inc</span>
+													<span className="text-xs text-muted-foreground">Enterprise</span>
+												</div>
+												<ChevronsUpDown className="ml-auto size-4" />
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						sm, default, and lg sizes
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`{/* Small — compact items */}
+<SidebarMenuButton size="sm">
+  <span>Compact Item</span>
+</SidebarMenuButton>
+
+{/* Default */}
+
+<SidebarMenuButton>
+	<Home className="size-4" />
+	<span>Dashboard</span>
+</SidebarMenuButton>
+
+{/* Large — for header/footer */}
+
+<SidebarMenuButton size="lg" className="border border-border">
+  <Avatar name="Acme Inc" size="sm" />
+  <div className="flex flex-col">
+    <span className="font-semibold">Acme Inc</span>
+    <span className="text-xs">Enterprise</span>
+  </div>
+  <ChevronsUpDown className="ml-auto size-4" />
+</SidebarMenuButton>`}
+/>
+
+### Outline Variant
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[140px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton variant="outline">
+												<Search className="size-4" />
+												<span>Search</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton variant="outline">
+												<Plus className="size-4" />
+												<span>New Project</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						variant="outline"
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarMenuButton variant="outline" tooltip="Search">
+  <Search className="size-4" />
+  <span>Search</span>
+</SidebarMenuButton>`}
+/>
+
+### With Badge
+
+Show a notification count or indicator next to the item:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[200px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Mail className="size-4" />
+												<span>Inbox</span>
+											</SidebarMenuButton>
+											<SidebarMenuBadge>
+												24
+											</SidebarMenuBadge>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Bell className="size-4" />
+												<span>Notifications</span>
+											</SidebarMenuButton>
+											<SidebarMenuBadge>
+												3
+											</SidebarMenuBadge>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Star className="size-4" />
+												<span>Starred</span>
+											</SidebarMenuButton>
+											<SidebarMenuBadge>
+												12
+											</SidebarMenuBadge>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						Badge counts on menu items
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarMenuItem>
+  <SidebarMenuButton>
+    <Mail className="size-4" />
+    <span>Inbox</span>
+  </SidebarMenuButton>
+  <SidebarMenuBadge>24</SidebarMenuBadge>
+</SidebarMenuItem>`}
+/>
+
+### With Action Button
+
+Add a trailing action button (e.g., "more options") that appears on hover:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[200px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Projects</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Folder className="size-4" />
+												<span>Design System</span>
+											</SidebarMenuButton>
+											<SidebarMenuAction showOnHover>
+												<MoreHorizontal className="size-4" />
+											</SidebarMenuAction>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Folder className="size-4" />
+												<span>Marketing Site</span>
+											</SidebarMenuButton>
+											<SidebarMenuAction showOnHover>
+												<MoreHorizontal className="size-4" />
+											</SidebarMenuAction>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>Hover items for action button</span>
+							<span className="text-xs text-muted-foreground/60">
+								showOnHover reveals the ⋯ icon
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarMenuItem>
+  <SidebarMenuButton>
+    <Folder className="size-4" />
+    <span>Projects</span>
+  </SidebarMenuButton>
+  <SidebarMenuAction showOnHover>
+    <MoreHorizontal className="size-4" />
+  </SidebarMenuAction>
+</SidebarMenuItem>`}
+/>
+
+---
+
+## Nested Sub-menus
+
+Show hierarchical navigation with nested sub-menus. The sub-menu renders an indented list with a left border line.
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[380px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Platform</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<SquareTerminal className="size-4" />
+												<span>Playground</span>
+											</SidebarMenuButton>
+											<SidebarMenuSub>
+												<SidebarMenuSubItem>
+													<SidebarMenuSubButton>
+														History
+													</SidebarMenuSubButton>
+												</SidebarMenuSubItem>
+												<SidebarMenuSubItem>
+													<SidebarMenuSubButton
+														isActive
+													>
+														Starred
+													</SidebarMenuSubButton>
+												</SidebarMenuSubItem>
+												<SidebarMenuSubItem>
+													<SidebarMenuSubButton>
+														Settings
+													</SidebarMenuSubButton>
+												</SidebarMenuSubItem>
+											</SidebarMenuSub>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Bot className="size-4" />
+												<span>Models</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<BookOpen className="size-4" />
+												<span>Documentation</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex flex-col bg-muted/20 border-l border-border">
+						<div className="flex items-center gap-3 border-b border-border px-4 h-12">
+							<button
+								type="button"
+								className="inline-flex items-center justify-center size-7 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+							>
+								<PanelLeft className="size-4" />
+							</button>
+							<div className="h-4 w-px bg-border" />
+							<nav className="flex items-center gap-1.5 text-sm">
+								<span className="text-muted-foreground">
+									Playground
+								</span>
+								<ChevronRight className="size-3.5 text-muted-foreground/60" />
+								<span className="font-medium">Starred</span>
+							</nav>
+						</div>
+						<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+							<div className="flex flex-col items-center gap-2">
+								<div className="size-10 rounded-lg bg-muted/50 flex items-center justify-center">
+									<SquareTerminal className="size-5 text-muted-foreground/50" />
+								</div>
+								<span>Content</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarMenuItem>
+  <SidebarMenuButton>
+    <SquareTerminal />
+    <span>Playground</span>
+  </SidebarMenuButton>
+  <SidebarMenuSub>
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton>History</SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton isActive>Starred</SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton>Settings</SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+  </SidebarMenuSub>
+</SidebarMenuItem>`}
+/>
+
+---
+
+## Header with Team Switcher
+
+Use `SidebarMenuButton` with `size="lg"` in the header paired with a `DropdownMenu` for a team/workspace switcher:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div
+			className="not-prose w-full h-[340px] overflow-hidden"
+			style={{ transform: "translate(0,0)" }}
+		>
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<SidebarMenuButton
+												size="lg"
+												className="border border-border"
+											>
+												<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+													<GalleryVerticalEnd className="size-4" />
+												</div>
+												<div className="flex flex-col gap-0.5 leading-none">
+													<span className="font-semibold">
+														Acme Inc
+													</span>
+													<span className="text-xs text-muted-foreground">
+														Enterprise
+													</span>
+												</div>
+												<ChevronsUpDown className="ml-auto size-4" />
+											</SidebarMenuButton>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent
+											className="w-56"
+											align="start"
+											sideOffset={6}
+										>
+											<DropdownMenuLabel>
+												Teams
+											</DropdownMenuLabel>
+											<DropdownMenuItem>
+												Acme Inc
+											</DropdownMenuItem>
+											<DropdownMenuItem>
+												Acme Corp.
+											</DropdownMenuItem>
+											<DropdownMenuItem>
+												Evil Corp.
+											</DropdownMenuItem>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem>
+												<Plus className="size-4 mr-2" />
+												Add team
+											</DropdownMenuItem>
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Platform</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Users className="size-4" />
+												<span>Team</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>Click the team name to switch</span>
+							<span className="text-xs text-muted-foreground/60">
+								DropdownMenu in the header
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarHeader>
+  <SidebarMenu>
+    <SidebarMenuItem>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <SidebarMenuButton size="lg" className="border border-border">
+            <Logo />
+            <div className="flex flex-col">
+              <span className="font-semibold">Acme Inc</span>
+              <span className="text-xs">Enterprise</span>
+            </div>
+            <ChevronsUpDown className="ml-auto size-4" />
+          </SidebarMenuButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="start">
+          <DropdownMenuLabel>Teams</DropdownMenuLabel>
+          <DropdownMenuItem>Acme Inc</DropdownMenuItem>
+          <DropdownMenuItem>Acme Corp.</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <Plus className="size-4 mr-2" />
+            Add team
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </SidebarMenuItem>
+  </SidebarMenu>
+</SidebarHeader>`}
+/>
+
+---
+
+## Footer with User Menu
+
+Use the same pattern in the footer for a user account dropdown:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div
+			className="not-prose w-full h-[480px] overflow-hidden"
+			style={{ transform: "translate(0,0)" }}
+		>
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Platform</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+						<SidebarFooter>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<SidebarMenuButton
+												size="lg"
+												className="border border-border"
+											>
+												<Avatar
+													name="Rajeshwar"
+													size="sm"
+												/>
+												<div className="flex flex-col gap-0.5 leading-none">
+													<span className="font-medium text-xs">
+														Rajeshwar
+													</span>
+													<span className="text-xs text-muted-foreground">
+														r@unified-ui.space
+													</span>
+												</div>
+												<ChevronsUpDown className="ml-auto size-4" />
+											</SidebarMenuButton>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent
+											className="w-56"
+											side="top"
+											align="start"
+											sideOffset={6}
+										>
+											<DropdownMenuLabel>
+												<div className="flex items-center gap-2">
+													<Avatar
+														name="Rajeshwar"
+														size="sm"
+													/>
+													<div className="flex flex-col gap-0.5 leading-none">
+														<span className="font-medium text-xs">
+															Rajeshwar
+														</span>
+														<span className="text-xs text-muted-foreground">
+															r@unified-ui.space
+														</span>
+													</div>
+												</div>
+											</DropdownMenuLabel>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem>
+												<Sparkles className="size-4 mr-2" />
+												Upgrade to Pro
+											</DropdownMenuItem>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem>
+												<BadgeCheck className="size-4 mr-2" />
+												Account
+											</DropdownMenuItem>
+											<DropdownMenuItem>
+												<CreditCard className="size-4 mr-2" />
+												Billing
+											</DropdownMenuItem>
+											<DropdownMenuItem>
+												<Bell className="size-4 mr-2" />
+												Notifications
+											</DropdownMenuItem>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem>
+												<LogOut className="size-4 mr-2" />
+												Log out
+											</DropdownMenuItem>
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarFooter>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>Click user to open menu</span>
+							<span className="text-xs text-muted-foreground/60">
+								DropdownMenu in the footer
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarFooter>
+  <SidebarMenu>
+    <SidebarMenuItem>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <SidebarMenuButton size="lg" className="border border-border">
+            <Avatar name="Rajeshwar" size="sm" />
+            <div className="flex flex-col gap-0.5 leading-none">
+              <span className="font-medium text-xs">Rajeshwar</span>
+              <span className="text-xs text-muted-foreground">r@unified-ui.space</span>
+            </div>
+            <ChevronsUpDown className="ml-auto size-4" />
+          </SidebarMenuButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" side="top" align="start">
+          <DropdownMenuLabel>...</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Account</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Log out</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </SidebarMenuItem>
+  </SidebarMenu>
+</SidebarFooter>`}
+/>
+
+---
+
+## Sidebar Input
+
+Add a search/filter input at the top of the sidebar:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[300px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<BookOpen className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Documentation
+											</span>
+											<span className="text-xs text-muted-foreground">
+												v1.0.0
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+							<SidebarInput placeholder="Search the docs..." />
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Getting Started
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<span>Installation</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<span>Quick Start</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						Search input in the header
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarHeader>
+  <SidebarInput placeholder="Search the docs..." />
+</SidebarHeader>`}
+/>
+
+---
+
+## Sidebar Separator
+
+Add horizontal dividers between groups:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[320px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Platform</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Users className="size-4" />
+												<span>Team</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+							<SidebarSeparator />
+							<SidebarGroup>
+								<SidebarGroupLabel>Projects</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Frame className="size-4" />
+												<span>Design Engineering</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<PieChart className="size-4" />
+												<span>Sales & Marketing</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>SidebarSeparator between groups</span>
+							<span className="text-xs text-muted-foreground/60">
+								Horizontal divider line
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarContent>
+  <SidebarGroup>{/* ... */}</SidebarGroup>
+  <SidebarSeparator />
+  <SidebarGroup>{/* ... */}</SidebarGroup>
+</SidebarContent>`}
+/>
+
+---
+
+## Sidebar Rail
+
+Add a thin toggle rail at the sidebar edge for a hover-to-toggle affordance:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[260px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar className="relative">
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Navigation
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Home className="size-4" />
+												<span>Dashboard</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<Settings className="size-4" />
+												<span>Settings</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+						<SidebarRail />
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>SidebarRail at the edge</span>
+							<span className="text-xs text-muted-foreground/60">
+								Thin vertical toggle affordance
+							</span>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<Sidebar>
+  <SidebarHeader>{/* ... */}</SidebarHeader>
+  <SidebarContent>{/* ... */}</SidebarContent>
+  <SidebarFooter>{/* ... */}</SidebarFooter>
+  <SidebarRail />
+</Sidebar>`}
+/>
+
+---
+
+## Sidebar Trigger
+
+Place a toggle button in the main content header to expand/collapse the sidebar:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div
+			className="not-prose w-full h-[260px] overflow-hidden"
+			style={{ transform: "translate(0,0)" }}
+		>
+			<SidebarProvider collapsible="icon" className="!min-h-0 h-full">
+				<Sidebar>
+					<SidebarContent>
+						<SidebarGroup>
+							<SidebarGroupLabel>Navigation</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton
+											isActive
+											tooltip="Dashboard"
+										>
+											<Home className="size-4" />
+											<span>Dashboard</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Settings">
+											<Settings className="size-4" />
+											<span>Settings</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					</SidebarContent>
+				</Sidebar>
+				<SidebarInset>
+					<div className="flex items-center gap-2 border-b border-border px-4 h-12">
+						<SidebarTrigger />
+						<div className="h-4 w-px bg-border" />
+						<span className="text-sm font-medium">Dashboard</span>
+					</div>
+					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>SidebarTrigger in header</span>
+							<span className="text-xs text-muted-foreground/60">
+								Click the toggle button to expand/collapse
+							</span>
+						</div>
+					</div>
+				</SidebarInset>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarInset>
+  <header className="flex items-center gap-2 p-4 border-b">
+    <SidebarTrigger />
+    <Breadcrumb>...</Breadcrumb>
+  </header>
+  <main>{/* ... */}</main>
+</SidebarInset>`}
+/>
+
+---
+
+## Loading State
+
+Show skeleton placeholders while navigation data is loading:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[300px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<GalleryVerticalEnd className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Acme Inc
+											</span>
+											<span className="text-xs text-muted-foreground">
+												Loading...
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>
+									Navigation
+								</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										{Array.from({ length: 5 }).map(
+											(_, i) => (
+												<SidebarMenuItem key={i}>
+													<SidebarMenuSkeleton
+														showIcon
+													/>
+												</SidebarMenuItem>
+											),
+										)}
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+							<SidebarGroup>
+								<SidebarGroupLabel>Projects</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										{Array.from({ length: 3 }).map(
+											(_, i) => (
+												<SidebarMenuItem key={i}>
+													<SidebarMenuSkeleton
+														showIcon
+													/>
+												</SidebarMenuItem>
+											),
+										)}
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-l border-border text-sm text-muted-foreground">
+						Loading skeleton placeholders
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarMenu>
+  {Array.from({ length: 5 }).map((_, i) => (
+    <SidebarMenuItem key={i}>
+      <SidebarMenuSkeleton showIcon />
+    </SidebarMenuItem>
+  ))}
+</SidebarMenu>`}
+/>
+
+---
+
+## Controlled State
+
+Control the sidebar's open/closed state externally:
+
+```tsx
+const [open, setOpen] = useState(true);
+
+<SidebarProvider open={open} onOpenChange={setOpen}>
+	<Sidebar>{/* ... */}</Sidebar>
+	<SidebarInset>{/* ... */}</SidebarInset>
 </SidebarProvider>;
 
-{/* External toggle */}
-<Button onClick={() => setCollapsed((c) => !c)}>
-  Toggle Sidebar
-</Button>
+{
+	/* External toggle */
+}
+<Button onClick={() => setOpen((prev) => !prev)}>Toggle Sidebar</Button>;
 ```
 
-## useSidebarContext Hook
+---
+
+## useSidebar Hook
 
 Access sidebar state from any descendant component:
 
 ```tsx
 function SidebarBrand() {
-  const { collapsed, setCollapsed } = useSidebarContext();
+	const { state, open, toggleSidebar, isMobile } = useSidebar();
 
-  return (
-    <div className="flex items-center gap-2">
-      <Logo />
-      {!collapsed && <span className="font-semibold">Acme Inc</span>}
-    </div>
-  );
+	return (
+		<div className="flex items-center gap-2">
+			<Logo />
+			{state === "expanded" && (
+				<span className="font-semibold">Acme Inc</span>
+			)}
+		</div>
+	);
 }
 ```
 
 ### Hook Return Values
 
-| Property         | Type                      | Description                                  |
-| ---------------- | ------------------------- | -------------------------------------------- |
-| `collapsed`      | `boolean`                 | Whether the sidebar is currently collapsed.  |
-| `setCollapsed`   | `(v: boolean) => void`    | Set collapsed state.                         |
-| `isMobile`       | `boolean`                 | Whether the layout is in mobile mode.        |
-| `mobileOpen`     | `boolean`                 | Whether the mobile sidebar is open.          |
-| `setMobileOpen`  | `(v: boolean) => void`    | Set mobile sidebar open state.               |
+| Property        | Type                                 | Description                                 |
+| --------------- | ------------------------------------ | ------------------------------------------- |
+| `state`         | `"expanded" \| "collapsed"`          | Current visual state of the sidebar.        |
+| `open`          | `boolean`                            | Whether the sidebar is open.                |
+| `setOpen`       | `(open: boolean) => void`            | Set open state.                             |
+| `openMobile`    | `boolean`                            | Whether the mobile sidebar sheet is open.   |
+| `setOpenMobile` | `(open: boolean) => void`            | Set mobile sidebar open state.              |
+| `isMobile`      | `boolean`                            | Whether the viewport is mobile (`< 768px`). |
+| `toggleSidebar` | `() => void`                         | Toggle the sidebar open/closed.             |
+| `variant`       | `"default" \| "floating" \| "inset"` | Current visual variant.                     |
+| `collapsible`   | `"offcanvas" \| "icon" \| "none"`    | Current collapsible mode.                   |
+| `side`          | `"left" \| "right"`                  | Which side the sidebar is on.               |
 
-## Mobile Overlay
+---
 
-Use `SidebarMobileOverlay` to render a backdrop when the sidebar is open on mobile:
+## Right Side
 
-```tsx
-<SidebarProvider>
-  <SidebarMobileOverlay />
-  <div className="flex h-screen">
-    <Sidebar>
-      {/* ... */}
-    </Sidebar>
-    <main className="flex-1">{/* ... */}</main>
-  </div>
-</SidebarProvider>
-```
+Place the sidebar on the right side of the layout:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[300px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<div className="flex-1 flex items-center justify-center bg-muted/20 border-r border-border text-sm text-muted-foreground">
+						<div className="flex flex-col items-center gap-1.5">
+							<span>Main content</span>
+							<span className="text-xs text-muted-foreground/60">
+								Sidebar on the right side
+							</span>
+						</div>
+					</div>
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<GalleryVerticalEnd className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Acme Inc
+											</span>
+											<span className="text-xs text-muted-foreground">
+												Right side
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<SidebarGroupLabel>Activity</SidebarGroupLabel>
+								<SidebarGroupContent>
+									<SidebarMenu>
+										<SidebarMenuItem>
+											<SidebarMenuButton isActive>
+												<Bell className="size-4" />
+												<span>Notifications</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<History className="size-4" />
+												<span>History</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+										<SidebarMenuItem>
+											<SidebarMenuButton>
+												<HelpCircle className="size-4" />
+												<span>Help</span>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									</SidebarMenu>
+								</SidebarGroupContent>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider side="right">
+  <SidebarInset>{/* ... */}</SidebarInset>
+  <Sidebar>{/* ... */}</Sidebar>
+</SidebarProvider>`}
+/>
+
+---
+
+## Keyboard Shortcut
+
+The sidebar registers `Ctrl+B` (or `⌘B` on macOS) as a global keyboard shortcut to toggle the sidebar. This works automatically when using `SidebarProvider`.
+
+---
 
 ## Full App Layout Example
 
-```tsx
-<SidebarProvider>
-  <SidebarMobileOverlay />
-  <div className="flex h-screen bg-background">
-    <Sidebar>
-      <SidebarHeader>
-        <SidebarToggle />
-        <span className="text-sm font-bold truncate">Acme Inc</span>
-      </SidebarHeader>
+A complete sidebar layout with team switcher, navigation groups, sub-menus, and user footer.
 
-      <SidebarContent>
-        <SidebarSection title="Navigation">
-          <SidebarItem icon={<Home />} label="Dashboard" href="/" active />
-          <SidebarItem icon={<Users />} label="Team" href="/team" />
-          <SidebarItem icon={<FileText />} label="Documents" href="/docs" />
-          <SidebarItem
-            icon={<Mail />}
-            label="Messages"
-            href="/messages"
-            badge={<Badge variant="primary" size="sm">3</Badge>}
-          />
-          <SidebarItem icon={<BarChart3 />} label="Analytics" href="/analytics" />
-        </SidebarSection>
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[520px] overflow-hidden" style={{ transform: "translate(0,0)" }}>
+			<SidebarProvider collapsible="icon" className="!min-h-0 h-full">
+				<Sidebar>
+					<SidebarHeader>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton size="lg" tooltip="Acme Inc">
+									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+										<GalleryVerticalEnd className="size-4" />
+									</div>
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="font-semibold">Acme Inc</span>
+										<span className="text-xs text-muted-foreground">Enterprise</span>
+									</div>
+									<ChevronsUpDown className="ml-auto size-4 text-muted-foreground" />
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarHeader>
+					<SidebarContent>
+						<SidebarGroup>
+							<SidebarGroupLabel>Platform</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Playground">
+											<SquareTerminal className="size-4" />
+											<span>Playground</span>
+										</SidebarMenuButton>
+										<SidebarMenuSub>
+											<SidebarMenuSubItem>
+												<SidebarMenuSubButton>History</SidebarMenuSubButton>
+											</SidebarMenuSubItem>
+											<SidebarMenuSubItem>
+												<SidebarMenuSubButton isActive>Starred</SidebarMenuSubButton>
+											</SidebarMenuSubItem>
+										</SidebarMenuSub>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Models">
+											<Bot className="size-4" />
+											<span>Models</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Documentation">
+											<BookOpen className="size-4" />
+											<span>Documentation</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Settings">
+											<Settings className="size-4" />
+											<span>Settings</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+						<SidebarGroup>
+							<SidebarGroupLabel>Projects</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Design Engineering">
+											<Frame className="size-4" />
+											<span>Design Engineering</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Sales & Marketing">
+											<PieChart className="size-4" />
+											<span>Sales & Marketing</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Travel">
+											<Map className="size-4" />
+											<span>Travel</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+						<SidebarGroup className="mt-auto">
+							<SidebarGroupContent>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Support">
+											<LifeBuoy className="size-4" />
+											<span>Support</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton tooltip="Feedback">
+											<Send className="size-4" />
+											<span>Feedback</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					</SidebarContent>
+					<SidebarFooter>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton size="lg" tooltip="Rajeshwar">
+									<Avatar name="Rajeshwar" size="sm" />
+									<div className="flex flex-col gap-0.5 leading-none">
+										<span className="font-medium text-xs">Rajeshwar</span>
+										<span className="text-xs text-muted-foreground">r@unified-ui.space</span>
+									</div>
+									<ChevronsUpDown className="ml-auto size-4 text-muted-foreground" />
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarFooter>
+				</Sidebar>
+				<SidebarInset>
+					<div className="flex items-center gap-3 border-b border-border px-4 h-14">
+						<SidebarTrigger />
+						<div className="h-4 w-px bg-border" />
+						<nav className="flex items-center gap-1.5 text-sm">
+							<span className="text-muted-foreground">Platform</span>
+							<ChevronRight className="size-3.5 text-muted-foreground/60" />
+							<span className="text-muted-foreground">Playground</span>
+							<ChevronRight className="size-3.5 text-muted-foreground/60" />
+							<span className="font-medium">Starred</span>
+						</nav>
+					</div>
+					<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground p-6">
+						<div className="flex flex-col items-center gap-2">
+							<div className="size-12 rounded-lg bg-muted/50 flex items-center justify-center">
+								<Star className="size-6 text-muted-foreground/50" />
+							</div>
+							<span>Full App Layout</span>
+							<span className="text-xs text-muted-foreground/60">Team switcher • Nav groups • Sub-menus • User footer</span>
+						</div>
+					</div>
+				</SidebarInset>
+			</SidebarProvider>
+		</div>
+	}
+	code={`export function AppLayout({ children }) {
+  return (
+    <SidebarProvider variant="default" collapsible="icon">
+      <Sidebar>
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton size="lg">
+                    <AppLogo />
+                    <div className="flex flex-col">
+                      <span className="font-semibold">Acme Inc</span>
+                      <span className="text-xs">Enterprise</span>
+                    </div>
+                    <ChevronsUpDown className="ml-auto size-4" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {/* Team items */}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
 
-        <SidebarSection title="Account">
-          <SidebarItem icon={<Settings />} label="Settings" href="/settings" />
-          <SidebarItem icon={<HelpCircle />} label="Help" href="/help" />
-        </SidebarSection>
-      </SidebarContent>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="Playground">
+                    <SquareTerminal />
+                    <span>Playground</span>
+                  </SidebarMenuButton>
+                  <SidebarMenuSub>
+                    <SidebarMenuSubItem>
+                      <SidebarMenuSubButton>History</SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                    <SidebarMenuSubItem>
+                      <SidebarMenuSubButton>Starred</SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  </SidebarMenuSub>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
 
-      <SidebarFooter>
-        <SidebarItem icon={<LogOut />} label="Log out" />
-      </SidebarFooter>
-    </Sidebar>
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg">
+                <Avatar name="Rajeshwar" size="sm" />
+                <span>Rajeshwar</span>
+                <ChevronsUpDown className="ml-auto size-4" />
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
 
-    <main className="flex-1 overflow-auto p-6">
-      {children}
-    </main>
-  </div>
-</SidebarProvider>
-```
+        <SidebarRail />
+      </Sidebar>
+
+      <SidebarInset>
+        <header className="flex items-center gap-2 border-b px-4 h-14">
+          <SidebarTrigger />
+          <BreadcrumbNav items={breadcrumbs} />
+        </header>
+        <main className="flex-1 p-6">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
+
+);
+}`}
+/>
+
+---
+
+## Docs Sidebar Layout Example
+
+A static, non-collapsible sidebar suitable for documentation sites:
+
+<PreviewCard
+	noPadding
+	preview={
+		<div className="not-prose w-full h-[440px] overflow-hidden">
+			<SidebarProvider collapsible="none" className="!min-h-0 h-full">
+				<div className="flex h-full w-full">
+					<Sidebar>
+						<SidebarHeader>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton size="lg">
+										<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+											<BookOpen className="size-4" />
+										</div>
+										<div className="flex flex-col gap-0.5 leading-none">
+											<span className="font-semibold">
+												Documentation
+											</span>
+											<span className="text-xs text-muted-foreground">
+												v1.0.0
+											</span>
+										</div>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
+							<SidebarInput placeholder="Search the docs..." />
+						</SidebarHeader>
+						<SidebarContent>
+							<SidebarGroup>
+								<Collapsible defaultOpen>
+									<SidebarGroupLabel asChild>
+										<CollapsibleTrigger className="flex w-full items-center">
+											Getting Started
+											<ChevronDown className="ml-auto size-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
+										</CollapsibleTrigger>
+									</SidebarGroupLabel>
+									<CollapsibleContent>
+										<SidebarGroupContent>
+											<SidebarMenu>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>
+															Installation
+														</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>
+															Project Structure
+														</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+											</SidebarMenu>
+										</SidebarGroupContent>
+									</CollapsibleContent>
+								</Collapsible>
+							</SidebarGroup>
+							<SidebarGroup>
+								<Collapsible defaultOpen>
+									<SidebarGroupLabel asChild>
+										<CollapsibleTrigger className="flex w-full items-center">
+											Build Your Application
+											<ChevronDown className="ml-auto size-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
+										</CollapsibleTrigger>
+									</SidebarGroupLabel>
+									<CollapsibleContent>
+										<SidebarGroupContent>
+											<SidebarMenu>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>Routing</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+												<SidebarMenuItem>
+													<SidebarMenuButton isActive>
+														<span>
+															Data Fetching
+														</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+												<SidebarMenuItem>
+													<SidebarMenuButton>
+														<span>Rendering</span>
+													</SidebarMenuButton>
+												</SidebarMenuItem>
+											</SidebarMenu>
+										</SidebarGroupContent>
+									</CollapsibleContent>
+								</Collapsible>
+							</SidebarGroup>
+						</SidebarContent>
+					</Sidebar>
+					<div className="flex-1 flex flex-col bg-muted/20 border-l border-border">
+						<div className="flex items-center gap-3 border-b border-border px-4 h-12">
+							<nav className="flex items-center gap-1.5 text-sm">
+								<span className="text-muted-foreground">
+									Build Your Application
+								</span>
+								<ChevronRight className="size-3.5 text-muted-foreground/60" />
+								<span className="font-medium">
+									Data Fetching
+								</span>
+							</nav>
+						</div>
+						<div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+							<div className="flex flex-col items-center gap-2">
+								<div className="size-10 rounded-lg bg-muted/50 flex items-center justify-center">
+									<BookOpen className="size-5 text-muted-foreground/50" />
+								</div>
+								<span>Docs Content</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</SidebarProvider>
+		</div>
+	}
+	code={`<SidebarProvider collapsible="none">
+  <Sidebar>
+    <SidebarHeader>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg">
+            <BookOpen />
+            <div className="flex flex-col">
+              <span className="font-semibold">Documentation</span>
+              <span className="text-xs">v1.0.0</span>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+      <SidebarInput placeholder="Search the docs..." />
+    </SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <Collapsible defaultOpen>
+          <SidebarGroupLabel asChild>
+            <CollapsibleTrigger>
+              Getting Started
+              <ChevronDown className="ml-auto size-4" />
+            </CollapsibleTrigger>
+          </SidebarGroupLabel>
+          <CollapsibleContent>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton>Installation</SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </CollapsibleContent>
+        </Collapsible>
+      </SidebarGroup>
+    </SidebarContent>
+  </Sidebar>
+  <SidebarInset>
+    <main>{/* Docs content */}</main>
+  </SidebarInset>
+</SidebarProvider>`}
+/>
+
+---
 
 ## Props
 
 ### SidebarProvider
 
-| Prop                | Type                      | Default  | Description                                              |
-| ------------------- | ------------------------- | -------- | -------------------------------------------------------- |
-| `defaultCollapsed`  | `boolean`                 | `false`  | Initial collapsed state (uncontrolled).                  |
-| `collapsed`         | `boolean`                 | —        | Controlled collapsed state.                              |
-| `onCollapsedChange` | `(v: boolean) => void`    | —        | Called when collapsed state changes.                     |
-| `children`          | `ReactNode`               | —        | App content (should contain `Sidebar` + main content).   |
+| Prop           | Type                                 | Default       | Description                                |
+| -------------- | ------------------------------------ | ------------- | ------------------------------------------ |
+| `defaultOpen`  | `boolean`                            | `true`        | Initial open state (uncontrolled).         |
+| `open`         | `boolean`                            | —             | Controlled open state.                     |
+| `onOpenChange` | `(open: boolean) => void`            | —             | Called when open state changes.            |
+| `variant`      | `"default" \| "floating" \| "inset"` | `"default"`   | Visual variant of the sidebar.             |
+| `collapsible`  | `"offcanvas" \| "icon" \| "none"`    | `"offcanvas"` | How the sidebar collapses.                 |
+| `side`         | `"left" \| "right"`                  | `"left"`      | Which side to place the sidebar.           |
+| `className`    | `string`                             | —             | Additional CSS classes on the wrapper div. |
+| `children`     | `ReactNode`                          | —             | Should contain `Sidebar` + `SidebarInset`. |
+
+All standard `<div>` HTML attributes are also forwarded.
 
 ### Sidebar
 
-| Prop             | Type                    | Default    | Description                                           |
-| ---------------- | ----------------------- | ---------- | ----------------------------------------------------- |
-| `side`           | `"left" \| "right"`    | `"left"`   | Which side the sidebar appears on.                    |
-| `collapsedWidth` | `string`                | `"64px"`   | Width when collapsed.                                 |
-| `expandedWidth`  | `string`                | `"240px"`  | Width when expanded.                                  |
-| `className`      | `string`                | —          | Additional CSS classes on the `<aside>` element.      |
-| `children`       | `ReactNode`             | —          | Header, content, and footer sub-components.           |
+| Prop          | Type                                 | Default        | Description                                       |
+| ------------- | ------------------------------------ | -------------- | ------------------------------------------------- |
+| `side`        | `"left" \| "right"`                  | Provider value | Overrides the provider's side.                    |
+| `variant`     | `"default" \| "floating" \| "inset"` | Provider value | Overrides the provider's variant.                 |
+| `collapsible` | `"offcanvas" \| "icon" \| "none"`    | Provider value | Overrides the provider's collapsible mode.        |
+| `className`   | `string`                             | —              | Additional CSS classes.                           |
+| `children`    | `ReactNode`                          | —              | Header, content, footer, and rail sub-components. |
 
-### SidebarToggle
+All standard `<div>` HTML attributes are also forwarded.
 
-| Prop        | Type        | Default | Description                                           |
-| ----------- | ----------- | ------- | ----------------------------------------------------- |
-| `className` | `string`    | —       | Additional CSS classes on the toggle button.          |
-| `children`  | `ReactNode` | —       | Custom toggle icon (defaults to chevron icons).       |
+### SidebarTrigger
+
+| Prop        | Type        | Default | Description                               |
+| ----------- | ----------- | ------- | ----------------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.                   |
+| `children`  | `ReactNode` | —       | Custom icon (defaults to PanelLeft icon). |
 
 All standard `<button>` HTML attributes are also forwarded.
 
 ### SidebarHeader / SidebarContent / SidebarFooter
 
-| Prop        | Type        | Default | Description                               |
-| ----------- | ----------- | ------- | ----------------------------------------- |
-| `className` | `string`    | —       | Additional CSS classes.                   |
-| `children`  | `ReactNode` | —       | Section content.                          |
+| Prop        | Type        | Default | Description             |
+| ----------- | ----------- | ------- | ----------------------- |
+| `className` | `string`    | —       | Additional CSS classes. |
+| `children`  | `ReactNode` | —       | Section content.        |
 
 All standard `<div>` HTML attributes are also forwarded.
 
-### SidebarSection
+### SidebarGroup
 
-| Prop        | Type        | Default | Description                                              |
-| ----------- | ----------- | ------- | -------------------------------------------------------- |
-| `title`     | `string`    | —       | Section heading (hidden when sidebar is collapsed).      |
-| `className` | `string`    | —       | Additional CSS classes.                                  |
-| `children`  | `ReactNode` | —       | `SidebarItem` children.                                  |
+| Prop        | Type        | Default | Description                       |
+| ----------- | ----------- | ------- | --------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.           |
+| `children`  | `ReactNode` | —       | Group label, action, and content. |
 
-### SidebarItem
+### SidebarGroupLabel
 
-| Prop        | Type        | Default | Description                                              |
-| ----------- | ----------- | ------- | -------------------------------------------------------- |
-| `icon`      | `ReactNode` | —       | Leading icon element.                                    |
-| `label`     | `ReactNode` | —       | Item label text (hidden when collapsed, shown as title). |
-| `active`    | `boolean`   | `false` | Whether this item is the current/active route.           |
-| `disabled`  | `boolean`   | `false` | Disables the item.                                       |
-| `badge`     | `ReactNode` | —       | Trailing badge element (hidden when collapsed).          |
-| `href`      | `string`    | —       | If provided, renders as `<a>` instead of `<button>`.     |
-| `className` | `string`    | —       | Additional CSS classes.                                  |
-| `children`  | `ReactNode` | —       | Alternative to `label` for custom content.               |
+| Prop        | Type        | Default | Description                                           |
+| ----------- | ----------- | ------- | ----------------------------------------------------- |
+| `asChild`   | `boolean`   | `false` | Render as a child element (for collapsible triggers). |
+| `className` | `string`    | —       | Additional CSS classes.                               |
+| `children`  | `ReactNode` | —       | Label content.                                        |
 
-### SidebarMobileOverlay
+### SidebarGroupAction
 
-| Prop        | Type     | Default | Description                                    |
-| ----------- | -------- | ------- | ---------------------------------------------- |
-| `className` | `string` | —       | Additional CSS classes on the overlay backdrop. |
+| Prop        | Type        | Default | Description                         |
+| ----------- | ----------- | ------- | ----------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.             |
+| `children`  | `ReactNode` | —       | Action content (typically an icon). |
+
+All standard `<button>` HTML attributes are also forwarded.
+
+### SidebarGroupContent
+
+| Prop        | Type        | Default | Description             |
+| ----------- | ----------- | ------- | ----------------------- |
+| `className` | `string`    | —       | Additional CSS classes. |
+| `children`  | `ReactNode` | —       | SidebarMenu content.    |
+
+### SidebarMenu
+
+| Prop        | Type        | Default | Description               |
+| ----------- | ----------- | ------- | ------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.   |
+| `children`  | `ReactNode` | —       | SidebarMenuItem children. |
+
+### SidebarMenuItem
+
+| Prop        | Type        | Default | Description                              |
+| ----------- | ----------- | ------- | ---------------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.                  |
+| `children`  | `ReactNode` | —       | Menu button, action, badge, or sub-menu. |
+
+### SidebarMenuButton
+
+| Prop        | Type                        | Default     | Description                                              |
+| ----------- | --------------------------- | ----------- | -------------------------------------------------------- |
+| `isActive`  | `boolean`                   | `false`     | Whether this item is the currently active page.          |
+| `size`      | `"sm" \| "default" \| "lg"` | `"default"` | Size of the button.                                      |
+| `variant`   | `"default" \| "outline"`    | `"default"` | Visual variant.                                          |
+| `tooltip`   | `string \| ReactNode`       | —           | Tooltip shown when collapsed to icon-only mode.          |
+| `asChild`   | `boolean`                   | `false`     | Render as a span wrapper (for Radix `asChild` patterns). |
+| `className` | `string`                    | —           | Additional CSS classes.                                  |
+| `children`  | `ReactNode`                 | —           | Button content (icon + label).                           |
+
+All standard `<button>` HTML attributes are also forwarded.
+
+### SidebarMenuAction
+
+| Prop          | Type        | Default | Description                         |
+| ------------- | ----------- | ------- | ----------------------------------- |
+| `showOnHover` | `boolean`   | `false` | Only show the action on item hover. |
+| `className`   | `string`    | —       | Additional CSS classes.             |
+| `children`    | `ReactNode` | —       | Action content (typically an icon). |
+
+All standard `<button>` HTML attributes are also forwarded.
+
+### SidebarMenuBadge
+
+| Prop        | Type        | Default | Description                        |
+| ----------- | ----------- | ------- | ---------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.            |
+| `children`  | `ReactNode` | —       | Badge content (text, count, icon). |
+
+### SidebarMenuSkeleton
+
+| Prop        | Type      | Default | Description                           |
+| ----------- | --------- | ------- | ------------------------------------- |
+| `showIcon`  | `boolean` | `false` | Whether to show the icon placeholder. |
+| `className` | `string`  | —       | Additional CSS classes.               |
+
+### SidebarMenuSub
+
+| Prop        | Type        | Default | Description                  |
+| ----------- | ----------- | ------- | ---------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.      |
+| `children`  | `ReactNode` | —       | SidebarMenuSubItem children. |
+
+### SidebarMenuSubItem
+
+| Prop        | Type        | Default | Description             |
+| ----------- | ----------- | ------- | ----------------------- |
+| `className` | `string`    | —       | Additional CSS classes. |
+| `children`  | `ReactNode` | —       | Sub-item content.       |
+
+### SidebarMenuSubButton
+
+| Prop        | Type           | Default | Description                                         |
+| ----------- | -------------- | ------- | --------------------------------------------------- |
+| `isActive`  | `boolean`      | `false` | Whether this sub-item is the currently active page. |
+| `size`      | `"sm" \| "md"` | `"md"`  | Size of the sub-button.                             |
+| `className` | `string`       | —       | Additional CSS classes.                             |
+
+All standard `<a>` HTML attributes are also forwarded.
+
+### SidebarSeparator
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### SidebarInput
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+All standard `<input>` HTML attributes are also forwarded.
+
+### SidebarRail
+
+| Prop        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| `className` | `string` | —       | Additional CSS classes. |
+
+### SidebarInset
+
+| Prop        | Type        | Default | Description                        |
+| ----------- | ----------- | ------- | ---------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes.            |
+| `children`  | `ReactNode` | —       | Main content (header, page, etc.). |
+
+---
 
 ## Motion
 
-- **Sidebar width** — Animated with a spring transition (`stiffness: 300, damping: 30, mass: 0.8`) when toggling between collapsed and expanded states.
-- **Section titles** — Fade in/out with `AnimatePresence` when collapsing/expanding.
-- **Item labels** — Animate opacity and width with `AnimatePresence` for a smooth collapse transition.
+- **Sidebar width** — Animated with CSS-based linear easing (`duration: 200ms, ease: [0.25, 0.1, 0.25, 1.0]`) when toggling between collapsed and expanded states.
+- **Mobile sheet** — Slide-in with spring animation (`stiffness: 300, damping: 30, mass: 0.8`) from the sidebar's side.
 - **Mobile overlay** — Uses the `overlayBackdrop` motion preset for a backdrop blur fade.
-- All animations respect `prefers-reduced-motion` via `useReducedMotion()`.
+- **Tooltips** — CSS-based `animate-in` / `fade-in` / `zoom-in` for icon-mode tooltips.
+- All animations respect `prefers-reduced-motion` via Framer Motion's `useReducedMotion()`.
+
+---
 
 ## Accessibility
 
-- The sidebar renders as a semantic `<aside>` element.
-- The `SidebarToggle` button has `aria-label` ("Expand sidebar" / "Collapse sidebar") and `aria-expanded`.
+- The sidebar renders inside a semantic `<div>` with `data-ds-component="sidebar"` for styling hooks.
+- `SidebarTrigger` has `aria-label` ("Expand sidebar" / "Collapse sidebar") and `aria-expanded`.
 - Active items use `aria-current="page"` for assistive technologies.
-- Disabled items have `disabled` forwarded and are excluded from tab order.
-- When collapsed, items show a native `title` tooltip with the label text.
+- `SidebarMenu` renders as `<ul>` and `SidebarMenuItem` as `<li>` for proper list semantics.
+- When collapsed to icon-only mode, `SidebarMenuButton` shows Radix UI tooltips (accessible by keyboard and screen readers).
 - The mobile overlay dismisses the sidebar on click.
+- Keyboard shortcut `Ctrl+B` / `⌘B` toggles the sidebar globally.
 - All interactive elements use the design system focus ring for visible keyboard focus.
+- The `SidebarRail` has `tabIndex={-1}` to be click-only (not keyboard-focusable).
+
+---
 
 ## Design Tokens
 
-| Token                | Usage                                    |
-| -------------------- | ---------------------------------------- |
-| `--background`       | Sidebar background color                 |
-| `--border`           | Sidebar border, header/footer borders    |
-| `--accent`           | Active item background, hover state      |
-| `--accent-foreground`| Active item text color                   |
-| `--muted-foreground` | Inactive item text, section titles       |
-| `--foreground`       | Item text on hover                       |
-| `--ring`             | Focus ring color                         |
-| `--duration-fast`    | Hover/focus transition speed             |
+| Token                          | Usage                               |
+| ------------------------------ | ----------------------------------- |
+| `--sidebar`                    | Sidebar background color            |
+| `--sidebar-foreground`         | Sidebar text color                  |
+| `--sidebar-primary`            | Primary accent (tooltip background) |
+| `--sidebar-primary-foreground` | Primary accent text (tooltip text)  |
+| `--sidebar-accent`             | Active/hover item background        |
+| `--sidebar-accent-foreground`  | Active/hover item text color        |
+| `--sidebar-border`             | Sidebar borders, rail, separators   |
+| `--sidebar-ring`               | Focus ring color                    |
+| `--duration-fast`              | Hover/focus transition speed        |

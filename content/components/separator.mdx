@@ -1,0 +1,404 @@
+---
+title: Separator
+description: A visual divider between content sections with horizontal/vertical orientation, label support, and multiple style variants.
+icon: SeparatorHorizontal
+---
+
+import { Separator } from "@work-rjkashyap/unified-ui/components";
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Basic
+
+A visual separator line used to divide content into distinct sections. Built on Radix UI's Separator primitive with design system tokens.
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-0 w-full max-w-sm">
+			<p className="text-sm">Content above</p>
+			<Separator />
+			<p className="text-sm">Content below</p>
+		</div>
+	}
+	code={`<p>Content above</p>
+<Separator />
+<p>Content below</p>`}
+/>
+
+## Installation
+
+Install the component via the CLI in one command.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npx @work-rjkashyap/unified-ui add separator
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm dlx @work-rjkashyap/unified-ui add separator
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+npx @work-rjkashyap/unified-ui add separator
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bunx @work-rjkashyap/unified-ui add separator
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	If you haven't initialized your project yet, run `npx @work-rjkashyap/unified-ui init` first. See the [CLI docs](/docs/cli) for details.
+</Callout>
+
+## Or install the full package
+
+Use this approach if you prefer to install the entire design system as a dependency instead of copying individual components.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+<Tab value="npm">
+
+```bash
+npm install @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @work-rjkashyap/unified-ui
+```
+
+</Tab>
+</Tabs>
+
+## Anatomy
+
+```tsx
+import { Separator } from "@work-rjkashyap/unified-ui";
+```
+
+## Examples
+
+### Horizontal (default)
+
+The default orientation is horizontal — a full-width line with vertical margin.
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-0 w-full max-w-sm">
+			<div className="text-sm font-medium">Section One</div>
+			<Separator />
+			<div className="text-sm font-medium">Section Two</div>
+			<Separator />
+			<div className="text-sm font-medium">Section Three</div>
+		</div>
+	}
+	code={`<div>Section One</div>
+<Separator />
+<div>Section Two</div>
+<Separator />
+<div>Section Three</div>`}
+/>
+
+### Vertical
+
+Use `orientation="vertical"` for inline dividers — for example, between toolbar items or navigation links. The parent must have a defined height (e.g. `flex` with `items-center`).
+
+<PreviewCard
+	preview={
+		<div className="flex items-center h-6 gap-0">
+			<span className="text-sm">Home</span>
+			<Separator orientation="vertical" spacing={3} />
+			<span className="text-sm">Blog</span>
+			<Separator orientation="vertical" spacing={3} />
+			<span className="text-sm">About</span>
+		</div>
+	}
+	code={`<div className="flex items-center h-6">
+  <span>Home</span>
+  <Separator orientation="vertical" spacing={3} />
+  <span>Blog</span>
+  <Separator orientation="vertical" spacing={3} />
+  <span>About</span>
+</div>`}
+/>
+
+### Variants
+
+Four visual variants to match different contexts.
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-0 w-full max-w-sm">
+			<div className="flex flex-col gap-1">
+				<span className="text-xs font-medium text-muted-foreground">Default</span>
+			</div>
+			<Separator variant="default" />
+			<div className="flex flex-col gap-1">
+				<span className="text-xs font-medium text-muted-foreground">Muted</span>
+			</div>
+			<Separator variant="muted" />
+			<div className="flex flex-col gap-1">
+				<span className="text-xs font-medium text-muted-foreground">Dashed</span>
+			</div>
+			<Separator variant="dashed" />
+			<div className="flex flex-col gap-1">
+				<span className="text-xs font-medium text-muted-foreground">Gradient</span>
+			</div>
+			<Separator variant="gradient" />
+		</div>
+	}
+	code={`<Separator variant="default" />
+<Separator variant="muted" />
+<Separator variant="dashed" />
+<Separator variant="gradient" />`}
+/>
+
+| Variant    | Description                                        |
+| ---------- | -------------------------------------------------- |
+| `default`  | Solid line using the `border` token color.         |
+| `muted`    | Lighter line at reduced opacity.                   |
+| `dashed`   | Dashed border style for a softer division.         |
+| `gradient` | Fades from transparent at edges through the center.|
+
+### Spacing
+
+Control the margin around the separator using the `spacing` prop with the Tailwind spacing scale.
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-0 w-full max-w-sm">
+			<span className="text-xs text-muted-foreground">spacing={0}</span>
+			<Separator spacing={0} />
+			<span className="text-xs text-muted-foreground">spacing={2}</span>
+			<Separator spacing={2} />
+			<span className="text-xs text-muted-foreground">spacing={4} (default)</span>
+			<Separator spacing={4} />
+			<span className="text-xs text-muted-foreground">spacing={8}</span>
+			<Separator spacing={8} />
+			<span className="text-xs text-muted-foreground">spacing={12}</span>
+			<Separator spacing={12} />
+			<span className="text-xs text-muted-foreground">End</span>
+		</div>
+	}
+	code={`<Separator spacing={0} />
+<Separator spacing={2} />
+<Separator spacing={4} />  {/* default */}
+<Separator spacing={8} />
+<Separator spacing={12} />`}
+/>
+
+| Spacing | Horizontal Margin | Vertical Margin |
+| ------- | ----------------- | --------------- |
+| `0`     | `my-0`            | `mx-0`          |
+| `1`     | `my-1`            | `mx-1`          |
+| `2`     | `my-2`            | `mx-2`          |
+| `3`     | `my-3`            | `mx-3`          |
+| `4`     | `my-4` (default)  | `mx-4`          |
+| `5`     | `my-5`            | `mx-5`          |
+| `6`     | `my-6`            | `mx-6`          |
+| `8`     | `my-8`            | `mx-8`          |
+| `10`    | `my-10`           | `mx-10`         |
+| `12`    | `my-12`           | `mx-12`         |
+
+### With Label
+
+Pass a `label` prop to render centered text on the separator — useful for "or" dividers, section breaks, and form layouts. Labels are only supported with horizontal orientation.
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-0 w-full max-w-sm">
+			<Separator label="OR" />
+			<Separator label="Continue with" />
+			<Separator label="Section Break" variant="muted" />
+		</div>
+	}
+	code={`<Separator label="OR" />
+<Separator label="Continue with" />
+<Separator label="Section Break" variant="muted" />`}
+/>
+
+### Labeled with Gradient
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-0 w-full max-w-sm">
+			<Separator label="OR" variant="gradient" />
+		</div>
+	}
+	code={`<Separator label="OR" variant="gradient" />`}
+/>
+
+## Real-World Examples
+
+### Settings Section Divider
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col w-full max-w-sm">
+			<div className="flex flex-col gap-1">
+				<span className="text-sm font-medium">Account</span>
+				<span className="text-xs text-muted-foreground">Manage your account settings and preferences.</span>
+			</div>
+			<Separator spacing={4} />
+			<div className="flex flex-col gap-1">
+				<span className="text-sm font-medium">Notifications</span>
+				<span className="text-xs text-muted-foreground">Choose what notifications you want to receive.</span>
+			</div>
+			<Separator spacing={4} />
+			<div className="flex flex-col gap-1">
+				<span className="text-sm font-medium">Privacy</span>
+				<span className="text-xs text-muted-foreground">Control who can see your information.</span>
+			</div>
+		</div>
+	}
+	code={`<div className="flex flex-col gap-1">
+  <span className="text-sm font-medium">Account</span>
+  <span className="text-xs text-muted-foreground">Manage your account settings.</span>
+</div>
+<Separator />
+<div className="flex flex-col gap-1">
+  <span className="text-sm font-medium">Notifications</span>
+  <span className="text-xs text-muted-foreground">Choose your notifications.</span>
+</div>
+<Separator />
+<div className="flex flex-col gap-1">
+  <span className="text-sm font-medium">Privacy</span>
+  <span className="text-xs text-muted-foreground">Control your information.</span>
+</div>`}
+/>
+
+### Login Form Divider
+
+<PreviewCard
+	preview={
+		<div className="flex flex-col gap-4 w-full max-w-xs">
+			<div className="h-9 rounded-md bg-muted flex items-center justify-center text-xs text-muted-foreground">Sign in with Google</div>
+			<Separator label="OR" spacing={0} />
+			<div className="h-9 rounded-md border border-border flex items-center justify-center text-xs text-muted-foreground">Email &amp; Password</div>
+		</div>
+	}
+	code={`<Button variant="outline" className="w-full">Sign in with Google</Button>
+<Separator label="OR" spacing={0} />
+<form>
+  <Input placeholder="Email" />
+  <Input type="password" placeholder="Password" />
+  <Button className="w-full">Sign In</Button>
+</form>`}
+/>
+
+### Toolbar Divider
+
+<PreviewCard
+	preview={
+		<div className="flex items-center gap-0 h-9 px-3 border border-border rounded-md">
+			<span className="text-xs font-medium">Bold</span>
+			<Separator orientation="vertical" spacing={2} />
+			<span className="text-xs font-medium">Italic</span>
+			<Separator orientation="vertical" spacing={2} />
+			<span className="text-xs font-medium">Underline</span>
+			<Separator orientation="vertical" spacing={3} />
+			<span className="text-xs font-medium">Left</span>
+			<Separator orientation="vertical" spacing={2} />
+			<span className="text-xs font-medium">Center</span>
+			<Separator orientation="vertical" spacing={2} />
+			<span className="text-xs font-medium">Right</span>
+		</div>
+	}
+	code={`<div className="flex items-center h-9 px-3 border border-border rounded-md">
+  <span>Bold</span>
+  <Separator orientation="vertical" spacing={2} />
+  <span>Italic</span>
+  <Separator orientation="vertical" spacing={2} />
+  <span>Underline</span>
+  <Separator orientation="vertical" spacing={3} />
+  <span>Left</span>
+  <Separator orientation="vertical" spacing={2} />
+  <span>Center</span>
+  <Separator orientation="vertical" spacing={2} />
+  <span>Right</span>
+</div>`}
+/>
+
+---
+
+## Props
+
+| Prop          | Type                                                       | Default        | Description                                                                |
+| ------------- | ---------------------------------------------------------- | -------------- | -------------------------------------------------------------------------- |
+| `variant`     | `"default" \| "muted" \| "dashed" \| "gradient"`          | `"default"`    | Visual style of the separator line.                                        |
+| `orientation` | `"horizontal" \| "vertical"`                               | `"horizontal"` | Direction of the separator.                                                |
+| `decorative`  | `boolean`                                                  | `true`         | When `true`, hidden from assistive technology. When `false`, renders as a semantic separator. |
+| `spacing`     | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 8 \| 10 \| 12`     | `4`            | Margin around the separator (vertical for horizontal, horizontal for vertical). |
+| `label`       | `ReactNode`                                                | —              | Optional centered label text. Only supported for horizontal orientation.   |
+| `className`   | `string`                                                   | —              | Additional CSS classes.                                                    |
+
+All standard HTML attributes are forwarded to the underlying Radix UI `Separator.Root` element.
+
+---
+
+## Accessibility
+
+<Callout type="info">
+	Most separators are purely decorative. Only set `decorative={false}` when the
+	separator conveys meaningful structure (e.g., separating form sections that a
+	screen reader should announce).
+</Callout>
+
+- **`decorative={true}`** (default) — Renders with `role="none"`, completely hidden from assistive technology. Use this for visual-only dividers.
+- **`decorative={false}`** — Renders with `role="separator"` and `aria-orientation`, making it visible to screen readers as a structural boundary.
+- **Label text** — When a `label` is provided, the text is visible but does not affect semantics when `decorative` is `true`. For non-decorative labeled separators, the wrapper receives the separator role.
+
+---
+
+## Separator vs. Divider
+
+The design system includes both a `Separator` component (in the components layer) and a `Divider` primitive (in the primitives layer):
+
+| Feature         | Separator                              | Divider                  |
+| --------------- | -------------------------------------- | ------------------------ |
+| **Layer**       | Components                             | Primitives               |
+| **Built on**    | Radix UI Separator                     | Native `<hr>` element    |
+| **Variants**    | `default`, `muted`, `dashed`, `gradient` | None                   |
+| **Labels**      | ✅ Supported                            | ❌ Not supported          |
+| **Decorative**  | ✅ Radix-managed `role`                 | Relies on `aria-orientation` |
+| **Use case**    | Rich dividers with labels and variants | Simple spacing lines     |
+
+Use `Separator` when you need variant styling, labels, or Radix-level accessibility semantics. Use `Divider` for simple, lightweight spacing lines in layout primitives.
+
+---
+
+## Design Tokens
+
+| Token            | Usage                                        |
+| ---------------- | -------------------------------------------- |
+| `--border`       | Default separator line color                 |
+| `--muted-foreground` | Muted variant and label text color      |

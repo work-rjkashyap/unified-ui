@@ -6,11 +6,11 @@
 		"packages/*"
 	],
 	"scripts": {
-		"build": "npm run build:registry && next build",
+		"build": "NODE_OPTIONS='--max-old-space-size=8192' sh -c 'npm run build:registry && next build'",
 		"build:ds": "npm run build --workspace=@work-rjkashyap/unified-ui",
 		"build:registry": "node scripts/build-registry.mjs",
 		"pack:ds": "npm run build:ds && cd packages/unified-ui && npm pack --pack-destination ../../",
-		"dev": "next dev",
+		"dev": "NODE_OPTIONS='--max-old-space-size=8192' next dev",
 		"dev:ds": "npm run dev --workspace=@work-rjkashyap/unified-ui",
 		"start": "next start",
 		"types:check": "fumadocs-mdx && next typegen && tsc --noEmit",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Paintbrush, Palette, Copy, Sparkles } from "lucide-react";
+import { Paintbrush, Palette, Copy, Sparkles, Component } from "lucide-react";
 import { CustomizerSidebar } from "./_components/customizer-sidebar";
 import { PreviewArea } from "./_components/preview-area";
 
@@ -13,7 +13,7 @@ export default function ThemesPage() {
 	return (
 		<div className="min-h-screen">
 			{/* Hero Header */}
-			<section className="border-b border-border bg-gradient-to-b from-muted/30 to-background">
+			<section className="border-b border-border bg-linear-to-b from-muted/30 to-background">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
 					<div className="flex flex-col items-center text-center max-w-2xl mx-auto">
 						<div className="flex items-center justify-center size-12 rounded-xl bg-primary/10 text-primary border border-primary/20 mb-5">
@@ -27,10 +27,15 @@ export default function ThemesPage() {
 							Customize your theme
 						</h1>
 						<p className="text-base text-muted-foreground leading-relaxed max-w-lg">
-							Easily select colors, fine-tune styles, and generate
-							a theme that fits your project in seconds.
+							Pick colors, fine-tune styles, and preview 25+
+							components in a live bento grid — then copy the CSS
+							for your project in seconds.
 						</p>
 						<div className="flex flex-wrap items-center justify-center gap-3 mt-6 text-xs text-muted-foreground">
+							<span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted border border-border">
+								<Component className="size-3" />
+								25+ Components
+							</span>
 							<span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted border border-border">
 								<Paintbrush className="size-3" />5 Style Presets
 							</span>
@@ -51,7 +56,7 @@ export default function ThemesPage() {
 			<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 				<div className="flex flex-col lg:flex-row gap-6">
 					{/* Customizer Sidebar */}
-					<aside className="w-full lg:w-[340px] xl:w-[360px] shrink-0">
+					<aside className="w-full lg:w-85 xl:w-90 shrink-0">
 						<CustomizerSidebar />
 					</aside>
 

@@ -542,6 +542,17 @@ export {
   selectTriggerVariants,
 } from "./select";
 // ---------------------------------------------------------------------------
+// Separator
+// ---------------------------------------------------------------------------
+export {
+  Separator,
+  type SeparatorOrientation,
+  type SeparatorProps,
+  type SeparatorSpacing,
+  type SeparatorVariant,
+  separatorVariants,
+} from "./separator";
+// ---------------------------------------------------------------------------
 // Sheet
 // ---------------------------------------------------------------------------
 export {
@@ -918,23 +929,65 @@ export {
 // ---------------------------------------------------------------------------
 export {
   Sidebar,
+  type SidebarCollapsible,
   SidebarContent,
   type SidebarContentProps,
   SidebarFooter,
   type SidebarFooterProps,
+  SidebarGroup,
+  SidebarGroupAction,
+  type SidebarGroupActionProps,
+  SidebarGroupContent,
+  type SidebarGroupContentProps,
+  SidebarGroupLabel,
+  type SidebarGroupLabelProps,
+  type SidebarGroupProps,
   SidebarHeader,
   type SidebarHeaderProps,
+  SidebarInput,
+  type SidebarInputProps,
+  SidebarInset,
+  type SidebarInsetProps,
   SidebarItem,
   type SidebarItemProps,
+  SidebarMenu,
+  SidebarMenuAction,
+  type SidebarMenuActionProps,
+  SidebarMenuBadge,
+  type SidebarMenuBadgeProps,
+  SidebarMenuButton,
+  type SidebarMenuButtonProps,
+  type SidebarMenuButtonSize,
+  type SidebarMenuButtonVariant,
+  SidebarMenuItem,
+  type SidebarMenuItemProps,
+  type SidebarMenuProps,
+  SidebarMenuSkeleton,
+  type SidebarMenuSkeletonProps,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  type SidebarMenuSubButtonProps,
+  SidebarMenuSubItem,
+  type SidebarMenuSubItemProps,
+  type SidebarMenuSubProps,
   SidebarMobileOverlay,
   type SidebarMobileOverlayProps,
   type SidebarProps,
   SidebarProvider,
   type SidebarProviderProps,
+  SidebarRail,
+  type SidebarRailProps,
   SidebarSection,
   type SidebarSectionProps,
+  SidebarSeparator,
+  type SidebarSeparatorProps,
+  type SidebarSide,
   SidebarToggle,
   type SidebarToggleProps,
+  SidebarTrigger,
+  type SidebarTriggerProps,
+  type SidebarVariant,
+  useSidebar,
   useSidebarContext,
 } from "./sidebar";
 

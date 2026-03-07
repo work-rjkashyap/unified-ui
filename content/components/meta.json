@@ -79,6 +79,7 @@
 		"tree-view",
 		"infinite-scroll",
 		"---Layout---",
+		"separator",
 		"resizable",
 		"virtual-list",
 		"---Utility---",

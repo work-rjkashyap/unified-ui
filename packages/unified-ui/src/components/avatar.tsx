@@ -61,8 +61,6 @@ export const avatarVariants = cva(
     "font-medium leading-none select-none",
     // Default colors for fallback state
     "bg-muted text-muted-foreground",
-    // Border for visual separation on grouped/colored backgrounds
-    "ring-2 ring-background",
   ],
   {
     variants: {
@@ -267,13 +265,14 @@ function getInitials(name: string): string {
 function DefaultFallbackIcon({ className }: { className?: string }) {
   return (
     <svg
-      className={cn("size-[60%] text-current opacity-60", className)}
+      className={cn("size-8 translate-y-px text-current opacity-70", className)}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       aria-hidden="true"
     >
-      <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.866 0-7 1.79-7 4v1a1 1 0 001 1h12a1 1 0 001-1v-1c0-2.21-3.134-4-7-4z" />
+       <circle cx="12" cy="7" r="4" />
+      <path d="M12 14c-4.42 0-8 2.24-8 5v5h16v-5c0-2.76-3.58-5-8-5z" />
     </svg>
   );
 }
@@ -544,11 +543,11 @@ export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 // ---------------------------------------------------------------------------
 
 const overlapMap: Record<AvatarSize, Record<string, string>> = {
-  xs: { tight: "-ml-2", default: "-ml-1.5", loose: "-ml-1" },
-  sm: { tight: "-ml-3", default: "-ml-2", loose: "-ml-1.5" },
-  md: { tight: "-ml-4", default: "-ml-3", loose: "-ml-2" },
-  lg: { tight: "-ml-5", default: "-ml-3.5", loose: "-ml-2.5" },
-  xl: { tight: "-ml-6", default: "-ml-4", loose: "-ml-3" },
+  xs: { tight: "-ml-3", default: "-ml-2.5", loose: "-ml-1.5" },
+  sm: { tight: "-ml-4", default: "-ml-3", loose: "-ml-2" },
+  md: { tight: "-ml-5", default: "-ml-4", loose: "-ml-3" },
+  lg: { tight: "-ml-6", default: "-ml-5", loose: "-ml-3.5" },
+  xl: { tight: "-ml-8", default: "-ml-6", loose: "-ml-4" },
 };
 
 // ---------------------------------------------------------------------------
@@ -652,13 +651,20 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
               className={cn(
                 index > 0 && overlapClass,
                 // Ensure proper stacking order (first avatar on top)
-                "relative",
+                // z-index is set via CSS var so hover:z-50! (Tailwind) can override it
+                "relative inline-flex cursor-pointer transition-transform duration-150 ease-out",
+                "z-(--ag-z)",
+                "hover:z-50! hover:scale-110",
               )}
-              style={{ zIndex: totalCount - index }}
+              style={{ "--ag-z": totalCount - index } as React.CSSProperties}
             >
               {cloneElement(child as ReactElement<AvatarProps>, {
                 size,
                 shape,
+                className: cn(
+                  (child as ReactElement<AvatarProps>).props?.className,
+                  "ring-2 ring-background",
+                ),
               })}
             </span>
           );
@@ -666,10 +672,17 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
 
         {/* Overflow indicator */}
         {overflowCount > 0 && (
-          <span className={cn(overlapClass, "relative")} style={{ zIndex: 0 }}>
+          <span
+            className={cn(
+              overlapClass,
+              "relative inline-flex z-(--ag-z)",
+            )}
+            style={{ "--ag-z": 0 } as React.CSSProperties}
+          >
             <span
               className={cn(
                 avatarVariants({ size, shape }),
+                "ring-2 ring-background",
                 "bg-muted text-muted-foreground",
                 "font-semibold",
               )}
