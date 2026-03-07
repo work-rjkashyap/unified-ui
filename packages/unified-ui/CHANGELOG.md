@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Add loading skeleton for themes page and enhance sidebar functionality
+- Implemented a loading skeleton component for the themes page to improve user experience during data fetching.
+  - Refactored sidebar components to enhance readability and maintainability, including updates to context management and hover behavior.
+  - Updated toast preview component with new variant definitions and improved UI for toast actions.
+  - Enhanced MDX components registration to include new previews and maintain consistency across the application. ([8365d81](https://github.com/imrj05/unified-ui/commit/8365d812ea7afcab2917043935669e7bc07f9e07))
 - Add overlays preview component with dialogs, dropdowns, and popovers; implement table preview with sample data and actions ([ea1cd70](https://github.com/imrj05/unified-ui/commit/ea1cd70f5f0456760ba15aebde3702f18e580191))
 - Update layouts and navigation components for improved UI and new themes
 - Enhanced the Layout components across various sections (company, docs, legal, resources) to include a transparent navigation mode.
@@ -46,6 +51,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([ea0ff88](https://github.com/imrj05/unified-ui/commit/ea0ff88e24c5bfa919db43f313b679b4c69dad1a))
 - **changelog:** Auto-update unreleased entries [skip ci] ([e5002e4](https://github.com/imrj05/unified-ui/commit/e5002e412e06361d1f6e71ace066f354b38ee631))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6bcfc25](https://github.com/imrj05/unified-ui/commit/6bcfc259c33d596ac0324831df95cc29e60f303f))
 - **changelog:** Auto-update unreleased entries [skip ci] ([1971cd8](https://github.com/imrj05/unified-ui/commit/1971cd81a04d7b6e92e0ed925a3f33783254bf2c))
