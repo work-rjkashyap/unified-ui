@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **tsconfig:** Format and update paths in tsconfig.json ([b4cd53c](https://github.com/imrj05/unified-ui/commit/b4cd53c8963081fdd315a3b5955f9a14edbb1f3b))
+- **changelog:** Auto-update unreleased entries [skip ci] ([da78e1a](https://github.com/imrj05/unified-ui/commit/da78e1a8c7102af9289518def430a70c6da16ffc))
+## [0.3.1] — 2026-03-07
+
+### 🏗️ Miscellaneous
+
 - Update version to 0.3.1 in package.json ([5dc589d](https://github.com/imrj05/unified-ui/commit/5dc589dac389f1f9714513574d58d6b30c1948a0))
 - **changelog:** Auto-update unreleased entries [skip ci] ([de99bae](https://github.com/imrj05/unified-ui/commit/de99baed40b7fdbe6e130b8436acd455b92ba3b3))
 - Update version to 0.3.0 in package.json ([0da22c2](https://github.com/imrj05/unified-ui/commit/0da22c2c96ce3303fd619df4a2daed3b50eb5a76))
