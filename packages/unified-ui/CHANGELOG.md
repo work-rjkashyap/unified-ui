@@ -38,6 +38,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🐛 Bug Fixes
 
+- Update exports in unified-ui dist file to include new components and variants ([44145eb](https://github.com/imrj05/unified-ui/commit/44145ebee0f7081beb1b9ada91e0205fced098e5))
 - Enhance changelog script to scan all commits if no tags are found ([fdbb105](https://github.com/imrj05/unified-ui/commit/fdbb105c47e4afa1f999b0eddfe884a903b76466))
 - Update component links from /docs/components to /components ([d511280](https://github.com/imrj05/unified-ui/commit/d511280063616413efb9235d81d21eabf467b2ca))
 
@@ -52,6 +53,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([bf93189](https://github.com/imrj05/unified-ui/commit/bf931896586457223f5e2a60cbbae2955ecb202d))
 - **changelog:** Auto-update unreleased entries [skip ci] ([2c133db](https://github.com/imrj05/unified-ui/commit/2c133dbc6225bde8a5e95320b6e3c857afa7038c))
 - Update package version to 0.2.4 and correct homepage URL ([e055e60](https://github.com/imrj05/unified-ui/commit/e055e6044a0870dde83a4788158f0fe24ae15544))
 - **changelog:** Auto-update unreleased entries [skip ci] ([29ba39b](https://github.com/imrj05/unified-ui/commit/29ba39bfb6657de25e35aec17a2318a8c309a029))
