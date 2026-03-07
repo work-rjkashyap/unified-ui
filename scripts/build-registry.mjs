@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 // ============================================================================
 // Unified UI — Registry Build Script
 // ============================================================================
@@ -18,7 +17,6 @@
 // Schema (Unified UI Registry — NOT shadcn):
 //   See registry-schema.md for the full spec.
 // ============================================================================
-
 import {
 	readFileSync,
 	writeFileSync,
@@ -27,12 +25,13 @@ import {
 	readdirSync,
 } from "node:fs";
 import { join, basename, extname } from "node:path";
-
 // ---------------------------------------------------------------------------
 // Paths
 // ---------------------------------------------------------------------------
-
 const ROOT = new URL("..", import.meta.url).pathname;
+const DS_PKG = JSON.parse(
+	readFileSync(join(ROOT, "packages/unified-ui/package.json"), "utf-8"),
+);
 const DS_SRC = join(ROOT, "packages/unified-ui/src");
 const COMPONENTS_DIR = join(DS_SRC, "components");
 const UTILS_DIR = join(DS_SRC, "utils");
@@ -42,15 +41,12 @@ const THEME_DIR = join(DS_SRC, "theme");
 const PRIMITIVES_DIR = join(DS_SRC, "primitives");
 const OUTPUT_DIR = join(ROOT, "public/r");
 const STYLES_PATH = join(ROOT, "packages/unified-ui/styles.css");
-
 // ---------------------------------------------------------------------------
 // Registry schema version
 // ---------------------------------------------------------------------------
-
 const SCHEMA_VERSION = "1.0.0";
 const REGISTRY_NAME = "unified-ui";
 const REGISTRY_HOMEPAGE = "https://unified-ui-rajeshwar.vercel.app";
-
 // ---------------------------------------------------------------------------
 // Dependency maps
 // ---------------------------------------------------------------------------
@@ -58,7 +54,6 @@ const REGISTRY_HOMEPAGE = "https://unified-ui-rajeshwar.vercel.app";
 // When a component imports from e.g. "class-variance-authority", that
 // package is listed as a dependency in the registry item.
 // ---------------------------------------------------------------------------
-
 const NPM_DEPENDENCY_MAP = {
 	"class-variance-authority": "class-variance-authority",
 	clsx: "clsx",
@@ -71,11 +66,9 @@ const NPM_DEPENDENCY_MAP = {
 	"@tanstack/react-table": "@tanstack/react-table",
 	recharts: "recharts",
 };
-
 // ---------------------------------------------------------------------------
 // Internal dependency categories
 // ---------------------------------------------------------------------------
-
 const INTERNAL_FILE_CATEGORIES = {
 	"utils/cn": { type: "utils", name: "cn" },
 	"utils/focus-ring": { type: "utils", name: "focus-ring" },
@@ -83,14 +76,12 @@ const INTERNAL_FILE_CATEGORIES = {
 	"utils/types": { type: "utils", name: "types" },
 	motion: { type: "motion", name: "motion" },
 };
-
 // ---------------------------------------------------------------------------
 // Component metadata overrides
 // ---------------------------------------------------------------------------
 // Some components need manual metadata because it can't be inferred from
 // the source file alone.
 // ---------------------------------------------------------------------------
-
 const COMPONENT_META = {
 	accordion: {
 		title: "Accordion",
@@ -541,14 +532,12 @@ const COMPONENT_META = {
 		sinceVersion: "0.3.0",
 	},
 };
-
 // ---------------------------------------------------------------------------
 // Cross-component internal dependency map
 // ---------------------------------------------------------------------------
 // When component A imports from component B (e.g. confirm-dialog imports
 // alert-dialog), that's a registryDependency — the user also needs B.
 // ---------------------------------------------------------------------------
-
 const COMPONENT_DEPENDENCY_MAP = {
 	"alert-dialog": ["button"],
 	"confirm-dialog": ["alert-dialog", "button"],
@@ -577,11 +566,9 @@ const COMPONENT_DEPENDENCY_MAP = {
 	"theme-toggle": ["button"],
 	"toggle-group": ["toggle"],
 };
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
 /**
  * Read a source file and return its content.
  */
@@ -592,7 +579,6 @@ function readSource(filePath) {
 		return null;
 	}
 }
-
 /**
  * Extract npm dependencies from import statements in source code.
  */
@@ -606,14 +592,12 @@ function extractNpmDeps(source) {
 		const pkgName = pkg.startsWith("@")
 			? pkg.split("/").slice(0, 2).join("/")
 			: pkg.split("/")[0];
-
 		if (NPM_DEPENDENCY_MAP[pkgName]) {
 			deps.add(NPM_DEPENDENCY_MAP[pkgName]);
 		}
 	}
 	return [...deps];
 }
-
 /**
  * Extract internal unified-ui dependencies from import statements.
  * Returns which util/motion files are needed.
@@ -623,7 +607,6 @@ function extractInternalDeps(source) {
 		utils: new Set(),
 		motion: false,
 	};
-
 	// Match @unified-ui/* imports
 	const internalRegex = /from\s+["']@unified-ui\/([^"']+)["']/g;
 	let match;
@@ -636,20 +619,17 @@ function extractInternalDeps(source) {
 			deps.motion = true;
 		}
 	}
-
 	return {
 		utils: [...deps.utils],
 		motion: deps.motion,
 	};
 }
-
 /**
  * Detect if the file has "use client" directive.
  */
 function isClientComponent(source) {
 	return /^["']use client["'];?\s*$/m.test(source);
 }
-
 /**
  * Extract exported symbol names from a source file.
  */
@@ -697,7 +677,6 @@ function extractExports(source) {
 	}
 	return [...new Set(exports)];
 }
-
 /**
  * Rewrite @unified-ui/* imports to local project paths.
  * e.g. @unified-ui/utils/cn -> @/lib/cn
@@ -707,55 +686,45 @@ function extractExports(source) {
  */
 function rewriteImports(source) {
 	let result = source;
-
 	// Rewrite @unified-ui/utils/* -> @/lib/*
 	result = result.replace(
 		/from\s+["']@unified-ui\/utils\/([^"']+)["']/g,
 		'from "@/lib/$1"',
 	);
-
 	// Rewrite @unified-ui/motion/* or @unified-ui/motion -> @/lib/motion
 	result = result.replace(
 		/from\s+["']@unified-ui\/motion(?:\/([^"']+))?["']/g,
 		(_, sub) =>
 			sub ? `from "@/lib/motion/${sub}"` : `from "@/lib/motion"`,
 	);
-
 	// Rewrite @unified-ui/tokens/* -> @/lib/tokens/*
 	result = result.replace(
 		/from\s+["']@unified-ui\/tokens\/([^"']+)["']/g,
 		'from "@/lib/tokens/$1"',
 	);
-
 	return result;
 }
-
 // ---------------------------------------------------------------------------
 // Build a single registry item
 // ---------------------------------------------------------------------------
-
 function buildComponentItem(name) {
 	const ext = ".tsx";
 	const filePath = join(COMPONENTS_DIR, `${name}${ext}`);
 	const source = readSource(filePath);
-
 	if (!source) {
 		console.warn(`  ⚠ Skipping ${name}: source file not found`);
 		return null;
 	}
-
 	const meta = COMPONENT_META[name];
 	if (!meta) {
 		console.warn(`  ⚠ Skipping ${name}: no metadata defined`);
 		return null;
 	}
-
 	const npmDeps = extractNpmDeps(source);
 	const internalDeps = extractInternalDeps(source);
 	const client = isClientComponent(source);
 	const exports = extractExports(source);
 	const crossDeps = COMPONENT_DEPENDENCY_MAP[name] || [];
-
 	// Build the file list: the component itself + required utils
 	const files = [
 		{
@@ -765,13 +734,10 @@ function buildComponentItem(name) {
 			target: `components/ui/${name}${ext}`,
 		},
 	];
-
 	// Collect which utility files this component needs
 	const requiredUtils = new Set(internalDeps.utils);
-
 	// Also collect utils needed by cross-dependencies (transitive)
 	// (We don't inline those here — they'll be resolved at install time)
-
 	const item = {
 		$schema: `${REGISTRY_HOMEPAGE}/schema/registry-item.json`,
 		name,
@@ -791,24 +757,18 @@ function buildComponentItem(name) {
 		},
 		files,
 	};
-
 	return item;
 }
-
 // ---------------------------------------------------------------------------
 // Build utility items (cn, focus-ring, etc.)
 // ---------------------------------------------------------------------------
-
 function buildUtilItem(name) {
 	const ext = ".ts";
 	const filePath = join(UTILS_DIR, `${name}${ext}`);
 	const source = readSource(filePath);
-
 	if (!source) return null;
-
 	const npmDeps = extractNpmDeps(source);
 	const exports = extractExports(source);
-
 	return {
 		$schema: `${REGISTRY_HOMEPAGE}/schema/registry-item.json`,
 		name,
@@ -831,17 +791,14 @@ function buildUtilItem(name) {
 		],
 	};
 }
-
 // ---------------------------------------------------------------------------
 // Build motion item
 // ---------------------------------------------------------------------------
-
 function buildMotionItem() {
 	// Motion may have multiple files — read the index and any sub-files
 	const indexPath = join(MOTION_DIR, "index.ts");
 	const source = readSource(indexPath);
 	if (!source) return null;
-
 	// Check for sub-files
 	const motionFiles = [];
 	if (existsSync(MOTION_DIR)) {
@@ -861,7 +818,6 @@ function buildMotionItem() {
 			}
 		}
 	}
-
 	if (motionFiles.length === 0) {
 		motionFiles.push({
 			path: "lib/motion.ts",
@@ -870,9 +826,7 @@ function buildMotionItem() {
 			target: "lib/motion.ts",
 		});
 	}
-
 	const npmDeps = extractNpmDeps(source);
-
 	return {
 		$schema: `${REGISTRY_HOMEPAGE}/schema/registry-item.json`,
 		name: "motion",
@@ -889,15 +843,12 @@ function buildMotionItem() {
 		files: motionFiles,
 	};
 }
-
 // ---------------------------------------------------------------------------
 // Build the styles item
 // ---------------------------------------------------------------------------
-
 function buildStylesItem() {
 	const source = readSource(STYLES_PATH);
 	if (!source) return null;
-
 	return {
 		$schema: `${REGISTRY_HOMEPAGE}/schema/registry-item.json`,
 		name: "styles",
@@ -921,20 +872,15 @@ function buildStylesItem() {
 		],
 	};
 }
-
 // ---------------------------------------------------------------------------
 // Main build
 // ---------------------------------------------------------------------------
-
 function build() {
 	console.log("🔧 Building Unified UI registry...\n");
-
 	// Ensure output directory
 	mkdirSync(OUTPUT_DIR, { recursive: true });
-
 	const items = [];
 	const errors = [];
-
 	// 1. Build utility items
 	console.log("  📦 Utils:");
 	const utilFiles = readdirSync(UTILS_DIR).filter(
@@ -952,7 +898,6 @@ function build() {
 			console.log(`     ✓ ${name}`);
 		}
 	}
-
 	// 2. Build motion item
 	console.log("\n  🎬 Motion:");
 	const motionItem = buildMotionItem();
@@ -964,7 +909,6 @@ function build() {
 		);
 		console.log("     ✓ motion");
 	}
-
 	// 3. Build styles item
 	console.log("\n  🎨 Styles:");
 	const stylesItem = buildStylesItem();
@@ -976,16 +920,13 @@ function build() {
 		);
 		console.log("     ✓ styles");
 	}
-
 	// 4. Build component items
 	console.log("\n  🧩 Components:");
 	const componentFiles = readdirSync(COMPONENTS_DIR).filter(
 		(f) => f.endsWith(".tsx") && f !== "index.ts",
 	);
-
 	// Also skip code-highlight.ts (not a component)
 	const skipFiles = new Set(["index.ts", "index.tsx", "code-highlight.ts"]);
-
 	for (const file of componentFiles) {
 		if (skipFiles.has(file)) continue;
 		const name = basename(file, extname(file));
@@ -1001,11 +942,11 @@ function build() {
 			errors.push(name);
 		}
 	}
-
 	// 5. Build the registry index
 	const index = {
 		$schema: `${REGISTRY_HOMEPAGE}/schema/registry.json`,
 		version: SCHEMA_VERSION,
+		packageVersion: DS_PKG.version,
 		name: REGISTRY_NAME,
 		homepage: REGISTRY_HOMEPAGE,
 		repository: "https://github.com/imrj05/unified-ui",
@@ -1035,12 +976,10 @@ function build() {
 			dependencies: item.dependencies,
 		})),
 	};
-
 	writeFileSync(
 		join(OUTPUT_DIR, "index.json"),
 		JSON.stringify(index, null, 2),
 	);
-
 	// 6. Build the schema files for validation
 	const registrySchema = {
 		$id: `${REGISTRY_HOMEPAGE}/schema/registry.json`,
@@ -1118,7 +1057,6 @@ function build() {
 			},
 		},
 	};
-
 	const registryItemSchema = {
 		$id: `${REGISTRY_HOMEPAGE}/schema/registry-item.json`,
 		type: "object",
@@ -1235,7 +1173,6 @@ function build() {
 			},
 		},
 	};
-
 	// Write schemas
 	const schemaDir = join(OUTPUT_DIR, "schema");
 	mkdirSync(schemaDir, { recursive: true });
@@ -1247,7 +1184,6 @@ function build() {
 		join(schemaDir, "registry-item.json"),
 		JSON.stringify(registryItemSchema, null, 2),
 	);
-
 	// Summary
 	console.log("\n" + "─".repeat(50));
 	console.log(`✅ Registry built successfully!`);
@@ -1259,5 +1195,4 @@ function build() {
 	}
 	console.log();
 }
-
 build();

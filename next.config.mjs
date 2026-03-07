@@ -1,10 +1,19 @@
 import { createMDX } from "fumadocs-mdx/next";
+import { readFileSync } from "node:fs";
+
+const dsPkg = JSON.parse(
+  readFileSync("packages/unified-ui/package.json", "utf-8"),
+);
 
 const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+
+  env: {
+    NEXT_PUBLIC_DS_VERSION: dsPkg.version,
+  },
 
   // ---------------------------------------------------------------------------
   // Bundle Optimization (Vercel best practice: bundle-barrel-imports)
