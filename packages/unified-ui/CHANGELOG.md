@@ -46,6 +46,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([e5002e4](https://github.com/imrj05/unified-ui/commit/e5002e412e06361d1f6e71ace066f354b38ee631))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6bcfc25](https://github.com/imrj05/unified-ui/commit/6bcfc259c33d596ac0324831df95cc29e60f303f))
 - **changelog:** Auto-update unreleased entries [skip ci] ([1971cd8](https://github.com/imrj05/unified-ui/commit/1971cd81a04d7b6e92e0ed925a3f33783254bf2c))
 - **changelog:** Auto-update unreleased entries [skip ci] ([c226782](https://github.com/imrj05/unified-ui/commit/c2267822c0705401a6de57a60dbe3227abb76533))
@@ -56,6 +57,45 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### Other
 
+- Merge pull request #1 from imrj05/vercel/vercel-web-analytics-to-nextjs-g6zfpb
+
+Add Vercel Web Analytics to Next.js ([#1](https://github.com/imrj05/unified-ui/issues/1)) ([ce8670a](https://github.com/imrj05/unified-ui/commit/ce8670a5682780d1f6ef58eb880ef5a414edcb68))
+- Add Vercel Web Analytics to Next.js
+
+Implemented Vercel Web Analytics for Next.js
+
+## Summary
+Successfully installed and configured Vercel Web Analytics for this Next.js App Router project.
+
+## Changes Made
+
+### 1. Package Installation
+- Installed `@vercel/analytics` package using npm
+- Updated `package.json` to include the new dependency
+- Updated `package-lock.json` with the new dependency tree
+
+### 2. Analytics Integration
+Modified: `src/app/layout.tsx`
+- Imported `Analytics` component from '@vercel/analytics/next'
+- Added `<Analytics />` component inside the `<body>` tag
+- Placed after the `<RootProvider>` closing tag to ensure proper initialization
+- Organized imports using the project's Biome linter configuration
+- Applied consistent formatting with the project's code style
+
+## Implementation Details
+This is an App Router Next.js project, so the Analytics component was added to the root layout file (`src/app/layout.tsx`) as per Vercel's best practices. The component is placed at the end of the body tag to ensure it doesn't block the rendering of the main application content.
+
+## Verification
+- ✅ Build completed successfully with no errors
+- ✅ Linter checks passed for the modified file
+- ✅ Code formatting applied using Biome
+- ✅ All existing functionality preserved
+- ✅ Lock files properly updated
+
+## Notes
+The Analytics component will automatically track page views and web vitals when deployed to Vercel. No additional configuration is required for basic analytics tracking.
+
+Co-authored-by: Vercel <vercel[bot]@users.noreply.github.com> ([4d967d5](https://github.com/imrj05/unified-ui/commit/4d967d5473f62f8a9fa6a4f3bf1f3cb54de0616e))
 - Merge branch 'main' of github.com:imrj05/unified-ui ([1e620eb](https://github.com/imrj05/unified-ui/commit/1e620ebb87a8f04079f9f266e769e3ba9e327293))
 - Merge branch 'main' of github.com:imrj05/unified-ui ([d85b413](https://github.com/imrj05/unified-ui/commit/d85b413531b6e38eabf397f6347b6cbb740dd961))
 - Merge branch 'main' of github.com:imrj05/unified-ui ([055de42](https://github.com/imrj05/unified-ui/commit/055de4202aa7a813902e5beeeddfd0ae904c29f0))
