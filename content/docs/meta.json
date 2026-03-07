@@ -1,16 +1,17 @@
 {
-	"title": "Documentation",
-	"pages": [
-		"index",
-		"cli",
-		"---Design System---",
-		"design-system",
-		"tokens",
-		"colors",
-		"typography",
-		"spacing",
-		"theming",
-		"motion",
-		"accessibility"
-	]
+    "title": "Documentation",
+    "pages": [
+        "index",
+        "cli",
+        "starter-kits",
+        "---Design System---",
+        "design-system",
+        "tokens",
+        "colors",
+        "typography",
+        "spacing",
+        "theming",
+        "motion",
+        "accessibility"
+    ]
 }

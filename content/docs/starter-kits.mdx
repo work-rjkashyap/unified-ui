@@ -1,0 +1,239 @@
+---
+title: Starter Kits
+description: Scaffold a new project with Unified UI pre-configured for your framework of choice.
+icon: Rocket
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## Overview
+
+Unified UI starter kits let you scaffold a **fully configured project** in one command. Instead of manually installing packages and editing config files, run:
+
+```bash
+npx @work-rjkashyap/unified-ui init -t
+```
+
+The CLI will:
+
+1. **Ask which framework** you want to use
+2. **Run the official scaffolding tool** (create-vite, create-next-app, etc.)
+3. **Install Unified UI** and framework-specific dependencies
+4. **Apply overlay files** — CSS imports, theme providers, demo pages
+5. **Initialize git** with a clean commit
+
+---
+
+## Available Templates
+
+### Vite + React (full component library)
+
+```bash
+npx @work-rjkashyap/unified-ui init -t vite-react my-app
+```
+
+- Scaffolds via `npm create vite@latest` with the `react-ts` template
+- Adds `@tailwindcss/vite` for Tailwind CSS v4
+- Wraps the app with `DSThemeProvider` (dark mode, system preference)
+- Demo page with `Button`, `Heading`, and theme toggle
+- Full access to 75+ React components
+
+### Next.js (full component library)
+
+```bash
+npx @work-rjkashyap/unified-ui init -t nextjs my-app
+```
+
+- Scaffolds via `npx create-next-app@latest` with App Router, TypeScript, Tailwind, and `src/` directory
+- Pre-configures `next-themes` for server-safe dark mode
+- Wraps the app with `ThemeProvider` + `DSThemeProvider`
+- Demo page with `Button`, `Heading`, and theme toggle
+- Full access to 75+ React components
+
+### Vue.js (UI components + design tokens)
+
+```bash
+npx @work-rjkashyap/unified-ui init -t vuejs my-app
+```
+
+- Scaffolds via `npm create vue@latest` with TypeScript
+- Adds `@tailwindcss/vite` for Tailwind CSS v4
+- Includes `ThemeToggle.vue` component for dark mode
+- Ships 10 Vue SFC components: `Button`, `Badge`, `Card` (+ `CardHeader`, `CardBody`, `CardFooter`), `Input`, `Alert`, `Heading`, `Text`
+- Includes a `cn()` utility (`clsx` + `tailwind-merge`)
+- All CSS custom properties and Tailwind utilities available
+- Demo page showcasing all components
+
+### Laravel Blade (UI components + design tokens)
+
+```bash
+npx @work-rjkashyap/unified-ui init -t laravel-blade my-app
+```
+
+- Scaffolds via `composer create-project laravel/laravel`
+- Adds `@tailwindcss/vite` to the Vite config
+- Includes a base Blade layout with `@vite` directives
+- Ships 10 Blade anonymous components: `<x-ui.button>`, `<x-ui.badge>`, `<x-ui.card>` (+ `card-header`, `card-body`, `card-footer`), `<x-ui.input>`, `<x-ui.alert>`, `<x-ui.heading>`, `<x-ui.text>`
+- JS-based theme toggle with `localStorage` persistence
+- Demo welcome page showcasing all components
+
+---
+
+## Interactive Mode
+
+If you omit the template name, the CLI presents an interactive picker:
+
+```bash
+npx @work-rjkashyap/unified-ui init -t
+
+#  Which framework do you want to use?
+#
+#    1. Vite + React          Vite + React 19 SPA with full component library
+#    2. Next.js               Next.js App Router with SSR + full component library
+#    3. Vue.js                Vue 3 + Vite with UI components & Tailwind theme
+#    4. Laravel Blade          Laravel with Blade UI components & Tailwind theme
+#
+#  Select (1-4):
+```
+
+---
+
+## What Gets Modified
+
+After the framework's official scaffolding runs, the CLI overlays these files:
+
+<Tabs items={["Vite + React", "Next.js", "Vue.js", "Laravel Blade"]}>
+<Tab value="Vite + React">
+| File | Action |
+|------|--------|
+| `vite.config.ts` | **Replaced** — adds `@tailwindcss/vite` plugin |
+| `src/index.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
+| `src/main.tsx` | **Replaced** — wraps app with `DSThemeProvider` |
+| `src/App.tsx` | **Replaced** — demo page with components + theme toggle |
+</Tab>
+<Tab value="Next.js">
+| File | Action |
+|------|--------|
+| `src/app/globals.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
+| `src/app/layout.tsx` | **Replaced** — adds `ThemeProvider` + `DSThemeProvider` |
+| `src/app/page.tsx` | **Replaced** — demo page with components + theme toggle |
+</Tab>
+<Tab value="Vue.js">
+| File | Action |
+|------|--------|
+| `vite.config.ts` | **Replaced** — adds `@tailwindcss/vite` plugin |
+| `src/style.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
+| `src/main.ts` | **Replaced** — clean Vue entry with CSS import |
+| `src/lib/cn.ts` | **Created** — `cn()` utility (clsx + tailwind-merge) |
+| `src/App.vue` | **Replaced** — demo page with component showcase |
+| `src/components/ThemeToggle.vue` | **Created** — dark/light toggle component |
+| `src/components/ui/*.vue` | **Created** — 10 UI components (Button, Badge, Card, Input, Alert, Heading, Text, etc.) |
+| `src/components/ui/index.ts` | **Created** — barrel export for all UI components |
+</Tab>
+<Tab value="Laravel Blade">
+| File | Action |
+|------|--------|
+| `vite.config.js` | **Replaced** — adds `@tailwindcss/vite` plugin |
+| `resources/css/app.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
+| `resources/js/app.js` | **Replaced** — adds theme toggle logic |
+| `resources/views/layouts/app.blade.php` | **Created** — base layout with `@vite` |
+| `resources/views/welcome.blade.php` | **Replaced** — demo page with component showcase |
+| `resources/views/components/ui/*.blade.php` | **Created** — 10 Blade anonymous components (button, badge, card, input, alert, heading, text, etc.) |
+</Tab>
+</Tabs>
+
+---
+
+## Components in Vue & Laravel
+
+All four starters ship with working UI components. The Vue and Laravel starters include framework-native ports of the core components — same design tokens, same Tailwind classes, same visual output.
+
+### Vue.js Components
+
+```vue
+<script setup>
+import { UiButton, UiBadge, UiCard, UiCardHeader, UiCardBody, UiAlert, UiHeading, UiText } from "@/components/ui";
+</script>
+
+<template>
+  <UiCard>
+    <UiCardHeader>
+      <UiHeading :level="2">Dashboard</UiHeading>
+    </UiCardHeader>
+    <UiCardBody>
+      <UiAlert variant="info" title="Welcome">You're all set.</UiAlert>
+      <UiButton variant="primary">Continue</UiButton>
+      <UiBadge variant="success">Active</UiBadge>
+    </UiCardBody>
+  </UiCard>
+</template>
+```
+
+### Laravel Blade Components
+
+```blade
+<x-ui.card>
+    <x-ui.card-header>
+        <x-ui.heading :level="2">Dashboard</x-ui.heading>
+    </x-ui.card-header>
+    <x-ui.card-body>
+        <x-ui.alert variant="info" title="Welcome">You're all set.</x-ui.alert>
+        <x-ui.button variant="primary">Continue</x-ui.button>
+        <x-ui.badge variant="success">Active</x-ui.badge>
+    </x-ui.card-body>
+</x-ui.card>
+```
+
+### Component Props Reference
+
+| Component | Props |
+|-----------|-------|
+| `Button` | `variant` (primary, secondary, ghost, danger), `size` (sm, md, lg), `loading`, `fullWidth`, `iconOnly`, `disabled` |
+| `Badge` | `variant` (default, primary, secondary, success, warning, danger, info, outline), `size` (sm, md, lg), `dismissible` |
+| `Card` | `variant` (default, outlined, elevated, interactive), `padding` (compact, comfortable), `fullWidth` |
+| `Input` | `variant` (default, error, success), `size` (sm, md, lg), `disabled` |
+| `Alert` | `variant` (info, success, warning, danger, default), `title`, `dismissible` |
+| `Heading` | `level` (1–4), `color` (default, muted, primary) |
+| `Text` | `variant` (body, bodySm, caption, label, overline, code), `color` (default, muted, primary, success, warning, danger, info) |
+
+---
+
+## Using Tokens Directly
+
+All CSS design tokens are also available as raw CSS custom properties and Tailwind utility classes:
+
+### CSS Custom Properties
+
+```css
+.my-component {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition-duration: var(--duration-fast);
+}
+```
+
+### Tailwind Utility Classes
+
+```html
+<div class="bg-primary text-primary-foreground rounded-md shadow-sm duration-fast">
+  Token-driven styling
+</div>
+```
+
+### Available Token Categories
+
+| Category  | Tailwind Examples                                        |
+| --------- | -------------------------------------------------------- |
+| Colors    | `bg-primary`, `text-foreground`, `border-border`         |
+| Radius    | `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`  |
+| Shadows   | `shadow-sm`, `shadow-md`, `shadow-lg`                    |
+| Z-index   | `z-dropdown`, `z-modal`, `z-toast`                       |
+| Duration  | `duration-fast`, `duration-normal`, `duration-slow`      |
+| Easing    | `ease-standard`, `ease-entrance`, `ease-exit`            |
+| Fonts     | `font-sans`, `font-mono`                                 |
+
+See the full [Design Tokens reference](/docs/tokens) for all available tokens.

@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "@work-rjkashyap/unified-ui/styles.css";
+
+body {
+    min-height: 100svh;
+}

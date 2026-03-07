@@ -96,7 +96,7 @@ The files are yours. Open them up and change anything:
 
 ### `init`
 
-Initialize a new project for Unified UI copy-paste mode.
+Initialize an existing project for Unified UI copy-paste mode.
 
 ```bash
 npx @work-rjkashyap/unified-ui init
@@ -111,11 +111,48 @@ npx @work-rjkashyap/unified-ui init
 
 **Flags:**
 
-| Flag         | Description                                     |
-| ------------ | ----------------------------------------------- |
-| `--yes`      | Skip interactive prompts and use defaults       |
-| `--src`      | Use `src/` directory structure (default: `true`) |
-| `--cwd <dir>` | Set the working directory                      |
+| Flag              | Description                                                |
+| ----------------- | ---------------------------------------------------------- |
+| `--template, -t`  | Scaffold a new project with a framework (see below)        |
+| `--yes`           | Skip interactive prompts and use defaults                  |
+| `--src`           | Use `src/` directory structure (default: `true`)           |
+| `--cwd <dir>`     | Set the working directory                                  |
+
+---
+
+### `init --template` (Starter Kits)
+
+Scaffold a brand-new project with a framework of your choice, fully configured with Unified UI.
+
+```bash
+# Interactive — prompts you to pick a framework
+npx @work-rjkashyap/unified-ui init -t
+
+# Specify framework and project name directly
+npx @work-rjkashyap/unified-ui init -t nextjs my-app
+npx @work-rjkashyap/unified-ui init --template vite-react my-app
+```
+
+**Available templates:**
+
+| Template         | Framework               | What's included                                         |
+| ---------------- | ----------------------- | ------------------------------------------------------- |
+| `vite-react`     | Vite + React 19         | Full component library, DSThemeProvider, Tailwind CSS v4 |
+| `nextjs`         | Next.js App Router      | Full component library, next-themes, SSR-ready          |
+| `vuejs`          | Vue 3 + Vite           | 10 Vue SFC components, design tokens, Tailwind CSS v4   |
+| `laravel-blade`  | Laravel + Blade         | 10 Blade anonymous components, design tokens, Tailwind   |
+
+**How it works:**
+
+1. Runs the **official scaffolding tool** for the chosen framework (`create-vite`, `create-next-app`, `create-vue`, or `composer create-project`).
+2. Installs `@work-rjkashyap/unified-ui` and any framework-specific dependencies.
+3. Overlays Unified UI files — CSS imports, theme providers, demo pages, and config updates.
+4. Initializes git with a clean commit.
+
+<Callout type="info">
+  **React starters** (vite-react, nextjs) include the full 75+ component library.
+  **Vue & Laravel starters** include 10 framework-native UI components (Button, Badge, Card, Input, Alert, Heading, Text, etc.) plus all design tokens.
+</Callout>
 
 ---
 
