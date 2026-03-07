@@ -8,8 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 🚀 Features
+
+- Add status and sinceVersion fields to component metadata ([65446d2](https://github.com/imrj05/unified-ui/commit/65446d29b59849483c0f33909815e3074af7b1e7))
+
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([9be3204](https://github.com/imrj05/unified-ui/commit/9be32046aec7408f39af5e1a22a2cea3ca5cac57))
 - **tsconfig:** Format and update paths in tsconfig.json ([b4cd53c](https://github.com/imrj05/unified-ui/commit/b4cd53c8963081fdd315a3b5955f9a14edbb1f3b))
 - **changelog:** Auto-update unreleased entries [skip ci] ([da78e1a](https://github.com/imrj05/unified-ui/commit/da78e1a8c7102af9289518def430a70c6da16ffc))
 ## [0.3.1] — 2026-03-07
