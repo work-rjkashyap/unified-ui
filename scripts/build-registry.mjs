@@ -102,6 +102,8 @@ const COMPONENT_META = {
 		description:
 			"Blocking confirmation dialog that requires explicit user action.",
 		category: "overlay",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	alert: {
 		title: "Alert",
@@ -190,6 +192,8 @@ const COMPONENT_META = {
 		description:
 			"Color selection with spectrum picker, hue slider, HEX input, and presets.",
 		category: "form",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	combobox: {
 		title: "Combobox",
@@ -202,6 +206,8 @@ const COMPONENT_META = {
 		description:
 			"Command palette with fuzzy search, groups, and keyboard navigation.",
 		category: "navigation",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	"confirm-dialog": {
 		title: "Confirm Dialog",
@@ -230,6 +236,8 @@ const COMPONENT_META = {
 		description:
 			"Filtering, sorting, column visibility toolbar for DataTable.",
 		category: "data-display",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	"data-table": {
 		title: "Data Table",
@@ -248,6 +256,8 @@ const COMPONENT_META = {
 		description:
 			"Modal dialog with 4 sizes, focus trap, and slot composition.",
 		category: "overlay",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	drawer: {
 		title: "Drawer",
@@ -299,6 +309,8 @@ const COMPONENT_META = {
 		title: "Input Group",
 		description: "Composed input with prefix/suffix icons and text addons.",
 		category: "form",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	input: {
 		title: "Input",
@@ -393,12 +405,16 @@ const COMPONENT_META = {
 		title: "Sheet",
 		description: "Slide-out panel from any edge with size options.",
 		category: "overlay",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	sidebar: {
 		title: "Sidebar",
 		description:
 			"Collapsible app sidebar with sections, icons, and mobile overlay.",
 		category: "navigation",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	skeleton: {
 		title: "Skeleton",
@@ -438,6 +454,8 @@ const COMPONENT_META = {
 		title: "Switch",
 		description: "Toggle switch with spring animation and label support.",
 		category: "form",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	table: {
 		title: "Table",
@@ -454,6 +472,8 @@ const COMPONENT_META = {
 		title: "Textarea",
 		description: "Multi-line input with auto-resize and character count.",
 		category: "form",
+		status: "updated",
+		sinceVersion: "0.3.0",
 	},
 	"theme-toggle": {
 		title: "Theme Toggle",
@@ -511,6 +531,14 @@ const COMPONENT_META = {
 		title: "Visually Hidden",
 		description: "Screen-reader-only content wrapper.",
 		category: "utility",
+	},
+	separator: {
+		title: "Separator",
+		description:
+			"Visual divider with horizontal/vertical orientation, label support, and gradient variant.",
+		category: "layout",
+		status: "new",
+		sinceVersion: "0.3.0",
 	},
 };
 
@@ -744,13 +772,15 @@ function buildComponentItem(name) {
 	// Also collect utils needed by cross-dependencies (transitive)
 	// (We don't inline those here — they'll be resolved at install time)
 
-	return {
+	const item = {
 		$schema: `${REGISTRY_HOMEPAGE}/schema/registry-item.json`,
 		name,
 		type: "unified-ui:component",
 		title: meta.title,
 		description: meta.description,
 		category: meta.category,
+		...(meta.status ? { status: meta.status } : {}),
+		...(meta.sinceVersion ? { sinceVersion: meta.sinceVersion } : {}),
 		client,
 		exports,
 		dependencies: npmDeps,
@@ -761,6 +791,8 @@ function buildComponentItem(name) {
 		},
 		files,
 	};
+
+	return item;
 }
 
 // ---------------------------------------------------------------------------
@@ -997,6 +1029,8 @@ function build() {
 			title: item.title,
 			description: item.description,
 			category: item.category,
+			...(item.status ? { status: item.status } : {}),
+			...(item.sinceVersion ? { sinceVersion: item.sinceVersion } : {}),
 			registryDependencies: item.registryDependencies,
 			dependencies: item.dependencies,
 		})),
@@ -1059,6 +1093,17 @@ function build() {
 					},
 					description: { type: "string" },
 					category: { type: "string" },
+					status: {
+						type: "string",
+						enum: ["new", "updated"],
+						description:
+							"Indicates if the component is new or recently updated",
+					},
+					sinceVersion: {
+						type: "string",
+						description:
+							"The version when the component was added or last significantly updated",
+					},
 					registryDependencies: {
 						type: "array",
 						items: { type: "string" },
@@ -1112,6 +1157,17 @@ function build() {
 			client: {
 				type: "boolean",
 				description: "Whether this is a 'use client' component",
+			},
+			status: {
+				type: "string",
+				enum: ["new", "updated"],
+				description:
+					"Indicates if the component is new or recently updated",
+			},
+			sinceVersion: {
+				type: "string",
+				description:
+					"The version when the component was added or last significantly updated",
 			},
 			exports: {
 				type: "array",
