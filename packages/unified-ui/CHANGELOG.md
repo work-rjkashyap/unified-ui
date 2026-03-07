@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Add Separator component with customizable styles and accessibility features ([a8320ae](https://github.com/imrj05/unified-ui/commit/a8320aea8c105b954b28e5c7d0ab73f22dfea085))
 - Add loading skeleton for themes page and enhance sidebar functionality
 - Implemented a loading skeleton component for the themes page to improve user experience during data fetching.
   - Refactored sidebar components to enhance readability and maintainability, including updates to context management and hover behavior.
@@ -51,6 +52,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([29ba39b](https://github.com/imrj05/unified-ui/commit/29ba39bfb6657de25e35aec17a2318a8c309a029))
 - **changelog:** Auto-update unreleased entries [skip ci] ([ea0ff88](https://github.com/imrj05/unified-ui/commit/ea0ff88e24c5bfa919db43f313b679b4c69dad1a))
 - **changelog:** Auto-update unreleased entries [skip ci] ([e5002e4](https://github.com/imrj05/unified-ui/commit/e5002e412e06361d1f6e71ace066f354b38ee631))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6bcfc25](https://github.com/imrj05/unified-ui/commit/6bcfc259c33d596ac0324831df95cc29e60f303f))
