@@ -434,7 +434,8 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>,
 );
 `,
-      "src/App.tsx": `import { Button, Heading, Text } from "@work-rjkashyap/unified-ui/components";
+      "src/App.tsx": `import { Button } from "@work-rjkashyap/unified-ui/components";
+import { Heading, Body } from "@work-rjkashyap/unified-ui/primitives";
 import { useDSTheme } from "@work-rjkashyap/unified-ui/theme";
 
 function App() {
@@ -445,15 +446,15 @@ function App() {
       <div className="w-full max-w-md space-y-6 rounded-lg border border-border bg-card p-8">
         <div className="space-y-2 text-center">
           <Heading level={1}>Unified UI</Heading>
-          <Text variant="muted">
+          <Body color="muted">
             Your starter project is ready. Start building!
-          </Text>
+          </Body>
         </div>
 
         <div className="flex items-center justify-center gap-3">
-          <Button variant="default">Get Started</Button>
+          <Button variant="primary">Get Started</Button>
           <Button
-            variant="outline"
+            variant="secondary"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             Toggle Theme
@@ -511,7 +512,8 @@ export default function RootLayout({
 `,
       "src/app/page.tsx": `"use client";
 
-import { Button, Heading, Text } from "@work-rjkashyap/unified-ui/components";
+import { Button } from "@work-rjkashyap/unified-ui/components";
+import { Heading, Body } from "@work-rjkashyap/unified-ui/primitives";
 import { useDSTheme } from "@work-rjkashyap/unified-ui/theme";
 
 export default function Home() {
@@ -522,15 +524,15 @@ export default function Home() {
       <div className="w-full max-w-md space-y-6 rounded-lg border border-border bg-card p-8">
         <div className="space-y-2 text-center">
           <Heading level={1}>Unified UI</Heading>
-          <Text variant="muted">
+          <Body color="muted">
             Your Next.js project is ready. Start building!
-          </Text>
+          </Body>
         </div>
 
         <div className="flex items-center justify-center gap-3">
-          <Button variant="default">Get Started</Button>
+          <Button variant="primary">Get Started</Button>
           <Button
-            variant="outline"
+            variant="secondary"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             Toggle Theme
