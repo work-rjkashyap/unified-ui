@@ -52,6 +52,8 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([2c133db](https://github.com/imrj05/unified-ui/commit/2c133dbc6225bde8a5e95320b6e3c857afa7038c))
+- Update package version to 0.2.4 and correct homepage URL ([e055e60](https://github.com/imrj05/unified-ui/commit/e055e6044a0870dde83a4788158f0fe24ae15544))
 - **changelog:** Auto-update unreleased entries [skip ci] ([29ba39b](https://github.com/imrj05/unified-ui/commit/29ba39bfb6657de25e35aec17a2318a8c309a029))
 - **changelog:** Auto-update unreleased entries [skip ci] ([ea0ff88](https://github.com/imrj05/unified-ui/commit/ea0ff88e24c5bfa919db43f313b679b4c69dad1a))
 - **changelog:** Auto-update unreleased entries [skip ci] ([e5002e4](https://github.com/imrj05/unified-ui/commit/e5002e412e06361d1f6e71ace066f354b38ee631))
@@ -65,6 +67,7 @@ fix: correct site name in route handler for Open Graph image generation ([f92e1f
 
 ### Other
 
+- Merge branch 'main' of github.com:imrj05/unified-ui ([b302e8c](https://github.com/imrj05/unified-ui/commit/b302e8c88b687281ddb5e226d78787a98990b794))
 - Merge pull request #1 from imrj05/vercel/vercel-web-analytics-to-nextjs-g6zfpb
 
 Add Vercel Web Analytics to Next.js ([#1](https://github.com/imrj05/unified-ui/issues/1)) ([ce8670a](https://github.com/imrj05/unified-ui/commit/ce8670a5682780d1f6ef58eb880ef5a414edcb68))
