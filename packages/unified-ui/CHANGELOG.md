@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Add unified UI components for Laravel
+- Introduced new Blade components for tabs, text, textarea, toggle, and tooltip.
+  - Implemented a structured JSON schema for configuration and component registration.
+  - Enhanced text area with auto-resize and character counting features.
+  - Added toggle button functionality with pressed state management.
+  - Created tooltip component with customizable content, positioning, and delay.
+  - Updated TypeScript configuration to exclude unified-ui-laravel package. ([7d1c16e](https://github.com/imrj05/unified-ui/commit/7d1c16ea44d13fc3d5a89fbe4c5d777522af74fd))
 - **nav:** Refactor navigation component and add versioning
 - Refactored Discord, X, and GitHub icon components for consistency.
   - Introduced a new `ds-version.ts` file to manage design system versioning.
@@ -19,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([6174899](https://github.com/imrj05/unified-ui/commit/617489931d92a6ccec06d2e2dbaf40b7e6199695))
 - **changelog:** Auto-update unreleased entries [skip ci] ([0fe04e0](https://github.com/imrj05/unified-ui/commit/0fe04e080a65e48b28ed6d84297992d56669b160))
 - **changelog:** Auto-update unreleased entries [skip ci] ([9be3204](https://github.com/imrj05/unified-ui/commit/9be32046aec7408f39af5e1a22a2cea3ca5cac57))
 - **tsconfig:** Format and update paths in tsconfig.json ([b4cd53c](https://github.com/imrj05/unified-ui/commit/b4cd53c8963081fdd315a3b5955f9a14edbb1f3b))
