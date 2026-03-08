@@ -1,0 +1,72 @@
+{
+	"name": "rajeshwar/unified-ui-laravel",
+	"description": "A scalable, token-driven Blade component library for Laravel — 75+ components built on Tailwind CSS, Alpine.js & Livewire. Install the Composer package or copy-paste with Artisan CLI.",
+	"keywords": [
+		"laravel",
+		"blade",
+		"components",
+		"ui",
+		"design-system",
+		"tailwind",
+		"alpine",
+		"livewire",
+		"unified-ui"
+	],
+	"homepage": "https://unified-ui.space",
+	"license": "MIT",
+	"type": "library",
+	"authors": [
+		{
+			"name": "Rajeshwar Kashyap",
+			"email": "work.rjkashyap05@gmail.com",
+			"homepage": "https://unified-ui.space",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": "^8.1",
+		"illuminate/support": "^10.0|^11.0|^12.0",
+		"illuminate/console": "^10.0|^11.0|^12.0",
+		"illuminate/filesystem": "^10.0|^11.0|^12.0",
+		"illuminate/view": "^10.0|^11.0|^12.0"
+	},
+	"require-dev": {
+		"orchestra/testbench": "^8.0|^9.0|^10.0",
+		"phpunit/phpunit": "^10.0|^11.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Rajeshwar\\UnifiedUi\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Rajeshwar\\UnifiedUi\\Tests\\": "tests/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Rajeshwar\\UnifiedUi\\UnifiedUiServiceProvider"
+			]
+		}
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"scripts": {
+		"test": "vendor/bin/phpunit"
+	},
+	"support": {
+		"issues": "https://github.com/imrj05/unified-ui-laravel/issues",
+		"source": "https://github.com/imrj05/unified-ui-laravel"
+	},
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/imrj05"
+		}
+	]
+}

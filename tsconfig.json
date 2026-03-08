@@ -55,5 +55,5 @@
 		".next/types/**/*.ts",
 		".next/dev/types/**/*.ts",
 	],
-	"exclude": ["node_modules", "starters"],
+	"exclude": ["node_modules", "starters", "packages/unified-ui-laravel"],
 }

@@ -18,6 +18,9 @@
 # design system build output
 #packages/*/dist/
 
+# laravel package vendor
+packages/unified-ui-laravel/vendor/
+
 # misc
 .DS_Store
 *.pem
