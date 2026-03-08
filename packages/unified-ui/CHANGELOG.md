@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Add Laravel documentation layout and navigation
+- Introduced a new layout for Laravel documentation in `layout.tsx`.
+  - Added Laravel icon component in `layout.config.tsx`.
+  - Updated navigation links to include Laravel section with appropriate icon.
+  - Enhanced sidebar tabs to feature Laravel documentation.
+  - Integrated Laravel source loader in `source.ts` for documentation retrieval. ([99ed76f](https://github.com/imrj05/unified-ui/commit/99ed76f9070d1a1be5137262c1dcd24e85ff93c2))
+
+### 🏗️ Miscellaneous
+
+- **changelog:** Auto-update unreleased entries [skip ci] ([a04b91d](https://github.com/imrj05/unified-ui/commit/a04b91dbeb88e02f90c777346e0ceec0d6d26637))
+## [laravel/v0.0.1] — 2026-03-08
+
+### 🚀 Features
+
 - Add unified UI components for Laravel
 - Introduced new Blade components for tabs, text, textarea, toggle, and tooltip.
   - Implemented a structured JSON schema for configuration and component registration.
