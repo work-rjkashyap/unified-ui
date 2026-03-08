@@ -24,8 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enhanced layout header with improved styling and responsiveness. ([6af6e8d](https://github.com/imrj05/unified-ui/commit/6af6e8d79728df0f1b5c2c8b488dc74326b0007c))
 - Add status and sinceVersion fields to component metadata ([65446d2](https://github.com/imrj05/unified-ui/commit/65446d29b59849483c0f33909815e3074af7b1e7))
 
+### 🐛 Bug Fixes
+
+- **laravel:** Remove minimum-stability from library composer.json ([5c23809](https://github.com/imrj05/unified-ui/commit/5c23809c37908219c78da4815c7f452190a44fb8))
+
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([fdb4d80](https://github.com/imrj05/unified-ui/commit/fdb4d80ab19f2f28e03bdd13cc30f6aec6e01936))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6174899](https://github.com/imrj05/unified-ui/commit/617489931d92a6ccec06d2e2dbaf40b7e6199695))
 - **changelog:** Auto-update unreleased entries [skip ci] ([0fe04e0](https://github.com/imrj05/unified-ui/commit/0fe04e080a65e48b28ed6d84297992d56669b160))
 - **changelog:** Auto-update unreleased entries [skip ci] ([9be3204](https://github.com/imrj05/unified-ui/commit/9be32046aec7408f39af5e1a22a2cea3ca5cac57))
