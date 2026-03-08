@@ -1,0 +1,219 @@
+---
+title: Installation
+description: Install and configure the Unified UI Laravel component library in your Laravel project.
+icon: Download
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## Requirements
+
+| Dependency     | Minimum Version | Notes                                    |
+| -------------- | --------------- | ---------------------------------------- |
+| **PHP**        | 8.2+            | Required for modern language features    |
+| **Laravel**    | 11.0+           | Required framework version               |
+| **Node.js**    | 20.0+           | Required for front-end asset compilation |
+| **Tailwind CSS** | 4.0+          | Required for utility classes             |
+
+---
+
+## Installation
+
+<Steps>
+
+<Step>
+### Install the Composer package
+
+<Tabs items={['Composer']}>
+<Tab value="Composer">
+
+```bash
+composer require work-rjkashyap/unified-ui-laravel
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+### Publish the configuration
+
+Publish the package configuration file to customize component defaults:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-config
+```
+
+This creates a `config/unified-ui.php` file where you can set global defaults for component variants, sizes, and behavior.
+
+```php title="config/unified-ui.php"
+return [
+    'prefix' => 'ui',
+    'theme' => 'default',
+    'default_variant' => 'primary',
+    'default_size' => 'md',
+];
+```
+
+</Step>
+
+<Step>
+### Publish the assets (CSS)
+
+```bash
+php artisan vendor:publish --tag=unified-ui-assets
+```
+
+Then import the stylesheet in your main CSS file:
+
+```css title="resources/css/app.css"
+@import "tailwindcss";
+@import "../../vendor/work-rjkashyap/unified-ui-laravel/resources/css/unified-ui.css";
+```
+
+</Step>
+
+<Step>
+### Configure Tailwind CSS
+
+Make sure Tailwind scans the package's Blade views for classes. Add the package path to your `tailwind.config.js` or Vite config:
+
+```js title="vite.config.js"
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ["resources/css/app.css", "resources/js/app.js"],
+            refresh: true,
+        }),
+        tailwindcss(),
+    ],
+});
+```
+
+</Step>
+
+<Step>
+### Start using components
+
+Components are available as Blade components with the `ui` prefix (configurable):
+
+```blade title="resources/views/welcome.blade.php"
+<x-ui-button variant="primary" size="md">
+    Get Started
+</x-ui-button>
+
+<x-ui-card>
+    <x-ui-card-header>
+        <x-ui-heading level="3">Welcome</x-ui-heading>
+    </x-ui-card-header>
+    <x-ui-card-body>
+        <p>Start building with Unified UI for Laravel.</p>
+    </x-ui-card-body>
+</x-ui-card>
+```
+
+</Step>
+
+</Steps>
+
+---
+
+## Alpine.js Integration
+
+Some interactive components (dropdowns, modals, tabs, etc.) require [Alpine.js](https://alpinejs.dev). Install it if you haven't already:
+
+```bash
+npm install alpinejs
+```
+
+```js title="resources/js/app.js"
+import Alpine from "alpinejs";
+
+window.Alpine = Alpine;
+Alpine.start();
+```
+
+<Callout type="info">
+    Static components like Button, Badge, Card, and Avatar work without
+    Alpine.js. Only interactive components that manage open/close state require it.
+</Callout>
+
+---
+
+## Publishing Views
+
+To customize component templates, publish the Blade views:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-views
+```
+
+This copies all component views to `resources/views/vendor/unified-ui/`, where you can modify them freely.
+
+<Callout type="warn">
+    After publishing views, you own the templates. Future package updates will
+    **not** overwrite your customizations. Use `php artisan vendor:publish --tag=unified-ui-views --force`
+    to reset to the latest version.
+</Callout>
+
+---
+
+## Livewire Support
+
+Unified UI components are fully compatible with [Livewire](https://livewire.laravel.com). Use them inside Livewire components just like regular Blade components:
+
+```blade title="resources/views/livewire/counter.blade.php"
+<div>
+    <x-ui-heading level="2">Count: {{ $count }}</x-ui-heading>
+    <x-ui-button wire:click="increment" variant="primary">
+        Increment
+    </x-ui-button>
+</div>
+```
+
+---
+
+## Verifying Installation
+
+Run the following Artisan command to verify everything is set up correctly:
+
+```bash
+php artisan unified-ui:check
+```
+
+This checks for:
+
+- ✅ Package configuration published
+- ✅ CSS assets available
+- ✅ Tailwind CSS configured
+- ✅ Alpine.js detected (optional)
+- ✅ Component prefix registered
+
+---
+
+## What's Next?
+
+<Cards>
+    <Card
+        title="Configuration"
+        description="Customize global defaults, prefixes, and theme settings."
+        href="/laravel/configuration"
+    />
+    <Card
+        title="Theming"
+        description="Learn how to customize colors, dark mode, and CSS variables."
+        href="/laravel/theming"
+    />
+    <Card
+        title="Components"
+        description="Browse the full component library with usage examples."
+        href="/laravel/button"
+    />
+</Cards>

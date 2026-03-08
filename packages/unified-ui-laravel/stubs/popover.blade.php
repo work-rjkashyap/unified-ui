@@ -243,4 +243,8 @@
         @endif
 
         {{-- Content --}}
-        <div class="
+        <div class="px-4 py-3 text-sm text-[oklch(var(--ui-popover-foreground))]">
+            {{ $slot }}
+        </div>
+    </div>
+</div>

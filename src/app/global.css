@@ -1,4 +1,6 @@
 @import "tailwindcss";
+
+@source not "../../packages/unified-ui-laravel";
 @import "fumadocs-ui/css/ocean.css";
 @import "fumadocs-ui/css/preset.css";
 @import "@work-rjkashyap/unified-ui/styles.css";

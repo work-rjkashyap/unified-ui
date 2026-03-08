@@ -1,0 +1,341 @@
+---
+title: Theming
+description: Customize the look and feel of Unified UI Laravel components using CSS variables, Tailwind CSS, and Blade configuration.
+icon: Palette
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## Overview
+
+Unified UI for Laravel uses the same **CSS custom property system** as the React design system. This means your Laravel components share a consistent visual language with your React apps — or can be themed independently.
+
+Theming is controlled through three layers:
+
+1. **CSS Custom Properties** — The source of truth for all design tokens (colors, spacing, radius, shadows, etc.)
+2. **Tailwind CSS v4** — Utility classes that reference the CSS variables via `@theme`
+3. **Blade Configuration** — Component-level defaults and variant overrides
+
+---
+
+## CSS Variables
+
+All Unified UI components reference CSS custom properties for their styling. These are defined in the published stylesheet.
+
+### Publishing the Stylesheet
+
+```bash
+php artisan vendor:publish --tag=unified-ui-styles
+```
+
+This copies the CSS file to `resources/css/unified-ui.css`. Import it in your main stylesheet:
+
+```css title="resources/css/app.css"
+@import "tailwindcss";
+@import "./unified-ui.css";
+```
+
+### Variable Reference
+
+Colors use the **oklch()** color space for perceptual uniformity:
+
+```css title="resources/css/unified-ui.css"
+:root {
+  /* Primary */
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+
+  /* Secondary */
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+  /* Destructive */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+
+  /* Background & Foreground */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  /* Border & Ring */
+  --border: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+```
+
+### Dark Mode
+
+Dark mode is handled via the `.dark` class on the `<html>` element or `prefers-color-scheme` media query:
+
+```css title="resources/css/unified-ui.css"
+.dark {
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --border: oklch(0.27 0 0);
+  /* ... */
+}
+```
+
+---
+
+## Customizing Themes
+
+### Override Variables
+
+The simplest way to customize the theme is to override CSS variables after importing the base stylesheet:
+
+```css title="resources/css/app.css"
+@import "tailwindcss";
+@import "./unified-ui.css";
+
+:root {
+  /* Override with your brand colors */
+  --primary: oklch(0.55 0.22 250);
+  --primary-foreground: oklch(0.98 0.01 250);
+}
+```
+
+### Per-Component Overrides
+
+You can scope variable overrides to specific components:
+
+```css title="resources/css/app.css"
+/* Make all cards use a softer radius */
+[data-ds-component="card"] {
+  --radius-lg: 1rem;
+}
+
+/* Adjust button colors for a specific section */
+.hero-section [data-ds-component="button"] {
+  --primary: oklch(0.65 0.25 145);
+  --primary-foreground: oklch(0.98 0 0);
+}
+```
+
+---
+
+## Dark Mode Integration
+
+### With Laravel + Alpine.js
+
+A common pattern uses Alpine.js to toggle dark mode:
+
+```html title="resources/views/components/theme-toggle.blade.php"
+<div x-data="{ dark: localStorage.getItem('theme') === 'dark' }"
+     x-init="$watch('dark', val => {
+       localStorage.setItem('theme', val ? 'dark' : 'light');
+       document.documentElement.classList.toggle('dark', val);
+     })"
+>
+  <x-unified-ui::button
+    variant="ghost"
+    size="sm"
+    x-on:click="dark = !dark"
+  >
+    <span x-show="!dark">🌙</span>
+    <span x-show="dark">☀️</span>
+    <span x-text="dark ? 'Light Mode' : 'Dark Mode'"></span>
+  </x-unified-ui::button>
+</div>
+```
+
+### With Livewire
+
+```php title="app/Livewire/ThemeToggle.php"
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+
+class ThemeToggle extends Component
+{
+    public string $theme = 'light';
+
+    public function toggle(): void
+    {
+        $this->theme = $this->theme === 'light' ? 'dark' : 'light';
+        $this->dispatch('theme-changed', theme: $this->theme);
+    }
+
+    public function render()
+    {
+        return view('livewire.theme-toggle');
+    }
+}
+```
+
+```html title="resources/views/livewire/theme-toggle.blade.php"
+<div
+  x-data="{ theme: @entangle('theme') }"
+  x-effect="document.documentElement.classList.toggle('dark', theme === 'dark')"
+>
+  <x-unified-ui::button
+    variant="ghost"
+    size="sm"
+    wire:click="toggle"
+  >
+    Toggle Theme
+  </x-unified-ui::button>
+</div>
+```
+
+---
+
+## Blade Configuration
+
+### Global Defaults
+
+Publish the config file to set global defaults for all components:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-config
+```
+
+```php title="config/unified-ui.php"
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Default Component Variants
+    |--------------------------------------------------------------------------
+    |
+    | Set the default variant and size for each component family.
+    |
+    */
+
+    'defaults' => [
+        'button' => [
+            'variant' => 'primary',
+            'size' => 'md',
+        ],
+        'input' => [
+            'variant' => 'outline',
+            'size' => 'md',
+        ],
+        'badge' => [
+            'variant' => 'default',
+            'size' => 'md',
+        ],
+        'card' => [
+            'variant' => 'default',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dark Mode Strategy
+    |--------------------------------------------------------------------------
+    |
+    | Supported: "class", "media"
+    | "class" uses the .dark class on <html>
+    | "media" uses prefers-color-scheme
+    |
+    */
+
+    'dark_mode' => 'class',
+
+    /*
+    |--------------------------------------------------------------------------
+    | CSS Variable Prefix
+    |--------------------------------------------------------------------------
+    |
+    | All CSS variables use this prefix. Default is empty (no prefix).
+    | Example: setting 'ds' would produce --ds-primary instead of --primary.
+    |
+    */
+
+    'css_prefix' => '',
+];
+```
+
+### Component-Level Defaults
+
+Override defaults per-component in your Blade views:
+
+```html
+<!-- Uses global default variant (primary) and size (md) -->
+<x-unified-ui::button>Save</x-unified-ui::button>
+
+<!-- Override for this instance -->
+<x-unified-ui::button variant="outline" size="lg">
+  Cancel
+</x-unified-ui::button>
+```
+
+---
+
+## Tailwind CSS Integration
+
+Unified UI's CSS variables integrate seamlessly with Tailwind CSS v4's `@theme` directive. After importing the stylesheet, all design tokens are available as Tailwind utilities:
+
+```html
+<!-- These all reference the CSS custom properties -->
+<div class="bg-primary text-primary-foreground rounded-md shadow-lg">
+  <p class="text-foreground">Styled with tokens</p>
+</div>
+```
+
+### Extending with Custom Tokens
+
+Add your own tokens that follow the same pattern:
+
+```css title="resources/css/app.css"
+@import "tailwindcss";
+@import "./unified-ui.css";
+
+@theme {
+  --color-brand: oklch(0.6 0.2 260);
+  --color-brand-foreground: oklch(0.98 0 0);
+}
+```
+
+Then use them in your templates:
+
+```html
+<div class="bg-brand text-brand-foreground">
+  Custom branded section
+</div>
+```
+
+<Callout type="info">
+  The theming system is designed to be **identical across React and Laravel** at the CSS variable level. If you maintain a shared `unified-ui.css` file, both your React and Laravel apps will look consistent automatically.
+</Callout>
+
+---
+
+## What's Next?
+
+<Cards>
+  <Card
+    title="Installation"
+    description="Set up Unified UI in your Laravel project."
+    href="/laravel"
+  />
+  <Card
+    title="Blade Components"
+    description="Browse the full list of available Blade components."
+    href="/laravel/blade-components"
+  />
+  <Card
+    title="Livewire Integration"
+    description="Use components with Livewire for reactive UIs."
+    href="/laravel/livewire"
+  />
+</Cards>

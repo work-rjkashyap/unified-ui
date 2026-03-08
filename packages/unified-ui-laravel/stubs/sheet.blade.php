@@ -276,4 +276,17 @@
                 @endif
 
                 {{-- Body --}}
-                <div class="flex-
+                <div class="flex-1 overflow-y-auto px-6 py-6">
+                    {{ $slot }}
+                </div>
+
+                {{-- Footer --}}
+                @if(isset($footer))
+                    <div class="shrink-0 flex items-center justify-end gap-3 px-6 py-4 border-t border-[oklch(var(--ui-border))]">
+                        {{ $footer }}
+                    </div>
+                @endif
+            </div>
+        </div>
+    </template>
+</div>

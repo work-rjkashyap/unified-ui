@@ -1,0 +1,213 @@
+---
+title: Button
+description: A versatile button component for Laravel Blade with multiple variants, sizes, and icon support.
+icon: RectangleHorizontal
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The Button component provides a consistent, accessible button element for your Laravel applications. It supports multiple variants, sizes, icons, and loading states — all rendered server-side with Blade.
+
+## Installation
+
+<Tabs items={['Composer', 'Manual']}>
+<Tab value="Composer">
+
+```bash
+composer require unified-ui/laravel
+```
+
+</Tab>
+<Tab value="Manual">
+
+Copy the Blade component file into your project:
+
+```bash
+cp vendor/unified-ui/laravel/resources/views/components/button.blade.php \
+   resources/views/components/ui/button.blade.php
+```
+
+</Tab>
+</Tabs>
+
+## Usage
+
+### Basic
+
+```html
+<x-ui-button>Click me</x-ui-button>
+```
+
+### Variants
+
+```html
+<x-ui-button variant="primary">Primary</x-ui-button>
+<x-ui-button variant="secondary">Secondary</x-ui-button>
+<x-ui-button variant="outline">Outline</x-ui-button>
+<x-ui-button variant="ghost">Ghost</x-ui-button>
+<x-ui-button variant="destructive">Destructive</x-ui-button>
+<x-ui-button variant="link">Link</x-ui-button>
+```
+
+### Sizes
+
+```html
+<x-ui-button size="sm">Small</x-ui-button>
+<x-ui-button size="md">Medium</x-ui-button>
+<x-ui-button size="lg">Large</x-ui-button>
+<x-ui-button size="icon">
+    <x-lucide-plus class="size-4" />
+</x-ui-button>
+```
+
+### With Icons
+
+```html
+<x-ui-button icon="lucide-mail">
+    Send Email
+</x-ui-button>
+
+<x-ui-button icon-right="lucide-arrow-right">
+    Next Step
+</x-ui-button>
+```
+
+### Loading State
+
+```html
+<x-ui-button :loading="$isSubmitting">
+    Submit
+</x-ui-button>
+```
+
+When `loading` is true, the button displays a spinner and becomes disabled automatically.
+
+### As Link
+
+```html
+<x-ui-button href="/dashboard" variant="outline">
+    Go to Dashboard
+</x-ui-button>
+```
+
+When `href` is provided, the component renders an `<a>` tag instead of a `<button>`.
+
+### Disabled
+
+```html
+<x-ui-button :disabled="true">Disabled</x-ui-button>
+```
+
+### Full Width
+
+```html
+<x-ui-button full>Full Width Button</x-ui-button>
+```
+
+## Blade Component
+
+```php
+{{-- resources/views/components/ui/button.blade.php --}}
+@props([
+    'variant' => 'primary',
+    'size' => 'md',
+    'href' => null,
+    'icon' => null,
+    'iconRight' => null,
+    'loading' => false,
+    'disabled' => false,
+    'full' => false,
+    'type' => 'button',
+])
+
+@php
+    $baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50';
+
+    $variants = [
+        'primary'     => 'bg-primary text-primary-foreground hover:bg-primary/90',
+        'secondary'   => 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        'outline'     => 'border border-border bg-background hover:bg-accent hover:text-accent-foreground',
+        'ghost'       => 'hover:bg-accent hover:text-accent-foreground',
+        'destructive' => 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        'link'        => 'text-primary underline-offset-4 hover:underline',
+    ];
+
+    $sizes = [
+        'sm'   => 'h-8 px-3 text-xs gap-1.5',
+        'md'   => 'h-9 px-4 text-sm gap-2',
+        'lg'   => 'h-10 px-6 text-base gap-2',
+        'icon' => 'h-9 w-9',
+    ];
+
+    $classes = implode(' ', [
+        $baseClasses,
+        $variants[$variant] ?? $variants['primary'],
+        $sizes[$size] ?? $sizes['md'],
+        $full ? 'w-full' : '',
+    ]);
+
+    $tag = $href ? 'a' : 'button';
+@endphp
+
+<{{ $tag }}
+    @if($href) href="{{ $href }}" @endif
+    @if($tag === 'button') type="{{ $type }}" @endif
+    @disabled($disabled || $loading)
+    {{ $attributes->merge(['class' => $classes]) }}
+>
+    @if($loading)
+        <x-ui-spinner size="sm" class="animate-spin" />
+    @elseif($icon)
+        <x-dynamic-component :component="$icon" class="size-4" />
+    @endif
+
+    {{ $slot }}
+
+    @if($iconRight && !$loading)
+        <x-dynamic-component :component="$iconRight" class="size-4" />
+    @endif
+</{{ $tag }}>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `string` | `primary` | Visual style: `primary`, `secondary`, `outline`, `ghost`, `destructive`, `link` |
+| `size` | `string` | `md` | Size: `sm`, `md`, `lg`, `icon` |
+| `href` | `string\|null` | `null` | If provided, renders as an `<a>` tag |
+| `icon` | `string\|null` | `null` | Leading icon Blade component name |
+| `iconRight` | `string\|null` | `null` | Trailing icon Blade component name |
+| `loading` | `bool` | `false` | Shows spinner and disables the button |
+| `disabled` | `bool` | `false` | Disables the button |
+| `full` | `bool` | `false` | Makes the button full width |
+| `type` | `string` | `button` | HTML button type (`button`, `submit`, `reset`) |
+
+<Callout type="info">
+All additional attributes (e.g. `wire:click`, `x-on:click`, `id`, `data-*`) are forwarded to the underlying element via Blade's `$attributes` bag.
+</Callout>
+
+## Livewire Example
+
+```html
+<x-ui-button wire:click="save" :loading="$wire.isProcessing">
+    Save Changes
+</x-ui-button>
+```
+
+## Alpine.js Example
+
+```html
+<div x-data="{ loading: false }">
+    <x-ui-button
+        x-on:click="loading = true; $dispatch('submit')"
+        x-bind:disabled="loading"
+    >
+        <span x-show="!loading">Submit</span>
+        <span x-show="loading">Processing…</span>
+    </x-ui-button>
+</div>
+```

@@ -137,9 +137,6 @@
         'justify-center',
         'text-center',
         $gapClasses,
-        $paddingClasses,
-        $variantClasses,
-    ]);
 @endphp
 
 <div
@@ -152,7 +149,7 @@
             {{ $icon }}
         </div>
     @else
-        {{-- Default empty state icon --}}
+        {{-- Default empty state icon (inbox / tray) --}}
         <div class="text-[oklch(var(--ui-muted-foreground)/0.4)]" aria-hidden="true">
             <svg
                 class="{{ $iconSizeClasses }}"
@@ -168,4 +165,38 @@
                 <path d="M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3" />
                 <path d="M4 12H2" />
                 <path d="M10 12H8" />
-                <path d="M16
+                <path d="M16 12h-2" />
+                <path d="M22 12h-2" />
+            </svg>
+        </div>
+    @endif
+
+    {{-- Text content --}}
+    <div class="flex flex-col items-center gap-1">
+        @if($title)
+            <h3 class="{{ $titleSizeClasses }} font-semibold text-[oklch(var(--ui-foreground))]">
+                {{ $title }}
+            </h3>
+        @endif
+
+        @if($description)
+            <p class="{{ $descriptionSizeClasses }} text-[oklch(var(--ui-muted-foreground))] max-w-sm">
+                {{ $description }}
+            </p>
+        @endif
+
+        {{-- Default slot (additional content / custom description) --}}
+        @if($slot->isNotEmpty())
+            <div class="{{ $descriptionSizeClasses }} text-[oklch(var(--ui-muted-foreground))] max-w-sm">
+                {{ $slot }}
+            </div>
+        @endif
+    </div>
+
+    {{-- Action slot --}}
+    @if(isset($action))
+        <div class="mt-1">
+            {{ $action }}
+        </div>
+    @endif
+</div>

@@ -179,4 +179,13 @@
         </span>
     @endif
 
-    {{-- Content
+    {{-- Content (invisible when loading to keep width, but hidden from screen readers) --}}
+    <span @if($loading) class="invisible" aria-hidden="true" @endif>
+        {{ $slot }}
+    </span>
+
+@if($isAnchor)
+</a>
+@else
+</{{ $tag }}>
+@endif

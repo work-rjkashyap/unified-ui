@@ -1,0 +1,240 @@
+---
+title: Getting Started
+description: Install and configure Unified UI for Laravel — Blade components powered by the same design tokens as the React library.
+icon: Rocket
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## What is Unified UI for Laravel?
+
+Unified UI for Laravel is a **Blade component library** that brings the same token-driven design system to your Laravel projects. It shares the **same design tokens, CSS custom properties, and visual language** as the React library — so your Laravel and React apps look and feel identical.
+
+### Key Principles
+
+- **Token-driven** — Every color, spacing value, radius, shadow, and motion timing comes from the same source of truth as the React library.
+- **Blade-native** — Components are built as proper Blade components with slots, attributes, and Alpine.js interactivity where needed.
+- **Accessible by default** — All components include proper ARIA attributes, keyboard navigation, and focus management.
+- **Theme-aware** — Light and dark modes via CSS custom properties. Works with `prefers-color-scheme` or manual toggling.
+- **Zero JavaScript by default** — Most components are pure HTML/CSS. Interactive components use Alpine.js (optional).
+
+### Architecture
+
+```
+Tokens (CSS custom properties)
+  → Blade Components (server-rendered HTML + Tailwind classes)
+    → Alpine.js (optional interactivity)
+```
+
+| Layer              | What it provides                                                      |
+| ------------------ | --------------------------------------------------------------------- |
+| **Tokens**         | CSS custom properties — colors, spacing, typography, radius, shadows  |
+| **Components**     | 30+ Blade components (Button, Card, Badge, Dialog, etc.)              |
+| **Interactivity**  | Alpine.js plugins for dropdowns, modals, tabs, and other dynamic UIs  |
+| **Utilities**      | Blade directives and helper functions                                 |
+
+---
+
+## Requirements
+
+| Dependency         | Minimum Version | Notes                                |
+| ------------------ | --------------- | ------------------------------------ |
+| **PHP**            | 8.2+            | Required                             |
+| **Laravel**        | 11.0+           | Required                             |
+| **Tailwind CSS**   | 4.0+            | Required for utility classes         |
+| **Alpine.js**      | 3.14+           | Optional — only for interactive components |
+
+---
+
+## Installation
+
+<Steps>
+
+<Step>
+### Install the package via Composer
+
+```bash
+composer require work-rjkashyap/unified-ui-laravel
+```
+
+</Step>
+
+<Step>
+### Publish the assets
+
+Publish the CSS custom properties and config file:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-config
+php artisan vendor:publish --tag=unified-ui-assets
+```
+
+This creates:
+- `config/unified-ui.php` — component prefix and default settings
+- `public/vendor/unified-ui/styles.css` — design tokens as CSS custom properties
+
+</Step>
+
+<Step>
+### Import the CSS
+
+Add the Unified UI stylesheet to your main CSS file:
+
+```css title="resources/css/app.css"
+@import "tailwindcss";
+@import "/vendor/unified-ui/styles.css";
+```
+
+Or include it directly in your layout:
+
+```html title="resources/views/layouts/app.blade.php"
+<link rel="stylesheet" href="{{ asset('vendor/unified-ui/styles.css') }}">
+```
+
+</Step>
+
+<Step>
+### Start using components
+
+```html title="resources/views/welcome.blade.php"
+<x-ui-button variant="primary" size="md">
+    Get Started
+</x-ui-button>
+
+<x-ui-card>
+    <x-ui-card-header>
+        <x-ui-card-title>Welcome</x-ui-card-title>
+    </x-ui-card-header>
+    <x-ui-card-body>
+        <p>A token-driven design system for Laravel applications.</p>
+    </x-ui-card-body>
+</x-ui-card>
+```
+
+</Step>
+
+</Steps>
+
+---
+
+## Configuration
+
+After publishing, the config file is available at `config/unified-ui.php`:
+
+```php title="config/unified-ui.php"
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Component Prefix
+    |--------------------------------------------------------------------------
+    |
+    | All Unified UI components are prefixed to avoid conflicts with your
+    | own Blade components. The default prefix is "ui", which means
+    | components are used as <x-ui-button>, <x-ui-card>, etc.
+    |
+    */
+    'prefix' => 'ui',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Theme
+    |--------------------------------------------------------------------------
+    |
+    | The default color theme for your application. This determines which
+    | CSS custom properties are loaded.
+    |
+    */
+    'theme' => 'default',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dark Mode
+    |--------------------------------------------------------------------------
+    |
+    | How dark mode is handled. Options: "class", "media", "none".
+    | "class" uses a .dark class on <html>.
+    | "media" uses prefers-color-scheme.
+    | "none" disables dark mode entirely.
+    |
+    */
+    'dark_mode' => 'class',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Alpine.js
+    |--------------------------------------------------------------------------
+    |
+    | Whether to automatically include Alpine.js for interactive components.
+    | Set to false if you manage Alpine.js yourself.
+    |
+    */
+    'alpine' => true,
+];
+```
+
+---
+
+## Component Naming
+
+All components use the configured prefix (default: `ui`):
+
+| Component       | Blade Tag                  |
+| --------------- | -------------------------- |
+| Button          | `<x-ui-button>`           |
+| Card            | `<x-ui-card>`             |
+| Badge           | `<x-ui-badge>`            |
+| Input           | `<x-ui-input>`            |
+| Dialog          | `<x-ui-dialog>`           |
+| Dropdown Menu   | `<x-ui-dropdown-menu>`    |
+| Alert           | `<x-ui-alert>`            |
+| Tabs            | `<x-ui-tabs>`             |
+
+<Callout type="info">
+    You can change the prefix in `config/unified-ui.php`. For example, setting
+    `'prefix' => 'ds'` changes usage to `<x-ds-button>`.
+</Callout>
+
+---
+
+## Comparison: React vs Laravel
+
+Both libraries share the same design tokens and produce visually identical output:
+
+| Feature              | React (`@work-rjkashyap/unified-ui`) | Laravel (`unified-ui-laravel`) |
+| -------------------- | ------------------------------------- | ------------------------------ |
+| **Rendering**        | Client-side / RSC                     | Server-side Blade              |
+| **Interactivity**    | React state + hooks                   | Alpine.js (optional)           |
+| **Design Tokens**    | Same CSS custom properties            | Same CSS custom properties     |
+| **Tailwind Classes** | Same utility classes                  | Same utility classes           |
+| **Accessibility**    | Radix UI primitives                   | Manual ARIA + keyboard         |
+| **Components**       | 75+                                   | 30+ (growing)                  |
+| **Variants**         | CVA (class-variance-authority)        | Blade props + @php             |
+
+---
+
+## What's Next?
+
+<Cards>
+    <Card
+        title="Button"
+        description="Primary interactive element with multiple variants and sizes."
+        href="/laravel/button"
+    />
+    <Card
+        title="Card"
+        description="Versatile container for grouping related content."
+        href="/laravel/card"
+    />
+    <Card
+        title="Badge"
+        description="Small status indicators and labels."
+        href="/laravel/badge"
+    />
+    <Card
+        title="Alert"
+        description="Contextual feedback messages for user actions."
+        href="/laravel/alert"
+    />
+</Cards>

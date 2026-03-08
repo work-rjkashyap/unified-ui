@@ -185,4 +185,71 @@
                                 >
                                     <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
                                     <line x1="12" y1="9" x2="12" y2="13" />
-                                    <line x1="12" y
+                                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                                </svg>
+                            </div>
+                        @else
+                            {{-- Default / warning icon --}}
+                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-[oklch(var({{ $iconColor }})/0.1)]">
+                                <svg
+                                    class="h-5 w-5 text-[oklch(var({{ $iconColor }}))]"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                                    <line x1="12" y1="9" x2="12" y2="13" />
+                                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                                </svg>
+                            </div>
+                        @endif
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="flex-1 space-y-2">
+                        @if(isset($title))
+                            <h3
+                                id="alert-dialog-title"
+                                class="text-base font-semibold leading-tight text-[oklch(var(--ui-foreground))]"
+                            >
+                                {{ $title }}
+                            </h3>
+                        @endif
+
+                        @if(isset($description))
+                            <p
+                                id="alert-dialog-description"
+                                class="text-sm text-[oklch(var(--ui-muted-foreground))] leading-relaxed"
+                            >
+                                {{ $description }}
+                            </p>
+                        @endif
+
+                        {{-- Default slot for additional content --}}
+                        @if($slot->isNotEmpty())
+                            <div class="text-sm text-[oklch(var(--ui-muted-foreground))]">
+                                {{ $slot }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Action buttons --}}
+                @if(isset($cancel) || isset($action))
+                    <div class="flex items-center justify-end gap-3 mt-6">
+                        @if(isset($cancel))
+                            {{ $cancel }}
+                        @endif
+                        @if(isset($action))
+                            {{ $action }}
+                        @endif
+                    </div>
+                @endif
+            </div>
+        </div>
+    </template>
+</div>

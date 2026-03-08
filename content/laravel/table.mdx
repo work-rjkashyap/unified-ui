@@ -1,0 +1,250 @@
+---
+title: Table
+description: A responsive table component for displaying structured data with sorting, striping, and density options.
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The Table component provides a clean, accessible way to display tabular data in your Laravel Blade templates. It supports sortable columns, striped rows, compact/comfortable density, and responsive horizontal scrolling.
+
+## Installation
+
+<Tabs items={['Composer', 'Manual']}>
+<Tab value="Composer">
+
+```bash
+composer require unified-ui/laravel
+```
+
+</Tab>
+<Tab value="Manual">
+
+Copy the Blade component files into your project:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-components --force
+```
+
+</Tab>
+</Tabs>
+
+## Basic Usage
+
+```php
+<x-ui-table>
+    <x-slot:header>
+        <x-ui-table-head>Name</x-ui-table-head>
+        <x-ui-table-head>Email</x-ui-table-head>
+        <x-ui-table-head>Role</x-ui-table-head>
+    </x-slot:header>
+
+    <x-slot:body>
+        @foreach($users as $user)
+            <x-ui-table-row>
+                <x-ui-table-cell>{{ $user->name }}</x-ui-table-cell>
+                <x-ui-table-cell>{{ $user->email }}</x-ui-table-cell>
+                <x-ui-table-cell>{{ $user->role }}</x-ui-table-cell>
+            </x-ui-table-row>
+        @endforeach
+    </x-slot:body>
+</x-ui-table>
+```
+
+## Striped Rows
+
+Add alternating row backgrounds for improved readability:
+
+```php
+<x-ui-table striped>
+    <x-slot:header>
+        <x-ui-table-head>Product</x-ui-table-head>
+        <x-ui-table-head>Price</x-ui-table-head>
+        <x-ui-table-head>Stock</x-ui-table-head>
+    </x-slot:header>
+
+    <x-slot:body>
+        @foreach($products as $product)
+            <x-ui-table-row>
+                <x-ui-table-cell>{{ $product->name }}</x-ui-table-cell>
+                <x-ui-table-cell>{{ $product->formatted_price }}</x-ui-table-cell>
+                <x-ui-table-cell>{{ $product->stock_count }}</x-ui-table-cell>
+            </x-ui-table-row>
+        @endforeach
+    </x-slot:body>
+</x-ui-table>
+```
+
+## Density
+
+Control the vertical padding of table cells with the `density` prop:
+
+```php
+{{-- Compact density --}}
+<x-ui-table density="compact">
+    ...
+</x-ui-table>
+
+{{-- Default density --}}
+<x-ui-table density="default">
+    ...
+</x-ui-table>
+
+{{-- Comfortable density --}}
+<x-ui-table density="comfortable">
+    ...
+</x-ui-table>
+```
+
+## Sortable Columns
+
+Use the `sortable` attribute on table heads and wire them up with Livewire or Alpine.js:
+
+```php
+<x-ui-table>
+    <x-slot:header>
+        <x-ui-table-head
+            sortable
+            :direction="$sortField === 'name' ? $sortDirection : null"
+            wire:click="sortBy('name')"
+        >
+            Name
+        </x-ui-table-head>
+        <x-ui-table-head
+            sortable
+            :direction="$sortField === 'email' ? $sortDirection : null"
+            wire:click="sortBy('email')"
+        >
+            Email
+        </x-ui-table-head>
+    </x-slot:header>
+
+    <x-slot:body>
+        @foreach($users as $user)
+            <x-ui-table-row>
+                <x-ui-table-cell>{{ $user->name }}</x-ui-table-cell>
+                <x-ui-table-cell>{{ $user->email }}</x-ui-table-cell>
+            </x-ui-table-row>
+        @endforeach
+    </x-slot:body>
+</x-ui-table>
+```
+
+## With Caption
+
+Add a caption to describe the table content for accessibility:
+
+```php
+<x-ui-table>
+    <x-slot:caption>List of team members and their roles</x-slot:caption>
+
+    <x-slot:header>
+        <x-ui-table-head>Name</x-ui-table-head>
+        <x-ui-table-head>Role</x-ui-table-head>
+    </x-slot:header>
+
+    <x-slot:body>
+        @foreach($members as $member)
+            <x-ui-table-row>
+                <x-ui-table-cell>{{ $member->name }}</x-ui-table-cell>
+                <x-ui-table-cell>{{ $member->role }}</x-ui-table-cell>
+            </x-ui-table-row>
+        @endforeach
+    </x-slot:body>
+</x-ui-table>
+```
+
+## With Footer
+
+```php
+<x-ui-table>
+    <x-slot:header>
+        <x-ui-table-head>Item</x-ui-table-head>
+        <x-ui-table-head class="text-right">Amount</x-ui-table-head>
+    </x-slot:header>
+
+    <x-slot:body>
+        @foreach($lineItems as $item)
+            <x-ui-table-row>
+                <x-ui-table-cell>{{ $item->description }}</x-ui-table-cell>
+                <x-ui-table-cell class="text-right">{{ $item->formatted_amount }}</x-ui-table-cell>
+            </x-ui-table-row>
+        @endforeach
+    </x-slot:body>
+
+    <x-slot:footer>
+        <x-ui-table-row>
+            <x-ui-table-cell class="font-semibold">Total</x-ui-table-cell>
+            <x-ui-table-cell class="text-right font-semibold">{{ $total }}</x-ui-table-cell>
+        </x-ui-table-row>
+    </x-slot:footer>
+</x-ui-table>
+```
+
+## Responsive Scrolling
+
+Tables are wrapped in a horizontally scrollable container by default. For very wide tables, this ensures they don't break your layout on mobile:
+
+```php
+<x-ui-table responsive>
+    {{-- Wide table content --}}
+</x-ui-table>
+```
+
+## Props
+
+### Table
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `striped` | `bool` | `false` | Alternating row background colors |
+| `density` | `string` | `"default"` | Row padding — `compact`, `default`, or `comfortable` |
+| `responsive` | `bool` | `true` | Wrap table in a horizontal scroll container |
+| `class` | `string` | `""` | Additional CSS classes |
+
+### Table Head
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sortable` | `bool` | `false` | Show sort indicator and make the header interactive |
+| `direction` | `string\|null` | `null` | Current sort direction — `asc`, `desc`, or `null` |
+| `align` | `string` | `"left"` | Text alignment — `left`, `center`, or `right` |
+| `class` | `string` | `""` | Additional CSS classes |
+
+### Table Row
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `selected` | `bool` | `false` | Highlight the row as selected |
+| `class` | `string` | `""` | Additional CSS classes |
+
+### Table Cell
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `align` | `string` | `"left"` | Text alignment — `left`, `center`, or `right` |
+| `class` | `string` | `""` | Additional CSS classes |
+
+## Blade Component Files
+
+The Table component is composed of the following Blade files:
+
+```
+resources/views/components/ui/
+├── table.blade.php
+├── table-head.blade.php
+├── table-row.blade.php
+└── table-cell.blade.php
+```
+
+## Accessibility
+
+- The component renders a semantic `<table>` element with `<thead>`, `<tbody>`, and optional `<tfoot>` and `<caption>`.
+- Sortable columns use `aria-sort` attributes (`ascending`, `descending`, or `none`).
+- The responsive scroll wrapper includes `tabindex="0"` and `role="region"` with an `aria-label` so keyboard users can scroll the table.
+
+<Callout type="info">
+  Always provide a `caption` slot or an `aria-label` on the table so screen reader users understand the table's purpose.
+</Callout>

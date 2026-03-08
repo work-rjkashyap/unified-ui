@@ -1,0 +1,257 @@
+---
+title: Tabs
+description: A tabbed interface component for organizing content into switchable panels within your Laravel Blade views.
+icon: PanelTop
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+## Overview
+
+The Tabs component provides a tabbed navigation interface for organizing related content into switchable panels. Built as a Blade component with Alpine.js for interactivity, it supports horizontal and vertical orientations, variants, and keyboard navigation.
+
+## Installation
+
+<Tabs items={['CLI', 'Manual']}>
+<Tab value="CLI">
+
+```bash
+php artisan vendor:publish --tag=unified-ui-tabs
+```
+
+</Tab>
+<Tab value="Manual">
+
+Copy the Blade component files into your project:
+
+```bash
+resources/views/components/ui/tabs.blade.php
+resources/views/components/ui/tabs-list.blade.php
+resources/views/components/ui/tabs-trigger.blade.php
+resources/views/components/ui/tabs-content.blade.php
+```
+
+</Tab>
+</Tabs>
+
+## Basic Usage
+
+```html
+<x-ui.tabs default="account">
+    <x-ui.tabs-list>
+        <x-ui.tabs-trigger value="account">Account</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="password">Password</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="notifications">Notifications</x-ui.tabs-trigger>
+    </x-ui.tabs-list>
+
+    <x-ui.tabs-content value="account">
+        <p>Manage your account settings and preferences.</p>
+    </x-ui.tabs-content>
+
+    <x-ui.tabs-content value="password">
+        <p>Change your password and security settings.</p>
+    </x-ui.tabs-content>
+
+    <x-ui.tabs-content value="notifications">
+        <p>Configure your notification preferences.</p>
+    </x-ui.tabs-content>
+</x-ui.tabs>
+```
+
+## Variants
+
+### Underline (default)
+
+```html
+<x-ui.tabs default="tab1" variant="underline">
+    <x-ui.tabs-list>
+        <x-ui.tabs-trigger value="tab1">Tab 1</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="tab2">Tab 2</x-ui.tabs-trigger>
+    </x-ui.tabs-list>
+
+    <x-ui.tabs-content value="tab1">Content for tab 1</x-ui.tabs-content>
+    <x-ui.tabs-content value="tab2">Content for tab 2</x-ui.tabs-content>
+</x-ui.tabs>
+```
+
+### Solid
+
+```html
+<x-ui.tabs default="tab1" variant="solid">
+    <x-ui.tabs-list>
+        <x-ui.tabs-trigger value="tab1">Tab 1</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="tab2">Tab 2</x-ui.tabs-trigger>
+    </x-ui.tabs-list>
+
+    <x-ui.tabs-content value="tab1">Content for tab 1</x-ui.tabs-content>
+    <x-ui.tabs-content value="tab2">Content for tab 2</x-ui.tabs-content>
+</x-ui.tabs>
+```
+
+### Pill
+
+```html
+<x-ui.tabs default="tab1" variant="pill">
+    <x-ui.tabs-list>
+        <x-ui.tabs-trigger value="tab1">Tab 1</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="tab2">Tab 2</x-ui.tabs-trigger>
+    </x-ui.tabs-list>
+
+    <x-ui.tabs-content value="tab1">Content for tab 1</x-ui.tabs-content>
+    <x-ui.tabs-content value="tab2">Content for tab 2</x-ui.tabs-content>
+</x-ui.tabs>
+```
+
+## Sizes
+
+The Tabs component supports `sm`, `md` (default), and `lg` sizes:
+
+```html
+<x-ui.tabs default="tab1" size="sm">...</x-ui.tabs>
+<x-ui.tabs default="tab1" size="md">...</x-ui.tabs>
+<x-ui.tabs default="tab1" size="lg">...</x-ui.tabs>
+```
+
+## Vertical Orientation
+
+```html
+<x-ui.tabs default="tab1" orientation="vertical">
+    <div class="flex gap-4">
+        <x-ui.tabs-list>
+            <x-ui.tabs-trigger value="tab1">General</x-ui.tabs-trigger>
+            <x-ui.tabs-trigger value="tab2">Security</x-ui.tabs-trigger>
+            <x-ui.tabs-trigger value="tab3">Billing</x-ui.tabs-trigger>
+        </x-ui.tabs-list>
+
+        <div class="flex-1">
+            <x-ui.tabs-content value="tab1">General settings content</x-ui.tabs-content>
+            <x-ui.tabs-content value="tab2">Security settings content</x-ui.tabs-content>
+            <x-ui.tabs-content value="tab3">Billing settings content</x-ui.tabs-content>
+        </div>
+    </div>
+</x-ui.tabs>
+```
+
+## With Icons
+
+```html
+<x-ui.tabs default="account">
+    <x-ui.tabs-list>
+        <x-ui.tabs-trigger value="account">
+            <x-icon name="user" class="size-4 mr-2" />
+            Account
+        </x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="settings">
+            <x-icon name="settings" class="size-4 mr-2" />
+            Settings
+        </x-ui.tabs-trigger>
+    </x-ui.tabs-list>
+
+    <x-ui.tabs-content value="account">Account content</x-ui.tabs-content>
+    <x-ui.tabs-content value="settings">Settings content</x-ui.tabs-content>
+</x-ui.tabs>
+```
+
+## Disabled Tab
+
+```html
+<x-ui.tabs default="tab1">
+    <x-ui.tabs-list>
+        <x-ui.tabs-trigger value="tab1">Active</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="tab2" disabled>Disabled</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="tab3">Another Tab</x-ui.tabs-trigger>
+    </x-ui.tabs-list>
+
+    <x-ui.tabs-content value="tab1">Active content</x-ui.tabs-content>
+    <x-ui.tabs-content value="tab3">Another tab content</x-ui.tabs-content>
+</x-ui.tabs>
+```
+
+## With Livewire
+
+You can integrate Tabs with Livewire for server-side tab state management:
+
+```html
+<x-ui.tabs
+    default="{{ $activeTab }}"
+    x-on:tab-change="$wire.set('activeTab', $event.detail.value)"
+>
+    <x-ui.tabs-list>
+        <x-ui.tabs-trigger value="overview">Overview</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="analytics">Analytics</x-ui.tabs-trigger>
+        <x-ui.tabs-trigger value="reports">Reports</x-ui.tabs-trigger>
+    </x-ui.tabs-list>
+
+    <x-ui.tabs-content value="overview">
+        @livewire('dashboard.overview')
+    </x-ui.tabs-content>
+
+    <x-ui.tabs-content value="analytics">
+        @livewire('dashboard.analytics')
+    </x-ui.tabs-content>
+
+    <x-ui.tabs-content value="reports">
+        @livewire('dashboard.reports')
+    </x-ui.tabs-content>
+</x-ui.tabs>
+```
+
+## Blade Component Reference
+
+### `<x-ui.tabs>`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `default` | `string` | — | **Required.** The value of the tab to show by default. |
+| `variant` | `'underline' \| 'solid' \| 'pill'` | `'underline'` | Visual style of the tab triggers. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the tab triggers. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Orientation of the tab list. |
+
+### `<x-ui.tabs-list>`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `''` | Additional CSS classes for the tab list container. |
+
+### `<x-ui.tabs-trigger>`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | — | **Required.** Unique identifier for this tab. |
+| `disabled` | `bool` | `false` | Whether the trigger is disabled. |
+| `class` | `string` | `''` | Additional CSS classes. |
+
+### `<x-ui.tabs-content>`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | — | **Required.** Must match a trigger's value to associate the panel. |
+| `class` | `string` | `''` | Additional CSS classes. |
+
+## Events
+
+| Event | Detail | Description |
+| --- | --- | --- |
+| `tab-change` | `{ value: string }` | Dispatched on the root element when the active tab changes. |
+
+## Keyboard Navigation
+
+| Key | Action |
+| --- | --- |
+| `ArrowLeft` / `ArrowRight` | Move focus between tabs (horizontal). |
+| `ArrowUp` / `ArrowDown` | Move focus between tabs (vertical). |
+| `Home` | Move focus to the first tab. |
+| `End` | Move focus to the last tab. |
+| `Enter` / `Space` | Activate the focused tab. |
+
+## Accessibility
+
+- The component uses `role="tablist"`, `role="tab"`, and `role="tabpanel"` for proper ARIA semantics.
+- Each trigger is linked to its panel via `aria-controls` and `aria-selected`.
+- Disabled tabs receive `aria-disabled="true"` and are excluded from keyboard navigation.
+
+<Callout type="info">
+    The Tabs component relies on Alpine.js for client-side interactivity. Make sure Alpine.js is loaded in your application before using this component.
+</Callout>

@@ -1,0 +1,209 @@
+---
+title: Modal
+description: A dialog overlay that requires user interaction before returning to the parent view.
+icon: Square
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The Modal component provides an accessible dialog overlay for confirmations, forms, and important user interactions. Built on top of Alpine.js for reactivity with smooth transitions out of the box.
+
+## Installation
+
+<Tabs items={['Composer', 'Manual']}>
+<Tab value="Composer">
+
+The Modal component is included in the base Unified UI Laravel package:
+
+```bash
+composer require work-rjkashyap/unified-ui-laravel
+```
+
+</Tab>
+<Tab value="Manual">
+
+Copy the Blade component to your project:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-components --force
+```
+
+The component will be published to `resources/views/components/unified-ui/modal.blade.php`.
+
+</Tab>
+</Tabs>
+
+## Usage
+
+### Basic Modal
+
+```php
+<x-unified-ui::modal>
+    <x-slot:trigger>
+        <x-unified-ui::button>Open Modal</x-unified-ui::button>
+    </x-slot:trigger>
+
+    <x-slot:title>Confirm Action</x-slot:title>
+
+    <p>Are you sure you want to proceed with this action?</p>
+
+    <x-slot:footer>
+        <x-unified-ui::button variant="ghost" x-on:click="close()">Cancel</x-unified-ui::button>
+        <x-unified-ui::button variant="primary">Confirm</x-unified-ui::button>
+    </x-slot:footer>
+</x-unified-ui::modal>
+```
+
+### Sizes
+
+Control the maximum width of the modal using the `size` prop.
+
+```php
+{{-- Small modal --}}
+<x-unified-ui::modal size="sm">
+    <x-slot:trigger>
+        <x-unified-ui::button>Small</x-unified-ui::button>
+    </x-slot:trigger>
+    <p>Small modal content.</p>
+</x-unified-ui::modal>
+
+{{-- Medium (default) --}}
+<x-unified-ui::modal size="md">
+    <x-slot:trigger>
+        <x-unified-ui::button>Medium</x-unified-ui::button>
+    </x-slot:trigger>
+    <p>Medium modal content.</p>
+</x-unified-ui::modal>
+
+{{-- Large --}}
+<x-unified-ui::modal size="lg">
+    <x-slot:trigger>
+        <x-unified-ui::button>Large</x-unified-ui::button>
+    </x-slot:trigger>
+    <p>Large modal content.</p>
+</x-unified-ui::modal>
+
+{{-- Extra large --}}
+<x-unified-ui::modal size="xl">
+    <x-slot:trigger>
+        <x-unified-ui::button>Extra Large</x-unified-ui::button>
+    </x-slot:trigger>
+    <p>Extra large modal content.</p>
+</x-unified-ui::modal>
+```
+
+### With Form
+
+Modals work seamlessly with Laravel forms:
+
+```php
+<x-unified-ui::modal>
+    <x-slot:trigger>
+        <x-unified-ui::button>Edit Profile</x-unified-ui::button>
+    </x-slot:trigger>
+
+    <x-slot:title>Edit Profile</x-slot:title>
+    <x-slot:description>Update your account information below.</x-slot:description>
+
+    <form method="POST" action="{{ route('profile.update') }}">
+        @csrf
+        @method('PATCH')
+
+        <div class="space-y-4">
+            <x-unified-ui::input
+                label="Name"
+                name="name"
+                :value="old('name', $user->name)"
+            />
+
+            <x-unified-ui::input
+                label="Email"
+                type="email"
+                name="email"
+                :value="old('email', $user->email)"
+            />
+        </div>
+
+        <x-slot:footer>
+            <x-unified-ui::button variant="ghost" x-on:click="close()">Cancel</x-unified-ui::button>
+            <x-unified-ui::button type="submit" variant="primary">Save Changes</x-unified-ui::button>
+        </x-slot:footer>
+    </form>
+</x-unified-ui::modal>
+```
+
+### Livewire Integration
+
+Use the modal with Livewire for dynamic interactions:
+
+```php
+{{-- In your Livewire component view --}}
+<x-unified-ui::modal wire:model="showDeleteConfirmation">
+    <x-slot:title>Delete Item</x-slot:title>
+    <x-slot:description>This action cannot be undone.</x-slot:description>
+
+    <p>Are you sure you want to delete <strong>{{ $itemName }}</strong>?</p>
+
+    <x-slot:footer>
+        <x-unified-ui::button variant="ghost" wire:click="$set('showDeleteConfirmation', false)">
+            Cancel
+        </x-unified-ui::button>
+        <x-unified-ui::button variant="destructive" wire:click="deleteItem">
+            Delete
+        </x-unified-ui::button>
+    </x-slot:footer>
+</x-unified-ui::modal>
+```
+
+### Preventing Close on Overlay Click
+
+```php
+<x-unified-ui::modal :close-on-overlay="false">
+    <x-slot:trigger>
+        <x-unified-ui::button>Persistent Modal</x-unified-ui::button>
+    </x-slot:trigger>
+
+    <x-slot:title>Important Notice</x-slot:title>
+
+    <p>You must acknowledge this message before continuing.</p>
+
+    <x-slot:footer>
+        <x-unified-ui::button variant="primary" x-on:click="close()">I Understand</x-unified-ui::button>
+    </x-slot:footer>
+</x-unified-ui::modal>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `string` | `"md"` | Maximum width of the modal. One of `sm`, `md`, `lg`, `xl`, `full`. |
+| `closeOnOverlay` | `bool` | `true` | Whether clicking the overlay backdrop closes the modal. |
+| `closeOnEscape` | `bool` | `true` | Whether pressing Escape closes the modal. |
+| `wire:model` | `string` | — | Livewire property binding for programmatic open/close. |
+
+## Slots
+
+| Slot | Description |
+| --- | --- |
+| `trigger` | The element that opens the modal on click. |
+| `title` | The modal header title text. |
+| `description` | Optional description text below the title. |
+| `default` | The main body content of the modal. |
+| `footer` | Footer area, typically used for action buttons. |
+
+## Accessibility
+
+- Focus is trapped within the modal while open.
+- Pressing `Escape` closes the modal (configurable).
+- The overlay provides a visible backdrop and can be clicked to dismiss.
+- `role="dialog"` and `aria-modal="true"` are applied automatically.
+- Title slot is linked via `aria-labelledby`.
+- Description slot is linked via `aria-describedby`.
+
+<Callout type="info">
+  The modal manages focus restoration — when the modal closes, focus returns to the trigger element that opened it.
+</Callout>

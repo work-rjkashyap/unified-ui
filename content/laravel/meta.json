@@ -1,0 +1,21 @@
+{
+	"title": "Laravel",
+	"icon": "Hexagon",
+	"pages": [
+		"index",
+		"---Getting Started---",
+		"installation",
+		"theming",
+		"---Components---",
+		"alert",
+		"badge",
+		"button",
+		"card",
+		"dropdown",
+		"input",
+		"modal",
+		"navbar",
+		"table",
+		"tabs"
+	]
+}

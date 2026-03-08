@@ -1,0 +1,298 @@
+---
+title: Input
+description: A form input component for Laravel Blade with validation support and multiple variants.
+icon: TextCursorInput
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The `<x-input>` component renders a styled text input with built-in support for Laravel validation errors, labels, help text, and multiple visual variants.
+
+## Installation
+
+<Tabs items={['Composer', 'Manual']}>
+<Tab value="Composer">
+
+```bash
+composer require unified-ui/laravel
+```
+
+</Tab>
+<Tab value="Manual">
+
+Copy the component files into your project:
+
+```bash
+# Blade component class
+cp vendor/unified-ui/laravel/src/Components/Input.php app/View/Components/Ui/Input.php
+
+# Blade view
+cp vendor/unified-ui/laravel/resources/views/components/input.blade.php resources/views/components/ui/input.blade.php
+```
+
+</Tab>
+</Tabs>
+
+## Basic Usage
+
+```blade
+<x-input name="email" label="Email Address" type="email" placeholder="you@example.com" />
+```
+
+## With Default Value
+
+```blade
+<x-input name="username" label="Username" value="johndoe" />
+```
+
+## Variants
+
+The input component supports several visual variants.
+
+### Default
+
+```blade
+<x-input name="name" label="Full Name" variant="default" />
+```
+
+### Filled
+
+```blade
+<x-input name="name" label="Full Name" variant="filled" />
+```
+
+### Flushed
+
+A borderless variant with only a bottom border:
+
+```blade
+<x-input name="name" label="Full Name" variant="flushed" />
+```
+
+## Sizes
+
+```blade
+<x-input name="small" label="Small" size="sm" />
+<x-input name="medium" label="Medium" size="md" />
+<x-input name="large" label="Large" size="lg" />
+```
+
+## With Validation Errors
+
+The input automatically integrates with Laravel's `@error` directive. When a validation error exists for the input's `name`, the component displays an error state with a message.
+
+```blade
+<x-input name="email" label="Email" type="email" />
+
+{{-- The component automatically picks up errors from the $errors bag --}}
+```
+
+In your controller:
+
+```php
+public function store(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email|unique:users',
+    ]);
+}
+```
+
+## With Help Text
+
+```blade
+<x-input
+    name="password"
+    label="Password"
+    type="password"
+    help="Must be at least 8 characters long."
+/>
+```
+
+## Disabled & Readonly
+
+```blade
+<x-input name="locked" label="Locked Field" value="Cannot edit" disabled />
+<x-input name="readonly" label="Read Only" value="Read only value" readonly />
+```
+
+## With Prefix & Suffix
+
+```blade
+<x-input name="website" label="Website" prefix="https://" suffix=".com" />
+```
+
+## With Icons
+
+```blade
+<x-input name="search" label="Search" icon="search" placeholder="Search..." />
+<x-input name="amount" label="Amount" icon-right="currency-dollar" />
+```
+
+## Component API
+
+### Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | **Required.** The input name attribute (also used for error lookup). |
+| `label` | `string \| null` | `null` | Optional label text displayed above the input. |
+| `type` | `string` | `'text'` | HTML input type (`text`, `email`, `password`, `number`, etc.). |
+| `value` | `string \| null` | `null` | Default value. Falls back to `old($name)` automatically. |
+| `placeholder` | `string \| null` | `null` | Placeholder text. |
+| `variant` | `'default' \| 'filled' \| 'flushed'` | `'default'` | Visual style variant. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input height and text size. |
+| `help` | `string \| null` | `null` | Helper text shown below the input. |
+| `icon` | `string \| null` | `null` | Icon name for the left side of the input. |
+| `icon-right` | `string \| null` | `null` | Icon name for the right side of the input. |
+| `prefix` | `string \| null` | `null` | Static text prefix inside the input. |
+| `suffix` | `string \| null` | `null` | Static text suffix inside the input. |
+| `disabled` | `bool` | `false` | Disables the input. |
+| `readonly` | `bool` | `false` | Makes the input read-only. |
+| `required` | `bool` | `false` | Marks the field as required and adds a visual indicator to the label. |
+| `error-bag` | `string` | `'default'` | The Laravel error bag to check for validation errors. |
+
+### Slots
+
+| Slot | Description |
+| --- | --- |
+| `prepend` | Custom content to render before the input (inside the wrapper). |
+| `append` | Custom content to render after the input (inside the wrapper). |
+
+## Blade Component Class
+
+```php
+namespace App\View\Components\Ui;
+
+use Illuminate\View\Component;
+
+class Input extends Component
+{
+    public function __construct(
+        public string $name,
+        public ?string $label = null,
+        public string $type = 'text',
+        public ?string $value = null,
+        public ?string $placeholder = null,
+        public string $variant = 'default',
+        public string $size = 'md',
+        public ?string $help = null,
+        public ?string $icon = null,
+        public ?string $iconRight = null,
+        public ?string $prefix = null,
+        public ?string $suffix = null,
+        public bool $disabled = false,
+        public bool $readonly = false,
+        public bool $required = false,
+        public string $errorBag = 'default',
+    ) {
+        $this->value = old($name, $value);
+    }
+
+    public function hasError(): bool
+    {
+        return session('errors')
+            ?->getBag($this->errorBag)
+            ?->has($this->name) ?? false;
+    }
+
+    public function sizeClasses(): string
+    {
+        return match ($this->size) {
+            'sm' => 'h-8 text-xs px-2.5',
+            'lg' => 'h-12 text-base px-4',
+            default => 'h-10 text-sm px-3',
+        };
+    }
+
+    public function variantClasses(): string
+    {
+        $base = 'w-full rounded-md border transition-colors duration-fast ease-standard focus:outline-none focus:ring-2 focus:ring-primary/50';
+
+        if ($this->hasError()) {
+            return "$base border-destructive focus:ring-destructive/50";
+        }
+
+        return match ($this->variant) {
+            'filled' => "$base border-transparent bg-muted",
+            'flushed' => 'w-full border-0 border-b-2 border-border rounded-none px-0 transition-colors duration-fast focus:outline-none focus:border-primary',
+            default => "$base border-border bg-background",
+        };
+    }
+
+    public function render()
+    {
+        return view('components.ui.input');
+    }
+}
+```
+
+## Blade Template
+
+```blade
+{{-- resources/views/components/ui/input.blade.php --}}
+<div {{ $attributes->only('class')->merge(['class' => 'space-y-1.5']) }}>
+    @if($label)
+        <label for="{{ $name }}" class="block text-sm font-medium text-foreground">
+            {{ $label }}
+            @if($required)
+                <span class="text-destructive">*</span>
+            @endif
+        </label>
+    @endif
+
+    <div class="relative flex items-center">
+        {{ $prepend ?? '' }}
+
+        @if($prefix)
+            <span class="inline-flex items-center px-3 text-sm text-muted-foreground border border-r-0 border-border rounded-l-md bg-muted {{ $sizeClasses() }}">
+                {{ $prefix }}
+            </span>
+        @endif
+
+        <input
+            type="{{ $type }}"
+            name="{{ $name }}"
+            id="{{ $name }}"
+            value="{{ $value }}"
+            placeholder="{{ $placeholder }}"
+            @disabled($disabled)
+            @readonly($readonly)
+            @required($required)
+            {{ $attributes->except('class')->merge([
+                'class' => $variantClasses() . ' ' . $sizeClasses() . ($prefix ? ' rounded-l-none' : '') . ($suffix ? ' rounded-r-none' : '')
+            ]) }}
+        />
+
+        @if($suffix)
+            <span class="inline-flex items-center px-3 text-sm text-muted-foreground border border-l-0 border-border rounded-r-md bg-muted {{ $sizeClasses() }}">
+                {{ $suffix }}
+            </span>
+        @endif
+
+        {{ $append ?? '' }}
+    </div>
+
+    @if($help && !$hasError())
+        <p class="text-xs text-muted-foreground">{{ $help }}</p>
+    @endif
+
+    @error($name, $errorBag)
+        <p class="text-xs text-destructive">{{ $message }}</p>
+    @enderror
+</div>
+```
+
+<Callout type="info">
+    The input component automatically uses Laravel's `old()` helper to repopulate values after validation failures. You don't need to manually pass `old('field')` as the value.
+</Callout>
+
+## Accessibility
+
+- The `label` is linked to the input via matching `for` and `id` attributes using the `name` prop.
+- Required fields display a visual asterisk indicator and set the `required` HTML attribute.
+- Error messages are displayed below the input with `text-destructive` styling for clear visibility.
+- The component uses appropriate `disabled` and `readonly` HTML attributes when those props are set.

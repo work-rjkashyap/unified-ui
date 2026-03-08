@@ -1,0 +1,266 @@
+---
+title: Navbar
+description: A responsive navigation bar component for Laravel applications with mobile menu support.
+icon: Navigation
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The Navbar component provides a responsive top navigation bar with built-in mobile menu toggle, brand slot, navigation links, and action buttons. It uses Alpine.js for interactivity and integrates seamlessly with Laravel's routing.
+
+## Installation
+
+<Tabs items={['Composer', 'Manual']}>
+<Tab value="Composer">
+
+```bash
+composer require unified-ui/laravel
+```
+
+After installing the package, publish the component views:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-views
+```
+
+</Tab>
+<Tab value="Manual">
+
+Copy the Blade component file into your project:
+
+```
+resources/views/components/ui/navbar.blade.php
+```
+
+</Tab>
+</Tabs>
+
+## Usage
+
+### Basic Navbar
+
+```php
+<x-ui-navbar>
+    <x-slot:brand>
+        <a href="/" class="text-lg font-semibold">My App</a>
+    </x-slot:brand>
+
+    <x-slot:links>
+        <x-ui-navbar-link href="/dashboard" :active="request()->is('dashboard')">
+            Dashboard
+        </x-ui-navbar-link>
+        <x-ui-navbar-link href="/projects" :active="request()->is('projects*')">
+            Projects
+        </x-ui-navbar-link>
+        <x-ui-navbar-link href="/settings" :active="request()->is('settings*')">
+            Settings
+        </x-ui-navbar-link>
+    </x-slot:links>
+
+    <x-slot:actions>
+        <x-ui-button variant="ghost" size="sm">Sign In</x-ui-button>
+        <x-ui-button variant="primary" size="sm">Get Started</x-ui-button>
+    </x-slot:actions>
+</x-ui-navbar>
+```
+
+### With Auth User Menu
+
+```php
+<x-ui-navbar>
+    <x-slot:brand>
+        <a href="/" class="flex items-center gap-2">
+            <img src="/logo.svg" alt="Logo" class="h-8 w-8" />
+            <span class="font-semibold">App Name</span>
+        </a>
+    </x-slot:brand>
+
+    <x-slot:links>
+        <x-ui-navbar-link href="/dashboard" :active="request()->is('dashboard')">
+            Dashboard
+        </x-ui-navbar-link>
+        <x-ui-navbar-link href="/team" :active="request()->is('team*')">
+            Team
+        </x-ui-navbar-link>
+    </x-slot:links>
+
+    <x-slot:actions>
+        @auth
+            <x-ui-dropdown-menu>
+                <x-slot:trigger>
+                    <x-ui-avatar :src="auth()->user()->avatar_url" size="sm" />
+                </x-slot:trigger>
+                <x-ui-dropdown-menu-item href="/profile">Profile</x-ui-dropdown-menu-item>
+                <x-ui-dropdown-menu-item href="/settings">Settings</x-ui-dropdown-menu-item>
+                <x-ui-dropdown-menu-separator />
+                <x-ui-dropdown-menu-item>
+                    <form method="POST" action="/logout">
+                        @csrf
+                        <button type="submit" class="w-full text-left">Sign Out</button>
+                    </form>
+                </x-ui-dropdown-menu-item>
+            </x-ui-dropdown-menu>
+        @else
+            <x-ui-button href="/login" variant="ghost" size="sm">Sign In</x-ui-button>
+        @endauth
+    </x-slot:actions>
+</x-ui-navbar>
+```
+
+### Sticky Navbar
+
+```php
+<x-ui-navbar sticky>
+    <x-slot:brand>
+        <a href="/">My App</a>
+    </x-slot:brand>
+    <x-slot:links>
+        <x-ui-navbar-link href="/">Home</x-ui-navbar-link>
+    </x-slot:links>
+</x-ui-navbar>
+```
+
+### Transparent Navbar (for hero sections)
+
+```php
+<x-ui-navbar variant="transparent">
+    <x-slot:brand>
+        <a href="/" class="text-white font-semibold">My App</a>
+    </x-slot:brand>
+    <x-slot:links>
+        <x-ui-navbar-link href="/features" class="text-white/80 hover:text-white">
+            Features
+        </x-ui-navbar-link>
+        <x-ui-navbar-link href="/pricing" class="text-white/80 hover:text-white">
+            Pricing
+        </x-ui-navbar-link>
+    </x-slot:links>
+</x-ui-navbar>
+```
+
+## Component API
+
+### Navbar
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `default \| transparent` | `default` | Visual variant of the navbar |
+| `sticky` | `bool` | `false` | Whether the navbar sticks to the top on scroll |
+| `bordered` | `bool` | `true` | Whether to show a bottom border |
+| `class` | `string` | `''` | Additional CSS classes |
+
+### Navbar Link
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `href` | `string` | — | The link URL |
+| `active` | `bool` | `false` | Whether this link is the current active route |
+| `class` | `string` | `''` | Additional CSS classes |
+
+### Slots
+
+| Slot | Description |
+| --- | --- |
+| `brand` | Content for the left brand area (logo, app name) |
+| `links` | Navigation links displayed in the center or left area |
+| `actions` | Right-aligned action buttons or user menus |
+
+## Blade Component Source
+
+```php
+{{-- resources/views/components/ui/navbar.blade.php --}}
+@props([
+    'variant' => 'default',
+    'sticky' => false,
+    'bordered' => true,
+])
+
+@php
+    $baseClasses = 'w-full px-4 sm:px-6 lg:px-8';
+    $variantClasses = match($variant) {
+        'transparent' => 'bg-transparent',
+        default => 'bg-background',
+    };
+    $stickyClasses = $sticky ? 'sticky top-0 z-50 backdrop-blur-md bg-background/80' : '';
+    $borderClasses = $bordered ? 'border-b border-border' : '';
+@endphp
+
+<nav
+    x-data="{ mobileMenuOpen: false }"
+    {{ $attributes->class([
+        $baseClasses,
+        $variantClasses,
+        $stickyClasses,
+        $borderClasses,
+    ]) }}
+    data-ds
+    data-ds-component="navbar"
+>
+    <div class="mx-auto flex h-14 max-w-7xl items-center justify-between">
+        {{-- Brand --}}
+        <div class="flex shrink-0 items-center">
+            {{ $brand ?? '' }}
+        </div>
+
+        {{-- Desktop Links --}}
+        <div class="hidden items-center gap-1 md:flex">
+            {{ $links ?? '' }}
+        </div>
+
+        {{-- Desktop Actions --}}
+        <div class="hidden items-center gap-2 md:flex">
+            {{ $actions ?? '' }}
+        </div>
+
+        {{-- Mobile Menu Toggle --}}
+        <button
+            type="button"
+            class="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground md:hidden"
+            x-on:click="mobileMenuOpen = !mobileMenuOpen"
+            :aria-expanded="mobileMenuOpen"
+            aria-label="Toggle navigation menu"
+        >
+            <svg x-show="!mobileMenuOpen" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg x-show="mobileMenuOpen" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" x-cloak>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    {{-- Mobile Menu --}}
+    <div
+        x-show="mobileMenuOpen"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-1"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-1"
+        class="border-t border-border pb-4 pt-2 md:hidden"
+        x-cloak
+    >
+        <div class="flex flex-col gap-1">
+            {{ $links ?? '' }}
+        </div>
+        <div class="mt-4 flex flex-col gap-2 border-t border-border pt-4">
+            {{ $actions ?? '' }}
+        </div>
+    </div>
+</nav>
+```
+
+<Callout type="info">
+    The Navbar uses **Alpine.js** for the mobile menu toggle. Make sure Alpine.js is loaded in your layout. If you're using the Unified UI Laravel package, Alpine.js is included automatically.
+</Callout>
+
+## Accessibility
+
+- The mobile menu button includes `aria-expanded` and `aria-label` attributes.
+- The navbar uses a semantic `<nav>` element.
+- Focus states are visible for keyboard navigation.
+- Mobile menu transitions respect `prefers-reduced-motion`.

@@ -1,0 +1,178 @@
+---
+title: Dropdown
+description: A toggleable, contextual overlay for displaying lists of links and actions.
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The Dropdown component provides a toggleable menu of links and actions. It supports keyboard navigation, configurable alignment, and nested dropdown menus.
+
+## Installation
+
+The Dropdown component is included in the `unified-ui` Laravel package. No additional installation is required beyond the base package setup.
+
+```bash
+composer require work-rjkashyap/unified-ui
+```
+
+Then publish the component views (optional):
+
+```bash
+php artisan vendor:publish --tag=unified-ui-views
+```
+
+## Basic Usage
+
+```blade
+<x-ui-dropdown>
+    <x-slot:trigger>
+        <x-ui-button variant="outline">
+            Options
+            <x-ui-icon name="chevron-down" class="ml-2 size-4" />
+        </x-ui-button>
+    </x-slot:trigger>
+
+    <x-ui-dropdown-item href="/profile">Profile</x-ui-dropdown-item>
+    <x-ui-dropdown-item href="/settings">Settings</x-ui-dropdown-item>
+    <x-ui-dropdown-divider />
+    <x-ui-dropdown-item href="/logout" variant="danger">Log Out</x-ui-dropdown-item>
+</x-ui-dropdown>
+```
+
+## Alignment
+
+Control where the dropdown menu appears relative to the trigger.
+
+```blade
+{{-- Align to the left (default) --}}
+<x-ui-dropdown align="left">
+    <x-slot:trigger>
+        <x-ui-button>Left Aligned</x-ui-button>
+    </x-slot:trigger>
+    <x-ui-dropdown-item>Item 1</x-ui-dropdown-item>
+    <x-ui-dropdown-item>Item 2</x-ui-dropdown-item>
+</x-ui-dropdown>
+
+{{-- Align to the right --}}
+<x-ui-dropdown align="right">
+    <x-slot:trigger>
+        <x-ui-button>Right Aligned</x-ui-button>
+    </x-slot:trigger>
+    <x-ui-dropdown-item>Item 1</x-ui-dropdown-item>
+    <x-ui-dropdown-item>Item 2</x-ui-dropdown-item>
+</x-ui-dropdown>
+```
+
+## Width
+
+Set the width of the dropdown panel.
+
+```blade
+<x-ui-dropdown width="48">
+    <x-slot:trigger>
+        <x-ui-button>Wide Dropdown</x-ui-button>
+    </x-slot:trigger>
+    <x-ui-dropdown-item>This dropdown is w-48</x-ui-dropdown-item>
+</x-ui-dropdown>
+```
+
+| Value  | Class   |
+| ------ | ------- |
+| `"48"` | `w-48`  |
+| `"56"` | `w-56`  |
+| `"64"` | `w-64`  |
+| `"72"` | `w-72`  |
+
+## With Icons
+
+Add icons to dropdown items for better visual hierarchy.
+
+```blade
+<x-ui-dropdown>
+    <x-slot:trigger>
+        <x-ui-button variant="ghost" size="icon">
+            <x-ui-icon name="ellipsis-vertical" class="size-5" />
+        </x-ui-button>
+    </x-slot:trigger>
+
+    <x-ui-dropdown-item href="/edit">
+        <x-ui-icon name="pencil" class="mr-2 size-4" />
+        Edit
+    </x-ui-dropdown-item>
+    <x-ui-dropdown-item href="/duplicate">
+        <x-ui-icon name="copy" class="mr-2 size-4" />
+        Duplicate
+    </x-ui-dropdown-item>
+    <x-ui-dropdown-divider />
+    <x-ui-dropdown-item href="/delete" variant="danger">
+        <x-ui-icon name="trash" class="mr-2 size-4" />
+        Delete
+    </x-ui-dropdown-item>
+</x-ui-dropdown>
+```
+
+## Grouped Items
+
+Use headers and dividers to organize dropdown content into sections.
+
+```blade
+<x-ui-dropdown>
+    <x-slot:trigger>
+        <x-ui-button>Manage</x-ui-button>
+    </x-slot:trigger>
+
+    <x-ui-dropdown-header>Account</x-ui-dropdown-header>
+    <x-ui-dropdown-item href="/profile">Profile</x-ui-dropdown-item>
+    <x-ui-dropdown-item href="/billing">Billing</x-ui-dropdown-item>
+
+    <x-ui-dropdown-divider />
+
+    <x-ui-dropdown-header>Team</x-ui-dropdown-header>
+    <x-ui-dropdown-item href="/team/settings">Team Settings</x-ui-dropdown-item>
+    <x-ui-dropdown-item href="/team/members">Members</x-ui-dropdown-item>
+
+    <x-ui-dropdown-divider />
+
+    <x-ui-dropdown-item href="/logout" variant="danger">Log Out</x-ui-dropdown-item>
+</x-ui-dropdown>
+```
+
+## Alpine.js Integration
+
+The Dropdown component uses Alpine.js under the hood for toggle behavior and click-outside detection. You can access the internal state via `x-data`:
+
+```blade
+<x-ui-dropdown x-on:item-selected="handleSelection($event.detail)">
+    <x-slot:trigger>
+        <x-ui-button>Custom Events</x-ui-button>
+    </x-slot:trigger>
+    <x-ui-dropdown-item @click="$dispatch('item-selected', { id: 1 })">
+        Item 1
+    </x-ui-dropdown-item>
+</x-ui-dropdown>
+```
+
+## Props
+
+### Dropdown
+
+| Prop            | Type     | Default  | Description                                  |
+| --------------- | -------- | -------- | -------------------------------------------- |
+| `align`         | `string` | `"left"` | Alignment of the dropdown panel (`left`, `right`, `center`) |
+| `width`         | `string` | `"48"`   | Width of the dropdown panel (Tailwind width value) |
+| `contentClasses`| `string` | `""`     | Additional CSS classes for the dropdown panel |
+
+### Dropdown Item
+
+| Prop      | Type     | Default     | Description                                 |
+| --------- | -------- | ----------- | ------------------------------------------- |
+| `href`    | `string` | `null`      | URL for the item (renders as `<a>`)         |
+| `variant` | `string` | `"default"` | Visual variant (`default`, `danger`)        |
+| `disabled`| `bool`   | `false`     | Whether the item is disabled                |
+
+<Callout type="info">
+    All Dropdown sub-components accept standard HTML attributes and Alpine.js directives via the spread attributes pattern (`{{ $attributes }}`).
+</Callout>

@@ -243,3 +243,91 @@
                             <line x1="12" y1="16" x2="12" y2="12" />
                             <line x1="12" y1="8" x2="12.01" y2="8" />
                         </svg>
+                        @break
+
+                    @case('success')
+                        <svg class="{{ $iconSizeClasses }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                        @break
+
+                    @case('warning')
+                        <svg class="{{ $iconSizeClasses }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        @break
+
+                    @case('destructive')
+                        <svg class="{{ $iconSizeClasses }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="15" y1="9" x2="9" y2="15" />
+                            <line x1="9" y1="9" x2="15" y2="15" />
+                        </svg>
+                        @break
+
+                    @default
+                        <svg class="{{ $iconSizeClasses }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z" />
+                            <path d="M15 3v6h6" />
+                        </svg>
+                        @break
+                @endswitch
+            </span>
+        @endif
+
+        {{-- Text content --}}
+        <span class="truncate">
+            {{ $slot }}
+        </span>
+    </div>
+
+    {{-- Right side: action + dismiss --}}
+    <div class="flex items-center gap-2 shrink-0">
+        {{-- Action slot --}}
+        @if(isset($action))
+            {{ $action }}
+        @endif
+
+        {{-- Dismiss button --}}
+        @if($dismissible)
+            <button
+                type="button"
+                x-on:click="visible = false"
+                class="
+                    inline-flex items-center justify-center
+                    {{ $closeSizeClasses }}
+                    shrink-0
+                    rounded-[var(--ui-radius-sm)]
+                    opacity-70
+                    hover:opacity-100
+                    transition-opacity
+                    duration-[var(--ui-duration-fast)]
+                    ease-[var(--ui-ease-default)]
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-current
+                    focus-visible:ring-offset-1
+                "
+                aria-label="Dismiss"
+            >
+                <svg
+                    class="{{ $closeIconSizeClasses }}"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        @endif
+    </div>
+</div>

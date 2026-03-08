@@ -374,4 +374,46 @@
                         @case('eye-off')
                             <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" /><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" /><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" /><line x1="2" x2="22" y1="2" y2="22" />
                             @break
-                        @case('chev
+                        @case('chevron-down')
+                            <path d="m6 9 6 6 6-6" />
+                            @break
+                        @case('check')
+                            <polyline points="20 6 9 17 4 12" />
+                            @break
+                        @default
+                            <circle cx="12" cy="12" r="10" />
+                    @endswitch
+                </svg>
+            </span>
+        @endif
+
+        {{-- Suffix text --}}
+        @if($suffix)
+            <span
+                class="absolute {{ $suffixPositionClasses }} {{ $iconPositionClasses }} pointer-events-none text-[oklch(var(--ui-muted-foreground))] {{ $prefixSuffixSizeClasses }} select-none"
+                aria-hidden="true"
+            >{{ $suffix }}</span>
+        @endif
+    </div>
+
+    {{-- Help text --}}
+    @if($help && !$hasError)
+        <p
+            id="{{ $helpId }}"
+            class="text-xs text-[oklch(var(--ui-muted-foreground))]"
+        >
+            {{ $help }}
+        </p>
+    @endif
+
+    {{-- Error message --}}
+    @if($hasError)
+        <p
+            id="{{ $errorId }}"
+            class="text-xs text-[oklch(var(--ui-destructive))]"
+            role="alert"
+        >
+            {{ $resolvedError }}
+        </p>
+    @endif
+</div>

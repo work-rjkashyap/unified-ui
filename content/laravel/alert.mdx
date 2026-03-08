@@ -1,0 +1,179 @@
+---
+title: Alert
+description: Contextual feedback messages for user actions and system events.
+icon: AlertTriangle
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The Alert component displays short, important messages that attract the user's attention without interrupting their workflow. Alerts can convey informational, success, warning, or error states.
+
+## Installation
+
+<Tabs items={['Composer']}>
+<Tab value="Composer">
+
+```bash
+composer require unified-ui/laravel
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="info">
+	The Alert component is included in the core `unified-ui/laravel` package. No
+	additional installation is required.
+</Callout>
+
+## Basic Usage
+
+```php
+<x-ui-alert>
+    This is a default informational alert.
+</x-ui-alert>
+```
+
+## Variants
+
+Use the `variant` prop to change the visual style of the alert.
+
+### Info (Default)
+
+```php
+<x-ui-alert variant="info">
+    A new software update is available. See what's new in version 3.2.
+</x-ui-alert>
+```
+
+### Success
+
+```php
+<x-ui-alert variant="success">
+    Your changes have been saved successfully.
+</x-ui-alert>
+```
+
+### Warning
+
+```php
+<x-ui-alert variant="warning">
+    Your free trial expires in 3 days. Upgrade now to keep your data.
+</x-ui-alert>
+```
+
+### Destructive
+
+```php
+<x-ui-alert variant="destructive">
+    There was an error processing your request. Please try again.
+</x-ui-alert>
+```
+
+## With Title
+
+Add a title to provide additional context.
+
+```php
+<x-ui-alert variant="info" title="Heads up!">
+    You can add components to your app using the CLI.
+</x-ui-alert>
+```
+
+## With Icon
+
+Icons are displayed automatically based on the variant, but you can override them.
+
+```php
+<x-ui-alert variant="success" icon="check-circle">
+    Payment received — thank you for your purchase!
+</x-ui-alert>
+```
+
+## Dismissible
+
+Make an alert dismissible with the `dismissible` prop. Requires Alpine.js or Livewire for interactivity.
+
+```php
+<x-ui-alert variant="warning" dismissible>
+    This alert can be dismissed by the user.
+</x-ui-alert>
+```
+
+## With Actions
+
+Add action buttons or links inside the alert.
+
+```php
+<x-ui-alert variant="info" title="Update available">
+    A new version of the application is available.
+
+    <x-slot:actions>
+        <x-ui-button variant="outline" size="sm">Dismiss</x-ui-button>
+        <x-ui-button size="sm">Update now</x-ui-button>
+    </x-slot:actions>
+</x-ui-alert>
+```
+
+## Props
+
+| Prop          | Type                                               | Default  | Description                                    |
+| ------------- | -------------------------------------------------- | -------- | ---------------------------------------------- |
+| `variant`     | `"info" \| "success" \| "warning" \| "destructive"` | `"info"` | Visual style of the alert                      |
+| `title`       | `string \| null`                                    | `null`   | Optional title displayed above the description |
+| `icon`        | `string \| null`                                    | `null`   | Override the default variant icon (Blade icon name) |
+| `dismissible` | `bool`                                              | `false`  | Whether the alert can be closed by the user    |
+
+## Slots
+
+| Slot       | Description                                           |
+| ---------- | ----------------------------------------------------- |
+| `default`  | The alert description / body content                  |
+| `actions`  | Optional action buttons displayed at the bottom       |
+| `icon`     | Override the icon with custom Blade content            |
+
+## Blade Component Class
+
+The underlying component class is `UnifiedUI\Laravel\View\Components\Alert`.
+
+```php
+use UnifiedUI\Laravel\View\Components\Alert;
+
+// Programmatic usage
+$alert = new Alert(
+    variant: 'success',
+    title: 'Saved!',
+    dismissible: true,
+);
+```
+
+## Accessibility
+
+- Uses `role="alert"` for destructive and warning variants to announce urgent messages to screen readers.
+- Uses `role="status"` for info and success variants.
+- The dismiss button includes `aria-label="Dismiss alert"`.
+- Focus is managed correctly when alerts are dismissed.
+
+## Customization
+
+### CSS Classes
+
+Override default styles by passing a `class` attribute:
+
+```php
+<x-ui-alert variant="info" class="border-2 border-blue-500">
+    Custom styled alert.
+</x-ui-alert>
+```
+
+### Publishing Views
+
+Publish the Blade view to customize the component template:
+
+```bash
+php artisan vendor:publish --tag=unified-ui-views
+```
+
+The alert view will be published to `resources/views/vendor/unified-ui/components/alert.blade.php`.

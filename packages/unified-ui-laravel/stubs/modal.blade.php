@@ -228,4 +228,16 @@
             @endif
 
             {{-- Body --}}
-            <div class="px-6 py-6
+            <div class="px-6 py-6">
+                {{ $slot }}
+            </div>
+
+            {{-- Footer --}}
+            @if(isset($footer))
+                <div class="flex items-center justify-end gap-3 px-6 pb-6 pt-0">
+                    {{ $footer }}
+                </div>
+            @endif
+        </div>
+    </div>
+</template>
