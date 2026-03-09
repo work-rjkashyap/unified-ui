@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- **templates:** Add nextjs, react, tanstack-router and laravel starter templates ([5763bec](https://github.com/imrj05/unified-ui/commit/5763bec76e06bee1abaccba0baa4304777dfbf82))
 - Add Laravel documentation layout and navigation
 - Introduced a new layout for Laravel documentation in `layout.tsx`.
   - Added Laravel icon component in `layout.config.tsx`.
@@ -17,8 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enhanced sidebar tabs to feature Laravel documentation.
   - Integrated Laravel source loader in `source.ts` for documentation retrieval. ([99ed76f](https://github.com/imrj05/unified-ui/commit/99ed76f9070d1a1be5137262c1dcd24e85ff93c2))
 
+### ⚙️ CI/CD
+
+- **templates:** Add sync-templates workflow to split 4 template repos on push to main ([9b5bb43](https://github.com/imrj05/unified-ui/commit/9b5bb43b9fd86a3afa75e378d902884fa3d6831b))
+
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([6361c64](https://github.com/imrj05/unified-ui/commit/6361c64bbca738ef05a24601ec16ad1913d314d6))
 - **changelog:** Auto-update unreleased entries [skip ci] ([2ad8e77](https://github.com/imrj05/unified-ui/commit/2ad8e77bbde2313487ecd0dfd70b674d9d0e031e))
 - **changelog:** Auto-update unreleased entries [skip ci] ([a04b91d](https://github.com/imrj05/unified-ui/commit/a04b91dbeb88e02f90c777346e0ceec0d6d26637))
 
