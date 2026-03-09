@@ -19,7 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([2ad8e77](https://github.com/imrj05/unified-ui/commit/2ad8e77bbde2313487ecd0dfd70b674d9d0e031e))
 - **changelog:** Auto-update unreleased entries [skip ci] ([a04b91d](https://github.com/imrj05/unified-ui/commit/a04b91dbeb88e02f90c777346e0ceec0d6d26637))
+
+### Other
+
+- Update logo image source in README.md ([110747c](https://github.com/imrj05/unified-ui/commit/110747cabb45527eda9b62009503b161ae81c555))
 ## [laravel/v0.0.1] — 2026-03-08
 
 ### 🚀 Features
