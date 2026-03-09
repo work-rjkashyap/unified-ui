@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Update composer.json version to 0.0.5, add PHP config integration, and enhance InitCommand ([26cacd4](https://github.com/imrj05/unified-ui/commit/26cacd4b8a16ea4cc31d7894c5fb0dbbb0541f8a))
 - Update composer.json version to 0.0.4 and enhance InitCommand with skip-npm option ([0ce9f0e](https://github.com/imrj05/unified-ui/commit/0ce9f0eb0e9da9bdf8e421a27571b160b343e293))
 - Update composer.json version and enhance InitCommand for app.js and app.css patching ([67ee978](https://github.com/imrj05/unified-ui/commit/67ee97825c2c89ef7c2da15bc41532c1aa776da7))
 - Enhance InitCommand to install and patch Unified UI integration
@@ -44,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([7dbe966](https://github.com/imrj05/unified-ui/commit/7dbe96600fe84196757a878c4256a3e3cb0f6682))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6569725](https://github.com/imrj05/unified-ui/commit/656972599dd7703317fbd6b184b95050aca092d8))
 - **changelog:** Auto-update unreleased entries [skip ci] ([57bfcc3](https://github.com/imrj05/unified-ui/commit/57bfcc37256d43487f773bddda7d8c70e7c89b31))
 - **changelog:** Auto-update unreleased entries [skip ci] ([15a41e4](https://github.com/imrj05/unified-ui/commit/15a41e4f97bb1959e73a04b038375c949f966805))
