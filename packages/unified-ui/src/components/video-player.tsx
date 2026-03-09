@@ -294,7 +294,6 @@ export const VideoPlayer = forwardRef<HTMLDivElement, VideoPlayerProps>(
         onMouseMove={resetHideTimer}
         onMouseEnter={() => setShowControls(true)}
         onKeyDown={handleKeyDown}
-        tabIndex={0}
         data-ds=""
         data-ds-component="video-player"
         role="region"

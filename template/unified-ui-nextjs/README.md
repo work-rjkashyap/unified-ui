@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# unified-ui — Next.js Template
 
-## Getting Started
+A Next.js 16 (App Router) starter pre-wired with [`@work-rjkashyap/unified-ui`](https://unified-ui.space).
 
-First, run the development server:
+## What's included
+
+- **Next.js 16** — App Router, React 19, TypeScript
+- **@work-rjkashyap/unified-ui** — 75+ components, design tokens, theme provider, motion presets, and utilities
+- **Tailwind CSS v4** — via `@tailwindcss/postcss`
+- **lucide-react** — icon set used throughout the design system
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How unified-ui is wired in
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Styles — `app/globals.css`
 
-## Learn More
+```css
+@import "@work-rjkashyap/unified-ui/styles.css";
+@import "tailwindcss";
 
-To learn more about Next.js, take a look at the following resources:
+@source "../node_modules/@work-rjkashyap/unified-ui/dist";
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The `@source` directive tells Tailwind v4 to scan the compiled unified-ui bundle so that all component utility classes are included in the generated CSS.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Theme provider — `app/layout.tsx`
 
-## Deploy on Vercel
+```tsx
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+import "./globals.css";
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+export default function RootLayout({ children }) {
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<body className="antialiased">
+				<DSThemeProvider>{children}</DSThemeProvider>
+			</body>
+		</html>
+	);
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`DSThemeProvider` mounts the CSS custom property token system and handles light/dark mode switching. `suppressHydrationWarning` prevents React from warning when the theme class is applied on the client.
+
+### 3. Importing components
+
+```tsx
+// Barrel import
+import { Button, Badge, Card, Tabs } from "@work-rjkashyap/unified-ui";
+
+// Layer-specific imports (better tree-shaking)
+import { Button } from "@work-rjkashyap/unified-ui/components";
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+import { fadeIn } from "@work-rjkashyap/unified-ui/motion";
+import { cn } from "@work-rjkashyap/unified-ui/utils";
+```
+
+## Project structure
+
+```
+app/
+├── globals.css      ← unified-ui styles + Tailwind import
+├── layout.tsx       ← DSThemeProvider + metadata
+└── page.tsx         ← Component showcase demo
+```
+
+## Customising the theme
+
+All design tokens are exposed as CSS custom properties. Override them in `globals.css` after the unified-ui import:
+
+```css
+@import "@work-rjkashyap/unified-ui/styles.css";
+@import "tailwindcss";
+
+@source "../node_modules/@work-rjkashyap/unified-ui/dist";
+
+/* Override tokens */
+:root {
+	--primary: oklch(0.55 0.2 260);
+	--radius-md: 0.75rem;
+}
+```
+
+## Useful links
+
+- [Unified UI Docs](https://unified-ui.space/docs)
+- [Component Reference](https://unified-ui.space/components)
+- [GitHub](https://github.com/imrj05/unified-ui)
+- [Next.js Docs](https://nextjs.org/docs)

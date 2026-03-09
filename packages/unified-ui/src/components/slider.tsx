@@ -265,7 +265,10 @@ function SliderThumbItem({
 
   return (
     <MotionThumb
-      className={cn("relative overflow-visible", sliderThumbVariants({ variant, size }))}
+      className={cn(
+        "relative overflow-visible",
+        sliderThumbVariants({ variant, size }),
+      )}
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
       onFocus={() => setIsActive(true)}

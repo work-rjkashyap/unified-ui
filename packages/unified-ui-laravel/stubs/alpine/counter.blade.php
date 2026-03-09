@@ -1,28 +1,3 @@
-{{--
-    Unified UI — Alpine.js Counter Example
-    https://unified-ui.space
-
-    An interactive counter component built with Alpine.js and Unified UI
-    design tokens. Demonstrates how to build stateful components using
-    Alpine.js x-data directives alongside Blade components.
-
-    Usage:
-        <x-ui-alpine.counter />
-        <x-ui-alpine.counter :initial="10" />
-        <x-ui-alpine.counter :initial="0" :step="5" :min="0" :max="100" />
-
-    This component is meant as a reference implementation showing how
-    to build Alpine.js-powered components that use Unified UI Blade
-    components and design tokens. Copy and modify it for your own use.
-
-    Props:
-        initial — starting counter value (default: 0)
-        step    — increment/decrement amount (default: 1)
-        min     — minimum allowed value (default: null — no minimum)
-        max     — maximum allowed value (default: null — no maximum)
-        label   — label text displayed in the card header (default: "Counter")
---}}
-
 @props([
     'initial' => 0,
     'step' => 1,
@@ -113,15 +88,15 @@
     {{ $attributes }}
     data-ui-alpine-counter
 >
-    <x-ui-card variant="default">
-        <x-ui-card.header bordered>
-            <x-ui-card.title>{{ $label }}</x-ui-card.title>
-            <x-ui-card.description>
+    <x-ui::card variant="default">
+        <x-ui::card.header bordered>
+            <x-ui::card.title>{{ $label }}</x-ui::card.title>
+            <x-ui::card.description>
                 An interactive Alpine.js component using Unified UI tokens.
-            </x-ui-card.description>
-        </x-ui-card.header>
+            </x-ui::card.description>
+        </x-ui::card.header>
 
-        <x-ui-card.body padding="lg">
+        <x-ui::card.body padding="lg">
             <div class="flex flex-col items-center gap-6">
                 {{-- Counter display --}}
                 <div class="flex items-center justify-center">
@@ -137,7 +112,7 @@
 
                 {{-- Counter controls --}}
                 <div class="flex items-center gap-3">
-                    <x-ui-button
+                    <x-ui::button
                         variant="outline"
                         size="md"
                         x-on:click="decrement()"
@@ -158,9 +133,9 @@
                             <path d="M5 12h14" />
                         </svg>
                         <span>Decrement</span>
-                    </x-ui-button>
+                    </x-ui::button>
 
-                    <x-ui-button
+                    <x-ui::button
                         variant="primary"
                         size="md"
                         x-on:click="increment()"
@@ -182,7 +157,7 @@
                             <path d="M12 5v14" />
                             <path d="M5 12h14" />
                         </svg>
-                    </x-ui-button>
+                    </x-ui::button>
                 </div>
 
                 {{-- Step size selector --}}
@@ -264,22 +239,22 @@
                     </button>
                 </div>
             </div>
-        </x-ui-card.body>
+        </x-ui::card.body>
 
-        <x-ui-card.footer bordered justify="between">
+        <x-ui::card.footer bordered justify="between">
             <span
                 class="text-xs text-[oklch(var(--ui-muted-foreground))]"
                 x-text="'Step size: ' + step"
             ></span>
 
-            <x-ui-button
+            <x-ui::button
                 variant="ghost"
                 size="sm"
                 x-on:click="reset()"
                 x-bind:disabled="!isModified"
             >
                 Reset
-            </x-ui-button>
-        </x-ui-card.footer>
-    </x-ui-card>
+            </x-ui::button>
+        </x-ui::card.footer>
+    </x-ui::card>
 </div>

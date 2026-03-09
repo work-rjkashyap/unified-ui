@@ -21,26 +21,26 @@
  *   node scripts/migrate-component-docs.mjs --file alert.mdx --diff  # Show diff
  */
 
-import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
-import { join, basename } from "node:path";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, join } from "node:path";
 
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
 
 const CONTENT_DIR = join(
-	import.meta.dirname ?? ".",
-	"..",
-	"content",
-	"components",
+  import.meta.dirname ?? ".",
+  "..",
+  "content",
+  "components",
 );
-const COMPONENTS_SRC = join(
-	import.meta.dirname ?? ".",
-	"..",
-	"packages",
-	"unified-ui",
-	"src",
-	"components",
+const _COMPONENTS_SRC = join(
+  import.meta.dirname ?? ".",
+  "..",
+  "packages",
+  "unified-ui",
+  "src",
+  "components",
 );
 
 const SKIP_FILES = new Set(["index.mdx", "button.mdx"]);
@@ -49,8 +49,8 @@ const args = process.argv.slice(2);
 const WRITE = args.includes("--write");
 const DIFF = args.includes("--diff");
 const SINGLE_FILE = (() => {
-	const idx = args.indexOf("--file");
-	return idx !== -1 ? args[idx + 1] : null;
+  const idx = args.indexOf("--file");
+  return idx !== -1 ? args[idx + 1] : null;
 })();
 
 // ---------------------------------------------------------------------------
@@ -59,15 +59,15 @@ const SINGLE_FILE = (() => {
 
 /** Kebab-case filename → CLI name (e.g. "alert-dialog.mdx" → "alert-dialog") */
 function cliName(filename) {
-	return filename.replace(/\.mdx$/, "");
+  return filename.replace(/\.mdx$/, "");
 }
 
 /** Kebab-case → PascalCase (e.g. "alert-dialog" → "AlertDialog") */
-function toPascal(kebab) {
-	return kebab
-		.split("-")
-		.map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-		.join("");
+function _toPascal(kebab) {
+  return kebab
+    .split("-")
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join("");
 }
 
 /**
@@ -75,49 +75,49 @@ function toPascal(kebab) {
  * Returns an array like ["Alert"] or ["Dialog", "DialogTrigger", ...].
  */
 function extractComponentImports(content) {
-	const imports = [];
-	// Match: import { X, Y, Z } from "@work-rjkashyap/unified-ui"
-	const re =
-		/import\s*\{([^}]+)\}\s*from\s*["']@work-rjkashyap\/unified-ui["']/g;
-	let m;
-	while ((m = re.exec(content)) !== null) {
-		const names = m[1]
-			.split(",")
-			.map((s) => s.trim())
-			.filter(Boolean);
-		imports.push(...names);
-	}
-	return imports;
+  const imports = [];
+  // Match: import { X, Y, Z } from "@work-rjkashyap/unified-ui"
+  const re =
+    /import\s*\{([^}]+)\}\s*from\s*["']@work-rjkashyap\/unified-ui["']/g;
+  let m;
+  while ((m = re.exec(content)) !== null) {
+    const names = m[1]
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    imports.push(...names);
+  }
+  return imports;
 }
 
 /**
  * Detect whether the file already has Tab/Tabs imports.
  */
 function hasTabsImport(content) {
-	return (
-		/import\s*\{[^}]*\bTab\b[^}]*\bTabs\b[^}]*\}\s*from\s*["']fumadocs-ui\/components\/tabs["']/.test(
-			content,
-		) ||
-		/import\s*\{[^}]*\bTabs\b[^}]*\bTab\b[^}]*\}\s*from\s*["']fumadocs-ui\/components\/tabs["']/.test(
-			content,
-		)
-	);
+  return (
+    /import\s*\{[^}]*\bTab\b[^}]*\bTabs\b[^}]*\}\s*from\s*["']fumadocs-ui\/components\/tabs["']/.test(
+      content,
+    ) ||
+    /import\s*\{[^}]*\bTabs\b[^}]*\bTab\b[^}]*\}\s*from\s*["']fumadocs-ui\/components\/tabs["']/.test(
+      content,
+    )
+  );
 }
 
 /**
  * Detect whether the file already has Callout import.
  */
 function hasCalloutImport(content) {
-	return /import\s*\{[^}]*\bCallout\b[^}]*\}\s*from\s*["']fumadocs-ui\/components\/callout["']/.test(
-		content,
-	);
+  return /import\s*\{[^}]*\bCallout\b[^}]*\}\s*from\s*["']fumadocs-ui\/components\/callout["']/.test(
+    content,
+  );
 }
 
 /**
  * Build the installation block for a component.
  */
 function buildInstallationBlock(componentCliName) {
-	return `## Installation
+  return `## Installation
 
 Install the component via the CLI in one command.
 
@@ -197,27 +197,27 @@ bun add @work-rjkashyap/unified-ui
  * Filters out non-component names (e.g. plain "type", "// or") and deduplicates.
  */
 function buildAnatomyBlock(importNames, importSource) {
-	// Deduplicate and filter out junk tokens
-	const clean = [
-		...new Set(
-			importNames.filter(
-				(n) =>
-					n &&
-					/^[A-Z]/.test(n) && // must start with uppercase (React component)
-					!n.startsWith("//") &&
-					!n.startsWith("type "),
-			),
-		),
-	];
+  // Deduplicate and filter out junk tokens
+  const clean = [
+    ...new Set(
+      importNames.filter(
+        (n) =>
+          n &&
+          /^[A-Z]/.test(n) && // must start with uppercase (React component)
+          !n.startsWith("//") &&
+          !n.startsWith("type "),
+      ),
+    ),
+  ];
 
-	if (clean.length === 0) return "";
+  if (clean.length === 0) return "";
 
-	const importStatement =
-		clean.length === 1
-			? `import { ${clean[0]} } from "${importSource}";`
-			: `import {\n${clean.map((n) => `\t${n},`).join("\n")}\n} from "${importSource}";`;
+  const importStatement =
+    clean.length === 1
+      ? `import { ${clean[0]} } from "${importSource}";`
+      : `import {\n${clean.map((n) => `\t${n},`).join("\n")}\n} from "${importSource}";`;
 
-	return `## Anatomy
+  return `## Anatomy
 
 \`\`\`tsx
 ${importStatement}
@@ -233,16 +233,16 @@ ${importStatement}
  * Also handles <ComponentPage ...>...</ComponentPage> wrapping pattern.
  */
 function replaceComponentPageBlocks(content) {
-	// Replace self-closing <ComponentPage ... /> → <PreviewCard ... />
-	// We need to handle multi-line JSX carefully.
-	// Strategy: find <ComponentPage, read until matching />
-	let result = content;
+  // Replace self-closing <ComponentPage ... /> → <PreviewCard ... />
+  // We need to handle multi-line JSX carefully.
+  // Strategy: find <ComponentPage, read until matching />
+  let result = content;
 
-	// Step 1: Replace self-closing ComponentPage tags
-	// Match the opening <ComponentPage and find the self-closing />
-	result = replaceTagSelfClosing(result, "ComponentPage", "PreviewCard");
+  // Step 1: Replace self-closing ComponentPage tags
+  // Match the opening <ComponentPage and find the self-closing />
+  result = replaceTagSelfClosing(result, "ComponentPage", "PreviewCard");
 
-	return result;
+  return result;
 }
 
 /**
@@ -251,43 +251,43 @@ function replaceComponentPageBlocks(content) {
  * props contain complex JSX expressions, template literals, etc.
  */
 function replaceTagSelfClosing(content, oldTag, newTag) {
-	const openPattern = `<${oldTag}`;
-	let result = "";
-	let cursor = 0;
+  const openPattern = `<${oldTag}`;
+  let result = "";
+  let cursor = 0;
 
-	while (cursor < content.length) {
-		const idx = content.indexOf(openPattern, cursor);
-		if (idx === -1) {
-			result += content.slice(cursor);
-			break;
-		}
+  while (cursor < content.length) {
+    const idx = content.indexOf(openPattern, cursor);
+    if (idx === -1) {
+      result += content.slice(cursor);
+      break;
+    }
 
-		// Make sure this is actually a tag start and not a substring
-		// (e.g. <ComponentPageFoo should not match <ComponentPage)
-		const charAfter = content[idx + openPattern.length];
-		if (charAfter && /[a-zA-Z0-9_]/.test(charAfter)) {
-			result += content.slice(cursor, idx + openPattern.length);
-			cursor = idx + openPattern.length;
-			continue;
-		}
+    // Make sure this is actually a tag start and not a substring
+    // (e.g. <ComponentPageFoo should not match <ComponentPage)
+    const charAfter = content[idx + openPattern.length];
+    if (charAfter && /[a-zA-Z0-9_]/.test(charAfter)) {
+      result += content.slice(cursor, idx + openPattern.length);
+      cursor = idx + openPattern.length;
+      continue;
+    }
 
-		result += content.slice(cursor, idx);
+    result += content.slice(cursor, idx);
 
-		const tagInfo = findJSXOpenTagEnd(content, idx);
-		if (!tagInfo) {
-			// Couldn't parse — leave as-is
-			result += content.slice(idx, idx + openPattern.length);
-			cursor = idx + openPattern.length;
-			continue;
-		}
+    const tagInfo = findJSXOpenTagEnd(content, idx);
+    if (!tagInfo) {
+      // Couldn't parse — leave as-is
+      result += content.slice(idx, idx + openPattern.length);
+      cursor = idx + openPattern.length;
+      continue;
+    }
 
-		const tagContent = content.slice(idx, tagInfo.end);
-		const replaced = `<${newTag}` + tagContent.slice(openPattern.length);
-		result += stripTitleDescription(replaced);
-		cursor = tagInfo.end;
-	}
+    const tagContent = content.slice(idx, tagInfo.end);
+    const replaced = `<${newTag}${tagContent.slice(openPattern.length)}`;
+    result += stripTitleDescription(replaced);
+    cursor = tagInfo.end;
+  }
 
-	return result;
+  return result;
 }
 
 /**
@@ -295,22 +295,22 @@ function replaceTagSelfClosing(content, oldTag, newTag) {
  * These are not used by PreviewCard (which only takes preview + code).
  */
 function stripTitleDescription(tagStr) {
-	// Remove title={...} or title="..."
-	let result = tagStr;
+  // Remove title={...} or title="..."
+  let result = tagStr;
 
-	// Remove title="..." (simple string)
-	result = result.replace(/\s+title="[^"]*"/g, "");
-	// Remove title={'...'} or title={`...`}
-	result = result.replace(/\s+title=\{['"`][^'"`]*['"`]\}/g, "");
+  // Remove title="..." (simple string)
+  result = result.replace(/\s+title="[^"]*"/g, "");
+  // Remove title={'...'} or title={`...`}
+  result = result.replace(/\s+title=\{['"`][^'"`]*['"`]\}/g, "");
 
-	// Remove description="..." (simple string)
-	result = result.replace(/\s+description="[^"]*"/g, "");
-	// Remove multi-line description="..."
-	result = result.replace(/\s+description="[^"]*"/gs, "");
-	// Remove description={'...'} or description={`...`}
-	result = result.replace(/\s+description=\{['"`][^'"`]*['"`]\}/g, "");
+  // Remove description="..." (simple string)
+  result = result.replace(/\s+description="[^"]*"/g, "");
+  // Remove multi-line description="..."
+  result = result.replace(/\s+description="[^"]*"/gs, "");
+  // Remove description={'...'} or description={`...`}
+  result = result.replace(/\s+description=\{['"`][^'"`]*['"`]\}/g, "");
 
-	return result;
+  return result;
 }
 
 /**
@@ -318,7 +318,7 @@ function stripTitleDescription(tagStr) {
  * Only removes the standalone closing tag on its own line.
  */
 function removeClosingComponentPage(content) {
-	return content.replace(/^\s*<\/ComponentPage>\s*$/gm, "");
+  return content.replace(/^\s*<\/ComponentPage>\s*$/gm, "");
 }
 
 // ---------------------------------------------------------------------------
@@ -344,102 +344,102 @@ function removeClosingComponentPage(content) {
  *   contain unbalanced `{` / `}` characters, so we must track those.
  */
 function findJSXOpenTagEnd(content, startIdx) {
-	let i = startIdx + 1; // skip the leading `<`
-	let braceDepth = 0;
+  let i = startIdx + 1; // skip the leading `<`
+  let braceDepth = 0;
 
-	// --- state only active at brace depth 0 (tag attributes) ---
-	let inAttrString = false;
-	let attrStringChar = "";
+  // --- state only active at brace depth 0 (tag attributes) ---
+  let inAttrString = false;
+  let attrStringChar = "";
 
-	// --- state only active at brace depth ≥ 1 (JSX expressions) ---
-	let inTemplateLiteral = false;
-	let templateBraceDepth = 0; // tracks `${...}` inside template literals
+  // --- state only active at brace depth ≥ 1 (JSX expressions) ---
+  let inTemplateLiteral = false;
+  let templateBraceDepth = 0; // tracks `${...}` inside template literals
 
-	while (i < content.length) {
-		const ch = content[i];
-		const prev = i > 0 ? content[i - 1] : "";
+  while (i < content.length) {
+    const ch = content[i];
+    const prev = i > 0 ? content[i - 1] : "";
 
-		// =============================================================
-		// 1) Inside a tag-attribute string (depth 0): title="..."
-		// =============================================================
-		if (inAttrString) {
-			if (ch === attrStringChar) {
-				inAttrString = false;
-			}
-			i++;
-			continue;
-		}
+    // =============================================================
+    // 1) Inside a tag-attribute string (depth 0): title="..."
+    // =============================================================
+    if (inAttrString) {
+      if (ch === attrStringChar) {
+        inAttrString = false;
+      }
+      i++;
+      continue;
+    }
 
-		// =============================================================
-		// 2) Inside a template literal (depth ≥ 1): code={`...`}
-		// =============================================================
-		if (inTemplateLiteral) {
-			if (ch === "`" && prev !== "\\") {
-				inTemplateLiteral = false;
-			} else if (
-				ch === "$" &&
-				i + 1 < content.length &&
-				content[i + 1] === "{"
-			) {
-				// entering ${...} inside template literal
-				templateBraceDepth++;
-				i += 2;
-				continue;
-			} else if (templateBraceDepth > 0 && ch === "}") {
-				templateBraceDepth--;
-			}
-			i++;
-			continue;
-		}
+    // =============================================================
+    // 2) Inside a template literal (depth ≥ 1): code={`...`}
+    // =============================================================
+    if (inTemplateLiteral) {
+      if (ch === "`" && prev !== "\\") {
+        inTemplateLiteral = false;
+      } else if (
+        ch === "$" &&
+        i + 1 < content.length &&
+        content[i + 1] === "{"
+      ) {
+        // entering ${...} inside template literal
+        templateBraceDepth++;
+        i += 2;
+        continue;
+      } else if (templateBraceDepth > 0 && ch === "}") {
+        templateBraceDepth--;
+      }
+      i++;
+      continue;
+    }
 
-		// =============================================================
-		// 3) Brace depth tracking
-		// =============================================================
-		if (ch === "{") {
-			braceDepth++;
-			i++;
-			continue;
-		}
-		if (ch === "}") {
-			braceDepth--;
-			i++;
-			continue;
-		}
+    // =============================================================
+    // 3) Brace depth tracking
+    // =============================================================
+    if (ch === "{") {
+      braceDepth++;
+      i++;
+      continue;
+    }
+    if (ch === "}") {
+      braceDepth--;
+      i++;
+      continue;
+    }
 
-		// =============================================================
-		// 4) Inside a JSX expression (depth ≥ 1)
-		//    Only track template literals — ignore " and ' because they
-		//    appear in JSX attribute values AND in free text (apostrophes).
-		// =============================================================
-		if (braceDepth > 0) {
-			if (ch === "`") {
-				inTemplateLiteral = true;
-			}
-			i++;
-			continue;
-		}
+    // =============================================================
+    // 4) Inside a JSX expression (depth ≥ 1)
+    //    Only track template literals — ignore " and ' because they
+    //    appear in JSX attribute values AND in free text (apostrophes).
+    // =============================================================
+    if (braceDepth > 0) {
+      if (ch === "`") {
+        inTemplateLiteral = true;
+      }
+      i++;
+      continue;
+    }
 
-		// =============================================================
-		// 5) At depth 0 — tag attribute context
-		// =============================================================
-		if (ch === '"' || ch === "'") {
-			inAttrString = true;
-			attrStringChar = ch;
-			i++;
-			continue;
-		}
+    // =============================================================
+    // 5) At depth 0 — tag attribute context
+    // =============================================================
+    if (ch === '"' || ch === "'") {
+      inAttrString = true;
+      attrStringChar = ch;
+      i++;
+      continue;
+    }
 
-		if (ch === "/" && i + 1 < content.length && content[i + 1] === ">") {
-			return { end: i + 2, selfClosing: true };
-		}
-		if (ch === ">") {
-			return { end: i + 1, selfClosing: false };
-		}
+    if (ch === "/" && i + 1 < content.length && content[i + 1] === ">") {
+      return { end: i + 2, selfClosing: true };
+    }
+    if (ch === ">") {
+      return { end: i + 1, selfClosing: false };
+    }
 
-		i++;
-	}
+    i++;
+  }
 
-	return null; // could not find end
+  return null; // could not find end
 }
 
 // ---------------------------------------------------------------------------
@@ -469,85 +469,84 @@ function findJSXOpenTagEnd(content, startIdx) {
  *   ...
  */
 function transformTopLevelWrapper(content, componentCliName, importNames) {
-	// Find the first <ComponentPage in the file
-	const tagStart = content.indexOf("<ComponentPage");
-	if (tagStart === -1) return content;
+  // Find the first <ComponentPage in the file
+  const tagStart = content.indexOf("<ComponentPage");
+  if (tagStart === -1) return content;
 
-	// Use the brace-depth parser to find where the opening tag actually ends
-	const tagInfo = findJSXOpenTagEnd(content, tagStart);
-	if (!tagInfo) return content;
+  // Use the brace-depth parser to find where the opening tag actually ends
+  const tagInfo = findJSXOpenTagEnd(content, tagStart);
+  if (!tagInfo) return content;
 
-	// We only care about the wrapping pattern (opening tag, not self-closing)
-	if (tagInfo.selfClosing) return content;
+  // We only care about the wrapping pattern (opening tag, not self-closing)
+  if (tagInfo.selfClosing) return content;
 
-	const openTag = content.slice(tagStart, tagInfo.end);
+  const openTag = content.slice(tagStart, tagInfo.end);
 
-	// Verify that ## Import follows somewhere after this opening tag
-	const afterOpen = content.slice(tagInfo.end);
-	const importSectionMatch = afterOpen.match(/^([\s\S]*?)(## Import\b)/m);
-	if (!importSectionMatch) return content;
+  // Verify that ## Import follows somewhere after this opening tag
+  const afterOpen = content.slice(tagInfo.end);
+  const importSectionMatch = afterOpen.match(/^([\s\S]*?)(## Import\b)/m);
+  if (!importSectionMatch) return content;
 
-	// --- Extract description from the opening tag props ---
-	// Try description="..." (may span props in the tag)
-	const descMatch = openTag.match(/description=["']([^"']+)["']/);
-	// Also try description={"..."} or description={`...`}
-	const descMatch2 = openTag.match(/description=\{["'`]([^"'`]+)["'`]\}/);
-	const description = descMatch
-		? descMatch[1]
-		: descMatch2
-			? descMatch2[1]
-			: null;
+  // --- Extract description from the opening tag props ---
+  // Try description="..." (may span props in the tag)
+  const descMatch = openTag.match(/description=["']([^"']+)["']/);
+  // Also try description={"..."} or description={`...`}
+  const descMatch2 = openTag.match(/description=\{["'`]([^"'`]+)["'`]\}/);
+  const description = descMatch
+    ? descMatch[1]
+    : descMatch2
+      ? descMatch2[1]
+      : null;
 
-	// --- Build the PreviewCard self-closing tag ---
-	// Take the full opening tag, swap the name, strip title/description, make self-closing
-	let previewCardTag = openTag.replace(/^<ComponentPage/, "<PreviewCard");
-	// Remove the trailing >  and replace with />
-	previewCardTag = previewCardTag.replace(/>\s*$/, "\n/>");
-	previewCardTag = stripTitleDescription(previewCardTag);
+  // --- Build the PreviewCard self-closing tag ---
+  // Take the full opening tag, swap the name, strip title/description, make self-closing
+  let previewCardTag = openTag.replace(/^<ComponentPage/, "<PreviewCard");
+  // Remove the trailing >  and replace with />
+  previewCardTag = previewCardTag.replace(/>\s*$/, "\n/>");
+  previewCardTag = stripTitleDescription(previewCardTag);
 
-	// --- Locate the ## Import section boundaries ---
-	const importStart =
-		tagInfo.end + importSectionMatch.index + importSectionMatch[1].length;
+  // --- Locate the ## Import section boundaries ---
+  const importStart =
+    tagInfo.end + importSectionMatch.index + importSectionMatch[1].length;
 
-	const fromImport = content.slice(importStart);
-	const nextSectionMatch = fromImport.match(/\n(## (?!Import\b))/m);
-	const importSectionEnd = nextSectionMatch
-		? importStart + nextSectionMatch.index
-		: importStart + fromImport.length;
+  const fromImport = content.slice(importStart);
+  const nextSectionMatch = fromImport.match(/\n(## (?!Import\b))/m);
+  const importSectionEnd = nextSectionMatch
+    ? importStart + nextSectionMatch.index
+    : importStart + fromImport.length;
 
-	const importSectionContent = content.slice(importStart, importSectionEnd);
+  const importSectionContent = content.slice(importStart, importSectionEnd);
 
-	// Extract import code blocks from the Import section
-	const importCodeBlocks = [];
-	const codeBlockRe = /```tsx\n([\s\S]*?)```/g;
-	let cbm;
-	while ((cbm = codeBlockRe.exec(importSectionContent)) !== null) {
-		importCodeBlocks.push(cbm[1].trim());
-	}
+  // Extract import code blocks from the Import section
+  const importCodeBlocks = [];
+  const codeBlockRe = /```tsx\n([\s\S]*?)```/g;
+  let cbm;
+  while ((cbm = codeBlockRe.exec(importSectionContent)) !== null) {
+    importCodeBlocks.push(cbm[1].trim());
+  }
 
-	// --- Assemble the replacement ---
-	let basicSection = "## Basic\n\n";
-	if (description) {
-		basicSection += `${description}\n\n`;
-	}
-	basicSection += previewCardTag;
+  // --- Assemble the replacement ---
+  let basicSection = "## Basic\n\n";
+  if (description) {
+    basicSection += `${description}\n\n`;
+  }
+  basicSection += previewCardTag;
 
-	const installBlock = buildInstallationBlock(componentCliName);
+  const installBlock = buildInstallationBlock(componentCliName);
 
-	const anatomyBlock = buildAnatomyBlock(
-		importNames.length > 0
-			? importNames
-			: extractImportNamesFromCodeBlocks(importCodeBlocks),
-		"@work-rjkashyap/unified-ui",
-	);
+  const anatomyBlock = buildAnatomyBlock(
+    importNames.length > 0
+      ? importNames
+      : extractImportNamesFromCodeBlocks(importCodeBlocks),
+    "@work-rjkashyap/unified-ui",
+  );
 
-	const replacement =
-		basicSection + "\n\n" + installBlock + "\n\n" + anatomyBlock;
+  const replacement = `${basicSection}\n\n${installBlock}\n\n${anatomyBlock}`;
 
-	const before = content.slice(0, tagStart);
-	const after = content.slice(importSectionEnd);
+  const before = content.slice(0, tagStart);
+  const after = content.slice(importSectionEnd);
 
-	return before + replacement + "\n" + after;
+  return `${before + replacement}\n${after}`;
 }
 
 /**
@@ -555,27 +554,27 @@ function transformTopLevelWrapper(content, componentCliName, importNames) {
  * Deduplicates and filters out comments / type-only imports.
  */
 function extractImportNamesFromCodeBlocks(codeBlocks) {
-	const names = [];
-	for (const block of codeBlocks) {
-		// Match all import { ... } statements in the block (there may be multiple)
-		const re = /import\s*\{([^}]+)\}/g;
-		let m;
-		while ((m = re.exec(block)) !== null) {
-			const parts = m[1]
-				.split(",")
-				.map((s) => s.trim())
-				.filter(
-					(s) =>
-						s &&
-						!s.startsWith("//") &&
-						!s.startsWith("type ") &&
-						!s.startsWith("*"),
-				);
-			names.push(...parts);
-		}
-	}
-	// Deduplicate while preserving order
-	return [...new Set(names)];
+  const names = [];
+  for (const block of codeBlocks) {
+    // Match all import { ... } statements in the block (there may be multiple)
+    const re = /import\s*\{([^}]+)\}/g;
+    let m;
+    while ((m = re.exec(block)) !== null) {
+      const parts = m[1]
+        .split(",")
+        .map((s) => s.trim())
+        .filter(
+          (s) =>
+            s &&
+            !s.startsWith("//") &&
+            !s.startsWith("type ") &&
+            !s.startsWith("*"),
+        );
+      names.push(...parts);
+    }
+  }
+  // Deduplicate while preserving order
+  return [...new Set(names)];
 }
 
 // ---------------------------------------------------------------------------
@@ -584,56 +583,56 @@ function extractImportNamesFromCodeBlocks(codeBlocks) {
 // ---------------------------------------------------------------------------
 
 function transformImportSection(content, componentCliName) {
-	// Find ## Import section
-	const importMatch = content.match(/(^|\n)(## Import\b[^\n]*\n)/m);
-	if (!importMatch) return content;
+  // Find ## Import section
+  const importMatch = content.match(/(^|\n)(## Import\b[^\n]*\n)/m);
+  if (!importMatch) return content;
 
-	const importStart = importMatch.index + (importMatch[1] ? 1 : 0);
-	const fromImport = content.slice(importStart);
+  const importStart = importMatch.index + (importMatch[1] ? 1 : 0);
+  const fromImport = content.slice(importStart);
 
-	// Find the next ## heading
-	const nextSection = fromImport.match(/\n(## (?!Import\b))/m);
-	const importEnd = nextSection
-		? importStart + nextSection.index
-		: importStart + fromImport.length;
+  // Find the next ## heading
+  const nextSection = fromImport.match(/\n(## (?!Import\b))/m);
+  const importEnd = nextSection
+    ? importStart + nextSection.index
+    : importStart + fromImport.length;
 
-	const importSection = content.slice(importStart, importEnd);
+  const importSection = content.slice(importStart, importEnd);
 
-	// Extract code blocks for anatomy
-	const codeBlocks = [];
-	const codeBlockRe = /```tsx\n([\s\S]*?)```/g;
-	let m;
-	while ((m = codeBlockRe.exec(importSection)) !== null) {
-		codeBlocks.push(m[1].trim());
-	}
+  // Extract code blocks for anatomy
+  const codeBlocks = [];
+  const codeBlockRe = /```tsx\n([\s\S]*?)```/g;
+  let m;
+  while ((m = codeBlockRe.exec(importSection)) !== null) {
+    codeBlocks.push(m[1].trim());
+  }
 
-	const importNames = extractImportNamesFromCodeBlocks(codeBlocks);
+  const importNames = extractImportNamesFromCodeBlocks(codeBlocks);
 
-	// Extract any Callout blocks in the import section to preserve them
-	const calloutRe = /(<Callout[\s\S]*?<\/Callout>)/g;
-	const callouts = [];
-	let cm;
-	while ((cm = calloutRe.exec(importSection)) !== null) {
-		callouts.push(cm[1]);
-	}
+  // Extract any Callout blocks in the import section to preserve them
+  const calloutRe = /(<Callout[\s\S]*?<\/Callout>)/g;
+  const callouts = [];
+  let cm;
+  while ((cm = calloutRe.exec(importSection)) !== null) {
+    callouts.push(cm[1]);
+  }
 
-	// Build replacement
-	const installBlock = buildInstallationBlock(componentCliName);
-	const anatomyBlock = buildAnatomyBlock(
-		importNames,
-		"@work-rjkashyap/unified-ui",
-	);
+  // Build replacement
+  const installBlock = buildInstallationBlock(componentCliName);
+  const anatomyBlock = buildAnatomyBlock(
+    importNames,
+    "@work-rjkashyap/unified-ui",
+  );
 
-	let replacement = installBlock + "\n\n" + anatomyBlock;
+  let replacement = `${installBlock}\n\n${anatomyBlock}`;
 
-	if (callouts.length > 0) {
-		replacement += "\n\n" + callouts.join("\n\n");
-	}
+  if (callouts.length > 0) {
+    replacement += `\n\n${callouts.join("\n\n")}`;
+  }
 
-	const before = content.slice(0, importStart);
-	const after = content.slice(importEnd);
+  const before = content.slice(0, importStart);
+  const after = content.slice(importEnd);
 
-	return before + replacement + "\n" + after;
+  return `${before + replacement}\n${after}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -652,100 +651,100 @@ function transformImportSection(content, componentCliName) {
  * (including its trailing newline if present).
  */
 function findImportBlockEnd(content) {
-	// Find the end of frontmatter first
-	const fmEnd = content.indexOf("---", 4);
-	if (fmEnd === -1) return -1;
-	const searchStart = fmEnd + 3;
+  // Find the end of frontmatter first
+  const fmEnd = content.indexOf("---", 4);
+  if (fmEnd === -1) return -1;
+  const searchStart = fmEnd + 3;
 
-	// Walk through lines after frontmatter looking for import statements
-	const afterFm = content.slice(searchStart);
-	const lines = afterFm.split("\n");
+  // Walk through lines after frontmatter looking for import statements
+  const afterFm = content.slice(searchStart);
+  const lines = afterFm.split("\n");
 
-	let lastImportEndOffset = -1;
-	let inImport = false;
+  let lastImportEndOffset = -1;
+  let inImport = false;
 
-	for (let i = 0; i < lines.length; i++) {
-		const line = lines[i];
-		const trimmed = line.trim();
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
 
-		if (inImport) {
-			// We're inside a multi-line import, look for the closing line
-			// A line containing `from "..."` or `from '...'` ends the import
-			if (/from\s+["']/.test(trimmed)) {
-				inImport = false;
-				lastImportEndOffset =
-					searchStart + lines.slice(0, i + 1).join("\n").length;
-			}
-			continue;
-		}
+    if (inImport) {
+      // We're inside a multi-line import, look for the closing line
+      // A line containing `from "..."` or `from '...'` ends the import
+      if (/from\s+["']/.test(trimmed)) {
+        inImport = false;
+        lastImportEndOffset =
+          searchStart + lines.slice(0, i + 1).join("\n").length;
+      }
+      continue;
+    }
 
-		if (trimmed.startsWith("import ") || trimmed.startsWith("import\t")) {
-			// Check if it's a single-line or multi-line import
-			if (/from\s+["']/.test(trimmed) && trimmed.endsWith(";")) {
-				// Single-line import
-				lastImportEndOffset =
-					searchStart + lines.slice(0, i + 1).join("\n").length;
-			} else if (/from\s+["']/.test(trimmed)) {
-				// Single-line import without semicolon (valid in JS)
-				lastImportEndOffset =
-					searchStart + lines.slice(0, i + 1).join("\n").length;
-			} else {
-				// Multi-line import starts
-				inImport = true;
-			}
-			continue;
-		}
+    if (trimmed.startsWith("import ") || trimmed.startsWith("import\t")) {
+      // Check if it's a single-line or multi-line import
+      if (/from\s+["']/.test(trimmed) && trimmed.endsWith(";")) {
+        // Single-line import
+        lastImportEndOffset =
+          searchStart + lines.slice(0, i + 1).join("\n").length;
+      } else if (/from\s+["']/.test(trimmed)) {
+        // Single-line import without semicolon (valid in JS)
+        lastImportEndOffset =
+          searchStart + lines.slice(0, i + 1).join("\n").length;
+      } else {
+        // Multi-line import starts
+        inImport = true;
+      }
+      continue;
+    }
 
-		// Skip blank lines between imports
-		if (trimmed === "" && lastImportEndOffset !== -1) {
-			continue;
-		}
+    // Skip blank lines between imports
+    if (trimmed === "" && lastImportEndOffset !== -1) {
+      continue;
+    }
 
-		// Non-import, non-blank line — stop
-		if (trimmed !== "") {
-			break;
-		}
-	}
+    // Non-import, non-blank line — stop
+    if (trimmed !== "") {
+      break;
+    }
+  }
 
-	return lastImportEndOffset;
+  return lastImportEndOffset;
 }
 
 function ensureImports(content) {
-	let result = content;
+  let result = content;
 
-	// Add Tabs/Tab import if not present
-	if (!hasTabsImport(result)) {
-		const insertPos = findImportBlockEnd(result);
-		if (insertPos !== -1) {
-			result =
-				result.slice(0, insertPos) +
-				'\nimport { Tab, Tabs } from "fumadocs-ui/components/tabs";' +
-				result.slice(insertPos);
-		} else {
-			// No imports found — add after frontmatter
-			const fmEnd = result.indexOf("---", 4);
-			if (fmEnd !== -1) {
-				const pos = fmEnd + 3;
-				result =
-					result.slice(0, pos) +
-					'\n\nimport { Tab, Tabs } from "fumadocs-ui/components/tabs";' +
-					result.slice(pos);
-			}
-		}
-	}
+  // Add Tabs/Tab import if not present
+  if (!hasTabsImport(result)) {
+    const insertPos = findImportBlockEnd(result);
+    if (insertPos !== -1) {
+      result =
+        result.slice(0, insertPos) +
+        '\nimport { Tab, Tabs } from "fumadocs-ui/components/tabs";' +
+        result.slice(insertPos);
+    } else {
+      // No imports found — add after frontmatter
+      const fmEnd = result.indexOf("---", 4);
+      if (fmEnd !== -1) {
+        const pos = fmEnd + 3;
+        result =
+          result.slice(0, pos) +
+          '\n\nimport { Tab, Tabs } from "fumadocs-ui/components/tabs";' +
+          result.slice(pos);
+      }
+    }
+  }
 
-	// Add Callout import if not present
-	if (!hasCalloutImport(result)) {
-		const insertPos = findImportBlockEnd(result);
-		if (insertPos !== -1) {
-			result =
-				result.slice(0, insertPos) +
-				'\nimport { Callout } from "fumadocs-ui/components/callout";' +
-				result.slice(insertPos);
-		}
-	}
+  // Add Callout import if not present
+  if (!hasCalloutImport(result)) {
+    const insertPos = findImportBlockEnd(result);
+    if (insertPos !== -1) {
+      result =
+        result.slice(0, insertPos) +
+        '\nimport { Callout } from "fumadocs-ui/components/callout";' +
+        result.slice(insertPos);
+    }
+  }
 
-	return result;
+  return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -754,15 +753,15 @@ function ensureImports(content) {
 // ---------------------------------------------------------------------------
 
 function transformNonWrapperPattern(content, componentCliName) {
-	// Check: does file have ## Import but NOT a wrapping ComponentPage (no </ComponentPage>)
-	const hasImport = /^## Import\b/m.test(content);
-	if (!hasImport) return content;
+  // Check: does file have ## Import but NOT a wrapping ComponentPage (no </ComponentPage>)
+  const hasImport = /^## Import\b/m.test(content);
+  if (!hasImport) return content;
 
-	// Check if there's a wrapping ComponentPage (has </ComponentPage>)
-	const hasClosing = /<\/ComponentPage>/.test(content);
-	if (hasClosing) return content; // Will be handled by transformTopLevelWrapper
+  // Check if there's a wrapping ComponentPage (has </ComponentPage>)
+  const hasClosing = /<\/ComponentPage>/.test(content);
+  if (hasClosing) return content; // Will be handled by transformTopLevelWrapper
 
-	return transformImportSection(content, componentCliName);
+  return transformImportSection(content, componentCliName);
 }
 
 // ---------------------------------------------------------------------------
@@ -770,66 +769,63 @@ function transformNonWrapperPattern(content, componentCliName) {
 // ---------------------------------------------------------------------------
 
 function ensureBasicHeading(content) {
-	// If there's already a ## Basic heading, skip
-	if (/^## Basic\b/m.test(content)) return content;
+  // If there's already a ## Basic heading, skip
+  if (/^## Basic\b/m.test(content)) return content;
 
-	// Find the first <PreviewCard or <ComponentPage after the imports
-	// Look for the first occurrence that's at the top of the content area
-	// (i.e., not inside a ## section)
+  // Find the first <PreviewCard or <ComponentPage after the imports
+  // Look for the first occurrence that's at the top of the content area
+  // (i.e., not inside a ## section)
 
-	// Find where frontmatter + imports end and content begins
-	const fmEnd = content.indexOf("---", 4);
-	if (fmEnd === -1) return content;
+  // Find where frontmatter + imports end and content begins
+  const fmEnd = content.indexOf("---", 4);
+  if (fmEnd === -1) return content;
 
-	const afterFm = content.slice(fmEnd + 3);
+  const afterFm = content.slice(fmEnd + 3);
 
-	// Skip past all import statements
-	const lines = afterFm.split("\n");
-	let contentStartLine = 0;
-	for (let i = 0; i < lines.length; i++) {
-		const line = lines[i].trim();
-		if (
-			line === "" ||
-			line.startsWith("import ") ||
-			line.startsWith("} from") ||
-			line.startsWith('"') ||
-			line.startsWith("'") ||
-			/^\t[A-Z]/.test(lines[i]) || // continuation of multi-line import
-			/^\t[a-z]/.test(lines[i])
-		) {
-			contentStartLine = i + 1;
-			continue;
-		}
-		break;
-	}
+  // Skip past all import statements
+  const lines = afterFm.split("\n");
+  let contentStartLine = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (
+      line === "" ||
+      line.startsWith("import ") ||
+      line.startsWith("} from") ||
+      line.startsWith('"') ||
+      line.startsWith("'") ||
+      /^\t[A-Z]/.test(lines[i]) || // continuation of multi-line import
+      /^\t[a-z]/.test(lines[i])
+    ) {
+      contentStartLine = i + 1;
+      continue;
+    }
+    break;
+  }
 
-	// Check if the first non-import content is a <PreviewCard or <ComponentPage
-	const restLines = lines.slice(contentStartLine);
-	const restContent = restLines.join("\n").trimStart();
+  // Check if the first non-import content is a <PreviewCard or <ComponentPage
+  const restLines = lines.slice(contentStartLine);
+  const restContent = restLines.join("\n").trimStart();
 
-	if (
-		restContent.startsWith("<PreviewCard") ||
-		restContent.startsWith("<ComponentPage")
-	) {
-		// Need to add a ## Basic heading before it
-		// But only if there's no heading before it
-		const firstHeading = restContent.match(/^(##\s+\w)/m);
-		const firstTag = restContent.match(/^<(PreviewCard|ComponentPage)/m);
+  if (
+    restContent.startsWith("<PreviewCard") ||
+    restContent.startsWith("<ComponentPage")
+  ) {
+    // Need to add a ## Basic heading before it
+    // But only if there's no heading before it
+    const firstHeading = restContent.match(/^(##\s+\w)/m);
+    const firstTag = restContent.match(/^<(PreviewCard|ComponentPage)/m);
 
-		if (
-			firstTag &&
-			(!firstHeading || firstTag.index < firstHeading.index)
-		) {
-			const insertOffset =
-				fmEnd + 3 + lines.slice(0, contentStartLine).join("\n").length;
-			const before = content.slice(0, insertOffset);
-			const after = content.slice(insertOffset);
+    if (firstTag && (!firstHeading || firstTag.index < firstHeading.index)) {
+      const insertOffset =
+        fmEnd + 3 + lines.slice(0, contentStartLine).join("\n").length;
+      const before = content.slice(0, insertOffset);
+      const after = content.slice(insertOffset);
 
-			return before + "\n\n## Basic\n" + after;
-		}
-	}
+      return `${before}\n\n## Basic\n${after}`;
+    }
+  }
 
-	return content;
+  return content;
 }
 
 // ---------------------------------------------------------------------------
@@ -837,8 +833,8 @@ function ensureBasicHeading(content) {
 // ---------------------------------------------------------------------------
 
 function cleanupBlankLines(content) {
-	// Replace 3+ consecutive blank lines with 2
-	return content.replace(/\n{4,}/g, "\n\n\n");
+  // Replace 3+ consecutive blank lines with 2
+  return content.replace(/\n{4,}/g, "\n\n\n");
 }
 
 // ---------------------------------------------------------------------------
@@ -846,40 +842,40 @@ function cleanupBlankLines(content) {
 // ---------------------------------------------------------------------------
 
 function migrateFile(filepath) {
-	const filename = basename(filepath);
-	const name = cliName(filename);
-	const original = readFileSync(filepath, "utf-8");
-	let content = original;
+  const filename = basename(filepath);
+  const name = cliName(filename);
+  const original = readFileSync(filepath, "utf-8");
+  let content = original;
 
-	// Step 0: Extract component import names before any transformation
-	const componentImportNames = extractComponentImports(content);
+  // Step 0: Extract component import names before any transformation
+  const componentImportNames = extractComponentImports(content);
 
-	// Step 1: Handle wrapping <ComponentPage> → ## Basic + <PreviewCard> + Installation
-	const hasClosingTag = /<\/ComponentPage>/.test(content);
-	if (hasClosingTag) {
-		content = transformTopLevelWrapper(content, name, componentImportNames);
-		content = removeClosingComponentPage(content);
-	}
+  // Step 1: Handle wrapping <ComponentPage> → ## Basic + <PreviewCard> + Installation
+  const hasClosingTag = /<\/ComponentPage>/.test(content);
+  if (hasClosingTag) {
+    content = transformTopLevelWrapper(content, name, componentImportNames);
+    content = removeClosingComponentPage(content);
+  }
 
-	// Step 2: Handle non-wrapping pattern with ## Import
-	content = transformNonWrapperPattern(content, name);
+  // Step 2: Handle non-wrapping pattern with ## Import
+  content = transformNonWrapperPattern(content, name);
 
-	// Step 3: Replace all remaining <ComponentPage> blocks with <PreviewCard>
-	content = replaceComponentPageBlocks(content);
+  // Step 3: Replace all remaining <ComponentPage> blocks with <PreviewCard>
+  content = replaceComponentPageBlocks(content);
 
-	// Step 4: Ensure ## Basic heading exists
-	content = ensureBasicHeading(content);
+  // Step 4: Ensure ## Basic heading exists
+  content = ensureBasicHeading(content);
 
-	// Step 5: Ensure required imports (Tabs, Tab, Callout)
-	content = ensureImports(content);
+  // Step 5: Ensure required imports (Tabs, Tab, Callout)
+  content = ensureImports(content);
 
-	// Step 6: Clean up formatting
-	content = cleanupBlankLines(content);
+  // Step 6: Clean up formatting
+  content = cleanupBlankLines(content);
 
-	// Check if anything changed
-	const changed = content !== original;
+  // Check if anything changed
+  const changed = content !== original;
 
-	return { original, content, changed, filename };
+  return { original, content, changed, filename };
 }
 
 // ---------------------------------------------------------------------------
@@ -887,71 +883,67 @@ function migrateFile(filepath) {
 // ---------------------------------------------------------------------------
 
 function simpleDiff(a, b) {
-	const aLines = a.split("\n");
-	const bLines = b.split("\n");
-	const output = [];
+  const aLines = a.split("\n");
+  const bLines = b.split("\n");
+  const output = [];
 
-	let ai = 0;
-	let bi = 0;
+  let ai = 0;
+  let bi = 0;
 
-	while (ai < aLines.length || bi < bLines.length) {
-		if (
-			ai < aLines.length &&
-			bi < bLines.length &&
-			aLines[ai] === bLines[bi]
-		) {
-			ai++;
-			bi++;
-			continue;
-		}
+  while (ai < aLines.length || bi < bLines.length) {
+    if (ai < aLines.length && bi < bLines.length && aLines[ai] === bLines[bi]) {
+      ai++;
+      bi++;
+      continue;
+    }
 
-		// Find next matching line
-		let foundA = -1;
-		let foundB = -1;
+    // Find next matching line
+    let foundA = -1;
+    let foundB = -1;
 
-		for (let look = 1; look < 20; look++) {
-			if (
-				foundA === -1 &&
-				bi + look < bLines.length &&
-				aLines[ai] === bLines[bi + look]
-			) {
-				foundA = bi + look;
-			}
-			if (
-				foundB === -1 &&
-				ai + look < aLines.length &&
-				aLines[ai + look] === bLines[bi]
-			) {
-				foundB = ai + look;
-			}
-		}
+    for (let look = 1; look < 20; look++) {
+      if (
+        foundA === -1 &&
+        bi + look < bLines.length &&
+        aLines[ai] === bLines[bi + look]
+      ) {
+        foundA = bi + look;
+      }
+      if (
+        foundB === -1 &&
+        ai + look < aLines.length &&
+        aLines[ai + look] === bLines[bi]
+      ) {
+        foundB = ai + look;
+      }
+    }
 
-		if (foundA !== -1 && (foundB === -1 || foundA - bi <= foundB - ai)) {
-			// Lines were added in b
-			while (bi < foundA) {
-				output.push(`\x1b[32m+ ${bLines[bi]}\x1b[0m`);
-				bi++;
-			}
-		} else if (foundB !== -1) {
-			// Lines were removed from a
-			while (ai < foundB) {
-				output.push(`\x1b[31m- ${aLines[ai]}\x1b[0m`);
-				ai++;
-			}
-		} else {
-			// Changed line
-			if (ai < aLines.length) {
-				output.push(`\x1b[31m- ${aLines[ai]}\x1b[0m`);
-				ai++;
-			}
-			if (bi < bLines.length) {
-				output.push(`\x1b[32m+ ${bLines[bi]}\x1b[0m`);
-				bi++;
-			}
-		}
-	}
+    if (foundA !== -1 && (foundB === -1 || foundA - bi <= foundB - ai)) {
+      // Lines were added in b
+      while (bi < foundA) {
+        output.push(`\x1b[32m+ ${bLines[bi]}\x1b[0m`);
+        bi++;
+      }
+    } else if (foundB !== -1) {
+      // Lines were removed from a
+      while (ai < foundB) {
+        output.push(`\x1b[31m- ${aLines[ai]}\x1b[0m`);
+        ai++;
+      }
+    } else {
+      // Changed line
+      if (ai < aLines.length) {
+        output.push(`\x1b[31m- ${aLines[ai]}\x1b[0m`);
+        ai++;
+      }
+      if (bi < bLines.length) {
+        output.push(`\x1b[32m+ ${bLines[bi]}\x1b[0m`);
+        bi++;
+      }
+    }
+  }
 
-	return output.join("\n");
+  return output.join("\n");
 }
 
 // ---------------------------------------------------------------------------
@@ -959,82 +951,82 @@ function simpleDiff(a, b) {
 // ---------------------------------------------------------------------------
 
 function main() {
-	const files = SINGLE_FILE
-		? [join(CONTENT_DIR, SINGLE_FILE)]
-		: readdirSync(CONTENT_DIR)
-				.filter((f) => f.endsWith(".mdx") && !SKIP_FILES.has(f))
-				.sort()
-				.map((f) => join(CONTENT_DIR, f));
+  const files = SINGLE_FILE
+    ? [join(CONTENT_DIR, SINGLE_FILE)]
+    : readdirSync(CONTENT_DIR)
+        .filter((f) => f.endsWith(".mdx") && !SKIP_FILES.has(f))
+        .sort()
+        .map((f) => join(CONTENT_DIR, f));
 
-	let totalChanged = 0;
-	let totalSkipped = 0;
-	let totalErrors = 0;
+  let totalChanged = 0;
+  let totalSkipped = 0;
+  let totalErrors = 0;
 
-	const results = [];
+  const results = [];
 
-	for (const filepath of files) {
-		const filename = basename(filepath);
+  for (const filepath of files) {
+    const filename = basename(filepath);
 
-		if (!existsSync(filepath)) {
-			console.error(`❌ File not found: ${filepath}`);
-			totalErrors++;
-			continue;
-		}
+    if (!existsSync(filepath)) {
+      console.error(`❌ File not found: ${filepath}`);
+      totalErrors++;
+      continue;
+    }
 
-		try {
-			const { original, content, changed } = migrateFile(filepath);
+    try {
+      const { original, content, changed } = migrateFile(filepath);
 
-			if (changed) {
-				totalChanged++;
-				results.push({ filename, status: "changed" });
+      if (changed) {
+        totalChanged++;
+        results.push({ filename, status: "changed" });
 
-				if (WRITE) {
-					writeFileSync(filepath, content, "utf-8");
-					console.log(`✅ ${filename} — updated`);
-				} else if (DIFF) {
-					console.log(`\n${"=".repeat(60)}`);
-					console.log(`📝 ${filename}`);
-					console.log("=".repeat(60));
-					console.log(simpleDiff(original, content));
-				} else {
-					console.log(`📝 ${filename} — would change (dry-run)`);
-				}
-			} else {
-				totalSkipped++;
-				results.push({ filename, status: "unchanged" });
-				if (!SINGLE_FILE) {
-					console.log(`⏭️  ${filename} — no changes needed`);
-				} else {
-					console.log(
-						`⏭️  ${filename} — no changes needed (already migrated or no patterns found)`,
-					);
-				}
-			}
-		} catch (err) {
-			totalErrors++;
-			results.push({ filename, status: "error", error: err.message });
-			console.error(`❌ ${filename} — error: ${err.message}`);
-			if (SINGLE_FILE) {
-				console.error(err.stack);
-			}
-		}
-	}
+        if (WRITE) {
+          writeFileSync(filepath, content, "utf-8");
+          console.log(`✅ ${filename} — updated`);
+        } else if (DIFF) {
+          console.log(`\n${"=".repeat(60)}`);
+          console.log(`📝 ${filename}`);
+          console.log("=".repeat(60));
+          console.log(simpleDiff(original, content));
+        } else {
+          console.log(`📝 ${filename} — would change (dry-run)`);
+        }
+      } else {
+        totalSkipped++;
+        results.push({ filename, status: "unchanged" });
+        if (!SINGLE_FILE) {
+          console.log(`⏭️  ${filename} — no changes needed`);
+        } else {
+          console.log(
+            `⏭️  ${filename} — no changes needed (already migrated or no patterns found)`,
+          );
+        }
+      }
+    } catch (err) {
+      totalErrors++;
+      results.push({ filename, status: "error", error: err.message });
+      console.error(`❌ ${filename} — error: ${err.message}`);
+      if (SINGLE_FILE) {
+        console.error(err.stack);
+      }
+    }
+  }
 
-	console.log("\n" + "─".repeat(50));
-	console.log(`📊 Migration Summary`);
-	console.log(`   Changed:  ${totalChanged}`);
-	console.log(`   Skipped:  ${totalSkipped}`);
-	console.log(`   Errors:   ${totalErrors}`);
-	console.log(`   Total:    ${files.length}`);
+  console.log(`\n${"─".repeat(50)}`);
+  console.log(`📊 Migration Summary`);
+  console.log(`   Changed:  ${totalChanged}`);
+  console.log(`   Skipped:  ${totalSkipped}`);
+  console.log(`   Errors:   ${totalErrors}`);
+  console.log(`   Total:    ${files.length}`);
 
-	if (!WRITE && totalChanged > 0) {
-		console.log(`\n💡 Run with --write to apply changes.`);
-	}
+  if (!WRITE && totalChanged > 0) {
+    console.log(`\n💡 Run with --write to apply changes.`);
+  }
 
-	// Update the tracking file
-	if (WRITE && totalChanged > 0) {
-		updateTrackingFile(results);
-	}
+  // Update the tracking file
+  if (WRITE && totalChanged > 0) {
+    updateTrackingFile(results);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -1042,53 +1034,53 @@ function main() {
 // ---------------------------------------------------------------------------
 
 function updateTrackingFile(results) {
-	const trackingPath = join(
-		import.meta.dirname ?? ".",
-		"..",
-		"COMPONENT-MIGRATION-STATUS.md",
-	);
+  const trackingPath = join(
+    import.meta.dirname ?? ".",
+    "..",
+    "COMPONENT-MIGRATION-STATUS.md",
+  );
 
-	if (!existsSync(trackingPath)) {
-		console.log("⚠️  Tracking file not found, skipping status update.");
-		return;
-	}
+  if (!existsSync(trackingPath)) {
+    console.log("⚠️  Tracking file not found, skipping status update.");
+    return;
+  }
 
-	let tracking = readFileSync(trackingPath, "utf-8");
+  let tracking = readFileSync(trackingPath, "utf-8");
 
-	for (const { filename, status } of results) {
-		if (status !== "changed") continue;
+  for (const { filename, status } of results) {
+    if (status !== "changed") continue;
 
-		const name = cliName(filename);
-		// Replace ⬜ with ✅ for this component
-		// Match patterns like: | 40 | Alert | `alert.mdx` | ⬜ |
-		const escapedFilename = filename.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-		const re = new RegExp(
-			`(\\|[^|]*\\|[^|]*\\|\\s*\`${escapedFilename}\`\\s*\\|\\s*)⬜(\\s*\\|)`,
-		);
-		tracking = tracking.replace(re, "$1✅$2");
-	}
+    const _name = cliName(filename);
+    // Replace ⬜ with ✅ for this component
+    // Match patterns like: | 40 | Alert | `alert.mdx` | ⬜ |
+    const escapedFilename = filename.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(
+      `(\\|[^|]*\\|[^|]*\\|\\s*\`${escapedFilename}\`\\s*\\|\\s*)⬜(\\s*\\|)`,
+    );
+    tracking = tracking.replace(re, "$1✅$2");
+  }
 
-	// Update counts
-	const completedCount =
-		(tracking.match(/\| ✅ \|/g) || []).length +
-		(tracking.match(/✅/g) || []).length;
+  // Update counts
+  const _completedCount =
+    (tracking.match(/\| ✅ \|/g) || []).length +
+    (tracking.match(/✅/g) || []).length;
 
-	const today = new Date().toISOString().slice(0, 10);
-	const changedNames = results
-		.filter((r) => r.status === "changed")
-		.map((r) => `\`${r.filename}\``)
-		.join(", ");
+  const today = new Date().toISOString().slice(0, 10);
+  const changedNames = results
+    .filter((r) => r.status === "changed")
+    .map((r) => `\`${r.filename}\``)
+    .join(", ");
 
-	// Add changelog entry
-	if (changedNames) {
-		tracking = tracking.replace(
-			/(\| \| \| \|)/,
-			`| ${today} | ${changedNames} | Automated migration via script |\n$1`,
-		);
-	}
+  // Add changelog entry
+  if (changedNames) {
+    tracking = tracking.replace(
+      /(\| \| \| \|)/,
+      `| ${today} | ${changedNames} | Automated migration via script |\n$1`,
+    );
+  }
 
-	writeFileSync(trackingPath, tracking, "utf-8");
-	console.log("📋 Updated COMPONENT-MIGRATION-STATUS.md");
+  writeFileSync(trackingPath, tracking, "utf-8");
+  console.log("📋 Updated COMPONENT-MIGRATION-STATUS.md");
 }
 
 main();

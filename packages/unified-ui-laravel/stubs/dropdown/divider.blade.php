@@ -1,28 +1,3 @@
-{{--
-    Unified UI — Dropdown Divider Sub-Component
-    https://unified-ui.space
-
-    A visual separator line between groups of dropdown menu items.
-
-    Usage:
-        <x-ui-dropdown>
-            <x-slot:trigger>
-                <x-ui-button variant="outline">Options</x-ui-button>
-            </x-slot:trigger>
-            <x-ui-dropdown.item>Edit</x-ui-dropdown.item>
-            <x-ui-dropdown.item>Duplicate</x-ui-dropdown.item>
-            <x-ui-dropdown.divider />
-            <x-ui-dropdown.item variant="destructive">Delete</x-ui-dropdown.item>
-        </x-ui-dropdown>
-
-        {{-- With spacing variants --}}
-        <x-ui-dropdown.divider spacing="sm" />
-        <x-ui-dropdown.divider spacing="lg" />
-
-    Props:
-        spacing — sm|md|lg (default: md) — vertical margin around the divider
---}}
-
 @props([
     'spacing' => 'md',
 ])

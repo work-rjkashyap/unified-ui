@@ -1,31 +1,3 @@
-{{--
-    Unified UI — Accordion Trigger Sub-Component
-    https://unified-ui.space
-
-    The clickable header/button for an accordion item. Toggles the
-    associated content panel open or closed. Includes a rotating
-    chevron indicator and full keyboard accessibility.
-
-    Usage:
-        <x-ui-accordion>
-            <x-ui-accordion.item>
-                <x-ui-accordion.trigger>Question 1</x-ui-accordion.trigger>
-                <x-ui-accordion.content>Answer 1</x-ui-accordion.content>
-            </x-ui-accordion.item>
-        </x-ui-accordion>
-
-        {{-- With icon slot --}}
-        <x-ui-accordion.trigger>
-            <x-slot:icon>
-                <svg class="h-5 w-5" ...>...</svg>
-            </x-slot:icon>
-            Custom icon trigger
-        </x-ui-accordion.trigger>
-
-    Props:
-        (none — state is managed by the parent accordion item's Alpine.js context)
---}}
-
 @php
     // ── Base classes ─────────────────────────────────────────────────
     $baseClasses = implode(' ', [

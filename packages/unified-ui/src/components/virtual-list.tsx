@@ -133,14 +133,18 @@ export const VirtualList = forwardRef(function VirtualList<T>(
   const totalHeight = items.length * itemHeight;
 
   // Calculate visible range
-  const { startIndex, endIndex, visibleCount } = useMemo(() => {
+  const { startIndex, endIndex } = useMemo(() => {
     const visCount = Math.ceil(height / itemHeight);
     const start = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
     const end = Math.min(
       items.length - 1,
       Math.floor(scrollTop / itemHeight) + visCount + overscan,
     );
-    return { startIndex: start, endIndex: end, visibleCount: visCount };
+    return {
+      startIndex: start,
+      endIndex: end,
+      visibleCount: visCount,
+    } as const;
   }, [scrollTop, height, itemHeight, items.length, overscan]);
 
   // Scroll handler

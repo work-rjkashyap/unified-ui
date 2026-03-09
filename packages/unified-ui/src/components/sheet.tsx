@@ -92,34 +92,22 @@ export const sheetContentVariants = cva(
         /**
          * Left — slides in from the left edge.
          */
-        left: [
-          "inset-y-0 left-0",
-          "border-r",
-        ],
+        left: ["inset-y-0 left-0", "border-r"],
 
         /**
          * Right — slides in from the right edge (most common).
          */
-        right: [
-          "inset-y-0 right-0",
-          "border-l",
-        ],
+        right: ["inset-y-0 right-0", "border-l"],
 
         /**
          * Top — slides in from the top edge.
          */
-        top: [
-          "inset-x-0 top-0",
-          "border-b",
-        ],
+        top: ["inset-x-0 top-0", "border-b"],
 
         /**
          * Bottom — slides in from the bottom edge.
          */
-        bottom: [
-          "inset-x-0 bottom-0",
-          "border-t",
-        ],
+        bottom: ["inset-x-0 bottom-0", "border-t"],
       },
 
       size: {

@@ -179,7 +179,7 @@ function tokenizeJsx(line: string): Token[] {
   let remaining = line;
 
   while (remaining.length > 0) {
-    let matched = false;
+    const matched = false;
 
     // Single-line comment
     let m = remaining.match(RE_SINGLE_LINE_COMMENT);

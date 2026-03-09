@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  ThemeCustomizer,
-  useThemeCustomizer,
   COLOR_PRESETS,
   STYLE_PRESETS,
+  ThemeCustomizer,
+  useThemeCustomizer,
 } from "@work-rjkashyap/unified-ui";
-import { Moon, Sun, Monitor } from "lucide-react";
+import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";

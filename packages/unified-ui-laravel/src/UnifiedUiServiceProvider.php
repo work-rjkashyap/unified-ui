@@ -9,6 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Rajeshwar\UnifiedUi\Console\AddComponentCommand;
 use Rajeshwar\UnifiedUi\Console\DiffComponentCommand;
 use Rajeshwar\UnifiedUi\Console\InitCommand;
+use Rajeshwar\UnifiedUi\Console\InstallAlpineCommand;
 use Rajeshwar\UnifiedUi\Console\ListComponentsCommand;
 
 class UnifiedUiServiceProvider extends ServiceProvider
@@ -60,6 +61,7 @@ class UnifiedUiServiceProvider extends ServiceProvider
 				AddComponentCommand::class,
 				ListComponentsCommand::class,
 				DiffComponentCommand::class,
+				InstallAlpineCommand::class,
 			]);
 		}
 	}

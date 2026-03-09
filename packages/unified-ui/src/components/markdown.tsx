@@ -91,7 +91,7 @@ function parseMarkdown(input: string, allowHtml: boolean): string {
   const lines = input.split("\n");
   const output: string[] = [];
   let inCodeBlock = false;
-  let codeBlockLang = "";
+  let _codeBlockLang = "";
   let codeBuffer: string[] = [];
   let inList = false;
   let listType: "ul" | "ol" = "ul";
@@ -119,7 +119,7 @@ function parseMarkdown(input: string, allowHtml: boolean): string {
       }
       closeList();
       inCodeBlock = true;
-      codeBlockLang = line.slice(3).trim();
+      _codeBlockLang = line.slice(3).trim();
       continue;
     }
 
@@ -276,7 +276,6 @@ export const Markdown = forwardRef<HTMLDivElement, MarkdownProps>(
         )}
         data-ds=""
         data-ds-component="markdown"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled markdown output
         dangerouslySetInnerHTML={{ __html: html }}
       />
     );

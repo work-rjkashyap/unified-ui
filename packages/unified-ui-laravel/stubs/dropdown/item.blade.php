@@ -1,39 +1,3 @@
-{{--
-    Unified UI — Dropdown Item Sub-Component
-    https://unified-ui.space
-
-    An individual menu item within a dropdown menu. Supports multiple
-    variants, disabled state, icons, and keyboard interaction.
-
-    Usage:
-        <x-ui-dropdown.item>Edit</x-ui-dropdown.item>
-
-        {{-- Destructive variant --}}
-        <x-ui-dropdown.item variant="destructive">Delete</x-ui-dropdown.item>
-
-        {{-- As a link --}}
-        <x-ui-dropdown.item as="a" href="/settings">Settings</x-ui-dropdown.item>
-
-        {{-- Disabled --}}
-        <x-ui-dropdown.item disabled>Cannot click</x-ui-dropdown.item>
-
-        {{-- With icon --}}
-        <x-ui-dropdown.item>
-            <svg class="h-4 w-4 mr-2" ...>...</svg>
-            Edit Profile
-        </x-ui-dropdown.item>
-
-        {{-- With shortcut hint --}}
-        <x-ui-dropdown.item shortcut="⌘K">Command Palette</x-ui-dropdown.item>
-
-    Props:
-        variant  — default|destructive (default: default)
-        as       — HTML tag: button|a (default: button)
-        href     — URL when as=a
-        disabled — boolean (default: false)
-        shortcut — optional keyboard shortcut hint text displayed on the right
---}}
-
 @props([
     'variant' => 'default',
     'as' => 'button',

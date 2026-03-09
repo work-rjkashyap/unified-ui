@@ -1,31 +1,3 @@
-{{--
-    Unified UI — Tabs List Sub-Component
-    https://unified-ui.space
-
-    The container for tab trigger buttons. Renders as a horizontal or
-    vertical list depending on the parent tabs orientation, with variant
-    styling inherited from the parent context.
-
-    Usage:
-        <x-ui-tabs active="overview">
-            <x-ui-tabs.list>
-                <x-ui-tabs.trigger value="overview">Overview</x-ui-tabs.trigger>
-                <x-ui-tabs.trigger value="settings">Settings</x-ui-tabs.trigger>
-            </x-ui-tabs.list>
-            <x-ui-tabs.content value="overview">…</x-ui-tabs.content>
-            <x-ui-tabs.content value="settings">…</x-ui-tabs.content>
-        </x-ui-tabs>
-
-        {{-- With custom alignment --}}
-        <x-ui-tabs.list justify="center">
-            <x-ui-tabs.trigger value="a">A</x-ui-tabs.trigger>
-            <x-ui-tabs.trigger value="b">B</x-ui-tabs.trigger>
-        </x-ui-tabs.list>
-
-    Props:
-        justify — start|center|end|between (default: start) — only applies to horizontal orientation
---}}
-
 @props([
     'justify' => 'start',
 ])

@@ -294,9 +294,7 @@ export const DropdownMenuContent = forwardRef<
           initial={shouldReduce ? { opacity: 0 } : "initial"}
           animate={shouldReduce ? { opacity: 1 } : "animate"}
           exit={shouldReduce ? { opacity: 0 } : "exit"}
-          transition={
-            shouldReduce ? { duration: 0.15 } : scaleIn.transition
-          }
+          transition={shouldReduce ? { duration: 0.15 } : scaleIn.transition}
           data-ds=""
           data-ds-component="dropdown-menu-content"
           data-ds-animated=""
@@ -340,7 +338,9 @@ export const DropdownMenuItem = forwardRef<
           {icon}
         </span>
       )}
-      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">
+        {children}
+      </span>
       {shortcut && <DropdownMenuShortcut>{shortcut}</DropdownMenuShortcut>}
     </DropdownMenuPrimitive.Item>
   );
@@ -368,7 +368,9 @@ export const DropdownMenuCheckboxItem = forwardRef<
           <CheckIcon className="size-4" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">
+        {children}
+      </span>
     </DropdownMenuPrimitive.CheckboxItem>
   );
 });
@@ -407,7 +409,9 @@ export const DropdownMenuRadioItem = forwardRef<
           <DotIcon className="size-4" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
-      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">
+        {children}
+      </span>
     </DropdownMenuPrimitive.RadioItem>
   );
 });
@@ -499,7 +503,9 @@ export const DropdownMenuSubTrigger = forwardRef<
           {icon}
         </span>
       )}
-      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">{children}</span>
+      <span className="flex-1 flex items-center gap-2 [&>svg]:shrink-0 [&>svg]:size-4">
+        {children}
+      </span>
       <ChevronRightIcon className="ml-auto size-4 text-muted-foreground" />
     </DropdownMenuPrimitive.SubTrigger>
   );
@@ -514,20 +520,14 @@ export const DropdownMenuSubContent = forwardRef<
 
   return (
     <DropdownMenuPrimitive.Portal>
-      <DropdownMenuPrimitive.SubContent
-        ref={ref}
-        asChild
-        {...rest}
-      >
+      <DropdownMenuPrimitive.SubContent ref={ref} asChild {...rest}>
         <motion.div
           className={cn(...menuContentBase, className)}
           variants={shouldReduce ? undefined : scaleIn.variants}
           initial={shouldReduce ? { opacity: 0 } : "initial"}
           animate={shouldReduce ? { opacity: 1 } : "animate"}
           exit={shouldReduce ? { opacity: 0 } : "exit"}
-          transition={
-            shouldReduce ? { duration: 0.15 } : scaleIn.transition
-          }
+          transition={shouldReduce ? { duration: 0.15 } : scaleIn.transition}
           data-ds=""
           data-ds-component="dropdown-menu-sub-content"
           data-ds-animated=""

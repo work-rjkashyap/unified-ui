@@ -57,8 +57,8 @@
 import { overlayBackdrop } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
 import { focusRingClasses } from "@unified-ui/utils/focus-ring";
-import { Tooltip as TooltipPrimitive } from "radix-ui";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Tooltip as TooltipPrimitive } from "radix-ui";
 import {
   createContext,
   forwardRef,
@@ -66,7 +66,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useId,
   useMemo,
   useState,
 } from "react";
@@ -105,7 +104,7 @@ function PanelLeftIcon({ className }: { className?: string }) {
   );
 }
 
-function ChevronRightIcon({ className }: { className?: string }) {
+function _ChevronRightIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -310,8 +309,7 @@ export const SidebarProvider = forwardRef<HTMLDivElement, SidebarProviderProps>(
 
     const setOpen = useCallback(
       (value: boolean | ((prev: boolean) => boolean)) => {
-        const openState =
-          typeof value === "function" ? value(open) : value;
+        const openState = typeof value === "function" ? value(open) : value;
 
         if (setOpenProp) {
           setOpenProp(openState);
@@ -340,10 +338,7 @@ export const SidebarProvider = forwardRef<HTMLDivElement, SidebarProviderProps>(
     // Keyboard shortcut: Ctrl+B / Cmd+B
     useEffect(() => {
       const handleKeyDown = (e: KeyboardEvent) => {
-        if (
-          e.key === SIDEBAR_KEYBOARD_SHORTCUT &&
-          (e.metaKey || e.ctrlKey)
-        ) {
+        if (e.key === SIDEBAR_KEYBOARD_SHORTCUT && (e.metaKey || e.ctrlKey)) {
           e.preventDefault();
           toggleSidebar();
         }
@@ -373,7 +368,6 @@ export const SidebarProvider = forwardRef<HTMLDivElement, SidebarProviderProps>(
         open,
         setOpen,
         openMobile,
-        setOpenMobile,
         isMobile,
         toggleSidebar,
         variant,
@@ -518,9 +512,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                 {/* Backdrop */}
                 <motion.div
                   className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
-                  variants={
-                    shouldReduce ? undefined : overlayBackdrop.variants
-                  }
+                  variants={shouldReduce ? undefined : overlayBackdrop.variants}
                   initial={shouldReduce ? { opacity: 0 } : "initial"}
                   animate={shouldReduce ? { opacity: 1 } : "animate"}
                   exit={shouldReduce ? { opacity: 0 } : "exit"}
@@ -625,14 +617,11 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             <motion.div
               className={cn(
                 "fixed inset-y-0 z-10 hidden h-svh md:flex flex-col",
-                side === "left"
-                  ? "left-0"
-                  : "right-0",
+                side === "left" ? "left-0" : "right-0",
                 // Variant styles
                 variant === "floating" &&
                   "m-2 rounded-lg border border-sidebar-border shadow-lg overflow-hidden",
-                variant === "inset" &&
-                  "m-2 rounded-lg overflow-hidden",
+                variant === "inset" && "m-2 rounded-lg overflow-hidden",
                 variant === "default" &&
                   cn(
                     "border-sidebar-border",
@@ -659,9 +648,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               data-variant={variant}
               data-side={side}
               data-state={ctx.state}
-              data-collapsible={
-                ctx.state === "collapsed" ? collapsible : ""
-              }
+              data-collapsible={ctx.state === "collapsed" ? collapsible : ""}
             >
               <div
                 className={cn(
@@ -705,7 +692,7 @@ export const SidebarTrigger = forwardRef<
   HTMLButtonElement,
   SidebarTriggerProps
 >(function SidebarTrigger({ className, onClick, children, ...rest }, ref) {
-  const { toggleSidebar, state, isMobile } = useSidebar();
+  const { toggleSidebar, state, isMobile: _isMobile } = useSidebar();
 
   return (
     <button
@@ -1095,7 +1082,8 @@ SidebarInput.displayName = "SidebarInput";
 // SidebarGroup
 // ============================================================================
 
-export interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SidebarGroupProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Additional CSS classes. */
   className?: string;
   /** Group content. */
@@ -1411,23 +1399,22 @@ export interface SidebarMenuItemProps
  * </SidebarMenuItem>
  * ```
  */
-export const SidebarMenuItem = forwardRef<
-  HTMLLIElement,
-  SidebarMenuItemProps
->(function SidebarMenuItem({ className, children, ...rest }, ref) {
-  return (
-    <li
-      ref={ref}
-      className={cn("group/menu-item relative list-none m-0 p-0", className)}
-      data-ds=""
-      data-ds-component="sidebar-menu-item"
-      data-sidebar="menu-item"
-      {...rest}
-    >
-      {children}
-    </li>
-  );
-});
+export const SidebarMenuItem = forwardRef<HTMLLIElement, SidebarMenuItemProps>(
+  function SidebarMenuItem({ className, children, ...rest }, ref) {
+    return (
+      <li
+        ref={ref}
+        className={cn("group/menu-item relative list-none m-0 p-0", className)}
+        data-ds=""
+        data-ds-component="sidebar-menu-item"
+        data-sidebar="menu-item"
+        {...rest}
+      >
+        {children}
+      </li>
+    );
+  },
+);
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
 // ============================================================================
@@ -1581,8 +1568,7 @@ export const SidebarMenuButton = forwardRef<
     variant === "outline" &&
       "bg-background shadow-[0_0_0_1px_var(--sidebar-border)] hover:shadow-[0_0_0_1px_var(--sidebar-accent)]",
     // Active
-    isActive &&
-      "bg-sidebar-accent text-sidebar-accent-foreground font-medium",
+    isActive && "bg-sidebar-accent text-sidebar-accent-foreground font-medium",
     // Icon collapse — fixed 32px button, no padding, center the icon,
     // hide everything except the first child (icon/avatar).
     // Plain <svg> icons stay at size-4 (16px); lg wrapper divs are
@@ -1634,8 +1620,7 @@ export const SidebarMenuButton = forwardRef<
     return button;
   }
 
-  const tooltipContent =
-    typeof tooltip === "string" ? tooltip : tooltip;
+  const tooltipContent = typeof tooltip === "string" ? tooltip : tooltip;
 
   return (
     <TooltipPrimitive.Root>
@@ -1827,10 +1812,7 @@ export interface SidebarMenuSkeletonProps
 export const SidebarMenuSkeleton = forwardRef<
   HTMLDivElement,
   SidebarMenuSkeletonProps
->(function SidebarMenuSkeleton(
-  { className, showIcon = false, ...rest },
-  ref,
-) {
+>(function SidebarMenuSkeleton({ className, showIcon = false, ...rest }, ref) {
   // Randomized width for natural look
   const width = useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
@@ -1839,10 +1821,7 @@ export const SidebarMenuSkeleton = forwardRef<
   return (
     <div
       ref={ref}
-      className={cn(
-        "flex h-8 items-center gap-2 rounded-md px-2",
-        className,
-      )}
+      className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
       data-ds=""
       data-ds-component="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
@@ -1895,31 +1874,30 @@ export interface SidebarMenuSubProps
  * </SidebarMenuItem>
  * ```
  */
-export const SidebarMenuSub = forwardRef<
-  HTMLUListElement,
-  SidebarMenuSubProps
->(function SidebarMenuSub({ className, children, ...rest }, ref) {
-  const { state } = useSidebar();
+export const SidebarMenuSub = forwardRef<HTMLUListElement, SidebarMenuSubProps>(
+  function SidebarMenuSub({ className, children, ...rest }, ref) {
+    const { state } = useSidebar();
 
-  return (
-    <ul
-      ref={ref}
-      className={cn(
-        "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 list-none m-0 p-0",
-        "border-l border-sidebar-border pl-2.5 py-0.5",
-        // Hide when collapsed to icon
-        state === "collapsed" && "hidden",
-        className,
-      )}
-      data-ds=""
-      data-ds-component="sidebar-menu-sub"
-      data-sidebar="menu-sub"
-      {...rest}
-    >
-      {children}
-    </ul>
-  );
-});
+    return (
+      <ul
+        ref={ref}
+        className={cn(
+          "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 list-none m-0 p-0",
+          "border-l border-sidebar-border pl-2.5 py-0.5",
+          // Hide when collapsed to icon
+          state === "collapsed" && "hidden",
+          className,
+        )}
+        data-ds=""
+        data-ds-component="sidebar-menu-sub"
+        data-sidebar="menu-sub"
+        {...rest}
+      >
+        {children}
+      </ul>
+    );
+  },
+);
 SidebarMenuSub.displayName = "SidebarMenuSub";
 
 // ============================================================================
@@ -2107,9 +2085,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
           isCollapsed && "justify-center",
           className,
         )}
-        title={
-          isCollapsed && typeof label === "string" ? label : undefined
-        }
+        title={isCollapsed && typeof label === "string" ? label : undefined}
         data-ds=""
         data-ds-component="sidebar-item"
         data-ds-active={active ? "" : undefined}
@@ -2136,9 +2112,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
           )}
         </AnimatePresence>
 
-        {badge && !isCollapsed && (
-          <span className="shrink-0">{badge}</span>
-        )}
+        {badge && !isCollapsed && <span className="shrink-0">{badge}</span>}
       </Tag>
     );
   },

@@ -1,60 +1,60 @@
 {
-	"$schema": "http://json-schema.org/draft-07/schema#",
-	"$id": "https://unified-ui.space/schema/laravel.json",
-	"title": "Unified UI Laravel Configuration",
-	"description": "Configuration schema for the @work-rjkashyap/unified-ui Laravel package (unified-ui.json).",
-	"type": "object",
-	"properties": {
-		"$schema": {
-			"type": "string",
-			"description": "URL to the JSON Schema for editor validation and autocompletion.",
-			"default": "https://unified-ui.space/schema/laravel.json"
-		},
-		"aliases": {
-			"type": "object",
-			"description": "Path aliases that control where component files, Alpine.js scripts, CSS, and JS assets are installed. All paths are relative to the Laravel project root.",
-			"properties": {
-				"components": {
-					"type": "string",
-					"description": "Directory where Blade component stubs are installed.",
-					"default": "resources/views/components/ui"
-				},
-				"alpine": {
-					"type": "string",
-					"description": "Directory where Alpine.js plugin/script files are installed.",
-					"default": "resources/js"
-				},
-				"css": {
-					"type": "string",
-					"description": "Directory where CSS files (e.g. design tokens) are installed.",
-					"default": "resources/css"
-				},
-				"js": {
-					"type": "string",
-					"description": "Directory where general JavaScript files are installed.",
-					"default": "resources/js"
-				}
-			},
-			"additionalProperties": false,
-			"default": {
-				"components": "resources/views/components/ui",
-				"alpine": "resources/js",
-				"css": "resources/css",
-				"js": "resources/js"
-			}
-		},
-		"alpine": {
-			"type": "boolean",
-			"description": "Whether Alpine.js is used for interactive components. When true, the init command will ensure Alpine.js is installed.",
-			"default": true
-		},
-		"registry": {
-			"type": "string",
-			"format": "uri",
-			"description": "URL of the remote component registry (registry.json). The CLI fetches component definitions, file listings, and dependency metadata from this endpoint.",
-			"default": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/registry.json"
-		}
-	},
-	"required": [],
-	"additionalProperties": false
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://unified-ui.space/schema/laravel.json",
+  "title": "Unified UI Laravel Configuration",
+  "description": "Configuration schema for the @work-rjkashyap/unified-ui Laravel package (unified-ui.json).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL to the JSON Schema for editor validation and autocompletion.",
+      "default": "https://unified-ui.space/schema/laravel.json"
+    },
+    "aliases": {
+      "type": "object",
+      "description": "Path aliases that control where component files, Alpine.js scripts, CSS, and JS assets are installed. All paths are relative to the Laravel project root.",
+      "properties": {
+        "components": {
+          "type": "string",
+          "description": "Directory where Blade component stubs are installed.",
+          "default": "resources/views/components/ui"
+        },
+        "alpine": {
+          "type": "string",
+          "description": "Directory where Alpine.js plugin/script files are installed.",
+          "default": "resources/js"
+        },
+        "css": {
+          "type": "string",
+          "description": "Directory where CSS files (e.g. design tokens) are installed.",
+          "default": "resources/css"
+        },
+        "js": {
+          "type": "string",
+          "description": "Directory where general JavaScript files are installed.",
+          "default": "resources/js"
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "components": "resources/views/components/ui",
+        "alpine": "resources/js",
+        "css": "resources/css",
+        "js": "resources/js"
+      }
+    },
+    "alpine": {
+      "type": "boolean",
+      "description": "Whether Alpine.js is used for interactive components. When true, the init command will ensure Alpine.js is installed.",
+      "default": true
+    },
+    "registry": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the remote component registry (registry.json). The CLI fetches component definitions, file listings, and dependency metadata from this endpoint.",
+      "default": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/registry.json"
+    }
+  },
+  "required": [],
+  "additionalProperties": false
 }

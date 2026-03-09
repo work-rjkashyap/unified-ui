@@ -1,16 +1,16 @@
 "use client";
 
 import {
+  Button,
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuSub,
-  DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-  Button,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
 } from "@work-rjkashyap/unified-ui";
 
 export default function TestDropdownPage() {
@@ -20,7 +20,9 @@ export default function TestDropdownPage() {
 
       {/* Test 1: Basic (should work) */}
       <section className="space-y-2">
-        <h2 className="text-lg font-semibold">1. Basic (control — should work)</h2>
+        <h2 className="text-lg font-semibold">
+          1. Basic (control — should work)
+        </h2>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary">Basic Options</Button>

@@ -1,20 +1,7 @@
 <script setup lang="ts">
-import ThemeToggle from "./components/ThemeToggle.vue";
-import {
-  UiButton,
-  UiBadge,
-  UiCard,
-  UiCardHeader,
-  UiCardBody,
-  UiCardFooter,
-  UiInput,
-  UiAlert,
-  UiHeading,
-  UiText,
-} from "./components/ui";
 import { ref } from "vue";
 
-const email = ref("");
+const _email = ref("");
 </script>
 
 <template>

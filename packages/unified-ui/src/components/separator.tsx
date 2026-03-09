@@ -32,8 +32,8 @@ import { Separator as SeparatorPrimitive } from "radix-ui";
 import {
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type ReactNode,
   forwardRef,
+  type ReactNode,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -276,11 +276,7 @@ export const Separator = forwardRef<
   if (label && !isVertical) {
     return (
       <div
-        className={cn(
-          "flex items-center w-full",
-          spacingClass,
-          className,
-        )}
+        className={cn("flex items-center w-full", spacingClass, className)}
         role={decorative ? "none" : "separator"}
         aria-orientation={decorative ? undefined : orientation}
         data-ds=""

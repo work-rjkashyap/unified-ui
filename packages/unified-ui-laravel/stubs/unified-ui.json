@@ -1,11 +1,11 @@
 {
-	"$schema": "https://unified-ui.space/schema/laravel.json",
-	"aliases": {
-		"components": "resources/views/components/ui",
-		"alpine": "resources/js",
-		"css": "resources/css",
-		"js": "resources/js"
-	},
-	"alpine": true,
-	"registry": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/registry.json"
+  "$schema": "https://unified-ui.space/schema/laravel.json",
+  "aliases": {
+    "components": "resources/views/components/ui",
+    "alpine": "resources/js",
+    "css": "resources/css",
+    "js": "resources/js"
+  },
+  "alpine": true,
+  "registry": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/registry.json"
 }

@@ -1,28 +1,3 @@
-{{--
-    Unified UI — Button Component
-    https://unified-ui.space
-
-    Usage:
-        <x-ui-button>Click me</x-ui-button>
-        <x-ui-button variant="primary" size="lg">Submit</x-ui-button>
-        <x-ui-button variant="destructive" icon="trash">Delete</x-ui-button>
-        <x-ui-button variant="outline" loading>Saving…</x-ui-button>
-        <x-ui-button variant="ghost" as="a" href="/home">Home</x-ui-button>
-        <x-ui-button size="icon" aria-label="Settings"><x-ui-icon name="cog" /></x-ui-button>
-
-    Props:
-        variant  — primary|secondary|destructive|outline|ghost|link (default: primary)
-        size     — xs|sm|md|lg|icon (default: md)
-        as       — HTML tag to render: button|a|input (default: button)
-        type     — button type attribute when as=button (default: button)
-        href     — URL when as=a
-        loading  — boolean, shows spinner and disables interaction
-        disabled — boolean
-        icon     — optional icon name to render before the slot content
-        iconRight — optional icon name to render after the slot content
-        fullWidth — boolean, makes button 100% width
---}}
-
 @props([
     'variant' => 'primary',
     'size' => 'md',

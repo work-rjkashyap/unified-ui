@@ -1,26 +1,3 @@
-{{--
-    Unified UI — Card Footer Sub-Component
-    https://unified-ui.space
-
-    The bottom section of a card, typically contains actions or meta info.
-
-    Usage:
-        <x-ui-card.footer>
-            <x-ui-button variant="primary">Save</x-ui-button>
-            <x-ui-button variant="outline">Cancel</x-ui-button>
-        </x-ui-card.footer>
-
-        <x-ui-card.footer justify="between">
-            <span class="text-sm text-muted">Last updated 2h ago</span>
-            <x-ui-button variant="ghost" size="sm">View</x-ui-button>
-        </x-ui-card.footer>
-
-    Props:
-        bordered — boolean, show top border separator (default: false)
-        padding  — sm|md|lg (default: md)
-        justify  — start|end|center|between|around|evenly (default: end)
---}}
-
 @props([
     'bordered' => false,
     'padding' => 'md',

@@ -9,12 +9,12 @@ import {
   useThemeCustomizer,
 } from "@work-rjkashyap/unified-ui";
 import {
+  Check,
+  ChevronDown,
+  Copy,
   Dices,
   Paintbrush,
   RotateCcw,
-  Copy,
-  Check,
-  ChevronDown,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";

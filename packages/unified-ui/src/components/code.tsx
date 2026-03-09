@@ -200,7 +200,8 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
       });
     }, [children, ref]);
 
-    const code = typeof children === "string" ? children.replace(/^\n+|\n+$/g, "") : "";
+    const code =
+      typeof children === "string" ? children.replace(/^\n+|\n+$/g, "") : "";
     const lines = code.split("\n");
 
     return (
@@ -300,9 +301,7 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
           {...rest}
         >
           {code ? (
-            <code
-              className="bg-transparent border-0 p-0 rounded-none shadow-none text-inherit"
-            >
+            <code className="bg-transparent border-0 p-0 rounded-none shadow-none text-inherit">
               {lines.map((line, i) => (
                 <span key={i} className="block">
                   {showLineNumbers && (
@@ -318,9 +317,9 @@ export const CodeBlock = forwardRef<HTMLPreElement, CodeBlockProps>(
               ))}
             </code>
           ) : (
-            <code
-              className="bg-transparent border-0 p-0 rounded-none shadow-none text-inherit"
-            >{children}</code>
+            <code className="bg-transparent border-0 p-0 rounded-none shadow-none text-inherit">
+              {children}
+            </code>
           )}
         </pre>
       </div>

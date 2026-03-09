@@ -10,13 +10,12 @@
 
 import { cn } from "@unified-ui/utils/cn";
 import { motion, useReducedMotion } from "framer-motion";
-import type { ComponentProps } from "react";
 import {
   Group,
-  Panel,
-  Separator,
   type GroupProps,
+  Panel,
   type PanelProps,
+  Separator,
   type SeparatorProps,
 } from "react-resizable-panels";
 

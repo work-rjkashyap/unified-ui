@@ -271,7 +271,7 @@ function DefaultFallbackIcon({ className }: { className?: string }) {
       fill="currentColor"
       aria-hidden="true"
     >
-       <circle cx="12" cy="7" r="4" />
+      <circle cx="12" cy="7" r="4" />
       <path d="M12 14c-4.42 0-8 2.24-8 5v5h16v-5c0-2.76-3.58-5-8-5z" />
     </svg>
   );
@@ -673,10 +673,7 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
         {/* Overflow indicator */}
         {overflowCount > 0 && (
           <span
-            className={cn(
-              overlapClass,
-              "relative inline-flex z-(--ag-z)",
-            )}
+            className={cn(overlapClass, "relative inline-flex z-(--ag-z)")}
             style={{ "--ag-z": 0 } as React.CSSProperties}
           >
             <span

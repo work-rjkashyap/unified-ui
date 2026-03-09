@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, type HTMLAttributes } from "vue";
+import { computed, type HTMLAttributes, ref } from "vue";
 import { cn } from "@/lib/cn";
 
 type Variant = "info" | "success" | "warning" | "danger" | "default";
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
   dismissible: false,
 });
 
-const dismissed = ref(false);
+const _dismissed = ref(false);
 
 const variantClasses: Record<Variant, string> = {
   info: "bg-info-muted text-info-muted-foreground border-info/20",
@@ -26,7 +26,7 @@ const variantClasses: Record<Variant, string> = {
   default: "bg-muted text-muted-foreground border-border",
 };
 
-const iconColorClasses: Record<Variant, string> = {
+const _iconColorClasses: Record<Variant, string> = {
   info: "text-info",
   success: "text-success",
   warning: "text-warning",
@@ -34,7 +34,7 @@ const iconColorClasses: Record<Variant, string> = {
   default: "text-muted-foreground",
 };
 
-const classes = computed(() =>
+const _classes = computed(() =>
   cn(
     "relative flex gap-3 rounded-md p-4 text-sm leading-5 border",
     "transition-colors duration-[var(--duration-fast,150ms)]",
@@ -44,12 +44,15 @@ const classes = computed(() =>
 );
 
 // SVG icon paths by variant
-const iconPaths: Record<Variant, string> = {
+const _iconPaths: Record<Variant, string> = {
   info: "M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z",
   success: "M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z",
-  warning: "M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z",
-  danger: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a10 10 0 11-20 0 10 10 0 0120 0z",
-  default: "M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z",
+  warning:
+    "M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z",
+  danger:
+    "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a10 10 0 11-20 0 10 10 0 0120 0z",
+  default:
+    "M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z",
 };
 </script>
 

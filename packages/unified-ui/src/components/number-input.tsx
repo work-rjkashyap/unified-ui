@@ -395,7 +395,8 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
     const [direction, setDirection] = useState<SlideDirection>("none");
     const inputRef = useRef<HTMLInputElement>(null);
     const prevValueRef = useRef<number>(
-      controlledValue ?? roundToPrecision(clamp(defaultValue, min, max), precision),
+      controlledValue ??
+        roundToPrecision(clamp(defaultValue, min, max), precision),
     );
 
     const currentValue =
@@ -403,7 +404,10 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>(
 
     // Sync direction when controlled value changes externally
     useEffect(() => {
-      if (controlledValue !== undefined && controlledValue !== prevValueRef.current) {
+      if (
+        controlledValue !== undefined &&
+        controlledValue !== prevValueRef.current
+      ) {
         setDirection(controlledValue > prevValueRef.current ? "up" : "down");
         prevValueRef.current = controlledValue;
       }

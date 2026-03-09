@@ -26,8 +26,8 @@
 // ============================================================================
 
 import { cn } from "@unified-ui/utils/cn";
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
-import { toast, Toaster as SonnerPrimitive } from "sonner";
+import { type ComponentPropsWithoutRef, forwardRef } from "react";
+import { Toaster as SonnerPrimitive, toast } from "sonner";
 
 // ---------------------------------------------------------------------------
 // Re-export toast function

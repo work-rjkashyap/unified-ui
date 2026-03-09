@@ -27,13 +27,7 @@
 // ============================================================================
 
 import { cn } from "@unified-ui/utils/cn";
-import {
-  forwardRef,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import { forwardRef, type ReactNode, useEffect, useRef } from "react";
 
 // ---------------------------------------------------------------------------
 // Types

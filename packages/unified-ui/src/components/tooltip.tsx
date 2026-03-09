@@ -212,9 +212,7 @@ const TooltipContent = forwardRef<
         initial={shouldReduce ? { opacity: 0 } : "initial"}
         animate={shouldReduce ? { opacity: 1 } : "animate"}
         exit={shouldReduce ? { opacity: 0 } : "exit"}
-        transition={
-          shouldReduce ? { duration: 0.1 } : fadeInFast.transition
-        }
+        transition={shouldReduce ? { duration: 0.1 } : fadeInFast.transition}
         data-ds=""
         data-ds-component="tooltip"
         data-ds-animated=""

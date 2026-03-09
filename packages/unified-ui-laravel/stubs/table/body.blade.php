@@ -1,34 +1,3 @@
-{{--
-    Unified UI — Table Body Sub-Component
-    https://unified-ui.space
-
-    The <tbody> wrapper for table data rows. Applies consistent styling
-    and supports striped/hoverable variants inherited from the parent table.
-
-    Usage:
-        <x-ui-table>
-            <x-ui-table.header>
-                <x-ui-table.row>
-                    <x-ui-table.head>Name</x-ui-table.head>
-                    <x-ui-table.head>Email</x-ui-table.head>
-                </x-ui-table.row>
-            </x-ui-table.header>
-            <x-ui-table.body>
-                <x-ui-table.row>
-                    <x-ui-table.cell>Jane Doe</x-ui-table.cell>
-                    <x-ui-table.cell>jane@example.com</x-ui-table.cell>
-                </x-ui-table.row>
-                <x-ui-table.row>
-                    <x-ui-table.cell>John Smith</x-ui-table.cell>
-                    <x-ui-table.cell>john@example.com</x-ui-table.cell>
-                </x-ui-table.row>
-            </x-ui-table.body>
-        </x-ui-table>
-
-    Props:
-        (none beyond standard Blade $attributes)
---}}
-
 @php
     // ── Base classes ─────────────────────────────────────────────────
     $classes = implode(' ', [

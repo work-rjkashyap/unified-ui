@@ -1,25 +1,3 @@
-{{--
-    Unified UI — Badge Component
-    https://unified-ui.space
-
-    Usage:
-        <x-ui-badge>Default</x-ui-badge>
-        <x-ui-badge variant="success">Active</x-ui-badge>
-        <x-ui-badge variant="destructive" size="lg">Critical</x-ui-badge>
-        <x-ui-badge variant="outline" dot>Online</x-ui-badge>
-        <x-ui-badge variant="warning" removable>Beta</x-ui-badge>
-        <x-ui-badge as="a" href="/tags/new" variant="info">New</x-ui-badge>
-
-    Props:
-        variant   — default|primary|secondary|destructive|success|warning|info|outline (default: default)
-        size      — sm|md|lg (default: md)
-        as        — HTML tag to render: span|a|button (default: span)
-        href      — URL when as=a
-        dot       — boolean, shows a small colored dot indicator before content
-        removable — boolean, shows an X button at the end (emits click on the X)
-        pill      — boolean, uses fully rounded corners (default: true)
---}}
-
 @props([
     'variant' => 'default',
     'size' => 'md',
@@ -190,4 +168,4 @@
             </svg>
         </button>
     @endif
-</{{ $tag }
+</{{ $tag }}>

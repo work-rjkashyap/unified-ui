@@ -1,33 +1,3 @@
-{{--
-    Unified UI — Tabs Trigger Sub-Component
-    https://unified-ui.space
-
-    A single tab trigger button within a tabs list. Handles active state
-    styling, keyboard navigation, and ARIA attributes automatically via
-    the parent Alpine.js context.
-
-    Usage:
-        <x-ui-tabs active="overview">
-            <x-ui-tabs.list>
-                <x-ui-tabs.trigger value="overview">Overview</x-ui-tabs.trigger>
-                <x-ui-tabs.trigger value="settings">Settings</x-ui-tabs.trigger>
-                <x-ui-tabs.trigger value="billing" disabled>Billing</x-ui-tabs.trigger>
-            </x-ui-tabs.list>
-            <x-ui-tabs.content value="overview">…</x-ui-tabs.content>
-            <x-ui-tabs.content value="settings">…</x-ui-tabs.content>
-        </x-ui-tabs>
-
-        {{-- With icon --}}
-        <x-ui-tabs.trigger value="media">
-            <svg class="h-4 w-4" ...>...</svg>
-            Media
-        </x-ui-tabs.trigger>
-
-    Props:
-        value    — unique identifier for this tab (must match a tabs.content value)
-        disabled — boolean, prevents selection (default: false)
---}}
-
 @props([
     'value' => '',
     'disabled' => false,

@@ -274,9 +274,7 @@ export const PopoverContent = forwardRef<
           initial={shouldReduce ? { opacity: 0 } : "initial"}
           animate={shouldReduce ? { opacity: 1 } : "animate"}
           exit={shouldReduce ? { opacity: 0 } : "exit"}
-          transition={
-            shouldReduce ? { duration: 0.15 } : scaleIn.transition
-          }
+          transition={shouldReduce ? { duration: 0.15 } : scaleIn.transition}
           data-ds=""
           data-ds-component="popover-content"
           data-ds-animated=""

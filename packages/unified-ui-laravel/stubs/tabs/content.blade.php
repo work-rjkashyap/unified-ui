@@ -1,33 +1,3 @@
-{{--
-    Unified UI — Tabs Content Sub-Component
-    https://unified-ui.space
-
-    The content panel associated with a tab trigger. Only visible when
-    its value matches the currently active tab in the parent Alpine.js context.
-
-    Usage:
-        <x-ui-tabs active="overview">
-            <x-ui-tabs.list>
-                <x-ui-tabs.trigger value="overview">Overview</x-ui-tabs.trigger>
-                <x-ui-tabs.trigger value="settings">Settings</x-ui-tabs.trigger>
-            </x-ui-tabs.list>
-            <x-ui-tabs.content value="overview">
-                <p>Overview panel content goes here.</p>
-            </x-ui-tabs.content>
-            <x-ui-tabs.content value="settings">
-                <p>Settings panel content goes here.</p>
-            </x-ui-tabs.content>
-        </x-ui-tabs>
-
-        {{-- With custom padding --}}
-        <x-ui-tabs.content value="details" class="p-6">
-            Detailed information here.
-        </x-ui-tabs.content>
-
-    Props:
-        value — unique identifier that matches the corresponding tabs.trigger value (required)
---}}
-
 @props([
     'value' => '',
 ])

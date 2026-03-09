@@ -14,7 +14,7 @@ var chunk3EHT6IOA_cjs = require('./chunk-3EHT6IOA.cjs');
 var chunk4ON3M3OM_cjs = require('./chunk-4ON3M3OM.cjs');
 
 // src/index.ts
-var UNIFIED_UI_VERSION = "0.2.0";
+var UNIFIED_UI_VERSION = "0.3.1";
 
 Object.defineProperty(exports, "spacing", {
   enumerable: true,

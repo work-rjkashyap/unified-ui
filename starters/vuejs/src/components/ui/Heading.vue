@@ -30,9 +30,9 @@ const colorClasses: Record<Color, string> = {
   primary: "text-primary",
 };
 
-const tag = computed(() => `h${props.level}` as const);
+const _tag = computed(() => `h${props.level}` as const);
 
-const classes = computed(() =>
+const _classes = computed(() =>
   cn(levelClasses[props.level], colorClasses[props.color], props.class),
 );
 </script>

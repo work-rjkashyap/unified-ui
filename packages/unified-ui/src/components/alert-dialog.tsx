@@ -135,7 +135,12 @@ export const AlertDialogContent = forwardRef<
         {open && (
           <>
             <AlertDialogOverlay />
-            <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...rest}>
+            <AlertDialogPrimitive.Content
+              ref={ref}
+              forceMount
+              asChild
+              {...rest}
+            >
               <motion.div
                 className={cn(
                   "fixed left-[50%] top-[50%] z-modal",

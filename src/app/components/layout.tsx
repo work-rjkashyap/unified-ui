@@ -7,28 +7,28 @@ import { SIDEBAR_TABS } from "@/lib/sidebar";
 import { componentSource } from "@/lib/source";
 
 const COMPONENT_LAYOUT_PROPS = {
-	...baseOptions,
-	tree: componentSource.getPageTree(),
-	sidebar: {
-		tabs: SIDEBAR_TABS,
-	},
+  ...baseOptions,
+  tree: componentSource.getPageTree(),
+  sidebar: {
+    tabs: SIDEBAR_TABS,
+  },
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
-	return (
-		<DocsLayout
-			{...COMPONENT_LAYOUT_PROPS}
-			sidebar={{
-				...COMPONENT_LAYOUT_PROPS.sidebar,
-				component: <DocsSidebar {...COMPONENT_LAYOUT_PROPS} />,
-			}}
-			nav={{
-				...COMPONENT_LAYOUT_PROPS.nav,
-				transparentMode: "top",
-				component: <Nav />,
-			}}
-		>
-			{children}
-		</DocsLayout>
-	);
+  return (
+    <DocsLayout
+      {...COMPONENT_LAYOUT_PROPS}
+      sidebar={{
+        ...COMPONENT_LAYOUT_PROPS.sidebar,
+        component: <DocsSidebar {...COMPONENT_LAYOUT_PROPS} />,
+      }}
+      nav={{
+        ...COMPONENT_LAYOUT_PROPS.nav,
+        transparentMode: "top",
+        component: <Nav />,
+      }}
+    >
+      {children}
+    </DocsLayout>
+  );
 }

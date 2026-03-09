@@ -1,61 +1,3 @@
-{{--
-    Unified UI — Input Component
-    https://unified-ui.space
-
-    A fully-featured text input with optional label, help text, error messages,
-    leading/trailing icons, prefix/suffix text, and multiple size variants.
-
-    Usage:
-        {{-- Basic input --}}
-        <x-ui-input name="email" type="email" placeholder="you@example.com" />
-
-        {{-- With label and help text --}}
-        <x-ui-input name="username" label="Username" help="Choose a unique username." />
-
-        {{-- With error state (integrates with Laravel validation) --}}
-        <x-ui-input name="email" label="Email" :error="$errors->first('email')" />
-
-        {{-- With icons --}}
-        <x-ui-input name="search" placeholder="Search…" icon-left="search" icon-right="x" />
-
-        {{-- With prefix/suffix text --}}
-        <x-ui-input name="website" prefix="https://" suffix=".com" />
-
-        {{-- Disabled and readonly --}}
-        <x-ui-input name="locked" value="Cannot edit" disabled />
-        <x-ui-input name="readonly" value="Read only" readonly />
-
-        {{-- Different sizes --}}
-        <x-ui-input name="small" size="sm" placeholder="Small" />
-        <x-ui-input name="large" size="lg" placeholder="Large" />
-
-        {{-- Textarea mode --}}
-        <x-ui-input name="bio" as="textarea" rows="4" label="Bio" />
-
-    Props:
-        name       — input name attribute (also used for id and error bag lookup)
-        type       — input type: text|email|password|number|tel|url|search|date|datetime-local|time|file (default: text)
-        label      — optional label text displayed above the input
-        help       — optional help text displayed below the input
-        error      — explicit error message string (overrides automatic $errors lookup)
-        placeholder — placeholder text
-        value      — input value (also supports wire:model, x-model, etc.)
-        size       — xs|sm|md|lg (default: md)
-        variant    — default|filled|flushed (default: default)
-        as         — HTML element to render: input|textarea (default: input)
-        rows       — number of rows when as=textarea (default: 3)
-        iconLeft   — icon name for leading icon slot
-        iconRight  — icon name for trailing icon slot
-        prefix     — static text rendered before the input inside the wrapper
-        suffix     — static text rendered after the input inside the wrapper
-        disabled   — boolean
-        readonly   — boolean
-        required   — boolean
-        autofocus  — boolean
-        fullWidth  — boolean, makes input 100% width (default: true)
-        srOnlyLabel — boolean, visually hides the label but keeps it accessible (default: false)
---}}
-
 @props([
     'name' => null,
     'type' => 'text',
@@ -339,13 +281,13 @@
                 @if($hasError) aria-invalid="true" @endif
                 @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
                 {{ $attributes->class([$inputClasses, 'resize-y min-h-[60px]']) }}
-            >{{ old($name, $value) }}</textarea>
+            >{{ $name ? old($name, $value) : $value }}</textarea>
         @else
             <input
                 id="{{ $inputId }}"
                 type="{{ $type }}"
                 @if($name) name="{{ $name }}" @endif
-                value="{{ old($name, $value) }}"
+                value="{{ $name ? old($name, $value) : $value }}"
                 placeholder="{{ $placeholder }}"
                 @if($disabled) disabled @endif
                 @if($readonly) readonly @endif

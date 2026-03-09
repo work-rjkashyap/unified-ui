@@ -48,7 +48,7 @@ const colorClasses: Record<Color, string> = {
   info: "text-info",
 };
 
-const classes = computed(() =>
+const _classes = computed(() =>
   cn(variantClasses[props.variant], colorClasses[props.color], props.class),
 );
 </script>

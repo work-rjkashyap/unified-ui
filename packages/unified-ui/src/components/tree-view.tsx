@@ -239,11 +239,11 @@ const TreeContext = createContext<TreeContextValue>({
 // ---------------------------------------------------------------------------
 
 /** Collect all leaf IDs under a node (recursively). */
-function collectLeafIds(node: TreeNode): string[] {
+function _collectLeafIds(node: TreeNode): string[] {
   if (!node.children || node.children.length === 0) {
     return [node.id];
   }
-  return node.children.flatMap(collectLeafIds);
+  return node.children.flatMap(_collectLeafIds);
 }
 
 /** Collect all descendant IDs (including the node itself). */
@@ -266,7 +266,7 @@ function TreeItem({ node, depth }: { node: TreeNode; depth: number }) {
     expanded,
     toggleExpand,
     checkable,
-    checkedSet,
+    checkedSet: _checkedSet,
     toggleCheck,
     getCheckState,
     onNodeSelect,
@@ -614,7 +614,6 @@ export const TreeView = forwardRef<HTMLUListElement, TreeViewProps>(
       <TreeContext.Provider value={ctx}>
         <ul
           ref={ref}
-          role="tree"
           className={cn("list-none text-sm", className)}
           data-ds=""
           data-ds-component="tree-view"

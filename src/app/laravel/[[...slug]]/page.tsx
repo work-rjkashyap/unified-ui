@@ -11,9 +11,7 @@ import { DocsPage } from "@/components/layout/notebook/page";
 import { getPageImage, laravelSource } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
 
-export default async function Page(
-  props: PageProps<"/laravel/[[...slug]]">,
-) {
+export default async function Page(props: PageProps<"/laravel/[[...slug]]">) {
   const params = await props.params;
   const page = laravelSource.getPage(params.slug);
   if (!page) notFound();

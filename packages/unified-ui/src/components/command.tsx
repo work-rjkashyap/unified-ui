@@ -19,7 +19,6 @@
 
 import { modalContent, overlayBackdrop } from "@unified-ui/motion";
 import { cn } from "@unified-ui/utils/cn";
-import { Kbd } from "./kbd";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import {
@@ -33,6 +32,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Kbd } from "./kbd";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -278,15 +278,15 @@ export function Command({
             <>
               <DialogPrimitive.Overlay forceMount asChild>
                 <motion.div
-                  className={cn(
-                    "fixed inset-0 z-[var(--z-modal)] bg-black/50",
-                  )}
+                  className={cn("fixed inset-0 z-[var(--z-modal)] bg-black/50")}
                   variants={shouldReduce ? undefined : overlayBackdrop.variants}
                   initial={shouldReduce ? { opacity: 0 } : "initial"}
                   animate={shouldReduce ? { opacity: 1 } : "animate"}
                   exit={shouldReduce ? { opacity: 0 } : "exit"}
                   transition={
-                    shouldReduce ? { duration: 0.15 } : overlayBackdrop.transition
+                    shouldReduce
+                      ? { duration: 0.15 }
+                      : overlayBackdrop.transition
                   }
                   data-ds-animated=""
                 />

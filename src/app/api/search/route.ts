@@ -1,10 +1,10 @@
 import { createSearchAPI } from "fumadocs-core/search/server";
 import {
-  source,
+  companySource,
   componentSource,
   legalSource,
-  companySource,
   resourceSource,
+  source,
 } from "@/lib/source";
 
 export const { GET } = createSearchAPI("advanced", {

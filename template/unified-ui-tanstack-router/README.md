@@ -1,193 +1,158 @@
-Welcome to your new TanStack Start app! 
+# unified-ui — TanStack Router Template
 
-# Getting Started
+A React 19 + Vite + TanStack Router starter pre-wired with [`@work-rjkashyap/unified-ui`](https://unified-ui.space).
 
-To run this application:
+## What's included
+
+- **React 19** — with TypeScript
+- **Vite 7** — with `@vitejs/plugin-react` for fast HMR
+- **TanStack Router** — 100% type-safe, file-based routing with nested layouts, search params, and loaders
+- **@work-rjkashyap/unified-ui** — 75+ components, design tokens, theme provider, motion presets, and utilities
+- **Tailwind CSS v4** — via `@tailwindcss/vite` plugin (no PostCSS config needed)
+- **lucide-react** — icon set used throughout the design system
+
+## Getting started
 
 ```bash
 npm install
 npm run dev
 ```
 
-# Building For Production
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-To build this application for production:
+## How unified-ui is wired in
 
-```bash
-npm run build
+### 1. Vite plugin — `vite.config.ts`
+
+```ts
+import tailwindcss from "@tailwindcss/vite";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [tailwindcss(), tanstackRouter({ target: "react" }), viteReact()],
+});
 ```
 
-## Testing
+Tailwind CSS v4 is wired in via the official Vite plugin — no `postcss.config.js` required.
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+### 2. Styles — `src/styles.css`
 
-```bash
-npm run test
+```css
+@import "@work-rjkashyap/unified-ui/styles.css";
+@import "tailwindcss";
+
+@source "../node_modules/@work-rjkashyap/unified-ui/dist";
 ```
 
-## Styling
+The `@source` directive tells Tailwind v4 to scan the compiled unified-ui bundle so that all component utility classes are included in the generated CSS.
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `npm install @tailwindcss/vite tailwindcss -D`
-
-
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
+### 3. Theme provider — `src/routes/__root.tsx`
 
 ```tsx
-import { Link } from "@tanstack/react-router";
-```
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+import { Outlet, createRootRoute } from "@tanstack/react-router";
+import "../styles.css";
 
-Then anywhere in your JSX you can use it like so:
+export const Route = createRootRoute({ component: RootComponent });
 
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
+function RootComponent() {
   return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
+    <DSThemeProvider>
+      <Outlet />
+    </DSThemeProvider>
+  );
 }
 ```
 
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
+`DSThemeProvider` mounts the CSS custom property token system and handles light/dark mode switching. Every route rendered by `<Outlet />` automatically inherits the full token system.
 
-# Demo files
+### 4. Importing components
 
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
+```tsx
+// Barrel import
+import { Button, Badge, Card, Tabs } from "@work-rjkashyap/unified-ui";
 
-# Learn More
+// Layer-specific imports (better tree-shaking)
+import { Button } from "@work-rjkashyap/unified-ui/components";
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+import { fadeIn } from "@work-rjkashyap/unified-ui/motion";
+import { cn } from "@work-rjkashyap/unified-ui/utils";
+```
 
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+## Project structure
 
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+```
+src/
+├── styles.css                  ← unified-ui styles + Tailwind import
+├── main.tsx                    ← React root — RouterProvider
+├── router.tsx                  ← createRouter + routeTree
+├── routes/
+│   ├── __root.tsx              ← Root layout — DSThemeProvider + devtools
+│   ├── index.tsx               ← Home page — component showcase
+│   └── about.tsx               ← About page — template overview
+└── components/
+    ├── Header.tsx              ← Sticky nav using unified-ui Button + ThemeToggle
+    ├── Footer.tsx              ← Footer using unified-ui Badge
+    └── ThemeToggle.tsx         ← Re-export of ThemeToggle from unified-ui
+```
+
+## Adding a new route
+
+TanStack Router uses file-based routing. Create a new file in `src/routes/` and it will be automatically picked up:
+
+```tsx
+// src/routes/dashboard.tsx
+import { createFileRoute } from "@tanstack/react-router";
+import { Card, CardBody } from "@work-rjkashyap/unified-ui";
+
+export const Route = createFileRoute("/dashboard")({ component: Dashboard });
+
+function Dashboard() {
+  return (
+    <main className="max-w-5xl mx-auto px-4 py-10">
+      <Card>
+        <CardBody className="p-6">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+        </CardBody>
+      </Card>
+    </main>
+  );
+}
+```
+
+## Customising the theme
+
+All design tokens are exposed as CSS custom properties. Override them in `src/styles.css` after the unified-ui import:
+
+```css
+@import "@work-rjkashyap/unified-ui/styles.css";
+@import "tailwindcss";
+
+@source "../node_modules/@work-rjkashyap/unified-ui/dist";
+
+/* Override tokens */
+:root {
+  --primary: oklch(0.55 0.2 260);
+  --radius-md: 0.75rem;
+}
+```
+
+## Available scripts
+
+| Script            | Description                         |
+| ----------------- | ----------------------------------- |
+| `npm run dev`     | Start the dev server on port 3000   |
+| `npm run build`   | Type-check and build for production |
+| `npm run preview` | Preview the production build        |
+| `npm run test`    | Run tests with Vitest               |
+
+## Useful links
+
+- [Unified UI Docs](https://unified-ui.space/docs)
+- [Component Reference](https://unified-ui.space/components)
+- [GitHub](https://github.com/imrj05/unified-ui)
+- [TanStack Router Docs](https://tanstack.com/router/latest/docs/framework/react/overview)
+- [Vite Docs](https://vite.dev)
+- [TailwindCSS v4 Docs](https://tailwindcss.com/docs)

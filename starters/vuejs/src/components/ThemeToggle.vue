@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 const theme = ref<"light" | "dark">("light");
 
@@ -11,7 +11,7 @@ onMounted(() => {
   applyTheme();
 });
 
-function toggle() {
+function _toggle() {
   theme.value = theme.value === "dark" ? "light" : "dark";
   applyTheme();
 }

@@ -34,7 +34,7 @@
 
 import { cn } from "@unified-ui/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
-import { forwardRef, useEffect, type ReactNode } from "react";
+import { forwardRef, type ReactNode, useEffect } from "react";
 
 // ---------------------------------------------------------------------------
 // CVA Variant Definition — Track (outer container)

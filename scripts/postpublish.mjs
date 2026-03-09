@@ -18,7 +18,7 @@
 
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -36,15 +36,15 @@ console.log(`\n📦 Published @work-rjkashyap/unified-ui@${version}`);
 // ── Helper: run a shell command ─────────────────────────────────────────────
 
 function run(cmd, { silent = false } = {}) {
-	try {
-		return execSync(cmd, {
-			cwd: ROOT,
-			stdio: silent ? "pipe" : "inherit",
-			encoding: "utf-8",
-		});
-	} catch {
-		return null;
-	}
+  try {
+    return execSync(cmd, {
+      cwd: ROOT,
+      stdio: silent ? "pipe" : "inherit",
+      encoding: "utf-8",
+    });
+  } catch {
+    return null;
+  }
 }
 
 // ── Check if tag already exists ─────────────────────────────────────────────
@@ -52,23 +52,23 @@ function run(cmd, { silent = false } = {}) {
 const existingTag = run(`git tag -l "${tag}"`, { silent: true })?.trim();
 
 if (existingTag === tag) {
-	console.log(`⚠️  Tag ${tag} already exists — skipping tag creation.`);
+  console.log(`⚠️  Tag ${tag} already exists — skipping tag creation.`);
 } else {
-	// ── Create annotated tag ────────────────────────────────────────────────
-	console.log(`🏷️  Creating tag ${tag}...`);
-	run(`git tag -a "${tag}" -m "Release ${tag}"`);
+  // ── Create annotated tag ────────────────────────────────────────────────
+  console.log(`🏷️  Creating tag ${tag}...`);
+  run(`git tag -a "${tag}" -m "Release ${tag}"`);
 
-	// ── Push tag to origin ──────────────────────────────────────────────────
-	console.log(`🚀 Pushing tag ${tag} to origin...`);
-	const pushResult = run(`git push origin "${tag}"`);
+  // ── Push tag to origin ──────────────────────────────────────────────────
+  console.log(`🚀 Pushing tag ${tag} to origin...`);
+  const pushResult = run(`git push origin "${tag}"`);
 
-	if (pushResult === null) {
-		console.error(`❌ Failed to push tag ${tag}. Push it manually:`);
-		console.error(`   git push origin ${tag}`);
-		// Don't fail the publish — the package is already on npm
-	} else {
-		console.log(`✅ Tag ${tag} pushed — GitHub Release workflow will trigger.`);
-	}
+  if (pushResult === null) {
+    console.error(`❌ Failed to push tag ${tag}. Push it manually:`);
+    console.error(`   git push origin ${tag}`);
+    // Don't fail the publish — the package is already on npm
+  } else {
+    console.log(`✅ Tag ${tag} pushed — GitHub Release workflow will trigger.`);
+  }
 }
 
 // ── Regenerate changelog locally ────────────────────────────────────────────
@@ -77,12 +77,12 @@ console.log("📝 Regenerating changelog...");
 const cliffResult = run("bash .github/scripts/generate-changelog.sh");
 
 if (cliffResult === null) {
-	console.log(
-		"⚠️  Changelog generation skipped (git-cliff not installed locally).",
-	);
-	console.log(
-		"   The GitHub Actions workflow will update it on the next push to main.",
-	);
+  console.log(
+    "⚠️  Changelog generation skipped (git-cliff not installed locally).",
+  );
+  console.log(
+    "   The GitHub Actions workflow will update it on the next push to main.",
+  );
 } else {
-	console.log("✅ Changelog updated with release version.\n");
+  console.log("✅ Changelog updated with release version.\n");
 }

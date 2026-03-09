@@ -49,7 +49,7 @@ const iconOnlySizeClasses: Record<Size, string> = {
   lg: "w-10 !px-0",
 };
 
-const classes = computed(() =>
+const _classes = computed(() =>
   cn(
     // base
     "inline-flex items-center justify-center gap-2 text-sm font-medium leading-5 rounded-md",

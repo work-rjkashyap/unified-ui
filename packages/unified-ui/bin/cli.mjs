@@ -25,10 +25,10 @@
 // it also pulls in "alert-dialog", "button", "cn", "focus-ring", etc.
 // ============================================================================
 
+import { execSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { createInterface } from "node:readline";
-import { execSync, spawnSync } from "node:child_process";
 
 // ---------------------------------------------------------------------------
 // Config
@@ -49,7 +49,8 @@ const FRAMEWORKS = [
     name: "vite-react",
     label: "Vite + React",
     description: "Vite + React 19 SPA with full component library",
-    scaffoldCmd: (name) => `npm create vite@latest ${name} -- --template react-ts`,
+    scaffoldCmd: (name) =>
+      `npm create vite@latest ${name} -- --template react-ts`,
     deps: ["@work-rjkashyap/unified-ui"],
     devDeps: ["@tailwindcss/vite", "tailwindcss"],
   },
@@ -57,7 +58,8 @@ const FRAMEWORKS = [
     name: "nextjs",
     label: "Next.js",
     description: "Next.js App Router with SSR + full component library",
-    scaffoldCmd: (name) => `npx create-next-app@latest ${name} --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --yes`,
+    scaffoldCmd: (name) =>
+      `npx create-next-app@latest ${name} --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --yes`,
     deps: ["@work-rjkashyap/unified-ui", "next-themes"],
     devDeps: [],
   },
@@ -146,12 +148,14 @@ async function promptSelect(question, options) {
   log();
   for (let i = 0; i < options.length; i++) {
     const opt = options[i];
-    log(`    ${c("cyan", String(i + 1))}. ${c("bold", opt.label.padEnd(18))} ${c("dim", opt.description)}`);
+    log(
+      `    ${c("cyan", String(i + 1))}. ${c("bold", opt.label.padEnd(18))} ${c("dim", opt.description)}`,
+    );
   }
   log();
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   return new Promise((res) => {
-    rl.question(`  ${c("dim", `Select (1-${options.length}):`)  } `, (answer) => {
+    rl.question(`  ${c("dim", `Select (1-${options.length}):`)} `, (answer) => {
       rl.close();
       const idx = parseInt(answer.trim(), 10) - 1;
       res(idx >= 0 && idx < options.length ? options[idx] : null);
@@ -180,7 +184,9 @@ function writeOverlay(targetPath, content) {
 async function fetchJSON(url) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
+    );
   }
   return response.json();
 }
@@ -221,7 +227,7 @@ function saveConfig(config) {
   const root = findProjectRoot();
   const configPath = join(root, CONFIG_FILE);
   const { root: _root, ...rest } = config;
-  writeFileSync(configPath, JSON.stringify(rest, null, 2) + "\n");
+  writeFileSync(configPath, `${JSON.stringify(rest, null, 2)}\n`);
 }
 
 // ---------------------------------------------------------------------------
@@ -332,7 +338,8 @@ async function resolveFullDependencyTree(names, registryUrl) {
 // ---------------------------------------------------------------------------
 
 async function detectPackageManager(root) {
-  if (existsSync(join(root, "bun.lock")) || existsSync(join(root, "bun.lockb"))) return "bun";
+  if (existsSync(join(root, "bun.lock")) || existsSync(join(root, "bun.lockb")))
+    return "bun";
   if (existsSync(join(root, "pnpm-lock.yaml"))) return "pnpm";
   if (existsSync(join(root, "yarn.lock"))) return "yarn";
   return "npm";
@@ -365,7 +372,7 @@ async function installNpmDeps(deps, root) {
   try {
     execSync(cmd, { cwd: root, stdio: "pipe" });
     logStep("✓", c("green", `${deps.length} package(s) installed`));
-  } catch (err) {
+  } catch (_err) {
     logStep(
       "⚠",
       c("yellow", `Auto-install failed. Run manually:\n     ${cmd}`),
@@ -1765,7 +1772,8 @@ async function cmdInitWithTemplate(positional, flags) {
 
   // 1. Pick framework
   let framework;
-  const templateFlag = typeof flags.template === "string" ? flags.template : null;
+  const templateFlag =
+    typeof flags.template === "string" ? flags.template : null;
 
   if (templateFlag) {
     framework = FRAMEWORKS.find((f) => f.name === templateFlag);
@@ -1821,7 +1829,9 @@ async function cmdInitWithTemplate(positional, flags) {
   }
 
   if (!existsSync(targetDir)) {
-    logError(`Expected directory "${projectName}" was not created by the scaffolding tool.`);
+    logError(
+      `Expected directory "${projectName}" was not created by the scaffolding tool.`,
+    );
     process.exit(1);
   }
 
@@ -1842,7 +1852,9 @@ async function cmdInitWithTemplate(positional, flags) {
   }
 
   if (allDevDeps.length > 0) {
-    const devDepCmd = getInstallCommand(pm, allDevDeps).replace(" add ", " add -D ").replace(" install ", " install -D ");
+    const devDepCmd = getInstallCommand(pm, allDevDeps)
+      .replace(" add ", " add -D ")
+      .replace(" install ", " install -D ");
     logStep("  ", c("dim", devDepCmd));
     runCmd(devDepCmd, targetDir, "pipe");
   }
@@ -1866,13 +1878,21 @@ async function cmdInitWithTemplate(positional, flags) {
   const gitDir = join(targetDir, ".git");
   if (existsSync(gitDir)) {
     runCmd("git add -A", targetDir, "pipe");
-    runCmd('git commit -m "chore: add Unified UI design system" --no-verify', targetDir, "pipe");
+    runCmd(
+      'git commit -m "chore: add Unified UI design system" --no-verify',
+      targetDir,
+      "pipe",
+    );
     logStep("✓", c("green", "Committed Unified UI changes"));
   } else {
     // Initialize git if it wasn't done by the scaffold tool
     if (runCmd("git init", targetDir, "pipe")) {
       runCmd("git add -A", targetDir, "pipe");
-      runCmd('git commit -m "chore: initial commit with Unified UI" --no-verify', targetDir, "pipe");
+      runCmd(
+        'git commit -m "chore: initial commit with Unified UI" --no-verify',
+        targetDir,
+        "pipe",
+      );
       logStep("✓", c("green", "Initialized git repository"));
     }
   }
@@ -1895,13 +1915,19 @@ async function cmdInitWithTemplate(positional, flags) {
   log();
 
   if (framework.name === "vuejs" || framework.name === "laravel-blade") {
-    log(`  ${c("dim", "Note: This template includes design tokens (CSS variables + Tailwind")}`);
-    log(`  ${c("dim", "utilities) only. React components are not available in this framework.")}`);
+    log(
+      `  ${c("dim", "Note: This template includes design tokens (CSS variables + Tailwind")}`,
+    );
+    log(
+      `  ${c("dim", "utilities) only. React components are not available in this framework.")}`,
+    );
     log(`  ${c("dim", "See: https://www.unified-ui.space/docs/tokens")}`);
     log();
   } else {
     log(`  ${c("dim", "Start adding components:")}`);
-    log(`    ${c("cyan", "npx @work-rjkashyap/unified-ui add button card badge")}`);
+    log(
+      `    ${c("cyan", "npx @work-rjkashyap/unified-ui add button card badge")}`,
+    );
     log();
   }
 }
@@ -1942,7 +1968,7 @@ async function cmdInit(positional = [], flags = {}) {
 
   for (const dir of dirs) {
     mkdirSync(dir, { recursive: true });
-    logStep("✓", `Created ${c("dim", dir.replace(config.root + "/", ""))}`);
+    logStep("✓", `Created ${c("dim", dir.replace(`${config.root}/`, ""))}`);
   }
 
   // Fetch and write the base utilities (cn + focus-ring) and styles
@@ -1973,7 +1999,9 @@ async function cmdInit(positional = [], flags = {}) {
   logStep("🎉", c("green", "Project initialized! Start adding components:"));
   log();
   log(`     ${c("cyan", "npx @work-rjkashyap/unified-ui add button")}`);
-  log(`     ${c("cyan", "npx @work-rjkashyap/unified-ui add card badge tabs")}`);
+  log(
+    `     ${c("cyan", "npx @work-rjkashyap/unified-ui add card badge tabs")}`,
+  );
   log();
 }
 
@@ -2010,12 +2038,17 @@ async function cmdAdd(names, flags = {}) {
   }
 
   if (names.length === 0) {
-    logError("No component names specified. Usage: npx @work-rjkashyap/unified-ui add <component...>");
+    logError(
+      "No component names specified. Usage: npx @work-rjkashyap/unified-ui add <component...>",
+    );
     return;
   }
 
   // Resolve the full dependency tree
-  logStep("🔍", `Resolving dependencies for: ${c("cyan", names.join(", "))}...`);
+  logStep(
+    "🔍",
+    `Resolving dependencies for: ${c("cyan", names.join(", "))}...`,
+  );
   const tree = await resolveFullDependencyTree(names, REGISTRY_BASE_URL);
 
   if (tree.size === 0) {
@@ -2087,7 +2120,7 @@ async function cmdAdd(names, flags = {}) {
   const skipped = results.filter((r) => r.status === "skipped");
 
   for (const r of created) {
-    logStep("✓", c("green", r.path.replace(config.root + "/", "")));
+    logStep("✓", c("green", r.path.replace(`${config.root}/`, "")));
   }
 
   if (skipped.length > 0) {
@@ -2095,14 +2128,11 @@ async function cmdAdd(names, flags = {}) {
     for (const r of skipped) {
       logStep(
         "↩",
-        `${c("dim", r.path.replace(config.root + "/", ""))} ${c("yellow", "(exists, skipped)")}`,
+        `${c("dim", r.path.replace(`${config.root}/`, ""))} ${c("yellow", "(exists, skipped)")}`,
       );
     }
     log();
-    logStep(
-      "💡",
-      c("dim", "Use --overwrite to replace existing files."),
-    );
+    logStep("💡", c("dim", "Use --overwrite to replace existing files."));
   }
 
   // Install npm dependencies
@@ -2129,10 +2159,7 @@ async function cmdAdd(names, flags = {}) {
   }
 
   log();
-  logStep(
-    "🎉",
-    c("green", `Done! ${created.length} file(s) added.`),
-  );
+  logStep("🎉", c("green", `Done! ${created.length} file(s) added.`));
   log();
 }
 
@@ -2166,14 +2193,18 @@ async function cmdList() {
           item.registryDependencies?.length > 0
             ? c("dim", ` → ${item.registryDependencies.join(", ")}`)
             : "";
-        log(`    ${c("cyan", item.name.padEnd(22))} ${c("dim", item.description || "")}${deps}`);
+        log(
+          `    ${c("cyan", item.name.padEnd(22))} ${c("dim", item.description || "")}${deps}`,
+        );
       }
       log();
     }
 
     log(`  ${c("dim", `${index.totalItems} items total`)}`);
     log();
-    log(`  ${c("dim", "Add a component:")} npx @work-rjkashyap/unified-ui add ${c("cyan", "<name>")}`);
+    log(
+      `  ${c("dim", "Add a component:")} npx @work-rjkashyap/unified-ui add ${c("cyan", "<name>")}`,
+    );
     log();
   } catch (err) {
     logError(`Could not fetch registry: ${err.message}`);
@@ -2219,28 +2250,58 @@ function cmdHelp() {
   log(`  ${c("bold", "Unified UI")} ${c("dim", "— Component Registry CLI")}`);
   log();
   log("  Usage:");
-  log(`    ${c("cyan", "npx @work-rjkashyap/unified-ui")} ${c("green", "<command>")} [options]`);
+  log(
+    `    ${c("cyan", "npx @work-rjkashyap/unified-ui")} ${c("green", "<command>")} [options]`,
+  );
   log();
   log("  Commands:");
-  log(`    ${c("green", "init")}                        Initialize existing project (copy-paste mode)`);
-  log(`    ${c("green", "init")} -t <framework>          Scaffold a new project with full setup`);
-  log(`    ${c("green", "add")} <component...>          Add component(s) with dependencies`);
+  log(
+    `    ${c("green", "init")}                        Initialize existing project (copy-paste mode)`,
+  );
+  log(
+    `    ${c("green", "init")} -t <framework>          Scaffold a new project with full setup`,
+  );
+  log(
+    `    ${c("green", "add")} <component...>          Add component(s) with dependencies`,
+  );
   log(`    ${c("green", "add")} --all                   Add all components`);
-  log(`    ${c("green", "list")}                        List all available components`);
-  log(`    ${c("green", "diff")} <component...>         Compare local files with registry`);
-  log(`    ${c("green", "help")}                        Show this help message`);
+  log(
+    `    ${c("green", "list")}                        List all available components`,
+  );
+  log(
+    `    ${c("green", "diff")} <component...>         Compare local files with registry`,
+  );
+  log(
+    `    ${c("green", "help")}                        Show this help message`,
+  );
   log();
   log("  Templates (for init -t):");
-  log(`    ${c("cyan", "vite-react")}        Vite + React 19 SPA with full component library`);
-  log(`    ${c("cyan", "nextjs")}            Next.js App Router with SSR + full component library`);
-  log(`    ${c("cyan", "vuejs")}             Vue 3 + Vite with UI components & Tailwind theme`);
-  log(`    ${c("cyan", "laravel-blade")}     Laravel with Blade UI components & Tailwind theme`);
+  log(
+    `    ${c("cyan", "vite-react")}        Vite + React 19 SPA with full component library`,
+  );
+  log(
+    `    ${c("cyan", "nextjs")}            Next.js App Router with SSR + full component library`,
+  );
+  log(
+    `    ${c("cyan", "vuejs")}             Vue 3 + Vite with UI components & Tailwind theme`,
+  );
+  log(
+    `    ${c("cyan", "laravel-blade")}     Laravel with Blade UI components & Tailwind theme`,
+  );
   log();
   log("  Options:");
-  log(`    ${c("yellow", "--template, -t")}              Framework template (with 'init')`);
-  log(`    ${c("yellow", "--yes, -y")}                   Skip confirmation prompts`);
-  log(`    ${c("yellow", "--overwrite")}                 Overwrite existing files`);
-  log(`    ${c("yellow", "--all")}                       Add all components (with 'add')`);
+  log(
+    `    ${c("yellow", "--template, -t")}              Framework template (with 'init')`,
+  );
+  log(
+    `    ${c("yellow", "--yes, -y")}                   Skip confirmation prompts`,
+  );
+  log(
+    `    ${c("yellow", "--overwrite")}                 Overwrite existing files`,
+  );
+  log(
+    `    ${c("yellow", "--all")}                       Add all components (with 'add')`,
+  );
   log();
   log("  Examples:");
   log(`    ${c("dim", "# Scaffold a new project (interactive)")} `);
@@ -2343,7 +2404,9 @@ async function main() {
       cmdHelp();
       break;
     default:
-      logError(`Unknown command: "${command}". Run "npx @work-rjkashyap/unified-ui help" for usage.`);
+      logError(
+        `Unknown command: "${command}". Run "npx @work-rjkashyap/unified-ui help" for usage.`,
+      );
       process.exit(1);
   }
 }

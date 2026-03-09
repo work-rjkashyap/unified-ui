@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
-const model = defineModel<string>();
+const _model = defineModel<string>();
 
 const variantClasses: Record<Variant, string> = {
   default:
@@ -35,7 +35,7 @@ const sizeClasses: Record<Size, string> = {
   lg: "h-10 px-3.5 text-sm",
 };
 
-const classes = computed(() =>
+const _classes = computed(() =>
   cn(
     "flex w-full text-sm leading-5 rounded-md border bg-background text-input-foreground",
     "placeholder:text-input-placeholder",

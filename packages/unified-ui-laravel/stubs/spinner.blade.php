@@ -1,24 +1,3 @@
-{{--
-    Unified UI — Spinner Component
-    https://unified-ui.space
-
-    An animated loading spinner with configurable size, color, and
-    screen-reader accessible label text.
-
-    Usage:
-        <x-ui-spinner />
-        <x-ui-spinner size="lg" />
-        <x-ui-spinner size="sm" variant="primary" />
-        <x-ui-spinner variant="white" label="Uploading…" />
-        <x-ui-spinner size="xs" variant="muted" />
-
-    Props:
-        size    — xs|sm|md|lg|xl (default: md)
-        variant — current|primary|secondary|destructive|muted|white (default: current)
-        label   — screen-reader text (default: "Loading…")
-        track   — boolean, show a faded background track ring (default: true)
---}}
-
 @props([
     'size' => 'md',
     'variant' => 'current',

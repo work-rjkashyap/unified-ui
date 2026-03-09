@@ -1,87 +1,520 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Alert,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Checkbox,
+  Input,
+  Progress,
+  Separator,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonRect,
+  SkeletonText,
+  Switch,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@work-rjkashyap/unified-ui";
+import { ArrowRight, Bell, Package, Search, Zap } from "lucide-react";
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute("/")({ component: Home });
 
-function App() {
+function Home() {
   return (
-    <main className="page-wrap px-4 pb-8 pt-14">
-      <section className="island-shell rise-in relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14">
-        <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />
-        <p className="island-kicker mb-3">TanStack Start Base Template</p>
-        <h1 className="display-title mb-5 max-w-3xl text-4xl leading-[1.02] font-bold tracking-tight text-[var(--sea-ink)] sm:text-6xl">
-          Start simple, ship quickly.
-        </h1>
-        <p className="mb-8 max-w-2xl text-base text-[var(--sea-ink-soft)] sm:text-lg">
-          This base starter intentionally keeps things light: two routes, clean
-          structure, and the essentials you need to build from scratch.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="/about"
-            className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-5 py-2.5 text-sm font-semibold text-[var(--lagoon-deep)] no-underline transition hover:-translate-y-0.5 hover:bg-[rgba(79,184,178,0.24)]"
+    <div className="min-h-screen bg-background text-foreground">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+        {/* Hero */}
+        <section className="space-y-4">
+          <Badge
+            variant="primary"
+            size="sm"
+            icon={<Package className="size-3" />}
           >
-            About This Starter
-          </a>
-          <a
-            href="https://tanstack.com/router"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-5 py-2.5 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:-translate-y-0.5 hover:border-[rgba(23,58,64,0.35)]"
-          >
-            Router Guide
-          </a>
-        </div>
-      </section>
+            @work-rjkashyap/unified-ui
+          </Badge>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tighter">
+            TanStack Router + Unified UI
+          </h1>
+          <p className="text-base text-muted-foreground leading-7 max-w-xl">
+            This starter is pre-wired with{" "}
+            <code className="text-sm font-mono bg-muted px-1.5 py-0.5 rounded">
+              @work-rjkashyap/unified-ui
+            </code>
+            . The{" "}
+            <code className="text-sm font-mono bg-muted px-1.5 py-0.5 rounded">
+              DSThemeProvider
+            </code>{" "}
+            wraps your app in{" "}
+            <code className="text-sm font-mono bg-muted px-1.5 py-0.5 rounded">
+              src/routes/__root.tsx
+            </code>
+            , styles are imported in{" "}
+            <code className="text-sm font-mono bg-muted px-1.5 py-0.5 rounded">
+              src/styles.css
+            </code>
+            , and every component is ready to use. Edit{" "}
+            <code className="text-sm font-mono bg-muted px-1.5 py-0.5 rounded">
+              src/routes/index.tsx
+            </code>{" "}
+            to get started.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <a href="https://unified-ui.space/docs">
+              <Button
+                variant="primary"
+                size="md"
+                iconRight={<ArrowRight className="size-3.5" />}
+              >
+                Read the Docs
+              </Button>
+            </a>
+            <a href="https://unified-ui.space/components">
+              <Button variant="secondary" size="md">
+                Browse Components
+              </Button>
+            </a>
+            <Link to="/about">
+              <Button variant="ghost" size="md">
+                About This Starter
+              </Button>
+            </Link>
+          </div>
+        </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          [
-            'Type-Safe Routing',
-            'Routes and links stay in sync across every page.',
-          ],
-          [
-            'Server Functions',
-            'Call server code from your UI without creating API boilerplate.',
-          ],
-          [
-            'Streaming by Default',
-            'Ship progressively rendered responses for faster experiences.',
-          ],
-          [
-            'Tailwind Native',
-            'Design quickly with utility-first styling and reusable tokens.',
-          ],
-        ].map(([title, desc], index) => (
-          <article
-            key={title}
-            className="island-shell feature-card rise-in rounded-2xl p-5"
-            style={{ animationDelay: `${index * 90 + 80}ms` }}
-          >
-            <h2 className="mb-2 text-base font-semibold text-[var(--sea-ink)]">
-              {title}
+        <Separator />
+
+        {/* Component Showcase */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="text-xl font-bold tracking-tight mb-1">
+              Component Showcase
             </h2>
-            <p className="m-0 text-sm text-[var(--sea-ink-soft)]">{desc}</p>
-          </article>
-        ))}
-      </section>
+            <p className="text-sm text-muted-foreground">
+              A live preview of unified-ui components — all rendered from a
+              single import.
+            </p>
+          </div>
 
-      <section className="island-shell mt-8 rounded-2xl p-6">
-        <p className="island-kicker mb-2">Quick Start</p>
-        <ul className="m-0 list-disc space-y-2 pl-5 text-sm text-[var(--sea-ink-soft)]">
-          <li>
-            Edit <code>src/routes/index.tsx</code> to customize the home page.
-          </li>
-          <li>
-            Update <code>src/components/Header.tsx</code> and{' '}
-            <code>src/components/Footer.tsx</code> for brand links.
-          </li>
-          <li>
-            Add routes in <code>src/routes</code> and tweak visual tokens in{' '}
-            <code>src/styles.css</code>.
-          </li>
-        </ul>
-      </section>
-    </main>
-  )
+          <Tabs defaultValue="form" variant="underline" size="sm">
+            <TabsList>
+              <TabsTrigger value="form">Form Controls</TabsTrigger>
+              <TabsTrigger value="feedback">Feedback</TabsTrigger>
+              <TabsTrigger value="display">Display</TabsTrigger>
+              <TabsTrigger value="loading">Loading</TabsTrigger>
+            </TabsList>
+
+            {/* Form Controls */}
+            <TabsContent value="form">
+              <Card className="mt-4">
+                <CardHeader bordered>
+                  <p className="text-sm font-semibold">Form Controls</p>
+                </CardHeader>
+                <CardBody className="space-y-4 p-4">
+                  <Input
+                    label="Search"
+                    placeholder="Search components…"
+                    iconLeft={<Search className="size-3.5" />}
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Input
+                      label="Email"
+                      type="email"
+                      placeholder="you@example.com"
+                    />
+                    <Input
+                      label="Password"
+                      type="password"
+                      placeholder="••••••••"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Switch label="Enable notifications" defaultChecked />
+                    <Switch label="Marketing emails" />
+                  </div>
+                  <div className="space-y-2">
+                    <Checkbox
+                      label="I agree to the terms of service"
+                      defaultChecked
+                    />
+                    <Checkbox label="Subscribe to the newsletter" />
+                  </div>
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    <Button variant="primary" size="md">
+                      Save Changes
+                    </Button>
+                    <Button variant="secondary" size="md">
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="primary"
+                      size="md"
+                      loading
+                      loadingText="Saving…"
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </TabsContent>
+
+            {/* Feedback */}
+            <TabsContent value="feedback">
+              <Card className="mt-4">
+                <CardHeader bordered>
+                  <p className="text-sm font-semibold">Feedback Components</p>
+                </CardHeader>
+                <CardBody className="space-y-4 p-4">
+                  <Alert variant="info" title="Info">
+                    This is an informational alert. Use it to give users helpful
+                    context.
+                  </Alert>
+                  <Alert variant="success" title="Success">
+                    Your changes have been saved successfully.
+                  </Alert>
+                  <Alert variant="warning" title="Warning">
+                    This action is irreversible. Please double-check before
+                    proceeding.
+                  </Alert>
+                  <Alert variant="danger" title="Error">
+                    Something went wrong. Please try again later.
+                  </Alert>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm font-medium">
+                      <span>Upload progress</span>
+                      <span className="font-mono text-muted-foreground">
+                        68%
+                      </span>
+                    </div>
+                    <Progress value={68} variant="primary" size="md" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm font-medium">
+                      <span>Storage used</span>
+                      <span className="font-mono text-muted-foreground">
+                        92%
+                      </span>
+                    </div>
+                    <Progress value={92} variant="danger" size="md" />
+                  </div>
+                  <Progress indeterminate size="sm" variant="primary" />
+                </CardBody>
+              </Card>
+            </TabsContent>
+
+            {/* Display */}
+            <TabsContent value="display">
+              <Card className="mt-4">
+                <CardHeader bordered>
+                  <p className="text-sm font-semibold">Display Components</p>
+                </CardHeader>
+                <CardBody className="space-y-5 p-4">
+                  {/* Badges */}
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                      Badges
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="default">Default</Badge>
+                      <Badge variant="primary">Primary</Badge>
+                      <Badge variant="success" dot>
+                        Active
+                      </Badge>
+                      <Badge variant="warning">Beta</Badge>
+                      <Badge variant="danger">Breaking</Badge>
+                      <Badge variant="info">New</Badge>
+                      <Badge variant="outline">MIT</Badge>
+                    </div>
+                  </div>
+
+                  {/* Avatars */}
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                      Avatars
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Avatar size="sm">
+                              <AvatarImage
+                                src="https://github.com/imrj05.png"
+                                alt="imrj05"
+                              />
+                              <AvatarFallback>RK</AvatarFallback>
+                            </Avatar>
+                          </TooltipTrigger>
+                          <TooltipContent>imrj05</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Avatar size="md">
+                              <AvatarFallback>AB</AvatarFallback>
+                            </Avatar>
+                          </TooltipTrigger>
+                          <TooltipContent>Alice B.</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Avatar size="lg">
+                              <AvatarFallback>CJ</AvatarFallback>
+                            </Avatar>
+                          </TooltipTrigger>
+                          <TooltipContent>Charlie J.</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </div>
+
+                  {/* Button variants */}
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                      Button Variants
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        iconLeft={<Zap className="size-3.5" />}
+                      >
+                        Primary
+                      </Button>
+                      <Button variant="secondary" size="sm">
+                        Secondary
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        Ghost
+                      </Button>
+                      <Button variant="danger" size="sm">
+                        Danger
+                      </Button>
+                      <Button variant="primary" size="sm" disabled>
+                        Disabled
+                      </Button>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </TabsContent>
+
+            {/* Loading */}
+            <TabsContent value="loading">
+              <Card className="mt-4">
+                <CardHeader bordered>
+                  <p className="text-sm font-semibold">
+                    Skeleton Loading States
+                  </p>
+                </CardHeader>
+                <CardBody className="space-y-4 p-4">
+                  <p className="text-sm text-muted-foreground">
+                    Built-in skeleton primitives that match your component
+                    layouts out of the box.
+                  </p>
+                  {/* Profile skeleton */}
+                  <Card className="bg-muted/30">
+                    <CardBody className="space-y-3 p-4">
+                      <div className="flex items-center gap-3">
+                        <SkeletonCircle size="md" />
+                        <div className="flex-1 space-y-1.5">
+                          <Skeleton shape="text" className="w-1/3" />
+                          <Skeleton shape="text" className="w-1/2" />
+                        </div>
+                        <Skeleton shape="rect" width={60} height={24} />
+                      </div>
+                      <SkeletonRect width="100%" height={80} />
+                      <SkeletonText lines={2} />
+                      <div className="flex gap-2 pt-1">
+                        <Skeleton shape="rect" width={80} height={32} />
+                        <Skeleton shape="rect" width={80} height={32} />
+                      </div>
+                    </CardBody>
+                  </Card>
+                  {/* Notification skeleton */}
+                  <div className="space-y-2">
+                    {[1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3 rounded-lg border border-border bg-card p-3"
+                      >
+                        <SkeletonCircle size="sm" />
+                        <div className="flex-1 space-y-1.5">
+                          <Skeleton shape="text" className="w-2/5" />
+                          <Skeleton shape="text" className="w-3/5" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardBody>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </section>
+
+        {/* Quick start callout */}
+        <section>
+          <Card className="border-primary/20 bg-primary/5">
+            <CardBody className="p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="p-2.5 rounded-lg bg-primary/10 border border-primary/20 shrink-0">
+                <Bell className="size-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold mb-0.5">
+                  You&apos;re all set!
+                </p>
+                <p className="text-sm text-muted-foreground leading-6">
+                  The theme provider, styles, and all components are ready.
+                  Start building by importing from{" "}
+                  <code className="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">
+                    @work-rjkashyap/unified-ui
+                  </code>
+                  .
+                </p>
+              </div>
+              <a href="https://unified-ui.space/docs" className="shrink-0">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  iconRight={<ArrowRight className="size-3.5" />}
+                >
+                  Get Started
+                </Button>
+              </a>
+            </CardBody>
+          </Card>
+        </section>
+
+        {/* Feature grid */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-bold tracking-tight">
+            What&apos;s included
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              {
+                title: "75+ Components",
+                description:
+                  "Button, Dialog, DataTable, Sidebar, Calendar, and more — all production-ready.",
+                badge: "core" as const,
+              },
+              {
+                title: "Design Tokens",
+                description:
+                  "oklch() colors, spacing, radius, shadows — all as CSS custom properties.",
+                badge: "tokens" as const,
+              },
+              {
+                title: "Dark Mode Native",
+                description:
+                  "All tokens and components respect dark mode via CSS custom properties — zero config.",
+                badge: "theme" as const,
+              },
+              {
+                title: "CVA Variants",
+                description:
+                  "Every component uses class-variance-authority for type-safe, composable variant APIs.",
+                badge: "dx" as const,
+              },
+              {
+                title: "Framer Motion",
+                description:
+                  "First-class animation presets — fadeIn, slideUp, scaleIn, stagger — ready to compose.",
+                badge: "motion" as const,
+              },
+              {
+                title: "Tree-Shakeable",
+                description:
+                  "Import from the barrel or layer-specific entry points. Only what you use ships.",
+                badge: "perf" as const,
+              },
+            ].map((feature) => (
+              <Card
+                key={feature.title}
+                className="bg-card/40 hover:border-muted-foreground/20 transition-all duration-200"
+              >
+                <CardBody className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-bold tracking-tight">
+                      {feature.title}
+                    </h3>
+                    <Badge
+                      variant={
+                        feature.badge === "core"
+                          ? "primary"
+                          : feature.badge === "tokens"
+                            ? "info"
+                            : feature.badge === "theme"
+                              ? "success"
+                              : feature.badge === "dx"
+                                ? "warning"
+                                : feature.badge === "motion"
+                                  ? "danger"
+                                  : "default"
+                      }
+                      size="sm"
+                    >
+                      {feature.badge}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-6">
+                    {feature.description}
+                  </p>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Quick-start code */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-bold tracking-tight">Quick Start</h2>
+          <div className="space-y-2">
+            {[
+              {
+                label: "1. Already installed — check package.json",
+                code: "@work-rjkashyap/unified-ui",
+              },
+              {
+                label: "2. DSThemeProvider is mounted in __root.tsx",
+                code: 'import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";',
+              },
+              {
+                label: "3. Styles are imported in src/styles.css",
+                code: '@import "@work-rjkashyap/unified-ui/styles.css";',
+              },
+              {
+                label: "4. Import and use any component",
+                code: 'import { Button, Badge, Card } from "@work-rjkashyap/unified-ui";',
+              },
+            ].map((step) => (
+              <div
+                key={step.label}
+                className="rounded-lg border border-border bg-background/80 overflow-hidden"
+              >
+                <div className="px-3 py-1.5 border-b border-border/50 bg-muted/20">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {step.label}
+                  </span>
+                </div>
+                <div className="px-3 py-2.5">
+                  <pre className="text-sm font-mono text-foreground/80 whitespace-pre-wrap">
+                    <code>{step.code}</code>
+                  </pre>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
 }

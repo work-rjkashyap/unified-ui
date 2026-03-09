@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
   dismissible: false,
 });
 
-const emit = defineEmits<{ dismiss: [] }>();
+const _emit = defineEmits<{ dismiss: [] }>();
 
 const variantClasses: Record<Variant, string> = {
   default: "bg-muted text-foreground border border-transparent",
@@ -49,7 +49,7 @@ const sizeClasses: Record<Size, string> = {
   lg: "px-3 py-1.5 text-sm gap-2",
 };
 
-const classes = computed(() =>
+const _classes = computed(() =>
   cn(
     "inline-flex items-center gap-1.5 rounded-full font-medium leading-none whitespace-nowrap",
     "transition-[color,background-color,border-color,box-shadow,opacity] duration-[var(--duration-fast,150ms)] ease-[var(--easing-standard,cubic-bezier(0.4,0,0.2,1))]",

@@ -60,11 +60,14 @@
           "a11y": {
             "useSemanticElements": "off",
             "useFocusableInteractive": "off",
-            "noStaticElementInteractions": "off"
+            "noStaticElementInteractions": "off",
+            "useAriaPropsSupportedByRole": "off",
+            "noSvgWithoutTitle": "off"
           },
           "suspicious": {
             "noArrayIndexKey": "off",
-            "noExplicitAny": "off"
+            "noExplicitAny": "off",
+            "noDocumentCookie": "off"
           },
           "correctness": {
             "useHookAtTopLevel": "off"
@@ -102,6 +105,51 @@
             "useButtonType": "off",
             "useKeyWithClickEvents": "off",
             "noStaticElementInteractions": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["scripts/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noAssignInExpressions": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["starters/**", "template/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/app/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noArrayIndexKey": "off"
+          },
+          "a11y": {
+            "noSvgWithoutTitle": "off",
+            "noLabelWithoutControl": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/components/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noArrayIndexKey": "off",
+            "noMisleadingCharacterClass": "off"
           }
         }
       }

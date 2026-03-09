@@ -1,31 +1,3 @@
-{{--
-    Unified UI — Card Header Sub-Component
-    https://unified-ui.space
-
-    The top section of a card, typically contains a title and description.
-
-    Usage:
-        <x-ui-card.header>
-            <x-ui-card.title>Title</x-ui-card.title>
-            <x-ui-card.description>Description</x-ui-card.description>
-        </x-ui-card.header>
-
-        {{-- With action slot --}}
-        <x-ui-card.header>
-            <div>
-                <x-ui-card.title>Title</x-ui-card.title>
-                <x-ui-card.description>Description</x-ui-card.description>
-            </div>
-            <x-slot:action>
-                <x-ui-button variant="outline" size="sm">Edit</x-ui-button>
-            </x-slot:action>
-        </x-ui-card.header>
-
-    Props:
-        bordered — boolean, show bottom border separator (default: false)
-        padding  — sm|md|lg (default: md)
---}}
-
 @props([
     'bordered' => false,
     'padding' => 'md',
