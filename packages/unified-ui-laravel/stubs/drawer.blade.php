@@ -85,7 +85,7 @@
             x-show="open"
             x-trap.noscroll.inert="open"
             @if($dismissible) x-on:keydown.escape.window="open = false" @endif
-            class="relative z-[var(--ui-z-modal)]"
+            class="relative z-(--ui-z-modal)"
             role="dialog"
             aria-modal="true"
             @if($title) aria-label="{{ $title }}" @endif
@@ -101,7 +101,7 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     @if($dismissible) x-on:click="open = false" @endif
-                    class="fixed inset-0 bg-[oklch(var(--ui-background)/0.6)] backdrop-blur-sm z-[var(--ui-z-overlay)]"
+                    class="fixed inset-0 bg-[oklch(var(--ui-background)/0.6)] backdrop-blur-sm z-(--ui-z-overlay)"
                     aria-hidden="true"
                 ></div>
             @endif
@@ -142,7 +142,7 @@
                             <button
                                 type="button"
                                 x-on:click="open = false"
-                                class="shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-[var(--ui-radius-sm)] text-[oklch(var(--ui-muted-foreground))] hover:text-[oklch(var(--ui-foreground))] hover:bg-[oklch(var(--ui-accent))] transition-colors duration-[var(--ui-duration-fast)] ease-[var(--ui-ease-default)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[oklch(var(--ui-ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(var(--ui-background))]"
+                                class="shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-(--ui-radius-sm) text-[oklch(var(--ui-muted-foreground))] hover:text-[oklch(var(--ui-foreground))] hover:bg-[oklch(var(--ui-accent))] transition-colors duration-(--ui-duration-fast) ease-(--ui-ease-default) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[oklch(var(--ui-ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(var(--ui-background))]"
                                 aria-label="Close"
                             >
                                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"

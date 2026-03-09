@@ -102,7 +102,7 @@
         },
     }"
     x-on:toast.window="add($event.detail)"
-    class="fixed z-[var(--ui-z-toast,90)] flex flex-col gap-2 pointer-events-none {{ $positionClasses }}"
+    class="fixed z-(--ui-z-toast,90) flex flex-col gap-2 pointer-events-none {{ $positionClasses }}"
     aria-live="polite"
     aria-atomic="false"
     aria-label="Notifications"
@@ -121,7 +121,7 @@
             x-on:mouseenter="pauseTimer(toast.id)"
             x-on:mouseleave="resumeTimer(toast.id)"
             :class="variantClasses(toast.variant)"
-            class="pointer-events-auto relative flex w-80 sm:w-[360px] items-start gap-3 rounded-[var(--ui-radius-lg)] border px-4 py-3 shadow-[var(--ui-shadow-lg)] text-[oklch(var(--ui-foreground))] select-none"
+            class="pointer-events-auto relative flex w-80 sm:w-90 items-start gap-3 rounded-(--ui-radius-lg) border px-4 py-3 shadow-(--ui-shadow-lg) text-[oklch(var(--ui-foreground))] select-none"
             role="status"
             aria-atomic="true"
             data-ui-toast
@@ -158,7 +158,7 @@
             <button
                 type="button"
                 x-on:click="remove(toast.id)"
-                class="shrink-0 inline-flex items-center justify-center h-5 w-5 rounded-sm text-[oklch(var(--ui-muted-foreground))] hover:text-[oklch(var(--ui-foreground))] transition-colors duration-[var(--ui-duration-fast)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[oklch(var(--ui-ring))]"
+                class="shrink-0 inline-flex items-center justify-center h-5 w-5 rounded-sm text-[oklch(var(--ui-muted-foreground))] hover:text-[oklch(var(--ui-foreground))] transition-colors duration-(--ui-duration-fast) focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[oklch(var(--ui-ring))]"
                 aria-label="Dismiss notification"
             >
                 <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>

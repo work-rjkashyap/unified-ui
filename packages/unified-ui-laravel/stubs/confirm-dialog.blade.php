@@ -90,7 +90,7 @@
             @if($dismissible)
                 x-on:keydown.escape.window="open = false"
             @endif
-            class="relative z-[var(--ui-z-modal)]"
+            class="relative z-(--ui-z-modal)"
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="confirm-dialog-title"
@@ -108,13 +108,13 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     @if($dismissible) x-on:click="open = false" @endif
-                    class="fixed inset-0 ui-backdrop z-[var(--ui-z-overlay)]"
+                    class="fixed inset-0 ui-backdrop z-(--ui-z-overlay)"
                     aria-hidden="true"
                 ></div>
             @endif
 
             {{-- Centering wrapper --}}
-            <div class="fixed inset-0 z-[var(--ui-z-modal)] flex items-center justify-center p-4">
+            <div class="fixed inset-0 z-(--ui-z-modal) flex items-center justify-center p-4">
                 {{-- Panel --}}
                 <div
                     x-show="open"
@@ -125,7 +125,7 @@
                     x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                     x-transition:leave-end="opacity-0 scale-95 translate-y-1"
                     x-on:click.stop
-                    class="relative w-full max-w-md rounded-[var(--ui-radius-lg)] border border-[oklch(var(--ui-border))] bg-[oklch(var(--ui-background))] shadow-xl focus:outline-none"
+                    class="relative w-full max-w-md rounded-(--ui-radius-lg) border border-[oklch(var(--ui-border))] bg-[oklch(var(--ui-background))] shadow-xl focus:outline-none"
                     tabindex="-1"
                 >
                     {{-- Body --}}

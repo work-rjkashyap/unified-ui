@@ -1474,6 +1474,104 @@ interface CarouselProps {
 }
 declare const Carousel: react.ForwardRefExoticComponent<CarouselProps & react.RefAttributes<HTMLDivElement>>;
 
+interface ChartContainerProps {
+    /** Chart title. */
+    title?: string;
+    /** Chart description/subtitle. */
+    description?: string;
+    /** Chart height in pixels. @default 350 */
+    height?: number;
+    /** The Recharts chart component(s) to render. */
+    children: ReactNode;
+    /** Footer content (e.g., legend, notes). */
+    footer?: ReactNode;
+    /** Whether data is loading. @default false */
+    loading?: boolean;
+    /** Custom loading indicator. */
+    loadingIndicator?: ReactNode;
+    /** Content to show when chart has no data. */
+    emptyContent?: ReactNode;
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * Design system chart colors. Use these as `fill` or `stroke` values
+ * in Recharts components for consistent theming.
+ *
+ * @example
+ * ```tsx
+ * <Bar dataKey="revenue" fill={chartColors[0]} />
+ * <Bar dataKey="expenses" fill={chartColors[1]} />
+ * ```
+ */
+declare const chartColors: readonly ["var(--primary)", "var(--info)", "var(--success)", "var(--warning)", "var(--danger)", "var(--secondary)", "var(--muted-foreground)", "oklch(0.65 0.15 250)", "oklch(0.65 0.15 160)", "oklch(0.65 0.15 30)"];
+/**
+ * `ChartContainer` — a card wrapper for Recharts charts with DS styling.
+ *
+ * Place your Recharts `<BarChart>`, `<LineChart>`, `<PieChart>`, etc.
+ * as children. The container provides a responsive wrapper, title, and
+ * optional footer.
+ *
+ * **Important**: This component does NOT bundle Recharts. You must install
+ * `recharts` separately as a peer dependency.
+ *
+ * @example
+ * ```tsx
+ * import { ChartContainer, chartColors } from "@work-rjkashyap/unified-ui/components";
+ * import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+ *
+ * <ChartContainer title="Monthly Revenue" description="Last 6 months">
+ *   <ResponsiveContainer width="100%" height="100%">
+ *     <BarChart data={data}>
+ *       <XAxis dataKey="month" stroke="var(--muted-foreground)" fontSize={12} />
+ *       <YAxis stroke="var(--muted-foreground)" fontSize={12} />
+ *       <Tooltip
+ *         contentStyle={{
+ *           background: "var(--background)",
+ *           border: "1px solid var(--border)",
+ *           borderRadius: "var(--radius-md)",
+ *           fontSize: 13,
+ *         }}
+ *       />
+ *       <Bar dataKey="revenue" fill={chartColors[0]} radius={[4, 4, 0, 0]} />
+ *     </BarChart>
+ *   </ResponsiveContainer>
+ * </ChartContainer>
+ * ```
+ */
+declare const ChartContainer: react.ForwardRefExoticComponent<ChartContainerProps & react.RefAttributes<HTMLDivElement>>;
+interface ChartTooltipContentProps {
+    /** Label for the tooltip header. */
+    label?: string;
+    /** Payload from Recharts tooltip. */
+    payload?: Array<{
+        name: string;
+        value: number | string;
+        color?: string;
+        fill?: string;
+    }>;
+    /** Whether the tooltip is active. */
+    active?: boolean;
+    /** Custom formatter for values. */
+    formatter?: (value: number | string, name: string) => string;
+    /** Additional class names. */
+    className?: string;
+}
+/**
+ * `ChartTooltipContent` — a pre-styled tooltip content component for Recharts.
+ *
+ * Use as the `content` prop of Recharts' `<Tooltip>`:
+ *
+ * @example
+ * ```tsx
+ * <Tooltip content={<ChartTooltipContent />} />
+ * ```
+ */
+declare function ChartTooltipContent({ label, payload, active, formatter, className, }: ChartTooltipContentProps): react_jsx_runtime.JSX.Element | null;
+declare namespace ChartTooltipContent {
+    var displayName: string;
+}
+
 declare const checkboxVariants: (props?: ({
     size?: "sm" | "md" | null | undefined;
     error?: boolean | null | undefined;
@@ -1835,6 +1933,38 @@ declare const CollapsibleTrigger: react.ForwardRefExoticComponent<CollapsibleTri
  * ```
  */
 declare const CollapsibleContent: react.ForwardRefExoticComponent<CollapsibleContentProps & react.RefAttributes<HTMLDivElement>>;
+
+interface ColorPickerProps {
+    /** Current color value in HEX format (e.g., "#ff0000"). */
+    value?: string;
+    /** Default color for uncontrolled mode. @default "#000000" */
+    defaultValue?: string;
+    /** Callback when color changes. */
+    onChange?: (color: string) => void;
+    /** Preset color swatches to display. */
+    presets?: string[];
+    /** Whether to show the HEX input field. @default true */
+    showInput?: boolean;
+    /** Whether the picker is disabled. @default false */
+    disabled?: boolean;
+    /** Size of the trigger swatch. @default "md" */
+    size?: "sm" | "md" | "lg";
+    /** Additional CSS classes. */
+    className?: string;
+    /** Placeholder label for accessibility. @default "Choose color" */
+    label?: string;
+}
+/**
+ * `ColorPicker` — a color selection component with spectrum, hue slider,
+ * HEX input, and preset swatches.
+ *
+ * @example
+ * ```tsx
+ * <ColorPicker value={color} onChange={setColor} />
+ * <ColorPicker defaultValue="#3b82f6" presets={["#ef4444", "#22c55e", "#3b82f6"]} />
+ * ```
+ */
+declare const ColorPicker: react.ForwardRefExoticComponent<ColorPickerProps & react.RefAttributes<HTMLDivElement>>;
 
 declare const comboboxTriggerVariants: (props?: ({
     variant?: "default" | "primary" | null | undefined;
@@ -2943,6 +3073,86 @@ interface UseDataTableReturn<_TData> {
  */
 declare function useDataTable<TData>(options: UseDataTableOptions<TData>): UseDataTableReturn<TData>;
 
+interface DataTableFilter {
+    /** Unique identifier for this filter. */
+    id: string;
+    /** Display label. */
+    label: string;
+    /** Available options for this filter. */
+    options: Array<{
+        label: string;
+        value: string;
+        count?: number;
+    }>;
+    /** Currently selected values. */
+    selected: string[];
+}
+interface ColumnVisibility {
+    /** Column identifier. */
+    id: string;
+    /** Display label. */
+    label: string;
+    /** Whether the column is visible. */
+    visible: boolean;
+}
+type ViewMode = "table" | "grid" | "list";
+interface DataTableToolbarProps {
+    /** Current search value. */
+    searchValue?: string;
+    /** Callback when search value changes. */
+    onSearchChange?: (value: string) => void;
+    /** Search placeholder text. @default "Search..." */
+    searchPlaceholder?: string;
+    /** Debounce delay for search in ms. @default 300 */
+    searchDebounce?: number;
+    /** Filter definitions and their current state. */
+    filters?: DataTableFilter[];
+    /** Callback when a filter's selected values change. */
+    onFilterChange?: (filterId: string, selected: string[]) => void;
+    /** Callback to clear all filters. */
+    onClearFilters?: () => void;
+    /** Column visibility state. */
+    columns?: ColumnVisibility[];
+    /** Callback when column visibility changes. */
+    onColumnVisibilityChange?: (columnId: string, visible: boolean) => void;
+    /** Current view mode. */
+    viewMode?: ViewMode;
+    /** Available view modes. */
+    viewModes?: ViewMode[];
+    /** Callback when view mode changes. */
+    onViewModeChange?: (mode: ViewMode) => void;
+    /** Extra actions to render on the right side of the toolbar. */
+    actions?: ReactNode;
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * `DataTableToolbar` — a composable toolbar for DataTable with search,
+ * filters, column visibility, and view mode controls.
+ *
+ * @example
+ * ```tsx
+ * <DataTableToolbar
+ *   searchValue={search}
+ *   onSearchChange={setSearch}
+ *   filters={[
+ *     {
+ *       id: "status",
+ *       label: "Status",
+ *       options: [
+ *         { label: "Active", value: "active", count: 12 },
+ *         { label: "Inactive", value: "inactive", count: 5 },
+ *       ],
+ *       selected: selectedStatuses,
+ *     },
+ *   ]}
+ *   onFilterChange={handleFilter}
+ *   onClearFilters={() => setFilters({})}
+ * />
+ * ```
+ */
+declare const DataTableToolbar: react.ForwardRefExoticComponent<DataTableToolbarProps & react.RefAttributes<HTMLDivElement>>;
+
 type DatePickerMode = "single" | "range";
 type DatePickerSize = "sm" | "md" | "lg";
 interface DatePickerProps {
@@ -3101,6 +3311,112 @@ declare namespace DialogFooter {
 declare const DialogTitle: react.ForwardRefExoticComponent<DialogTitleProps & react.RefAttributes<HTMLHeadingElement>>;
 declare const DialogDescription: react.ForwardRefExoticComponent<DialogDescriptionProps & react.RefAttributes<HTMLParagraphElement>>;
 declare const DialogClose: react.ForwardRefExoticComponent<DialogCloseProps & react.RefAttributes<HTMLButtonElement>>;
+
+declare const drawerContentVariants: (props?: ({
+    size?: "sm" | "md" | "lg" | "full" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+type DrawerSize = "sm" | "md" | "lg" | "full";
+interface DrawerProps {
+    children: ReactNode;
+    /**
+     * Whether the drawer should scale the background content when open.
+     * Requires `[vaul-drawer-wrapper]` attribute on your app wrapper element.
+     * @default true
+     */
+    shouldScaleBackground?: boolean;
+    /** Controlled open state. */
+    open?: boolean;
+    /** Callback when open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** Whether the drawer starts open. */
+    defaultOpen?: boolean;
+    /** Whether to dismiss on outside click. @default true */
+    dismissible?: boolean;
+    /** Direction the drawer opens from. @default "bottom" */
+    direction?: "top" | "bottom" | "left" | "right";
+    /** Whether to nest inside another drawer. */
+    nested?: boolean;
+    /** Whether to block body scroll when drawer is open. @default true */
+    modal?: boolean;
+    /** Called when drawer is closed. */
+    onClose?: () => void;
+}
+interface DrawerTriggerProps extends ComponentPropsWithoutRef<typeof Drawer$1.Trigger> {
+    className?: string;
+}
+interface DrawerContentProps extends Omit<ComponentPropsWithoutRef<typeof Drawer$1.Content>, "asChild"> {
+    /** Controls the maximum height of the drawer. @default "md" */
+    size?: DrawerSize;
+    /** Whether to show the drag handle at the top. @default true */
+    showHandle?: boolean;
+    /** Extra classes for the overlay backdrop. */
+    overlayClassName?: string;
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerHandleProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+}
+interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerBodyProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerTitleProps extends ComponentPropsWithoutRef<typeof Drawer$1.Title> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerDescriptionProps extends ComponentPropsWithoutRef<typeof Drawer$1.Description> {
+    className?: string;
+    children: ReactNode;
+}
+interface DrawerCloseProps extends ComponentPropsWithoutRef<typeof Drawer$1.Close> {
+    className?: string;
+}
+/**
+ * Drawer — a bottom sheet with drag-to-dismiss interaction.
+ *
+ * Wraps vaul's `Drawer.Root` with sensible defaults for the Unified UI
+ * design system. Set `shouldScaleBackground` to control whether the
+ * background content scales down when the drawer opens (requires the
+ * `[vaul-drawer-wrapper]` attribute on your app wrapper).
+ */
+declare function Drawer({ shouldScaleBackground, children, ...rest }: DrawerProps): react_jsx_runtime.JSX.Element;
+declare namespace Drawer {
+    var displayName: string;
+}
+declare const DrawerTrigger: react.ForwardRefExoticComponent<DrawerTriggerProps & react.RefAttributes<HTMLButtonElement>>;
+/**
+ * A visual drag handle rendered at the top of the drawer content.
+ * Provides a clear affordance that the drawer can be dragged to dismiss.
+ */
+declare function DrawerHandle({ className, ...rest }: DrawerHandleProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerHandle {
+    var displayName: string;
+}
+declare const DrawerContent: react.ForwardRefExoticComponent<DrawerContentProps & react.RefAttributes<HTMLDivElement>>;
+declare function DrawerHeader({ className, children, ...rest }: DrawerHeaderProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerHeader {
+    var displayName: string;
+}
+declare function DrawerBody({ className, children, ...rest }: DrawerBodyProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerBody {
+    var displayName: string;
+}
+declare function DrawerFooter({ className, children, ...rest }: DrawerFooterProps): react_jsx_runtime.JSX.Element;
+declare namespace DrawerFooter {
+    var displayName: string;
+}
+declare const DrawerTitle: react.ForwardRefExoticComponent<DrawerTitleProps & react.RefAttributes<HTMLHeadingElement>>;
+declare const DrawerDescription: react.ForwardRefExoticComponent<DrawerDescriptionProps & react.RefAttributes<HTMLParagraphElement>>;
+declare const DrawerClose: react.ForwardRefExoticComponent<DrawerCloseProps & react.RefAttributes<HTMLButtonElement>>;
 
 interface DropdownMenuProps extends DropdownMenu$1.DropdownMenuProps {
     children: ReactNode;
@@ -3413,6 +3729,98 @@ declare namespace HoverCard {
 declare const HoverCardTrigger: react.ForwardRefExoticComponent<HoverCard$1.HoverCardTriggerProps & react.RefAttributes<HTMLAnchorElement>>;
 declare const HoverCardContent: react.ForwardRefExoticComponent<HoverCardContentProps & react.RefAttributes<HTMLDivElement>>;
 
+interface GalleryImage {
+    /** Image source URL. */
+    src: string;
+    /** Alt text for accessibility. */
+    alt: string;
+    /** Optional thumbnail URL (falls back to src). */
+    thumbnail?: string;
+    /** Optional caption shown in lightbox. */
+    caption?: string;
+}
+interface ImageGalleryProps {
+    /** Array of images to display. */
+    images: GalleryImage[];
+    /** Number of grid columns. @default 3 */
+    columns?: 1 | 2 | 3 | 4;
+    /** Gap between grid items in pixels. @default 8 */
+    gap?: number;
+    /** Aspect ratio for thumbnails. @default "square" */
+    aspectRatio?: "square" | "video" | "auto";
+    /** Whether to show the lightbox on click. @default true */
+    lightbox?: boolean;
+    /** Additional CSS classes on the grid container. */
+    className?: string;
+    /** Render custom thumbnail. */
+    renderThumbnail?: (image: GalleryImage, index: number) => ReactNode;
+}
+/**
+ * `ImageGallery` — a grid of images with optional lightbox viewer.
+ *
+ * @example
+ * ```tsx
+ * <ImageGallery
+ *   images={[
+ *     { src: "/photo-1.jpg", alt: "Beach sunset", caption: "Malibu, CA" },
+ *     { src: "/photo-2.jpg", alt: "Mountain view" },
+ *   ]}
+ *   columns={3}
+ * />
+ * ```
+ */
+declare const ImageGallery: react.ForwardRefExoticComponent<ImageGalleryProps & react.RefAttributes<HTMLDivElement>>;
+
+interface InfiniteScrollProps {
+    /** Content to render (the list items). */
+    children: ReactNode;
+    /** Whether more data is currently being loaded. */
+    loading?: boolean;
+    /** Whether there is more data to load. */
+    hasMore?: boolean;
+    /** Callback to trigger loading more data. */
+    onLoadMore: () => void;
+    /**
+     * IntersectionObserver rootMargin value. Controls how far from the
+     * bottom the trigger fires.
+     * @default "200px"
+     */
+    threshold?: string;
+    /** Custom loading indicator. */
+    loadingIndicator?: ReactNode;
+    /** Content to show when all data has been loaded. */
+    endMessage?: ReactNode;
+    /** Additional CSS classes on the container. */
+    className?: string;
+    /** Additional CSS classes on the sentinel element. */
+    sentinelClassName?: string;
+}
+/**
+ * `InfiniteScroll` — scroll-triggered infinite loading.
+ *
+ * Renders children with a sentinel element at the bottom. When the
+ * sentinel enters the viewport (via IntersectionObserver), it calls
+ * `onLoadMore`. Shows a loading indicator while fetching and an optional
+ * end message when `hasMore` is false.
+ *
+ * @example
+ * ```tsx
+ * const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(...);
+ *
+ * <InfiniteScroll
+ *   loading={isFetchingNextPage}
+ *   hasMore={hasNextPage}
+ *   onLoadMore={fetchNextPage}
+ *   endMessage={<p className="text-center text-sm text-muted-foreground py-4">That's all!</p>}
+ * >
+ *   {data.pages.flat().map(item => (
+ *     <Card key={item.id}>{item.name}</Card>
+ *   ))}
+ * </InfiniteScroll>
+ * ```
+ */
+declare const InfiniteScroll: react.ForwardRefExoticComponent<InfiniteScrollProps & react.RefAttributes<HTMLDivElement>>;
+
 declare const inputVariants: (props?: ({
     variant?: "success" | "default" | "error" | null | undefined;
     size?: "sm" | "md" | "lg" | null | undefined;
@@ -3626,6 +4034,44 @@ interface LabelProps extends Omit<React.ComponentPropsWithoutRef<typeof Label$1.
  * ```
  */
 declare const Label: react.ForwardRefExoticComponent<LabelProps & react.RefAttributes<HTMLLabelElement>>;
+
+interface MarkdownProps {
+    /** Markdown string to render. */
+    content: string;
+    /** Text size variant. @default "base" */
+    size?: "sm" | "base" | "lg";
+    /** Whether to remove max-width constraint. @default false */
+    fluid?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    /** Whether to allow raw HTML in the markdown. @default false */
+    allowHtml?: boolean;
+}
+/**
+ * `Markdown` — renders a markdown string with design system prose styles.
+ *
+ * For simple markdown display use cases. For full MDX support, use
+ * Fumadocs or a dedicated MDX processor.
+ *
+ * @example
+ * ```tsx
+ * <Markdown content={`
+ * # Hello World
+ *
+ * Some **bold** and *italic* text with \`inline code\`.
+ *
+ * - Item one
+ * - Item two
+ *
+ * > A blockquote
+ *
+ * \`\`\`tsx
+ * const x = 42;
+ * \`\`\`
+ * `} />
+ * ```
+ */
+declare const Markdown: react.ForwardRefExoticComponent<MarkdownProps & react.RefAttributes<HTMLDivElement>>;
 
 interface MenubarProps extends ComponentPropsWithoutRef<typeof Menubar$1.Root> {
     className?: string;
@@ -5026,112 +5472,6 @@ declare const SheetDescription: react.ForwardRefExoticComponent<SheetDescription
  */
 declare const SheetClose: react.ForwardRefExoticComponent<SheetCloseProps & react.RefAttributes<HTMLButtonElement>>;
 
-declare const drawerContentVariants: (props?: ({
-    size?: "sm" | "md" | "lg" | "full" | null | undefined;
-} & class_variance_authority_types.ClassProp) | undefined) => string;
-type DrawerSize = "sm" | "md" | "lg" | "full";
-interface DrawerProps {
-    children: ReactNode;
-    /**
-     * Whether the drawer should scale the background content when open.
-     * Requires `[vaul-drawer-wrapper]` attribute on your app wrapper element.
-     * @default true
-     */
-    shouldScaleBackground?: boolean;
-    /** Controlled open state. */
-    open?: boolean;
-    /** Callback when open state changes. */
-    onOpenChange?: (open: boolean) => void;
-    /** Whether the drawer starts open. */
-    defaultOpen?: boolean;
-    /** Whether to dismiss on outside click. @default true */
-    dismissible?: boolean;
-    /** Direction the drawer opens from. @default "bottom" */
-    direction?: "top" | "bottom" | "left" | "right";
-    /** Whether to nest inside another drawer. */
-    nested?: boolean;
-    /** Whether to block body scroll when drawer is open. @default true */
-    modal?: boolean;
-    /** Called when drawer is closed. */
-    onClose?: () => void;
-}
-interface DrawerTriggerProps extends ComponentPropsWithoutRef<typeof Drawer$1.Trigger> {
-    className?: string;
-}
-interface DrawerContentProps extends Omit<ComponentPropsWithoutRef<typeof Drawer$1.Content>, "asChild"> {
-    /** Controls the maximum height of the drawer. @default "md" */
-    size?: DrawerSize;
-    /** Whether to show the drag handle at the top. @default true */
-    showHandle?: boolean;
-    /** Extra classes for the overlay backdrop. */
-    overlayClassName?: string;
-    className?: string;
-    children: ReactNode;
-}
-interface DrawerHandleProps extends HTMLAttributes<HTMLDivElement> {
-    className?: string;
-}
-interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
-    className?: string;
-    children: ReactNode;
-}
-interface DrawerBodyProps extends HTMLAttributes<HTMLDivElement> {
-    className?: string;
-    children: ReactNode;
-}
-interface DrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
-    className?: string;
-    children: ReactNode;
-}
-interface DrawerTitleProps extends ComponentPropsWithoutRef<typeof Drawer$1.Title> {
-    className?: string;
-    children: ReactNode;
-}
-interface DrawerDescriptionProps extends ComponentPropsWithoutRef<typeof Drawer$1.Description> {
-    className?: string;
-    children: ReactNode;
-}
-interface DrawerCloseProps extends ComponentPropsWithoutRef<typeof Drawer$1.Close> {
-    className?: string;
-}
-/**
- * Drawer — a bottom sheet with drag-to-dismiss interaction.
- *
- * Wraps vaul's `Drawer.Root` with sensible defaults for the Unified UI
- * design system. Set `shouldScaleBackground` to control whether the
- * background content scales down when the drawer opens (requires the
- * `[vaul-drawer-wrapper]` attribute on your app wrapper).
- */
-declare function Drawer({ shouldScaleBackground, children, ...rest }: DrawerProps): react_jsx_runtime.JSX.Element;
-declare namespace Drawer {
-    var displayName: string;
-}
-declare const DrawerTrigger: react.ForwardRefExoticComponent<DrawerTriggerProps & react.RefAttributes<HTMLButtonElement>>;
-/**
- * A visual drag handle rendered at the top of the drawer content.
- * Provides a clear affordance that the drawer can be dragged to dismiss.
- */
-declare function DrawerHandle({ className, ...rest }: DrawerHandleProps): react_jsx_runtime.JSX.Element;
-declare namespace DrawerHandle {
-    var displayName: string;
-}
-declare const DrawerContent: react.ForwardRefExoticComponent<DrawerContentProps & react.RefAttributes<HTMLDivElement>>;
-declare function DrawerHeader({ className, children, ...rest }: DrawerHeaderProps): react_jsx_runtime.JSX.Element;
-declare namespace DrawerHeader {
-    var displayName: string;
-}
-declare function DrawerBody({ className, children, ...rest }: DrawerBodyProps): react_jsx_runtime.JSX.Element;
-declare namespace DrawerBody {
-    var displayName: string;
-}
-declare function DrawerFooter({ className, children, ...rest }: DrawerFooterProps): react_jsx_runtime.JSX.Element;
-declare namespace DrawerFooter {
-    var displayName: string;
-}
-declare const DrawerTitle: react.ForwardRefExoticComponent<DrawerTitleProps & react.RefAttributes<HTMLHeadingElement>>;
-declare const DrawerDescription: react.ForwardRefExoticComponent<DrawerDescriptionProps & react.RefAttributes<HTMLParagraphElement>>;
-declare const DrawerClose: react.ForwardRefExoticComponent<DrawerCloseProps & react.RefAttributes<HTMLButtonElement>>;
-
 type SidebarVariant = "default" | "floating" | "inset";
 type SidebarCollapsible = "offcanvas" | "icon" | "none";
 type SidebarSide = "left" | "right";
@@ -6134,6 +6474,61 @@ interface SliderProps extends Omit<ComponentPropsWithoutRef<typeof Slider$1.Root
  */
 declare const Slider: react.ForwardRefExoticComponent<SliderProps & react.RefAttributes<HTMLSpanElement>>;
 
+type SonnerPosition = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
+interface SonnerToasterProps extends Omit<ComponentPropsWithoutRef<"div">, "dir"> {
+    /** @default "bottom-right" */
+    position?: SonnerPosition;
+    /** @default true */
+    richColors?: boolean;
+    /** @default true */
+    closeButton?: boolean;
+    /** @default 4000 */
+    duration?: number;
+    /** @default 3 */
+    visibleToasts?: number;
+    /** @default true */
+    expand?: boolean;
+    /** @default "system" */
+    theme?: "light" | "dark" | "system";
+    /** @default 16 */
+    offset?: number | string;
+    /** @default 14 */
+    gap?: number;
+    dir?: "ltr" | "rtl" | "auto";
+    className?: string;
+    toastOptions?: {
+        className?: string;
+        descriptionClassName?: string;
+        style?: React.CSSProperties;
+        classNames?: Partial<Record<string, string>>;
+    };
+}
+/**
+ * `SonnerToaster` — design-system-styled toast container.
+ *
+ * Place once in your root layout. Uses the `sonner` library under the hood
+ * with Unified UI token styling applied automatically.
+ *
+ * @example
+ * ```tsx
+ * import { SonnerToaster, toast } from "@work-rjkashyap/unified-ui/components";
+ *
+ * // In layout:
+ * <SonnerToaster />
+ *
+ * // Anywhere:
+ * toast("Hello!");
+ * toast.success("Saved!");
+ * toast.error("Failed!");
+ * toast.promise(saveData(), {
+ *   loading: "Saving...",
+ *   success: "Done!",
+ *   error: "Error!",
+ * });
+ * ```
+ */
+declare const SonnerToaster: react.ForwardRefExoticComponent<SonnerToasterProps & react.RefAttributes<HTMLDivElement>>;
+
 declare const spinnerVariants: (props?: ({
     size?: "sm" | "md" | "xs" | "lg" | null | undefined;
     variant?: "default" | "primary" | "secondary" | "muted" | null | undefined;
@@ -6655,6 +7050,61 @@ interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaEl
  */
 declare const Textarea: react.ForwardRefExoticComponent<TextareaProps & react.RefAttributes<HTMLTextAreaElement>>;
 
+type ThemeToggleMode = "light-dark" | "light-dark-system";
+type ThemeToggleVariant = "icon" | "segmented";
+type ThemeToggleSize = "sm" | "md" | "lg";
+type ThemeValue = "light" | "dark" | "system";
+interface ThemeToggleProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
+    /** Current theme value. */
+    value: ThemeValue;
+    /** Callback when the theme changes. */
+    onChange: (value: ThemeValue) => void;
+    /**
+     * Toggle mode.
+     * - "light-dark": cycles between light and dark only
+     * - "light-dark-system": cycles through light, dark, and system
+     * @default "light-dark"
+     */
+    mode?: ThemeToggleMode;
+    /**
+     * Visual variant.
+     * - "icon": single button that cycles on click
+     * - "segmented": inline pill group with one button per option
+     * @default "icon"
+     */
+    variant?: ThemeToggleVariant;
+    /**
+     * Size of the toggle.
+     * @default "md"
+     */
+    size?: ThemeToggleSize;
+    /** Additional CSS classes. */
+    className?: string;
+}
+/**
+ * ThemeToggle — a light/dark/system mode switcher.
+ *
+ * This is a headless, controlled component: you provide `value` and
+ * `onChange`. It works with any theme provider (next-themes, custom
+ * context, etc.).
+ *
+ * @example
+ * ```tsx
+ * // With next-themes
+ * const { theme, setTheme } = useTheme();
+ * <ThemeToggle value={theme as ThemeValue} onChange={setTheme} />
+ *
+ * // Segmented variant with system option
+ * <ThemeToggle
+ *   value={theme as ThemeValue}
+ *   onChange={setTheme}
+ *   variant="segmented"
+ *   mode="light-dark-system"
+ * />
+ * ```
+ */
+declare const ThemeToggle: react.ForwardRefExoticComponent<ThemeToggleProps & react.RefAttributes<HTMLElement>>;
+
 type TimelineVariant = "default" | "outlined" | "filled";
 type TimelineSize = "sm" | "md" | "lg";
 type TimelineAlign = "left" | "right" | "alternate";
@@ -7157,600 +7607,6 @@ declare const ToggleGroup: react.ForwardRefExoticComponent<ToggleGroupProps & re
  */
 declare const ToggleGroupItem: react.ForwardRefExoticComponent<ToggleGroupItemProps & react.RefAttributes<HTMLButtonElement>>;
 
-type ThemeToggleMode = "light-dark" | "light-dark-system";
-type ThemeToggleVariant = "icon" | "segmented";
-type ThemeToggleSize = "sm" | "md" | "lg";
-type ThemeValue = "light" | "dark" | "system";
-interface ThemeToggleProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
-    /** Current theme value. */
-    value: ThemeValue;
-    /** Callback when the theme changes. */
-    onChange: (value: ThemeValue) => void;
-    /**
-     * Toggle mode.
-     * - "light-dark": cycles between light and dark only
-     * - "light-dark-system": cycles through light, dark, and system
-     * @default "light-dark"
-     */
-    mode?: ThemeToggleMode;
-    /**
-     * Visual variant.
-     * - "icon": single button that cycles on click
-     * - "segmented": inline pill group with one button per option
-     * @default "icon"
-     */
-    variant?: ThemeToggleVariant;
-    /**
-     * Size of the toggle.
-     * @default "md"
-     */
-    size?: ThemeToggleSize;
-    /** Additional CSS classes. */
-    className?: string;
-}
-/**
- * ThemeToggle — a light/dark/system mode switcher.
- *
- * This is a headless, controlled component: you provide `value` and
- * `onChange`. It works with any theme provider (next-themes, custom
- * context, etc.).
- *
- * @example
- * ```tsx
- * // With next-themes
- * const { theme, setTheme } = useTheme();
- * <ThemeToggle value={theme as ThemeValue} onChange={setTheme} />
- *
- * // Segmented variant with system option
- * <ThemeToggle
- *   value={theme as ThemeValue}
- *   onChange={setTheme}
- *   variant="segmented"
- *   mode="light-dark-system"
- * />
- * ```
- */
-declare const ThemeToggle: react.ForwardRefExoticComponent<ThemeToggleProps & react.RefAttributes<HTMLElement>>;
-
-interface ColorPickerProps {
-    /** Current color value in HEX format (e.g., "#ff0000"). */
-    value?: string;
-    /** Default color for uncontrolled mode. @default "#000000" */
-    defaultValue?: string;
-    /** Callback when color changes. */
-    onChange?: (color: string) => void;
-    /** Preset color swatches to display. */
-    presets?: string[];
-    /** Whether to show the HEX input field. @default true */
-    showInput?: boolean;
-    /** Whether the picker is disabled. @default false */
-    disabled?: boolean;
-    /** Size of the trigger swatch. @default "md" */
-    size?: "sm" | "md" | "lg";
-    /** Additional CSS classes. */
-    className?: string;
-    /** Placeholder label for accessibility. @default "Choose color" */
-    label?: string;
-}
-/**
- * `ColorPicker` — a color selection component with spectrum, hue slider,
- * HEX input, and preset swatches.
- *
- * @example
- * ```tsx
- * <ColorPicker value={color} onChange={setColor} />
- * <ColorPicker defaultValue="#3b82f6" presets={["#ef4444", "#22c55e", "#3b82f6"]} />
- * ```
- */
-declare const ColorPicker: react.ForwardRefExoticComponent<ColorPickerProps & react.RefAttributes<HTMLDivElement>>;
-
-type SonnerPosition = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
-interface SonnerToasterProps extends Omit<ComponentPropsWithoutRef<"div">, "dir"> {
-    /** @default "bottom-right" */
-    position?: SonnerPosition;
-    /** @default true */
-    richColors?: boolean;
-    /** @default true */
-    closeButton?: boolean;
-    /** @default 4000 */
-    duration?: number;
-    /** @default 3 */
-    visibleToasts?: number;
-    /** @default true */
-    expand?: boolean;
-    /** @default "system" */
-    theme?: "light" | "dark" | "system";
-    /** @default 16 */
-    offset?: number | string;
-    /** @default 14 */
-    gap?: number;
-    dir?: "ltr" | "rtl" | "auto";
-    className?: string;
-    toastOptions?: {
-        className?: string;
-        descriptionClassName?: string;
-        style?: React.CSSProperties;
-        classNames?: Partial<Record<string, string>>;
-    };
-}
-/**
- * `SonnerToaster` — design-system-styled toast container.
- *
- * Place once in your root layout. Uses the `sonner` library under the hood
- * with Unified UI token styling applied automatically.
- *
- * @example
- * ```tsx
- * import { SonnerToaster, toast } from "@work-rjkashyap/unified-ui/components";
- *
- * // In layout:
- * <SonnerToaster />
- *
- * // Anywhere:
- * toast("Hello!");
- * toast.success("Saved!");
- * toast.error("Failed!");
- * toast.promise(saveData(), {
- *   loading: "Saving...",
- *   success: "Done!",
- *   error: "Error!",
- * });
- * ```
- */
-declare const SonnerToaster: react.ForwardRefExoticComponent<SonnerToasterProps & react.RefAttributes<HTMLDivElement>>;
-
-interface TreeNode {
-    /** Unique identifier for this node. */
-    id: string;
-    /** Display label for the node. */
-    label: string;
-    /** Optional icon to render before the label. */
-    icon?: ReactNode;
-    /** Child nodes. If present, the node is treated as a branch (folder). */
-    children?: TreeNode[];
-    /** Whether this node is disabled. */
-    disabled?: boolean;
-}
-type TreeCheckedState = "checked" | "unchecked" | "indeterminate";
-interface TreeViewProps {
-    /** The tree data structure to render. */
-    items: TreeNode[];
-    /** Default expanded node IDs (uncontrolled). */
-    defaultExpanded?: string[];
-    /** Controlled expanded node IDs. */
-    expanded?: string[];
-    /** Callback when expanded state changes. */
-    onExpandedChange?: (expanded: string[]) => void;
-    /** Whether nodes are checkable. @default false */
-    checkable?: boolean;
-    /** Default checked node IDs (uncontrolled). */
-    defaultChecked?: string[];
-    /** Controlled checked node IDs. */
-    checked?: string[];
-    /** Callback when checked state changes. */
-    onCheckedChange?: (checked: string[]) => void;
-    /** Callback when a node is clicked/selected. */
-    onNodeSelect?: (nodeId: string) => void;
-    /** Currently selected node ID (visual highlight). */
-    selectedId?: string;
-    /** Whether to show connector lines. @default true */
-    showLines?: boolean;
-    /** Whether to show default file/folder icons. @default true */
-    showIcons?: boolean;
-    /** Additional CSS classes on the root. */
-    className?: string;
-}
-/**
- * `TreeView` — an expandable tree structure with checkable nodes.
- *
- * @example
- * ```tsx
- * const items = [
- *   {
- *     id: "src", label: "src",
- *     children: [
- *       { id: "app", label: "app.tsx" },
- *       { id: "index", label: "index.ts" },
- *     ],
- *   },
- *   { id: "readme", label: "README.md" },
- * ];
- *
- * <TreeView items={items} />
- * <TreeView items={items} checkable onCheckedChange={console.log} />
- * ```
- */
-declare const TreeView: react.ForwardRefExoticComponent<TreeViewProps & react.RefAttributes<HTMLUListElement>>;
-
-interface VirtualListProps<T = unknown> {
-    /** Array of items to render. */
-    items: T[];
-    /** Height of each item in pixels (fixed-height mode). */
-    itemHeight: number;
-    /** Render function for each item. */
-    renderItem: (item: T, index: number) => ReactNode;
-    /** Height of the scrollable container in pixels. @default 400 */
-    height?: number;
-    /** Number of extra items to render above/below the viewport. @default 5 */
-    overscan?: number;
-    /** Optional key extractor. Defaults to index. */
-    getItemKey?: (item: T, index: number) => string | number;
-    /** Callback when scroll reaches the bottom (for infinite scroll). */
-    onEndReached?: () => void;
-    /** Distance from bottom (in px) to trigger onEndReached. @default 100 */
-    endReachedThreshold?: number;
-    /** Loading state — shows a loader at the bottom. */
-    loading?: boolean;
-    /** Custom loading indicator. */
-    loadingIndicator?: ReactNode;
-    /** Empty state content. */
-    emptyContent?: ReactNode;
-    /** Additional class on the outer container. */
-    className?: string;
-    /** Additional class on each item wrapper. */
-    itemClassName?: string;
-}
-/**
- * `VirtualList` — a performant virtualized list that only renders visible items.
- *
- * @example
- * ```tsx
- * <VirtualList
- *   items={users}
- *   itemHeight={56}
- *   height={500}
- *   renderItem={(user, i) => (
- *     <div className="flex items-center gap-3 px-4 py-3">
- *       <Avatar src={user.avatar} size="sm" />
- *       <span>{user.name}</span>
- *     </div>
- *   )}
- * />
- * ```
- */
-declare const VirtualList: <T>(props: VirtualListProps<T> & {
-    ref?: React.Ref<HTMLDivElement>;
-}) => ReactNode;
-
-interface GalleryImage {
-    /** Image source URL. */
-    src: string;
-    /** Alt text for accessibility. */
-    alt: string;
-    /** Optional thumbnail URL (falls back to src). */
-    thumbnail?: string;
-    /** Optional caption shown in lightbox. */
-    caption?: string;
-}
-interface ImageGalleryProps {
-    /** Array of images to display. */
-    images: GalleryImage[];
-    /** Number of grid columns. @default 3 */
-    columns?: 1 | 2 | 3 | 4;
-    /** Gap between grid items in pixels. @default 8 */
-    gap?: number;
-    /** Aspect ratio for thumbnails. @default "square" */
-    aspectRatio?: "square" | "video" | "auto";
-    /** Whether to show the lightbox on click. @default true */
-    lightbox?: boolean;
-    /** Additional CSS classes on the grid container. */
-    className?: string;
-    /** Render custom thumbnail. */
-    renderThumbnail?: (image: GalleryImage, index: number) => ReactNode;
-}
-/**
- * `ImageGallery` — a grid of images with optional lightbox viewer.
- *
- * @example
- * ```tsx
- * <ImageGallery
- *   images={[
- *     { src: "/photo-1.jpg", alt: "Beach sunset", caption: "Malibu, CA" },
- *     { src: "/photo-2.jpg", alt: "Mountain view" },
- *   ]}
- *   columns={3}
- * />
- * ```
- */
-declare const ImageGallery: react.ForwardRefExoticComponent<ImageGalleryProps & react.RefAttributes<HTMLDivElement>>;
-
-interface VideoPlayerProps {
-    /** Video source URL. */
-    src: string;
-    /** Poster image URL. */
-    poster?: string;
-    /** Aspect ratio. @default "video" (16:9) */
-    aspectRatio?: "video" | "square" | "4/3" | "auto";
-    /** @default false */
-    autoPlay?: boolean;
-    /** @default false */
-    loop?: boolean;
-    /** @default false */
-    muted?: boolean;
-    /** Whether to show custom controls. @default true */
-    controls?: boolean;
-    /** Additional CSS classes. */
-    className?: string;
-    /** Callback when video ends. */
-    onEnded?: () => void;
-}
-/**
- * `VideoPlayer` — a styled video component with custom controls.
- *
- * @example
- * ```tsx
- * <VideoPlayer src="/demo.mp4" poster="/poster.jpg" />
- * <VideoPlayer src="/clip.webm" aspectRatio="4/3" autoPlay loop muted />
- * ```
- */
-declare const VideoPlayer: react.ForwardRefExoticComponent<VideoPlayerProps & react.RefAttributes<HTMLDivElement>>;
-
-interface ChartContainerProps {
-    /** Chart title. */
-    title?: string;
-    /** Chart description/subtitle. */
-    description?: string;
-    /** Chart height in pixels. @default 350 */
-    height?: number;
-    /** The Recharts chart component(s) to render. */
-    children: ReactNode;
-    /** Footer content (e.g., legend, notes). */
-    footer?: ReactNode;
-    /** Whether data is loading. @default false */
-    loading?: boolean;
-    /** Custom loading indicator. */
-    loadingIndicator?: ReactNode;
-    /** Content to show when chart has no data. */
-    emptyContent?: ReactNode;
-    /** Additional CSS classes. */
-    className?: string;
-}
-/**
- * Design system chart colors. Use these as `fill` or `stroke` values
- * in Recharts components for consistent theming.
- *
- * @example
- * ```tsx
- * <Bar dataKey="revenue" fill={chartColors[0]} />
- * <Bar dataKey="expenses" fill={chartColors[1]} />
- * ```
- */
-declare const chartColors: readonly ["var(--primary)", "var(--info)", "var(--success)", "var(--warning)", "var(--danger)", "var(--secondary)", "var(--muted-foreground)", "oklch(0.65 0.15 250)", "oklch(0.65 0.15 160)", "oklch(0.65 0.15 30)"];
-/**
- * `ChartContainer` — a card wrapper for Recharts charts with DS styling.
- *
- * Place your Recharts `<BarChart>`, `<LineChart>`, `<PieChart>`, etc.
- * as children. The container provides a responsive wrapper, title, and
- * optional footer.
- *
- * **Important**: This component does NOT bundle Recharts. You must install
- * `recharts` separately as a peer dependency.
- *
- * @example
- * ```tsx
- * import { ChartContainer, chartColors } from "@work-rjkashyap/unified-ui/components";
- * import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
- *
- * <ChartContainer title="Monthly Revenue" description="Last 6 months">
- *   <ResponsiveContainer width="100%" height="100%">
- *     <BarChart data={data}>
- *       <XAxis dataKey="month" stroke="var(--muted-foreground)" fontSize={12} />
- *       <YAxis stroke="var(--muted-foreground)" fontSize={12} />
- *       <Tooltip
- *         contentStyle={{
- *           background: "var(--background)",
- *           border: "1px solid var(--border)",
- *           borderRadius: "var(--radius-md)",
- *           fontSize: 13,
- *         }}
- *       />
- *       <Bar dataKey="revenue" fill={chartColors[0]} radius={[4, 4, 0, 0]} />
- *     </BarChart>
- *   </ResponsiveContainer>
- * </ChartContainer>
- * ```
- */
-declare const ChartContainer: react.ForwardRefExoticComponent<ChartContainerProps & react.RefAttributes<HTMLDivElement>>;
-interface ChartTooltipContentProps {
-    /** Label for the tooltip header. */
-    label?: string;
-    /** Payload from Recharts tooltip. */
-    payload?: Array<{
-        name: string;
-        value: number | string;
-        color?: string;
-        fill?: string;
-    }>;
-    /** Whether the tooltip is active. */
-    active?: boolean;
-    /** Custom formatter for values. */
-    formatter?: (value: number | string, name: string) => string;
-    /** Additional class names. */
-    className?: string;
-}
-/**
- * `ChartTooltipContent` — a pre-styled tooltip content component for Recharts.
- *
- * Use as the `content` prop of Recharts' `<Tooltip>`:
- *
- * @example
- * ```tsx
- * <Tooltip content={<ChartTooltipContent />} />
- * ```
- */
-declare function ChartTooltipContent({ label, payload, active, formatter, className, }: ChartTooltipContentProps): react_jsx_runtime.JSX.Element | null;
-declare namespace ChartTooltipContent {
-    var displayName: string;
-}
-
-interface MarkdownProps {
-    /** Markdown string to render. */
-    content: string;
-    /** Text size variant. @default "base" */
-    size?: "sm" | "base" | "lg";
-    /** Whether to remove max-width constraint. @default false */
-    fluid?: boolean;
-    /** Additional CSS classes. */
-    className?: string;
-    /** Whether to allow raw HTML in the markdown. @default false */
-    allowHtml?: boolean;
-}
-/**
- * `Markdown` — renders a markdown string with design system prose styles.
- *
- * For simple markdown display use cases. For full MDX support, use
- * Fumadocs or a dedicated MDX processor.
- *
- * @example
- * ```tsx
- * <Markdown content={`
- * # Hello World
- *
- * Some **bold** and *italic* text with \`inline code\`.
- *
- * - Item one
- * - Item two
- *
- * > A blockquote
- *
- * \`\`\`tsx
- * const x = 42;
- * \`\`\`
- * `} />
- * ```
- */
-declare const Markdown: react.ForwardRefExoticComponent<MarkdownProps & react.RefAttributes<HTMLDivElement>>;
-
-interface DataTableFilter {
-    /** Unique identifier for this filter. */
-    id: string;
-    /** Display label. */
-    label: string;
-    /** Available options for this filter. */
-    options: Array<{
-        label: string;
-        value: string;
-        count?: number;
-    }>;
-    /** Currently selected values. */
-    selected: string[];
-}
-interface ColumnVisibility {
-    /** Column identifier. */
-    id: string;
-    /** Display label. */
-    label: string;
-    /** Whether the column is visible. */
-    visible: boolean;
-}
-type ViewMode = "table" | "grid" | "list";
-interface DataTableToolbarProps {
-    /** Current search value. */
-    searchValue?: string;
-    /** Callback when search value changes. */
-    onSearchChange?: (value: string) => void;
-    /** Search placeholder text. @default "Search..." */
-    searchPlaceholder?: string;
-    /** Debounce delay for search in ms. @default 300 */
-    searchDebounce?: number;
-    /** Filter definitions and their current state. */
-    filters?: DataTableFilter[];
-    /** Callback when a filter's selected values change. */
-    onFilterChange?: (filterId: string, selected: string[]) => void;
-    /** Callback to clear all filters. */
-    onClearFilters?: () => void;
-    /** Column visibility state. */
-    columns?: ColumnVisibility[];
-    /** Callback when column visibility changes. */
-    onColumnVisibilityChange?: (columnId: string, visible: boolean) => void;
-    /** Current view mode. */
-    viewMode?: ViewMode;
-    /** Available view modes. */
-    viewModes?: ViewMode[];
-    /** Callback when view mode changes. */
-    onViewModeChange?: (mode: ViewMode) => void;
-    /** Extra actions to render on the right side of the toolbar. */
-    actions?: ReactNode;
-    /** Additional CSS classes. */
-    className?: string;
-}
-/**
- * `DataTableToolbar` — a composable toolbar for DataTable with search,
- * filters, column visibility, and view mode controls.
- *
- * @example
- * ```tsx
- * <DataTableToolbar
- *   searchValue={search}
- *   onSearchChange={setSearch}
- *   filters={[
- *     {
- *       id: "status",
- *       label: "Status",
- *       options: [
- *         { label: "Active", value: "active", count: 12 },
- *         { label: "Inactive", value: "inactive", count: 5 },
- *       ],
- *       selected: selectedStatuses,
- *     },
- *   ]}
- *   onFilterChange={handleFilter}
- *   onClearFilters={() => setFilters({})}
- * />
- * ```
- */
-declare const DataTableToolbar: react.ForwardRefExoticComponent<DataTableToolbarProps & react.RefAttributes<HTMLDivElement>>;
-
-interface InfiniteScrollProps {
-    /** Content to render (the list items). */
-    children: ReactNode;
-    /** Whether more data is currently being loaded. */
-    loading?: boolean;
-    /** Whether there is more data to load. */
-    hasMore?: boolean;
-    /** Callback to trigger loading more data. */
-    onLoadMore: () => void;
-    /**
-     * IntersectionObserver rootMargin value. Controls how far from the
-     * bottom the trigger fires.
-     * @default "200px"
-     */
-    threshold?: string;
-    /** Custom loading indicator. */
-    loadingIndicator?: ReactNode;
-    /** Content to show when all data has been loaded. */
-    endMessage?: ReactNode;
-    /** Additional CSS classes on the container. */
-    className?: string;
-    /** Additional CSS classes on the sentinel element. */
-    sentinelClassName?: string;
-}
-/**
- * `InfiniteScroll` — scroll-triggered infinite loading.
- *
- * Renders children with a sentinel element at the bottom. When the
- * sentinel enters the viewport (via IntersectionObserver), it calls
- * `onLoadMore`. Shows a loading indicator while fetching and an optional
- * end message when `hasMore` is false.
- *
- * @example
- * ```tsx
- * const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(...);
- *
- * <InfiniteScroll
- *   loading={isFetchingNextPage}
- *   hasMore={hasNextPage}
- *   onLoadMore={fetchNextPage}
- *   endMessage={<p className="text-center text-sm text-muted-foreground py-4">That's all!</p>}
- * >
- *   {data.pages.flat().map(item => (
- *     <Card key={item.id}>{item.name}</Card>
- *   ))}
- * </InfiniteScroll>
- * ```
- */
-declare const InfiniteScroll: react.ForwardRefExoticComponent<InfiniteScrollProps & react.RefAttributes<HTMLDivElement>>;
-
 type TooltipSide = "top" | "right" | "bottom" | "left";
 type TooltipAlign = "start" | "center" | "end";
 interface TooltipProps {
@@ -7873,6 +7729,150 @@ declare namespace TooltipProvider {
  * ```
  */
 declare const Tooltip: react.ForwardRefExoticComponent<TooltipProps & react.RefAttributes<HTMLButtonElement>>;
+
+interface TreeNode {
+    /** Unique identifier for this node. */
+    id: string;
+    /** Display label for the node. */
+    label: string;
+    /** Optional icon to render before the label. */
+    icon?: ReactNode;
+    /** Child nodes. If present, the node is treated as a branch (folder). */
+    children?: TreeNode[];
+    /** Whether this node is disabled. */
+    disabled?: boolean;
+}
+type TreeCheckedState = "checked" | "unchecked" | "indeterminate";
+interface TreeViewProps {
+    /** The tree data structure to render. */
+    items: TreeNode[];
+    /** Default expanded node IDs (uncontrolled). */
+    defaultExpanded?: string[];
+    /** Controlled expanded node IDs. */
+    expanded?: string[];
+    /** Callback when expanded state changes. */
+    onExpandedChange?: (expanded: string[]) => void;
+    /** Whether nodes are checkable. @default false */
+    checkable?: boolean;
+    /** Default checked node IDs (uncontrolled). */
+    defaultChecked?: string[];
+    /** Controlled checked node IDs. */
+    checked?: string[];
+    /** Callback when checked state changes. */
+    onCheckedChange?: (checked: string[]) => void;
+    /** Callback when a node is clicked/selected. */
+    onNodeSelect?: (nodeId: string) => void;
+    /** Currently selected node ID (visual highlight). */
+    selectedId?: string;
+    /** Whether to show connector lines. @default true */
+    showLines?: boolean;
+    /** Whether to show default file/folder icons. @default true */
+    showIcons?: boolean;
+    /** Additional CSS classes on the root. */
+    className?: string;
+}
+/**
+ * `TreeView` — an expandable tree structure with checkable nodes.
+ *
+ * @example
+ * ```tsx
+ * const items = [
+ *   {
+ *     id: "src", label: "src",
+ *     children: [
+ *       { id: "app", label: "app.tsx" },
+ *       { id: "index", label: "index.ts" },
+ *     ],
+ *   },
+ *   { id: "readme", label: "README.md" },
+ * ];
+ *
+ * <TreeView items={items} />
+ * <TreeView items={items} checkable onCheckedChange={console.log} />
+ * ```
+ */
+declare const TreeView: react.ForwardRefExoticComponent<TreeViewProps & react.RefAttributes<HTMLUListElement>>;
+
+interface VideoPlayerProps {
+    /** Video source URL. */
+    src: string;
+    /** Poster image URL. */
+    poster?: string;
+    /** Aspect ratio. @default "video" (16:9) */
+    aspectRatio?: "video" | "square" | "4/3" | "auto";
+    /** @default false */
+    autoPlay?: boolean;
+    /** @default false */
+    loop?: boolean;
+    /** @default false */
+    muted?: boolean;
+    /** Whether to show custom controls. @default true */
+    controls?: boolean;
+    /** Additional CSS classes. */
+    className?: string;
+    /** Callback when video ends. */
+    onEnded?: () => void;
+}
+/**
+ * `VideoPlayer` — a styled video component with custom controls.
+ *
+ * @example
+ * ```tsx
+ * <VideoPlayer src="/demo.mp4" poster="/poster.jpg" />
+ * <VideoPlayer src="/clip.webm" aspectRatio="4/3" autoPlay loop muted />
+ * ```
+ */
+declare const VideoPlayer: react.ForwardRefExoticComponent<VideoPlayerProps & react.RefAttributes<HTMLDivElement>>;
+
+interface VirtualListProps<T = unknown> {
+    /** Array of items to render. */
+    items: T[];
+    /** Height of each item in pixels (fixed-height mode). */
+    itemHeight: number;
+    /** Render function for each item. */
+    renderItem: (item: T, index: number) => ReactNode;
+    /** Height of the scrollable container in pixels. @default 400 */
+    height?: number;
+    /** Number of extra items to render above/below the viewport. @default 5 */
+    overscan?: number;
+    /** Optional key extractor. Defaults to index. */
+    getItemKey?: (item: T, index: number) => string | number;
+    /** Callback when scroll reaches the bottom (for infinite scroll). */
+    onEndReached?: () => void;
+    /** Distance from bottom (in px) to trigger onEndReached. @default 100 */
+    endReachedThreshold?: number;
+    /** Loading state — shows a loader at the bottom. */
+    loading?: boolean;
+    /** Custom loading indicator. */
+    loadingIndicator?: ReactNode;
+    /** Empty state content. */
+    emptyContent?: ReactNode;
+    /** Additional class on the outer container. */
+    className?: string;
+    /** Additional class on each item wrapper. */
+    itemClassName?: string;
+}
+/**
+ * `VirtualList` — a performant virtualized list that only renders visible items.
+ *
+ * @example
+ * ```tsx
+ * <VirtualList
+ *   items={users}
+ *   itemHeight={56}
+ *   height={500}
+ *   renderItem={(user, i) => (
+ *     <div className="flex items-center gap-3 px-4 py-3">
+ *       <Avatar src={user.avatar} size="sm" />
+ *       <span>{user.name}</span>
+ *     </div>
+ *   )}
+ * />
+ * ```
+ */
+declare const VirtualList: <T>(props: VirtualListProps<T> & {
+    ref?: React.Ref<HTMLDivElement>;
+}) => ReactNode;
 
 interface VisuallyHiddenProps extends ComponentPropsWithoutRef<typeof VisuallyHidden$1.Root> {
 }

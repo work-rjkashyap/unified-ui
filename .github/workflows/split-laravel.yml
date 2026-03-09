@@ -8,8 +8,13 @@
 # Triggers:
 #   - Every push to `main` that touches files in the Laravel package
 #   - Manual dispatch (workflow_dispatch) for ad-hoc syncs
-#   - When a tag matching `laravel/v*` is pushed (creates a matching `v*` tag
-#     on the split repo for Packagist version detection)
+#
+# Auto-tagging:
+#   - On every qualifying push the workflow reads the `version` field from
+#     `packages/unified-ui-laravel/composer.json`.
+#   - If a tag `v<version>` does NOT already exist on the split repo it is
+#     created automatically — no need to push a manual `laravel/v*` tag.
+#   - If the tag already exists the step is skipped (idempotent).
 #
 # Requirements:
 #   1. Create the target repo `imrj05/unified-ui-laravel` on GitHub (empty,
@@ -18,11 +23,6 @@
 #      fine-grained token with read/write access to the target repo.
 #   3. Add the token as a secret named `SPLIT_TOKEN` in the monorepo
 #      (Settings → Secrets and variables → Actions).
-#
-# How Packagist versioning works:
-#   - Push a tag in this monorepo:  `git tag laravel/v1.0.0 && git push origin laravel/v1.0.0`
-#   - This workflow creates `v1.0.0` on `imrj05/unified-ui-laravel`
-#   - Packagist picks it up as release `1.0.0`
 # ============================================================================
 
 name: "Split Laravel Package"
@@ -33,8 +33,6 @@ on:
             - main
         paths:
             - "packages/unified-ui-laravel/**"
-        tags:
-            - "laravel/v*"
     workflow_dispatch:
 
 permissions:
@@ -59,6 +57,23 @@ jobs:
               with:
                   fetch-depth: 0
                   token: ${{ secrets.SPLIT_TOKEN }}
+
+            # ------------------------------------------------------------------
+            # Read the version from composer.json so we can auto-tag without
+            # any manual `laravel/v*` tag push.
+            # ------------------------------------------------------------------
+            - name: Read version from composer.json
+              id: version
+              run: |
+                  VERSION=$(jq -r '.version // empty' "${{ env.SPLIT_PACKAGE_DIR }}/composer.json")
+                  if [[ -z "$VERSION" ]]; then
+                    echo "⚠️  No 'version' field found in composer.json — skipping auto-tag"
+                    echo "tag=" >> "$GITHUB_OUTPUT"
+                  else
+                    TAG="v${VERSION}"
+                    echo "📦 Detected version: ${VERSION} → tag: ${TAG}"
+                    echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+                  fi
 
             # ------------------------------------------------------------------
             # Use splitsh/lite for fast, reliable subtree splitting.
@@ -89,30 +104,46 @@ jobs:
                   echo "✅ Pushed to ${{ env.SPLIT_TARGET_REPO }}@${{ env.SPLIT_TARGET_BRANCH }}"
 
             # ------------------------------------------------------------------
-            # If a `laravel/vX.Y.Z` tag triggered this workflow, create the
-            # corresponding `vX.Y.Z` tag on the target repo so Packagist
-            # detects the new version.
+            # Auto-tag: check whether the version tag already exists on the
+            # split repo. If it doesn't, create and push it so Packagist picks
+            # up the new release automatically.
             # ------------------------------------------------------------------
-            - name: Push tag to target repo
-              if: startsWith(github.ref, 'refs/tags/laravel/v')
+            - name: Auto-tag split repo
+              if: steps.version.outputs.tag != ''
+              env:
+                  TAG: ${{ steps.version.outputs.tag }}
+                  SPLIT_SHA: ${{ steps.split.outputs.sha }}
               run: |
-                  TAG_NAME="${GITHUB_REF#refs/tags/laravel/}"
-                  echo "🏷  Creating tag ${TAG_NAME} on ${{ env.SPLIT_TARGET_REPO }}"
-                  git tag "$TAG_NAME" "${{ steps.split.outputs.sha }}" --force
-                  git push target "refs/tags/${TAG_NAME}" --force
-                  echo "✅ Pushed tag ${TAG_NAME}"
+                  # Check if the tag already exists on the remote split repo.
+                  EXISTING=$(git ls-remote --tags \
+                    "https://x-access-token:${{ secrets.SPLIT_TOKEN }}@github.com/${{ env.SPLIT_TARGET_REPO }}.git" \
+                    "refs/tags/${TAG}" | awk '{print $1}')
+
+                  if [[ -n "$EXISTING" ]]; then
+                    echo "🏷  Tag ${TAG} already exists on ${{ env.SPLIT_TARGET_REPO }} (${EXISTING}) — skipping"
+                    exit 0
+                  fi
+
+                  echo "🏷  Creating tag ${TAG} on ${{ env.SPLIT_TARGET_REPO }}"
+                  git tag "${TAG}" "${SPLIT_SHA}" --force
+                  git push target "refs/tags/${TAG}" --force
+                  echo "✅ Pushed tag ${TAG} — Packagist will detect this as a new release 🚀"
 
             - name: Summary
               run: |
+                  TAG="${{ steps.version.outputs.tag }}"
+
                   echo "## 📦 Laravel Package Split" >> "$GITHUB_STEP_SUMMARY"
                   echo "" >> "$GITHUB_STEP_SUMMARY"
                   echo "- **Source:** \`${{ env.SPLIT_PACKAGE_DIR }}/\`" >> "$GITHUB_STEP_SUMMARY"
                   echo "- **Target:** [\`${{ env.SPLIT_TARGET_REPO }}\`](https://github.com/${{ env.SPLIT_TARGET_REPO }})" >> "$GITHUB_STEP_SUMMARY"
                   echo "- **Split SHA:** \`${{ steps.split.outputs.sha }}\`" >> "$GITHUB_STEP_SUMMARY"
 
-                  if [[ "$GITHUB_REF" == refs/tags/laravel/v* ]]; then
-                    TAG_NAME="${GITHUB_REF#refs/tags/laravel/}"
-                    echo "- **Tag:** \`${TAG_NAME}\`" >> "$GITHUB_STEP_SUMMARY"
+                  if [[ -n "$TAG" ]]; then
+                    echo "- **Version tag:** \`${TAG}\`" >> "$GITHUB_STEP_SUMMARY"
                     echo "" >> "$GITHUB_STEP_SUMMARY"
                     echo "Packagist will detect this as a new release. 🚀" >> "$GITHUB_STEP_SUMMARY"
+                  else
+                    echo "" >> "$GITHUB_STEP_SUMMARY"
+                    echo "⚠️ No version tag created — add a \`version\` field to \`composer.json\` to enable auto-tagging." >> "$GITHUB_STEP_SUMMARY"
                   fi
