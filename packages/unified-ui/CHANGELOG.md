@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Update composer.json version and enhance InitCommand for app.js and app.css patching ([67ee978](https://github.com/imrj05/unified-ui/commit/67ee97825c2c89ef7c2da15bc41532c1aa776da7))
 - Enhance InitCommand to install and patch Unified UI integration
 - Added functionality to install the @work-rjkashyap/unified-ui npm package.
   - Implemented patching of app.js to include Unified UI styles.
@@ -42,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([57bfcc3](https://github.com/imrj05/unified-ui/commit/57bfcc37256d43487f773bddda7d8c70e7c89b31))
 - **changelog:** Auto-update unreleased entries [skip ci] ([15a41e4](https://github.com/imrj05/unified-ui/commit/15a41e4f97bb1959e73a04b038375c949f966805))
 - **changelog:** Auto-update unreleased entries [skip ci] ([dcea98f](https://github.com/imrj05/unified-ui/commit/dcea98fa12d3fc3acdb0bf95cba410ecd50ba18b))
 - **changelog:** Auto-update unreleased entries [skip ci] ([ca389cf](https://github.com/imrj05/unified-ui/commit/ca389cf172256d0801c2754cc40cb62d6897d11b))
