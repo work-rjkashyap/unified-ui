@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- Add pre-commit and pre-push git hooks with biome format, lint, ts and build checks ([dd1f545](https://github.com/imrj05/unified-ui/commit/dd1f545fa9affe920e4354e9bf611c39ee50f338))
+- **changelog:** Auto-update unreleased entries [skip ci] ([5ae6ea4](https://github.com/imrj05/unified-ui/commit/5ae6ea49b8bc458be53eb6df8b4bfba75436711a))
 - **changelog:** Auto-update unreleased entries [skip ci] ([4bd4977](https://github.com/imrj05/unified-ui/commit/4bd497781d30f6619e42ca96c32e191505023744))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6361c64](https://github.com/imrj05/unified-ui/commit/6361c64bbca738ef05a24601ec16ad1913d314d6))
 - **changelog:** Auto-update unreleased entries [skip ci] ([2ad8e77](https://github.com/imrj05/unified-ui/commit/2ad8e77bbde2313487ecd0dfd70b674d9d0e031e))
