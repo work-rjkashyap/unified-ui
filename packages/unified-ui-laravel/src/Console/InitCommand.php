@@ -52,13 +52,16 @@ class InitCommand extends Command
 		// Step 2 — Create CSS design tokens file (includes @theme for Tailwind v4)
 		$this->createDesignTokensCss($force);
 
-		// Step 3 — Show Tailwind v4 integration instructions
-		$this->showTailwindInstructions();
+		// Step 3 — Install @work-rjkashyap/unified-ui npm package and patch app.js/app.css
+		$this->installUnifiedUiNpm($force);
 
-		// Step 4 — Ensure component directories exist
+		// Step 4 — Patch app.css to import the design tokens
+		$this->patchAppCss($force);
+
+		// Step 5 — Ensure component directories exist
 		$this->ensureDirectories();
 
-		// Step 5 — Detect dependencies (Alpine.js, Tailwind CSS)
+		// Step 6 — Detect dependencies (Alpine.js, Tailwind CSS) and patch app.js
 		$this->detectEnvironment();
 
 		$this->newLine();
@@ -66,24 +69,15 @@ class InitCommand extends Command
 		$this->newLine();
 
 		$this->line("  <fg=gray>Next steps:</>");
-		$this->line("  <fg=cyan>1.</> Import the CSS in your main stylesheet:");
-		$this->line('     <fg=green>@import "tailwindcss";</>');
-		$this->line('     <fg=green>@import "./unified-ui.css";</>');
-		$this->newLine();
-		$this->line("  <fg=cyan>2.</> Ensure Alpine.js is loaded in your app:");
-		$this->line('     <fg=green>import Alpine from "alpinejs";</>');
-		$this->line("     <fg=green>window.Alpine = Alpine;</>");
-		$this->line("     <fg=green>Alpine.start();</>");
-		$this->newLine();
-		$this->line("  <fg=cyan>3.</> Add a component:");
+		$this->line("  <fg=cyan>1.</> Add your first component:");
 		$this->line("     <fg=green>php artisan ui:add button</>");
 		$this->newLine();
-		$this->line("  <fg=cyan>4.</> Use it in your Blade templates:");
+		$this->line("  <fg=cyan>2.</> Use it in your Blade templates:");
 		$this->line(
 			'     <fg=green><x-ui-button variant="primary">Click me</x-ui-button></>',
 		);
 		$this->newLine();
-		$this->line("  <fg=cyan>5.</> List all available components:");
+		$this->line("  <fg=cyan>3.</> List all available components:");
 		$this->line("     <fg=green>php artisan ui:list</>");
 
 		return self::SUCCESS;
@@ -169,21 +163,127 @@ class InitCommand extends Command
 	}
 
 	/**
-	 * Print instructions for Tailwind v4 @theme block integration.
+	 * Install the @work-rjkashyap/unified-ui npm package and wire it into
+	 * app.js (CSS import) so the design system styles are bundled by Vite.
+	 *
+	 * - Skips the npm install when the package is already listed in package.json
+	 *   (unless --force is passed).
+	 * - Always attempts to patch app.js so the import line is present even when
+	 *   the package was already installed in a previous run.
 	 */
-	protected function showTailwindInstructions(): void
+	protected function installUnifiedUiNpm(bool $force): void
 	{
-		$this->components->twoColumnDetail(
-			"<fg=green>Tailwind v4</>",
-			"CSS custom properties registered via @theme — no JS config needed",
-		);
+		$pkg = "@work-rjkashyap/unified-ui";
 
 		$this->newLine();
-		$this->line(
-			"  <fg=gray>Ensure your main CSS file imports the tokens:</>",
+		$this->components->info("Unified UI — npm package");
+		$this->newLine();
+
+		$alreadyInstalled = $this->isNpmPackageInstalled($pkg);
+
+		if ($alreadyInstalled && !$force) {
+			$this->components->twoColumnDetail(
+				"<fg=green>Skipped</> {$pkg}",
+				"already in package.json — pass --force to reinstall",
+			);
+		} else {
+			$manager = $this->detectNpmPackageManager();
+			$installCmd = match ($manager) {
+				"pnpm" => "pnpm add {$pkg}",
+				"yarn" => "yarn add {$pkg}",
+				"bun" => "bun add {$pkg}",
+				default => "npm install {$pkg}",
+			};
+
+			$this->line("  <fg=gray>Running:</> {$installCmd}");
+			$this->newLine();
+
+			$result = 0;
+			passthru($installCmd, $result);
+			$this->newLine();
+
+			if ($result === 0) {
+				$this->components->twoColumnDetail(
+					"<fg=green>Installed</> {$pkg}",
+					"npm package ready",
+				);
+			} else {
+				$this->components->error(
+					"Failed to install {$pkg}. Install manually:",
+				);
+				$this->line("  <fg=green>{$installCmd}</>");
+			}
+		}
+
+		// Always patch app.js — idempotent, skips if already present.
+		$this->patchAppJsUnifiedUiImport();
+	}
+
+	/**
+	 * Append an import of the Unified UI package styles into app.js so Vite
+	 * bundles the CSS automatically.
+	 *
+	 * Line added:
+	 *   import '@work-rjkashyap/unified-ui/styles.css';
+	 */
+	protected function patchAppJsUnifiedUiImport(): void
+	{
+		$config = UnifiedUiServiceProvider::readConfig();
+		$jsDir = $config["aliases"]["js"] ?? "resources/js";
+		$appJsPath = base_path(rtrim($jsDir, "/") . "/app.js");
+
+		$importLine = "import '@work-rjkashyap/unified-ui/styles.css';";
+		$relative = str_replace(
+			base_path() . DIRECTORY_SEPARATOR,
+			"",
+			$appJsPath,
 		);
-		$this->line('  <fg=green>@import "tailwindcss";</>');
-		$this->line('  <fg=green>@import "./unified-ui.css";</>');
+
+		// File doesn't exist yet — will be created by patchAppJs later; skip.
+		if (!$this->files->exists($appJsPath)) {
+			$this->components->twoColumnDetail(
+				"<fg=yellow>Skipped</> {$relative}",
+				"file not found — import will be added when app.js is created",
+			);
+			$this->newLine();
+			return;
+		}
+
+		$existing = $this->files->get($appJsPath);
+
+		if (str_contains($existing, $importLine)) {
+			$this->components->twoColumnDetail(
+				"<fg=green>Skipped</> {$relative}",
+				"import already present",
+			);
+			$this->newLine();
+			return;
+		}
+
+		// Prepend so the CSS loads before any component JS.
+		$this->files->put($appJsPath, $importLine . "\n" . $existing);
+
+		$this->components->twoColumnDetail(
+			"<fg=green>Patched</> {$relative}",
+			"import '@work-rjkashyap/unified-ui/styles.css' prepended",
+		);
+		$this->newLine();
+	}
+
+	/**
+	 * Patch the project's main app.css to import the Unified UI tokens file.
+	 *
+	 * Delegates to InstallAlpineCommand which owns the CSS-patching logic so
+	 * the same code path is used whether the user runs `ui:init` or
+	 * `ui:install-alpine` directly.
+	 */
+	protected function patchAppCss(bool $force): void
+	{
+		$installer = $this->laravel->make(InstallAlpineCommand::class);
+		$installer->setLaravel($this->laravel);
+		$installer->setOutput($this->output);
+
+		$installer->patchAppCss(dryRun: false, force: $force);
 	}
 
 	/**
@@ -333,6 +433,18 @@ class InitCommand extends Command
 			);
 			$this->line("  <fg=green>{$installCmd}</>");
 		}
+
+		// Patch app.js to import and start Alpine regardless of whether the
+		// npm install succeeded — the user may fix it manually afterwards.
+		$installer = $this->laravel->make(InstallAlpineCommand::class);
+		$installer->setLaravel($this->laravel);
+		$installer->setOutput($this->output);
+
+		$installer->patchAppJs(
+			installedPackages: ["alpinejs"],
+			dryRun: false,
+			force: false,
+		);
 	}
 
 	/**

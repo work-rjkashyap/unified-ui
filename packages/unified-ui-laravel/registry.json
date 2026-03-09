@@ -958,6 +958,744 @@
         "composer": [],
         "npm": ["alpinejs"]
       }
+    },
+    "calendar": {
+      "name": "calendar",
+      "description": "Month-view date picker calendar with navigation, min/max constraints, and form input support.",
+      "tag": "x-ui-calendar",
+      "example": "<x-calendar name=\"due_date\" :value=\"$task->due_date\" />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/calendar.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/calendar.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "carousel": {
+      "name": "carousel",
+      "description": "Slideshow carousel with auto-play, navigation arrows, dot indicators, and loop support.",
+      "tag": "x-ui-carousel",
+      "example": "<x-carousel :auto-play=\"true\"><x-carousel-item>Slide 1</x-carousel-item></x-carousel>",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/carousel.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/carousel.blade.php"
+        },
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/carousel/item.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/carousel/item.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "chart": {
+      "name": "chart",
+      "description": "Chart.js wrapper for bar, line, pie, and other chart types with token-driven theming.",
+      "tag": "x-ui-chart",
+      "example": "<x-chart type=\"bar\" :labels=\"['Jan','Feb','Mar']\" :datasets=\"[['label'=>'Revenue','data'=>[100,200,150]]]\" />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/chart.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/chart.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "color-picker": {
+      "name": "color-picker",
+      "description": "Inline color picker with native color input, hex text field, and optional preset swatches.",
+      "tag": "x-ui-color-picker",
+      "example": "<x-color-picker name=\"brand_color\" value=\"#3b82f6\" :presets=\"['#ef4444','#3b82f6','#22c55e']\" />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/color-picker.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/color-picker.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "combobox": {
+      "name": "combobox",
+      "description": "Searchable select dropdown with single and multi-select modes, clearable support, and form input binding.",
+      "tag": "x-ui-combobox",
+      "example": "<x-combobox name=\"country\" :options=\"[['value'=>'us','label'=>'United States']]\" placeholder=\"Select a country\" />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/combobox.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/combobox.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "confirm-dialog": {
+      "name": "confirm-dialog",
+      "description": "Accessible confirmation dialog with title, description, confirm/cancel actions, and danger variant.",
+      "tag": "x-ui-confirm-dialog",
+      "example": "<x-confirm-dialog title=\"Delete item?\" variant=\"danger\" x-on:confirm-dialog:confirm=\"deleteItem()\"><x-slot:trigger><x-button variant=\"destructive\">Delete</x-button></x-slot:trigger></x-confirm-dialog>",
+      "category": "overlays",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/confirm-dialog.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/confirm-dialog.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "context-menu": {
+      "name": "context-menu",
+      "description": "Right-click context menu that positions itself within the viewport and integrates with dropdown items.",
+      "tag": "x-ui-context-menu",
+      "example": "<x-context-menu><x-slot:trigger><div>Right-click me</div></x-slot:trigger><x-dropdown-item>Open</x-dropdown-item></x-context-menu>",
+      "category": "overlays",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/context-menu.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/context-menu.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": ["dropdown"],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "copy-button": {
+      "name": "copy-button",
+      "description": "Icon button that copies text to the clipboard with a success state, tooltip, and configurable duration.",
+      "tag": "x-ui-copy-button",
+      "example": "<x-copy-button text=\"npm install unified-ui\" tooltip=\"Copy install command\" />",
+      "category": "actions",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/copy-button.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/copy-button.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "data-list": {
+      "name": "data-list",
+      "description": "Definition list (dl/dt/dd) for key-value pairs with horizontal and vertical orientations and optional dividers.",
+      "tag": "x-ui-data-list",
+      "example": "<x-data-list :items=\"[['term'=>'Status','detail'=>'Active'],['term'=>'Plan','detail'=>'Pro']]\" />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/data-list.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/data-list.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": []
+      }
+    },
+    "data-table": {
+      "name": "data-table",
+      "description": "Full-featured data table with client-side sort, search, pagination, row selection, and loading state.",
+      "tag": "x-ui-data-table",
+      "example": "<x-data-table :columns=\"[['key'=>'name','label'=>'Name','sortable'=>true]]\" :rows=\"$users->toArray()\" searchable selectable />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/data-table.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/data-table.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": ["search-input"],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "data-table-toolbar": {
+      "name": "data-table-toolbar",
+      "description": "Search and action toolbar designed to sit above a DataTable component.",
+      "tag": "x-ui-data-table-toolbar",
+      "example": "<x-data-table-toolbar placeholder=\"Search users…\"><x-button size=\"sm\">Export</x-button></x-data-table-toolbar>",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/data-table-toolbar.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/data-table-toolbar.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": ["search-input"],
+        "composer": [],
+        "npm": []
+      }
+    },
+    "date-picker": {
+      "name": "date-picker",
+      "description": "Date picker input that opens a Calendar popover with min/max constraints and form value binding.",
+      "tag": "x-ui-date-picker",
+      "example": "<x-date-picker name=\"start_date\" placeholder=\"Pick a date\" />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/date-picker.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/date-picker.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": ["calendar"],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "drawer": {
+      "name": "drawer",
+      "description": "Bottom, top, left, or right slide-in drawer panel with handle, close button, overlay, and focus trap.",
+      "tag": "x-ui-drawer",
+      "example": "<x-drawer side=\"right\" title=\"Settings\"><x-slot:trigger><x-button>Open Drawer</x-button></x-slot:trigger>Content here</x-drawer>",
+      "category": "overlays",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/drawer.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/drawer.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "file-upload": {
+      "name": "file-upload",
+      "description": "Drag-and-drop file upload zone with file type filtering, size validation, multiple file support, and preview list.",
+      "tag": "x-ui-file-upload",
+      "example": "<x-file-upload name=\"avatar\" accept=\"image/*\" :max-size=\"2048\" />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/file-upload.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/file-upload.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "form-field": {
+      "name": "form-field",
+      "description": "Form field wrapper providing a label, description, hint, and error message slot around any input.",
+      "tag": "x-ui-form-field",
+      "example": "<x-form-field label=\"Email\" for=\"email\" :error=\"$errors->first('email')\"><x-input id=\"email\" name=\"email\" /></x-form-field>",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/form-field.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/form-field.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": ["label"],
+        "composer": [],
+        "npm": []
+      }
+    },
+    "hover-card": {
+      "name": "hover-card",
+      "description": "Rich popover card that appears on hover with configurable side, alignment, and open/close delays.",
+      "tag": "x-ui-hover-card",
+      "example": "<x-hover-card side=\"top\"><x-slot:trigger><span class=\"underline cursor-pointer\">@username</span></x-slot:trigger><p>User profile card content</p></x-hover-card>",
+      "category": "overlays",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/hover-card.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/hover-card.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "image-gallery": {
+      "name": "image-gallery",
+      "description": "Responsive image grid with optional lightbox, configurable columns, and gap.",
+      "tag": "x-ui-image-gallery",
+      "example": "<x-image-gallery :images=\"[['src'=>'/img/1.jpg','alt'=>'Photo 1']]\" :cols=\"3\" lightbox />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/image-gallery.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/image-gallery.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "infinite-scroll": {
+      "name": "infinite-scroll",
+      "description": "Sentinel-based infinite scroll that dispatches a load-more event when the user reaches the bottom.",
+      "tag": "x-ui-infinite-scroll",
+      "example": "<x-infinite-scroll :loading=\"$loading\" x-on:load-more.window=\"loadMore()\"><div>Items here</div></x-infinite-scroll>",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/infinite-scroll.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/infinite-scroll.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "input-group": {
+      "name": "input-group",
+      "description": "Input with left/right add-ons, prefix text, suffix text, and error state for compound form fields.",
+      "tag": "x-ui-input-group",
+      "example": "<x-input-group addon-left=\"https://\" addon-right=\".com\"><x-input name=\"domain\" /></x-input-group>",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/input-group.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/input-group.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": ["input"],
+        "composer": [],
+        "npm": []
+      }
+    },
+    "markdown": {
+      "name": "markdown",
+      "description": "Renders pre-processed HTML from Markdown with optional Tailwind prose typography styles.",
+      "tag": "x-ui-markdown",
+      "example": "<x-markdown :content=\"Str::markdown($post->body)\" />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/markdown.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/markdown.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": ["league/commonmark"],
+        "npm": ["@tailwindcss/typography"]
+      }
+    },
+    "menubar": {
+      "name": "menubar",
+      "description": "Horizontal menu bar with dropdown menus, keyboard navigation, separators, and labels.",
+      "tag": "x-ui-menubar",
+      "example": "<x-menubar><x-menubar-menu label=\"File\"><x-menubar-item>New</x-menubar-item></x-menubar-menu></x-menubar>",
+      "category": "navigation",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/menubar.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/menubar.blade.php"
+        },
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/menubar/menu.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/menubar/menu.blade.php"
+        },
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/menubar/item.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/menubar/item.blade.php"
+        },
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/menubar/label.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/menubar/label.blade.php"
+        },
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/menubar/separator.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/menubar/separator.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "navigation-menu": {
+      "name": "navigation-menu",
+      "description": "Top-level horizontal navigation with mega-menu dropdowns and keyboard accessibility.",
+      "tag": "x-ui-navigation-menu",
+      "example": "<x-navigation-menu><x-navigation-menu-item label=\"Products\" :has-dropdown=\"true\">Dropdown content</x-navigation-menu-item></x-navigation-menu>",
+      "category": "navigation",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/navigation-menu.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/navigation-menu.blade.php"
+        },
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/navigation-menu/item.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/navigation-menu/item.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "number-input": {
+      "name": "number-input",
+      "description": "Numeric input with increment/decrement buttons, min/max/step constraints, and form binding.",
+      "tag": "x-ui-number-input",
+      "example": "<x-number-input name=\"quantity\" :value=\"1\" :min=\"1\" :max=\"99\" />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/number-input.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/number-input.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "pin-input": {
+      "name": "pin-input",
+      "description": "OTP / PIN input with configurable length, numeric or alphanumeric type, mask mode, and success/error states.",
+      "tag": "x-ui-pin-input",
+      "example": "<x-pin-input name=\"otp\" :length=\"6\" type=\"numeric\" auto-focus />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/pin-input.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/pin-input.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "resizable": {
+      "name": "resizable",
+      "description": "Split-pane layout with a draggable divider supporting horizontal and vertical directions with min/max size.",
+      "tag": "x-ui-resizable",
+      "example": "<x-resizable direction=\"horizontal\"><x-slot:start>Left panel</x-slot:start><x-slot:end>Right panel</x-slot:end></x-resizable>",
+      "category": "layout",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/resizable.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/resizable.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "search-input": {
+      "name": "search-input",
+      "description": "Search input with a leading icon, clear button, keyboard shortcut hint, debounced event dispatch, and loading state.",
+      "tag": "x-ui-search-input",
+      "example": "<x-search-input placeholder=\"Search users…\" shortcut=\"⌘K\" :debounce=\"300\" />",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/search-input.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/search-input.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "sidebar": {
+      "name": "sidebar",
+      "description": "Collapsible application sidebar with icon-only collapsed mode, configurable width, and left/right placement.",
+      "tag": "x-ui-sidebar",
+      "example": "<x-sidebar side=\"left\" :default-open=\"true\">Nav links here</x-sidebar>",
+      "category": "layout",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/sidebar.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/sidebar.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "sonner": {
+      "name": "sonner",
+      "description": "Sonner-compatible stacked toast notification stack with position, duration, and rich color variants.",
+      "tag": "x-ui-sonner",
+      "example": "<x-sonner position=\"bottom-right\" />\n<script>window.dispatchEvent(new CustomEvent('toast', { detail: { message: 'Saved!', type: 'success' } }))</script>",
+      "category": "feedback",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/sonner.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/sonner.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "steps": {
+      "name": "steps",
+      "description": "Step indicator / stepper with horizontal and vertical orientations, current step tracking, and clickable steps.",
+      "tag": "x-ui-steps",
+      "example": "<x-steps :steps=\"[['label'=>'Account'],['label'=>'Profile'],['label'=>'Review']]\" :current-step=\"1\" />",
+      "category": "navigation",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/steps.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/steps.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": []
+      }
+    },
+    "theme-toggle": {
+      "name": "theme-toggle",
+      "description": "Light/dark/system theme toggle button that persists preference to localStorage and syncs across tabs.",
+      "tag": "x-ui-theme-toggle",
+      "example": "<x-theme-toggle size=\"md\" variant=\"ghost\" />",
+      "category": "actions",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/theme-toggle.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/theme-toggle.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "timeline": {
+      "name": "timeline",
+      "description": "Vertical or horizontal timeline for displaying ordered events with dot indicators and animated connectors.",
+      "tag": "x-ui-timeline",
+      "example": "<x-timeline :items=\"[['title'=>'Order placed','date'=>'Jan 1'],['title'=>'Shipped','date'=>'Jan 3']]\" />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/timeline.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/timeline.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": []
+      }
+    },
+    "toast": {
+      "name": "toast",
+      "description": "Toast notification container that listens for a global toast event and shows stacked notifications with auto-dismiss.",
+      "tag": "x-ui-toast",
+      "example": "<x-toast position=\"bottom-right\" />\n<script>window.dispatchEvent(new CustomEvent('toast', { detail: { message: 'Saved!', type: 'success' } }))</script>",
+      "category": "feedback",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/toast.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/toast.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "toggle-group": {
+      "name": "toggle-group",
+      "description": "Group of toggle buttons with single or multiple selection modes, horizontal or vertical orientation.",
+      "tag": "x-ui-toggle-group",
+      "example": "<x-toggle-group type=\"single\" value=\"left\"><x-toggle value=\"left\">Left</x-toggle><x-toggle value=\"center\">Center</x-toggle></x-toggle-group>",
+      "category": "form-controls",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/toggle-group.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/toggle-group.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": ["toggle"],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "tree-view": {
+      "name": "tree-view",
+      "description": "Hierarchical tree with expand/collapse, selectable nodes, expand-all mode, and recursive rendering.",
+      "tag": "x-ui-tree-view",
+      "example": "<x-tree-view :nodes=\"[['label'=>'src','children'=>[['label'=>'app.php']]]]\" selectable />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/tree-view.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/tree-view.blade.php"
+        },
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/tree-view/nodes.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/tree-view/nodes.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "video-player": {
+      "name": "video-player",
+      "description": "Video player wrapper with aspect ratio, autoplay, muted, loop, poster image, and native controls.",
+      "tag": "x-ui-video-player",
+      "example": "<x-video-player src=\"/videos/demo.mp4\" poster=\"/img/thumb.jpg\" ratio=\"16/9\" controls />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/video-player.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/video-player.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": []
+      }
+    },
+    "virtual-list": {
+      "name": "virtual-list",
+      "description": "Virtualized list that renders only visible rows for high-performance display of large datasets.",
+      "tag": "x-ui-virtual-list",
+      "example": "<x-virtual-list :items=\"$thousandsOfItems\" :item-height=\"48\" :height=\"400\" />",
+      "category": "display",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/virtual-list.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/virtual-list.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": ["alpinejs"]
+      }
+    },
+    "visually-hidden": {
+      "name": "visually-hidden",
+      "description": "Renders content that is visually hidden but accessible to screen readers.",
+      "tag": "x-ui-visually-hidden",
+      "example": "<x-visually-hidden>Skip to main content</x-visually-hidden>",
+      "category": "accessibility",
+      "files": [
+        {
+          "type": "blade",
+          "path": "resources/views/components/ui/visually-hidden.blade.php",
+          "url": "https://raw.githubusercontent.com/imrj05/unified-ui-laravel/main/stubs/visually-hidden.blade.php"
+        }
+      ],
+      "dependencies": {
+        "components": [],
+        "composer": [],
+        "npm": []
+      }
     }
   }
 }

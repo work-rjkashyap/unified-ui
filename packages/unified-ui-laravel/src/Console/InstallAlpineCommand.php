@@ -251,7 +251,7 @@ class InstallAlpineCommand extends Command
 	 *
 	 * @param list<string> $installedPackages  All packages that were (or are) installed.
 	 */
-	protected function patchAppJs(
+	public function patchAppJs(
 		array $installedPackages,
 		bool $dryRun,
 		bool $force,
@@ -283,9 +283,12 @@ class InstallAlpineCommand extends Command
 			}
 
 			$this->files->ensureDirectoryExists(dirname($appJsPath));
+			$includeUiCss = $this->isNpmPackageInstalled(
+				"@work-rjkashyap/unified-ui",
+			);
 			$this->files->put(
 				$appJsPath,
-				$this->buildBootstrapBlock($plugins) . "\n",
+				$this->buildBootstrapBlock($plugins, $includeUiCss) . "\n",
 			);
 
 			$this->components->twoColumnDetail(
@@ -379,8 +382,10 @@ class InstallAlpineCommand extends Command
 	 *
 	 * @param list<string> $plugins  Full package names, e.g. ["@alpinejs/focus"].
 	 */
-	protected function buildBootstrapBlock(array $plugins): string
-	{
+	protected function buildBootstrapBlock(
+		array $plugins,
+		bool $includeUnifiedUiCss = false,
+	): string {
 		$lines = [];
 
 		$lines[] =
@@ -391,6 +396,13 @@ class InstallAlpineCommand extends Command
 		$lines[] =
 			"// ---------------------------------------------------------------------------";
 		$lines[] = "";
+
+		if ($includeUnifiedUiCss) {
+			$lines[] = "// Unified UI design system styles — bundled by Vite.";
+			$lines[] = "import '@work-rjkashyap/unified-ui/styles.css';";
+			$lines[] = "";
+		}
+
 		$lines[] = "import Alpine from 'alpinejs';";
 
 		foreach ($plugins as $pkg) {
@@ -661,6 +673,87 @@ class InstallAlpineCommand extends Command
 	 *
 	 * @param list<string> $plugins
 	 */
+	/**
+	 * Patch the project's main CSS entrypoint to import the Unified UI tokens file.
+	 *
+	 * Resolution order for the CSS entrypoint:
+	 *   1. "aliases.css" in unified-ui.json + "/app.css"
+	 *   2. resources/css/app.css
+	 *
+	 * The import line added is:
+	 *   @import "./unified-ui.css";
+	 *
+	 * If the file does not exist it is created with the two required imports.
+	 * If it already contains the import the step is skipped (idempotent).
+	 */
+	public function patchAppCss(bool $dryRun = false, bool $force = false): int
+	{
+		$config = UnifiedUiServiceProvider::readConfig();
+		$cssDir = base_path($config["aliases"]["css"] ?? "resources/css");
+		$appCssPath = $cssDir . "/app.css";
+		$relative = $this->relativePath($appCssPath);
+
+		$importLine = '@import "./unified-ui.css";';
+		$tailwindLine = '@import "tailwindcss";';
+
+		$this->components->info("app.css — Unified UI CSS");
+		$this->newLine();
+
+		// ── File does not exist → create it ──────────────────────────────────
+		if (!$this->files->exists($appCssPath)) {
+			if ($dryRun) {
+				$this->line(
+					"  <fg=gray>Would create:</> {$relative} (Tailwind + Unified UI imports)",
+				);
+				$this->newLine();
+				return self::SUCCESS;
+			}
+
+			$this->files->ensureDirectoryExists($cssDir);
+			$this->files->put(
+				$appCssPath,
+				implode("\n", [$tailwindLine, $importLine, ""]),
+			);
+
+			$this->components->twoColumnDetail(
+				"<fg=green>Created</> {$relative}",
+				"Tailwind + Unified UI imports written",
+			);
+			$this->newLine();
+			return self::SUCCESS;
+		}
+
+		// ── File exists — inspect it ──────────────────────────────────────────
+		$existing = $this->files->get($appCssPath);
+		$hasImport = str_contains($existing, $importLine);
+
+		if ($hasImport && !$force) {
+			$this->components->twoColumnDetail(
+				"<fg=green>Skipped</> {$relative}",
+				'@import "./unified-ui.css" already present — pass --force to overwrite',
+			);
+			$this->newLine();
+			return self::SUCCESS;
+		}
+
+		if ($dryRun) {
+			$this->line("  <fg=gray>Would append to:</> {$relative}");
+			$this->newLine();
+			return self::SUCCESS;
+		}
+
+		// ── Append the import at the end ──────────────────────────────────────
+		$newContent = rtrim($existing) . "\n" . $importLine . "\n";
+		$this->files->put($appCssPath, $newContent);
+
+		$this->components->twoColumnDetail(
+			"<fg=green>Patched</> {$relative}",
+			'@import "./unified-ui.css" appended',
+		);
+		$this->newLine();
+		return self::SUCCESS;
+	}
+
 	protected function printNextSteps(array $plugins): void
 	{
 		$this->line("  <fg=gray>Next steps:</>");
