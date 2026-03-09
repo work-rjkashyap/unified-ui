@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Bug Fixes
 
+- Update version and metadata in composer.json for unified-ui-laravel ([2dd5dbe](https://github.com/imrj05/unified-ui/commit/2dd5dbe837f6e7972c32f1d69aeabea2a0437709))
 - Update exports in unified-ui to include missing components and variants ([c289e35](https://github.com/imrj05/unified-ui/commit/c289e3584e1fb3809ac30d99bff4734a02dedbaa))
 
 ### ⚙️ CI/CD
@@ -41,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([15a41e4](https://github.com/imrj05/unified-ui/commit/15a41e4f97bb1959e73a04b038375c949f966805))
 - **changelog:** Auto-update unreleased entries [skip ci] ([dcea98f](https://github.com/imrj05/unified-ui/commit/dcea98fa12d3fc3acdb0bf95cba410ecd50ba18b))
 - **changelog:** Auto-update unreleased entries [skip ci] ([ca389cf](https://github.com/imrj05/unified-ui/commit/ca389cf172256d0801c2754cc40cb62d6897d11b))
 - **changelog:** Auto-update unreleased entries [skip ci] ([d8089e7](https://github.com/imrj05/unified-ui/commit/d8089e77df0051c8507b8346782b96c48cf556e3))
