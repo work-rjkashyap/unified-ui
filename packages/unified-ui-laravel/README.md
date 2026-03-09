@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://unified-ui.space/logo.svg" width="80" alt="Unified UI Logo" />
+    <img src="https://www.unified-ui.space/opengraph-image?76c0e33f2d3913a2" width="80" alt="Unified UI Logo" />
 </p>
 
 <h1 align="center">Unified UI for Laravel</h1>
