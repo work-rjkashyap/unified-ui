@@ -1,0 +1,54 @@
+#!/usr/bin/env sh
+# =============================================================================
+# pre-commit — Format + Lint
+# =============================================================================
+# Runs on every `git commit`. Fast checks only.
+#
+#   1. biome format --write  → auto-fixes formatting, re-stages changed files
+#   2. biome check           → lint (errors abort the commit)
+#
+# To skip in an emergency:  git commit --no-verify
+# =============================================================================
+
+set -e
+
+BOLD="\033[1m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+CYAN="\033[36m"
+RESET="\033[0m"
+
+echo ""
+echo "${BOLD}${CYAN}▶ pre-commit${RESET}"
+echo ""
+
+# ---------------------------------------------------------------------------
+# 1. FORMAT — auto-fix and re-stage
+# ---------------------------------------------------------------------------
+echo "  ${YELLOW}[1/2]${RESET} Running biome format..."
+
+npx @biomejs/biome format --write . 2>&1
+
+# Re-stage any files that biome just reformatted so they land in the commit
+git diff --name-only | xargs -I{} git add "{}" 2>/dev/null || true
+
+echo "  ${GREEN}✔${RESET} Format clean"
+
+# ---------------------------------------------------------------------------
+# 2. LINT — errors abort the commit
+# ---------------------------------------------------------------------------
+echo "  ${YELLOW}[2/2]${RESET} Running biome lint..."
+
+if ! npx @biomejs/biome check . 2>&1; then
+  echo ""
+  echo "  ${RED}✘ Lint failed.${RESET} Fix the errors above, then commit again."
+  echo "  ${YELLOW}Tip:${RESET} Run ${BOLD}npm run format${RESET} to auto-fix what's possible."
+  echo ""
+  exit 1
+fi
+
+echo "  ${GREEN}✔${RESET} Lint clean"
+echo ""
+echo "${GREEN}${BOLD}✔ pre-commit passed${RESET} — proceeding with commit."
+echo ""
