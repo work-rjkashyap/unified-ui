@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Add new UI components and styles for toggle group, tree view, video player, virtual list, and visually hidden elements
+- Introduced `toggle-group` component for single/multi-select toggle buttons.
+  - Added `tree-view` component for hierarchical tree structures with expand/collapse functionality.
+  - Implemented `video-player` component with controls for play, pause, mute, and fullscreen.
+  - Created `virtual-list` component for efficient rendering of large lists.
+  - Added `visually-hidden` component for screen reader accessibility.
+  - Included a comprehensive CSS file with design tokens for colors, spacing, typography, and utility classes. ([fce5f13](https://github.com/imrj05/unified-ui/commit/fce5f13a72c92d69af6b40012d6ece6e54415293))
 - **templates:** Add nextjs, react, tanstack-router and laravel starter templates ([5763bec](https://github.com/imrj05/unified-ui/commit/5763bec76e06bee1abaccba0baa4304777dfbf82))
 - Add Laravel documentation layout and navigation
 - Introduced a new layout for Laravel documentation in `layout.tsx`.
@@ -24,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([d8089e7](https://github.com/imrj05/unified-ui/commit/d8089e77df0051c8507b8346782b96c48cf556e3))
 - Add pre-commit and pre-push git hooks with biome format, lint, ts and build checks ([dd1f545](https://github.com/imrj05/unified-ui/commit/dd1f545fa9affe920e4354e9bf611c39ee50f338))
 - **changelog:** Auto-update unreleased entries [skip ci] ([5ae6ea4](https://github.com/imrj05/unified-ui/commit/5ae6ea49b8bc458be53eb6df8b4bfba75436711a))
 - **changelog:** Auto-update unreleased entries [skip ci] ([4bd4977](https://github.com/imrj05/unified-ui/commit/4bd497781d30f6619e42ca96c32e191505023744))
