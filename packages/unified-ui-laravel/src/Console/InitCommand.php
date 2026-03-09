@@ -48,24 +48,27 @@ class InitCommand extends Command
 		$force = (bool) $this->option("force");
 		$skipNpm = (bool) $this->option("skip-npm");
 
-		// Step 1 — Create unified-ui.json config
+		// Step 1 — Create unified-ui.json config (used by CLI commands)
 		$this->createConfig($force);
 
-		// Step 2 — Create resources/css/unified-ui.css (design tokens)
+		// Step 2 — Publish config/unified-ui.php (Laravel config() integration)
+		$this->publishPhpConfig($force);
+
+		// Step 3 — Create resources/css/unified-ui.css (design tokens)
 		$this->createDesignTokensCss($force);
 
-		// Step 3 — Install npm packages (alpinejs + @work-rjkashyap/unified-ui)
+		// Step 4 — Install npm packages (alpinejs + @work-rjkashyap/unified-ui)
 		if (!$skipNpm) {
 			$this->installNpmPackages($force);
 		}
 
-		// Step 4 — Write / patch app.css
+		// Step 5 — Write / patch app.css
 		$this->writeAppCss($force);
 
-		// Step 5 — Write / patch app.js
+		// Step 6 — Write / patch app.js
 		$this->writeAppJs($force);
 
-		// Step 6 — Ensure component directories exist
+		// Step 7 — Ensure component directories exist
 		$this->ensureDirectories();
 
 		$this->newLine();
@@ -85,6 +88,43 @@ class InitCommand extends Command
 		$this->line("     <fg=green>php artisan ui:list</>");
 
 		return self::SUCCESS;
+	}
+
+	/**
+	 * Publish config/unified-ui.php into the Laravel project so that
+	 * the package settings are accessible via config('unified-ui.*').
+	 *
+	 * This copies the package's bundled config/unified-ui.php stub into
+	 * the project's config/ directory. It is idempotent — skipped when
+	 * the file already exists unless --force is passed.
+	 */
+	protected function publishPhpConfig(bool $force): void
+	{
+		$destination = config_path(
+			UnifiedUiServiceProvider::PHP_CONFIG_FILENAME,
+		);
+		$relative = "config/" . UnifiedUiServiceProvider::PHP_CONFIG_FILENAME;
+
+		if ($this->files->exists($destination) && !$force) {
+			$this->components->twoColumnDetail(
+				"<fg=yellow>Skipped</> {$relative}",
+				"already exists — use --force to overwrite",
+			);
+			return;
+		}
+
+		$source =
+			dirname(__DIR__, 2) .
+			"/config/" .
+			UnifiedUiServiceProvider::PHP_CONFIG_FILENAME;
+
+		$this->files->ensureDirectoryExists(config_path());
+		$this->files->copy($source, $destination);
+
+		$this->components->twoColumnDetail(
+			"<fg=green>Created</> {$relative}",
+			$destination,
+		);
 	}
 
 	/**
