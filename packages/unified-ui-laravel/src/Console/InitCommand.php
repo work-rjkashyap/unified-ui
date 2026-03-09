@@ -273,17 +273,70 @@ class InitCommand extends Command
 	/**
 	 * Patch the project's main app.css to import the Unified UI tokens file.
 	 *
-	 * Delegates to InstallAlpineCommand which owns the CSS-patching logic so
-	 * the same code path is used whether the user runs `ui:init` or
-	 * `ui:install-alpine` directly.
+	 * Adds:
+	 *   @import "./unified-ui.css";
+	 *
+	 * If app.css does not exist it is created with both the Tailwind and
+	 * Unified UI imports. If the import is already present the step is
+	 * skipped (idempotent).
 	 */
 	protected function patchAppCss(bool $force): void
 	{
-		$installer = $this->laravel->make(InstallAlpineCommand::class);
-		$installer->setLaravel($this->laravel);
-		$installer->setOutput($this->output);
+		$config = UnifiedUiServiceProvider::readConfig();
+		$cssDir = base_path($config["aliases"]["css"] ?? "resources/css");
+		$appCssPath = $cssDir . "/app.css";
+		$relative = str_replace(
+			base_path() . DIRECTORY_SEPARATOR,
+			"",
+			$appCssPath,
+		);
 
-		$installer->patchAppCss(dryRun: false, force: $force);
+		$importLine = '@import "./unified-ui.css";';
+		$tailwindLine = '@import "tailwindcss";';
+
+		$this->newLine();
+		$this->components->info("app.css — Unified UI CSS");
+		$this->newLine();
+
+		// ── File does not exist → create it ──────────────────────────────────
+		if (!$this->files->exists($appCssPath)) {
+			$this->files->ensureDirectoryExists($cssDir);
+			$this->files->put(
+				$appCssPath,
+				implode("\n", [$tailwindLine, $importLine, ""]),
+			);
+
+			$this->components->twoColumnDetail(
+				"<fg=green>Created</> {$relative}",
+				"Tailwind + Unified UI imports written",
+			);
+			$this->newLine();
+			return;
+		}
+
+		// ── File exists — inspect it ──────────────────────────────────────────
+		$existing = $this->files->get($appCssPath);
+
+		if (str_contains($existing, $importLine) && !$force) {
+			$this->components->twoColumnDetail(
+				"<fg=green>Skipped</> {$relative}",
+				'@import "./unified-ui.css" already present — pass --force to overwrite',
+			);
+			$this->newLine();
+			return;
+		}
+
+		// ── Append the import ─────────────────────────────────────────────────
+		$this->files->put(
+			$appCssPath,
+			rtrim($existing) . "\n" . $importLine . "\n",
+		);
+
+		$this->components->twoColumnDetail(
+			"<fg=green>Patched</> {$relative}",
+			'@import "./unified-ui.css" appended',
+		);
+		$this->newLine();
 	}
 
 	/**
@@ -436,15 +489,88 @@ class InitCommand extends Command
 
 		// Patch app.js to import and start Alpine regardless of whether the
 		// npm install succeeded — the user may fix it manually afterwards.
-		$installer = $this->laravel->make(InstallAlpineCommand::class);
-		$installer->setLaravel($this->laravel);
-		$installer->setOutput($this->output);
+		$this->patchAppJs();
+	}
 
-		$installer->patchAppJs(
-			installedPackages: ["alpinejs"],
-			dryRun: false,
-			force: false,
+	/**
+	 * Patch (or create) app.js with the Alpine.js bootstrap block.
+	 *
+	 * Kept self-contained on InitCommand so $this->components is always
+	 * available — cross-command delegation via the container produces a null
+	 * $components property because run() has not been called on the delegate.
+	 */
+	protected function patchAppJs(): void
+	{
+		$config = UnifiedUiServiceProvider::readConfig();
+		$jsDir = $config["aliases"]["js"] ?? "resources/js";
+		$appJsPath = base_path(rtrim($jsDir, "/") . "/app.js");
+		$relative = str_replace(
+			base_path() . DIRECTORY_SEPARATOR,
+			"",
+			$appJsPath,
 		);
+
+		$alpineBlock = implode("\n", [
+			"// ---------------------------------------------------------------------------",
+			"// Unified UI — Alpine.js bootstrap",
+			"// Added by `php artisan ui:init`. Safe to edit.",
+			"// Docs: https://unified-ui.space/docs/alpine",
+			"// ---------------------------------------------------------------------------",
+			"",
+			"import Alpine from 'alpinejs';",
+			"",
+			"// Expose Alpine globally for Blade templates and inline <script> blocks.",
+			"window.Alpine = Alpine;",
+			"",
+			"// Start Alpine — must be the last statement in this block.",
+			"Alpine.start();",
+		]);
+
+		$this->newLine();
+		$this->components->info("app.js — Alpine Bootstrap");
+		$this->newLine();
+
+		// ── File does not exist → create it ──────────────────────────────────
+		if (!$this->files->exists($appJsPath)) {
+			$this->files->ensureDirectoryExists(dirname($appJsPath));
+			$this->files->put($appJsPath, $alpineBlock . "\n");
+
+			$this->components->twoColumnDetail(
+				"<fg=green>Created</> {$relative}",
+				"Alpine bootstrap written",
+			);
+			$this->newLine();
+			return;
+		}
+
+		// ── File exists — skip if already wired ───────────────────────────────
+		$existing = $this->files->get($appJsPath);
+		$hasImport = (bool) preg_match(
+			'/import\s+\w+\s+from\s+[\'"]alpinejs[\'"]/',
+			$existing,
+		);
+		$hasStart = str_contains($existing, "Alpine.start()");
+
+		if ($hasImport && $hasStart) {
+			$this->components->twoColumnDetail(
+				"<fg=green>Skipped</> {$relative}",
+				"Alpine.js already wired",
+			);
+			$this->newLine();
+			return;
+		}
+
+		// ── Append bootstrap block ────────────────────────────────────────────
+		$this->files->put(
+			$appJsPath,
+			rtrim($existing) . "\n\n" . $alpineBlock . "\n",
+		);
+
+		$this->components->twoColumnDetail(
+			"<fg=green>Patched</> {$relative}",
+			"Alpine bootstrap appended",
+		);
+		$this->newLine();
 	}
 
 	/**
