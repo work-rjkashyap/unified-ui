@@ -1,0 +1,328 @@
+# ============================================================================
+# Subtree Split — Starter Templates
+# ============================================================================
+# Splits each template directory under `template/` into its own standalone
+# read-only GitHub repository so consumers can use them directly via
+# `degit`, `create-next-app --example`, or plain `git clone`.
+#
+# Target repos:
+#   template/unified-ui-nextjs          → imrj05/unified-ui-template-nextjs
+#   template/unified-ui-vite            → imrj05/unified-ui-template-react
+#   template/unified-ui-tanstack-router → imrj05/unified-ui-template-tanstack-router
+#   template/unified-ui-laravel         → imrj05/unified-ui-template-laravel
+#
+# Triggers:
+#   - Every push to `main` that touches any file under `template/**`
+#   - Manual dispatch (workflow_dispatch) for ad-hoc syncs
+#
+# Requirements:
+#   1. All four target repos must already exist on GitHub (empty).
+#   2. Create a Personal Access Token (classic) with `repo` scope, or a
+#      fine-grained token with read/write Contents access to all four repos.
+#   3. Add the token as a secret named `SPLIT_TOKEN` in the monorepo
+#      (Settings → Secrets and variables → Actions).
+#
+# How it works:
+#   Uses `splitsh-lite` to extract the subtree history for each template
+#   directory and force-pushes it to the corresponding target repo's `main`
+#   branch. Each job is independent so they all run in parallel.
+# ============================================================================
+
+name: "Sync Template Repos"
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - "template/**"
+    workflow_dispatch:
+        inputs:
+            template:
+                description: "Which template to sync (leave empty to sync all)"
+                required: false
+                default: ""
+                type: choice
+                options:
+                    - ""
+                    - nextjs
+                    - react
+                    - tanstack-router
+                    - laravel
+
+permissions:
+    contents: read
+
+concurrency:
+    group: sync-templates-${{ github.ref }}
+    cancel-in-progress: true
+
+# ---------------------------------------------------------------------------
+# Reusable step logic is kept in each job to keep the workflow self-contained.
+# splitsh-lite is fast enough that installing it per-job (cached) is fine.
+# ---------------------------------------------------------------------------
+
+jobs:
+    # -------------------------------------------------------------------------
+    # Next.js template
+    # -------------------------------------------------------------------------
+    sync-nextjs:
+        name: "Sync → unified-ui-template-nextjs"
+        runs-on: ubuntu-latest
+        if: >
+            github.event_name == 'workflow_dispatch'
+              && (github.event.inputs.template == '' || github.event.inputs.template == 'nextjs')
+            || github.event_name == 'push'
+
+        env:
+            SPLIT_PREFIX: template/unified-ui-nextjs
+            SPLIT_TARGET_REPO: imrj05/unified-ui-template-nextjs
+            SPLIT_TARGET_BRANCH: main
+
+        steps:
+            - name: Checkout monorepo (full history)
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  token: ${{ secrets.SPLIT_TOKEN }}
+
+            - name: Cache splitsh-lite
+              id: cache-splitsh
+              uses: actions/cache@v4
+              with:
+                  path: /usr/local/bin/splitsh-lite
+                  key: splitsh-lite-v1.0.1-linux-amd64
+
+            - name: Install splitsh-lite
+              if: steps.cache-splitsh.outputs.cache-hit != 'true'
+              run: |
+                  curl -fsSL https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz | tar xz
+                  sudo mv splitsh-lite /usr/local/bin/splitsh-lite
+                  chmod +x /usr/local/bin/splitsh-lite
+
+            - name: Verify splitsh-lite
+              run: splitsh-lite --version
+
+            - name: Split subtree
+              id: split
+              run: |
+                  SHA=$(splitsh-lite --prefix="${{ env.SPLIT_PREFIX }}")
+                  echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+                  echo "✅ Split SHA: $SHA"
+
+            - name: Push to target repo
+              run: |
+                  git remote add target \
+                    "https://x-access-token:${{ secrets.SPLIT_TOKEN }}@github.com/${{ env.SPLIT_TARGET_REPO }}.git" \
+                    2>/dev/null || true
+                  git push target "${{ steps.split.outputs.sha }}:refs/heads/${{ env.SPLIT_TARGET_BRANCH }}" --force
+                  echo "✅ Pushed to ${{ env.SPLIT_TARGET_REPO }}@${{ env.SPLIT_TARGET_BRANCH }}"
+
+            - name: Summary
+              run: |
+                  echo "## ⚡ Template Sync: Next.js" >> "$GITHUB_STEP_SUMMARY"
+                  echo "" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Source** | \`${{ env.SPLIT_PREFIX }}/\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Target** | [\`${{ env.SPLIT_TARGET_REPO }}\`](https://github.com/${{ env.SPLIT_TARGET_REPO }}) |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Branch** | \`${{ env.SPLIT_TARGET_BRANCH }}\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Split SHA** | \`${{ steps.split.outputs.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+    # -------------------------------------------------------------------------
+    # React (Vite) template
+    # -------------------------------------------------------------------------
+    sync-react:
+        name: "Sync → unified-ui-template-react"
+        runs-on: ubuntu-latest
+        if: >
+            github.event_name == 'workflow_dispatch'
+              && (github.event.inputs.template == '' || github.event.inputs.template == 'react')
+            || github.event_name == 'push'
+
+        env:
+            SPLIT_PREFIX: template/unified-ui-vite
+            SPLIT_TARGET_REPO: imrj05/unified-ui-template-react
+            SPLIT_TARGET_BRANCH: main
+
+        steps:
+            - name: Checkout monorepo (full history)
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  token: ${{ secrets.SPLIT_TOKEN }}
+
+            - name: Cache splitsh-lite
+              id: cache-splitsh
+              uses: actions/cache@v4
+              with:
+                  path: /usr/local/bin/splitsh-lite
+                  key: splitsh-lite-v1.0.1-linux-amd64
+
+            - name: Install splitsh-lite
+              if: steps.cache-splitsh.outputs.cache-hit != 'true'
+              run: |
+                  curl -fsSL https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz | tar xz
+                  sudo mv splitsh-lite /usr/local/bin/splitsh-lite
+                  chmod +x /usr/local/bin/splitsh-lite
+
+            - name: Verify splitsh-lite
+              run: splitsh-lite --version
+
+            - name: Split subtree
+              id: split
+              run: |
+                  SHA=$(splitsh-lite --prefix="${{ env.SPLIT_PREFIX }}")
+                  echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+                  echo "✅ Split SHA: $SHA"
+
+            - name: Push to target repo
+              run: |
+                  git remote add target \
+                    "https://x-access-token:${{ secrets.SPLIT_TOKEN }}@github.com/${{ env.SPLIT_TARGET_REPO }}.git" \
+                    2>/dev/null || true
+                  git push target "${{ steps.split.outputs.sha }}:refs/heads/${{ env.SPLIT_TARGET_BRANCH }}" --force
+                  echo "✅ Pushed to ${{ env.SPLIT_TARGET_REPO }}@${{ env.SPLIT_TARGET_BRANCH }}"
+
+            - name: Summary
+              run: |
+                  echo "## ⚡ Template Sync: React (Vite)" >> "$GITHUB_STEP_SUMMARY"
+                  echo "" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Source** | \`${{ env.SPLIT_PREFIX }}/\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Target** | [\`${{ env.SPLIT_TARGET_REPO }}\`](https://github.com/${{ env.SPLIT_TARGET_REPO }}) |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Branch** | \`${{ env.SPLIT_TARGET_BRANCH }}\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Split SHA** | \`${{ steps.split.outputs.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+    # -------------------------------------------------------------------------
+    # TanStack Router template
+    # -------------------------------------------------------------------------
+    sync-tanstack-router:
+        name: "Sync → unified-ui-template-tanstack-router"
+        runs-on: ubuntu-latest
+        if: >
+            github.event_name == 'workflow_dispatch'
+              && (github.event.inputs.template == '' || github.event.inputs.template == 'tanstack-router')
+            || github.event_name == 'push'
+
+        env:
+            SPLIT_PREFIX: template/unified-ui-tanstack-router
+            SPLIT_TARGET_REPO: imrj05/unified-ui-template-tanstack-router
+            SPLIT_TARGET_BRANCH: main
+
+        steps:
+            - name: Checkout monorepo (full history)
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  token: ${{ secrets.SPLIT_TOKEN }}
+
+            - name: Cache splitsh-lite
+              id: cache-splitsh
+              uses: actions/cache@v4
+              with:
+                  path: /usr/local/bin/splitsh-lite
+                  key: splitsh-lite-v1.0.1-linux-amd64
+
+            - name: Install splitsh-lite
+              if: steps.cache-splitsh.outputs.cache-hit != 'true'
+              run: |
+                  curl -fsSL https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz | tar xz
+                  sudo mv splitsh-lite /usr/local/bin/splitsh-lite
+                  chmod +x /usr/local/bin/splitsh-lite
+
+            - name: Verify splitsh-lite
+              run: splitsh-lite --version
+
+            - name: Split subtree
+              id: split
+              run: |
+                  SHA=$(splitsh-lite --prefix="${{ env.SPLIT_PREFIX }}")
+                  echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+                  echo "✅ Split SHA: $SHA"
+
+            - name: Push to target repo
+              run: |
+                  git remote add target \
+                    "https://x-access-token:${{ secrets.SPLIT_TOKEN }}@github.com/${{ env.SPLIT_TARGET_REPO }}.git" \
+                    2>/dev/null || true
+                  git push target "${{ steps.split.outputs.sha }}:refs/heads/${{ env.SPLIT_TARGET_BRANCH }}" --force
+                  echo "✅ Pushed to ${{ env.SPLIT_TARGET_REPO }}@${{ env.SPLIT_TARGET_BRANCH }}"
+
+            - name: Summary
+              run: |
+                  echo "## ⚡ Template Sync: TanStack Router" >> "$GITHUB_STEP_SUMMARY"
+                  echo "" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Source** | \`${{ env.SPLIT_PREFIX }}/\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Target** | [\`${{ env.SPLIT_TARGET_REPO }}\`](https://github.com/${{ env.SPLIT_TARGET_REPO }}) |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Branch** | \`${{ env.SPLIT_TARGET_BRANCH }}\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Split SHA** | \`${{ steps.split.outputs.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+    # -------------------------------------------------------------------------
+    # Laravel template
+    # -------------------------------------------------------------------------
+    sync-laravel:
+        name: "Sync → unified-ui-template-laravel"
+        runs-on: ubuntu-latest
+        if: >
+            github.event_name == 'workflow_dispatch'
+              && (github.event.inputs.template == '' || github.event.inputs.template == 'laravel')
+            || github.event_name == 'push'
+
+        env:
+            SPLIT_PREFIX: template/unified-ui-laravel
+            SPLIT_TARGET_REPO: imrj05/unified-ui-template-laravel
+            SPLIT_TARGET_BRANCH: main
+
+        steps:
+            - name: Checkout monorepo (full history)
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  token: ${{ secrets.SPLIT_TOKEN }}
+
+            - name: Cache splitsh-lite
+              id: cache-splitsh
+              uses: actions/cache@v4
+              with:
+                  path: /usr/local/bin/splitsh-lite
+                  key: splitsh-lite-v1.0.1-linux-amd64
+
+            - name: Install splitsh-lite
+              if: steps.cache-splitsh.outputs.cache-hit != 'true'
+              run: |
+                  curl -fsSL https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz | tar xz
+                  sudo mv splitsh-lite /usr/local/bin/splitsh-lite
+                  chmod +x /usr/local/bin/splitsh-lite
+
+            - name: Verify splitsh-lite
+              run: splitsh-lite --version
+
+            - name: Split subtree
+              id: split
+              run: |
+                  SHA=$(splitsh-lite --prefix="${{ env.SPLIT_PREFIX }}")
+                  echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+                  echo "✅ Split SHA: $SHA"
+
+            - name: Push to target repo
+              run: |
+                  git remote add target \
+                    "https://x-access-token:${{ secrets.SPLIT_TOKEN }}@github.com/${{ env.SPLIT_TARGET_REPO }}.git" \
+                    2>/dev/null || true
+                  git push target "${{ steps.split.outputs.sha }}:refs/heads/${{ env.SPLIT_TARGET_BRANCH }}" --force
+                  echo "✅ Pushed to ${{ env.SPLIT_TARGET_REPO }}@${{ env.SPLIT_TARGET_BRANCH }}"
+
+            - name: Summary
+              run: |
+                  echo "## ⚡ Template Sync: Laravel" >> "$GITHUB_STEP_SUMMARY"
+                  echo "" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Source** | \`${{ env.SPLIT_PREFIX }}/\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Target** | [\`${{ env.SPLIT_TARGET_REPO }}\`](https://github.com/${{ env.SPLIT_TARGET_REPO }}) |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Branch** | \`${{ env.SPLIT_TARGET_BRANCH }}\` |" >> "$GITHUB_STEP_SUMMARY"
+                  echo "| **Split SHA** | \`${{ steps.split.outputs.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
