@@ -24,12 +24,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([4bd4977](https://github.com/imrj05/unified-ui/commit/4bd497781d30f6619e42ca96c32e191505023744))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6361c64](https://github.com/imrj05/unified-ui/commit/6361c64bbca738ef05a24601ec16ad1913d314d6))
 - **changelog:** Auto-update unreleased entries [skip ci] ([2ad8e77](https://github.com/imrj05/unified-ui/commit/2ad8e77bbde2313487ecd0dfd70b674d9d0e031e))
 - **changelog:** Auto-update unreleased entries [skip ci] ([a04b91d](https://github.com/imrj05/unified-ui/commit/a04b91dbeb88e02f90c777346e0ceec0d6d26637))
 
 ### Other
 
+- Add template to tsconfig exclude ([da8df2e](https://github.com/imrj05/unified-ui/commit/da8df2ef8d4bda119e32cdb676f07cb30aa68c1e))
 - Update logo image source in README.md ([110747c](https://github.com/imrj05/unified-ui/commit/110747cabb45527eda9b62009503b161ae81c555))
 ## [laravel/v0.0.1] — 2026-03-08
 
