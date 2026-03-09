@@ -18,7 +18,8 @@ class InitCommand extends Command
 	protected $signature = 'ui:init
         {--force : Overwrite existing configuration files}
         {--css-path=resources/css : Path for CSS output}
-        {--components-path=resources/views/components/ui : Path for Blade components}';
+        {--components-path=resources/views/components/ui : Path for Blade components}
+        {--skip-npm : Skip npm package installation}';
 
 	/**
 	 * The console command description.
@@ -45,27 +46,30 @@ class InitCommand extends Command
 		$this->newLine();
 
 		$force = (bool) $this->option("force");
+		$skipNpm = (bool) $this->option("skip-npm");
 
-		// Step 1 — Create unified-ui.json
+		// Step 1 — Create unified-ui.json config
 		$this->createConfig($force);
 
-		// Step 2 — Create CSS design tokens file (includes @theme for Tailwind v4)
+		// Step 2 — Create resources/css/unified-ui.css (design tokens)
 		$this->createDesignTokensCss($force);
 
-		// Step 3 — Install @work-rjkashyap/unified-ui npm package and patch app.js/app.css
-		$this->installUnifiedUiNpm($force);
+		// Step 3 — Install npm packages (alpinejs + @work-rjkashyap/unified-ui)
+		if (!$skipNpm) {
+			$this->installNpmPackages($force);
+		}
 
-		// Step 4 — Patch app.css to import the design tokens
-		$this->patchAppCss($force);
+		// Step 4 — Write / patch app.css
+		$this->writeAppCss($force);
 
-		// Step 5 — Ensure component directories exist
+		// Step 5 — Write / patch app.js
+		$this->writeAppJs($force);
+
+		// Step 6 — Ensure component directories exist
 		$this->ensureDirectories();
 
-		// Step 6 — Detect dependencies (Alpine.js, Tailwind CSS) and patch app.js
-		$this->detectEnvironment();
-
 		$this->newLine();
-		$this->components->info("Unified UI initialized successfully!");
+		$this->components->info("Unified UI initialized successfully! 🎉");
 		$this->newLine();
 
 		$this->line("  <fg=gray>Next steps:</>");
@@ -163,124 +167,95 @@ class InitCommand extends Command
 	}
 
 	/**
-	 * Install the @work-rjkashyap/unified-ui npm package and wire it into
-	 * app.js (CSS import) so the design system styles are bundled by Vite.
+	 * Install both required npm packages in a single run:
+	 *   - alpinejs
+	 *   - @work-rjkashyap/unified-ui
 	 *
-	 * - Skips the npm install when the package is already listed in package.json
-	 *   (unless --force is passed).
-	 * - Always attempts to patch app.js so the import line is present even when
-	 *   the package was already installed in a previous run.
+	 * Packages that are already present in package.json are skipped
+	 * unless --force is passed.
 	 */
-	protected function installUnifiedUiNpm(bool $force): void
+	protected function installNpmPackages(bool $force): void
 	{
-		$pkg = "@work-rjkashyap/unified-ui";
-
 		$this->newLine();
-		$this->components->info("Unified UI — npm package");
+		$this->components->info("npm packages");
 		$this->newLine();
 
-		$alreadyInstalled = $this->isNpmPackageInstalled($pkg);
+		$required = ["alpinejs", "@work-rjkashyap/unified-ui"];
 
-		if ($alreadyInstalled && !$force) {
-			$this->components->twoColumnDetail(
-				"<fg=green>Skipped</> {$pkg}",
-				"already in package.json — pass --force to reinstall",
+		$toInstall = $force
+			? $required
+			: array_values(
+				array_filter(
+					$required,
+					fn(string $pkg) => !$this->isNpmPackageInstalled($pkg),
+				),
 			);
-		} else {
-			$manager = $this->detectNpmPackageManager();
-			$installCmd = match ($manager) {
-				"pnpm" => "pnpm add {$pkg}",
-				"yarn" => "yarn add {$pkg}",
-				"bun" => "bun add {$pkg}",
-				default => "npm install {$pkg}",
-			};
 
-			$this->line("  <fg=gray>Running:</> {$installCmd}");
-			$this->newLine();
-
-			$result = 0;
-			passthru($installCmd, $result);
-			$this->newLine();
-
-			if ($result === 0) {
+		// Report already-installed packages.
+		foreach ($required as $pkg) {
+			if (!in_array($pkg, $toInstall, true)) {
 				$this->components->twoColumnDetail(
-					"<fg=green>Installed</> {$pkg}",
-					"npm package ready",
+					"<fg=green>Already installed</> {$pkg}",
+					"skipping",
 				);
-			} else {
-				$this->components->error(
-					"Failed to install {$pkg}. Install manually:",
-				);
-				$this->line("  <fg=green>{$installCmd}</>");
 			}
 		}
 
-		// Always patch app.js — idempotent, skips if already present.
-		$this->patchAppJsUnifiedUiImport();
-	}
+		if (empty($toInstall)) {
+			$this->newLine();
+			return;
+		}
 
-	/**
-	 * Append an import of the Unified UI package styles into app.js so Vite
-	 * bundles the CSS automatically.
-	 *
-	 * Line added:
-	 *   import '@work-rjkashyap/unified-ui/styles.css';
-	 */
-	protected function patchAppJsUnifiedUiImport(): void
-	{
-		$config = UnifiedUiServiceProvider::readConfig();
-		$jsDir = $config["aliases"]["js"] ?? "resources/js";
-		$appJsPath = base_path(rtrim($jsDir, "/") . "/app.js");
-
-		$importLine = "import '@work-rjkashyap/unified-ui/styles.css';";
-		$relative = str_replace(
-			base_path() . DIRECTORY_SEPARATOR,
-			"",
-			$appJsPath,
-		);
-
-		// File doesn't exist yet — will be created by patchAppJs later; skip.
-		if (!$this->files->exists($appJsPath)) {
-			$this->components->twoColumnDetail(
-				"<fg=yellow>Skipped</> {$relative}",
-				"file not found — import will be added when app.js is created",
+		if (!$this->files->exists(base_path("package.json"))) {
+			$this->components->warn(
+				"No package.json found — skipping npm install. Run `npm init -y` then re-run ui:init.",
 			);
 			$this->newLine();
 			return;
 		}
 
-		$existing = $this->files->get($appJsPath);
+		$manager = $this->detectNpmPackageManager();
+		$pkgList = implode(" ", $toInstall);
+		$installCmd = match ($manager) {
+			"pnpm" => "pnpm add {$pkgList}",
+			"yarn" => "yarn add {$pkgList}",
+			"bun" => "bun add {$pkgList}",
+			default => "npm install {$pkgList}",
+		};
 
-		if (str_contains($existing, $importLine)) {
-			$this->components->twoColumnDetail(
-				"<fg=green>Skipped</> {$relative}",
-				"import already present",
-			);
-			$this->newLine();
-			return;
+		$this->line("  <fg=gray>Running:</> {$installCmd}");
+		$this->newLine();
+
+		$exitCode = 0;
+		passthru($installCmd, $exitCode);
+		$this->newLine();
+
+		if ($exitCode === 0) {
+			foreach ($toInstall as $pkg) {
+				$this->components->twoColumnDetail(
+					"<fg=green>Installed</> {$pkg}",
+					"✓",
+				);
+			}
+		} else {
+			$this->components->error("npm install failed. Install manually:");
+			$this->line("  <fg=green>{$installCmd}</>");
 		}
 
-		// Prepend so the CSS loads before any component JS.
-		$this->files->put($appJsPath, $importLine . "\n" . $existing);
-
-		$this->components->twoColumnDetail(
-			"<fg=green>Patched</> {$relative}",
-			"import '@work-rjkashyap/unified-ui/styles.css' prepended",
-		);
 		$this->newLine();
 	}
 
 	/**
-	 * Patch the project's main app.css to import the Unified UI tokens file.
+	 * Write (or patch) resources/css/app.css with the exact imports needed:
 	 *
-	 * Adds:
+	 *   @import "tailwindcss";
 	 *   @import "./unified-ui.css";
 	 *
-	 * If app.css does not exist it is created with both the Tailwind and
-	 * Unified UI imports. If the import is already present the step is
-	 * skipped (idempotent).
+	 * If the file does not exist it is created with both lines.
+	 * If it exists but is missing one or both imports they are appended.
+	 * If both are already present the step is skipped (idempotent).
 	 */
-	protected function patchAppCss(bool $force): void
+	protected function writeAppCss(bool $force): void
 	{
 		$config = UnifiedUiServiceProvider::readConfig();
 		$cssDir = base_path($config["aliases"]["css"] ?? "resources/css");
@@ -291,50 +266,146 @@ class InitCommand extends Command
 			$appCssPath,
 		);
 
-		$importLine = '@import "./unified-ui.css";';
-		$tailwindLine = '@import "tailwindcss";';
+		$tailwindImport = '@import "tailwindcss";';
+		$uiImport = '@import "@work-rjkashyap/unified-ui/styles.css";';
+		$tokensImport = '@import "./unified-ui.css";';
 
 		$this->newLine();
-		$this->components->info("app.css — Unified UI CSS");
+		$this->components->info("app.css");
 		$this->newLine();
 
-		// ── File does not exist → create it ──────────────────────────────────
+		// ── File does not exist → create with both imports ────────────────────
 		if (!$this->files->exists($appCssPath)) {
 			$this->files->ensureDirectoryExists($cssDir);
 			$this->files->put(
 				$appCssPath,
-				implode("\n", [$tailwindLine, $importLine, ""]),
+				implode("\n", [$tailwindImport, $uiImport, $tokensImport, ""]),
 			);
 
 			$this->components->twoColumnDetail(
 				"<fg=green>Created</> {$relative}",
-				"Tailwind + Unified UI imports written",
+				"{$tailwindImport}  {$uiImport}  {$tokensImport}",
 			);
 			$this->newLine();
 			return;
 		}
 
-		// ── File exists — inspect it ──────────────────────────────────────────
-		$existing = $this->files->get($appCssPath);
+		// ── File exists — inject any missing imports ──────────────────────────
+		$content = $this->files->get($appCssPath);
+		$missing = [];
 
-		if (str_contains($existing, $importLine) && !$force) {
+		if (!str_contains($content, $tailwindImport)) {
+			$missing[] = $tailwindImport;
+		}
+		if (!str_contains($content, $uiImport)) {
+			$missing[] = $uiImport;
+		}
+		if (!str_contains($content, $tokensImport)) {
+			$missing[] = $tokensImport;
+		}
+
+		if (empty($missing) && !$force) {
 			$this->components->twoColumnDetail(
 				"<fg=green>Skipped</> {$relative}",
-				'@import "./unified-ui.css" already present — pass --force to overwrite',
+				"imports already present",
 			);
 			$this->newLine();
 			return;
 		}
 
-		// ── Append the import ─────────────────────────────────────────────────
-		$this->files->put(
-			$appCssPath,
-			rtrim($existing) . "\n" . $importLine . "\n",
+		foreach ($missing as $line) {
+			$content = rtrim($content) . "\n" . $line . "\n";
+		}
+
+		$this->files->put($appCssPath, $content);
+
+		$added = implode("  ", $missing);
+		$this->components->twoColumnDetail(
+			"<fg=green>Patched</> {$relative}",
+			$added,
 		);
+		$this->newLine();
+	}
+
+	/**
+	 * Write (or patch) resources/js/app.js with the exact content needed:
+	 *
+	 *   import Alpine from 'alpinejs';
+	 *   window.Alpine = Alpine;
+	 *   Alpine.start();
+	 *
+	 * If the file does not exist it is created with all lines.
+	 * If it exists each line is checked individually and only missing
+	 * lines are prepended (idempotent per-line).
+	 */
+	protected function writeAppJs(bool $force): void
+	{
+		$config = UnifiedUiServiceProvider::readConfig();
+		$jsDir = $config["aliases"]["js"] ?? "resources/js";
+		$appJsPath = base_path(rtrim($jsDir, "/") . "/app.js");
+		$relative = str_replace(
+			base_path() . DIRECTORY_SEPARATOR,
+			"",
+			$appJsPath,
+		);
+
+		$this->newLine();
+		$this->components->info("app.js");
+		$this->newLine();
+
+		$bootstrap = implode("\n", [
+			"import Alpine from 'alpinejs';",
+			"",
+			"window.Alpine = Alpine;",
+			"",
+			"Alpine.start();",
+		]);
+
+		// ── File does not exist → create it ──────────────────────────────────
+		if (!$this->files->exists($appJsPath)) {
+			$this->files->ensureDirectoryExists(dirname($appJsPath));
+			$this->files->put($appJsPath, $bootstrap . "\n");
+
+			$this->components->twoColumnDetail(
+				"<fg=green>Created</> {$relative}",
+				"unified-ui + Alpine bootstrap written",
+			);
+			$this->newLine();
+			return;
+		}
+
+		// ── File exists — check each required line individually ───────────────
+		$content = $this->files->get($appJsPath);
+
+		$checks = [
+			"import Alpine" => "import Alpine from 'alpinejs';",
+			"window.Alpine" => "window.Alpine = Alpine;",
+			"Alpine.start()" => "Alpine.start();",
+		];
+
+		$missing = [];
+		foreach ($checks as $needle => $line) {
+			if (!str_contains($content, $needle)) {
+				$missing[] = $line;
+			}
+		}
+
+		if (empty($missing) && !$force) {
+			$this->components->twoColumnDetail(
+				"<fg=green>Skipped</> {$relative}",
+				"all imports already present",
+			);
+			$this->newLine();
+			return;
+		}
+
+		// Prepend the missing lines at the top so CSS loads first.
+		$prepend = implode("\n", $missing);
+		$this->files->put($appJsPath, $prepend . "\n\n" . ltrim($content));
 
 		$this->components->twoColumnDetail(
 			"<fg=green>Patched</> {$relative}",
-			'@import "./unified-ui.css" appended',
+			count($missing) . " line(s) prepended",
 		);
 		$this->newLine();
 	}
@@ -369,208 +440,6 @@ class InitCommand extends Command
 		if (!$this->files->exists($gitkeep)) {
 			$this->files->put($gitkeep, "");
 		}
-	}
-
-	/**
-	 * Detect and report on required / optional dependencies.
-	 *
-	 * Alpine.js is the primary JS framework for interactive components.
-	 * Tailwind CSS v4 is required.
-	 */
-	protected function detectEnvironment(): void
-	{
-		$this->newLine();
-		$this->components->info("Environment");
-
-		// Read config to check if Alpine.js is enabled.
-		$config = UnifiedUiServiceProvider::readConfig();
-		$alpineEnabled = $config["alpine"] ?? true;
-
-		// Alpine.js — required for interactive components
-		$alpineInstalled = $this->isNpmPackageInstalled("alpinejs");
-		$this->components->twoColumnDetail(
-			"Alpine.js",
-			$alpineInstalled
-				? "<fg=green>Installed</> — interactive components ready"
-				: "<fg=yellow>Not detected</> — required for interactive components",
-		);
-
-		if (!$alpineInstalled) {
-			$this->newLine();
-
-			if ($alpineEnabled) {
-				// Auto-install Alpine.js when "alpine": true in config (no prompt).
-				$this->components->warn(
-					'Alpine.js was not detected. Installing automatically ("alpine": true in config)…',
-				);
-				$this->installAlpineJs();
-			} else {
-				// Alpine is disabled in config — just inform the user.
-				$this->components->warn(
-					"Alpine.js was not detected in package.json.",
-				);
-				$manager = $this->detectNpmPackageManager();
-				$this->line(
-					"  <fg=yellow>Install manually if needed:</> <fg=green>{$manager} add alpinejs</>",
-				);
-			}
-		}
-
-		// Tailwind CSS v4
-		$tailwindInstalled = $this->isNpmPackageInstalled("tailwindcss");
-		$this->components->twoColumnDetail(
-			"Tailwind CSS",
-			$tailwindInstalled
-				? "<fg=green>Installed</>"
-				: "<fg=red>Not detected</> — Unified UI requires Tailwind CSS v4",
-		);
-
-		if (!$tailwindInstalled) {
-			$this->newLine();
-			$this->components->warn(
-				"Tailwind CSS was not detected in package.json. Please install it:",
-			);
-			$manager = $this->detectNpmPackageManager();
-			$this->line(
-				"  <fg=green>{$manager} add -D tailwindcss @tailwindcss/vite</>",
-			);
-		}
-
-		// @alpinejs/focus — optional but recommended
-		$alpineFocusInstalled = $this->isNpmPackageInstalled("@alpinejs/focus");
-		if ($alpineInstalled && !$alpineFocusInstalled) {
-			$this->components->twoColumnDetail(
-				"Alpine Focus Plugin",
-				"<fg=gray>Not installed</> — optional, improves keyboard navigation",
-			);
-		}
-
-		// @alpinejs/collapse — optional
-		$alpineCollapseInstalled = $this->isNpmPackageInstalled(
-			"@alpinejs/collapse",
-		);
-		if ($alpineInstalled && !$alpineCollapseInstalled) {
-			$this->components->twoColumnDetail(
-				"Alpine Collapse Plugin",
-				"<fg=gray>Not installed</> — optional, smooth accordion/collapsible animations",
-			);
-		}
-	}
-
-	/**
-	 * Install Alpine.js via the detected package manager.
-	 */
-	protected function installAlpineJs(): void
-	{
-		$manager = $this->detectNpmPackageManager();
-		$installCmd = match ($manager) {
-			"pnpm" => "pnpm add alpinejs",
-			"yarn" => "yarn add alpinejs",
-			"bun" => "bun add alpinejs",
-			default => "npm install alpinejs",
-		};
-
-		$this->line("  <fg=gray>Running:</> {$installCmd}");
-		$this->newLine();
-
-		$result = 0;
-		passthru($installCmd, $result);
-
-		if ($result === 0) {
-			$this->newLine();
-			$this->components->info("Alpine.js installed successfully.");
-		} else {
-			$this->newLine();
-			$this->components->error(
-				"Failed to install Alpine.js. Install manually:",
-			);
-			$this->line("  <fg=green>{$installCmd}</>");
-		}
-
-		// Patch app.js to import and start Alpine regardless of whether the
-		// npm install succeeded — the user may fix it manually afterwards.
-		$this->patchAppJs();
-	}
-
-	/**
-	 * Patch (or create) app.js with the Alpine.js bootstrap block.
-	 *
-	 * Kept self-contained on InitCommand so $this->components is always
-	 * available — cross-command delegation via the container produces a null
-	 * $components property because run() has not been called on the delegate.
-	 */
-	protected function patchAppJs(): void
-	{
-		$config = UnifiedUiServiceProvider::readConfig();
-		$jsDir = $config["aliases"]["js"] ?? "resources/js";
-		$appJsPath = base_path(rtrim($jsDir, "/") . "/app.js");
-		$relative = str_replace(
-			base_path() . DIRECTORY_SEPARATOR,
-			"",
-			$appJsPath,
-		);
-
-		$alpineBlock = implode("\n", [
-			"// ---------------------------------------------------------------------------",
-			"// Unified UI — Alpine.js bootstrap",
-			"// Added by `php artisan ui:init`. Safe to edit.",
-			"// Docs: https://unified-ui.space/docs/alpine",
-			"// ---------------------------------------------------------------------------",
-			"",
-			"import Alpine from 'alpinejs';",
-			"",
-			"// Expose Alpine globally for Blade templates and inline <script> blocks.",
-			"window.Alpine = Alpine;",
-			"",
-			"// Start Alpine — must be the last statement in this block.",
-			"Alpine.start();",
-		]);
-
-		$this->newLine();
-		$this->components->info("app.js — Alpine Bootstrap");
-		$this->newLine();
-
-		// ── File does not exist → create it ──────────────────────────────────
-		if (!$this->files->exists($appJsPath)) {
-			$this->files->ensureDirectoryExists(dirname($appJsPath));
-			$this->files->put($appJsPath, $alpineBlock . "\n");
-
-			$this->components->twoColumnDetail(
-				"<fg=green>Created</> {$relative}",
-				"Alpine bootstrap written",
-			);
-			$this->newLine();
-			return;
-		}
-
-		// ── File exists — skip if already wired ───────────────────────────────
-		$existing = $this->files->get($appJsPath);
-		$hasImport = (bool) preg_match(
-			'/import\s+\w+\s+from\s+[\'"]alpinejs[\'"]/',
-			$existing,
-		);
-		$hasStart = str_contains($existing, "Alpine.start()");
-
-		if ($hasImport && $hasStart) {
-			$this->components->twoColumnDetail(
-				"<fg=green>Skipped</> {$relative}",
-				"Alpine.js already wired",
-			);
-			$this->newLine();
-			return;
-		}
-
-		// ── Append bootstrap block ────────────────────────────────────────────
-		$this->files->put(
-			$appJsPath,
-			rtrim($existing) . "\n\n" . $alpineBlock . "\n",
-		);
-
-		$this->components->twoColumnDetail(
-			"<fg=green>Patched</> {$relative}",
-			"Alpine bootstrap appended",
-		);
-		$this->newLine();
 	}
 
 	/**
