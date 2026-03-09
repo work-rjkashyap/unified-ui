@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Enhance InitCommand to install and patch Unified UI integration
+- Added functionality to install the @work-rjkashyap/unified-ui npm package.
+  - Implemented patching of app.js to include Unified UI styles.
+  - Updated patching logic for app.css to import Unified UI tokens.
+  - Improved user instructions for next steps after initialization.
+  - Refactored InstallAlpineCommand to support Unified UI CSS integration. ([d456a1a](https://github.com/imrj05/unified-ui/commit/d456a1a9f6344f9204399060786a14d65b3db958))
 - Add new UI components and styles for toggle group, tree view, video player, virtual list, and visually hidden elements
 - Introduced `toggle-group` component for single/multi-select toggle buttons.
   - Added `tree-view` component for hierarchical tree structures with expand/collapse functionality.
@@ -35,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([dcea98f](https://github.com/imrj05/unified-ui/commit/dcea98fa12d3fc3acdb0bf95cba410ecd50ba18b))
 - **changelog:** Auto-update unreleased entries [skip ci] ([ca389cf](https://github.com/imrj05/unified-ui/commit/ca389cf172256d0801c2754cc40cb62d6897d11b))
 - **changelog:** Auto-update unreleased entries [skip ci] ([d8089e7](https://github.com/imrj05/unified-ui/commit/d8089e77df0051c8507b8346782b96c48cf556e3))
 - Add pre-commit and pre-push git hooks with biome format, lint, ts and build checks ([dd1f545](https://github.com/imrj05/unified-ui/commit/dd1f545fa9affe920e4354e9bf611c39ee50f338))
