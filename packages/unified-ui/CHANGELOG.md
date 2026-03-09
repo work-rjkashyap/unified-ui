@@ -25,12 +25,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enhanced sidebar tabs to feature Laravel documentation.
   - Integrated Laravel source loader in `source.ts` for documentation retrieval. ([99ed76f](https://github.com/imrj05/unified-ui/commit/99ed76f9070d1a1be5137262c1dcd24e85ff93c2))
 
+### 🐛 Bug Fixes
+
+- Update exports in unified-ui to include missing components and variants ([c289e35](https://github.com/imrj05/unified-ui/commit/c289e3584e1fb3809ac30d99bff4734a02dedbaa))
+
 ### ⚙️ CI/CD
 
 - **templates:** Add sync-templates workflow to split 4 template repos on push to main ([9b5bb43](https://github.com/imrj05/unified-ui/commit/9b5bb43b9fd86a3afa75e378d902884fa3d6831b))
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([ca389cf](https://github.com/imrj05/unified-ui/commit/ca389cf172256d0801c2754cc40cb62d6897d11b))
 - **changelog:** Auto-update unreleased entries [skip ci] ([d8089e7](https://github.com/imrj05/unified-ui/commit/d8089e77df0051c8507b8346782b96c48cf556e3))
 - Add pre-commit and pre-push git hooks with biome format, lint, ts and build checks ([dd1f545](https://github.com/imrj05/unified-ui/commit/dd1f545fa9affe920e4354e9bf611c39ee50f338))
 - **changelog:** Auto-update unreleased entries [skip ci] ([5ae6ea4](https://github.com/imrj05/unified-ui/commit/5ae6ea49b8bc458be53eb6df8b4bfba75436711a))
@@ -41,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Other
 
+- Merge branch 'main' of github.com:imrj05/unified-ui ([f005622](https://github.com/imrj05/unified-ui/commit/f005622e162390eaf623f1f45ba17b2d777eca1b))
 - Add template to tsconfig exclude ([da8df2e](https://github.com/imrj05/unified-ui/commit/da8df2ef8d4bda119e32cdb676f07cb30aa68c1e))
 - Update logo image source in README.md ([110747c](https://github.com/imrj05/unified-ui/commit/110747cabb45527eda9b62009503b161ae81c555))
 ## [laravel/v0.0.1] — 2026-03-08
