@@ -1,6 +1,6 @@
 {
   "name": "rajeshwar/unified-ui-laravel",
-  "version": "0.3.1",
+  "version": "0.0.2",
   "description": "A scalable, token-driven Blade component library for Laravel — 75+ components built on Tailwind CSS, Alpine.js & Livewire. Install the Composer package or copy-paste with Artisan CLI.",
   "keywords": [
     "laravel",
