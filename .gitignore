@@ -21,6 +21,29 @@
 # laravel package vendor
 packages/unified-ui-laravel/vendor/
 
+# template build artifacts (each template has its own .gitignore, but exclude heavy dirs from monorepo index)
+template/*/node_modules/
+template/*/vendor/
+template/*/.next/
+template/*/dist/
+template/*/dist-ssr/
+template/*/public/build/
+template/*/public/hot/
+template/*/public/storage/
+template/*/.tanstack/
+template/*/.vinxi/
+template/*/.output/
+template/*/storage/*.key
+template/unified-ui-laravel/.env
+template/unified-ui-laravel/.phpunit.result.cache
+template/unified-ui-laravel/bootstrap/cache/packages.php
+template/unified-ui-laravel/bootstrap/cache/services.php
+template/unified-ui-laravel/storage/framework/views/
+template/unified-ui-laravel/storage/framework/cache/data/
+template/unified-ui-laravel/storage/framework/sessions/
+template/unified-ui-laravel/storage/logs/
+template/*/next-env.d.ts
+
 # misc
 .DS_Store
 *.pem
