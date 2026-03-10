@@ -1,4 +1,2 @@
-@import "@work-rjkashyap/unified-ui/styles.css";
 @import "tailwindcss";
-
-@source "../node_modules/@work-rjkashyap/unified-ui/dist";
+@import "@/styles/unified-ui.css";

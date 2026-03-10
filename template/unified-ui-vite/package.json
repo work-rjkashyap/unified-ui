@@ -10,10 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@work-rjkashyap/unified-ui": "latest",
+    "@tanstack/react-table": "^8.21.3",
+    "@work-rjkashyap/unified-ui": "^0.3.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.35.2",
     "lucide-react": "^0.545.0",
+    "radix-ui": "^1.4.3",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-resizable-panels": "^4.7.2",
+    "recharts": "^3.8.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.5.0",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

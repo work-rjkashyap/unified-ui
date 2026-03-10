@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 // ============================================================================
 // Unified UI — CLI
 // ============================================================================
@@ -13,7 +12,7 @@
 //   npx @work-rjkashyap/unified-ui init
 //
 // Components are fetched from the registry at:
-//   https://unified-ui-rajeshwar.vercel.app/r/<name>.json
+//   https://unified-ui.space/r/<name>.json
 //
 // Files are written into the user's project at:
 //   src/components/ui/<component>.tsx
@@ -24,7 +23,6 @@
 // This CLI resolves the full dependency tree — if you add "confirm-dialog",
 // it also pulls in "alert-dialog", "button", "cn", "focus-ring", etc.
 // ============================================================================
-
 import { execSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -33,17 +31,12 @@ import { createInterface } from "node:readline";
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-
 const REGISTRY_BASE_URL =
-  process.env.UNIFIED_UI_REGISTRY_URL ||
-  "https://unified-ui-rajeshwar.vercel.app/r";
-
+  process.env.UNIFIED_UI_REGISTRY_URL || "https://www.unified-ui.space/r";
 const CONFIG_FILE = "unified-ui.json";
-
 // ---------------------------------------------------------------------------
 // Starter kit templates
 // ---------------------------------------------------------------------------
-
 const FRAMEWORKS = [
   {
     name: "vite-react",
@@ -80,9 +73,8 @@ const FRAMEWORKS = [
     devDeps: ["@tailwindcss/vite", "tailwindcss"],
   },
 ];
-
 const DEFAULT_CONFIG = {
-  $schema: "https://unified-ui-rajeshwar.vercel.app/r/schema/config.json",
+  $schema: "https://unified-ui.space/r/schema/config.json",
   srcDir: "src",
   aliases: {
     components: "@/components/ui",
@@ -91,7 +83,6 @@ const DEFAULT_CONFIG = {
   },
   typescript: true,
 };
-
 const COLORS = {
   reset: "\x1b[0m",
   bold: "\x1b[1m",
@@ -103,25 +94,19 @@ const COLORS = {
   magenta: "\x1b[35m",
   cyan: "\x1b[36m",
 };
-
 const c = (color, text) => `${COLORS[color]}${text}${COLORS.reset}`;
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
 function log(msg = "") {
   console.log(msg);
 }
-
 function logStep(icon, msg) {
   console.log(`  ${icon} ${msg}`);
 }
-
 function logError(msg) {
   console.error(`\n  ${c("red", "✗")} ${msg}\n`);
 }
-
 async function confirm(question) {
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   return new Promise((res) => {
@@ -131,7 +116,6 @@ async function confirm(question) {
     });
   });
 }
-
 async function promptText(question, defaultValue = "") {
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   const hint = defaultValue ? ` ${c("dim", `(${defaultValue})`)}` : "";
@@ -142,7 +126,6 @@ async function promptText(question, defaultValue = "") {
     });
   });
 }
-
 async function promptSelect(question, options) {
   log(`  ${question}`);
   log();
@@ -162,7 +145,6 @@ async function promptSelect(question, options) {
     });
   });
 }
-
 function runCmd(cmd, cwd, stdio = "inherit") {
   try {
     execSync(cmd, { cwd, stdio });
@@ -171,16 +153,13 @@ function runCmd(cmd, cwd, stdio = "inherit") {
     return false;
   }
 }
-
 function ensureDir(dir) {
   mkdirSync(dir, { recursive: true });
 }
-
 function writeOverlay(targetPath, content) {
   ensureDir(dirname(targetPath));
   writeFileSync(targetPath, content);
 }
-
 async function fetchJSON(url) {
   const response = await fetch(url);
   if (!response.ok) {
@@ -190,11 +169,9 @@ async function fetchJSON(url) {
   }
   return response.json();
 }
-
 // ---------------------------------------------------------------------------
 // Config management
 // ---------------------------------------------------------------------------
-
 function findProjectRoot() {
   let dir = process.cwd();
   while (dir !== dirname(dir)) {
@@ -203,11 +180,9 @@ function findProjectRoot() {
   }
   return process.cwd();
 }
-
 function loadConfig() {
   const root = findProjectRoot();
   const configPath = join(root, CONFIG_FILE);
-
   if (existsSync(configPath)) {
     try {
       return {
@@ -219,28 +194,27 @@ function loadConfig() {
       return { root, ...DEFAULT_CONFIG };
     }
   }
-
   return { root, ...DEFAULT_CONFIG };
 }
-
 function saveConfig(config) {
   const root = findProjectRoot();
   const configPath = join(root, CONFIG_FILE);
   const { root: _root, ...rest } = config;
   writeFileSync(configPath, `${JSON.stringify(rest, null, 2)}\n`);
 }
-
 // ---------------------------------------------------------------------------
 // Path resolution
 // ---------------------------------------------------------------------------
-
 function resolveTargetPath(config, file) {
   const srcDir = join(config.root, config.srcDir);
-
   switch (file.type) {
     case "component":
       return join(srcDir, "components", "ui", basename(file.path));
     case "util":
+      // Preserve full subdirectory structure for lib/tokens/* and lib/motion/*
+      if (file.path.startsWith("lib/tokens/")) {
+        return join(srcDir, file.path);
+      }
       if (file.path.includes("motion/")) {
         return join(srcDir, "lib", "motion", basename(file.path));
       }
@@ -253,11 +227,9 @@ function resolveTargetPath(config, file) {
       return join(srcDir, file.target || file.path);
   }
 }
-
 function basename(p) {
   return p.split("/").pop();
 }
-
 // ---------------------------------------------------------------------------
 // Import path rewriting
 // ---------------------------------------------------------------------------
@@ -268,10 +240,8 @@ function basename(p) {
 //
 // We rewrite these to match the user's alias config.
 // ---------------------------------------------------------------------------
-
 function rewriteContentImports(content, config) {
   let result = content;
-
   // Rewrite @/lib/* -> user's lib alias
   if (config.aliases.lib !== "@/lib") {
     result = result.replace(
@@ -279,7 +249,6 @@ function rewriteContentImports(content, config) {
       `from "${config.aliases.lib}/`,
     );
   }
-
   // Rewrite @/components/ui/* -> user's components alias
   if (config.aliases.components !== "@/components/ui") {
     result = result.replace(
@@ -287,35 +256,28 @@ function rewriteContentImports(content, config) {
       `from "${config.aliases.components}/`,
     );
   }
-
   return result;
 }
-
 // ---------------------------------------------------------------------------
 // Dependency resolution
 // ---------------------------------------------------------------------------
-
 async function resolveFullDependencyTree(names, registryUrl) {
   const resolved = new Map();
   const queue = [...names];
   const visited = new Set();
-
   while (queue.length > 0) {
     const name = queue.shift();
     if (visited.has(name)) continue;
     visited.add(name);
-
     try {
       const item = await fetchJSON(`${registryUrl}/${name}.json`);
       resolved.set(name, item);
-
       // Queue registry dependencies (other components)
       if (item.registryDependencies) {
         for (const dep of item.registryDependencies) {
           if (!visited.has(dep)) queue.push(dep);
         }
       }
-
       // Queue internal util dependencies
       if (item.internalDependencies) {
         for (const util of item.internalDependencies.utils || []) {
@@ -329,14 +291,11 @@ async function resolveFullDependencyTree(names, registryUrl) {
       logError(`Could not fetch "${name}" from registry: ${err.message}`);
     }
   }
-
   return resolved;
 }
-
 // ---------------------------------------------------------------------------
 // npm dependency installer
 // ---------------------------------------------------------------------------
-
 async function detectPackageManager(root) {
   if (existsSync(join(root, "bun.lock")) || existsSync(join(root, "bun.lockb")))
     return "bun";
@@ -344,7 +303,6 @@ async function detectPackageManager(root) {
   if (existsSync(join(root, "yarn.lock"))) return "yarn";
   return "npm";
 }
-
 function getInstallCommand(pm, deps) {
   const packages = deps.join(" ");
   switch (pm) {
@@ -358,16 +316,12 @@ function getInstallCommand(pm, deps) {
       return `npm install ${packages}`;
   }
 }
-
 async function installNpmDeps(deps, root) {
   if (deps.length === 0) return;
-
   const pm = await detectPackageManager(root);
   const cmd = getInstallCommand(pm, deps);
-
   logStep("📦", `Installing npm dependencies with ${c("cyan", pm)}...`);
   logStep("  ", c("dim", cmd));
-
   const { execSync } = await import("node:child_process");
   try {
     execSync(cmd, { cwd: root, stdio: "pipe" });
@@ -379,38 +333,30 @@ async function installNpmDeps(deps, root) {
     );
   }
 }
-
 // ---------------------------------------------------------------------------
 // File writer
 // ---------------------------------------------------------------------------
-
 function writeFile(targetPath, content, config, overwrite = false) {
   const rewritten = rewriteContentImports(content, config);
-
   if (existsSync(targetPath) && !overwrite) {
     return { path: targetPath, status: "skipped" };
   }
-
   mkdirSync(dirname(targetPath), { recursive: true });
   writeFileSync(targetPath, rewritten);
   return { path: targetPath, status: "created" };
 }
-
 // ---------------------------------------------------------------------------
 // Commands
 // ---------------------------------------------------------------------------
-
 // ---------------------------------------------------------------------------
 // Starter kit overlays (embedded content)
 // ---------------------------------------------------------------------------
-
 const OVERLAYS = {
   "vite-react": {
     files: {
       "vite.config.ts": `import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
@@ -422,7 +368,6 @@ export default defineConfig({
 `,
       "src/index.css": `@import "tailwindcss";
 @import "@work-rjkashyap/unified-ui/styles.css";
-
 body {
   min-height: 100svh;
 }
@@ -432,7 +377,6 @@ import { createRoot } from "react-dom/client";
 import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
 import App from "./App";
 import "./index.css";
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <DSThemeProvider manageHtmlClass>
@@ -444,10 +388,8 @@ createRoot(document.getElementById("root")!).render(
       "src/App.tsx": `import { Button } from "@work-rjkashyap/unified-ui/components";
 import { Heading, Body } from "@work-rjkashyap/unified-ui/primitives";
 import { useDSTheme } from "@work-rjkashyap/unified-ui/theme";
-
 function App() {
   const { theme, setTheme } = useDSTheme();
-
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-8 text-foreground">
       <div className="w-full max-w-md space-y-6 rounded-lg border border-border bg-card p-8">
@@ -457,7 +399,6 @@ function App() {
             Your starter project is ready. Start building!
           </Body>
         </div>
-
         <div className="flex items-center justify-center gap-3">
           <Button variant="primary">Get Started</Button>
           <Button
@@ -471,17 +412,14 @@ function App() {
     </div>
   );
 }
-
 export default App;
 `,
     },
   },
-
   nextjs: {
     files: {
       "src/app/globals.css": `@import "tailwindcss";
 @import "@work-rjkashyap/unified-ui/styles.css";
-
 body {
   min-height: 100svh;
 }
@@ -490,12 +428,10 @@ body {
 import { ThemeProvider } from "next-themes";
 import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
 import "./globals.css";
-
 export const metadata: Metadata = {
   title: "Unified UI App",
   description: "Built with Unified UI and Next.js",
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -518,14 +454,11 @@ export default function RootLayout({
 }
 `,
       "src/app/page.tsx": `"use client";
-
 import { Button } from "@work-rjkashyap/unified-ui/components";
 import { Heading, Body } from "@work-rjkashyap/unified-ui/primitives";
 import { useDSTheme } from "@work-rjkashyap/unified-ui/theme";
-
 export default function Home() {
   const { theme, setTheme } = useDSTheme();
-
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-8 text-foreground">
       <div className="w-full max-w-md space-y-6 rounded-lg border border-border bg-card p-8">
@@ -535,7 +468,6 @@ export default function Home() {
             Your Next.js project is ready. Start building!
           </Body>
         </div>
-
         <div className="flex items-center justify-center gap-3">
           <Button variant="primary">Get Started</Button>
           <Button
@@ -552,13 +484,11 @@ export default function Home() {
 `,
     },
   },
-
   vuejs: {
     files: {
       "vite.config.ts": `import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
-
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   resolve: {
@@ -570,7 +500,6 @@ export default defineConfig({
 `,
       "src/style.css": `@import "tailwindcss";
 @import "@work-rjkashyap/unified-ui/styles.css";
-
 body {
     min-height: 100svh;
 }
@@ -578,12 +507,10 @@ body {
       "src/main.ts": `import { createApp } from "vue";
 import App from "./App.vue";
 import "./style.css";
-
 createApp(App).mount("#app");
 `,
       "src/lib/cn.ts": `import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -603,10 +530,8 @@ import {
   UiText,
 } from "./components/ui";
 import { ref } from "vue";
-
 const email = ref("");
 </script>
-
 <template>
   <div
     class="flex min-h-svh flex-col items-center justify-center gap-8 bg-background p-8 text-foreground"
@@ -618,7 +543,6 @@ const email = ref("");
           Your Vue.js project is ready with components. Start building!
         </UiText>
       </UiCardHeader>
-
       <UiCardBody class="space-y-6">
         <!-- Buttons -->
         <div class="space-y-2">
@@ -631,7 +555,6 @@ const email = ref("");
             <UiButton variant="primary" :loading="true" size="sm">Loading</UiButton>
           </div>
         </div>
-
         <!-- Badges -->
         <div class="space-y-2">
           <UiText variant="label">Badges</UiText>
@@ -645,19 +568,16 @@ const email = ref("");
             <UiBadge variant="outline">Outline</UiBadge>
           </div>
         </div>
-
         <!-- Input -->
         <div class="space-y-2">
           <UiText variant="label">Input</UiText>
           <UiInput v-model="email" placeholder="you@example.com" />
         </div>
-
         <!-- Alert -->
         <UiAlert variant="info" title="All set!">
           Your design system components are working in Vue.
         </UiAlert>
       </UiCardBody>
-
       <UiCardFooter class="justify-between">
         <UiButton variant="primary">Get Started</UiButton>
         <ThemeToggle />
@@ -668,9 +588,7 @@ const email = ref("");
 `,
       "src/components/ThemeToggle.vue": `<script setup lang="ts">
 import { ref, onMounted } from "vue";
-
 const theme = ref<"light" | "dark">("light");
-
 onMounted(() => {
   const stored = localStorage.getItem("theme");
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -678,18 +596,15 @@ onMounted(() => {
     (stored as "light" | "dark") || (prefersDark ? "dark" : "light");
   applyTheme();
 });
-
 function toggle() {
   theme.value = theme.value === "dark" ? "light" : "dark";
   applyTheme();
 }
-
 function applyTheme() {
   document.documentElement.classList.toggle("dark", theme.value === "dark");
   localStorage.setItem("theme", theme.value);
 }
 </script>
-
 <template>
   <button
     class="inline-flex h-9 items-center justify-center rounded-md border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -713,10 +628,8 @@ export { default as UiText } from "./Text.vue";
       "src/components/ui/Button.vue": `<script setup lang="ts">
 import { computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
-
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
-
 interface Props {
   variant?: Variant;
   size?: Size;
@@ -727,7 +640,6 @@ interface Props {
   as?: string;
   class?: HTMLAttributes["class"];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   variant: "primary",
   size: "md",
@@ -737,7 +649,6 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false,
   disabled: false,
 });
-
 const variantClasses: Record<Variant, string> = {
   primary:
     "bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active",
@@ -748,19 +659,16 @@ const variantClasses: Record<Variant, string> = {
   danger:
     "bg-danger text-danger-foreground hover:bg-danger-hover active:bg-danger-active",
 };
-
 const sizeClasses: Record<Size, string> = {
   sm: "h-8 px-3 text-xs gap-1.5",
   md: "h-[var(--ds-control-height,36px)] px-[var(--ds-padding-button-x,16px)] text-sm gap-2",
   lg: "h-10 px-5 text-sm gap-2",
 };
-
 const iconOnlySizeClasses: Record<Size, string> = {
   sm: "w-8 !px-0",
   md: "w-9 !px-0",
   lg: "w-10 !px-0",
 };
-
 const classes = computed(() =>
   cn(
     // base
@@ -783,7 +691,6 @@ const classes = computed(() =>
   ),
 );
 </script>
-
 <template>
   <component
     :is="as"
@@ -821,7 +728,6 @@ const classes = computed(() =>
       "src/components/ui/Badge.vue": `<script setup lang="ts">
 import { computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
-
 type Variant =
   | "default"
   | "primary"
@@ -832,22 +738,18 @@ type Variant =
   | "info"
   | "outline";
 type Size = "sm" | "md" | "lg";
-
 interface Props {
   variant?: Variant;
   size?: Size;
   dismissible?: boolean;
   class?: HTMLAttributes["class"];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   variant: "default",
   size: "md",
   dismissible: false,
 });
-
 const emit = defineEmits<{ dismiss: [] }>();
-
 const variantClasses: Record<Variant, string> = {
   default: "bg-muted text-foreground border border-transparent",
   primary:
@@ -862,13 +764,11 @@ const variantClasses: Record<Variant, string> = {
   info: "bg-info-muted text-info-muted-foreground border border-transparent",
   outline: "bg-transparent text-foreground border border-border",
 };
-
 const sizeClasses: Record<Size, string> = {
   sm: "px-2 py-0.5 text-[11px] gap-1",
   md: "px-2.5 py-1 text-xs gap-1.5",
   lg: "px-3 py-1.5 text-sm gap-2",
 };
-
 const classes = computed(() =>
   cn(
     "inline-flex items-center gap-1.5 rounded-full font-medium leading-none whitespace-nowrap",
@@ -880,7 +780,6 @@ const classes = computed(() =>
   ),
 );
 </script>
-
 <template>
   <span :class="classes" data-ds data-ds-component="badge">
     <slot />
@@ -911,10 +810,8 @@ const classes = computed(() =>
       "src/components/ui/Card.vue": `<script setup lang="ts">
 import { computed, provide, type HTMLAttributes, type InjectionKey } from "vue";
 import { cn } from "@/lib/cn";
-
 type Variant = "default" | "outlined" | "elevated" | "interactive";
 type Padding = "compact" | "comfortable";
-
 interface Props {
   variant?: Variant;
   padding?: Padding;
@@ -922,17 +819,14 @@ interface Props {
   as?: string;
   class?: HTMLAttributes["class"];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   variant: "default",
   padding: "compact",
   as: "div",
   fullWidth: false,
 });
-
 export const cardPaddingKey = Symbol("cardPadding") as InjectionKey<Padding>;
 provide(cardPaddingKey, props.padding);
-
 const variantClasses: Record<Variant, string> = {
   default: "bg-surface border border-border",
   outlined: "bg-transparent border border-border-strong",
@@ -940,7 +834,6 @@ const variantClasses: Record<Variant, string> = {
   interactive:
     "bg-surface border border-border transition-[border-color,box-shadow,transform] duration-[var(--duration-normal,200ms)] ease-[var(--easing-standard,cubic-bezier(0.4,0,0.2,1))] hover:border-border-strong hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring cursor-pointer",
 };
-
 const classes = computed(() =>
   cn(
     "flex flex-col rounded-md overflow-hidden text-sm text-foreground",
@@ -950,7 +843,6 @@ const classes = computed(() =>
   ),
 );
 </script>
-
 <template>
   <component :is="as" :class="classes" data-ds data-ds-component="card">
     <slot />
@@ -961,14 +853,11 @@ const classes = computed(() =>
 import { inject, computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
 import { cardPaddingKey } from "./Card.vue";
-
 interface Props {
   class?: HTMLAttributes["class"];
 }
-
 const props = defineProps<Props>();
 const padding = inject(cardPaddingKey, "compact");
-
 const classes = computed(() =>
   cn(
     "flex flex-col",
@@ -977,7 +866,6 @@ const classes = computed(() =>
   ),
 );
 </script>
-
 <template>
   <div :class="classes" data-ds data-ds-component="card-header">
     <slot />
@@ -988,14 +876,11 @@ const classes = computed(() =>
 import { inject, computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
 import { cardPaddingKey } from "./Card.vue";
-
 interface Props {
   class?: HTMLAttributes["class"];
 }
-
 const props = defineProps<Props>();
 const padding = inject(cardPaddingKey, "compact");
-
 const classes = computed(() =>
   cn(
     "flex flex-col flex-1",
@@ -1004,7 +889,6 @@ const classes = computed(() =>
   ),
 );
 </script>
-
 <template>
   <div :class="classes" data-ds data-ds-component="card-body">
     <slot />
@@ -1015,14 +899,11 @@ const classes = computed(() =>
 import { inject, computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
 import { cardPaddingKey } from "./Card.vue";
-
 interface Props {
   class?: HTMLAttributes["class"];
 }
-
 const props = defineProps<Props>();
 const padding = inject(cardPaddingKey, "compact");
-
 const classes = computed(() =>
   cn(
     "flex items-center",
@@ -1031,7 +912,6 @@ const classes = computed(() =>
   ),
 );
 </script>
-
 <template>
   <div :class="classes" data-ds data-ds-component="card-footer">
     <slot />
@@ -1041,25 +921,20 @@ const classes = computed(() =>
       "src/components/ui/Input.vue": `<script setup lang="ts">
 import { computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
-
 type Variant = "default" | "error" | "success";
 type Size = "sm" | "md" | "lg";
-
 interface Props {
   variant?: Variant;
   size?: Size;
   disabled?: boolean;
   class?: HTMLAttributes["class"];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   variant: "default",
   size: "md",
   disabled: false,
 });
-
 const model = defineModel<string>();
-
 const variantClasses: Record<Variant, string> = {
   default:
     "border-input hover:border-border-strong focus-visible:border-border-strong",
@@ -1068,13 +943,11 @@ const variantClasses: Record<Variant, string> = {
   success:
     "border-success text-foreground focus-visible:border-success placeholder:text-input-placeholder",
 };
-
 const sizeClasses: Record<Size, string> = {
   sm: "h-8 px-2.5 text-xs",
   md: "h-[var(--ds-control-height,36px)] px-3 text-sm",
   lg: "h-10 px-3.5 text-sm",
 };
-
 const classes = computed(() =>
   cn(
     "flex w-full text-sm leading-5 rounded-md border bg-background text-input-foreground",
@@ -1089,7 +962,6 @@ const classes = computed(() =>
   ),
 );
 </script>
-
 <template>
   <input
     v-model="model"
@@ -1103,23 +975,18 @@ const classes = computed(() =>
       "src/components/ui/Alert.vue": `<script setup lang="ts">
 import { computed, ref, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
-
 type Variant = "info" | "success" | "warning" | "danger" | "default";
-
 interface Props {
   variant?: Variant;
   title?: string;
   dismissible?: boolean;
   class?: HTMLAttributes["class"];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   variant: "info",
   dismissible: false,
 });
-
 const dismissed = ref(false);
-
 const variantClasses: Record<Variant, string> = {
   info: "bg-info-muted text-info-muted-foreground border-info/20",
   success: "bg-success-muted text-success-muted-foreground border-success/20",
@@ -1127,7 +994,6 @@ const variantClasses: Record<Variant, string> = {
   danger: "bg-danger-muted text-danger-muted-foreground border-danger/20",
   default: "bg-muted text-muted-foreground border-border",
 };
-
 const iconColorClasses: Record<Variant, string> = {
   info: "text-info",
   success: "text-success",
@@ -1135,7 +1001,6 @@ const iconColorClasses: Record<Variant, string> = {
   danger: "text-danger",
   default: "text-muted-foreground",
 };
-
 const classes = computed(() =>
   cn(
     "relative flex gap-3 rounded-md p-4 text-sm leading-5 border",
@@ -1144,7 +1009,6 @@ const classes = computed(() =>
     props.class,
   ),
 );
-
 // SVG icon paths by variant
 const iconPaths: Record<Variant, string> = {
   info: "M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z",
@@ -1154,7 +1018,6 @@ const iconPaths: Record<Variant, string> = {
   default: "M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z",
 };
 </script>
-
 <template>
   <div
     v-if="!dismissed"
@@ -1208,42 +1071,34 @@ const iconPaths: Record<Variant, string> = {
       "src/components/ui/Heading.vue": `<script setup lang="ts">
 import { computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
-
 type Level = 1 | 2 | 3 | 4;
 type Color = "default" | "foreground" | "muted" | "primary";
-
 interface Props {
   level?: Level;
   color?: Color;
   class?: HTMLAttributes["class"];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   level: 1,
   color: "default",
 });
-
 const levelClasses: Record<Level, string> = {
   1: "text-[30px] leading-[36px] font-bold tracking-tight",
   2: "text-[24px] leading-[32px] font-semibold tracking-tight",
   3: "text-[20px] leading-[28px] font-semibold tracking-normal",
   4: "text-[18px] leading-[28px] font-medium tracking-normal",
 };
-
 const colorClasses: Record<Color, string> = {
   default: "text-foreground",
   foreground: "text-foreground",
   muted: "text-muted-foreground",
   primary: "text-primary",
 };
-
 const tag = computed(() => \`h\${props.level}\` as const);
-
 const classes = computed(() =>
   cn(levelClasses[props.level], colorClasses[props.color], props.class),
 );
 </script>
-
 <template>
   <component :is="tag" :class="classes" data-ds data-ds-component="heading">
     <slot />
@@ -1253,7 +1108,6 @@ const classes = computed(() =>
       "src/components/ui/Text.vue": `<script setup lang="ts">
 import { computed, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/cn";
-
 type Variant = "body" | "bodySm" | "caption" | "label" | "overline" | "code";
 type Color =
   | "default"
@@ -1264,20 +1118,17 @@ type Color =
   | "warning"
   | "danger"
   | "info";
-
 interface Props {
   variant?: Variant;
   color?: Color;
   as?: string;
   class?: HTMLAttributes["class"];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   variant: "body",
   color: "default",
   as: "p",
 });
-
 const variantClasses: Record<Variant, string> = {
   body: "text-[16px] leading-[24px] font-normal tracking-normal",
   bodySm: "text-[14px] leading-[20px] font-normal tracking-normal",
@@ -1288,7 +1139,6 @@ const variantClasses: Record<Variant, string> = {
     "text-[12px] leading-[16px] font-semibold tracking-wider uppercase text-muted-foreground",
   code: "text-[14px] leading-[20px] font-normal tracking-normal font-mono",
 };
-
 const colorClasses: Record<Color, string> = {
   default: "text-foreground",
   foreground: "text-foreground",
@@ -1299,12 +1149,10 @@ const colorClasses: Record<Color, string> = {
   danger: "text-danger",
   info: "text-info",
 };
-
 const classes = computed(() =>
   cn(variantClasses[props.variant], colorClasses[props.color], props.class),
 );
 </script>
-
 <template>
   <component :is="as" :class="classes" data-ds data-ds-component="text">
     <slot />
@@ -1313,13 +1161,11 @@ const classes = computed(() =>
 `,
     },
   },
-
   "laravel-blade": {
     files: {
       "vite.config.js": `import tailwindcss from "@tailwindcss/vite";
 import laravel from "laravel-vite-plugin";
 import { defineConfig } from "vite";
-
 export default defineConfig({
   plugins: [
     laravel({
@@ -1335,7 +1181,6 @@ export default defineConfig({
 `,
       "resources/js/app.js": `// Unified UI — Laravel Blade Starter
 // Design tokens are loaded via CSS. This file handles theme toggling.
-
 function initTheme() {
   const stored = localStorage.getItem("theme");
   const prefersDark = window.matchMedia(
@@ -1344,15 +1189,12 @@ function initTheme() {
   const theme = stored || (prefersDark ? "dark" : "light");
   document.documentElement.classList.toggle("dark", theme === "dark");
 }
-
 function toggleTheme() {
   const isDark = document.documentElement.classList.toggle("dark");
   localStorage.setItem("theme", isDark ? "dark" : "light");
 }
-
 // Initialize on load
 initTheme();
-
 // Expose globally for Blade onclick handlers
 window.toggleTheme = toggleTheme;
 `,
@@ -1371,7 +1213,6 @@ window.toggleTheme = toggleTheme;
 </html>
 `,
       "resources/views/welcome.blade.php": `@extends('layouts.app')
-
 @section('content')
 <div class="flex min-h-svh flex-col items-center justify-center gap-8 p-8">
     <x-ui.card class="w-full max-w-lg">
@@ -1381,7 +1222,6 @@ window.toggleTheme = toggleTheme;
                 Your Laravel project is ready with components. Start building!
             </x-ui.text>
         </x-ui.card-header>
-
         <x-ui.card-body class="space-y-6">
             {{-- Buttons --}}
             <div class="space-y-2">
@@ -1394,7 +1234,6 @@ window.toggleTheme = toggleTheme;
                     <x-ui.button variant="primary" :loading="true" size="sm">Loading</x-ui.button>
                 </div>
             </div>
-
             {{-- Badges --}}
             <div class="space-y-2">
                 <x-ui.text variant="label">Badges</x-ui.text>
@@ -1408,19 +1247,16 @@ window.toggleTheme = toggleTheme;
                     <x-ui.badge variant="outline">Outline</x-ui.badge>
                 </div>
             </div>
-
             {{-- Input --}}
             <div class="space-y-2">
                 <x-ui.text variant="label">Input</x-ui.text>
                 <x-ui.input placeholder="you@example.com" />
             </div>
-
             {{-- Alert --}}
             <x-ui.alert variant="info" title="All set!">
                 Your design system components are working in Laravel.
             </x-ui.alert>
         </x-ui.card-body>
-
         <x-ui.card-footer class="justify-between">
             <x-ui.button variant="primary">Get Started</x-ui.button>
             <x-ui.button variant="secondary" onclick="toggleTheme()">Toggle Theme</x-ui.button>
@@ -1438,7 +1274,6 @@ window.toggleTheme = toggleTheme;
     'loading' => false,
     'disabled' => false,
 ])
-
 @php
 $variants = [
     'primary' => 'bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active',
@@ -1446,19 +1281,16 @@ $variants = [
     'ghost' => 'bg-transparent text-foreground hover:bg-muted hover:text-foreground active:bg-secondary-active',
     'danger' => 'bg-danger text-danger-foreground hover:bg-danger-hover active:bg-danger-active',
 ];
-
 $sizes = [
     'sm' => 'h-8 px-3 text-xs gap-1.5',
     'md' => 'h-[var(--ds-control-height,36px)] px-[var(--ds-padding-button-x,16px)] text-sm gap-2',
     'lg' => 'h-10 px-5 text-sm gap-2',
 ];
-
 $iconOnlySizes = [
     'sm' => 'w-8 !px-0',
     'md' => 'w-9 !px-0',
     'lg' => 'w-10 !px-0',
 ];
-
 $classes = implode(' ', array_filter([
     'inline-flex items-center justify-center gap-2 text-sm font-medium leading-5 rounded-md',
     'transition-[color,background-color,border-color,box-shadow,opacity,transform] duration-[var(--duration-fast,150ms)] ease-[var(--easing-standard,cubic-bezier(0.4,0,0.2,1))]',
@@ -1472,7 +1304,6 @@ $classes = implode(' ', array_filter([
     $loading ? 'pointer-events-none opacity-70' : '',
 ]));
 @endphp
-
 <{{ $as }}
     {{ $attributes->merge(['class' => $classes, 'disabled' => $disabled || $loading]) }}
     data-ds
@@ -1493,7 +1324,6 @@ $classes = implode(' ', array_filter([
     'size' => 'md',
     'dismissible' => false,
 ])
-
 @php
 $variants = [
     'default' => 'bg-muted text-foreground border border-transparent',
@@ -1505,13 +1335,11 @@ $variants = [
     'info' => 'bg-info-muted text-info-muted-foreground border border-transparent',
     'outline' => 'bg-transparent text-foreground border border-border',
 ];
-
 $sizes = [
     'sm' => 'px-2 py-0.5 text-[11px] gap-1',
     'md' => 'px-2.5 py-1 text-xs gap-1.5',
     'lg' => 'px-3 py-1.5 text-sm gap-2',
 ];
-
 $classes = implode(' ', [
     'inline-flex items-center gap-1.5 rounded-full font-medium leading-none whitespace-nowrap',
     'transition-[color,background-color,border-color,box-shadow,opacity] duration-[var(--duration-fast,150ms)] ease-[var(--easing-standard,cubic-bezier(0.4,0,0.2,1))]',
@@ -1520,7 +1348,6 @@ $classes = implode(' ', [
     $sizes[$size] ?? $sizes['md'],
 ]);
 @endphp
-
 <span {{ $attributes->merge(['class' => $classes]) }} data-ds data-ds-component="badge">
     {{ $slot }}
     @if($dismissible)
@@ -1540,7 +1367,6 @@ $classes = implode(' ', [
     'fullWidth' => false,
     'as' => 'div',
 ])
-
 @php
 $variants = [
     'default' => 'bg-surface border border-border',
@@ -1548,50 +1374,42 @@ $variants = [
     'elevated' => 'bg-surface-raised border border-border-muted shadow-md',
     'interactive' => 'bg-surface border border-border transition-[border-color,box-shadow,transform] duration-[var(--duration-normal,200ms)] ease-[var(--easing-standard,cubic-bezier(0.4,0,0.2,1))] hover:border-border-strong hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring cursor-pointer',
 ];
-
 $classes = implode(' ', array_filter([
     'flex flex-col rounded-md overflow-hidden text-sm text-foreground',
     $variants[$variant] ?? $variants['default'],
     $fullWidth ? 'w-full' : '',
 ]));
 @endphp
-
 <{{ $as }} {{ $attributes->merge(['class' => $classes]) }} data-ds data-ds-component="card" data-ds-padding="{{ $padding }}">
     {{ $slot }}
 </{{ $as }}>
 `,
       "resources/views/components/ui/card-header.blade.php": `@aware(['padding' => 'compact'])
-
 @php
 $classes = $padding === 'comfortable'
     ? 'flex flex-col px-6 pt-6 gap-1.5'
     : 'flex flex-col px-[var(--ds-padding-card,16px)] pt-[var(--ds-padding-card,16px)] gap-1';
 @endphp
-
 <div {{ $attributes->merge(['class' => $classes]) }} data-ds data-ds-component="card-header">
     {{ $slot }}
 </div>
 `,
       "resources/views/components/ui/card-body.blade.php": `@aware(['padding' => 'compact'])
-
 @php
 $classes = $padding === 'comfortable'
     ? 'flex flex-col flex-1 px-6 py-4 gap-4'
     : 'flex flex-col flex-1 px-[var(--ds-padding-card,16px)] py-3 gap-[var(--ds-gap-default,0.75rem)]';
 @endphp
-
 <div {{ $attributes->merge(['class' => $classes]) }} data-ds data-ds-component="card-body">
     {{ $slot }}
 </div>
 `,
       "resources/views/components/ui/card-footer.blade.php": `@aware(['padding' => 'compact'])
-
 @php
 $classes = $padding === 'comfortable'
     ? 'flex items-center px-6 pb-6 gap-3'
     : 'flex items-center px-[var(--ds-padding-card,16px)] pb-[var(--ds-padding-card,16px)] gap-2';
 @endphp
-
 <div {{ $attributes->merge(['class' => $classes]) }} data-ds data-ds-component="card-footer">
     {{ $slot }}
 </div>
@@ -1601,20 +1419,17 @@ $classes = $padding === 'comfortable'
     'size' => 'md',
     'disabled' => false,
 ])
-
 @php
 $variants = [
     'default' => 'border-input hover:border-border-strong focus-visible:border-border-strong',
     'error' => 'border-danger text-foreground focus-visible:border-danger placeholder:text-input-placeholder',
     'success' => 'border-success text-foreground focus-visible:border-success placeholder:text-input-placeholder',
 ];
-
 $sizes = [
     'sm' => 'h-8 px-2.5 text-xs',
     'md' => 'h-[var(--ds-control-height,36px)] px-3 text-sm',
     'lg' => 'h-10 px-3.5 text-sm',
 ];
-
 $classes = implode(' ', [
     'flex w-full text-sm leading-5 rounded-md border bg-background text-input-foreground',
     'placeholder:text-input-placeholder',
@@ -1626,7 +1441,6 @@ $classes = implode(' ', [
     $sizes[$size] ?? $sizes['md'],
 ]);
 @endphp
-
 <input {{ $attributes->merge(['class' => $classes, 'disabled' => $disabled, 'type' => 'text']) }} data-ds data-ds-component="input" />
 `,
       "resources/views/components/ui/alert.blade.php": `@props([
@@ -1634,7 +1448,6 @@ $classes = implode(' ', [
     'title' => null,
     'dismissible' => false,
 ])
-
 @php
 $variants = [
     'info' => 'bg-info-muted text-info-muted-foreground border-info/20',
@@ -1643,7 +1456,6 @@ $variants = [
     'danger' => 'bg-danger-muted text-danger-muted-foreground border-danger/20',
     'default' => 'bg-muted text-muted-foreground border-border',
 ];
-
 $iconColors = [
     'info' => 'text-info',
     'success' => 'text-success',
@@ -1651,7 +1463,6 @@ $iconColors = [
     'danger' => 'text-danger',
     'default' => 'text-muted-foreground',
 ];
-
 $iconPaths = [
     'info' => 'M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z',
     'success' => 'M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z',
@@ -1659,14 +1470,12 @@ $iconPaths = [
     'danger' => 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a10 10 0 11-20 0 10 10 0 0120 0z',
     'default' => 'M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z',
 ];
-
 $classes = implode(' ', [
     'relative flex gap-3 rounded-md p-4 text-sm leading-5 border',
     'transition-colors duration-[var(--duration-fast,150ms)]',
     $variants[$variant] ?? $variants['info'],
 ]);
 @endphp
-
 <div {{ $attributes->merge(['class' => $classes]) }} role="alert" data-ds data-ds-component="alert">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 shrink-0 mt-0.5 {{ $iconColors[$variant] ?? $iconColors['info'] }}">
         <path d="{{ $iconPaths[$variant] ?? $iconPaths['info'] }}"/>
@@ -1692,7 +1501,6 @@ $classes = implode(' ', [
     'level' => 1,
     'color' => 'default',
 ])
-
 @php
 $levels = [
     1 => 'text-[30px] leading-[36px] font-bold tracking-tight',
@@ -1700,22 +1508,18 @@ $levels = [
     3 => 'text-[20px] leading-[28px] font-semibold tracking-normal',
     4 => 'text-[18px] leading-[28px] font-medium tracking-normal',
 ];
-
 $colors = [
     'default' => 'text-foreground',
     'foreground' => 'text-foreground',
     'muted' => 'text-muted-foreground',
     'primary' => 'text-primary',
 ];
-
 $classes = implode(' ', [
     $levels[$level] ?? $levels[1],
     $colors[$color] ?? $colors['default'],
 ]);
-
 $tag = 'h' . min(max((int)$level, 1), 6);
 @endphp
-
 <{{ $tag }} {{ $attributes->merge(['class' => $classes]) }} data-ds data-ds-component="heading">
     {{ $slot }}
 </{{ $tag }}>
@@ -1725,7 +1529,6 @@ $tag = 'h' . min(max((int)$level, 1), 6);
     'color' => 'default',
     'as' => 'p',
 ])
-
 @php
 $variants = [
     'body' => 'text-[16px] leading-[24px] font-normal tracking-normal',
@@ -1735,7 +1538,6 @@ $variants = [
     'overline' => 'text-[12px] leading-[16px] font-semibold tracking-wider uppercase text-muted-foreground',
     'code' => 'text-[14px] leading-[20px] font-normal tracking-normal font-mono',
 ];
-
 $colors = [
     'default' => 'text-foreground',
     'foreground' => 'text-foreground',
@@ -1746,13 +1548,11 @@ $colors = [
     'danger' => 'text-danger',
     'info' => 'text-info',
 ];
-
 $classes = implode(' ', [
     $variants[$variant] ?? $variants['body'],
     $colors[$color] ?? $colors['default'],
 ]);
 @endphp
-
 <{{ $as }} {{ $attributes->merge(['class' => $classes]) }} data-ds data-ds-component="text">
     {{ $slot }}
 </{{ $as }}>
@@ -1760,21 +1560,17 @@ $classes = implode(' ', [
     },
   },
 };
-
 // ---------------------------------------------------------------------------
 // Starter kit scaffolding command
 // ---------------------------------------------------------------------------
-
 async function cmdInitWithTemplate(positional, flags) {
   log();
   log(`  ${c("bold", "Unified UI")} ${c("dim", "— Create a new project")}`);
   log();
-
   // 1. Pick framework
   let framework;
   const templateFlag =
     typeof flags.template === "string" ? flags.template : null;
-
   if (templateFlag) {
     framework = FRAMEWORKS.find((f) => f.name === templateFlag);
     if (!framework) {
@@ -1796,27 +1592,21 @@ async function cmdInitWithTemplate(positional, flags) {
     }
     log();
   }
-
   logStep("✓", `Framework: ${c("cyan", framework.label)}`);
-
   // 2. Get project name
   let projectName = positional[0];
   if (!projectName) {
     projectName = await promptText("Project name:", "my-unified-app");
   }
-
   const targetDir = resolve(process.cwd(), projectName);
   logStep("✓", `Project: ${c("cyan", projectName)}`);
   log();
-
   // 3. Run the official scaffolding command
   logStep("📦", `Scaffolding ${c("cyan", framework.label)} project...`);
   log();
-
   const scaffoldCmd = framework.scaffoldCmd(projectName);
   logStep("  ", c("dim", `> ${scaffoldCmd}`));
   log();
-
   const scaffoldOk = runCmd(scaffoldCmd, process.cwd());
   if (!scaffoldOk) {
     logError(
@@ -1827,30 +1617,24 @@ async function cmdInitWithTemplate(positional, flags) {
     );
     process.exit(1);
   }
-
   if (!existsSync(targetDir)) {
     logError(
       `Expected directory "${projectName}" was not created by the scaffolding tool.`,
     );
     process.exit(1);
   }
-
   log();
   logStep("✓", c("green", `${framework.label} project scaffolded`));
-
   // 4. Install Unified UI + extra deps
   logStep("📦", "Installing Unified UI design system...");
-
   const pm = await detectPackageManager(targetDir);
   const allDeps = [...framework.deps];
   const allDevDeps = [...framework.devDeps];
-
   if (allDeps.length > 0) {
     const depCmd = getInstallCommand(pm, allDeps);
     logStep("  ", c("dim", depCmd));
     runCmd(depCmd, targetDir, "pipe");
   }
-
   if (allDevDeps.length > 0) {
     const devDepCmd = getInstallCommand(pm, allDevDeps)
       .replace(" add ", " add -D ")
@@ -1858,13 +1642,10 @@ async function cmdInitWithTemplate(positional, flags) {
     logStep("  ", c("dim", devDepCmd));
     runCmd(devDepCmd, targetDir, "pipe");
   }
-
   logStep("✓", c("green", "Dependencies installed"));
-
   // 5. Apply overlay files
   log();
   logStep("✏️ ", "Applying Unified UI starter files...");
-
   const overlay = OVERLAYS[framework.name];
   if (overlay) {
     for (const [filePath, content] of Object.entries(overlay.files)) {
@@ -1873,7 +1654,6 @@ async function cmdInitWithTemplate(positional, flags) {
       logStep("✓", c("green", filePath));
     }
   }
-
   // 6. Git commit (if git was initialized by the scaffold tool)
   const gitDir = join(targetDir, ".git");
   if (existsSync(gitDir)) {
@@ -1896,7 +1676,6 @@ async function cmdInitWithTemplate(positional, flags) {
       logStep("✓", c("green", "Initialized git repository"));
     }
   }
-
   // 7. Print success
   log();
   logStep("🎉", c("green", `Project "${projectName}" is ready!`));
@@ -1904,16 +1683,13 @@ async function cmdInitWithTemplate(positional, flags) {
   log(`  ${c("dim", "Next steps:")}`);
   log();
   log(`    ${c("cyan", `cd ${projectName}`)}`);
-
   if (framework.name === "laravel-blade") {
     log(`    ${c("cyan", "npm run dev")}`);
     log(`    ${c("cyan", "php artisan serve")}`);
   } else {
     log(`    ${c("cyan", "npm run dev")}`);
   }
-
   log();
-
   if (framework.name === "vuejs" || framework.name === "laravel-blade") {
     log(
       `  ${c("dim", "Note: This template includes design tokens (CSS variables + Tailwind")}`,
@@ -1931,19 +1707,15 @@ async function cmdInitWithTemplate(positional, flags) {
     log();
   }
 }
-
 async function cmdInit(positional = [], flags = {}) {
   // If --template flag is present, run the full scaffolding flow
   if (flags.template) {
     return cmdInitWithTemplate(positional, flags);
   }
-
   log();
   log(`  ${c("bold", "Unified UI")} ${c("dim", "— Initialize project")}`);
   log();
-
   const config = loadConfig();
-
   if (existsSync(join(config.root, CONFIG_FILE))) {
     const overwrite = await confirm(
       `${c("yellow", CONFIG_FILE)} already exists. Overwrite?`,
@@ -1954,10 +1726,8 @@ async function cmdInit(positional = [], flags = {}) {
       return;
     }
   }
-
   saveConfig(DEFAULT_CONFIG);
   logStep("✓", `Created ${c("cyan", CONFIG_FILE)}`);
-
   // Create directories
   const srcDir = join(config.root, config.srcDir);
   const dirs = [
@@ -1965,16 +1735,13 @@ async function cmdInit(positional = [], flags = {}) {
     join(srcDir, "lib"),
     join(srcDir, "styles"),
   ];
-
   for (const dir of dirs) {
     mkdirSync(dir, { recursive: true });
     logStep("✓", `Created ${c("dim", dir.replace(`${config.root}/`, ""))}`);
   }
-
   // Fetch and write the base utilities (cn + focus-ring) and styles
   log();
   logStep("📡", "Fetching base utilities from registry...");
-
   const baseItems = ["cn", "focus-ring", "styles"];
   for (const name of baseItems) {
     try {
@@ -1988,13 +1755,11 @@ async function cmdInit(positional = [], flags = {}) {
       logStep("⚠", c("yellow", `Could not fetch ${name} — add manually later`));
     }
   }
-
   // Install base npm deps
   await installNpmDeps(
     ["class-variance-authority", "clsx", "tailwind-merge"],
     config.root,
   );
-
   log();
   logStep("🎉", c("green", "Project initialized! Start adding components:"));
   log();
@@ -2004,14 +1769,11 @@ async function cmdInit(positional = [], flags = {}) {
   );
   log();
 }
-
 async function cmdAdd(names, flags = {}) {
   log();
   log(`  ${c("bold", "Unified UI")} ${c("dim", "— Add components")}`);
   log();
-
   const config = loadConfig();
-
   if (!existsSync(join(config.root, CONFIG_FILE)) && !flags.yes) {
     const init = await confirm(
       `No ${c("cyan", CONFIG_FILE)} found. Initialize first?`,
@@ -2021,7 +1783,6 @@ async function cmdAdd(names, flags = {}) {
       log();
     }
   }
-
   // If --all, fetch index and add everything
   if (flags.all) {
     logStep("📡", "Fetching full registry index...");
@@ -2036,32 +1797,27 @@ async function cmdAdd(names, flags = {}) {
       return;
     }
   }
-
   if (names.length === 0) {
     logError(
       "No component names specified. Usage: npx @work-rjkashyap/unified-ui add <component...>",
     );
     return;
   }
-
   // Resolve the full dependency tree
   logStep(
     "🔍",
     `Resolving dependencies for: ${c("cyan", names.join(", "))}...`,
   );
   const tree = await resolveFullDependencyTree(names, REGISTRY_BASE_URL);
-
   if (tree.size === 0) {
     logError("No components resolved. Check the names and try again.");
     return;
   }
-
   // Summarize what will be installed
   const components = [];
   const utils = [];
   const styles = [];
   const allNpmDeps = new Set();
-
   for (const [name, item] of tree) {
     switch (item.type) {
       case "unified-ui:component":
@@ -2074,12 +1830,10 @@ async function cmdAdd(names, flags = {}) {
         styles.push(name);
         break;
     }
-
     for (const dep of item.dependencies || []) {
       allNpmDeps.add(dep);
     }
   }
-
   log();
   if (components.length > 0) {
     logStep("🧩", `Components: ${c("cyan", components.join(", "))}`);
@@ -2091,7 +1845,6 @@ async function cmdAdd(names, flags = {}) {
     logStep("📦", `Packages:   ${c("dim", [...allNpmDeps].join(", "))}`);
   }
   log();
-
   // Confirm unless --yes
   if (!flags.yes) {
     const proceed = await confirm("Proceed with installation?");
@@ -2102,11 +1855,9 @@ async function cmdAdd(names, flags = {}) {
     }
     log();
   }
-
   // Write files
   const results = [];
   const overwrite = flags.overwrite || false;
-
   for (const [_name, item] of tree) {
     for (const file of item.files) {
       const targetPath = resolveTargetPath(config, file);
@@ -2114,15 +1865,12 @@ async function cmdAdd(names, flags = {}) {
       results.push(result);
     }
   }
-
   // Report file results
   const created = results.filter((r) => r.status === "created");
   const skipped = results.filter((r) => r.status === "skipped");
-
   for (const r of created) {
     logStep("✓", c("green", r.path.replace(`${config.root}/`, "")));
   }
-
   if (skipped.length > 0) {
     log();
     for (const r of skipped) {
@@ -2134,7 +1882,6 @@ async function cmdAdd(names, flags = {}) {
     log();
     logStep("💡", c("dim", "Use --overwrite to replace existing files."));
   }
-
   // Install npm dependencies
   const depsToInstall = [...allNpmDeps].filter((dep) => {
     // Check if already in package.json
@@ -2152,25 +1899,20 @@ async function cmdAdd(names, flags = {}) {
       return true;
     }
   });
-
   if (depsToInstall.length > 0) {
     log();
     await installNpmDeps(depsToInstall, config.root);
   }
-
   log();
   logStep("🎉", c("green", `Done! ${created.length} file(s) added.`));
   log();
 }
-
 async function cmdList() {
   log();
   log(`  ${c("bold", "Unified UI")} ${c("dim", "— Available components")}`);
   log();
-
   try {
     const index = await fetchJSON(`${REGISTRY_BASE_URL}/index.json`);
-
     // Group by category
     const groups = {};
     for (const item of index.items) {
@@ -2179,13 +1921,11 @@ async function cmdList() {
       if (!groups[cat]) groups[cat] = [];
       groups[cat].push(item);
     }
-
     // Find category labels
     const catLabels = {};
     for (const cat of index.categories || []) {
       catLabels[cat.name] = cat.label;
     }
-
     for (const [cat, items] of Object.entries(groups)) {
       log(`  ${c("bold", catLabels[cat] || cat)}`);
       for (const item of items) {
@@ -2199,7 +1939,6 @@ async function cmdList() {
       }
       log();
     }
-
     log(`  ${c("dim", `${index.totalItems} items total`)}`);
     log();
     log(
@@ -2210,14 +1949,11 @@ async function cmdList() {
     logError(`Could not fetch registry: ${err.message}`);
   }
 }
-
 async function cmdDiff(names) {
   log();
   log(`  ${c("bold", "Unified UI")} ${c("dim", "— Diff local vs registry")}`);
   log();
-
   const config = loadConfig();
-
   for (const name of names) {
     try {
       const item = await fetchJSON(`${REGISTRY_BASE_URL}/${name}.json`);
@@ -2227,10 +1963,8 @@ async function cmdDiff(names) {
           logStep("✗", `${c("red", name)}: not installed locally`);
           continue;
         }
-
         const localContent = readFileSync(targetPath, "utf-8");
         const registryContent = rewriteContentImports(file.content, config);
-
         if (localContent === registryContent) {
           logStep("✓", `${c("green", name)}: up to date`);
         } else {
@@ -2241,10 +1975,8 @@ async function cmdDiff(names) {
       logStep("✗", `${c("red", name)}: ${err.message}`);
     }
   }
-
   log();
 }
-
 function cmdHelp() {
   log();
   log(`  ${c("bold", "Unified UI")} ${c("dim", "— Component Registry CLI")}`);
@@ -2326,17 +2058,14 @@ function cmdHelp() {
   log(`  Registry: ${c("cyan", REGISTRY_BASE_URL)}`);
   log();
 }
-
 // ---------------------------------------------------------------------------
 // Argument parsing
 // ---------------------------------------------------------------------------
-
 function parseArgs(argv) {
   const args = argv.slice(2);
   const command = args[0];
   const flags = {};
   const positional = [];
-
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--yes" || arg === "-y") {
@@ -2364,17 +2093,13 @@ function parseArgs(argv) {
       positional.push(arg);
     }
   }
-
   return { command, positional, flags };
 }
-
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
-
 async function main() {
   const { command, positional, flags } = parseArgs(process.argv);
-
   // Allow custom registry URL
   if (flags.registryUrl) {
     // Override the global — we use a let binding workaround below.
@@ -2382,7 +2107,6 @@ async function main() {
     // For simplicity, we set an env var that's already checked at the top.
     process.env.UNIFIED_UI_REGISTRY_URL = flags.registryUrl;
   }
-
   switch (command) {
     case "init":
       await cmdInit(positional, flags);
@@ -2410,7 +2134,6 @@ async function main() {
       process.exit(1);
   }
 }
-
 main().catch((err) => {
   logError(err.message);
   process.exit(1);

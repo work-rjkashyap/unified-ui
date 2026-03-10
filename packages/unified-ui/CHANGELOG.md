@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [0.3.2] — 2026-03-09
 
 ### 🚀 Features
 
@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([7fb15c9](https://github.com/imrj05/unified-ui/commit/7fb15c907a060b6c15d65fd85e073ed1cbcff740))
 - **changelog:** Auto-update unreleased entries [skip ci] ([7dbe966](https://github.com/imrj05/unified-ui/commit/7dbe96600fe84196757a878c4256a3e3cb0f6682))
 - **changelog:** Auto-update unreleased entries [skip ci] ([6569725](https://github.com/imrj05/unified-ui/commit/656972599dd7703317fbd6b184b95050aca092d8))
 - **changelog:** Auto-update unreleased entries [skip ci] ([57bfcc3](https://github.com/imrj05/unified-ui/commit/57bfcc37256d43487f773bddda7d8c70e7c89b31))

@@ -47,7 +47,7 @@ const STYLES_PATH = join(ROOT, "packages/unified-ui/styles.css");
 // ---------------------------------------------------------------------------
 const SCHEMA_VERSION = "1.0.0";
 const REGISTRY_NAME = "unified-ui";
-const REGISTRY_HOMEPAGE = "https://unified-ui-rajeshwar.vercel.app";
+const REGISTRY_HOMEPAGE = "https://unified-ui.space";
 // ---------------------------------------------------------------------------
 // Dependency maps
 // ---------------------------------------------------------------------------
@@ -692,6 +692,14 @@ function rewriteImports(source) {
     /from\s+["']@unified-ui\/tokens\/([^"']+)["']/g,
     'from "@/lib/tokens/$1"',
   );
+  // Rewrite relative ../tokens/* -> @/lib/tokens/*
+  // (used by src/motion/*.ts which import from ../tokens/motion relative to
+  // their location inside src/motion/ — once scaffolded into the user's
+  // src/lib/motion/ folder the relative path no longer resolves)
+  result = result.replace(
+    /from\s+["']\.\.\/tokens\/([^"']+)["']/g,
+    'from "@/lib/tokens/$1"',
+  );
   return result;
 }
 // ---------------------------------------------------------------------------
@@ -789,8 +797,21 @@ function buildMotionItem() {
   const indexPath = join(MOTION_DIR, "index.ts");
   const source = readSource(indexPath);
   if (!source) return null;
-  // Check for sub-files
+  // Always include the motion token file first so that
+  // @/lib/tokens/motion imports in index.ts and presets.ts resolve correctly
+  // in the user's project (the token is NOT part of the npm package export).
   const motionFiles = [];
+  const motionTokenPath = join(_TOKENS_DIR, "motion.ts");
+  const motionTokenContent = readSource(motionTokenPath);
+  if (motionTokenContent) {
+    motionFiles.push({
+      path: "lib/tokens/motion.ts",
+      content: motionTokenContent,
+      type: "util",
+      target: "lib/tokens/motion.ts",
+    });
+  }
+  // Check for sub-files inside src/motion/
   if (existsSync(MOTION_DIR)) {
     const entries = readdirSync(MOTION_DIR).filter(
       (f) => f.endsWith(".ts") || f.endsWith(".tsx"),
@@ -808,7 +829,9 @@ function buildMotionItem() {
       }
     }
   }
-  if (motionFiles.length === 0) {
+  if (
+    motionFiles.filter((f) => f.path.startsWith("lib/motion/")).length === 0
+  ) {
     motionFiles.push({
       path: "lib/motion.ts",
       content: rewriteImports(source),
@@ -1147,6 +1170,53 @@ function build() {
       },
     },
   };
+  const configSchema = {
+    $id: `${REGISTRY_HOMEPAGE}/r/schema/config.json`,
+    $schema: "http://json-schema.org/draft-07/schema#",
+    title: "Unified UI Configuration",
+    description:
+      "Configuration file for @work-rjkashyap/unified-ui CLI (unified-ui.json)",
+    type: "object",
+    properties: {
+      $schema: {
+        type: "string",
+        description: "JSON Schema URL for editor validation",
+      },
+      srcDir: {
+        type: "string",
+        default: "src",
+        description: "Source directory relative to the project root",
+      },
+      aliases: {
+        type: "object",
+        description: "Path aliases used for import rewriting",
+        properties: {
+          components: {
+            type: "string",
+            default: "@/components/ui",
+            description: "Import alias for UI components",
+          },
+          lib: {
+            type: "string",
+            default: "@/lib",
+            description: "Import alias for utility modules",
+          },
+          styles: {
+            type: "string",
+            default: "@/styles",
+            description: "Import alias for style files",
+          },
+        },
+        additionalProperties: false,
+      },
+      typescript: {
+        type: "boolean",
+        default: true,
+        description: "Whether the project uses TypeScript",
+      },
+    },
+    additionalProperties: false,
+  };
   // Write schemas
   const schemaDir = join(OUTPUT_DIR, "schema");
   mkdirSync(schemaDir, { recursive: true });
@@ -1157,6 +1227,10 @@ function build() {
   writeFileSync(
     join(schemaDir, "registry-item.json"),
     JSON.stringify(registryItemSchema, null, 2),
+  );
+  writeFileSync(
+    join(schemaDir, "config.json"),
+    JSON.stringify(configSchema, null, 2),
   );
   // Summary
   console.log(`\n${"─".repeat(50)}`);

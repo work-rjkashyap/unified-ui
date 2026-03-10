@@ -1,0 +1,566 @@
+/* ============================================
+ * Unified UI — Custom Theme
+ * Preset: Zinc
+ * Style: Vega
+ * Radius: 10px
+ * Font: Inter
+ * Shadows: Default
+ * ============================================ */
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --surface: oklch(0.985 0 0);
+  --surface-raised: oklch(1 0 0);
+  --surface-overlay: oklch(0.97 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-hover: oklch(0.269 0 0);
+  --primary-active: oklch(0.371 0 0);
+  --primary-muted: oklch(0.97 0 0);
+  --primary-muted-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-hover: oklch(0.922 0 0);
+  --secondary-active: oklch(0.87 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --success: oklch(0.546 0.176 142.495);
+  --success-foreground: oklch(0.145 0 0);
+  --success-muted: oklch(0.962 0.044 156.743);
+  --success-muted-foreground: oklch(0.448 0.15 148.335);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.145 0 0);
+  --warning-muted: oklch(0.976 0.037 95.885);
+  --warning-muted-foreground: oklch(0.554 0.135 66.442);
+  --danger: oklch(0.577 0.245 27.325);
+  --danger-foreground: oklch(0.985 0 0);
+  --danger-hover: oklch(0.505 0.213 27.325);
+  --danger-active: oklch(0.444 0.177 27.325);
+  --danger-muted: oklch(0.971 0.013 17.38);
+  --danger-muted-foreground: oklch(0.505 0.213 27.325);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --info: oklch(0.546 0.245 262.881);
+  --info-foreground: oklch(0.985 0 0);
+  --info-muted: oklch(0.962 0.018 254.128);
+  --info-muted-foreground: oklch(0.488 0.217 264.376);
+  --border: oklch(0.922 0 0);
+  --border-muted: oklch(0.97 0 0);
+  --border-strong: oklch(0.708 0 0);
+  --focus-ring: oklch(0.708 0 0);
+  --ring: oklch(0.708 0 0);
+  --input: oklch(0.922 0 0);
+  --input-foreground: oklch(0.205 0 0);
+  --input-placeholder: oklch(0.556 0 0);
+  --disabled: oklch(0.97 0 0);
+  --disabled-foreground: oklch(0.556 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+  --radius-none: 0px;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+  --font-sans:
+    var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+  --shadow-sm:
+    0 1px 3px 0 oklch(0 0 0 / 0.1), 0 1px 2px -1px oklch(0 0 0 / 0.1);
+  --shadow-md:
+    0 4px 6px -1px oklch(0 0 0 / 0.1), 0 2px 4px -2px oklch(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -4px oklch(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.25);
+  --ds-spacing-unit: 1;
+  --ds-padding-card: 1.5rem;
+  --ds-padding-button-x: 1rem;
+  --ds-padding-button-y: 0.5rem;
+  --ds-gap-default: 0.75rem;
+  --ds-border-width: 1px;
+  --ds-control-height: 2.25rem;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --surface: oklch(0.205 0 0);
+  --surface-raised: oklch(0.269 0 0);
+  --surface-overlay: oklch(0.269 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.269 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --primary-hover: oklch(0.922 0 0);
+  --primary-active: oklch(0.87 0 0);
+  --primary-muted: oklch(0.269 0 0);
+  --primary-muted-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --secondary-hover: oklch(0.371 0 0);
+  --secondary-active: oklch(0.439 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --success: oklch(0.627 0.194 149.214);
+  --success-foreground: oklch(0.145 0 0);
+  --success-muted: oklch(0.226 0.083 153.921);
+  --success-muted-foreground: oklch(0.765 0.166 150.261);
+  --warning: oklch(0.828 0.189 84.429);
+  --warning-foreground: oklch(0.145 0 0);
+  --warning-muted: oklch(0.32 0.084 57.263);
+  --warning-muted-foreground: oklch(0.852 0.154 84.101);
+  --danger: oklch(0.704 0.191 22.216);
+  --danger-foreground: oklch(0.985 0 0);
+  --danger-hover: oklch(0.764 0.161 22.216);
+  --danger-active: oklch(0.824 0.121 22.216);
+  --danger-muted: oklch(0.258 0.092 22.216);
+  --danger-muted-foreground: oklch(0.824 0.121 22.216);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  --info: oklch(0.682 0.155 254.128);
+  --info-foreground: oklch(0.145 0 0);
+  --info-muted: oklch(0.246 0.098 264.376);
+  --info-muted-foreground: oklch(0.789 0.116 254.128);
+  --border: color-mix(in oklch, oklch(0.985 0 0) 10%, transparent);
+  --border-muted: oklch(0.269 0 0);
+  --border-strong: oklch(0.556 0 0);
+  --focus-ring: oklch(0.556 0 0);
+  --ring: oklch(0.556 0 0);
+  --input: color-mix(in oklch, oklch(0.985 0 0) 15%, transparent);
+  --input-foreground: oklch(0.985 0 0);
+  --input-placeholder: oklch(0.556 0 0);
+  --disabled: oklch(0.269 0 0);
+  --disabled-foreground: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.546 0.245 262.881);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: color-mix(in oklch, oklch(0.985 0 0) 10%, transparent);
+  --sidebar-ring: oklch(0.439 0 0);
+  --radius: 0.625rem;
+  --radius-none: 0px;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+  --font-sans:
+    var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.2);
+  --shadow-sm:
+    0 1px 3px 0 oklch(0 0 0 / 0.3), 0 1px 2px -1px oklch(0 0 0 / 0.3);
+  --shadow-md:
+    0 4px 6px -1px oklch(0 0 0 / 0.35), 0 2px 4px -2px oklch(0 0 0 / 0.3);
+  --shadow-lg:
+    0 10px 15px -3px oklch(0 0 0 / 0.35), 0 4px 6px -4px oklch(0 0 0 / 0.3);
+  --shadow-xl:
+    0 20px 25px -5px oklch(0 0 0 / 0.4), 0 8px 10px -6px oklch(0 0 0 / 0.35);
+  --shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.5);
+  --ds-spacing-unit: 1;
+  --ds-padding-card: 1.5rem;
+  --ds-padding-button-x: 1rem;
+  --ds-padding-button-y: 0.5rem;
+  --ds-gap-default: 0.75rem;
+  --ds-border-width: 1px;
+  --ds-control-height: 2.25rem;
+}
+/* ---------------------------------------------------------------------------
+   Layer 3: Tailwind v4 Theme Extension
+   ---------------------------------------------------------------------------
+   Maps design system CSS custom properties into Tailwind utility classes.
+
+   After this block, you can use classes like:
+     bg-primary         → background: var(--primary)
+     text-foreground    → color: var(--foreground)
+     rounded-md      → border-radius: var(--radius-md)
+     shadow-md       → box-shadow: var(--shadow-md)
+     z-modal         → z-index: var(--z-modal)
+     duration-normal → transition-duration: var(--duration-normal)
+     ease-standard   → transition-timing-function: var(--easing-standard)
+   --------------------------------------------------------------------------- */
+
+@theme {
+  /* --- Colors (oklch direct references — no prefix) --- */
+
+  /* Core Backgrounds */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Surfaces */
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+
+  /* Card */
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  /* Popover */
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* Muted */
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  /* Primary */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-muted: var(--primary-muted);
+  --color-primary-muted-foreground: var(--primary-muted-foreground);
+
+  /* Secondary */
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-active: var(--secondary-active);
+
+  /* Accent */
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Success */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-success-muted-foreground: var(--success-muted-foreground);
+
+  /* Warning */
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-muted: var(--warning-muted);
+  --color-warning-muted-foreground: var(--warning-muted-foreground);
+
+  /* Danger */
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-active: var(--danger-active);
+  --color-danger-muted: var(--danger-muted);
+  --color-danger-muted-foreground: var(--danger-muted-foreground);
+
+  /* Destructive (alias for danger — matches shadcn/ui naming) */
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Info */
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-muted: var(--info-muted);
+  --color-info-muted-foreground: var(--info-muted-foreground);
+
+  /* Borders */
+  --color-border: var(--border);
+  --color-border-muted: var(--border-muted);
+  --color-border-strong: var(--border-strong);
+
+  /* Focus / Ring */
+  --color-focus-ring: var(--focus-ring);
+  --color-ring: var(--ring);
+
+  /* Input */
+  --color-input: var(--input);
+  --color-input-foreground: var(--input-foreground);
+  --color-input-placeholder: var(--input-placeholder);
+
+  /* Disabled */
+  --color-disabled: var(--disabled);
+  --color-disabled-foreground: var(--disabled-foreground);
+
+  /* Chart */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Code Block */
+  --color-code-bg: var(--code-bg);
+  --color-code-foreground: var(--code-foreground);
+  --color-code-border: var(--code-border);
+  --color-code-header-bg: var(--code-header-bg);
+  --color-code-header-border: var(--code-header-border);
+  --color-code-header-foreground: var(--code-header-foreground);
+  --color-code-badge-bg: var(--code-badge-bg);
+  --color-code-badge-foreground: var(--code-badge-foreground);
+  --color-code-badge-border: var(--code-badge-border);
+  --color-code-copy-foreground: var(--code-copy-foreground);
+  --color-code-copy-hover-foreground: var(--code-copy-hover-foreground);
+  --color-code-copy-hover-bg: var(--code-copy-hover-bg);
+  --color-code-success: var(--code-success);
+  --color-code-line-number: var(--code-line-number);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* --- Z-Index --- */
+  --z-index-base: 0;
+  --z-index-sticky: 10;
+  --z-index-overlay: 40;
+  --z-index-modal: 50;
+  --z-index-dropdown: 60;
+  --z-index-popover: 70;
+  --z-index-toast: 80;
+  --z-index-tooltip: 90;
+  --z-index-max: 9999;
+
+  /* --- Transition Durations --- */
+  --transition-duration-instant: 0ms;
+  --transition-duration-fast: 100ms;
+  --transition-duration-moderate: 150ms;
+  --transition-duration-normal: 200ms;
+  --transition-duration-slow: 300ms;
+  --transition-duration-slower: 400ms;
+  --transition-duration-slowest: 500ms;
+
+  /* --- Transition Easing --- */
+  --transition-timing-function-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+  --transition-timing-function-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --transition-timing-function-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --transition-timing-function-emphasize: cubic-bezier(0, 0, 0.15, 1);
+  --transition-timing-function-linear: cubic-bezier(0, 0, 1, 1);
+  --transition-timing-function-snap: cubic-bezier(0.2, 0, 0, 1);
+
+  /* --- Font Families (static — not overridden at runtime) --- */
+  --font-display:
+    var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
+  --font-mono:
+    var(--font-jetbrains), "Fira Code", "SF Mono", "Cascadia Code", Consolas,
+    "Liberation Mono", Menlo, monospace;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 4: Focus Indicator Utility
+   ---------------------------------------------------------------------------
+   A consistent, accessible focus indicator that uses a very subtle
+   border-color shift. No rings, outlines, or glow — just a minimal
+   visual cue that signals focus without being distracting.
+   --------------------------------------------------------------------------- */
+
+.ds-focus-ring {
+  border-color: var(--border-strong);
+}
+
+/* Focus indicator as a box-shadow variant (kept for backwards compat,
+   now uses a very faint 1px shadow instead of a 2px ring) */
+.ds-focus-ring-shadow {
+  box-shadow: 0 0 0 1px var(--border-strong);
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 5: Base Resets for Design System Components
+   ---------------------------------------------------------------------------
+   Minimal resets that apply to elements within the design system. These
+   do NOT conflict with Fumadocs styles — they only target elements with
+   the `ds-` prefix or within `[data-ds]` containers.
+   --------------------------------------------------------------------------- */
+
+[data-ds] {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 5b: CodeBlock Dark Variant Override
+   ---------------------------------------------------------------------------
+   When variant="dark" is set on CodeBlock, the component renders
+   data-ds-variant="dark". This forces an even deeper black background
+   regardless of the current light/dark theme — useful for hero sections
+   or marketing pages where a high-contrast code block is desired.
+   --------------------------------------------------------------------------- */
+
+[data-ds-component="code-block"][data-ds-variant="dark"] {
+  --code-bg: oklch(0.105 0 0);
+  --code-foreground: oklch(0.85 0 0);
+  --code-border: oklch(0.19 0 0);
+  --code-header-bg: oklch(0.085 0 0);
+  --code-header-border: oklch(0.16 0 0);
+  --code-header-foreground: oklch(0.6 0 0);
+  --code-badge-bg: oklch(0.16 0 0);
+  --code-badge-foreground: oklch(0.5 0 0);
+  --code-badge-border: oklch(0.2 0 0);
+  --code-copy-foreground: oklch(0.5 0 0);
+  --code-copy-hover-foreground: oklch(0.75 0 0);
+  --code-copy-hover-bg: oklch(0.16 0 0);
+  --code-success: oklch(0.72 0.17 155);
+  --code-line-number: oklch(0.33 0 0);
+  --code-keyword: oklch(0.72 0.15 280);
+  --code-string: oklch(0.75 0.14 70);
+  --code-comment: oklch(0.52 0.02 160);
+  --code-number: oklch(0.78 0.14 140);
+  --code-operator: oklch(0.85 0 0);
+  --code-punctuation: oklch(0.65 0 0);
+  --code-function: oklch(0.8 0.14 210);
+  --code-type: oklch(0.75 0.12 170);
+  --code-tag: oklch(0.72 0.16 20);
+  --code-attr-name: oklch(0.78 0.12 200);
+  --code-component: oklch(0.75 0.12 170);
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 5c: CodeBlock Inner Element Resets
+   ---------------------------------------------------------------------------
+   Strip inherited prose/typography styles (e.g. from Fumadocs) from the
+   <pre> and <code> elements inside CodeBlock. Without this, the Fumadocs
+   typography plugin applies background, border, padding, and border-radius
+   to bare <code> elements — creating visible artifacts (shadow-like edges)
+   inside the code block.
+   --------------------------------------------------------------------------- */
+
+[data-ds-component="code-block"] pre {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+[data-ds-component="code-block"] code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 5d: DataList Inner Element Resets
+   ---------------------------------------------------------------------------
+   Strip inherited prose/typography styles (e.g. from Tailwind Typography or
+   Fumadocs) from <dd> elements inside DataList. Without this, the `.prose dd`
+   selector applies `padding-inline-start: 1.625em` which causes the detail
+   value to appear indented relative to the term label in vertical orientation.
+   --------------------------------------------------------------------------- */
+
+[data-ds-component="data-list"] dd {
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 5e: VirtualList Inner Element Resets
+   ---------------------------------------------------------------------------
+   Strip inherited prose/typography styles (e.g. from Tailwind Typography or
+   Fumadocs) from elements inside VirtualList rows. Without this, `.prose p`
+   and `.prose span` selectors apply margins and inflated line-heights that
+   break the fixed-height row layout — pushing content apart and misaligning
+   avatars, text, and trailing badges.
+   --------------------------------------------------------------------------- */
+
+[data-ds-component="virtual-list"] p,
+[data-ds-component="virtual-list"] span {
+  margin: 0;
+  padding: 0;
+}
+
+[data-ds-component="virtual-list"] [role="listitem"] {
+  line-height: 1.25;
+}
+
+/* Consistent focus behavior for all interactive DS elements —
+   subtle border-color shift only, no ring or outline */
+[data-ds] :focus-visible {
+  outline: none;
+  border-color: var(--border-strong);
+}
+
+/* Remove default focus styles for mouse users (keep for keyboard) */
+[data-ds] :focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 6: Transition Defaults
+   ---------------------------------------------------------------------------
+   Default transition properties for design system interactive elements.
+   Uses the standard easing curve and normal duration from tokens.
+   --------------------------------------------------------------------------- */
+
+.ds-transition {
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--easing-standard);
+}
+
+.ds-transition-fast {
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--easing-standard);
+}
+
+.ds-transition-slow {
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: var(--duration-slow);
+  transition-timing-function: var(--easing-decelerate);
+}
+
+/* ---------------------------------------------------------------------------
+   Layer 7: Reduced Motion
+   ---------------------------------------------------------------------------
+   Respects user's prefers-reduced-motion setting. All DS transitions and
+   animations are disabled when reduced motion is preferred.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-ds] *,
+  [data-ds] *::before,
+  [data-ds] *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}

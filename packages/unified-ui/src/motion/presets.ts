@@ -23,13 +23,13 @@
 //   <motion.div {...motionProps(fadeIn)}>...</motion.div>
 // ============================================================================
 
+import type { TargetAndTransition, Transition, Variants } from "framer-motion";
 import {
   durationSeconds,
   easing,
   spring,
   stagger as staggerTokens,
-} from "@unified-ui/tokens/motion";
-import type { TargetAndTransition, Transition, Variants } from "framer-motion";
+} from "../tokens/motion";
 
 // ---------------------------------------------------------------------------
 // Types

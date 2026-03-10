@@ -123,8 +123,29 @@
       "includes": ["starters/**", "template/**"],
       "linter": {
         "rules": {
+          "performance": {
+            "noImgElement": "off"
+          },
+          "a11y": {
+            "useSemanticElements": "off",
+            "useFocusableInteractive": "off",
+            "noStaticElementInteractions": "off",
+            "useAriaPropsSupportedByRole": "off",
+            "noSvgWithoutTitle": "off"
+          },
+          "suspicious": {
+            "noArrayIndexKey": "off",
+            "noExplicitAny": "off",
+            "noDocumentCookie": "off"
+          },
+          "correctness": {
+            "useHookAtTopLevel": "off"
+          },
           "style": {
             "noNonNullAssertion": "off"
+          },
+          "security": {
+            "noDangerouslySetInnerHtml": "off"
           }
         }
       }

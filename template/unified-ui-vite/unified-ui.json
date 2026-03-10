@@ -1,0 +1,10 @@
+{
+  "$schema": "https://unified-ui.space/r/schema/config.json",
+  "srcDir": "src",
+  "aliases": {
+    "components": "@/components/ui",
+    "lib": "@/lib",
+    "styles": "@/styles"
+  },
+  "typescript": true
+}

@@ -24,7 +24,7 @@ export {
   type Stagger,
   spring,
   stagger,
-} from "@unified-ui/tokens/motion";
+} from "../tokens/motion";
 // ---------------------------------------------------------------------------
 // Motion Hooks & Runtime Utilities
 // ---------------------------------------------------------------------------
