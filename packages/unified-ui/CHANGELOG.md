@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Add new color tokens (indigo, purple, pink, cyan, emerald, yellow, fuchsia, sky, lime) to the design system ([2eafdc1](https://github.com/imrj05/unified-ui/commit/2eafdc1c3a3f29ea8abaaa93c1b4cf5eea74acb4))
+
+### 🏗️ Miscellaneous
+
+- **changelog:** Auto-update unreleased entries [skip ci] ([f9f2c15](https://github.com/imrj05/unified-ui/commit/f9f2c156c6c15a716d56635de647eb3c308ba2fb))
+## [0.3.4] — 2026-03-10
+
+### 🚀 Features
+
 - Update version to 0.3.3, enhance CLI with Tailwind CSS setup, and auto-update changelog ([9ac9ceb](https://github.com/imrj05/unified-ui/commit/9ac9cebee65702a8e3864cb5358a2bf198f0b168))
 ## [0.3.3] — 2026-03-10
 
