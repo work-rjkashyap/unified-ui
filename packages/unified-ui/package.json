@@ -1,6 +1,6 @@
 {
   "name": "@work-rjkashyap/unified-ui",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A scalable, token-driven React design system with 75+ components, built with Tailwind CSS v4, Radix UI, and Framer Motion.",
   "author": "Rajeshwar Kashyap",
   "license": "MIT",

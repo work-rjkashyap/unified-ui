@@ -333,6 +333,248 @@ async function installNpmDeps(deps, root) {
     );
   }
 }
+async function installNpmDevDeps(deps, root) {
+  if (deps.length === 0) return;
+  const pm = await detectPackageManager(root);
+  const cmd = getInstallCommand(pm, deps)
+    .replace(" add ", " add -D ")
+    .replace(" install ", " install -D ");
+  logStep("📦", `Installing dev dependencies with ${c("cyan", pm)}...`);
+  logStep("  ", c("dim", cmd));
+  try {
+    execSync(cmd, { cwd: root, stdio: "pipe" });
+    logStep("✓", c("green", `${deps.length} dev package(s) installed`));
+  } catch (_err) {
+    logStep(
+      "⚠",
+      c("yellow", `Auto-install failed. Run manually:\n     ${cmd}`),
+    );
+  }
+}
+// ---------------------------------------------------------------------------
+// Vite + Tailwind CSS detection & setup
+// ---------------------------------------------------------------------------
+function detectViteConfig(root) {
+  for (const name of [
+    "vite.config.ts",
+    "vite.config.js",
+    "vite.config.mjs",
+    "vite.config.mts",
+  ]) {
+    if (existsSync(join(root, name))) return name;
+  }
+  return null;
+}
+function hasDependency(root, pkg) {
+  try {
+    const raw = readFileSync(join(root, "package.json"), "utf-8");
+    const json = JSON.parse(raw);
+    const all = {
+      ...json.dependencies,
+      ...json.devDependencies,
+      ...json.peerDependencies,
+    };
+    return Boolean(all[pkg]);
+  } catch {
+    return false;
+  }
+}
+async function setupTailwindForVite(root, config) {
+  const viteConfigName = detectViteConfig(root);
+  if (!viteConfigName) return; // Not a Vite project
+
+  logStep("🔍", "Detected Vite project");
+
+  // 1. Install tailwindcss + @tailwindcss/vite if missing
+  const missingDevDeps = [];
+  if (!hasDependency(root, "tailwindcss")) missingDevDeps.push("tailwindcss");
+  if (!hasDependency(root, "@tailwindcss/vite"))
+    missingDevDeps.push("@tailwindcss/vite");
+  if (missingDevDeps.length > 0) {
+    await installNpmDevDeps(missingDevDeps, root);
+  } else {
+    logStep("✓", c("dim", "tailwindcss + @tailwindcss/vite already installed"));
+  }
+
+  // 2. Patch vite.config to add tailwindcss plugin, path import, and @ alias
+  const viteConfigPath = join(root, viteConfigName);
+  let viteContent = readFileSync(viteConfigPath, "utf-8");
+  let viteModified = false;
+
+  // 2a. Add @tailwindcss/vite import + plugin
+  if (!viteContent.includes("@tailwindcss/vite")) {
+    const tailwindImport = 'import tailwindcss from "@tailwindcss/vite";\n';
+    const importMatch = viteContent.match(/^(import\s.+\n)+/m);
+    if (importMatch) {
+      const lastImportEnd = importMatch.index + importMatch[0].length;
+      viteContent =
+        viteContent.slice(0, lastImportEnd) +
+        tailwindImport +
+        viteContent.slice(lastImportEnd);
+    } else {
+      viteContent = tailwindImport + viteContent;
+    }
+    if (viteContent.includes("plugins:")) {
+      viteContent = viteContent.replace(
+        /plugins:\s*\[/,
+        "plugins: [\n    tailwindcss(),",
+      );
+    } else if (viteContent.includes("defineConfig({")) {
+      viteContent = viteContent.replace(
+        /defineConfig\(\{/,
+        "defineConfig({\n  plugins: [tailwindcss()],",
+      );
+    }
+    viteModified = true;
+  } else {
+    logStep("✓", c("dim", `${viteConfigName} already has @tailwindcss/vite`));
+  }
+
+  // 2b. Add path import + resolve.alias for @
+  if (
+    !viteContent.includes("node:path") &&
+    !viteContent.match(/import\s+path\s+from\s+["']path["']/)
+  ) {
+    const pathImport = 'import path from "node:path";\n';
+    const importMatch = viteContent.match(/^(import\s.+\n)+/m);
+    if (importMatch) {
+      const lastImportEnd = importMatch.index + importMatch[0].length;
+      viteContent =
+        viteContent.slice(0, lastImportEnd) +
+        pathImport +
+        viteContent.slice(lastImportEnd);
+    } else {
+      viteContent = pathImport + viteContent;
+    }
+    viteModified = true;
+  }
+
+  if (
+    !viteContent.includes("resolve:") &&
+    !viteContent.includes("resolve.alias")
+  ) {
+    // Add resolve.alias block before the closing of defineConfig
+    const resolveBlock = `  resolve: {\n    alias: {\n      "@": path.resolve(__dirname, "src"),\n    },\n  },`;
+    if (viteContent.includes("plugins:")) {
+      // Insert after plugins block — find the plugins array closing and add after
+      viteContent = viteContent.replace(
+        /(plugins:\s*\[[\s\S]*?\],?\n)/m,
+        `$1${resolveBlock}\n`,
+      );
+    } else if (viteContent.includes("defineConfig({")) {
+      viteContent = viteContent.replace(
+        /defineConfig\(\{/,
+        `defineConfig({\n${resolveBlock}`,
+      );
+    }
+    viteModified = true;
+  } else {
+    logStep("✓", c("dim", `${viteConfigName} already has resolve.alias`));
+  }
+
+  if (viteModified) {
+    writeFileSync(viteConfigPath, viteContent);
+    logStep(
+      "✓",
+      `Patched ${c("cyan", viteConfigName)} with Tailwind CSS plugin + @ alias`,
+    );
+  }
+
+  // 2c. Patch tsconfig to add @/* path alias
+  const tsconfigCandidates = ["tsconfig.app.json", "tsconfig.json"];
+  for (const tscName of tsconfigCandidates) {
+    const tscPath = join(root, tscName);
+    if (!existsSync(tscPath)) continue;
+    const tscContent = readFileSync(tscPath, "utf-8");
+    if (tscContent.includes('"@/*"')) {
+      logStep("✓", c("dim", `${tscName} already has @/* path alias`));
+      break;
+    }
+    try {
+      // Strip comments for JSON parsing (single-line // comments)
+      const stripped = tscContent.replace(/^\s*\/\/.*$/gm, "");
+      const tsconfig = JSON.parse(stripped);
+      if (!tsconfig.compilerOptions) tsconfig.compilerOptions = {};
+      if (!tsconfig.compilerOptions.paths) tsconfig.compilerOptions.paths = {};
+      tsconfig.compilerOptions.paths["@/*"] = ["./src/*"];
+      // Also ensure baseUrl is set for paths to work
+      if (!tsconfig.compilerOptions.baseUrl) {
+        tsconfig.compilerOptions.baseUrl = ".";
+      }
+      writeFileSync(tscPath, `${JSON.stringify(tsconfig, null, 2)}\n`);
+      logStep("✓", `Patched ${c("cyan", tscName)} with @/* path alias`);
+    } catch {
+      logStep(
+        "⚠",
+        c("yellow", `Could not patch ${tscName} — add @/* path alias manually`),
+      );
+    }
+    break;
+  }
+
+  // 3. Patch CSS entry file
+  const srcDir = join(root, config.srcDir);
+  const cssCandidates = [
+    "index.css",
+    "App.css",
+    "style.css",
+    "main.css",
+    "globals.css",
+  ];
+  let cssPath = null;
+  for (const name of cssCandidates) {
+    const candidate = join(srcDir, name);
+    if (existsSync(candidate)) {
+      cssPath = candidate;
+      break;
+    }
+  }
+  if (!cssPath) {
+    // Create src/index.css if no CSS file found
+    cssPath = join(srcDir, "index.css");
+  }
+  const tailwindDirective = '@import "tailwindcss";';
+  const unifiedUiImport = '@import "@/styles/unified-ui.css";';
+  if (existsSync(cssPath)) {
+    let cssContent = readFileSync(cssPath, "utf-8");
+    let modified = false;
+    if (!cssContent.includes(tailwindDirective)) {
+      cssContent = `${tailwindDirective}\n${cssContent}`;
+      modified = true;
+    }
+    if (!cssContent.includes(unifiedUiImport)) {
+      // Insert right after the tailwindcss import
+      cssContent = cssContent.replace(
+        tailwindDirective,
+        `${tailwindDirective}\n${unifiedUiImport}`,
+      );
+      modified = true;
+    }
+    if (modified) {
+      writeFileSync(cssPath, cssContent);
+      logStep(
+        "✓",
+        `Updated ${c("cyan", cssPath.replace(`${root}/`, ""))} with Tailwind imports`,
+      );
+    } else {
+      logStep(
+        "✓",
+        c(
+          "dim",
+          `${cssPath.replace(`${root}/`, "")} already has Tailwind imports`,
+        ),
+      );
+    }
+  } else {
+    const content = `${tailwindDirective}\n${unifiedUiImport}\n`;
+    mkdirSync(dirname(cssPath), { recursive: true });
+    writeFileSync(cssPath, content);
+    logStep(
+      "✓",
+      `Created ${c("cyan", cssPath.replace(`${root}/`, ""))} with Tailwind imports`,
+    );
+  }
+}
 // ---------------------------------------------------------------------------
 // File writer
 // ---------------------------------------------------------------------------
@@ -1757,9 +1999,12 @@ async function cmdInit(positional = [], flags = {}) {
   }
   // Install base npm deps
   await installNpmDeps(
-    ["class-variance-authority", "clsx", "tailwind-merge"],
+    ["class-variance-authority", "clsx", "tailwind-merge", "lucide-react"],
     config.root,
   );
+  // Set up Tailwind CSS for Vite projects
+  log();
+  await setupTailwindForVite(config.root, config);
   log();
   logStep("🎉", c("green", "Project initialized! Start adding components:"));
   log();
