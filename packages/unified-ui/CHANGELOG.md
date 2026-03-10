@@ -10,8 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- Update version to 0.3.3, enhance CLI with Tailwind CSS setup, and auto-update changelog ([9ac9ceb](https://github.com/imrj05/unified-ui/commit/9ac9cebee65702a8e3864cb5358a2bf198f0b168))
+## [0.3.3] — 2026-03-10
+
+### 🚀 Features
+
 - Add motion tokens for animation consistency
 - Introduced motion tokens in `motion.ts` for durations, easings, springs, and stagger timings to standardize animations across the design system. ([65feea0](https://github.com/imrj05/unified-ui/commit/65feea0c5ab3b43d3aa6a4300aedda58b9769fad))
+
+### 🏗️ Miscellaneous
+
+- **changelog:** Auto-update unreleased entries [skip ci] ([d3abb8a](https://github.com/imrj05/unified-ui/commit/d3abb8a6527f8275d3cabf9f81c3c636c9e5831b))
 ## [0.3.2] — 2026-03-09
 
 ### 🚀 Features
