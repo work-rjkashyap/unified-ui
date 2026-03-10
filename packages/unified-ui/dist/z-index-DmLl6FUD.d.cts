@@ -390,6 +390,123 @@ declare const palettes: {
         readonly 900: "oklch(0.326 0.064 175.066)";
         readonly 950: "oklch(0.232 0.051 175.066)";
     };
+    readonly indigo: {
+        readonly 50: "oklch(0.962 0.018 272.314)";
+        readonly 100: "oklch(0.93 0.034 272.788)";
+        readonly 200: "oklch(0.87 0.065 274.039)";
+        readonly 300: "oklch(0.785 0.115 274.713)";
+        readonly 400: "oklch(0.673 0.182 276.935)";
+        readonly 500: "oklch(0.585 0.233 277.117)";
+        readonly 600: "oklch(0.511 0.262 276.966)";
+        readonly 700: "oklch(0.457 0.24 277.023)";
+        readonly 800: "oklch(0.398 0.195 277.366)";
+        readonly 900: "oklch(0.359 0.144 278.697)";
+        readonly 950: "oklch(0.257 0.09 281.288)";
+    };
+    readonly purple: {
+        readonly 50: "oklch(0.977 0.014 308.299)";
+        readonly 100: "oklch(0.946 0.033 307.174)";
+        readonly 200: "oklch(0.902 0.063 306.703)";
+        readonly 300: "oklch(0.827 0.119 306.383)";
+        readonly 400: "oklch(0.714 0.203 305.504)";
+        readonly 500: "oklch(0.627 0.265 303.9)";
+        readonly 600: "oklch(0.558 0.288 302.321)";
+        readonly 700: "oklch(0.496 0.265 301.924)";
+        readonly 800: "oklch(0.438 0.218 303.724)";
+        readonly 900: "oklch(0.381 0.176 304.987)";
+        readonly 950: "oklch(0.291 0.149 302.717)";
+    };
+    readonly pink: {
+        readonly 50: "oklch(0.971 0.014 343.198)";
+        readonly 100: "oklch(0.948 0.028 342.258)";
+        readonly 200: "oklch(0.899 0.061 343.231)";
+        readonly 300: "oklch(0.823 0.12 346.018)";
+        readonly 400: "oklch(0.718 0.202 349.761)";
+        readonly 500: "oklch(0.656 0.241 354.308)";
+        readonly 600: "oklch(0.592 0.249 0.584)";
+        readonly 700: "oklch(0.525 0.223 3.958)";
+        readonly 800: "oklch(0.459 0.187 3.815)";
+        readonly 900: "oklch(0.408 0.153 2.432)";
+        readonly 950: "oklch(0.284 0.109 3.907)";
+    };
+    readonly cyan: {
+        readonly 50: "oklch(0.967 0.019 200.873)";
+        readonly 100: "oklch(0.936 0.044 200.873)";
+        readonly 200: "oklch(0.886 0.085 207.693)";
+        readonly 300: "oklch(0.816 0.12 207.693)";
+        readonly 400: "oklch(0.718 0.144 213.806)";
+        readonly 500: "oklch(0.627 0.14 213.806)";
+        readonly 600: "oklch(0.532 0.128 216.632)";
+        readonly 700: "oklch(0.457 0.107 218.318)";
+        readonly 800: "oklch(0.393 0.089 218.318)";
+        readonly 900: "oklch(0.342 0.07 218.318)";
+        readonly 950: "oklch(0.254 0.058 218.318)";
+    };
+    readonly emerald: {
+        readonly 50: "oklch(0.979 0.021 166.113)";
+        readonly 100: "oklch(0.95 0.052 163.051)";
+        readonly 200: "oklch(0.905 0.093 164.15)";
+        readonly 300: "oklch(0.845 0.143 164.978)";
+        readonly 400: "oklch(0.765 0.177 163.223)";
+        readonly 500: "oklch(0.696 0.17 162.48)";
+        readonly 600: "oklch(0.596 0.145 163.225)";
+        readonly 700: "oklch(0.508 0.118 165.612)";
+        readonly 800: "oklch(0.432 0.095 166.913)";
+        readonly 900: "oklch(0.378 0.077 168.94)";
+        readonly 950: "oklch(0.262 0.051 172.552)";
+    };
+    readonly yellow: {
+        readonly 50: "oklch(0.987 0.026 102.212)";
+        readonly 100: "oklch(0.973 0.071 103.193)";
+        readonly 200: "oklch(0.945 0.129 101.726)";
+        readonly 300: "oklch(0.905 0.182 98.111)";
+        readonly 400: "oklch(0.852 0.199 91.936)";
+        readonly 500: "oklch(0.795 0.184 86.047)";
+        readonly 600: "oklch(0.681 0.162 75.834)";
+        readonly 700: "oklch(0.554 0.135 66.442)";
+        readonly 800: "oklch(0.476 0.114 61.907)";
+        readonly 900: "oklch(0.421 0.095 57.708)";
+        readonly 950: "oklch(0.286 0.066 53.813)";
+    };
+    readonly fuchsia: {
+        readonly 50: "oklch(0.977 0.017 320.058)";
+        readonly 100: "oklch(0.952 0.037 318.852)";
+        readonly 200: "oklch(0.903 0.076 319.62)";
+        readonly 300: "oklch(0.833 0.145 321.434)";
+        readonly 400: "oklch(0.74 0.238 322.16)";
+        readonly 500: "oklch(0.667 0.295 322.15)";
+        readonly 600: "oklch(0.591 0.293 322.896)";
+        readonly 700: "oklch(0.518 0.253 323.949)";
+        readonly 800: "oklch(0.452 0.211 324.591)";
+        readonly 900: "oklch(0.401 0.17 325.612)";
+        readonly 950: "oklch(0.293 0.136 325.661)";
+    };
+    readonly sky: {
+        readonly 50: "oklch(0.977 0.013 236.62)";
+        readonly 100: "oklch(0.951 0.026 236.824)";
+        readonly 200: "oklch(0.901 0.058 230.902)";
+        readonly 300: "oklch(0.828 0.111 230.318)";
+        readonly 400: "oklch(0.746 0.16 232.661)";
+        readonly 500: "oklch(0.685 0.169 237.323)";
+        readonly 600: "oklch(0.588 0.158 241.966)";
+        readonly 700: "oklch(0.5 0.134 242.749)";
+        readonly 800: "oklch(0.443 0.11 240.79)";
+        readonly 900: "oklch(0.391 0.09 240.876)";
+        readonly 950: "oklch(0.293 0.066 243.157)";
+    };
+    readonly lime: {
+        readonly 50: "oklch(0.986 0.031 120.757)";
+        readonly 100: "oklch(0.967 0.067 122.328)";
+        readonly 200: "oklch(0.938 0.127 124.321)";
+        readonly 300: "oklch(0.897 0.196 126.665)";
+        readonly 400: "oklch(0.841 0.238 128.85)";
+        readonly 500: "oklch(0.768 0.233 130.85)";
+        readonly 600: "oklch(0.648 0.2 131.684)";
+        readonly 700: "oklch(0.532 0.157 131.589)";
+        readonly 800: "oklch(0.453 0.124 130.933)";
+        readonly 900: "oklch(0.405 0.101 131.063)";
+        readonly 950: "oklch(0.274 0.072 132.109)";
+    };
 };
 
 declare const radius: {

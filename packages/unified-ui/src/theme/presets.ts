@@ -27,11 +27,20 @@ import {
   amber,
   blue,
   brand,
+  cyan,
+  emerald,
+  fuchsia,
   gray,
   green,
+  indigo,
+  lime,
+  pink,
+  purple,
   red,
+  sky,
   slate,
   teal,
+  yellow,
   zinc,
 } from "@unified-ui/tokens/colors";
 
@@ -640,6 +649,46 @@ export const COLOR_PRESETS: readonly ColorPreset[] = [
     swatch: brand[600],
     ...buildChromaticPreset("Brand", "brand", brand),
   },
+  {
+    swatch: indigo[600],
+    ...buildChromaticPreset("Indigo", "indigo", indigo),
+  },
+  {
+    swatch: purple[600],
+    ...buildChromaticPreset("Purple", "purple", purple),
+  },
+  {
+    swatch: pink[600],
+    ...buildChromaticPreset("Pink", "pink", pink),
+  },
+  {
+    swatch: cyan[600],
+    ...buildChromaticPreset("Cyan", "cyan", cyan),
+  },
+  {
+    swatch: emerald[600],
+    ...buildChromaticPreset("Emerald", "emerald", emerald),
+  },
+  {
+    swatch: yellow[600],
+    ...buildChromaticPreset("Yellow", "yellow", yellow),
+  },
+  {
+    swatch: fuchsia[600],
+    ...buildChromaticPreset("Fuchsia", "fuchsia", fuchsia),
+  },
+  {
+    swatch: sky[600],
+    ...buildChromaticPreset("Sky", "sky", sky),
+  },
+  {
+    swatch: lime[600],
+    ...buildChromaticPreset("Lime", "lime", lime),
+  },
+  {
+    swatch: amber[600],
+    ...buildChromaticPreset("Amber", "amber", amber),
+  },
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -707,6 +756,7 @@ export interface FontPreset {
 }
 
 export const FONT_PRESETS: readonly FontPreset[] = [
+  // ---- Built-in fonts (loaded via next/font in the docs app) ----
   {
     name: "Outfit",
     key: "outfit",
@@ -721,6 +771,190 @@ export const FONT_PRESETS: readonly FontPreset[] = [
       'var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     sample: "Aa",
   },
+  {
+    name: "Geist Sans",
+    key: "geist-sans",
+    value:
+      'var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "DM Sans",
+    key: "dm-sans",
+    value:
+      'var(--font-dm-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Plus Jakarta Sans",
+    key: "plus-jakarta-sans",
+    value:
+      'var(--font-plus-jakarta-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Open Sans",
+    key: "open-sans",
+    value:
+      'var(--font-open-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Poppins",
+    key: "poppins",
+    value:
+      'var(--font-poppins), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Montserrat",
+    key: "montserrat",
+    value:
+      'var(--font-montserrat), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Lato",
+    key: "lato",
+    value:
+      'var(--font-lato), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Nunito",
+    key: "nunito",
+    value:
+      'var(--font-nunito), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Raleway",
+    key: "raleway",
+    value:
+      'var(--font-raleway), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Rubik",
+    key: "rubik",
+    value:
+      'var(--font-rubik), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Source Sans 3",
+    key: "source-sans-3",
+    value:
+      'var(--font-source-sans-3), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Work Sans",
+    key: "work-sans",
+    value:
+      'var(--font-work-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Manrope",
+    key: "manrope",
+    value:
+      'var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Space Grotesk",
+    key: "space-grotesk",
+    value:
+      'var(--font-space-grotesk), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  // ---- Additional popular fonts ----
+  {
+    name: "Figtree",
+    key: "figtree",
+    value:
+      'var(--font-figtree), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "IBM Plex Sans",
+    key: "ibm-plex-sans",
+    value:
+      'var(--font-ibm-plex-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Quicksand",
+    key: "quicksand",
+    value:
+      'var(--font-quicksand), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Cabin",
+    key: "cabin",
+    value:
+      'var(--font-cabin), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Barlow",
+    key: "barlow",
+    value:
+      'var(--font-barlow), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Josefin Sans",
+    key: "josefin-sans",
+    value:
+      'var(--font-josefin-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Karla",
+    key: "karla",
+    value:
+      'var(--font-karla), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Mulish",
+    key: "mulish",
+    value:
+      'var(--font-mulish), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Noto Sans",
+    key: "noto-sans",
+    value:
+      'var(--font-noto-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Ubuntu",
+    key: "ubuntu",
+    value:
+      'var(--font-ubuntu), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Sora",
+    key: "sora",
+    value:
+      'var(--font-sora), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  {
+    name: "Lexend",
+    key: "lexend",
+    value:
+      'var(--font-lexend), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa",
+  },
+  // ---- Generic stacks ----
   {
     name: "System",
     key: "system",
@@ -919,6 +1153,99 @@ export const SURFACE_STYLE_PRESETS: readonly SurfaceStylePreset[] = [
 export const DEFAULT_SURFACE_STYLE_KEY = "bordered";
 
 // ============================================================================
+// Menu Color Presets
+// ============================================================================
+// Controls the sidebar/navigation background scheme. Overrides the sidebar
+// CSS custom properties that the color preset sets by default.
+//
+// Options:
+//   - "default"  — Uses the color preset's built-in sidebar colors (no override)
+//   - "muted"    — Sidebar matches the muted/surface color, blending with content
+//   - "inverted" — Dark sidebar in light mode, lighter sidebar in dark mode
+//   - "primary"  — Sidebar uses the primary color as its background
+// ============================================================================
+
+export interface MenuColorPreset {
+  readonly name: string;
+  readonly key: string;
+  readonly description: string;
+}
+
+export const MENU_COLOR_PRESETS: readonly MenuColorPreset[] = [
+  {
+    name: "Default",
+    key: "default",
+    description: "Uses the color preset's built-in sidebar colors",
+  },
+  {
+    name: "Muted",
+    key: "muted",
+    description: "Sidebar matches the muted/surface tone — blends with content",
+  },
+  {
+    name: "Inverted",
+    key: "inverted",
+    description:
+      "Dark sidebar in light mode, lighter sidebar in dark mode for contrast",
+  },
+  {
+    name: "Primary",
+    key: "primary",
+    description: "Sidebar uses the primary color as its background",
+  },
+] as const;
+
+export const DEFAULT_MENU_COLOR_KEY = "default";
+
+export function getMenuColorPreset(key: string): MenuColorPreset {
+  return MENU_COLOR_PRESETS.find((p) => p.key === key) ?? MENU_COLOR_PRESETS[0];
+}
+
+// ============================================================================
+// Menu Accent Presets
+// ============================================================================
+// Controls how prominent the active/hover highlight is on sidebar menu items.
+// Adjusts --sidebar-accent and --sidebar-accent-foreground properties.
+//
+// Options:
+//   - "none"   — No visual accent on hover/active (transparent background)
+//   - "subtle" — Soft background tint on hover/active items
+//   - "bold"   — Prominent primary-colored accent on active items
+// ============================================================================
+
+export interface MenuAccentPreset {
+  readonly name: string;
+  readonly key: string;
+  readonly description: string;
+}
+
+export const MENU_ACCENT_PRESETS: readonly MenuAccentPreset[] = [
+  {
+    name: "None",
+    key: "none",
+    description: "No visual accent highlight on sidebar items",
+  },
+  {
+    name: "Subtle",
+    key: "subtle",
+    description: "Soft background tint on hover and active sidebar items",
+  },
+  {
+    name: "Bold",
+    key: "bold",
+    description: "Prominent primary-colored accent on active sidebar items",
+  },
+] as const;
+
+export const DEFAULT_MENU_ACCENT_KEY = "subtle";
+
+export function getMenuAccentPreset(key: string): MenuAccentPreset {
+  return (
+    MENU_ACCENT_PRESETS.find((p) => p.key === key) ?? MENU_ACCENT_PRESETS[1]
+  );
+}
+
+// ============================================================================
 // Style Presets (Holistic Visual Personality)
 // ============================================================================
 // Each style preset defines a complete visual personality by bundling
@@ -1105,6 +1432,10 @@ export interface ThemeConfig {
   shadow: string;
   /** Surface style key (e.g. "bordered", "elevated", "mixed") */
   surfaceStyle: string;
+  /** Menu color key (e.g. "default", "muted", "inverted", "primary") */
+  menuColor: string;
+  /** Menu accent key (e.g. "none", "subtle", "bold") */
+  menuAccent: string;
 }
 
 /** The default theme configuration — matches the design system's built-in styles */
@@ -1115,6 +1446,8 @@ export const DEFAULT_THEME_CONFIG: ThemeConfig = {
   font: DEFAULT_FONT_KEY,
   shadow: DEFAULT_SHADOW_KEY,
   surfaceStyle: DEFAULT_SURFACE_STYLE_KEY,
+  menuColor: DEFAULT_MENU_COLOR_KEY,
+  menuAccent: DEFAULT_MENU_ACCENT_KEY,
 } as const;
 
 // ============================================================================
@@ -1270,7 +1603,107 @@ export function buildThemeOverrides(
   vars["--ds-control-height"] = sv.controlHeight;
 
   // -----------------------------------------------------------------------
-  // 6. Surface Style
+  // 6. Menu Color
+  // -----------------------------------------------------------------------
+  // Overrides sidebar tokens based on the selected menu color scheme.
+  // "default" leaves the color preset's sidebar values untouched.
+  const colorPresetObj = getColorPreset(config.colorPreset);
+  const presetColors =
+    mode === "dark" ? colorPresetObj.dark : colorPresetObj.light;
+
+  if (config.menuColor === "muted") {
+    // Sidebar matches muted/surface tones — blends with content area
+    if (mode === "light") {
+      vars["--sidebar"] = presetColors.muted;
+      vars["--sidebar-foreground"] = presetColors.foreground;
+      vars["--sidebar-border"] = presetColors.border;
+    } else {
+      vars["--sidebar"] = presetColors.muted;
+      vars["--sidebar-foreground"] = presetColors.foreground;
+      vars["--sidebar-border"] = presetColors.border;
+    }
+  } else if (config.menuColor === "inverted") {
+    // Dark sidebar in light mode, lighter sidebar in dark mode
+    if (mode === "light") {
+      vars["--sidebar"] = "oklch(0.205 0 0)";
+      vars["--sidebar-foreground"] = "oklch(0.95 0 0)";
+      vars["--sidebar-primary"] = presetColors.primary;
+      vars["--sidebar-primary-foreground"] = "oklch(0.985 0 0)";
+      vars["--sidebar-border"] = "oklch(1 0 0 / 10%)";
+      vars["--sidebar-ring"] = "oklch(0.439 0 0)";
+    } else {
+      vars["--sidebar"] = "oklch(0.269 0 0)";
+      vars["--sidebar-foreground"] = "oklch(0.95 0 0)";
+      vars["--sidebar-primary"] = presetColors.primary;
+      vars["--sidebar-primary-foreground"] = "oklch(0.985 0 0)";
+      vars["--sidebar-border"] = "oklch(1 0 0 / 8%)";
+      vars["--sidebar-ring"] = "oklch(0.5 0 0)";
+    }
+  } else if (config.menuColor === "primary") {
+    // Sidebar uses the primary color as background
+    if (mode === "light") {
+      vars["--sidebar"] = presetColors.primary;
+      vars["--sidebar-foreground"] = presetColors.primaryForeground;
+      vars["--sidebar-primary"] = presetColors.primaryForeground;
+      vars["--sidebar-primary-foreground"] = presetColors.primary;
+      vars["--sidebar-border"] =
+        `color-mix(in oklch, ${presetColors.primaryForeground} 15%, transparent)`;
+      vars["--sidebar-ring"] = presetColors.primaryForeground;
+    } else {
+      vars["--sidebar"] = presetColors.primary;
+      vars["--sidebar-foreground"] = presetColors.primaryForeground;
+      vars["--sidebar-primary"] = presetColors.primaryForeground;
+      vars["--sidebar-primary-foreground"] = presetColors.primary;
+      vars["--sidebar-border"] =
+        `color-mix(in oklch, ${presetColors.primaryForeground} 15%, transparent)`;
+      vars["--sidebar-ring"] = presetColors.primaryForeground;
+    }
+  }
+  // "default" — no overrides, color preset sidebar values are used as-is
+
+  // -----------------------------------------------------------------------
+  // 7. Menu Accent
+  // -----------------------------------------------------------------------
+  // Overrides --sidebar-accent and --sidebar-accent-foreground based on
+  // the selected accent intensity.
+  if (config.menuAccent === "none") {
+    // No visible accent — transparent hover/active background
+    vars["--sidebar-accent"] = "transparent";
+    vars["--sidebar-accent-foreground"] =
+      vars["--sidebar-foreground"] ?? presetColors.sidebarForeground;
+  } else if (config.menuAccent === "bold") {
+    // Prominent primary-colored accent
+    if (config.menuColor === "primary") {
+      // When sidebar is already primary, use a contrast color for accent
+      if (mode === "light") {
+        vars["--sidebar-accent"] =
+          `color-mix(in oklch, ${presetColors.primaryForeground} 20%, transparent)`;
+        vars["--sidebar-accent-foreground"] = presetColors.primaryForeground;
+      } else {
+        vars["--sidebar-accent"] =
+          `color-mix(in oklch, ${presetColors.primaryForeground} 20%, transparent)`;
+        vars["--sidebar-accent-foreground"] = presetColors.primaryForeground;
+      }
+    } else if (config.menuColor === "inverted") {
+      // On inverted sidebar, use primary as accent directly
+      vars["--sidebar-accent"] = presetColors.primary;
+      vars["--sidebar-accent-foreground"] = presetColors.primaryForeground;
+    } else {
+      // Standard: primary accent on default/muted sidebar
+      if (mode === "light") {
+        vars["--sidebar-accent"] = presetColors.primaryMuted;
+        vars["--sidebar-accent-foreground"] = presetColors.primary;
+      } else {
+        vars["--sidebar-accent"] = presetColors.primaryMuted;
+        vars["--sidebar-accent-foreground"] =
+          presetColors.primaryMutedForeground;
+      }
+    }
+  }
+  // "subtle" — no overrides needed, color preset's default sidebar-accent is used
+
+  // -----------------------------------------------------------------------
+  // 8. Surface Style
   // -----------------------------------------------------------------------
   // "bordered" → visible borders, no card shadows
   // "elevated" → no visible borders, card shadows for depth
@@ -1323,6 +1756,8 @@ export function generateThemeCSS(config: ThemeConfig): string {
     ` * Radius: ${getRadiusPreset(config.radius).label}`,
     ` * Font: ${getFontPreset(config.font).name}`,
     ` * Shadows: ${getShadowPreset(config.shadow).name}`,
+    ` * Menu Color: ${getMenuColorPreset(config.menuColor).name}`,
+    ` * Menu Accent: ${getMenuAccentPreset(config.menuAccent).name}`,
     " * ============================================ */",
     "",
     ":root {",
@@ -1332,5 +1767,7 @@ export function generateThemeCSS(config: ThemeConfig): string {
     ".dark {",
     formatVars(darkVars),
     "}",
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 }

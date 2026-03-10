@@ -33,7 +33,7 @@ export default function HomePage() {
       <FeaturesSection />
       <ShowcaseSection />
       <TestimonialsSection />
-      <CTASection />
+      <CTASection version={DS_VERSION} />
       <FooterSection />
     </div>
   );

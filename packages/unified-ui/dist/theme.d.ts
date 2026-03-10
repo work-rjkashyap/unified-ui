@@ -1,7 +1,8 @@
-import { S as SemanticColorKey, r as radius, o as shadow, z as zIndex } from './z-index-Dd8IllRx.js';
+import { S as SemanticColorKey, r as radius, o as shadow, z as zIndex } from './z-index-DmLl6FUD.js';
 import { b as durationCSS, f as easingCSS } from './motion-D9wQbcKL.js';
 import { f as fontFamily } from './typography-DlvVjEdE.js';
 import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as react from 'react';
 import { ReactNode } from 'react';
 
 declare const colorVarNames: Record<SemanticColorKey, string>;
@@ -228,6 +229,22 @@ interface SurfaceStylePreset {
 }
 declare const SURFACE_STYLE_PRESETS: readonly SurfaceStylePreset[];
 declare const DEFAULT_SURFACE_STYLE_KEY = "bordered";
+interface MenuColorPreset {
+    readonly name: string;
+    readonly key: string;
+    readonly description: string;
+}
+declare const MENU_COLOR_PRESETS: readonly MenuColorPreset[];
+declare const DEFAULT_MENU_COLOR_KEY = "default";
+declare function getMenuColorPreset(key: string): MenuColorPreset;
+interface MenuAccentPreset {
+    readonly name: string;
+    readonly key: string;
+    readonly description: string;
+}
+declare const MENU_ACCENT_PRESETS: readonly MenuAccentPreset[];
+declare const DEFAULT_MENU_ACCENT_KEY = "subtle";
+declare function getMenuAccentPreset(key: string): MenuAccentPreset;
 interface StylePreset {
     readonly name: string;
     readonly key: string;
@@ -275,6 +292,10 @@ interface ThemeConfig {
     shadow: string;
     /** Surface style key (e.g. "bordered", "elevated", "mixed") */
     surfaceStyle: string;
+    /** Menu color key (e.g. "default", "muted", "inverted", "primary") */
+    menuColor: string;
+    /** Menu accent key (e.g. "none", "subtle", "bold") */
+    menuAccent: string;
 }
 /** The default theme configuration — matches the design system's built-in styles */
 declare const DEFAULT_THEME_CONFIG: ThemeConfig;
@@ -310,6 +331,10 @@ interface ThemeCustomizerContextValue {
     setShadow: (key: string) => void;
     /** Set just the surface style (e.g. "bordered", "elevated", "mixed") */
     setSurfaceStyle: (key: string) => void;
+    /** Set just the menu color (e.g. "default", "muted", "inverted", "primary") */
+    setMenuColor: (key: string) => void;
+    /** Set just the menu accent (e.g. "none", "subtle", "bold") */
+    setMenuAccent: (key: string) => void;
     /** Reset to the default theme configuration */
     resetConfig: () => void;
     /** Whether the current config matches the default config */
@@ -317,6 +342,7 @@ interface ThemeCustomizerContextValue {
     /** Generate a copyable CSS string for the current config */
     generateCSS: () => string;
 }
+declare const ThemeCustomizerContext: react.Context<ThemeCustomizerContextValue | null>;
 /**
  * Access the theme customizer store.
  *
@@ -411,4 +437,4 @@ interface DSThemeProviderProps {
  */
 declare function DSThemeProvider({ children, defaultTheme, manageHtmlClass, }: DSThemeProviderProps): react_jsx_runtime.JSX.Element;
 
-export { COLOR_PRESETS, COLOR_PRESET_KEYS, type ColorPreset, type ColorPresetKey, type ColorVarName, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_STYLE_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, type DSThemeContextValue, DSThemeProvider, type DSThemeProviderProps, type DurationVarName, type EasingVarName, FONT_PRESETS, type FontFamilyVarName, type FontPreset, type PresetSemanticColors, RADIUS_PRESETS, type RadiusPreset, type RadiusVarName, type ResolvedTheme, SHADOW_PRESETS, STYLE_PRESETS, SURFACE_STYLE_PRESETS, type ShadowPreset, type ShadowVarName, type StylePreset, type SurfaceStylePreset, type ThemeConfig, ThemeCustomizer, type ThemeCustomizerContextValue, type ThemeCustomizerProps, ThemeCustomizerProvider, type ThemeCustomizerProviderProps, type ThemeMode, type ThemeVars, type ZIndexVarName, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, getStylePreset, useDSTheme, useThemeCustomizer };
+export { COLOR_PRESETS, COLOR_PRESET_KEYS, type ColorPreset, type ColorPresetKey, type ColorVarName, DEFAULT_FONT_KEY, DEFAULT_MENU_ACCENT_KEY, DEFAULT_MENU_COLOR_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_STYLE_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, type DSThemeContextValue, DSThemeProvider, type DSThemeProviderProps, type DurationVarName, type EasingVarName, FONT_PRESETS, type FontFamilyVarName, type FontPreset, MENU_ACCENT_PRESETS, MENU_COLOR_PRESETS, type MenuAccentPreset, type MenuColorPreset, type PresetSemanticColors, RADIUS_PRESETS, type RadiusPreset, type RadiusVarName, type ResolvedTheme, SHADOW_PRESETS, STYLE_PRESETS, SURFACE_STYLE_PRESETS, type ShadowPreset, type ShadowVarName, type StylePreset, type SurfaceStylePreset, type ThemeConfig, ThemeCustomizer, ThemeCustomizerContext, type ThemeCustomizerContextValue, type ThemeCustomizerProps, ThemeCustomizerProvider, type ThemeCustomizerProviderProps, type ThemeMode, type ThemeVars, type ZIndexVarName, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getMenuAccentPreset, getMenuColorPreset, getRadiusPreset, getShadowPreset, getStylePreset, useDSTheme, useThemeCustomizer };

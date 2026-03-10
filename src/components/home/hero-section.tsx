@@ -346,7 +346,7 @@ export function HeroSection({ version = "0.3.1" }: { version?: string }) {
           {/* ── Top: headline + install + CTAs ── */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             {/* Left column — copy */}
-            <div className="space-y-6">
+            <div className="space-y-6 text-center lg:text-left">
               {/* Version badge */}
               <div className="animate-fade-in">
                 <Badge
@@ -362,11 +362,11 @@ export function HeroSection({ version = "0.3.1" }: { version?: string }) {
               <div className="animate-fade-in-up">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.1]">
                   Build faster with{" "}
-                  <span className="bg-linear-to-r from-purple-500 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                  <span className="bg-linear-to-r from-[#659287] via-[#B1C29E] to-[#DEAA79] bg-clip-text text-transparent">
                     Unified UI
                   </span>
                 </h1>
-                <p className="mt-4 text-base md:text-lg text-fd-muted-foreground leading-relaxed max-w-lg">
+                <p className="mt-4 text-base md:text-lg text-fd-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
                   A scalable, token-driven React design system.{" "}
                   <span className="text-fd-foreground font-medium">
                     75+ components
@@ -400,7 +400,7 @@ export function HeroSection({ version = "0.3.1" }: { version?: string }) {
               </div>
 
               {/* CTA buttons */}
-              <div className="flex flex-row gap-3 animate-fade-in-up animation-delay-400">
+              <div className="flex flex-row gap-3 justify-center lg:justify-start animate-fade-in-up animation-delay-400">
                 <ButtonLink
                   href="/docs"
                   variant="primary"

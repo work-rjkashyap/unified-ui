@@ -420,7 +420,7 @@ function CodeBlock({ title, code }: { title: string; code: string }) {
 
 export function ShowcaseSection() {
   return (
-    <section className="relative py-14 border-y border-fd-border/50 bg-fd-background/50">
+    <section className="relative py-14 border-y border-fd-border/50 bg-fd-background/50 overflow-hidden">
       {/* Subtle background */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-100 bg-linear-to-br from-purple-500/3 to-cyan-500/3 rounded-full blur-[80px]" />

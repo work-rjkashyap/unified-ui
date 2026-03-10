@@ -236,7 +236,7 @@ function DependencyFlow() {
 
 export function FeaturesSection() {
   return (
-    <section className="relative py-14 bg-fd-background">
+    <section className="relative py-14 bg-fd-background overflow-hidden">
       {/* Subtle divider glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-px bg-linear-to-r from-transparent via-purple-500/20 to-transparent pointer-events-none" />
 

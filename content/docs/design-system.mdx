@@ -18,33 +18,32 @@ This architecture ensures that changes to low-level values (like a color or spac
 
 ## Architecture
 
+Unified UI is organized in a strict **6-layer hierarchy** where dependencies only flow downward. Each layer has a single responsibility and a clear boundary.
+
+| Layer                    | Path              | Responsibility                                                                      |
+| ------------------------ | ----------------- | ----------------------------------------------------------------------------------- |
+| **Layer 1 — Tokens**     | `src/tokens/`     | Raw design values — colors, spacing, typography, radius, shadows, z-index, motion   |
+| **Layer 2 — Theme**      | `src/theme/`      | CSS variable contract, `DSThemeProvider`, light/dark mode, runtime switching        |
+| **Layer 3 — Primitives** | `src/primitives/` | Typography (`Heading`, `Body`, `Caption`), layout (`Container`, `Stack`, `Divider`) |
+| **Layer 4 — Components** | `src/components/` | 75+ composite UI components — `Button`, `Dialog`, `DataTable`, `Sidebar`, etc.      |
+| **Layer 5 — Motion**     | `src/motion/`     | Framer Motion presets (`fadeIn`, `slideUp`, `scaleIn`), hooks, stagger utilities    |
+| **Layer 6 — Utils**      | `src/utils/`      | `cn()`, `focusRingClasses`, `checkHexContrast`, polymorphic types                   |
+
+### Dependency Flow
+
 ```
-┌─────────────────────────────────────────────────┐
-│                  Components                      │  Layer 4 — 75+ composite UI components
-│    Button · Dialog · DataTable · Sidebar · …     │  Built from primitives + tokens
-├─────────────────────────────────────────────────┤
-│                  Primitives                       │  Layer 3 — Typography, Stack, Grid,
-│       Heading · Body · Container · Divider       │  Container, Divider
-├─────────────────────────────────────────────────┤
-│                    Theme                          │  Layer 2 — CSS variable contract,
-│     DSThemeProvider · useDSTheme · contract       │  light/dark mode, runtime switching
-├─────────────────────────────────────────────────┤
-│                   Tokens                          │  Layer 1 — Raw design values:
-│   colors · spacing · typography · radius · z     │  the single source of truth
-└─────────────────────────────────────────────────┘
-
-  Motion ─── Animation presets, springs, stagger (crosses layers)
-  Utils  ─── cn(), focus ring, contrast checking  (crosses layers)
+Tokens → Theme → Primitives → Components
+                                   ↑
+                                Motion
+                                Utils (shared across all layers)
 ```
 
-### Layer Rules
-
-1. **Tokens** are pure data — no React, no CSS, no side effects.
-2. **Theme** reads tokens and maps them to CSS custom properties.
-3. **Primitives** consume theme variables via Tailwind utilities.
-4. **Components** compose primitives and add interaction logic (Radix UI, Framer Motion).
-5. **Motion** provides Framer Motion presets that any layer can use.
-6. **Utils** are pure functions shared across all layers (`cn`, `focusRingClasses`, etc.).
+- **Tokens** are pure data — no React, no CSS, no side effects.
+- **Theme** reads tokens and maps them to CSS custom properties.
+- **Primitives** consume theme variables via Tailwind utilities.
+- **Components** compose primitives and add interaction logic (Radix UI, Framer Motion).
+- **Motion** provides Framer Motion presets that any layer can use.
+- **Utils** are pure functions shared across all layers.
 
 <Callout type="warn">
 	**No upward imports.** A token file must never import from a component. A
@@ -133,27 +132,32 @@ Every component automatically adapts to the active theme through CSS custom prop
 
 ```
 packages/unified-ui/src/
-├── tokens/              ← Layer 1: Design tokens
-│   ├── colors.ts        ← Color palettes + semantic mappings
-│   ├── spacing.ts       ← 4px grid spacing scale
-│   ├── typography.ts    ← Font families, sizes, weights, presets
-│   ├── radius.ts        ← Border radius scale
-│   ├── shadows.ts       ← Elevation shadows (light + dark)
-│   ├── z-index.ts       ← Z-index scale for layering
-│   ├── motion.ts        ← Duration, easing, spring configs
-│   └── index.ts         ← Token barrel export
+├── tokens/                    ← Layer 1: Design tokens
+│   ├── colors.ts              ← Color palettes + semantic mappings
+│   ├── spacing.ts             ← 4px grid spacing scale
+│   ├── typography.ts          ← Font families, sizes, weights, presets
+│   ├── radius.ts              ← Border radius scale
+│   ├── shadows.ts             ← Elevation shadows (light + dark)
+│   ├── z-index.ts             ← Z-index scale for layering
+│   ├── motion.ts              ← Duration, easing, spring configs
+│   └── index.ts               ← Token barrel export
 │
-├── theme/               ← Layer 2: Theme system
-│   ├── contract.ts      ← CSS variable contract + cssVar helper
-│   ├── provider.tsx     ← DSThemeProvider + useDSTheme hook
+├── theme/                     ← Layer 2: Theme system
+│   ├── contract.ts            ← CSS variable contract + cssVar helper
+│   ├── provider.tsx           ← DSThemeProvider + useDSTheme hook
+│   ├── presets.ts             ← Built-in theme presets
+│   ├── customizer.tsx         ← Theme customizer UI component
+│   ├── customizer-store.tsx   ← Theme customizer state management
 │   └── index.ts
 │
-├── primitives/          ← Layer 3: Typography + Layout
-│   ├── typography.tsx   ← Typography, Heading, Body, Caption, etc.
-│   ├── layout.tsx       ← Container, Stack, Grid, Divider
+├── primitives/                ← Layer 3: Typography + Layout
+│   ├── typography.tsx         ← Typography, Heading, Body, Caption, etc.
+│   ├── container.tsx          ← Responsive container with max-width
+│   ├── stack.tsx              ← Flex stack layout (horizontal/vertical)
+│   ├── divider.tsx            ← Horizontal/vertical divider
 │   └── index.ts
 │
-├── components/          ← Layer 4: 75+ composite components
+├── components/                ← Layer 4: 75+ composite components
 │   ├── button.tsx
 │   ├── input.tsx
 │   ├── dialog.tsx
@@ -162,19 +166,19 @@ packages/unified-ui/src/
 │   ├── ... (70+ more)
 │   └── index.ts
 │
-├── motion/              ← Layer 5: Framer Motion presets
-│   ├── presets.ts       ← fadeIn, slideUp, scaleIn, modal, toast, etc.
-│   ├── hooks.ts         ← useMotion, useReducedMotion, MotionSafe
+├── motion/                    ← Layer 5: Framer Motion presets
+│   ├── presets.ts             ← fadeIn, slideUp, scaleIn, modal, toast, etc.
+│   ├── hooks.ts               ← useMotion, useReducedMotion, MotionSafe
 │   └── index.ts
 │
-├── utils/               ← Layer 6: Shared utilities
-│   ├── cn.ts            ← Class merging (clsx + tailwind-merge)
-│   ├── focus-ring.ts    ← Focus ring class utilities
-│   ├── contrast.ts      ← WCAG contrast ratio checking
-│   └── types.ts         ← Polymorphic types, slot types
+├── utils/                     ← Layer 6: Shared utilities
+│   ├── cn.ts                  ← Class merging (clsx + tailwind-merge)
+│   ├── focus-ring.ts          ← Focus ring class utilities
+│   ├── contrast.ts            ← WCAG contrast ratio checking
+│   └── types.ts               ← Polymorphic types, slot types
 │
-├── styles.css           ← Tailwind @theme + CSS custom properties
-└── index.ts             ← Barrel entry point
+├── styles.css                 ← Tailwind @theme + CSS custom properties
+└── index.ts                   ← Barrel entry point
 ```
 
 ---

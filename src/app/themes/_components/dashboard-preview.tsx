@@ -50,6 +50,7 @@ import {
   DollarSign,
   Edit,
   Folder,
+  Home,
   Keyboard,
   Layers,
   MapPin,
@@ -60,6 +61,7 @@ import {
   Users,
 } from "lucide-react";
 import { BentoCard } from "./preview-area";
+import { SidebarPreview } from "./sidebar-preview";
 
 // ---------------------------------------------------------------------------
 // DashboardPreview — dense bento grid, no empty space
@@ -699,7 +701,18 @@ export function DashboardPreview() {
           </div>
         </div>
 
-        {/* ── Row 8 — Pagination (full width) ── */}
+        {/* ── Row 8 — Sidebar Preview (full width) ── */}
+        <div className="col-span-6">
+          <BentoCard
+            title="Sidebar"
+            description="Menu Color & Menu Accent preview"
+            icon={Home}
+          >
+            <SidebarPreview />
+          </BentoCard>
+        </div>
+
+        {/* ── Row 9 — Pagination (full width) ── */}
         <div className="col-span-6">
           <BentoCard
             title="Pagination"

@@ -111,12 +111,12 @@ npx @work-rjkashyap/unified-ui init
 
 **Flags:**
 
-| Flag              | Description                                                |
-| ----------------- | ---------------------------------------------------------- |
-| `--template, -t`  | Scaffold a new project with a framework (see below)        |
-| `--yes`           | Skip interactive prompts and use defaults                  |
-| `--src`           | Use `src/` directory structure (default: `true`)           |
-| `--cwd <dir>`     | Set the working directory                                  |
+| Flag             | Description                                         |
+| ---------------- | --------------------------------------------------- |
+| `--template, -t` | Scaffold a new project with a framework (see below) |
+| `--yes`          | Skip interactive prompts and use defaults           |
+| `--src`          | Use `src/` directory structure (default: `true`)    |
+| `--cwd <dir>`    | Set the working directory                           |
 
 ---
 
@@ -135,12 +135,15 @@ npx @work-rjkashyap/unified-ui init --template vite-react my-app
 
 **Available templates:**
 
-| Template         | Framework               | What's included                                         |
-| ---------------- | ----------------------- | ------------------------------------------------------- |
-| `vite-react`     | Vite + React 19         | Full component library, DSThemeProvider, Tailwind CSS v4 |
-| `nextjs`         | Next.js App Router      | Full component library, next-themes, SSR-ready          |
-| `vuejs`          | Vue 3 + Vite           | 10 Vue SFC components, design tokens, Tailwind CSS v4   |
-| `laravel-blade`  | Laravel + Blade         | 10 Blade anonymous components, design tokens, Tailwind   |
+| Template          | Framework                       | Repo                                                                                                 | What's included                                             |
+| ----------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `nextjs`          | Next.js 16, App Router          | [unified-ui-template-nextjs](https://github.com/imrj05/unified-ui-template-nextjs)                   | Full component library, next-themes, SSR-ready              |
+| `vite-react`      | Vite + React 19                 | [unified-ui-template-react](https://github.com/imrj05/unified-ui-template-react)                     | Full component library, DSThemeProvider, Tailwind CSS v4    |
+| `tanstack-router` | React 19, Vite, TanStack Router | [unified-ui-template-tanstack-router](https://github.com/imrj05/unified-ui-template-tanstack-router) | Full component library, file-based routing, Tailwind CSS v4 |
+| `vuejs`           | Vue 3 + Vite                    | —                                                                                                    | 10 Vue SFC components, design tokens, Tailwind CSS v4       |
+| `laravel-blade`   | Laravel 12 + Blade              | [unified-ui-template-laravel](https://github.com/imrj05/unified-ui-template-laravel)                 | 10 Blade anonymous components, design tokens, Tailwind      |
+
+You can also clone templates directly from their GitHub repos — see the [Starter Kits](/docs/starter-kits#option-b-clone-a-template-repo) page for full instructions.
 
 **How it works:**
 
@@ -150,8 +153,10 @@ npx @work-rjkashyap/unified-ui init --template vite-react my-app
 4. Initializes git with a clean commit.
 
 <Callout type="info">
-  **React starters** (vite-react, nextjs) include the full 75+ component library.
-  **Vue & Laravel starters** include 10 framework-native UI components (Button, Badge, Card, Input, Alert, Heading, Text, etc.) plus all design tokens.
+	**React starters** (nextjs, vite-react, tanstack-router) include the full
+	75+ component library. **Vue & Laravel starters** include 10
+	framework-native UI components (Button, Badge, Card, Input, Alert, Heading,
+	Text, etc.) plus all design tokens.
 </Callout>
 
 ---
@@ -191,12 +196,12 @@ npx @work-rjkashyap/unified-ui add button --overwrite
 
 **Flags:**
 
-| Flag           | Description                                          |
-| -------------- | ---------------------------------------------------- |
-| `--all`        | Add all available registry items                     |
-| `--overwrite`  | Overwrite existing files without prompting            |
-| `--no-deps`    | Skip npm dependency installation                     |
-| `--cwd <dir>`  | Set the working directory                            |
+| Flag          | Description                                |
+| ------------- | ------------------------------------------ |
+| `--all`       | Add all available registry items           |
+| `--overwrite` | Overwrite existing files without prompting |
+| `--no-deps`   | Skip npm dependency installation           |
+| `--cwd <dir>` | Set the working directory                  |
 
 <Callout type="warn">
 	By default, the CLI will **not overwrite** files that already exist. Use
@@ -245,9 +250,9 @@ This shows a unified diff of your local `button.tsx` against the registry's vers
 
 **Flags:**
 
-| Flag          | Description                   |
-| ------------- | ----------------------------- |
-| `--cwd <dir>` | Set the working directory    |
+| Flag          | Description               |
+| ------------- | ------------------------- |
+| `--cwd <dir>` | Set the working directory |
 
 ---
 
@@ -263,30 +268,30 @@ The `unified-ui.json` file controls where the CLI writes files and how imports a
 		"styles": "@/styles"
 	},
 	"src": true,
-	"registryUrl": "https://unified-ui-rajeshwar.vercel.app/r"
+	"registryUrl": "https://www.unified-ui.space/r"
 }
 ```
 
 ### Options
 
-| Key              | Type     | Default                                              | Description                                           |
-| ---------------- | -------- | ---------------------------------------------------- | ----------------------------------------------------- |
-| `aliases.components` | `string` | `"@/components/ui"`                             | Where component files are written                     |
-| `aliases.utils`      | `string` | `"@/lib"`                                       | Where utility files (`cn.ts`, `focus-ring.ts`) go     |
-| `aliases.styles`     | `string` | `"@/styles"`                                    | Where CSS files go                                    |
-| `src`                | `boolean` | `true`                                          | Whether your project uses a `src/` directory          |
-| `registryUrl`        | `string` | `"https://unified-ui-rajeshwar.vercel.app/r"`   | Base URL for the component registry                   |
+| Key                  | Type      | Default                            | Description                                       |
+| -------------------- | --------- | ---------------------------------- | ------------------------------------------------- |
+| `aliases.components` | `string`  | `"@/components/ui"`                | Where component files are written                 |
+| `aliases.utils`      | `string`  | `"@/lib"`                          | Where utility files (`cn.ts`, `focus-ring.ts`) go |
+| `aliases.styles`     | `string`  | `"@/styles"`                       | Where CSS files go                                |
+| `src`                | `boolean` | `true`                             | Whether your project uses a `src/` directory      |
+| `registryUrl`        | `string`  | `"https://www.unified-ui.space/r"` | Base URL for the component registry               |
 
 ### Directory Mapping
 
 With the default config and `src: true`, files are written to:
 
-| Registry Type | Alias Path         | Filesystem Path                  |
-| ------------- | ------------------- | -------------------------------- |
-| Components    | `@/components/ui/`  | `src/components/ui/button.tsx`   |
-| Utilities     | `@/lib/`            | `src/lib/cn.ts`                  |
-| Styles        | `@/styles/`         | `src/styles/unified-ui.css`      |
-| Motion        | `@/lib/motion/`     | `src/lib/motion/presets.ts`      |
+| Registry Type | Alias Path         | Filesystem Path                |
+| ------------- | ------------------ | ------------------------------ |
+| Components    | `@/components/ui/` | `src/components/ui/button.tsx` |
+| Utilities     | `@/lib/`           | `src/lib/cn.ts`                |
+| Styles        | `@/styles/`        | `src/styles/unified-ui.css`    |
+| Motion        | `@/lib/motion/`    | `src/lib/motion/presets.ts`    |
 
 ---
 
@@ -309,26 +314,26 @@ dialog
 
 Shared utilities that components rely on:
 
-| Utility        | What it provides                                       |
-| -------------- | ------------------------------------------------------ |
-| `cn`           | `clsx` + `tailwind-merge` class merging                |
-| `focus-ring`   | Focus ring CSS class utilities                         |
-| `contrast`     | WCAG color contrast checking                           |
-| `merge-slots`  | Slot merging for compound component APIs               |
+| Utility       | What it provides                         |
+| ------------- | ---------------------------------------- |
+| `cn`          | `clsx` + `tailwind-merge` class merging  |
+| `focus-ring`  | Focus ring CSS class utilities           |
+| `contrast`    | WCAG color contrast checking             |
+| `merge-slots` | Slot merging for compound component APIs |
 
 ### 3. npm Dependencies
 
 External packages that need to be installed from npm:
 
-| Package                    | Used by                             |
-| -------------------------- | ----------------------------------- |
-| `@radix-ui/react-dialog`  | Dialog, AlertDialog, Sheet          |
-| `@radix-ui/react-popover` | Popover, Combobox, DatePicker       |
-| `@radix-ui/react-tabs`    | Tabs                                |
-| `framer-motion`           | All animated components             |
-| `class-variance-authority` | All components with variants       |
-| `tailwind-merge`          | `cn()` utility                      |
-| `clsx`                    | `cn()` utility                      |
+| Package                    | Used by                       |
+| -------------------------- | ----------------------------- |
+| `@radix-ui/react-dialog`   | Dialog, AlertDialog, Sheet    |
+| `@radix-ui/react-popover`  | Popover, Combobox, DatePicker |
+| `@radix-ui/react-tabs`     | Tabs                          |
+| `framer-motion`            | All animated components       |
+| `class-variance-authority` | All components with variants  |
+| `tailwind-merge`           | `cn()` utility                |
+| `clsx`                     | `cn()` utility                |
 
 The CLI detects your package manager and generates the correct install command:
 
@@ -373,11 +378,11 @@ The component registry is a collection of JSON files served from the documentati
 
 ### Registry Endpoints
 
-| URL                | Description                              |
-| ------------------ | ---------------------------------------- |
-| `/r/index.json`    | Full manifest of all available items     |
-| `/r/<name>.json`   | Individual item metadata + source        |
-| `/r/schema/`       | Registry schema definitions              |
+| URL              | Description                          |
+| ---------------- | ------------------------------------ |
+| `/r/index.json`  | Full manifest of all available items |
+| `/r/<name>.json` | Individual item metadata + source    |
+| `/r/schema/`     | Registry schema definitions          |
 
 ### Building the Registry
 
@@ -484,18 +489,18 @@ git diff src/components/ui/button.tsx
 
 ## Comparison: npm Package vs CLI
 
-| Feature                          | npm Package                     | Copy & Paste CLI                   |
-| -------------------------------- | ------------------------------- | ---------------------------------- |
-| Installation                     | `npm i @work-rjkashyap/unified-ui` | `npx @work-rjkashyap/unified-ui add` |
-| Code location                    | `node_modules/`                 | Your project (`src/components/ui/`) |
-| Updates                          | `npm update`                    | `diff` + `add --overwrite`         |
-| Customization                    | Override via className/variants | Edit source directly               |
-| Bundle size                      | Tree-shaken by bundler          | Only what you add                  |
-| Type safety                      | Full `.d.ts` declarations       | Full source with types             |
-| Version tracking                 | `package.json` semver           | Manual via `diff`                  |
-| Cross-project consistency        | Guaranteed (same version)       | Manual (divergence possible)       |
-| Token system                     | Included via CSS import         | CSS file copied locally            |
-| Theme provider                   | Included                        | Copied as local file               |
+| Feature                   | npm Package                        | Copy & Paste CLI                     |
+| ------------------------- | ---------------------------------- | ------------------------------------ |
+| Installation              | `npm i @work-rjkashyap/unified-ui` | `npx @work-rjkashyap/unified-ui add` |
+| Code location             | `node_modules/`                    | Your project (`src/components/ui/`)  |
+| Updates                   | `npm update`                       | `diff` + `add --overwrite`           |
+| Customization             | Override via className/variants    | Edit source directly                 |
+| Bundle size               | Tree-shaken by bundler             | Only what you add                    |
+| Type safety               | Full `.d.ts` declarations          | Full source with types               |
+| Version tracking          | `package.json` semver              | Manual via `diff`                    |
+| Cross-project consistency | Guaranteed (same version)          | Manual (divergence possible)         |
+| Token system              | Included via CSS import            | CSS file copied locally              |
+| Theme provider            | Included                           | Copied as local file                 |
 
 ---
 

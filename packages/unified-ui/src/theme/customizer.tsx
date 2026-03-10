@@ -5,6 +5,7 @@ import {
   type ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -12,8 +13,11 @@ import {
 import { useThemeCustomizer } from "./customizer-store";
 import {
   COLOR_PRESETS,
+  type ColorPreset,
   FONT_PRESETS,
   type FontPreset,
+  MENU_ACCENT_PRESETS,
+  MENU_COLOR_PRESETS,
   RADIUS_PRESETS,
   SHADOW_PRESETS,
   STYLE_PRESETS,
@@ -57,52 +61,6 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
-function ColorSwatch({
-  preset,
-  isActive,
-  onClick,
-}: {
-  preset: (typeof COLOR_PRESETS)[number];
-  isActive: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "group relative flex items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
-        "hover:border-border-strong hover:bg-muted/50",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        isActive
-          ? "border-primary bg-muted/60 shadow-sm"
-          : "border-border bg-transparent",
-      )}
-      title={preset.name}
-    >
-      <span
-        className={cn(
-          "size-5 shrink-0 rounded-full border shadow-xs",
-          isActive
-            ? "border-primary/50 ring-2 ring-primary/20"
-            : "border-border",
-        )}
-        style={{ backgroundColor: preset.swatch }}
-        aria-hidden="true"
-      />
-      <span
-        className={cn(
-          "text-sm font-medium",
-          isActive ? "text-foreground" : "text-muted-foreground",
-        )}
-      >
-        {preset.name}
-      </span>
-      {isActive && <CheckIcon className="ml-auto text-primary" />}
-    </button>
-  );
-}
-
 function RadiusOption({
   preset,
   isActive,
@@ -143,48 +101,474 @@ function RadiusOption({
   );
 }
 
-function FontOption({
-  preset,
-  isActive,
-  onClick,
-}: {
-  preset: FontPreset;
-  isActive: boolean;
-  onClick: () => void;
-}) {
+function ChevronDownIcon({ className }: { className?: string }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "flex items-center gap-2 rounded-md border px-3 py-2 text-left transition-all duration-fast ease-standard",
-        "hover:border-border-strong hover:bg-muted/50",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        isActive
-          ? "border-primary bg-muted/60 shadow-sm"
-          : "border-border bg-transparent",
-      )}
-      title={preset.name}
+    <svg
+      className={cn("size-4 shrink-0", className)}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
     >
-      <span
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={cn("size-4 shrink-0", className)}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+function FontCombobox({
+  presets,
+  activeKey,
+  onSelect,
+}: {
+  presets: readonly FontPreset[];
+  activeKey: string;
+  onSelect: (key: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlightIndex, setHighlightIndex] = useState(-1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const activePreset = useMemo(
+    () => presets.find((p) => p.key === activeKey) ?? presets[0],
+    [presets, activeKey],
+  );
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return presets;
+    const q = search.toLowerCase();
+    return presets.filter((p) => p.name.toLowerCase().includes(q));
+  }, [presets, search]);
+
+  // Reset highlight when filtered list changes
+  useEffect(() => {
+    setHighlightIndex(0);
+  }, []);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return;
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+
+  // Focus input when opened
+  useEffect(() => {
+    if (open) {
+      // Small delay to let the DOM render
+      requestAnimationFrame(() => inputRef.current?.focus());
+    } else {
+      setSearch("");
+      setHighlightIndex(-1);
+    }
+  }, [open]);
+
+  // Scroll highlighted item into view
+  useEffect(() => {
+    if (!open || highlightIndex < 0 || !listRef.current) return;
+    const items = listRef.current.querySelectorAll("[data-font-item]");
+    items[highlightIndex]?.scrollIntoView({ block: "nearest" });
+  }, [highlightIndex, open]);
+
+  const handleSelect = useCallback(
+    (key: string) => {
+      onSelect(key);
+      setOpen(false);
+    },
+    [onSelect],
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.min(i + 1, filtered.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.max(i - 1, 0));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (highlightIndex >= 0 && highlightIndex < filtered.length) {
+          handleSelect(filtered[highlightIndex].key);
+        }
+      }
+    },
+    [filtered, highlightIndex, handleSelect],
+  );
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Trigger button */}
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "text-base font-semibold leading-none",
-          isActive ? "text-foreground" : "text-muted-foreground",
+          "flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
+          "hover:border-border-strong hover:bg-muted/50",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          open ? "border-primary shadow-sm" : "border-border",
         )}
-        style={{ fontFamily: preset.value }}
+        aria-haspopup="listbox"
+        aria-expanded={open}
       >
-        {preset.sample}
-      </span>
-      <span
+        <span
+          className="text-sm font-semibold leading-none text-muted-foreground"
+          style={{ fontFamily: activePreset.value }}
+        >
+          {activePreset.sample}
+        </span>
+        <span className="flex-1 truncate font-medium text-foreground">
+          {activePreset.name}
+        </span>
+        <ChevronDownIcon
+          className={cn(
+            "text-muted-foreground transition-transform duration-fast",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+
+      {/* Dropdown popover */}
+      {open && (
+        <div
+          className={cn(
+            "absolute left-0 z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md",
+            "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2",
+          )}
+          role="dialog"
+          aria-label="Select font"
+        >
+          {/* Search input */}
+          <div className="flex items-center gap-2 border-b border-border px-3 py-2">
+            <SearchIcon className="text-muted-foreground" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search fonts…"
+              className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+              aria-label="Search fonts"
+              autoComplete="off"
+              spellCheck={false}
+            />
+          </div>
+
+          {/* Options list */}
+          <div
+            ref={listRef}
+            className="max-h-52 overflow-y-auto overscroll-contain p-1"
+            role="listbox"
+          >
+            {filtered.length === 0 ? (
+              <div className="px-3 py-4 text-center text-sm text-muted-foreground">
+                No fonts found
+              </div>
+            ) : (
+              filtered.map((preset, index) => {
+                const isActive = preset.key === activeKey;
+                const isHighlighted = index === highlightIndex;
+                return (
+                  <button
+                    key={preset.key}
+                    type="button"
+                    data-font-item=""
+                    role="option"
+                    aria-selected={isActive}
+                    onClick={() => handleSelect(preset.key)}
+                    onMouseEnter={() => setHighlightIndex(index)}
+                    className={cn(
+                      "flex w-full items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-left text-sm transition-colors",
+                      "outline-none",
+                      isHighlighted && "bg-muted",
+                      isActive && "text-foreground font-medium",
+                      !isActive && "text-muted-foreground",
+                    )}
+                  >
+                    <span
+                      className="w-6 text-center text-base font-semibold leading-none"
+                      style={{ fontFamily: preset.value }}
+                      aria-hidden="true"
+                    >
+                      {preset.sample}
+                    </span>
+                    <span className="flex-1 truncate">{preset.name}</span>
+                    {isActive && (
+                      <CheckIcon className="text-primary shrink-0" />
+                    )}
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ColorCombobox({
+  presets,
+  activeKey,
+  onSelect,
+}: {
+  presets: readonly ColorPreset[];
+  activeKey: string;
+  onSelect: (key: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlightIndex, setHighlightIndex] = useState(-1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const activePreset = useMemo(
+    () => presets.find((p) => p.key === activeKey) ?? presets[0],
+    [presets, activeKey],
+  );
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return presets;
+    const q = search.toLowerCase();
+    return presets.filter((p) => p.name.toLowerCase().includes(q));
+  }, [presets, search]);
+
+  // Reset highlight when filtered list changes
+  useEffect(() => {
+    setHighlightIndex(0);
+  }, []);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return;
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+
+  // Focus input when opened
+  useEffect(() => {
+    if (open) {
+      requestAnimationFrame(() => inputRef.current?.focus());
+    } else {
+      setSearch("");
+      setHighlightIndex(-1);
+    }
+  }, [open]);
+
+  // Scroll highlighted item into view
+  useEffect(() => {
+    if (!open || highlightIndex < 0 || !listRef.current) return;
+    const items = listRef.current.querySelectorAll("[data-color-item]");
+    items[highlightIndex]?.scrollIntoView({ block: "nearest" });
+  }, [highlightIndex, open]);
+
+  const handleSelect = useCallback(
+    (key: string) => {
+      onSelect(key);
+      setOpen(false);
+    },
+    [onSelect],
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.min(i + 1, filtered.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.max(i - 1, 0));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (highlightIndex >= 0 && highlightIndex < filtered.length) {
+          handleSelect(filtered[highlightIndex].key);
+        }
+      }
+    },
+    [filtered, highlightIndex, handleSelect],
+  );
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Trigger button */}
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "text-sm",
-          isActive ? "text-foreground font-medium" : "text-muted-foreground",
+          "flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
+          "hover:border-border-strong hover:bg-muted/50",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          open ? "border-primary shadow-sm" : "border-border",
         )}
+        aria-haspopup="listbox"
+        aria-expanded={open}
       >
-        {preset.name}
-      </span>
-      {isActive && <CheckIcon className="ml-auto text-primary" />}
-    </button>
+        <span
+          className={cn(
+            "size-5 shrink-0 rounded-full border shadow-xs",
+            "border-border",
+          )}
+          style={{ backgroundColor: activePreset.swatch }}
+          aria-hidden="true"
+        />
+        <span className="flex-1 truncate font-medium text-foreground">
+          {activePreset.name}
+        </span>
+        <ChevronDownIcon
+          className={cn(
+            "text-muted-foreground transition-transform duration-fast",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+
+      {/* Dropdown popover */}
+      {open && (
+        <div
+          className={cn(
+            "absolute left-0 z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md",
+            "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2",
+          )}
+          role="dialog"
+          aria-label="Select color"
+        >
+          {/* Search input */}
+          <div className="flex items-center gap-2 border-b border-border px-3 py-2">
+            <SearchIcon className="text-muted-foreground" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search colors…"
+              className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+              aria-label="Search colors"
+              autoComplete="off"
+              spellCheck={false}
+            />
+          </div>
+
+          {/* Options list */}
+          <div
+            ref={listRef}
+            className="max-h-52 overflow-y-auto overscroll-contain p-1"
+            role="listbox"
+          >
+            {filtered.length === 0 ? (
+              <div className="px-3 py-4 text-center text-sm text-muted-foreground">
+                No colors found
+              </div>
+            ) : (
+              filtered.map((preset, index) => {
+                const isActive = preset.key === activeKey;
+                const isHighlighted = index === highlightIndex;
+                return (
+                  <button
+                    key={preset.key}
+                    type="button"
+                    data-color-item=""
+                    role="option"
+                    aria-selected={isActive}
+                    onClick={() => handleSelect(preset.key)}
+                    onMouseEnter={() => setHighlightIndex(index)}
+                    className={cn(
+                      "flex w-full items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-left text-sm transition-colors",
+                      "outline-none",
+                      isHighlighted && "bg-muted",
+                      isActive && "text-foreground font-medium",
+                      !isActive && "text-muted-foreground",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "size-4 shrink-0 rounded-full border shadow-xs",
+                        isActive
+                          ? "border-primary/50 ring-2 ring-primary/20"
+                          : "border-border",
+                      )}
+                      style={{ backgroundColor: preset.swatch }}
+                      aria-hidden="true"
+                    />
+                    <span className="flex-1 truncate">{preset.name}</span>
+                    {isActive && (
+                      <CheckIcon className="text-primary shrink-0" />
+                    )}
+                  </button>
+                );
+              })
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -365,6 +749,8 @@ export function ThemeCustomizer({
     setFont,
     setShadow,
     setSurfaceStyle,
+    setMenuColor,
+    setMenuAccent,
     resetConfig,
     isDefault,
     generateCSS,
@@ -390,16 +776,11 @@ export function ThemeCustomizer({
       </Section>
 
       <Section title="Color">
-        <div className="grid grid-cols-2 gap-2">
-          {COLOR_PRESETS.map((preset) => (
-            <ColorSwatch
-              key={preset.key}
-              preset={preset}
-              isActive={config.colorPreset === preset.key}
-              onClick={() => setColorPreset(preset.key)}
-            />
-          ))}
-        </div>
+        <ColorCombobox
+          presets={COLOR_PRESETS}
+          activeKey={config.colorPreset}
+          onSelect={setColorPreset}
+        />
       </Section>
 
       <Section title="Radius">
@@ -416,16 +797,11 @@ export function ThemeCustomizer({
       </Section>
 
       <Section title="Font">
-        <div className="grid grid-cols-2 gap-2">
-          {FONT_PRESETS.map((preset) => (
-            <FontOption
-              key={preset.key}
-              preset={preset}
-              isActive={config.font === preset.key}
-              onClick={() => setFont(preset.key)}
-            />
-          ))}
-        </div>
+        <FontCombobox
+          presets={FONT_PRESETS}
+          activeKey={config.font}
+          onSelect={setFont}
+        />
       </Section>
 
       <Section title="Shadow">
@@ -450,6 +826,34 @@ export function ThemeCustomizer({
               label={preset.name}
               isActive={config.surfaceStyle === preset.key}
               onClick={() => setSurfaceStyle(preset.key)}
+              description={preset.description}
+            />
+          ))}
+        </div>
+      </Section>
+
+      <Section title="Menu Color">
+        <div className="flex flex-wrap gap-2">
+          {MENU_COLOR_PRESETS.map((preset) => (
+            <PillToggle
+              key={preset.key}
+              label={preset.name}
+              isActive={config.menuColor === preset.key}
+              onClick={() => setMenuColor(preset.key)}
+              description={preset.description}
+            />
+          ))}
+        </div>
+      </Section>
+
+      <Section title="Menu Accent">
+        <div className="flex flex-wrap gap-2">
+          {MENU_ACCENT_PRESETS.map((preset) => (
+            <PillToggle
+              key={preset.key}
+              label={preset.name}
+              isActive={config.menuAccent === preset.key}
+              onClick={() => setMenuAccent(preset.key)}
               description={preset.description}
             />
           ))}

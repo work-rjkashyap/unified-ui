@@ -189,9 +189,9 @@ function StepCard({
 /*  Main export                                                        */
 /* ------------------------------------------------------------------ */
 
-export function CTASection() {
+export function CTASection({ version = "0.3.4" }: { version?: string }) {
   return (
-    <section className="relative py-14 bg-fd-background">
+    <section className="relative py-14 bg-fd-background overflow-hidden">
       {/* Subtle top glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-125 h-px bg-linear-to-r from-transparent via-fd-border to-transparent pointer-events-none" />
 
@@ -276,7 +276,7 @@ export function CTASection() {
                   </div>
 
                   {/* CTA buttons */}
-                  <div className="flex flex-row flex-wrap gap-2.5">
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-2.5">
                     <ButtonLink
                       href="/docs"
                       variant="primary"
@@ -310,7 +310,7 @@ export function CTASection() {
                       @work-rjkashyap/unified-ui
                     </Badge>
                     <Badge variant="info" size="sm">
-                      v0.1.2
+                      v{version}
                     </Badge>
                     <Badge variant="success" size="sm" dot>
                       MIT
@@ -386,7 +386,7 @@ export function CTASection() {
                   </div>
 
                   {/* CTA buttons */}
-                  <div className="flex flex-row flex-wrap gap-2.5">
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-2.5">
                     <ButtonLink
                       href="/docs"
                       variant="primary"

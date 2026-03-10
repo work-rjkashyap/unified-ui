@@ -10,7 +10,38 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
 ## Overview
 
-Unified UI starter kits let you scaffold a **fully configured project** in one command. Instead of manually installing packages and editing config files, run:
+Unified UI starter kits let you scaffold a **fully configured project** in one command. Instead of manually installing packages and editing config files, pick a template and go.
+
+There are **two ways** to get started:
+
+1. **CLI scaffolding** — runs the official framework scaffolding tool and overlays Unified UI config automatically.
+2. **Clone a template repo** — each template is published to its own GitHub repository that you can clone, fork, or degit.
+
+---
+
+## Available Templates
+
+| Template            | Framework                         | Repo                                                                                                 | What's included                                                 |
+| ------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Next.js**         | Next.js 16, App Router            | [unified-ui-template-nextjs](https://github.com/imrj05/unified-ui-template-nextjs)                   | Full 75+ component library, SSR-ready, Tailwind CSS v4          |
+| **Vite + React**    | React 19, Vite 7                  | [unified-ui-template-react](https://github.com/imrj05/unified-ui-template-react)                     | Full 75+ component library, DSThemeProvider, Tailwind CSS v4    |
+| **TanStack Router** | React 19, Vite 7, TanStack Router | [unified-ui-template-tanstack-router](https://github.com/imrj05/unified-ui-template-tanstack-router) | Full 75+ component library, file-based routing, Tailwind CSS v4 |
+| **Vue.js**          | Vue 3, Vite                       | —                                                                                                    | 10 Vue SFC components, design tokens, Tailwind CSS v4           |
+| **Laravel Blade**   | Laravel 12, Blade                 | [unified-ui-template-laravel](https://github.com/imrj05/unified-ui-template-laravel)                 | 10 Blade anonymous components, design tokens, Tailwind CSS v4   |
+
+<Callout type="info">
+	**React starters** (Next.js, Vite + React, TanStack Router) include the full
+	**75+ component library** via the `@work-rjkashyap/unified-ui` npm package.
+	**Vue & Laravel starters** include **10 framework-native UI components**
+	(Button, Badge, Card, Input, Alert, Heading, Text, etc.) plus all design
+	tokens.
+</Callout>
+
+---
+
+## Option A: CLI Scaffolding
+
+Run a single command and the CLI handles everything — framework setup, Unified UI installation, overlay files, and git init.
 
 ```bash
 npx @work-rjkashyap/unified-ui init -t
@@ -24,64 +55,16 @@ The CLI will:
 4. **Apply overlay files** — CSS imports, theme providers, demo pages
 5. **Initialize git** with a clean commit
 
----
-
-## Available Templates
-
-### Vite + React (full component library)
-
-```bash
-npx @work-rjkashyap/unified-ui init -t vite-react my-app
-```
-
-- Scaffolds via `npm create vite@latest` with the `react-ts` template
-- Adds `@tailwindcss/vite` for Tailwind CSS v4
-- Wraps the app with `DSThemeProvider` (dark mode, system preference)
-- Demo page with `Button`, `Heading`, and theme toggle
-- Full access to 75+ React components
-
-### Next.js (full component library)
+### Specify a template directly
 
 ```bash
 npx @work-rjkashyap/unified-ui init -t nextjs my-app
-```
-
-- Scaffolds via `npx create-next-app@latest` with App Router, TypeScript, Tailwind, and `src/` directory
-- Pre-configures `next-themes` for server-safe dark mode
-- Wraps the app with `ThemeProvider` + `DSThemeProvider`
-- Demo page with `Button`, `Heading`, and theme toggle
-- Full access to 75+ React components
-
-### Vue.js (UI components + design tokens)
-
-```bash
+npx @work-rjkashyap/unified-ui init -t vite-react my-app
 npx @work-rjkashyap/unified-ui init -t vuejs my-app
-```
-
-- Scaffolds via `npm create vue@latest` with TypeScript
-- Adds `@tailwindcss/vite` for Tailwind CSS v4
-- Includes `ThemeToggle.vue` component for dark mode
-- Ships 10 Vue SFC components: `Button`, `Badge`, `Card` (+ `CardHeader`, `CardBody`, `CardFooter`), `Input`, `Alert`, `Heading`, `Text`
-- Includes a `cn()` utility (`clsx` + `tailwind-merge`)
-- All CSS custom properties and Tailwind utilities available
-- Demo page showcasing all components
-
-### Laravel Blade (UI components + design tokens)
-
-```bash
 npx @work-rjkashyap/unified-ui init -t laravel-blade my-app
 ```
 
-- Scaffolds via `composer create-project laravel/laravel`
-- Adds `@tailwindcss/vite` to the Vite config
-- Includes a base Blade layout with `@vite` directives
-- Ships 10 Blade anonymous components: `<x-ui.button>`, `<x-ui.badge>`, `<x-ui.card>` (+ `card-header`, `card-body`, `card-footer`), `<x-ui.input>`, `<x-ui.alert>`, `<x-ui.heading>`, `<x-ui.text>`
-- JS-based theme toggle with `localStorage` persistence
-- Demo welcome page showcasing all components
-
----
-
-## Interactive Mode
+### Interactive mode
 
 If you omit the template name, the CLI presents an interactive picker:
 
@@ -92,86 +75,354 @@ npx @work-rjkashyap/unified-ui init -t
 #
 #    1. Vite + React          Vite + React 19 SPA with full component library
 #    2. Next.js               Next.js App Router with SSR + full component library
-#    3. Vue.js                Vue 3 + Vite with UI components & Tailwind theme
-#    4. Laravel Blade          Laravel with Blade UI components & Tailwind theme
+#    3. TanStack Router       React 19 + Vite + TanStack Router with full component library
+#    4. Vue.js                Vue 3 + Vite with UI components & Tailwind theme
+#    5. Laravel Blade          Laravel with Blade UI components & Tailwind theme
 #
-#  Select (1-4):
+#  Select (1-5):
 ```
 
 ---
 
-## What Gets Modified
+## Option B: Clone a Template Repo
 
-After the framework's official scaffolding runs, the CLI overlays these files:
+Each template is also published to its own standalone GitHub repository. Use these when you prefer to fork, clone, or degit directly without the CLI.
 
-<Tabs items={["Vite + React", "Next.js", "Vue.js", "Laravel Blade"]}>
-<Tab value="Vite + React">
-| File | Action |
-|------|--------|
-| `vite.config.ts` | **Replaced** — adds `@tailwindcss/vite` plugin |
-| `src/index.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
-| `src/main.tsx` | **Replaced** — wraps app with `DSThemeProvider` |
-| `src/App.tsx` | **Replaced** — demo page with components + theme toggle |
-</Tab>
+<Tabs items={["Next.js", "Vite + React", "TanStack Router", "Laravel"]}>
 <Tab value="Next.js">
-| File | Action |
-|------|--------|
-| `src/app/globals.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
-| `src/app/layout.tsx` | **Replaced** — adds `ThemeProvider` + `DSThemeProvider` |
-| `src/app/page.tsx` | **Replaced** — demo page with components + theme toggle |
+
+**Repo:** [github.com/imrj05/unified-ui-template-nextjs](https://github.com/imrj05/unified-ui-template-nextjs)
+
+<Steps>
+<Step>
+### Create the project
+
+```bash
+npx create-next-app --example https://github.com/imrj05/unified-ui-template-nextjs my-app
+```
+
+Or with degit:
+
+```bash
+npx degit imrj05/unified-ui-template-nextjs my-app
+cd my-app && npm install
+```
+
+</Step>
+<Step>
+### Start developing
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to see the result.
+
+</Step>
+</Steps>
+
+**What's included:**
+
+- Next.js 16 with App Router, React 19, TypeScript
+- `@work-rjkashyap/unified-ui` — 75+ components, design tokens, theme provider, motion presets
+- Tailwind CSS v4 via `@tailwindcss/postcss`
+- `DSThemeProvider` pre-configured in `app/layout.tsx`
+- Demo page showcasing components and theme toggle
+
 </Tab>
-<Tab value="Vue.js">
-| File | Action |
-|------|--------|
-| `vite.config.ts` | **Replaced** — adds `@tailwindcss/vite` plugin |
-| `src/style.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
-| `src/main.ts` | **Replaced** — clean Vue entry with CSS import |
-| `src/lib/cn.ts` | **Created** — `cn()` utility (clsx + tailwind-merge) |
-| `src/App.vue` | **Replaced** — demo page with component showcase |
-| `src/components/ThemeToggle.vue` | **Created** — dark/light toggle component |
-| `src/components/ui/*.vue` | **Created** — 10 UI components (Button, Badge, Card, Input, Alert, Heading, Text, etc.) |
-| `src/components/ui/index.ts` | **Created** — barrel export for all UI components |
+<Tab value="Vite + React">
+
+**Repo:** [github.com/imrj05/unified-ui-template-react](https://github.com/imrj05/unified-ui-template-react)
+
+<Steps>
+<Step>
+### Create the project
+
+```bash
+npx degit imrj05/unified-ui-template-react my-app
+cd my-app && npm install
+```
+
+</Step>
+<Step>
+### Start developing
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) to see the result.
+
+</Step>
+</Steps>
+
+**What's included:**
+
+- React 19 with TypeScript
+- Vite 7 with `@vitejs/plugin-react-swc` for fast HMR
+- `@work-rjkashyap/unified-ui` — 75+ components, design tokens, theme provider, motion presets
+- Tailwind CSS v4 via `@tailwindcss/vite` plugin (no PostCSS config needed)
+- `DSThemeProvider` pre-configured in `src/App.tsx`
+- Demo page showcasing components and theme toggle
+
 </Tab>
-<Tab value="Laravel Blade">
-| File | Action |
-|------|--------|
-| `vite.config.js` | **Replaced** — adds `@tailwindcss/vite` plugin |
-| `resources/css/app.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
-| `resources/js/app.js` | **Replaced** — adds theme toggle logic |
-| `resources/views/layouts/app.blade.php` | **Created** — base layout with `@vite` |
-| `resources/views/welcome.blade.php` | **Replaced** — demo page with component showcase |
-| `resources/views/components/ui/*.blade.php` | **Created** — 10 Blade anonymous components (button, badge, card, input, alert, heading, text, etc.) |
+<Tab value="TanStack Router">
+
+**Repo:** [github.com/imrj05/unified-ui-template-tanstack-router](https://github.com/imrj05/unified-ui-template-tanstack-router)
+
+<Steps>
+<Step>
+### Create the project
+
+```bash
+npx degit imrj05/unified-ui-template-tanstack-router my-app
+cd my-app && npm install
+```
+
+</Step>
+<Step>
+### Start developing
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to see the result.
+
+</Step>
+</Steps>
+
+**What's included:**
+
+- React 19 with TypeScript
+- Vite 7 with TanStack Router — 100% type-safe, file-based routing with nested layouts
+- `@work-rjkashyap/unified-ui` — 75+ components, design tokens, theme provider, motion presets
+- Tailwind CSS v4 via `@tailwindcss/vite` plugin
+- `DSThemeProvider` pre-configured in `src/routes/__root.tsx`
+- Header with navigation, footer, and theme toggle
+- Demo pages showcasing components
+
+</Tab>
+<Tab value="Laravel">
+
+**Repo:** [github.com/imrj05/unified-ui-template-laravel](https://github.com/imrj05/unified-ui-template-laravel)
+
+<Steps>
+<Step>
+### Create the project
+
+```bash
+npx degit imrj05/unified-ui-template-laravel my-app
+cd my-app
+```
+
+</Step>
+<Step>
+### Install dependencies
+
+```bash
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+```
+
+</Step>
+<Step>
+### Start developing
+
+```bash
+npm run dev
+php artisan serve
+```
+
+Open [http://localhost:8000](http://localhost:8000) to see the result.
+
+</Step>
+</Steps>
+
+**What's included:**
+
+- Laravel 12 with Blade templating
+- Vite with `@tailwindcss/vite` plugin
+- 10 Blade anonymous components: `<x-ui.button>`, `<x-ui.badge>`, `<x-ui.card>`, `<x-ui.input>`, `<x-ui.alert>`, `<x-ui.heading>`, `<x-ui.text>`, and card sub-components
+- JS-based theme toggle with `localStorage` persistence
+- All CSS design tokens and Tailwind utilities available
+- Demo welcome page showcasing all components
+
 </Tab>
 </Tabs>
 
 ---
 
-## Components in Vue & Laravel
+## How Templates Are Wired
 
-All four starters ship with working UI components. The Vue and Laravel starters include framework-native ports of the core components — same design tokens, same Tailwind classes, same visual output.
+Every template follows the same three-step pattern to integrate Unified UI:
 
-### Vue.js Components
+<Steps>
+<Step>
+### 1. Import styles
+
+The CSS file is imported **before** Tailwind, and a `@source` directive tells Tailwind v4 to scan the compiled bundle for utility classes:
+
+```css
+@import "@work-rjkashyap/unified-ui/styles.css";
+@import "tailwindcss";
+
+@source "../node_modules/@work-rjkashyap/unified-ui/dist";
+```
+
+</Step>
+<Step>
+### 2. Wrap with theme provider
+
+React templates wrap the app with `DSThemeProvider` which mounts the CSS custom property token system and handles light/dark mode:
+
+```tsx
+import { DSThemeProvider } from "@work-rjkashyap/unified-ui/theme";
+
+export default function App({ children }) {
+	return <DSThemeProvider>{children}</DSThemeProvider>;
+}
+```
+
+</Step>
+<Step>
+### 3. Import and use components
+
+```tsx
+// Barrel import — simple
+import { Button, Badge, Card, Tabs } from "@work-rjkashyap/unified-ui";
+
+// Layer-specific imports — better tree-shaking
+import { Button } from "@work-rjkashyap/unified-ui/components";
+import { fadeIn } from "@work-rjkashyap/unified-ui/motion";
+import { cn } from "@work-rjkashyap/unified-ui/utils";
+```
+
+</Step>
+</Steps>
+
+---
+
+## What Gets Modified (CLI Scaffolding)
+
+After the framework's official scaffolding runs, the CLI overlays these files:
+
+<Tabs items={["Vite + React", "Next.js", "TanStack Router", "Vue.js", "Laravel Blade"]}>
+<Tab value="Vite + React">
+
+| File             | Action                                                         |
+| ---------------- | -------------------------------------------------------------- |
+| `vite.config.ts` | **Replaced** — adds `@tailwindcss/vite` plugin                 |
+| `src/index.css`  | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
+| `src/main.tsx`   | **Replaced** — wraps app with `DSThemeProvider`                |
+| `src/App.tsx`    | **Replaced** — demo page with components + theme toggle        |
+
+</Tab>
+<Tab value="Next.js">
+
+| File                  | Action                                                         |
+| --------------------- | -------------------------------------------------------------- |
+| `src/app/globals.css` | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css` |
+| `src/app/layout.tsx`  | **Replaced** — adds `ThemeProvider` + `DSThemeProvider`        |
+| `src/app/page.tsx`    | **Replaced** — demo page with components + theme toggle        |
+
+</Tab>
+<Tab value="TanStack Router">
+
+| File                    | Action                                                            |
+| ----------------------- | ----------------------------------------------------------------- |
+| `vite.config.ts`        | **Replaced** — adds `@tailwindcss/vite` + TanStack Router plugins |
+| `src/styles.css`        | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css`    |
+| `src/routes/__root.tsx` | **Replaced** — wraps app with `DSThemeProvider`                   |
+| `src/routes/index.tsx`  | **Replaced** — demo page with components + theme toggle           |
+| `src/components/`       | **Created** — Header, Footer, ThemeToggle components              |
+
+</Tab>
+<Tab value="Vue.js">
+
+| File                             | Action                                                                                  |
+| -------------------------------- | --------------------------------------------------------------------------------------- |
+| `vite.config.ts`                 | **Replaced** — adds `@tailwindcss/vite` plugin                                          |
+| `src/style.css`                  | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css`                          |
+| `src/main.ts`                    | **Replaced** — clean Vue entry with CSS import                                          |
+| `src/lib/cn.ts`                  | **Created** — `cn()` utility (clsx + tailwind-merge)                                    |
+| `src/App.vue`                    | **Replaced** — demo page with component showcase                                        |
+| `src/components/ThemeToggle.vue` | **Created** — dark/light toggle component                                               |
+| `src/components/ui/*.vue`        | **Created** — 10 UI components (Button, Badge, Card, Input, Alert, Heading, Text, etc.) |
+| `src/components/ui/index.ts`     | **Created** — barrel export for all UI components                                       |
+
+</Tab>
+<Tab value="Laravel Blade">
+
+| File                                        | Action                                                                                               |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `vite.config.js`                            | **Replaced** — adds `@tailwindcss/vite` plugin                                                       |
+| `resources/css/app.css`                     | **Replaced** — imports `tailwindcss` + `unified-ui/styles.css`                                       |
+| `resources/js/app.js`                       | **Replaced** — adds theme toggle logic                                                               |
+| `resources/views/layouts/app.blade.php`     | **Created** — base layout with `@vite`                                                               |
+| `resources/views/welcome.blade.php`         | **Replaced** — demo page with component showcase                                                     |
+| `resources/views/components/ui/*.blade.php` | **Created** — 10 Blade anonymous components (button, badge, card, input, alert, heading, text, etc.) |
+
+</Tab>
+</Tabs>
+
+---
+
+## Components Included
+
+### React Templates (Next.js, Vite + React, TanStack Router)
+
+React starters ship with the **full `@work-rjkashyap/unified-ui` package** — all 75+ components are available immediately:
+
+| Category          | Components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Form Controls** | [Button](/components/button), [Input](/components/input), [Input Group](/components/input-group), [Textarea](/components/textarea), [Checkbox](/components/checkbox), [Radio](/components/radio), [Switch](/components/switch), [Select](/components/select), [Combobox](/components/combobox), [Slider](/components/slider), [Date Picker](/components/date-picker), [Color Picker](/components/color-picker), [File Upload](/components/file-upload), [Number Input](/components/number-input), [Pin Input](/components/pin-input), [Search Input](/components/search-input), [Form Field](/components/form-field), [Label](/components/label), [Toggle](/components/toggle), [Toggle Group](/components/toggle-group), [Calendar](/components/calendar) |
+| **Data Display**  | [Card](/components/card), [Badge](/components/badge), [Avatar](/components/avatar), [Table](/components/table), [Data Table](/components/data-table), [Data Table Toolbar](/components/data-table-toolbar), [Data List](/components/data-list), [Accordion](/components/accordion), [Tabs](/components/tabs), [Stat](/components/stat), [Timeline](/components/timeline), [Steps](/components/steps), [Code](/components/code), [Kbd](/components/kbd), [Carousel](/components/carousel), [Chart](/components/chart), [Aspect Ratio](/components/aspect-ratio), [Image Gallery](/components/image-gallery)                                                                                                                                                 |
+| **Feedback**      | [Alert](/components/alert), [Banner](/components/banner), [Toast / Sonner](/components/sonner), [Progress](/components/progress), [Skeleton](/components/skeleton), [Spinner](/components/spinner), [Empty State](/components/empty-state), [Confirm Dialog](/components/confirm-dialog), [Markdown](/components/markdown)                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| **Overlay**       | [Dialog](/components/dialog), [Alert Dialog](/components/alert-dialog), [Sheet](/components/sheet), [Drawer](/components/drawer), [Popover](/components/popover), [Tooltip](/components/tooltip), [Hover Card](/components/hover-card), [Dropdown Menu](/components/dropdown-menu), [Context Menu](/components/context-menu)                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| **Navigation**    | [Breadcrumb](/components/breadcrumb), [Pagination](/components/pagination), [Navigation Menu](/components/navigation-menu), [Menubar](/components/menubar), [Command](/components/command), [Sidebar](/components/sidebar), [Scroll Area](/components/scroll-area), [Collapsible](/components/collapsible), [Resizable](/components/resizable), [Tree View](/components/tree-view), [Infinite Scroll](/components/infinite-scroll), [Virtual List](/components/virtual-list), [Copy Button](/components/copy-button)                                                                                                                                                                                                                                       |
+| **Layout**        | [Separator](/components/separator), [Video Player](/components/video-player), [Visually Hidden](/components/visually-hidden)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| **Theme**         | [Theme Toggle](/components/theme-toggle)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+
+Browse the full [Component Reference →](/components)
+
+### Vue.js & Laravel Blade Templates
+
+Vue and Laravel starters include **10 framework-native UI components** — same design tokens, same Tailwind classes, same visual output:
+
+#### Vue.js Components
 
 ```vue
 <script setup>
-import { UiButton, UiBadge, UiCard, UiCardHeader, UiCardBody, UiAlert, UiHeading, UiText } from "@/components/ui";
+import {
+	UiButton,
+	UiBadge,
+	UiCard,
+	UiCardHeader,
+	UiCardBody,
+	UiAlert,
+	UiHeading,
+	UiText,
+} from "@/components/ui";
 </script>
 
 <template>
-  <UiCard>
-    <UiCardHeader>
-      <UiHeading :level="2">Dashboard</UiHeading>
-    </UiCardHeader>
-    <UiCardBody>
-      <UiAlert variant="info" title="Welcome">You're all set.</UiAlert>
-      <UiButton variant="primary">Continue</UiButton>
-      <UiBadge variant="success">Active</UiBadge>
-    </UiCardBody>
-  </UiCard>
+	<UiCard>
+		<UiCardHeader>
+			<UiHeading :level="2">Dashboard</UiHeading>
+		</UiCardHeader>
+		<UiCardBody>
+			<UiAlert variant="info" title="Welcome">You're all set.</UiAlert>
+			<UiButton variant="primary">Continue</UiButton>
+			<UiBadge variant="success">Active</UiBadge>
+		</UiCardBody>
+	</UiCard>
 </template>
 ```
 
-### Laravel Blade Components
+#### Laravel Blade Components
 
 ```blade
 <x-ui.card>
@@ -186,54 +437,99 @@ import { UiButton, UiBadge, UiCard, UiCardHeader, UiCardBody, UiAlert, UiHeading
 </x-ui.card>
 ```
 
-### Component Props Reference
+#### Component Props Reference
 
-| Component | Props |
-|-----------|-------|
-| `Button` | `variant` (primary, secondary, ghost, danger), `size` (sm, md, lg), `loading`, `fullWidth`, `iconOnly`, `disabled` |
-| `Badge` | `variant` (default, primary, secondary, success, warning, danger, info, outline), `size` (sm, md, lg), `dismissible` |
-| `Card` | `variant` (default, outlined, elevated, interactive), `padding` (compact, comfortable), `fullWidth` |
-| `Input` | `variant` (default, error, success), `size` (sm, md, lg), `disabled` |
-| `Alert` | `variant` (info, success, warning, danger, default), `title`, `dismissible` |
-| `Heading` | `level` (1–4), `color` (default, muted, primary) |
-| `Text` | `variant` (body, bodySm, caption, label, overline, code), `color` (default, muted, primary, success, warning, danger, info) |
+| Component | Props                                                                                                                       |
+| --------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `Button`  | `variant` (primary, secondary, ghost, danger), `size` (sm, md, lg), `loading`, `fullWidth`, `iconOnly`, `disabled`          |
+| `Badge`   | `variant` (default, primary, secondary, success, warning, danger, info, outline), `size` (sm, md, lg), `dismissible`        |
+| `Card`    | `variant` (default, outlined, elevated, interactive), `padding` (compact, comfortable), `fullWidth`                         |
+| `Input`   | `variant` (default, error, success), `size` (sm, md, lg), `disabled`                                                        |
+| `Alert`   | `variant` (info, success, warning, danger, default), `title`, `dismissible`                                                 |
+| `Heading` | `level` (1–4), `color` (default, muted, primary)                                                                            |
+| `Text`    | `variant` (body, bodySm, caption, label, overline, code), `color` (default, muted, primary, success, warning, danger, info) |
+
+---
+
+## Customising the Theme
+
+All design tokens are exposed as CSS custom properties. Override them in your global CSS file after the Unified UI import:
+
+```css
+@import "@work-rjkashyap/unified-ui/styles.css";
+@import "tailwindcss";
+
+@source "../node_modules/@work-rjkashyap/unified-ui/dist";
+
+/* Override tokens */
+:root {
+	--primary: oklch(0.55 0.2 260);
+	--radius-md: 0.75rem;
+}
+```
 
 ---
 
 ## Using Tokens Directly
 
-All CSS design tokens are also available as raw CSS custom properties and Tailwind utility classes:
+All CSS design tokens are also available as raw CSS custom properties and Tailwind utility classes — even if you don't use any React components.
 
 ### CSS Custom Properties
 
 ```css
 .my-component {
-  background: var(--primary);
-  color: var(--primary-foreground);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  transition-duration: var(--duration-fast);
+	background: var(--primary);
+	color: var(--primary-foreground);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-sm);
+	transition-duration: var(--duration-fast);
 }
 ```
 
 ### Tailwind Utility Classes
 
 ```html
-<div class="bg-primary text-primary-foreground rounded-md shadow-sm duration-fast">
-  Token-driven styling
+<div
+	class="bg-primary text-primary-foreground rounded-md shadow-sm duration-fast"
+>
+	Token-driven styling
 </div>
 ```
 
 ### Available Token Categories
 
-| Category  | Tailwind Examples                                        |
-| --------- | -------------------------------------------------------- |
-| Colors    | `bg-primary`, `text-foreground`, `border-border`         |
-| Radius    | `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`  |
-| Shadows   | `shadow-sm`, `shadow-md`, `shadow-lg`                    |
-| Z-index   | `z-dropdown`, `z-modal`, `z-toast`                       |
-| Duration  | `duration-fast`, `duration-normal`, `duration-slow`      |
-| Easing    | `ease-standard`, `ease-entrance`, `ease-exit`            |
-| Fonts     | `font-sans`, `font-mono`                                 |
+| Category | Tailwind Examples                                      |
+| -------- | ------------------------------------------------------ |
+| Colors   | `bg-primary`, `text-foreground`, `border-border`       |
+| Radius   | `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl` |
+| Shadows  | `shadow-sm`, `shadow-md`, `shadow-lg`                  |
+| Z-index  | `z-dropdown`, `z-modal`, `z-toast`                     |
+| Duration | `duration-fast`, `duration-normal`, `duration-slow`    |
+| Easing   | `ease-standard`, `ease-entrance`, `ease-exit`          |
+| Fonts    | `font-sans`, `font-mono`                               |
 
 See the full [Design Tokens reference](/docs/tokens) for all available tokens.
+
+---
+
+## Template Repos & Contributing
+
+All templates live inside the [`template/`](https://github.com/imrj05/unified-ui/tree/main/template) directory of the unified-ui monorepo and are automatically mirrored to standalone read-only GitHub repos via CI.
+
+**To modify a template:**
+
+1. Make your changes inside `template/unified-ui-<name>/` in the [unified-ui monorepo](https://github.com/imrj05/unified-ui).
+2. Commit and push to `main`.
+3. The CI workflow automatically syncs changes to the corresponding read-only repo within minutes.
+
+<Callout type="warn">
+	Never commit directly to a read-only template repo — those pushes will be
+	overwritten on the next sync.
+</Callout>
+
+| Template        | Monorepo Directory                     | Read-only Repo                                                                                       |
+| --------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Next.js         | `template/unified-ui-nextjs/`          | [unified-ui-template-nextjs](https://github.com/imrj05/unified-ui-template-nextjs)                   |
+| React (Vite)    | `template/unified-ui-vite/`            | [unified-ui-template-react](https://github.com/imrj05/unified-ui-template-react)                     |
+| TanStack Router | `template/unified-ui-tanstack-router/` | [unified-ui-template-tanstack-router](https://github.com/imrj05/unified-ui-template-tanstack-router) |
+| Laravel         | `template/unified-ui-laravel/`         | [unified-ui-template-laravel](https://github.com/imrj05/unified-ui-template-laravel)                 |

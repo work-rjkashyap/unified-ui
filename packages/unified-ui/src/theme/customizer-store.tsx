@@ -51,6 +51,8 @@ import {
   FONT_PRESETS,
   generateThemeCSS,
   getStylePreset,
+  MENU_ACCENT_PRESETS,
+  MENU_COLOR_PRESETS,
   RADIUS_PRESETS,
   SHADOW_PRESETS,
   STYLE_PRESETS,
@@ -94,6 +96,12 @@ export interface ThemeCustomizerContextValue {
   /** Set just the surface style (e.g. "bordered", "elevated", "mixed") */
   setSurfaceStyle: (key: string) => void;
 
+  /** Set just the menu color (e.g. "default", "muted", "inverted", "primary") */
+  setMenuColor: (key: string) => void;
+
+  /** Set just the menu accent (e.g. "none", "subtle", "bold") */
+  setMenuAccent: (key: string) => void;
+
   /** Reset to the default theme configuration */
   resetConfig: () => void;
 
@@ -108,7 +116,7 @@ export interface ThemeCustomizerContextValue {
 // Context
 // ---------------------------------------------------------------------------
 
-const ThemeCustomizerContext =
+export const ThemeCustomizerContext =
   createContext<ThemeCustomizerContextValue | null>(null);
 
 // ---------------------------------------------------------------------------
@@ -169,6 +177,12 @@ function loadConfig(): ThemeConfig {
       )
         ? parsed.surfaceStyle!
         : DEFAULT_THEME_CONFIG.surfaceStyle,
+      menuColor: MENU_COLOR_PRESETS.some((p) => p.key === parsed.menuColor)
+        ? parsed.menuColor!
+        : DEFAULT_THEME_CONFIG.menuColor,
+      menuAccent: MENU_ACCENT_PRESETS.some((p) => p.key === parsed.menuAccent)
+        ? parsed.menuAccent!
+        : DEFAULT_THEME_CONFIG.menuAccent,
     };
   } catch {
     return DEFAULT_THEME_CONFIG;
@@ -254,7 +268,9 @@ function configsEqual(a: ThemeConfig, b: ThemeConfig): boolean {
     a.radius === b.radius &&
     a.font === b.font &&
     a.shadow === b.shadow &&
-    a.surfaceStyle === b.surfaceStyle
+    a.surfaceStyle === b.surfaceStyle &&
+    a.menuColor === b.menuColor &&
+    a.menuAccent === b.menuAccent
   );
 }
 
@@ -430,6 +446,20 @@ export function ThemeCustomizerProvider({
     });
   }, []);
 
+  const setMenuColor = useCallback((key: string) => {
+    setConfigState((prev) => {
+      if (prev.menuColor === key) return prev;
+      return { ...prev, menuColor: key };
+    });
+  }, []);
+
+  const setMenuAccent = useCallback((key: string) => {
+    setConfigState((prev) => {
+      if (prev.menuAccent === key) return prev;
+      return { ...prev, menuAccent: key };
+    });
+  }, []);
+
   const resetConfig = useCallback(() => {
     setConfigState(DEFAULT_THEME_CONFIG);
   }, []);
@@ -454,6 +484,8 @@ export function ThemeCustomizerProvider({
       setFont,
       setShadow,
       setSurfaceStyle,
+      setMenuColor,
+      setMenuAccent,
       resetConfig,
       isDefault,
       generateCSS: generateCSSFn,
@@ -467,6 +499,8 @@ export function ThemeCustomizerProvider({
       setFont,
       setShadow,
       setSurfaceStyle,
+      setMenuColor,
+      setMenuAccent,
       resetConfig,
       isDefault,
       generateCSSFn,

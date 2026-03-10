@@ -1,4 +1,4 @@
-import { blue, red, amber, green, zinc, slate, gray, teal, brand, zIndex, shadow, radius, semanticLight, shadowDark, semanticDark } from './chunk-IVZAB7BV.mjs';
+import { blue, red, amber, green, zinc, slate, gray, teal, brand, indigo, purple, pink, cyan, emerald, yellow, fuchsia, sky, lime, zIndex, shadow, radius, semanticLight, shadowDark, semanticDark } from './chunk-AAEWG5VR.mjs';
 import { fontFamily } from './chunk-ITBG42M5.mjs';
 import { easingCSS, durationCSS } from './chunk-EZ2L3XPS.mjs';
 import { cn } from './chunk-ZT3PCXDF.mjs';
@@ -578,6 +578,46 @@ var COLOR_PRESETS = [
   {
     swatch: brand[600],
     ...buildChromaticPreset("Brand", "brand", brand)
+  },
+  {
+    swatch: indigo[600],
+    ...buildChromaticPreset("Indigo", "indigo", indigo)
+  },
+  {
+    swatch: purple[600],
+    ...buildChromaticPreset("Purple", "purple", purple)
+  },
+  {
+    swatch: pink[600],
+    ...buildChromaticPreset("Pink", "pink", pink)
+  },
+  {
+    swatch: cyan[600],
+    ...buildChromaticPreset("Cyan", "cyan", cyan)
+  },
+  {
+    swatch: emerald[600],
+    ...buildChromaticPreset("Emerald", "emerald", emerald)
+  },
+  {
+    swatch: yellow[600],
+    ...buildChromaticPreset("Yellow", "yellow", yellow)
+  },
+  {
+    swatch: fuchsia[600],
+    ...buildChromaticPreset("Fuchsia", "fuchsia", fuchsia)
+  },
+  {
+    swatch: sky[600],
+    ...buildChromaticPreset("Sky", "sky", sky)
+  },
+  {
+    swatch: lime[600],
+    ...buildChromaticPreset("Lime", "lime", lime)
+  },
+  {
+    swatch: amber[600],
+    ...buildChromaticPreset("Amber", "amber", amber)
   }
 ];
 function getColorPreset(key) {
@@ -598,6 +638,7 @@ function getRadiusPreset(key) {
   return RADIUS_PRESETS.find((r) => r.key === key) ?? RADIUS_PRESETS[4];
 }
 var FONT_PRESETS = [
+  // ---- Built-in fonts (loaded via next/font in the docs app) ----
   {
     name: "Outfit",
     key: "outfit",
@@ -610,6 +651,164 @@ var FONT_PRESETS = [
     value: 'var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     sample: "Aa"
   },
+  {
+    name: "Geist Sans",
+    key: "geist-sans",
+    value: 'var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "DM Sans",
+    key: "dm-sans",
+    value: 'var(--font-dm-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Plus Jakarta Sans",
+    key: "plus-jakarta-sans",
+    value: 'var(--font-plus-jakarta-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Open Sans",
+    key: "open-sans",
+    value: 'var(--font-open-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Poppins",
+    key: "poppins",
+    value: 'var(--font-poppins), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Montserrat",
+    key: "montserrat",
+    value: 'var(--font-montserrat), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Lato",
+    key: "lato",
+    value: 'var(--font-lato), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Nunito",
+    key: "nunito",
+    value: 'var(--font-nunito), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Raleway",
+    key: "raleway",
+    value: 'var(--font-raleway), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Rubik",
+    key: "rubik",
+    value: 'var(--font-rubik), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Source Sans 3",
+    key: "source-sans-3",
+    value: 'var(--font-source-sans-3), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Work Sans",
+    key: "work-sans",
+    value: 'var(--font-work-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Manrope",
+    key: "manrope",
+    value: 'var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Space Grotesk",
+    key: "space-grotesk",
+    value: 'var(--font-space-grotesk), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  // ---- Additional popular fonts ----
+  {
+    name: "Figtree",
+    key: "figtree",
+    value: 'var(--font-figtree), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "IBM Plex Sans",
+    key: "ibm-plex-sans",
+    value: 'var(--font-ibm-plex-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Quicksand",
+    key: "quicksand",
+    value: 'var(--font-quicksand), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Cabin",
+    key: "cabin",
+    value: 'var(--font-cabin), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Barlow",
+    key: "barlow",
+    value: 'var(--font-barlow), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Josefin Sans",
+    key: "josefin-sans",
+    value: 'var(--font-josefin-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Karla",
+    key: "karla",
+    value: 'var(--font-karla), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Mulish",
+    key: "mulish",
+    value: 'var(--font-mulish), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Noto Sans",
+    key: "noto-sans",
+    value: 'var(--font-noto-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Ubuntu",
+    key: "ubuntu",
+    value: 'var(--font-ubuntu), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Sora",
+    key: "sora",
+    value: 'var(--font-sora), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  {
+    name: "Lexend",
+    key: "lexend",
+    value: 'var(--font-lexend), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sample: "Aa"
+  },
+  // ---- Generic stacks ----
   {
     name: "System",
     key: "system",
@@ -749,6 +948,53 @@ var SURFACE_STYLE_PRESETS = [
   }
 ];
 var DEFAULT_SURFACE_STYLE_KEY = "bordered";
+var MENU_COLOR_PRESETS = [
+  {
+    name: "Default",
+    key: "default",
+    description: "Uses the color preset's built-in sidebar colors"
+  },
+  {
+    name: "Muted",
+    key: "muted",
+    description: "Sidebar matches the muted/surface tone \u2014 blends with content"
+  },
+  {
+    name: "Inverted",
+    key: "inverted",
+    description: "Dark sidebar in light mode, lighter sidebar in dark mode for contrast"
+  },
+  {
+    name: "Primary",
+    key: "primary",
+    description: "Sidebar uses the primary color as its background"
+  }
+];
+var DEFAULT_MENU_COLOR_KEY = "default";
+function getMenuColorPreset(key) {
+  return MENU_COLOR_PRESETS.find((p) => p.key === key) ?? MENU_COLOR_PRESETS[0];
+}
+var MENU_ACCENT_PRESETS = [
+  {
+    name: "None",
+    key: "none",
+    description: "No visual accent highlight on sidebar items"
+  },
+  {
+    name: "Subtle",
+    key: "subtle",
+    description: "Soft background tint on hover and active sidebar items"
+  },
+  {
+    name: "Bold",
+    key: "bold",
+    description: "Prominent primary-colored accent on active sidebar items"
+  }
+];
+var DEFAULT_MENU_ACCENT_KEY = "subtle";
+function getMenuAccentPreset(key) {
+  return MENU_ACCENT_PRESETS.find((p) => p.key === key) ?? MENU_ACCENT_PRESETS[1];
+}
 var STYLE_PRESETS = [
   {
     name: "Vega",
@@ -866,7 +1112,9 @@ var DEFAULT_THEME_CONFIG = {
   radius: DEFAULT_RADIUS_KEY,
   font: DEFAULT_FONT_KEY,
   shadow: DEFAULT_SHADOW_KEY,
-  surfaceStyle: DEFAULT_SURFACE_STYLE_KEY
+  surfaceStyle: DEFAULT_SURFACE_STYLE_KEY,
+  menuColor: DEFAULT_MENU_COLOR_KEY,
+  menuAccent: DEFAULT_MENU_ACCENT_KEY
 };
 function buildThemeOverrides(config, mode) {
   const vars = {};
@@ -976,6 +1224,76 @@ function buildThemeOverrides(config, mode) {
   vars["--ds-gap-default"] = sv.gapDefault;
   vars["--ds-border-width"] = sv.borderWidth;
   vars["--ds-control-height"] = sv.controlHeight;
+  const colorPresetObj = getColorPreset(config.colorPreset);
+  const presetColors = mode === "dark" ? colorPresetObj.dark : colorPresetObj.light;
+  if (config.menuColor === "muted") {
+    if (mode === "light") {
+      vars["--sidebar"] = presetColors.muted;
+      vars["--sidebar-foreground"] = presetColors.foreground;
+      vars["--sidebar-border"] = presetColors.border;
+    } else {
+      vars["--sidebar"] = presetColors.muted;
+      vars["--sidebar-foreground"] = presetColors.foreground;
+      vars["--sidebar-border"] = presetColors.border;
+    }
+  } else if (config.menuColor === "inverted") {
+    if (mode === "light") {
+      vars["--sidebar"] = "oklch(0.205 0 0)";
+      vars["--sidebar-foreground"] = "oklch(0.95 0 0)";
+      vars["--sidebar-primary"] = presetColors.primary;
+      vars["--sidebar-primary-foreground"] = "oklch(0.985 0 0)";
+      vars["--sidebar-border"] = "oklch(1 0 0 / 10%)";
+      vars["--sidebar-ring"] = "oklch(0.439 0 0)";
+    } else {
+      vars["--sidebar"] = "oklch(0.269 0 0)";
+      vars["--sidebar-foreground"] = "oklch(0.95 0 0)";
+      vars["--sidebar-primary"] = presetColors.primary;
+      vars["--sidebar-primary-foreground"] = "oklch(0.985 0 0)";
+      vars["--sidebar-border"] = "oklch(1 0 0 / 8%)";
+      vars["--sidebar-ring"] = "oklch(0.5 0 0)";
+    }
+  } else if (config.menuColor === "primary") {
+    if (mode === "light") {
+      vars["--sidebar"] = presetColors.primary;
+      vars["--sidebar-foreground"] = presetColors.primaryForeground;
+      vars["--sidebar-primary"] = presetColors.primaryForeground;
+      vars["--sidebar-primary-foreground"] = presetColors.primary;
+      vars["--sidebar-border"] = `color-mix(in oklch, ${presetColors.primaryForeground} 15%, transparent)`;
+      vars["--sidebar-ring"] = presetColors.primaryForeground;
+    } else {
+      vars["--sidebar"] = presetColors.primary;
+      vars["--sidebar-foreground"] = presetColors.primaryForeground;
+      vars["--sidebar-primary"] = presetColors.primaryForeground;
+      vars["--sidebar-primary-foreground"] = presetColors.primary;
+      vars["--sidebar-border"] = `color-mix(in oklch, ${presetColors.primaryForeground} 15%, transparent)`;
+      vars["--sidebar-ring"] = presetColors.primaryForeground;
+    }
+  }
+  if (config.menuAccent === "none") {
+    vars["--sidebar-accent"] = "transparent";
+    vars["--sidebar-accent-foreground"] = vars["--sidebar-foreground"] ?? presetColors.sidebarForeground;
+  } else if (config.menuAccent === "bold") {
+    if (config.menuColor === "primary") {
+      if (mode === "light") {
+        vars["--sidebar-accent"] = `color-mix(in oklch, ${presetColors.primaryForeground} 20%, transparent)`;
+        vars["--sidebar-accent-foreground"] = presetColors.primaryForeground;
+      } else {
+        vars["--sidebar-accent"] = `color-mix(in oklch, ${presetColors.primaryForeground} 20%, transparent)`;
+        vars["--sidebar-accent-foreground"] = presetColors.primaryForeground;
+      }
+    } else if (config.menuColor === "inverted") {
+      vars["--sidebar-accent"] = presetColors.primary;
+      vars["--sidebar-accent-foreground"] = presetColors.primaryForeground;
+    } else {
+      if (mode === "light") {
+        vars["--sidebar-accent"] = presetColors.primaryMuted;
+        vars["--sidebar-accent-foreground"] = presetColors.primary;
+      } else {
+        vars["--sidebar-accent"] = presetColors.primaryMuted;
+        vars["--sidebar-accent-foreground"] = presetColors.primaryMutedForeground;
+      }
+    }
+  }
   if (config.surfaceStyle === "elevated") {
     vars["--card"] = mode === "dark" ? "oklch(0.205 0 0)" : "oklch(1 0 0)";
     vars["--border"] = mode === "dark" ? "oklch(0.205 0 0 / 0)" : "oklch(0.922 0 0 / 0)";
@@ -998,6 +1316,8 @@ function generateThemeCSS(config) {
     ` * Radius: ${getRadiusPreset(config.radius).label}`,
     ` * Font: ${getFontPreset(config.font).name}`,
     ` * Shadows: ${getShadowPreset(config.shadow).name}`,
+    ` * Menu Color: ${getMenuColorPreset(config.menuColor).name}`,
+    ` * Menu Accent: ${getMenuAccentPreset(config.menuAccent).name}`,
     " * ============================================ */",
     "",
     ":root {",
@@ -1007,7 +1327,7 @@ function generateThemeCSS(config) {
     ".dark {",
     formatVars(darkVars),
     "}"
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 var STORAGE_KEY = "ds-theme-customizer";
 var STYLE_ELEMENT_ID = "ds-theme-customizer";
@@ -1035,7 +1355,9 @@ function loadConfig() {
       shadow: SHADOW_PRESETS.some((s) => s.key === parsed.shadow) ? parsed.shadow : DEFAULT_THEME_CONFIG.shadow,
       surfaceStyle: SURFACE_STYLE_PRESETS.some(
         (s) => s.key === parsed.surfaceStyle
-      ) ? parsed.surfaceStyle : DEFAULT_THEME_CONFIG.surfaceStyle
+      ) ? parsed.surfaceStyle : DEFAULT_THEME_CONFIG.surfaceStyle,
+      menuColor: MENU_COLOR_PRESETS.some((p) => p.key === parsed.menuColor) ? parsed.menuColor : DEFAULT_THEME_CONFIG.menuColor,
+      menuAccent: MENU_ACCENT_PRESETS.some((p) => p.key === parsed.menuAccent) ? parsed.menuAccent : DEFAULT_THEME_CONFIG.menuAccent
     };
   } catch {
     return DEFAULT_THEME_CONFIG;
@@ -1079,7 +1401,7 @@ function removeStyles() {
   }
 }
 function configsEqual(a, b) {
-  return a.style === b.style && a.colorPreset === b.colorPreset && a.radius === b.radius && a.font === b.font && a.shadow === b.shadow && a.surfaceStyle === b.surfaceStyle;
+  return a.style === b.style && a.colorPreset === b.colorPreset && a.radius === b.radius && a.font === b.font && a.shadow === b.shadow && a.surfaceStyle === b.surfaceStyle && a.menuColor === b.menuColor && a.menuAccent === b.menuAccent;
 }
 function ThemeCustomizerProvider({
   children,
@@ -1185,6 +1507,18 @@ function ThemeCustomizerProvider({
       return { ...prev, surfaceStyle: key };
     });
   }, []);
+  const setMenuColor = useCallback((key) => {
+    setConfigState((prev) => {
+      if (prev.menuColor === key) return prev;
+      return { ...prev, menuColor: key };
+    });
+  }, []);
+  const setMenuAccent = useCallback((key) => {
+    setConfigState((prev) => {
+      if (prev.menuAccent === key) return prev;
+      return { ...prev, menuAccent: key };
+    });
+  }, []);
   const resetConfig = useCallback(() => {
     setConfigState(DEFAULT_THEME_CONFIG);
   }, []);
@@ -1202,6 +1536,8 @@ function ThemeCustomizerProvider({
       setFont,
       setShadow,
       setSurfaceStyle,
+      setMenuColor,
+      setMenuAccent,
       resetConfig,
       isDefault,
       generateCSS: generateCSSFn
@@ -1215,6 +1551,8 @@ function ThemeCustomizerProvider({
       setFont,
       setShadow,
       setSurfaceStyle,
+      setMenuColor,
+      setMenuAccent,
       resetConfig,
       isDefault,
       generateCSSFn
@@ -1246,50 +1584,6 @@ function CheckIcon({ className }) {
       strokeLinejoin: "round",
       "aria-hidden": "true",
       children: /* @__PURE__ */ jsx("path", { d: "M20 6 9 17l-5-5" })
-    }
-  );
-}
-function ColorSwatch({
-  preset,
-  isActive,
-  onClick
-}) {
-  return /* @__PURE__ */ jsxs(
-    "button",
-    {
-      type: "button",
-      onClick,
-      className: cn(
-        "group relative flex items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
-        "hover:border-border-strong hover:bg-muted/50",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        isActive ? "border-primary bg-muted/60 shadow-sm" : "border-border bg-transparent"
-      ),
-      title: preset.name,
-      children: [
-        /* @__PURE__ */ jsx(
-          "span",
-          {
-            className: cn(
-              "size-5 shrink-0 rounded-full border shadow-xs",
-              isActive ? "border-primary/50 ring-2 ring-primary/20" : "border-border"
-            ),
-            style: { backgroundColor: preset.swatch },
-            "aria-hidden": "true"
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          "span",
-          {
-            className: cn(
-              "text-sm font-medium",
-              isActive ? "text-foreground" : "text-muted-foreground"
-            ),
-            children: preset.name
-          }
-        ),
-        isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "ml-auto text-primary" })
-      ]
     }
   );
 }
@@ -1333,49 +1627,433 @@ function RadiusOption({
     }
   );
 }
-function FontOption({
-  preset,
-  isActive,
-  onClick
-}) {
-  return /* @__PURE__ */ jsxs(
-    "button",
+function ChevronDownIcon({ className }) {
+  return /* @__PURE__ */ jsx(
+    "svg",
     {
-      type: "button",
-      onClick,
-      className: cn(
-        "flex items-center gap-2 rounded-md border px-3 py-2 text-left transition-all duration-fast ease-standard",
-        "hover:border-border-strong hover:bg-muted/50",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        isActive ? "border-primary bg-muted/60 shadow-sm" : "border-border bg-transparent"
-      ),
-      title: preset.name,
+      className: cn("size-4 shrink-0", className),
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
+      children: /* @__PURE__ */ jsx("path", { d: "m6 9 6 6 6-6" })
+    }
+  );
+}
+function SearchIcon({ className }) {
+  return /* @__PURE__ */ jsxs(
+    "svg",
+    {
+      className: cn("size-4 shrink-0", className),
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": "true",
       children: [
-        /* @__PURE__ */ jsx(
-          "span",
-          {
-            className: cn(
-              "text-base font-semibold leading-none",
-              isActive ? "text-foreground" : "text-muted-foreground"
-            ),
-            style: { fontFamily: preset.value },
-            children: preset.sample
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          "span",
-          {
-            className: cn(
-              "text-sm",
-              isActive ? "text-foreground font-medium" : "text-muted-foreground"
-            ),
-            children: preset.name
-          }
-        ),
-        isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "ml-auto text-primary" })
+        /* @__PURE__ */ jsx("circle", { cx: "11", cy: "11", r: "8" }),
+        /* @__PURE__ */ jsx("path", { d: "m21 21-4.3-4.3" })
       ]
     }
   );
+}
+function FontCombobox({
+  presets,
+  activeKey,
+  onSelect
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlightIndex, setHighlightIndex] = useState(-1);
+  const containerRef = useRef(null);
+  const listRef = useRef(null);
+  const inputRef = useRef(null);
+  const activePreset = useMemo(
+    () => presets.find((p) => p.key === activeKey) ?? presets[0],
+    [presets, activeKey]
+  );
+  const filtered = useMemo(() => {
+    if (!search.trim()) return presets;
+    const q = search.toLowerCase();
+    return presets.filter((p) => p.name.toLowerCase().includes(q));
+  }, [presets, search]);
+  useEffect(() => {
+    setHighlightIndex(0);
+  }, [filtered]);
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+  useEffect(() => {
+    if (!open) return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  useEffect(() => {
+    if (open) {
+      requestAnimationFrame(() => inputRef.current?.focus());
+    } else {
+      setSearch("");
+      setHighlightIndex(-1);
+    }
+  }, [open]);
+  useEffect(() => {
+    if (!open || highlightIndex < 0 || !listRef.current) return;
+    const items = listRef.current.querySelectorAll("[data-font-item]");
+    items[highlightIndex]?.scrollIntoView({ block: "nearest" });
+  }, [highlightIndex, open]);
+  const handleSelect = useCallback(
+    (key) => {
+      onSelect(key);
+      setOpen(false);
+    },
+    [onSelect]
+  );
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.min(i + 1, filtered.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.max(i - 1, 0));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (highlightIndex >= 0 && highlightIndex < filtered.length) {
+          handleSelect(filtered[highlightIndex].key);
+        }
+      }
+    },
+    [filtered, highlightIndex, handleSelect]
+  );
+  return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: "relative", children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "button",
+        onClick: () => setOpen((prev) => !prev),
+        className: cn(
+          "flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
+          "hover:border-border-strong hover:bg-muted/50",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          open ? "border-primary shadow-sm" : "border-border"
+        ),
+        "aria-haspopup": "listbox",
+        "aria-expanded": open,
+        children: [
+          /* @__PURE__ */ jsx(
+            "span",
+            {
+              className: "text-sm font-semibold leading-none text-muted-foreground",
+              style: { fontFamily: activePreset.value },
+              children: activePreset.sample
+            }
+          ),
+          /* @__PURE__ */ jsx("span", { className: "flex-1 truncate font-medium text-foreground", children: activePreset.name }),
+          /* @__PURE__ */ jsx(
+            ChevronDownIcon,
+            {
+              className: cn(
+                "text-muted-foreground transition-transform duration-fast",
+                open && "rotate-180"
+              )
+            }
+          )
+        ]
+      }
+    ),
+    open && /* @__PURE__ */ jsxs(
+      "div",
+      {
+        className: cn(
+          "absolute left-0 z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md",
+          "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2"
+        ),
+        role: "dialog",
+        "aria-label": "Select font",
+        children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 border-b border-border px-3 py-2", children: [
+            /* @__PURE__ */ jsx(SearchIcon, { className: "text-muted-foreground" }),
+            /* @__PURE__ */ jsx(
+              "input",
+              {
+                ref: inputRef,
+                type: "text",
+                value: search,
+                onChange: (e) => setSearch(e.target.value),
+                onKeyDown: handleKeyDown,
+                placeholder: "Search fonts\u2026",
+                className: "flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none",
+                "aria-label": "Search fonts",
+                autoComplete: "off",
+                spellCheck: false
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsx(
+            "div",
+            {
+              ref: listRef,
+              className: "max-h-52 overflow-y-auto overscroll-contain p-1",
+              role: "listbox",
+              children: filtered.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-4 text-center text-sm text-muted-foreground", children: "No fonts found" }) : filtered.map((preset, index) => {
+                const isActive = preset.key === activeKey;
+                const isHighlighted = index === highlightIndex;
+                return /* @__PURE__ */ jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    "data-font-item": "",
+                    role: "option",
+                    "aria-selected": isActive,
+                    onClick: () => handleSelect(preset.key),
+                    onMouseEnter: () => setHighlightIndex(index),
+                    className: cn(
+                      "flex w-full items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-left text-sm transition-colors",
+                      "outline-none",
+                      isHighlighted && "bg-muted",
+                      isActive && "text-foreground font-medium",
+                      !isActive && "text-muted-foreground"
+                    ),
+                    children: [
+                      /* @__PURE__ */ jsx(
+                        "span",
+                        {
+                          className: "w-6 text-center text-base font-semibold leading-none",
+                          style: { fontFamily: preset.value },
+                          "aria-hidden": "true",
+                          children: preset.sample
+                        }
+                      ),
+                      /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: preset.name }),
+                      isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "text-primary shrink-0" })
+                    ]
+                  },
+                  preset.key
+                );
+              })
+            }
+          )
+        ]
+      }
+    )
+  ] });
+}
+function ColorCombobox({
+  presets,
+  activeKey,
+  onSelect
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlightIndex, setHighlightIndex] = useState(-1);
+  const containerRef = useRef(null);
+  const listRef = useRef(null);
+  const inputRef = useRef(null);
+  const activePreset = useMemo(
+    () => presets.find((p) => p.key === activeKey) ?? presets[0],
+    [presets, activeKey]
+  );
+  const filtered = useMemo(() => {
+    if (!search.trim()) return presets;
+    const q = search.toLowerCase();
+    return presets.filter((p) => p.name.toLowerCase().includes(q));
+  }, [presets, search]);
+  useEffect(() => {
+    setHighlightIndex(0);
+  }, [filtered]);
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+  useEffect(() => {
+    if (!open) return;
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open]);
+  useEffect(() => {
+    if (open) {
+      requestAnimationFrame(() => inputRef.current?.focus());
+    } else {
+      setSearch("");
+      setHighlightIndex(-1);
+    }
+  }, [open]);
+  useEffect(() => {
+    if (!open || highlightIndex < 0 || !listRef.current) return;
+    const items = listRef.current.querySelectorAll("[data-color-item]");
+    items[highlightIndex]?.scrollIntoView({ block: "nearest" });
+  }, [highlightIndex, open]);
+  const handleSelect = useCallback(
+    (key) => {
+      onSelect(key);
+      setOpen(false);
+    },
+    [onSelect]
+  );
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.min(i + 1, filtered.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.max(i - 1, 0));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (highlightIndex >= 0 && highlightIndex < filtered.length) {
+          handleSelect(filtered[highlightIndex].key);
+        }
+      }
+    },
+    [filtered, highlightIndex, handleSelect]
+  );
+  return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: "relative", children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        type: "button",
+        onClick: () => setOpen((prev) => !prev),
+        className: cn(
+          "flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
+          "hover:border-border-strong hover:bg-muted/50",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          open ? "border-primary shadow-sm" : "border-border"
+        ),
+        "aria-haspopup": "listbox",
+        "aria-expanded": open,
+        children: [
+          /* @__PURE__ */ jsx(
+            "span",
+            {
+              className: cn(
+                "size-5 shrink-0 rounded-full border shadow-xs",
+                "border-border"
+              ),
+              style: { backgroundColor: activePreset.swatch },
+              "aria-hidden": "true"
+            }
+          ),
+          /* @__PURE__ */ jsx("span", { className: "flex-1 truncate font-medium text-foreground", children: activePreset.name }),
+          /* @__PURE__ */ jsx(
+            ChevronDownIcon,
+            {
+              className: cn(
+                "text-muted-foreground transition-transform duration-fast",
+                open && "rotate-180"
+              )
+            }
+          )
+        ]
+      }
+    ),
+    open && /* @__PURE__ */ jsxs(
+      "div",
+      {
+        className: cn(
+          "absolute left-0 z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md",
+          "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2"
+        ),
+        role: "dialog",
+        "aria-label": "Select color",
+        children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 border-b border-border px-3 py-2", children: [
+            /* @__PURE__ */ jsx(SearchIcon, { className: "text-muted-foreground" }),
+            /* @__PURE__ */ jsx(
+              "input",
+              {
+                ref: inputRef,
+                type: "text",
+                value: search,
+                onChange: (e) => setSearch(e.target.value),
+                onKeyDown: handleKeyDown,
+                placeholder: "Search colors\u2026",
+                className: "flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none",
+                "aria-label": "Search colors",
+                autoComplete: "off",
+                spellCheck: false
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsx(
+            "div",
+            {
+              ref: listRef,
+              className: "max-h-52 overflow-y-auto overscroll-contain p-1",
+              role: "listbox",
+              children: filtered.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-4 text-center text-sm text-muted-foreground", children: "No colors found" }) : filtered.map((preset, index) => {
+                const isActive = preset.key === activeKey;
+                const isHighlighted = index === highlightIndex;
+                return /* @__PURE__ */ jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    "data-color-item": "",
+                    role: "option",
+                    "aria-selected": isActive,
+                    onClick: () => handleSelect(preset.key),
+                    onMouseEnter: () => setHighlightIndex(index),
+                    className: cn(
+                      "flex w-full items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-left text-sm transition-colors",
+                      "outline-none",
+                      isHighlighted && "bg-muted",
+                      isActive && "text-foreground font-medium",
+                      !isActive && "text-muted-foreground"
+                    ),
+                    children: [
+                      /* @__PURE__ */ jsx(
+                        "span",
+                        {
+                          className: cn(
+                            "size-4 shrink-0 rounded-full border shadow-xs",
+                            isActive ? "border-primary/50 ring-2 ring-primary/20" : "border-border"
+                          ),
+                          style: { backgroundColor: preset.swatch },
+                          "aria-hidden": "true"
+                        }
+                      ),
+                      /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: preset.name }),
+                      isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "text-primary shrink-0" })
+                    ]
+                  },
+                  preset.key
+                );
+              })
+            }
+          )
+        ]
+      }
+    )
+  ] });
 }
 function PillToggle({
   label,
@@ -1533,6 +2211,8 @@ function ThemeCustomizer({
     setFont,
     setShadow,
     setSurfaceStyle,
+    setMenuColor,
+    setMenuAccent,
     resetConfig,
     isDefault,
     generateCSS
@@ -1553,15 +2233,14 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsx(Section, { title: "Color", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 gap-2", children: COLOR_PRESETS.map((preset) => /* @__PURE__ */ jsx(
-          ColorSwatch,
+        /* @__PURE__ */ jsx(Section, { title: "Color", children: /* @__PURE__ */ jsx(
+          ColorCombobox,
           {
-            preset,
-            isActive: config.colorPreset === preset.key,
-            onClick: () => setColorPreset(preset.key)
-          },
-          preset.key
-        )) }) }),
+            presets: COLOR_PRESETS,
+            activeKey: config.colorPreset,
+            onSelect: setColorPreset
+          }
+        ) }),
         /* @__PURE__ */ jsx(Section, { title: "Radius", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: RADIUS_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           RadiusOption,
           {
@@ -1571,15 +2250,14 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsx(Section, { title: "Font", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 gap-2", children: FONT_PRESETS.map((preset) => /* @__PURE__ */ jsx(
-          FontOption,
+        /* @__PURE__ */ jsx(Section, { title: "Font", children: /* @__PURE__ */ jsx(
+          FontCombobox,
           {
-            preset,
-            isActive: config.font === preset.key,
-            onClick: () => setFont(preset.key)
-          },
-          preset.key
-        )) }) }),
+            presets: FONT_PRESETS,
+            activeKey: config.font,
+            onSelect: setFont
+          }
+        ) }),
         /* @__PURE__ */ jsx(Section, { title: "Shadow", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: SHADOW_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           PillToggle,
           {
@@ -1596,6 +2274,26 @@ function ThemeCustomizer({
             label: preset.name,
             isActive: config.surfaceStyle === preset.key,
             onClick: () => setSurfaceStyle(preset.key),
+            description: preset.description
+          },
+          preset.key
+        )) }) }),
+        /* @__PURE__ */ jsx(Section, { title: "Menu Color", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: MENU_COLOR_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+          PillToggle,
+          {
+            label: preset.name,
+            isActive: config.menuColor === preset.key,
+            onClick: () => setMenuColor(preset.key),
+            description: preset.description
+          },
+          preset.key
+        )) }) }),
+        /* @__PURE__ */ jsx(Section, { title: "Menu Accent", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: MENU_ACCENT_PRESETS.map((preset) => /* @__PURE__ */ jsx(
+          PillToggle,
+          {
+            label: preset.name,
+            isActive: config.menuAccent === preset.key,
+            onClick: () => setMenuAccent(preset.key),
             description: preset.description
           },
           preset.key
@@ -1732,4 +2430,4 @@ function DSThemeProvider({
   return /* @__PURE__ */ jsx(DSThemeContext.Provider, { value, children });
 }
 
-export { COLOR_PRESETS, COLOR_PRESET_KEYS, DEFAULT_FONT_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_STYLE_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, DSThemeProvider, FONT_PRESETS, RADIUS_PRESETS, SHADOW_PRESETS, STYLE_PRESETS, SURFACE_STYLE_PRESETS, ThemeCustomizer, ThemeCustomizerProvider, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getRadiusPreset, getShadowPreset, getStylePreset, useDSTheme, useThemeCustomizer };
+export { COLOR_PRESETS, COLOR_PRESET_KEYS, DEFAULT_FONT_KEY, DEFAULT_MENU_ACCENT_KEY, DEFAULT_MENU_COLOR_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_STYLE_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, DSThemeProvider, FONT_PRESETS, MENU_ACCENT_PRESETS, MENU_COLOR_PRESETS, RADIUS_PRESETS, SHADOW_PRESETS, STYLE_PRESETS, SURFACE_STYLE_PRESETS, ThemeCustomizer, ThemeCustomizerContext, ThemeCustomizerProvider, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getMenuAccentPreset, getMenuColorPreset, getRadiusPreset, getShadowPreset, getStylePreset, useDSTheme, useThemeCustomizer };

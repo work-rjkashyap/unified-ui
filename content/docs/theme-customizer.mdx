@@ -1,0 +1,716 @@
+---
+title: Theme Customizer
+description: Runtime theme customization with style presets, color palettes, radius, fonts, shadows, surface styles, menu color, and menu accent.
+icon: Paintbrush
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+## Overview
+
+The Theme Customizer is a runtime theming system that lets users personalize the entire UI without writing CSS. It works by injecting CSS custom property overrides into the document head, so changes take effect instantly across all components.
+
+The customizer manages **8 independent knobs**:
+
+| Knob            | What it controls                                    | Presets available |
+| --------------- | --------------------------------------------------- | ----------------- |
+| **Style**       | Visual personality — spacing, padding, border width | 5                 |
+| **Color**       | Full semantic color palette (light + dark)          | 23                |
+| **Radius**      | Global border radius scale                          | 7                 |
+| **Font**        | Primary `--font-sans` typeface                      | 32                |
+| **Shadow**      | Shadow depth and intensity                          | 4                 |
+| **Surface**     | Card/surface separation strategy                    | 3                 |
+| **Menu Color**  | Sidebar/navigation background scheme                | 4                 |
+| **Menu Accent** | Sidebar active/hover highlight intensity            | 3                 |
+
+Each knob is independent — you can mix and match any combination. Style presets set recommended defaults for the other knobs, but individual knobs can be tweaked afterward.
+
+<Callout type="info">
+	The theme customizer generates a **Copy CSS** output that you can paste into
+	your project's stylesheet for production use — no runtime dependency needed.
+</Callout>
+
+---
+
+## Quick Start
+
+### 1. Wrap your app with the provider
+
+```tsx title="app/layout.tsx"
+import { ThemeCustomizerProvider } from "@work-rjkashyap/unified-ui";
+
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	return (
+		<html lang="en">
+			<body>
+				<ThemeCustomizerProvider>{children}</ThemeCustomizerProvider>
+			</body>
+		</html>
+	);
+}
+```
+
+### 2. Render the customizer UI
+
+```tsx
+import { ThemeCustomizer } from "@work-rjkashyap/unified-ui";
+
+export function SettingsPanel() {
+	return <ThemeCustomizer showCopyButton showResetButton />;
+}
+```
+
+### 3. Or control it programmatically
+
+```tsx
+import { useThemeCustomizer } from "@work-rjkashyap/unified-ui";
+
+function MyComponent() {
+	const { config, setColorPreset, setFont, setRadius } = useThemeCustomizer();
+
+	return (
+		<div>
+			<p>Current color: {config.colorPreset}</p>
+			<button onClick={() => setColorPreset("blue")}>Use Blue</button>
+			<button onClick={() => setFont("inter")}>Use Inter</button>
+			<button onClick={() => setRadius("0.75")}>Large radius</button>
+		</div>
+	);
+}
+```
+
+---
+
+## Style Presets
+
+Style presets define a complete **visual personality** by bundling recommended defaults for radius, font, shadow, surface style, and component-level spacing tokens. When a user selects a style, it applies as a base layer of overrides.
+
+### Available Styles
+
+| Style    | Key    | Description                                     | Default Font | Default Radius | Default Shadow | Default Surface |
+| -------- | ------ | ----------------------------------------------- | ------------ | -------------- | -------------- | --------------- |
+| **Vega** | `vega` | The classic shadcn/ui look — clean & familiar   | Outfit       | 10px (0.625)   | Default        | Bordered        |
+| **Nova** | `nova` | Reduced padding and margins for compact layouts | Inter        | 8px (0.5)      | Subtle         | Bordered        |
+| **Maia** | `maia` | Soft and rounded with generous spacing          | Outfit       | 12px (0.75)    | Default        | Mixed           |
+| **Lyra** | `lyra` | Boxy and sharp — pairs well with mono fonts     | System       | 0px (0)        | None           | Bordered        |
+| **Mira** | `mira` | Ultra-compact for data-heavy interfaces         | Inter        | 6px (0.375)    | None           | Bordered        |
+
+### Component Spacing Variables
+
+Each style preset overrides component-level CSS custom properties for spacing consistency:
+
+| CSS Variable            | Vega      | Nova       | Maia       | Lyra      | Mira       | Purpose                   |
+| ----------------------- | --------- | ---------- | ---------- | --------- | ---------- | ------------------------- |
+| `--ds-spacing-unit`     | `1`       | `0.875`    | `1.125`    | `1`       | `0.75`     | Base spacing multiplier   |
+| `--ds-padding-card`     | `1.5rem`  | `1rem`     | `1.75rem`  | `1.25rem` | `0.75rem`  | Card inner padding        |
+| `--ds-padding-button-x` | `1rem`    | `0.75rem`  | `1.25rem`  | `1rem`    | `0.625rem` | Button horizontal padding |
+| `--ds-padding-button-y` | `0.5rem`  | `0.375rem` | `0.625rem` | `0.5rem`  | `0.25rem`  | Button vertical padding   |
+| `--ds-gap-default`      | `0.75rem` | `0.5rem`   | `1rem`     | `0.75rem` | `0.375rem` | Default gap between items |
+| `--ds-border-width`     | `1px`     | `1px`      | `1px`      | `1px`     | `1px`      | Border width              |
+| `--ds-control-height`   | `2.25rem` | `2rem`     | `2.5rem`   | `2.25rem` | `1.75rem`  | Input/button height       |
+
+```tsx
+import {
+	STYLE_PRESETS,
+	getStylePreset,
+} from "@work-rjkashyap/unified-ui/theme";
+
+const vega = getStylePreset("vega");
+console.log(vega.name); // "Vega"
+console.log(vega.defaults.radius); // "0.625"
+console.log(vega.vars.paddingCard); // "1.5rem"
+```
+
+---
+
+## Color Presets
+
+The customizer ships **23 color presets** — 5 neutral (achromatic) and 18 chromatic. Each preset defines a complete set of semantic color tokens for both light and dark modes, including backgrounds, surfaces, primary/secondary, status colors, borders, inputs, disabled states, charts, and sidebar.
+
+<Tabs items={['Neutral Presets', 'Chromatic Presets']}>
+<Tab value="Neutral Presets">
+
+Neutral presets use **achromatic primaries** (shades of gray) for a clean, minimal aesthetic. They differ in undertone:
+
+| Preset      | Key       | Undertone          | Preview                                                                                                                           |
+| ----------- | --------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Zinc**    | `zinc`    | Pure neutral       | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.205 0 0)"}} />           |
+| **Slate**   | `slate`   | Cool blue-gray     | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.208 0.042 265.755)"}} /> |
+| **Gray**    | `gray`    | Subtle blue        | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.21 0.034 264.665)"}} />  |
+| **Stone**   | `stone`   | Warm yellow-gray   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.216 0.006 56.043)"}} />  |
+| **Neutral** | `neutral` | True gray (no hue) | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.216 0 0)"}} />           |
+
+</Tab>
+<Tab value="Chromatic Presets">
+
+Chromatic presets use **colored primaries** — the selected hue becomes the primary action color across buttons, links, focus rings, and accents:
+
+| Preset      | Key       | Preview                                                                                                                           |
+| ----------- | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Blue**    | `blue`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.546 0.245 262.881)"}} /> |
+| **Green**   | `green`   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.546 0.176 142.495)"}} /> |
+| **Violet**  | `violet`  | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.541 0.281 293.009)"}} /> |
+| **Rose**    | `rose`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.586 0.225 17.18)"}} />   |
+| **Orange**  | `orange`  | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.646 0.222 41.116)"}} />  |
+| **Red**     | `red`     | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.577 0.245 27.325)"}} />  |
+| **Teal**    | `teal`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.526 0.12 175.066)"}} />  |
+| **Brand**   | `brand`   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.511 0.262 276.966)"}} /> |
+| **Indigo**  | `indigo`  | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.511 0.262 276.966)"}} /> |
+| **Purple**  | `purple`  | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.558 0.288 302.321)"}} /> |
+| **Pink**    | `pink`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.592 0.249 0.584)"}} />   |
+| **Cyan**    | `cyan`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.532 0.128 216.632)"}} /> |
+| **Emerald** | `emerald` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.596 0.145 163.225)"}} /> |
+| **Yellow**  | `yellow`  | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.681 0.162 75.834)"}} />  |
+| **Fuchsia** | `fuchsia` | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.591 0.293 322.896)"}} /> |
+| **Sky**     | `sky`     | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.588 0.158 241.966)"}} /> |
+| **Lime**    | `lime`    | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.648 0.2 131.684)"}} />   |
+| **Amber**   | `amber`   | <span className="inline-block w-6 h-6 rounded border border-fd-border" style={{backgroundColor: "oklch(0.666 0.179 58.318)"}} />  |
+
+</Tab>
+</Tabs>
+
+### Neutral vs. Chromatic Behavior
+
+The two preset types generate semantic tokens differently:
+
+- **Neutral presets**: Primary is a dark gray (light mode) or light gray (dark mode). The look is monochrome and minimal.
+- **Chromatic presets**: Primary uses the 600 stop of the selected hue (light mode) or the 500 stop (dark mode). Buttons, links, and focus rings all pick up the chosen color.
+
+Both types share identical **status colors** (success, warning, danger, info) — those always use green, amber, red, and blue regardless of the primary color choice.
+
+```tsx
+import {
+	COLOR_PRESETS,
+	COLOR_PRESET_KEYS,
+	getColorPreset,
+} from "@work-rjkashyap/unified-ui/theme";
+
+// List all available color preset keys
+console.log(COLOR_PRESET_KEYS);
+// ["zinc", "slate", "gray", "stone", "neutral", "blue", "green", "violet", ...]
+
+// Get a specific preset
+const blue = getColorPreset("blue");
+console.log(blue.name); // "Blue"
+console.log(blue.chromatic); // true
+console.log(blue.swatch); // "oklch(0.546 0.245 262.881)"
+console.log(blue.light.primary); // the primary color value for light mode
+```
+
+---
+
+## Radius Presets
+
+The radius customizer controls the global `--radius` CSS variable. All component border radii derive from this base value.
+
+| Preset      | Key     | CSS Value  | Pixel Value | Visual                       |
+| ----------- | ------- | ---------- | ----------- | ---------------------------- |
+| **None**    | `0`     | `0px`      | 0px         | Sharp square corners         |
+| **Subtle**  | `0.25`  | `0.25rem`  | 4px         | Barely rounded               |
+| **Small**   | `0.375` | `0.375rem` | 6px         | Compact rounding             |
+| **Medium**  | `0.5`   | `0.5rem`   | 8px         | Moderate rounding            |
+| **Default** | `0.625` | `0.625rem` | 10px        | The standard — balanced feel |
+| **Large**   | `0.75`  | `0.75rem`  | 12px        | Generously rounded           |
+| **XL**      | `1`     | `1rem`     | 16px        | Pill-like on small elements  |
+
+Components use derived radius values based on the base:
+
+```css
+:root {
+	--radius: 0.625rem; /* Base — set by the customizer */
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--radius-2xl: calc(var(--radius) + 8px);
+	--radius-full: 9999px;
+}
+```
+
+```tsx
+import {
+	RADIUS_PRESETS,
+	getRadiusPreset,
+} from "@work-rjkashyap/unified-ui/theme";
+
+const preset = getRadiusPreset("0.75");
+console.log(preset.name); // "Large"
+console.log(preset.value); // "0.75rem"
+console.log(preset.label); // "12px"
+```
+
+---
+
+## Font Presets
+
+The font customizer overrides `--font-sans` to change the primary UI typeface. All 32 fonts are pre-loaded via `next/font/google` so switching is instant with no layout shift.
+
+See the [Typography → All Available Fonts](/docs/typography#all-available-fonts) section for the complete list of fonts, CSS variables, weight ranges, and character descriptions.
+
+```tsx
+import { FONT_PRESETS, getFontPreset } from "@work-rjkashyap/unified-ui/theme";
+
+console.log(FONT_PRESETS.length); // 32
+
+const preset = getFontPreset("dm-sans");
+console.log(preset.name); // "DM Sans"
+console.log(preset.value);
+// 'var(--font-dm-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+```
+
+<Callout type="info">
+	The font customizer only changes `--font-sans`. The `--font-display`,
+	`--font-serif`, and `--font-mono` slots remain fixed. To change those, use
+	CSS overrides directly.
+</Callout>
+
+---
+
+## Shadow Presets
+
+The shadow customizer controls the intensity of all shadow tokens across the system. Each preset defines values for 7 shadow levels (`none`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`) in both light and dark modes.
+
+| Preset      | Key       | Description              | Vibe                             |
+| ----------- | --------- | ------------------------ | -------------------------------- |
+| **None**    | `none`    | No shadows — flat design | Flat, modern, border-dependent   |
+| **Subtle**  | `subtle`  | Soft, minimal shadows    | Gentle depth, understated        |
+| **Default** | `default` | Standard shadow depth    | Balanced — the starting point    |
+| **Heavy**   | `heavy`   | Bold, pronounced shadows | Strong depth, card-heavy layouts |
+
+### Shadow Values (Light Mode)
+
+| Level | None   | Subtle                         | Default                        | Heavy                          |
+| ----- | ------ | ------------------------------ | ------------------------------ | ------------------------------ |
+| `xs`  | `none` | `0 1px 1px oklch(0 0 0/3%)`    | `0 1px 2px oklch(0 0 0/5%)`    | `0 1px 3px oklch(0 0 0/8%)`    |
+| `sm`  | `none` | `0 1px 2px oklch(0 0 0/5%)`    | `0 1px 3px oklch(0 0 0/10%)`   | `0 2px 4px oklch(0 0 0/14%)`   |
+| `md`  | `none` | `0 2px 4px oklch(0 0 0/6%)`    | `0 4px 6px oklch(0 0 0/10%)`   | `0 6px 10px oklch(0 0 0/14%)`  |
+| `lg`  | `none` | `0 6px 10px oklch(0 0 0/6%)`   | `0 10px 15px oklch(0 0 0/10%)` | `0 14px 20px oklch(0 0 0/14%)` |
+| `xl`  | `none` | `0 12px 16px oklch(0 0 0/6%)`  | `0 20px 25px oklch(0 0 0/10%)` | `0 24px 32px oklch(0 0 0/14%)` |
+| `2xl` | `none` | `0 16px 32px oklch(0 0 0/12%)` | `0 25px 50px oklch(0 0 0/25%)` | `0 32px 60px oklch(0 0 0/35%)` |
+
+<Callout type="info">
+	Dark mode shadows use higher opacity values (2–3× more) because dark
+	backgrounds absorb more shadow, requiring stronger values for the same
+	perceived depth.
+</Callout>
+
+```tsx
+import {
+	SHADOW_PRESETS,
+	getShadowPreset,
+} from "@work-rjkashyap/unified-ui/theme";
+
+const subtle = getShadowPreset("subtle");
+console.log(subtle.name); // "Subtle"
+console.log(subtle.light.md); // "0 2px 4px -1px oklch(0 0 0 / 0.06), ..."
+console.log(subtle.dark.md); // "0 2px 4px -1px oklch(0 0 0 / 0.2), ..."
+```
+
+---
+
+## Surface Style Presets
+
+Surface style controls how cards and elevated surfaces differentiate from the background — whether through borders, shadows, or both.
+
+| Preset       | Key        | Description                          | Best paired with        |
+| ------------ | ---------- | ------------------------------------ | ----------------------- |
+| **Bordered** | `bordered` | Cards use borders for separation     | None or Subtle shadow   |
+| **Elevated** | `elevated` | Cards use shadows for depth          | Default or Heavy shadow |
+| **Mixed**    | `mixed`    | Combines borders with subtle shadows | Subtle shadow           |
+
+```tsx
+import { SURFACE_STYLE_PRESETS } from "@work-rjkashyap/unified-ui/theme";
+
+SURFACE_STYLE_PRESETS.forEach((preset) => {
+	console.log(`${preset.name}: ${preset.description}`);
+});
+// Bordered: Cards and surfaces use borders for separation
+// Elevated: Cards and surfaces use shadows for depth
+// Mixed: Combines borders with subtle shadows
+```
+
+---
+
+## Menu Color
+
+Menu Color controls the sidebar/navigation background scheme. It overrides the `--sidebar-*` CSS custom properties that the color preset sets by default.
+
+### Available Schemes
+
+| Key        | Name     | Description                                                   |
+| ---------- | -------- | ------------------------------------------------------------- |
+| `default`  | Default  | Uses the color preset's built-in sidebar colors (no override) |
+| `muted`    | Muted    | Sidebar matches the muted/surface tone — blends with content  |
+| `inverted` | Inverted | Dark sidebar in light mode, lighter sidebar in dark mode      |
+| `primary`  | Primary  | Sidebar uses the primary color as its background              |
+
+### CSS Properties Affected
+
+Menu Color overrides these sidebar tokens:
+
+- `--sidebar` — Background color
+- `--sidebar-foreground` — Text color
+- `--sidebar-primary` / `--sidebar-primary-foreground` — Primary action colors within sidebar
+- `--sidebar-border` — Border color
+- `--sidebar-ring` — Focus ring color
+
+```tsx
+import {
+	MENU_COLOR_PRESETS,
+	getMenuColorPreset,
+} from "@work-rjkashyap/unified-ui/theme";
+
+MENU_COLOR_PRESETS.forEach((preset) => {
+	console.log(`${preset.name}: ${preset.description}`);
+});
+
+const preset = getMenuColorPreset("inverted");
+// { name: "Inverted", key: "inverted", description: "Dark sidebar in light mode, ..." }
+```
+
+<Callout type="info">
+	The **Default** scheme applies no overrides — sidebar colors come from the
+	active color preset. Choose **Inverted** for a high-contrast navigation area
+	or **Primary** for a branded sidebar.
+</Callout>
+
+---
+
+## Menu Accent
+
+Menu Accent controls how prominent the active/hover highlight is on sidebar menu items. It adjusts the `--sidebar-accent` and `--sidebar-accent-foreground` properties.
+
+### Available Intensities
+
+| Key      | Name   | Description                                              |
+| -------- | ------ | -------------------------------------------------------- |
+| `none`   | None   | No visual accent highlight — transparent hover/active bg |
+| `subtle` | Subtle | Soft background tint on hover and active items (default) |
+| `bold`   | Bold   | Prominent primary-colored accent on active sidebar items |
+
+### Interaction with Menu Color
+
+Menu Accent adapts to the active Menu Color scheme:
+
+- **Default / Muted sidebar + Bold accent** → Uses `--primary-muted` for accent background
+- **Inverted sidebar + Bold accent** → Uses the primary color directly on the dark background
+- **Primary sidebar + Bold accent** → Uses a contrasting foreground tint for accent
+
+```tsx
+import {
+	MENU_ACCENT_PRESETS,
+	getMenuAccentPreset,
+} from "@work-rjkashyap/unified-ui/theme";
+
+MENU_ACCENT_PRESETS.forEach((preset) => {
+	console.log(`${preset.name}: ${preset.description}`);
+});
+
+const preset = getMenuAccentPreset("bold");
+// { name: "Bold", key: "bold", description: "Prominent primary-colored accent ..." }
+```
+
+---
+
+## Theme Configuration
+
+The full theme state is represented by a `ThemeConfig` object with 8 keys:
+
+```tsx
+interface ThemeConfig {
+	/** Style preset key — "vega" | "nova" | "maia" | "lyra" | "mira" */
+	style: string;
+	/** Color preset key — "zinc" | "blue" | "rose" | ... */
+	colorPreset: string;
+	/** Radius preset key — "0" | "0.25" | "0.375" | "0.5" | "0.625" | "0.75" | "1" */
+	radius: string;
+	/** Font preset key — "outfit" | "inter" | "dm-sans" | ... */
+	font: string;
+	/** Shadow mode key — "none" | "subtle" | "default" | "heavy" */
+	shadow: string;
+	/** Surface style key — "bordered" | "elevated" | "mixed" */
+	surfaceStyle: string;
+	/** Menu color key — "default" | "muted" | "inverted" | "primary" */
+	menuColor: string;
+	/** Menu accent key — "none" | "subtle" | "bold" */
+	menuAccent: string;
+}
+```
+
+### Default Configuration
+
+```tsx
+import { DEFAULT_THEME_CONFIG } from "@work-rjkashyap/unified-ui/theme";
+
+console.log(DEFAULT_THEME_CONFIG);
+// {
+//   style: "vega",
+//   colorPreset: "zinc",
+//   radius: "0.625",
+//   font: "outfit",
+//   shadow: "default",
+//   surfaceStyle: "bordered",
+//   menuColor: "default",
+//   menuAccent: "subtle",
+// }
+```
+
+---
+
+## Provider & Hook API
+
+### `<ThemeCustomizerProvider>`
+
+Wraps your app to enable theme customization. Manages state, persists to `localStorage`, and injects CSS overrides.
+
+```tsx
+import { ThemeCustomizerProvider } from "@work-rjkashyap/unified-ui";
+
+<ThemeCustomizerProvider
+	defaultConfig={customConfig} // Optional: override the initial config
+	applyStyles={true} // Optional: set false to read config without injecting CSS
+>
+	{children}
+</ThemeCustomizerProvider>;
+```
+
+| Prop            | Type          | Default                | Description                                  |
+| --------------- | ------------- | ---------------------- | -------------------------------------------- |
+| `defaultConfig` | `ThemeConfig` | `DEFAULT_THEME_CONFIG` | Override the initial configuration           |
+| `applyStyles`   | `boolean`     | `true`                 | Whether to inject CSS overrides into the DOM |
+| `children`      | `ReactNode`   | —                      | App content                                  |
+
+### `useThemeCustomizer()`
+
+Access and modify the theme configuration from any component within the provider.
+
+```tsx
+import { useThemeCustomizer } from "@work-rjkashyap/unified-ui";
+
+function MyControls() {
+	const {
+		config, // Current ThemeConfig
+		setConfig, // Replace entire config
+		setStyle, // Set style + apply its defaults
+		setColorPreset, // Set color preset
+		setRadius, // Set radius
+		setFont, // Set font
+		setShadow, // Set shadow mode
+		setSurfaceStyle, // Set surface style
+		setMenuColor, // Set menu color scheme
+		setMenuAccent, // Set menu accent intensity
+		resetConfig, // Reset to defaults
+		isDefault, // Whether config matches defaults
+		generateCSS, // Generate copyable CSS string
+	} = useThemeCustomizer();
+
+	return (
+		<div>
+			<p>Style: {config.style}</p>
+			<p>Color: {config.colorPreset}</p>
+			<button onClick={() => setStyle("nova")}>Switch to Nova</button>
+			<button onClick={resetConfig} disabled={isDefault}>
+				Reset
+			</button>
+		</div>
+	);
+}
+```
+
+<Callout type="warn">
+	`useThemeCustomizer` must be used within a `ThemeCustomizerProvider`. It
+	throws an error if used outside the provider tree.
+</Callout>
+
+### Return Value
+
+| Property          | Type                            | Description                                           |
+| ----------------- | ------------------------------- | ----------------------------------------------------- |
+| `config`          | `ThemeConfig`                   | The current full configuration                        |
+| `setConfig`       | `(config: ThemeConfig) => void` | Replace the entire config at once                     |
+| `setStyle`        | `(key: string) => void`         | Set the style **and** apply its recommended defaults  |
+| `setColorPreset`  | `(key: string) => void`         | Set just the color preset                             |
+| `setRadius`       | `(key: string) => void`         | Set just the radius                                   |
+| `setFont`         | `(key: string) => void`         | Set just the font                                     |
+| `setShadow`       | `(key: string) => void`         | Set just the shadow mode                              |
+| `setSurfaceStyle` | `(key: string) => void`         | Set just the surface style                            |
+| `setMenuColor`    | `(key: string) => void`         | Set just the menu color scheme                        |
+| `setMenuAccent`   | `(key: string) => void`         | Set just the menu accent intensity                    |
+| `resetConfig`     | `() => void`                    | Reset everything to `DEFAULT_THEME_CONFIG`            |
+| `isDefault`       | `boolean`                       | `true` when config matches the default                |
+| `generateCSS`     | `() => string`                  | Generate a complete CSS string for the current config |
+
+---
+
+## `<ThemeCustomizer>` Component
+
+The built-in customizer UI component renders all 8 sections (Style, Color, Radius, Font, Shadow, Surface, Menu Color, Menu Accent) with interactive controls.
+
+```tsx
+import { ThemeCustomizer } from "@work-rjkashyap/unified-ui";
+
+<ThemeCustomizer
+	showCopyButton // Show "Copy CSS" button
+	showResetButton // Show "Reset" button (hidden when config is default)
+	className="max-w-sm"
+/>;
+```
+
+| Prop              | Type      | Default | Description                       |
+| ----------------- | --------- | ------- | --------------------------------- |
+| `showCopyButton`  | `boolean` | `true`  | Show the "Copy CSS" action button |
+| `showResetButton` | `boolean` | `true`  | Show the "Reset" button           |
+| `className`       | `string`  | —       | Additional CSS classes            |
+
+---
+
+## Generating CSS for Production
+
+The customizer's "Copy CSS" feature generates a self-contained CSS string you can paste into your project. This means you can use the customizer during development and ship static CSS — no runtime provider needed.
+
+```tsx
+import {
+	generateThemeCSS,
+	type ThemeConfig,
+} from "@work-rjkashyap/unified-ui/theme";
+
+const config: ThemeConfig = {
+	style: "nova",
+	colorPreset: "blue",
+	radius: "0.5",
+	font: "inter",
+	shadow: "subtle",
+	surfaceStyle: "bordered",
+	menuColor: "default",
+	menuAccent: "subtle",
+};
+
+const css = generateThemeCSS(config);
+// Returns a complete CSS string with :root and .dark blocks
+console.log(css);
+```
+
+The output looks like:
+
+```css
+/* ============================================
+ * Unified UI — Custom Theme
+ * Preset: Blue
+ * Style: Nova
+ * Radius: 8px
+ * Font: Inter
+ * Shadows: Subtle
+ * ============================================ */
+
+:root {
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
+	--primary: oklch(0.546 0.245 262.881);
+	/* ... all semantic color tokens ... */
+	--radius: 0.5rem;
+	--font-sans: var(--font-inter), system-ui, sans-serif;
+	/* ... shadow tokens, spacing tokens ... */
+}
+
+.dark {
+	--background: oklch(0.145 0 0);
+	--foreground: oklch(0.985 0 0);
+	--primary: oklch(0.682 0.155 254.128);
+	/* ... dark mode overrides ... */
+}
+```
+
+---
+
+## Persistence
+
+The customizer automatically persists the active `ThemeConfig` to `localStorage` under the key `ds-theme-customizer`. On mount, the provider reads from localStorage and restores the user's last configuration.
+
+The provider also listens for `storage` events, so changes in one browser tab are reflected in other tabs in real time.
+
+To disable persistence, you can pass a `defaultConfig` prop to the provider — though the built-in persistence will still run. For fully controlled mode, set `applyStyles={false}` and manage the config yourself.
+
+---
+
+## Preset Lookup Helpers
+
+All preset types export a lookup function that returns the preset object for a given key, falling back to a sensible default if the key isn't found:
+
+```tsx
+import {
+	getStylePreset, // Falls back to "vega"
+	getColorPreset, // Falls back to "zinc"
+	getRadiusPreset, // Falls back to "0.625" (Default)
+	getFontPreset, // Falls back to "outfit"
+	getShadowPreset, // Falls back to "default"
+	getMenuColorPreset, // Falls back to "default"
+	getMenuAccentPreset, // Falls back to "subtle"
+} from "@work-rjkashyap/unified-ui/theme";
+```
+
+---
+
+## Combining with the Theme Provider
+
+The `ThemeCustomizerProvider` is designed to work alongside `DSThemeProvider` (which handles light/dark mode) and framework-level providers like `next-themes`:
+
+```tsx title="app/layout.tsx"
+import { ThemeCustomizerProvider } from "@work-rjkashyap/unified-ui";
+import { RootProvider } from "fumadocs-ui/provider/next";
+
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<body>
+				<RootProvider>
+					<ThemeCustomizerProvider>
+						{children}
+					</ThemeCustomizerProvider>
+				</RootProvider>
+			</body>
+		</html>
+	);
+}
+```
+
+The customizer detects the resolved color mode (light/dark) by observing the `.dark` class on `<html>`. This is compatible with `next-themes`, Fumadocs `RootProvider`, and the `DSThemeProvider`.
+
+---
+
+## Planned Features
+
+The following customizer features are on the roadmap but not yet implemented:
+
+| Feature               | Description                                                      | Status         |
+| --------------------- | ---------------------------------------------------------------- | -------------- |
+| **Preset Bundles**    | One-click composite presets (e.g., "Vega / Lucide / Inter")      | 🔜 Planned     |
+| **Component Library** | Switch between component library implementations (Base UI, etc.) | 🔜 Planned     |
+| **Menu Color**        | Sidebar/navigation menu background color customization           | ✅ Implemented |
+| **Menu Accent**       | Menu accent intensity (None, Subtle, Bold)                       | ✅ Implemented |
+
+---
+
+## Best Practices
+
+### Do
+
+- Use `setStyle()` to apply a cohesive visual personality, then fine-tune individual knobs.
+- Use `generateCSS()` to export the final theme for production — avoid shipping the runtime customizer to end users.
+- Pair **Bordered** surface style with **None** or **Subtle** shadows for a clean look.
+- Pair **Elevated** surface style with **Default** or **Heavy** shadows for depth.
+- Test your theme in both light and dark modes — all presets are designed to work in both.
+
+### Don't
+
+- Don't rely on the runtime customizer in production builds unless you specifically want end-user theming.
+- Don't manually override `--primary`, `--background`, etc., alongside the customizer — they'll conflict. Use the customizer API or static CSS, not both.
+- Don't combine more than one `ThemeCustomizerProvider` in the same tree.

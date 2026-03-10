@@ -75,17 +75,17 @@ export function FooterSection() {
         {/* ── Main grid ── */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           {/* Brand column */}
-          <div className="col-span-2 md:col-span-1 space-y-4">
+          <div className="col-span-2 md:col-span-1 space-y-4 text-center md:text-left">
             <Link href="/" className="inline-block">
               <Logo />
             </Link>
-            <p className="text-sm text-fd-muted-foreground leading-6 max-w-50">
+            <p className="text-sm text-fd-muted-foreground leading-6 max-w-50 mx-auto md:mx-0">
               A scalable, token-driven React design system for modern
               applications.
             </p>
 
             {/* Social links */}
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center justify-center md:justify-start gap-1.5">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (

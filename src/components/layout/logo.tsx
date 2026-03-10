@@ -7,7 +7,7 @@ export function Logo({ className }: { className?: string }) {
       <div className="flex items-center justify-center size-7 rounded-md bg-fd-primary text-fd-primary-foreground">
         <CircuitBoard className="size-4" />
       </div>
-      <span className="font-semibold text-sm text-fd-foreground">
+      <span className="font-semibold text-sm bg-linear-to-r from-[#659287] via-[#B1C29E] to-[#DEAA79] bg-clip-text text-transparent">
         Unified UI
       </span>
     </div>

@@ -34,10 +34,10 @@ export {
   ThemeCustomizer,
   type ThemeCustomizerProps,
 } from "./customizer";
-// ---------------------------------------------------------------------------
 // Theme Customizer Store (Context + Provider + Hook)
 // ---------------------------------------------------------------------------
 export {
+  ThemeCustomizerContext,
   type ThemeCustomizerContextValue,
   ThemeCustomizerProvider,
   type ThemeCustomizerProviderProps,
@@ -53,6 +53,8 @@ export {
   type ColorPreset,
   type ColorPresetKey,
   DEFAULT_FONT_KEY,
+  DEFAULT_MENU_ACCENT_KEY,
+  DEFAULT_MENU_COLOR_KEY,
   DEFAULT_RADIUS_KEY,
   DEFAULT_SHADOW_KEY,
   DEFAULT_STYLE_KEY,
@@ -63,9 +65,15 @@ export {
   generateThemeCSS,
   getColorPreset,
   getFontPreset,
+  getMenuAccentPreset,
+  getMenuColorPreset,
   getRadiusPreset,
   getShadowPreset,
   getStylePreset,
+  MENU_ACCENT_PRESETS,
+  MENU_COLOR_PRESETS,
+  type MenuAccentPreset,
+  type MenuColorPreset,
   type PresetSemanticColors,
   RADIUS_PRESETS,
   type RadiusPreset,
