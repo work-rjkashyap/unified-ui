@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] (#8) ([#8](https://github.com/imrj05/unified-ui/issues/8)) ([59a0b38](https://github.com/imrj05/unified-ui/commit/59a0b3863c9deb7b6914202d7be46707ea83a09b))
 - **changelog:** Auto-update unreleased entries [skip ci] (#6) ([#6](https://github.com/imrj05/unified-ui/issues/6)) ([00f8056](https://github.com/imrj05/unified-ui/commit/00f805695032ac4eb6f25984d276f85cde6aa2f3))
 - **changelog:** Auto-update unreleased entries [skip ci] (#4) ([#4](https://github.com/imrj05/unified-ui/issues/4)) ([6e46e82](https://github.com/imrj05/unified-ui/commit/6e46e82745d62b346015991d075994869d0e4322))
 - **changelog:** Auto-update unreleased entries [skip ci] ([7fb8661](https://github.com/imrj05/unified-ui/commit/7fb8661ffd7650de9bf5e90f52dbf73e2b628ae0))
@@ -48,6 +49,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Other
 
+- Feat/add analytics (#9)
+
+* docs(plan): add open-source contribution setup design
+
+* docs(oss): add contribution, security, and governance standards
+
+* chore(dist): add regenerated chunk artifacts
+
+* ci: switch changelog updates to PR flow for protected main
+
+* docs(readme): refresh component count and monorepo sections
+
+* ci(sync): trigger template sync only on template path changes
+
+* docs: remove brainstorming design artifact
+
+* Add MIT license
+
+* feat: add @vercel/speed-insights dependency and integrate into layout ([#9](https://github.com/imrj05/unified-ui/issues/9)) ([7628e79](https://github.com/imrj05/unified-ui/commit/7628e79bff11cfe1e57c593f0c13961c395412e6))
 - Add MIT license (#7)
 
 * docs(plan): add open-source contribution setup design
