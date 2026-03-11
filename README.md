@@ -5,6 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/@work-rjkashyap/unified-ui)](https://www.npmjs.com/package/@work-rjkashyap/unified-ui)
 [![npm downloads](https://img.shields.io/npm/dm/@work-rjkashyap/unified-ui)](https://www.npmjs.com/package/@work-rjkashyap/unified-ui)
 [![license](https://img.shields.io/npm/l/@work-rjkashyap/unified-ui)](./packages/unified-ui/LICENSE)
+[![open source](https://img.shields.io/badge/Open%20Source-Yes-success)](https://github.com/imrj05/unified-ui)
 
 ---
 
@@ -12,17 +13,19 @@
 
 This is an **npm workspace monorepo** containing two packages:
 
-| Package                          | Path                   | Description                                                                                                           |
-| -------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| **`@work-rjkashyap/unified-ui`** | `packages/unified-ui/` | Standalone, publishable design system with 23+ components, design tokens, theme system, motion presets, and utilities |
-| **Docs App**                     | `./` (root)            | Next.js 16 documentation portal built with [Fumadocs](https://fumadocs.dev/) that consumes the design system          |
+| Package                          | Path                   | Description                                                                                                          |
+| -------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **`@work-rjkashyap/unified-ui`** | `packages/unified-ui/` | Standalone, publishable design system with 75 components, design tokens, theme system, motion presets, and utilities |
+| **Docs App**                     | `./` (root)            | Next.js 16 documentation portal built with [Fumadocs](https://fumadocs.dev/) that consumes the design system         |
+| **Starters (Monorepo)**          | `starters/`            | CLI overlay files for framework scaffolds (Vite React, Next.js, Vue, Laravel Blade)                                  |
+| **Templates (Monorepo)**         | `template/`            | Source of truth for synced framework template repositories                                                           |
 
 ---
 
 ## Features
 
 - **Token-driven design** — Colors, spacing, radius, shadows, typography, and motion all flow from a single source of truth
-- **23+ production-ready components** — Built on Radix UI primitives with full accessibility support
+- **75 production-ready components** — Built on Radix UI primitives with full accessibility support
 - **Tailwind CSS v4** — First-class integration via `@theme` with direct utility classes
 - **Framer Motion** — Consistent animation presets with `prefers-reduced-motion` support
 - **Dark mode** — CSS variable–based theming with automatic `.dark` class support
@@ -84,7 +87,7 @@ unified-ui/
 │       │   ├── tokens/              ← Layer 1: Design tokens (colors, spacing, typography, etc.)
 │       │   ├── theme/               ← Layer 2: Theme system (CSS vars + provider)
 │       │   ├── primitives/          ← Layer 3: Typography, Layout, Divider
-│       │   ├── components/          ← Layer 4: 23 composite components
+│       │   ├── components/          ← Layer 4: 75 composite components
 │       │   ├── motion/              ← Layer 5: Framer Motion presets & hooks
 │       │   └── utils/               ← Layer 6: cn, mergeSlots, contrast, focus-ring
 │       ├── styles.css               ← Tailwind @theme + CSS custom properties
@@ -118,6 +121,8 @@ unified-ui/
 │   ├── company/                     ← Company pages
 │   └── legal/                       ← Legal pages
 ├── source.config.ts                 ← Fumadocs MDX collection schemas
+├── starters/                        ← Monorepo starter overlays used by CLI init
+├── template/                        ← Monorepo template sources synced to external repos
 ├── package.json                     ← Root workspace config
 ├── biome.json                       ← Biome linter/formatter config
 ├── tsconfig.json                    ← Root TypeScript config
@@ -134,25 +139,18 @@ The design system follows a strict layered architecture — each layer only depe
 ┌─────────────────────────────────────────────────┐
 │  Layer 6: Utilities         cn, mergeSlots, etc. │
 │  Layer 5: Motion            Framer Motion presets │
-│  Layer 4: Components        23 composite widgets  │
+│  Layer 4: Components        75 composite widgets  │
 │  Layer 3: Primitives        Typography, Layout    │
 │  Layer 2: Theme             CSS vars + provider   │
 │  Layer 1: Tokens            Colors, spacing, etc. │
 └─────────────────────────────────────────────────┘
 ```
 
-### Components (23)
+### Components (75)
 
-|            |              |                 |
-| ---------- | ------------ | --------------- |
-| Accordion  | Dialog       | Select          |
-| Alert      | DropdownMenu | Sheet           |
-| Avatar     | Input        | Skeleton        |
-| Badge      | Pagination   | Switch          |
-| Breadcrumb | Popover      | Table           |
-| Button     | Radio        | Tabs            |
-| Card       | Checkbox     | Textarea        |
-| DataTable  |              | Toast / Tooltip |
+The design system currently exports 75 component modules from
+`packages/unified-ui/src/components/index.ts`.
+See the docs under `content/components/` for the full catalog and usage.
 
 ### Entry Points
 
