@@ -14,6 +14,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 📖 Documentation
 
+- **oss:** Add contribution standards and protected-branch CI fixes (#5)
+* docs(plan): add open-source contribution setup design
+
+  * docs(oss): add contribution, security, and governance standards
+
+  * chore(dist): add regenerated chunk artifacts
+
+  * ci: switch changelog updates to PR flow for protected main
+
+  * docs(readme): refresh component count and monorepo sections
+
+  * ci(sync): trigger template sync only on template path changes
+
+  * docs: remove brainstorming design artifact ([#5](https://github.com/imrj05/unified-ui/issues/5)) ([7286344](https://github.com/imrj05/unified-ui/commit/7286344503ed667ca1bbb861a29e400f271fbe2c))
 - **oss:** Add contribution standards and protected-branch CI fixes (#3)
 * docs(plan): add open-source contribution setup design
 
@@ -27,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] (#4) ([#4](https://github.com/imrj05/unified-ui/issues/4)) ([6e46e82](https://github.com/imrj05/unified-ui/commit/6e46e82745d62b346015991d075994869d0e4322))
 - **changelog:** Auto-update unreleased entries [skip ci] ([7fb8661](https://github.com/imrj05/unified-ui/commit/7fb8661ffd7650de9bf5e90f52dbf73e2b628ae0))
 - **changelog:** Auto-update unreleased entries [skip ci] ([f9f2c15](https://github.com/imrj05/unified-ui/commit/f9f2c156c6c15a716d56635de647eb3c308ba2fb))
 
