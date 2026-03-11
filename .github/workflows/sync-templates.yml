@@ -36,19 +36,6 @@ on:
             - main
         paths:
             - "template/**"
-    workflow_dispatch:
-        inputs:
-            template:
-                description: "Which template to sync (leave empty to sync all)"
-                required: false
-                default: ""
-                type: choice
-                options:
-                    - ""
-                    - nextjs
-                    - react
-                    - tanstack-router
-                    - laravel
 
 permissions:
     contents: read
