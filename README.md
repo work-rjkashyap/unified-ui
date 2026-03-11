@@ -218,6 +218,17 @@ All design system CSS custom properties use plain `--` prefix with no namespace 
 --font-sans
 ```
 
+---
+
+## Community and Security
+
+- Contribution guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- Code of conduct: [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
+- Support: [SUPPORT.md](./SUPPORT.md)
+- Security policy: [SECURITY.md](./SECURITY.md)
+- Governance: [GOVERNANCE.md](./GOVERNANCE.md)
+- Maintainers: [MAINTAINERS.md](./MAINTAINERS.md)
+
 After importing the styles, use standard Tailwind utilities:
 
 ```html

@@ -1,11 +1,9 @@
-'use strict';
-
-var chunk6ZZZBOCH_cjs = require('./chunk-6ZZZBOCH.cjs');
-var chunkECIGDEAH_cjs = require('./chunk-ECIGDEAH.cjs');
-var chunkXCKK6P46_cjs = require('./chunk-XCKK6P46.cjs');
-var chunk4ON3M3OM_cjs = require('./chunk-4ON3M3OM.cjs');
-var react = require('react');
-var jsxRuntime = require('react/jsx-runtime');
+import { blue, red, amber, green, zinc, slate, gray, teal, brand, indigo, purple, pink, cyan, emerald, yellow, fuchsia, sky, lime, zIndex, shadow, radius, semanticLight, shadowDark, semanticDark } from './chunk-AAEWG5VR.mjs';
+import { fontFamily } from './chunk-ITBG42M5.mjs';
+import { easingCSS, durationCSS } from './chunk-EZ2L3XPS.mjs';
+import { cn } from './chunk-ZT3PCXDF.mjs';
+import { createContext, useContext, useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 
 // src/theme/contract.ts
 var colorVarNames = {
@@ -138,24 +136,24 @@ function mapRecord(varNames, values) {
 }
 function buildLightThemeVars() {
   return {
-    ...mapRecord(colorVarNames, chunk6ZZZBOCH_cjs.semanticLight),
-    ...mapRecord(radiusVarNames, chunk6ZZZBOCH_cjs.radius),
-    ...mapRecord(shadowVarNames, chunk6ZZZBOCH_cjs.shadow),
-    ...mapRecord(zIndexVarNames, chunk6ZZZBOCH_cjs.zIndex),
-    ...mapRecord(durationVarNames, chunkXCKK6P46_cjs.durationCSS),
-    ...mapRecord(easingVarNames, chunkXCKK6P46_cjs.easingCSS),
-    ...mapRecord(fontFamilyVarNames, chunkECIGDEAH_cjs.fontFamily)
+    ...mapRecord(colorVarNames, semanticLight),
+    ...mapRecord(radiusVarNames, radius),
+    ...mapRecord(shadowVarNames, shadow),
+    ...mapRecord(zIndexVarNames, zIndex),
+    ...mapRecord(durationVarNames, durationCSS),
+    ...mapRecord(easingVarNames, easingCSS),
+    ...mapRecord(fontFamilyVarNames, fontFamily)
   };
 }
 function buildDarkThemeVars() {
   return {
-    ...mapRecord(colorVarNames, chunk6ZZZBOCH_cjs.semanticDark),
-    ...mapRecord(radiusVarNames, chunk6ZZZBOCH_cjs.radius),
-    ...mapRecord(shadowVarNames, chunk6ZZZBOCH_cjs.shadowDark),
-    ...mapRecord(zIndexVarNames, chunk6ZZZBOCH_cjs.zIndex),
-    ...mapRecord(durationVarNames, chunkXCKK6P46_cjs.durationCSS),
-    ...mapRecord(easingVarNames, chunkXCKK6P46_cjs.easingCSS),
-    ...mapRecord(fontFamilyVarNames, chunkECIGDEAH_cjs.fontFamily)
+    ...mapRecord(colorVarNames, semanticDark),
+    ...mapRecord(radiusVarNames, radius),
+    ...mapRecord(shadowVarNames, shadowDark),
+    ...mapRecord(zIndexVarNames, zIndex),
+    ...mapRecord(durationVarNames, durationCSS),
+    ...mapRecord(easingVarNames, easingCSS),
+    ...mapRecord(fontFamilyVarNames, fontFamily)
   };
 }
 function varsToCSS(vars) {
@@ -215,48 +213,48 @@ var cssVar = {
 
 // src/theme/presets.ts
 var STATUS_LIGHT = {
-  success: chunk6ZZZBOCH_cjs.green[600],
+  success: green[600],
   successForeground: "oklch(0.145 0 0)",
-  successMuted: chunk6ZZZBOCH_cjs.green[50],
-  successMutedForeground: chunk6ZZZBOCH_cjs.green[700],
-  warning: chunk6ZZZBOCH_cjs.amber[500],
+  successMuted: green[50],
+  successMutedForeground: green[700],
+  warning: amber[500],
   warningForeground: "oklch(0.145 0 0)",
-  warningMuted: chunk6ZZZBOCH_cjs.amber[50],
-  warningMutedForeground: chunk6ZZZBOCH_cjs.amber[700],
-  danger: chunk6ZZZBOCH_cjs.red[600],
+  warningMuted: amber[50],
+  warningMutedForeground: amber[700],
+  danger: red[600],
   dangerForeground: "oklch(0.985 0 0)",
-  dangerHover: chunk6ZZZBOCH_cjs.red[700],
-  dangerActive: chunk6ZZZBOCH_cjs.red[800],
-  dangerMuted: chunk6ZZZBOCH_cjs.red[50],
-  dangerMutedForeground: chunk6ZZZBOCH_cjs.red[700],
-  destructive: chunk6ZZZBOCH_cjs.red[600],
+  dangerHover: red[700],
+  dangerActive: red[800],
+  dangerMuted: red[50],
+  dangerMutedForeground: red[700],
+  destructive: red[600],
   destructiveForeground: "oklch(0.985 0 0)",
-  info: chunk6ZZZBOCH_cjs.blue[600],
+  info: blue[600],
   infoForeground: "oklch(0.985 0 0)",
-  infoMuted: chunk6ZZZBOCH_cjs.blue[50],
-  infoMutedForeground: chunk6ZZZBOCH_cjs.blue[700]
+  infoMuted: blue[50],
+  infoMutedForeground: blue[700]
 };
 var STATUS_DARK = {
-  success: chunk6ZZZBOCH_cjs.green[500],
+  success: green[500],
   successForeground: "oklch(0.145 0 0)",
-  successMuted: chunk6ZZZBOCH_cjs.green[950],
-  successMutedForeground: chunk6ZZZBOCH_cjs.green[300],
-  warning: chunk6ZZZBOCH_cjs.amber[400],
+  successMuted: green[950],
+  successMutedForeground: green[300],
+  warning: amber[400],
   warningForeground: "oklch(0.145 0 0)",
-  warningMuted: chunk6ZZZBOCH_cjs.amber[950],
-  warningMutedForeground: chunk6ZZZBOCH_cjs.amber[300],
-  danger: chunk6ZZZBOCH_cjs.red[500],
+  warningMuted: amber[950],
+  warningMutedForeground: amber[300],
+  danger: red[500],
   dangerForeground: "oklch(0.985 0 0)",
-  dangerHover: chunk6ZZZBOCH_cjs.red[400],
-  dangerActive: chunk6ZZZBOCH_cjs.red[300],
-  dangerMuted: chunk6ZZZBOCH_cjs.red[950],
-  dangerMutedForeground: chunk6ZZZBOCH_cjs.red[300],
-  destructive: chunk6ZZZBOCH_cjs.red[500],
+  dangerHover: red[400],
+  dangerActive: red[300],
+  dangerMuted: red[950],
+  dangerMutedForeground: red[300],
+  destructive: red[500],
   destructiveForeground: "oklch(0.985 0 0)",
-  info: chunk6ZZZBOCH_cjs.blue[400],
+  info: blue[400],
   infoForeground: "oklch(0.145 0 0)",
-  infoMuted: chunk6ZZZBOCH_cjs.blue[950],
-  infoMutedForeground: chunk6ZZZBOCH_cjs.blue[300]
+  infoMuted: blue[950],
+  infoMutedForeground: blue[300]
 };
 var CHART_LIGHT = {
   chart1: "oklch(0.646 0.222 41.116)",
@@ -416,7 +414,7 @@ function buildNeutralPreset(name, key, palette) {
       disabledForeground: palette[600],
       sidebar: palette[900],
       sidebarForeground: palette[50],
-      sidebarPrimary: chunk6ZZZBOCH_cjs.blue[600],
+      sidebarPrimary: blue[600],
       sidebarPrimaryForeground: palette[50],
       sidebarAccent: palette[800],
       sidebarAccentForeground: palette[50],
@@ -425,7 +423,7 @@ function buildNeutralPreset(name, key, palette) {
     }
   };
 }
-function buildChromaticPreset(name, key, primary, surface = chunk6ZZZBOCH_cjs.zinc) {
+function buildChromaticPreset(name, key, primary, surface = zinc) {
   return {
     name,
     key,
@@ -527,16 +525,16 @@ var COLOR_PRESETS = [
   // Neutral Presets (achromatic primaries)
   // -------------------------------------------------------------------------
   {
-    swatch: chunk6ZZZBOCH_cjs.zinc[900],
-    ...buildNeutralPreset("Zinc", "zinc", chunk6ZZZBOCH_cjs.zinc)
+    swatch: zinc[900],
+    ...buildNeutralPreset("Zinc", "zinc", zinc)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.slate[900],
-    ...buildNeutralPreset("Slate", "slate", chunk6ZZZBOCH_cjs.slate)
+    swatch: slate[900],
+    ...buildNeutralPreset("Slate", "slate", slate)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.gray[900],
-    ...buildNeutralPreset("Gray", "gray", chunk6ZZZBOCH_cjs.gray)
+    swatch: gray[900],
+    ...buildNeutralPreset("Gray", "gray", gray)
   },
   {
     swatch: stone[900],
@@ -550,12 +548,12 @@ var COLOR_PRESETS = [
   // Chromatic Presets (colored primaries)
   // -------------------------------------------------------------------------
   {
-    swatch: chunk6ZZZBOCH_cjs.blue[600],
-    ...buildChromaticPreset("Blue", "blue", chunk6ZZZBOCH_cjs.blue)
+    swatch: blue[600],
+    ...buildChromaticPreset("Blue", "blue", blue)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.green[600],
-    ...buildChromaticPreset("Green", "green", chunk6ZZZBOCH_cjs.green)
+    swatch: green[600],
+    ...buildChromaticPreset("Green", "green", green)
   },
   {
     swatch: violet[600],
@@ -570,56 +568,56 @@ var COLOR_PRESETS = [
     ...buildChromaticPreset("Orange", "orange", orange)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.red[600],
-    ...buildChromaticPreset("Red", "red", chunk6ZZZBOCH_cjs.red)
+    swatch: red[600],
+    ...buildChromaticPreset("Red", "red", red)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.teal[600],
-    ...buildChromaticPreset("Teal", "teal", chunk6ZZZBOCH_cjs.teal)
+    swatch: teal[600],
+    ...buildChromaticPreset("Teal", "teal", teal)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.brand[600],
-    ...buildChromaticPreset("Brand", "brand", chunk6ZZZBOCH_cjs.brand)
+    swatch: brand[600],
+    ...buildChromaticPreset("Brand", "brand", brand)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.indigo[600],
-    ...buildChromaticPreset("Indigo", "indigo", chunk6ZZZBOCH_cjs.indigo)
+    swatch: indigo[600],
+    ...buildChromaticPreset("Indigo", "indigo", indigo)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.purple[600],
-    ...buildChromaticPreset("Purple", "purple", chunk6ZZZBOCH_cjs.purple)
+    swatch: purple[600],
+    ...buildChromaticPreset("Purple", "purple", purple)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.pink[600],
-    ...buildChromaticPreset("Pink", "pink", chunk6ZZZBOCH_cjs.pink)
+    swatch: pink[600],
+    ...buildChromaticPreset("Pink", "pink", pink)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.cyan[600],
-    ...buildChromaticPreset("Cyan", "cyan", chunk6ZZZBOCH_cjs.cyan)
+    swatch: cyan[600],
+    ...buildChromaticPreset("Cyan", "cyan", cyan)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.emerald[600],
-    ...buildChromaticPreset("Emerald", "emerald", chunk6ZZZBOCH_cjs.emerald)
+    swatch: emerald[600],
+    ...buildChromaticPreset("Emerald", "emerald", emerald)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.yellow[600],
-    ...buildChromaticPreset("Yellow", "yellow", chunk6ZZZBOCH_cjs.yellow)
+    swatch: yellow[600],
+    ...buildChromaticPreset("Yellow", "yellow", yellow)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.fuchsia[600],
-    ...buildChromaticPreset("Fuchsia", "fuchsia", chunk6ZZZBOCH_cjs.fuchsia)
+    swatch: fuchsia[600],
+    ...buildChromaticPreset("Fuchsia", "fuchsia", fuchsia)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.sky[600],
-    ...buildChromaticPreset("Sky", "sky", chunk6ZZZBOCH_cjs.sky)
+    swatch: sky[600],
+    ...buildChromaticPreset("Sky", "sky", sky)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.lime[600],
-    ...buildChromaticPreset("Lime", "lime", chunk6ZZZBOCH_cjs.lime)
+    swatch: lime[600],
+    ...buildChromaticPreset("Lime", "lime", lime)
   },
   {
-    swatch: chunk6ZZZBOCH_cjs.amber[600],
-    ...buildChromaticPreset("Amber", "amber", chunk6ZZZBOCH_cjs.amber)
+    swatch: amber[600],
+    ...buildChromaticPreset("Amber", "amber", amber)
   }
 ];
 function getColorPreset(key) {
@@ -1333,9 +1331,9 @@ function generateThemeCSS(config) {
 }
 var STORAGE_KEY = "ds-theme-customizer";
 var STYLE_ELEMENT_ID = "ds-theme-customizer";
-var ThemeCustomizerContext = react.createContext(null);
+var ThemeCustomizerContext = createContext(null);
 function useThemeCustomizer() {
-  const ctx = react.useContext(ThemeCustomizerContext);
+  const ctx = useContext(ThemeCustomizerContext);
   if (!ctx) {
     throw new Error(
       "useThemeCustomizer must be used within a <ThemeCustomizerProvider>. Wrap your application (or layout) with <ThemeCustomizerProvider>."
@@ -1410,13 +1408,13 @@ function ThemeCustomizerProvider({
   defaultConfig,
   applyStyles = true
 }) {
-  const [config, setConfigState] = react.useState(
+  const [config, setConfigState] = useState(
     () => defaultConfig ?? loadConfig()
   );
-  const [_resolvedMode, setResolvedMode] = react.useState("light");
-  const configRef = react.useRef(config);
+  const [_resolvedMode, setResolvedMode] = useState("light");
+  const configRef = useRef(config);
   configRef.current = config;
-  react.useEffect(() => {
+  useEffect(() => {
     setResolvedMode(getResolvedMode());
     const observer = new MutationObserver(() => {
       const newMode = getResolvedMode();
@@ -1431,22 +1429,22 @@ function ThemeCustomizerProvider({
     });
     return () => observer.disconnect();
   }, []);
-  react.useEffect(() => {
+  useEffect(() => {
     if (applyStyles) {
       injectStyles(config);
     }
   }, [config, applyStyles]);
-  react.useEffect(() => {
+  useEffect(() => {
     saveConfig(config);
   }, [config]);
-  react.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (applyStyles) {
         removeStyles();
       }
     };
   }, [applyStyles]);
-  react.useEffect(() => {
+  useEffect(() => {
     const handleStorage = (e) => {
       if (e.key === STORAGE_KEY && e.newValue) {
         try {
@@ -1462,10 +1460,10 @@ function ThemeCustomizerProvider({
     window.addEventListener("storage", handleStorage);
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
-  const setConfig = react.useCallback((newConfig) => {
+  const setConfig = useCallback((newConfig) => {
     setConfigState(newConfig);
   }, []);
-  const setStyle = react.useCallback((key) => {
+  const setStyle = useCallback((key) => {
     const preset = getStylePreset(key);
     setConfigState((prev) => {
       if (prev.style === key) return prev;
@@ -1479,56 +1477,56 @@ function ThemeCustomizerProvider({
       };
     });
   }, []);
-  const setColorPreset = react.useCallback((key) => {
+  const setColorPreset = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.colorPreset === key) return prev;
       return { ...prev, colorPreset: key };
     });
   }, []);
-  const setRadius = react.useCallback((key) => {
+  const setRadius = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.radius === key) return prev;
       return { ...prev, radius: key };
     });
   }, []);
-  const setFont = react.useCallback((key) => {
+  const setFont = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.font === key) return prev;
       return { ...prev, font: key };
     });
   }, []);
-  const setShadow = react.useCallback((key) => {
+  const setShadow = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.shadow === key) return prev;
       return { ...prev, shadow: key };
     });
   }, []);
-  const setSurfaceStyle = react.useCallback((key) => {
+  const setSurfaceStyle = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.surfaceStyle === key) return prev;
       return { ...prev, surfaceStyle: key };
     });
   }, []);
-  const setMenuColor = react.useCallback((key) => {
+  const setMenuColor = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.menuColor === key) return prev;
       return { ...prev, menuColor: key };
     });
   }, []);
-  const setMenuAccent = react.useCallback((key) => {
+  const setMenuAccent = useCallback((key) => {
     setConfigState((prev) => {
       if (prev.menuAccent === key) return prev;
       return { ...prev, menuAccent: key };
     });
   }, []);
-  const resetConfig = react.useCallback(() => {
+  const resetConfig = useCallback(() => {
     setConfigState(DEFAULT_THEME_CONFIG);
   }, []);
   const isDefault = configsEqual(config, DEFAULT_THEME_CONFIG);
-  const generateCSSFn = react.useCallback(() => {
+  const generateCSSFn = useCallback(() => {
     return generateThemeCSS(config);
   }, [config]);
-  const value = react.useMemo(
+  const value = useMemo(
     () => ({
       config,
       setConfig,
@@ -1560,23 +1558,23 @@ function ThemeCustomizerProvider({
       generateCSSFn
     ]
   );
-  return /* @__PURE__ */ jsxRuntime.jsx(ThemeCustomizerContext.Provider, { value, children });
+  return /* @__PURE__ */ jsx(ThemeCustomizerContext.Provider, { value, children });
 }
 function Section({
   title,
   children,
   className
 }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: chunk4ON3M3OM_cjs.cn("space-y-2", className), children: [
-    /* @__PURE__ */ jsxRuntime.jsx("h4", { className: "text-xs font-semibold uppercase tracking-wider text-muted-foreground", children: title }),
+  return /* @__PURE__ */ jsxs("div", { className: cn("space-y-2", className), children: [
+    /* @__PURE__ */ jsx("h4", { className: "text-xs font-semibold uppercase tracking-wider text-muted-foreground", children: title }),
     children
   ] });
 }
 function CheckIcon({ className }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsx(
     "svg",
     {
-      className: chunk4ON3M3OM_cjs.cn("size-4 shrink-0", className),
+      className: cn("size-4 shrink-0", className),
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       fill: "none",
@@ -1585,7 +1583,7 @@ function CheckIcon({ className }) {
       strokeLinecap: "round",
       strokeLinejoin: "round",
       "aria-hidden": "true",
-      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M20 6 9 17l-5-5" })
+      children: /* @__PURE__ */ jsx("path", { d: "M20 6 9 17l-5-5" })
     }
   );
 }
@@ -1594,12 +1592,12 @@ function RadiusOption({
   isActive,
   onClick
 }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
+  return /* @__PURE__ */ jsxs(
     "button",
     {
       type: "button",
       onClick,
-      className: chunk4ON3M3OM_cjs.cn(
+      className: cn(
         "flex flex-col items-center justify-center gap-1 rounded-md border px-3 py-2 text-center transition-all duration-fast ease-standard",
         "hover:border-border-strong hover:bg-muted/50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -1607,7 +1605,7 @@ function RadiusOption({
       ),
       title: `${preset.name} (${preset.label})`,
       children: [
-        /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(
           "span",
           {
             className: "size-8 border-2 border-foreground/30 bg-muted",
@@ -1615,10 +1613,10 @@ function RadiusOption({
             "aria-hidden": "true"
           }
         ),
-        /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(
           "span",
           {
-            className: chunk4ON3M3OM_cjs.cn(
+            className: cn(
               "text-[11px] font-medium leading-none",
               isActive ? "text-foreground" : "text-muted-foreground"
             ),
@@ -1630,10 +1628,10 @@ function RadiusOption({
   );
 }
 function ChevronDownIcon({ className }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsx(
     "svg",
     {
-      className: chunk4ON3M3OM_cjs.cn("size-4 shrink-0", className),
+      className: cn("size-4 shrink-0", className),
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       fill: "none",
@@ -1642,15 +1640,15 @@ function ChevronDownIcon({ className }) {
       strokeLinecap: "round",
       strokeLinejoin: "round",
       "aria-hidden": "true",
-      children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m6 9 6 6 6-6" })
+      children: /* @__PURE__ */ jsx("path", { d: "m6 9 6 6 6-6" })
     }
   );
 }
 function SearchIcon({ className }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
+  return /* @__PURE__ */ jsxs(
     "svg",
     {
-      className: chunk4ON3M3OM_cjs.cn("size-4 shrink-0", className),
+      className: cn("size-4 shrink-0", className),
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       fill: "none",
@@ -1660,8 +1658,8 @@ function SearchIcon({ className }) {
       strokeLinejoin: "round",
       "aria-hidden": "true",
       children: [
-        /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "11", cy: "11", r: "8" }),
-        /* @__PURE__ */ jsxRuntime.jsx("path", { d: "m21 21-4.3-4.3" })
+        /* @__PURE__ */ jsx("circle", { cx: "11", cy: "11", r: "8" }),
+        /* @__PURE__ */ jsx("path", { d: "m21 21-4.3-4.3" })
       ]
     }
   );
@@ -1671,25 +1669,25 @@ function FontCombobox({
   activeKey,
   onSelect
 }) {
-  const [open, setOpen] = react.useState(false);
-  const [search, setSearch] = react.useState("");
-  const [highlightIndex, setHighlightIndex] = react.useState(-1);
-  const containerRef = react.useRef(null);
-  const listRef = react.useRef(null);
-  const inputRef = react.useRef(null);
-  const activePreset = react.useMemo(
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlightIndex, setHighlightIndex] = useState(-1);
+  const containerRef = useRef(null);
+  const listRef = useRef(null);
+  const inputRef = useRef(null);
+  const activePreset = useMemo(
     () => presets.find((p) => p.key === activeKey) ?? presets[0],
     [presets, activeKey]
   );
-  const filtered = react.useMemo(() => {
+  const filtered = useMemo(() => {
     if (!search.trim()) return presets;
     const q = search.toLowerCase();
     return presets.filter((p) => p.name.toLowerCase().includes(q));
   }, [presets, search]);
-  react.useEffect(() => {
+  useEffect(() => {
     setHighlightIndex(0);
-  }, [filtered]);
-  react.useEffect(() => {
+  }, []);
+  useEffect(() => {
     if (!open) return;
     function handleClick(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -1699,7 +1697,7 @@ function FontCombobox({
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
-  react.useEffect(() => {
+  useEffect(() => {
     if (!open) return;
     function handleKey(e) {
       if (e.key === "Escape") {
@@ -1709,7 +1707,7 @@ function FontCombobox({
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [open]);
-  react.useEffect(() => {
+  useEffect(() => {
     if (open) {
       requestAnimationFrame(() => inputRef.current?.focus());
     } else {
@@ -1717,19 +1715,19 @@ function FontCombobox({
       setHighlightIndex(-1);
     }
   }, [open]);
-  react.useEffect(() => {
+  useEffect(() => {
     if (!open || highlightIndex < 0 || !listRef.current) return;
     const items = listRef.current.querySelectorAll("[data-font-item]");
     items[highlightIndex]?.scrollIntoView({ block: "nearest" });
   }, [highlightIndex, open]);
-  const handleSelect = react.useCallback(
+  const handleSelect = useCallback(
     (key) => {
       onSelect(key);
       setOpen(false);
     },
     [onSelect]
   );
-  const handleKeyDown = react.useCallback(
+  const handleKeyDown = useCallback(
     (e) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -1746,13 +1744,13 @@ function FontCombobox({
     },
     [filtered, highlightIndex, handleSelect]
   );
-  return /* @__PURE__ */ jsxRuntime.jsxs("div", { ref: containerRef, className: "relative", children: [
-    /* @__PURE__ */ jsxRuntime.jsxs(
+  return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: "relative", children: [
+    /* @__PURE__ */ jsxs(
       "button",
       {
         type: "button",
         onClick: () => setOpen((prev) => !prev),
-        className: chunk4ON3M3OM_cjs.cn(
+        className: cn(
           "flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
           "hover:border-border-strong hover:bg-muted/50",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -1761,7 +1759,7 @@ function FontCombobox({
         "aria-haspopup": "listbox",
         "aria-expanded": open,
         children: [
-          /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsx(
             "span",
             {
               className: "text-sm font-semibold leading-none text-muted-foreground",
@@ -1769,11 +1767,11 @@ function FontCombobox({
               children: activePreset.sample
             }
           ),
-          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex-1 truncate font-medium text-foreground", children: activePreset.name }),
-          /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsx("span", { className: "flex-1 truncate font-medium text-foreground", children: activePreset.name }),
+          /* @__PURE__ */ jsx(
             ChevronDownIcon,
             {
-              className: chunk4ON3M3OM_cjs.cn(
+              className: cn(
                 "text-muted-foreground transition-transform duration-fast",
                 open && "rotate-180"
               )
@@ -1782,19 +1780,19 @@ function FontCombobox({
         ]
       }
     ),
-    open && /* @__PURE__ */ jsxRuntime.jsxs(
+    open && /* @__PURE__ */ jsxs(
       "div",
       {
-        className: chunk4ON3M3OM_cjs.cn(
+        className: cn(
           "absolute left-0 z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md",
           "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2"
         ),
         role: "dialog",
         "aria-label": "Select font",
         children: [
-          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2 border-b border-border px-3 py-2", children: [
-            /* @__PURE__ */ jsxRuntime.jsx(SearchIcon, { className: "text-muted-foreground" }),
-            /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 border-b border-border px-3 py-2", children: [
+            /* @__PURE__ */ jsx(SearchIcon, { className: "text-muted-foreground" }),
+            /* @__PURE__ */ jsx(
               "input",
               {
                 ref: inputRef,
@@ -1810,16 +1808,16 @@ function FontCombobox({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsx(
             "div",
             {
               ref: listRef,
               className: "max-h-52 overflow-y-auto overscroll-contain p-1",
               role: "listbox",
-              children: filtered.length === 0 ? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "px-3 py-4 text-center text-sm text-muted-foreground", children: "No fonts found" }) : filtered.map((preset, index) => {
+              children: filtered.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-4 text-center text-sm text-muted-foreground", children: "No fonts found" }) : filtered.map((preset, index) => {
                 const isActive = preset.key === activeKey;
                 const isHighlighted = index === highlightIndex;
-                return /* @__PURE__ */ jsxRuntime.jsxs(
+                return /* @__PURE__ */ jsxs(
                   "button",
                   {
                     type: "button",
@@ -1828,7 +1826,7 @@ function FontCombobox({
                     "aria-selected": isActive,
                     onClick: () => handleSelect(preset.key),
                     onMouseEnter: () => setHighlightIndex(index),
-                    className: chunk4ON3M3OM_cjs.cn(
+                    className: cn(
                       "flex w-full items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-left text-sm transition-colors",
                       "outline-none",
                       isHighlighted && "bg-muted",
@@ -1836,7 +1834,7 @@ function FontCombobox({
                       !isActive && "text-muted-foreground"
                     ),
                     children: [
-                      /* @__PURE__ */ jsxRuntime.jsx(
+                      /* @__PURE__ */ jsx(
                         "span",
                         {
                           className: "w-6 text-center text-base font-semibold leading-none",
@@ -1845,8 +1843,8 @@ function FontCombobox({
                           children: preset.sample
                         }
                       ),
-                      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex-1 truncate", children: preset.name }),
-                      isActive && /* @__PURE__ */ jsxRuntime.jsx(CheckIcon, { className: "text-primary shrink-0" })
+                      /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: preset.name }),
+                      isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "text-primary shrink-0" })
                     ]
                   },
                   preset.key
@@ -1864,25 +1862,25 @@ function ColorCombobox({
   activeKey,
   onSelect
 }) {
-  const [open, setOpen] = react.useState(false);
-  const [search, setSearch] = react.useState("");
-  const [highlightIndex, setHighlightIndex] = react.useState(-1);
-  const containerRef = react.useRef(null);
-  const listRef = react.useRef(null);
-  const inputRef = react.useRef(null);
-  const activePreset = react.useMemo(
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlightIndex, setHighlightIndex] = useState(-1);
+  const containerRef = useRef(null);
+  const listRef = useRef(null);
+  const inputRef = useRef(null);
+  const activePreset = useMemo(
     () => presets.find((p) => p.key === activeKey) ?? presets[0],
     [presets, activeKey]
   );
-  const filtered = react.useMemo(() => {
+  const filtered = useMemo(() => {
     if (!search.trim()) return presets;
     const q = search.toLowerCase();
     return presets.filter((p) => p.name.toLowerCase().includes(q));
   }, [presets, search]);
-  react.useEffect(() => {
+  useEffect(() => {
     setHighlightIndex(0);
-  }, [filtered]);
-  react.useEffect(() => {
+  }, []);
+  useEffect(() => {
     if (!open) return;
     function handleClick(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -1892,7 +1890,7 @@ function ColorCombobox({
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
-  react.useEffect(() => {
+  useEffect(() => {
     if (!open) return;
     function handleKey(e) {
       if (e.key === "Escape") {
@@ -1902,7 +1900,7 @@ function ColorCombobox({
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [open]);
-  react.useEffect(() => {
+  useEffect(() => {
     if (open) {
       requestAnimationFrame(() => inputRef.current?.focus());
     } else {
@@ -1910,19 +1908,19 @@ function ColorCombobox({
       setHighlightIndex(-1);
     }
   }, [open]);
-  react.useEffect(() => {
+  useEffect(() => {
     if (!open || highlightIndex < 0 || !listRef.current) return;
     const items = listRef.current.querySelectorAll("[data-color-item]");
     items[highlightIndex]?.scrollIntoView({ block: "nearest" });
   }, [highlightIndex, open]);
-  const handleSelect = react.useCallback(
+  const handleSelect = useCallback(
     (key) => {
       onSelect(key);
       setOpen(false);
     },
     [onSelect]
   );
-  const handleKeyDown = react.useCallback(
+  const handleKeyDown = useCallback(
     (e) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -1939,13 +1937,13 @@ function ColorCombobox({
     },
     [filtered, highlightIndex, handleSelect]
   );
-  return /* @__PURE__ */ jsxRuntime.jsxs("div", { ref: containerRef, className: "relative", children: [
-    /* @__PURE__ */ jsxRuntime.jsxs(
+  return /* @__PURE__ */ jsxs("div", { ref: containerRef, className: "relative", children: [
+    /* @__PURE__ */ jsxs(
       "button",
       {
         type: "button",
         onClick: () => setOpen((prev) => !prev),
-        className: chunk4ON3M3OM_cjs.cn(
+        className: cn(
           "flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
           "hover:border-border-strong hover:bg-muted/50",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -1954,10 +1952,10 @@ function ColorCombobox({
         "aria-haspopup": "listbox",
         "aria-expanded": open,
         children: [
-          /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsx(
             "span",
             {
-              className: chunk4ON3M3OM_cjs.cn(
+              className: cn(
                 "size-5 shrink-0 rounded-full border shadow-xs",
                 "border-border"
               ),
@@ -1965,11 +1963,11 @@ function ColorCombobox({
               "aria-hidden": "true"
             }
           ),
-          /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex-1 truncate font-medium text-foreground", children: activePreset.name }),
-          /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsx("span", { className: "flex-1 truncate font-medium text-foreground", children: activePreset.name }),
+          /* @__PURE__ */ jsx(
             ChevronDownIcon,
             {
-              className: chunk4ON3M3OM_cjs.cn(
+              className: cn(
                 "text-muted-foreground transition-transform duration-fast",
                 open && "rotate-180"
               )
@@ -1978,19 +1976,19 @@ function ColorCombobox({
         ]
       }
     ),
-    open && /* @__PURE__ */ jsxRuntime.jsxs(
+    open && /* @__PURE__ */ jsxs(
       "div",
       {
-        className: chunk4ON3M3OM_cjs.cn(
+        className: cn(
           "absolute left-0 z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md",
           "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2"
         ),
         role: "dialog",
         "aria-label": "Select color",
         children: [
-          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2 border-b border-border px-3 py-2", children: [
-            /* @__PURE__ */ jsxRuntime.jsx(SearchIcon, { className: "text-muted-foreground" }),
-            /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 border-b border-border px-3 py-2", children: [
+            /* @__PURE__ */ jsx(SearchIcon, { className: "text-muted-foreground" }),
+            /* @__PURE__ */ jsx(
               "input",
               {
                 ref: inputRef,
@@ -2006,16 +2004,16 @@ function ColorCombobox({
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsx(
             "div",
             {
               ref: listRef,
               className: "max-h-52 overflow-y-auto overscroll-contain p-1",
               role: "listbox",
-              children: filtered.length === 0 ? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "px-3 py-4 text-center text-sm text-muted-foreground", children: "No colors found" }) : filtered.map((preset, index) => {
+              children: filtered.length === 0 ? /* @__PURE__ */ jsx("div", { className: "px-3 py-4 text-center text-sm text-muted-foreground", children: "No colors found" }) : filtered.map((preset, index) => {
                 const isActive = preset.key === activeKey;
                 const isHighlighted = index === highlightIndex;
-                return /* @__PURE__ */ jsxRuntime.jsxs(
+                return /* @__PURE__ */ jsxs(
                   "button",
                   {
                     type: "button",
@@ -2024,7 +2022,7 @@ function ColorCombobox({
                     "aria-selected": isActive,
                     onClick: () => handleSelect(preset.key),
                     onMouseEnter: () => setHighlightIndex(index),
-                    className: chunk4ON3M3OM_cjs.cn(
+                    className: cn(
                       "flex w-full items-center gap-2.5 rounded-sm px-2.5 py-1.5 text-left text-sm transition-colors",
                       "outline-none",
                       isHighlighted && "bg-muted",
@@ -2032,10 +2030,10 @@ function ColorCombobox({
                       !isActive && "text-muted-foreground"
                     ),
                     children: [
-                      /* @__PURE__ */ jsxRuntime.jsx(
+                      /* @__PURE__ */ jsx(
                         "span",
                         {
-                          className: chunk4ON3M3OM_cjs.cn(
+                          className: cn(
                             "size-4 shrink-0 rounded-full border shadow-xs",
                             isActive ? "border-primary/50 ring-2 ring-primary/20" : "border-border"
                           ),
@@ -2043,8 +2041,8 @@ function ColorCombobox({
                           "aria-hidden": "true"
                         }
                       ),
-                      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex-1 truncate", children: preset.name }),
-                      isActive && /* @__PURE__ */ jsxRuntime.jsx(CheckIcon, { className: "text-primary shrink-0" })
+                      /* @__PURE__ */ jsx("span", { className: "flex-1 truncate", children: preset.name }),
+                      isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "text-primary shrink-0" })
                     ]
                   },
                   preset.key
@@ -2063,12 +2061,12 @@ function PillToggle({
   onClick,
   description
 }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsx(
     "button",
     {
       type: "button",
       onClick,
-      className: chunk4ON3M3OM_cjs.cn(
+      className: cn(
         "rounded-md border px-3 py-2 text-left text-sm transition-all duration-fast ease-standard",
         "hover:border-border-strong hover:bg-muted/50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -2084,12 +2082,12 @@ function StyleOption({
   isActive,
   onClick
 }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
+  return /* @__PURE__ */ jsxs(
     "button",
     {
       type: "button",
       onClick,
-      className: chunk4ON3M3OM_cjs.cn(
+      className: cn(
         "flex items-start gap-3 rounded-md border px-3 py-3 text-left transition-all duration-fast ease-standard",
         "hover:border-border-strong hover:bg-muted/50",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -2097,10 +2095,10 @@ function StyleOption({
       ),
       title: preset.description,
       children: [
-        /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(
           "svg",
           {
-            className: chunk4ON3M3OM_cjs.cn(
+            className: cn(
               "size-5 shrink-0 mt-0.5",
               isActive ? "text-primary" : "text-muted-foreground"
             ),
@@ -2112,24 +2110,24 @@ function StyleOption({
             strokeLinecap: "round",
             strokeLinejoin: "round",
             "aria-hidden": "true",
-            children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: preset.iconPath })
+            children: /* @__PURE__ */ jsx("path", { d: preset.iconPath })
           }
         ),
-        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "min-w-0 flex-1", children: [
-          /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsxs("div", { className: "min-w-0 flex-1", children: [
+          /* @__PURE__ */ jsx(
             "div",
             {
-              className: chunk4ON3M3OM_cjs.cn(
+              className: cn(
                 "text-sm font-semibold leading-tight",
                 isActive ? "text-foreground" : "text-foreground"
               ),
               children: preset.name
             }
           ),
-          /* @__PURE__ */ jsxRuntime.jsx(
+          /* @__PURE__ */ jsx(
             "div",
             {
-              className: chunk4ON3M3OM_cjs.cn(
+              className: cn(
                 "mt-0.5 text-xs leading-snug",
                 isActive ? "text-muted-foreground" : "text-muted-foreground/70"
               ),
@@ -2137,7 +2135,7 @@ function StyleOption({
             }
           )
         ] }),
-        isActive && /* @__PURE__ */ jsxRuntime.jsx(CheckIcon, { className: "shrink-0 mt-0.5 text-primary" })
+        isActive && /* @__PURE__ */ jsx(CheckIcon, { className: "shrink-0 mt-0.5 text-primary" })
       ]
     }
   );
@@ -2147,9 +2145,9 @@ function CopyButton({
   className,
   children
 }) {
-  const [copied, setCopied] = react.useState(false);
-  const timeoutRef = react.useRef(null);
-  const handleCopy = react.useCallback(() => {
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef(null);
+  const handleCopy = useCallback(() => {
     const text = getText();
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
@@ -2157,27 +2155,27 @@ function CopyButton({
       timeoutRef.current = setTimeout(() => setCopied(false), 2e3);
     });
   }, [getText]);
-  react.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsx(
     "button",
     {
       type: "button",
       onClick: handleCopy,
-      className: chunk4ON3M3OM_cjs.cn(
+      className: cn(
         "inline-flex items-center justify-center gap-2 rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-all duration-fast ease-standard",
         "hover:bg-secondary-hover active:bg-secondary-active",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className
       ),
-      children: copied ? /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntime.jsx(CheckIcon, { className: "text-success" }),
-        /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Copied!" })
-      ] }) : /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntime.jsxs(
+      children: copied ? /* @__PURE__ */ jsxs(Fragment, { children: [
+        /* @__PURE__ */ jsx(CheckIcon, { className: "text-success" }),
+        /* @__PURE__ */ jsx("span", { children: "Copied!" })
+      ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
+        /* @__PURE__ */ jsxs(
           "svg",
           {
             className: "size-4",
@@ -2190,12 +2188,12 @@ function CopyButton({
             strokeLinejoin: "round",
             "aria-hidden": "true",
             children: [
-              /* @__PURE__ */ jsxRuntime.jsx("rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2" }),
-              /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" })
+              /* @__PURE__ */ jsx("rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2" }),
+              /* @__PURE__ */ jsx("path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" })
             ]
           }
         ),
-        /* @__PURE__ */ jsxRuntime.jsx("span", { children: children ?? "Copy CSS" })
+        /* @__PURE__ */ jsx("span", { children: children ?? "Copy CSS" })
       ] })
     }
   );
@@ -2219,14 +2217,14 @@ function ThemeCustomizer({
     isDefault,
     generateCSS
   } = useThemeCustomizer();
-  return /* @__PURE__ */ jsxRuntime.jsxs(
+  return /* @__PURE__ */ jsxs(
     "div",
     {
-      className: chunk4ON3M3OM_cjs.cn("space-y-6", className),
+      className: cn("space-y-6", className),
       "data-ds": "",
       "data-ds-component": "theme-customizer",
       children: [
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Style", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "grid grid-cols-1 gap-2", children: STYLE_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Style", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-1 gap-2", children: STYLE_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           StyleOption,
           {
             preset,
@@ -2235,7 +2233,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Color", children: /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Color", children: /* @__PURE__ */ jsx(
           ColorCombobox,
           {
             presets: COLOR_PRESETS,
@@ -2243,7 +2241,7 @@ function ThemeCustomizer({
             onSelect: setColorPreset
           }
         ) }),
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Radius", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: RADIUS_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Radius", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: RADIUS_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           RadiusOption,
           {
             preset,
@@ -2252,7 +2250,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Font", children: /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Font", children: /* @__PURE__ */ jsx(
           FontCombobox,
           {
             presets: FONT_PRESETS,
@@ -2260,7 +2258,7 @@ function ThemeCustomizer({
             onSelect: setFont
           }
         ) }),
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Shadow", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: SHADOW_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Shadow", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: SHADOW_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           PillToggle,
           {
             label: preset.name,
@@ -2270,7 +2268,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Surface", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: SURFACE_STYLE_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Surface", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: SURFACE_STYLE_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           PillToggle,
           {
             label: preset.name,
@@ -2280,7 +2278,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Menu Color", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: MENU_COLOR_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Menu Color", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: MENU_COLOR_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           PillToggle,
           {
             label: preset.name,
@@ -2290,7 +2288,7 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        /* @__PURE__ */ jsxRuntime.jsx(Section, { title: "Menu Accent", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "flex flex-wrap gap-2", children: MENU_ACCENT_PRESETS.map((preset) => /* @__PURE__ */ jsxRuntime.jsx(
+        /* @__PURE__ */ jsx(Section, { title: "Menu Accent", children: /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: MENU_ACCENT_PRESETS.map((preset) => /* @__PURE__ */ jsx(
           PillToggle,
           {
             label: preset.name,
@@ -2300,20 +2298,20 @@ function ThemeCustomizer({
           },
           preset.key
         )) }) }),
-        (showCopyButton || showResetButton) && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2 border-t border-border pt-4", children: [
-          showCopyButton && /* @__PURE__ */ jsxRuntime.jsx(CopyButton, { getText: generateCSS, className: "flex-1" }),
-          showResetButton && !isDefault && /* @__PURE__ */ jsxRuntime.jsxs(
+        (showCopyButton || showResetButton) && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 border-t border-border pt-4", children: [
+          showCopyButton && /* @__PURE__ */ jsx(CopyButton, { getText: generateCSS, className: "flex-1" }),
+          showResetButton && !isDefault && /* @__PURE__ */ jsxs(
             "button",
             {
               type: "button",
               onClick: resetConfig,
-              className: chunk4ON3M3OM_cjs.cn(
+              className: cn(
                 "inline-flex items-center justify-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-fast ease-standard",
                 "hover:bg-muted hover:text-foreground",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               ),
               children: [
-                /* @__PURE__ */ jsxRuntime.jsxs(
+                /* @__PURE__ */ jsxs(
                   "svg",
                   {
                     className: "size-4",
@@ -2326,12 +2324,12 @@ function ThemeCustomizer({
                     strokeLinejoin: "round",
                     "aria-hidden": "true",
                     children: [
-                      /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }),
-                      /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M3 3v5h5" })
+                      /* @__PURE__ */ jsx("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }),
+                      /* @__PURE__ */ jsx("path", { d: "M3 3v5h5" })
                     ]
                   }
                 ),
-                /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Reset" })
+                /* @__PURE__ */ jsx("span", { children: "Reset" })
               ]
             }
           )
@@ -2341,9 +2339,9 @@ function ThemeCustomizer({
   );
 }
 ThemeCustomizer.displayName = "ThemeCustomizer";
-var DSThemeContext = react.createContext(null);
+var DSThemeContext = createContext(null);
 function useDSTheme() {
-  const ctx = react.useContext(DSThemeContext);
+  const ctx = useContext(DSThemeContext);
   if (!ctx) {
     throw new Error(
       "useDSTheme must be used within a <DSThemeProvider>. Wrap your application (or layout) with <DSThemeProvider>."
@@ -2382,11 +2380,11 @@ function DSThemeProvider({
   defaultTheme,
   manageHtmlClass = false
 }) {
-  const [theme, setThemeState] = react.useState(
+  const [theme, setThemeState] = useState(
     () => defaultTheme ?? getStoredTheme()
   );
-  const [systemPreference, setSystemPreference] = react.useState("light");
-  react.useEffect(() => {
+  const [systemPreference, setSystemPreference] = useState("light");
+  useEffect(() => {
     setSystemPreference(getSystemPreference());
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = (e) => {
@@ -2395,11 +2393,11 @@ function DSThemeProvider({
     mql.addEventListener("change", handler);
     return () => mql.removeEventListener("change", handler);
   }, []);
-  const resolvedTheme = react.useMemo(
+  const resolvedTheme = useMemo(
     () => theme === "system" ? systemPreference : theme,
     [theme, systemPreference]
   );
-  react.useEffect(() => {
+  useEffect(() => {
     if (!manageHtmlClass) return;
     const root = document.documentElement;
     if (resolvedTheme === "dark") {
@@ -2408,11 +2406,11 @@ function DSThemeProvider({
       root.classList.remove("dark");
     }
   }, [resolvedTheme, manageHtmlClass]);
-  const setTheme = react.useCallback((newTheme) => {
+  const setTheme = useCallback((newTheme) => {
     setThemeState(newTheme);
     storeTheme(newTheme);
   }, []);
-  const toggleTheme = react.useCallback(() => {
+  const toggleTheme = useCallback(() => {
     setThemeState((current) => {
       const resolved = resolveTheme(current);
       const next = resolved === "dark" ? "light" : "dark";
@@ -2420,7 +2418,7 @@ function DSThemeProvider({
       return next;
     });
   }, []);
-  const value = react.useMemo(
+  const value = useMemo(
     () => ({
       theme,
       resolvedTheme,
@@ -2429,43 +2427,7 @@ function DSThemeProvider({
     }),
     [theme, resolvedTheme, setTheme, toggleTheme]
   );
-  return /* @__PURE__ */ jsxRuntime.jsx(DSThemeContext.Provider, { value, children });
+  return /* @__PURE__ */ jsx(DSThemeContext.Provider, { value, children });
 }
 
-exports.COLOR_PRESETS = COLOR_PRESETS;
-exports.COLOR_PRESET_KEYS = COLOR_PRESET_KEYS;
-exports.DEFAULT_FONT_KEY = DEFAULT_FONT_KEY;
-exports.DEFAULT_MENU_ACCENT_KEY = DEFAULT_MENU_ACCENT_KEY;
-exports.DEFAULT_MENU_COLOR_KEY = DEFAULT_MENU_COLOR_KEY;
-exports.DEFAULT_RADIUS_KEY = DEFAULT_RADIUS_KEY;
-exports.DEFAULT_SHADOW_KEY = DEFAULT_SHADOW_KEY;
-exports.DEFAULT_STYLE_KEY = DEFAULT_STYLE_KEY;
-exports.DEFAULT_SURFACE_STYLE_KEY = DEFAULT_SURFACE_STYLE_KEY;
-exports.DEFAULT_THEME_CONFIG = DEFAULT_THEME_CONFIG;
-exports.DSThemeProvider = DSThemeProvider;
-exports.FONT_PRESETS = FONT_PRESETS;
-exports.MENU_ACCENT_PRESETS = MENU_ACCENT_PRESETS;
-exports.MENU_COLOR_PRESETS = MENU_COLOR_PRESETS;
-exports.RADIUS_PRESETS = RADIUS_PRESETS;
-exports.SHADOW_PRESETS = SHADOW_PRESETS;
-exports.STYLE_PRESETS = STYLE_PRESETS;
-exports.SURFACE_STYLE_PRESETS = SURFACE_STYLE_PRESETS;
-exports.ThemeCustomizer = ThemeCustomizer;
-exports.ThemeCustomizerContext = ThemeCustomizerContext;
-exports.ThemeCustomizerProvider = ThemeCustomizerProvider;
-exports.buildDarkThemeVars = buildDarkThemeVars;
-exports.buildLightThemeVars = buildLightThemeVars;
-exports.buildThemeCSS = buildThemeCSS;
-exports.buildThemeOverrides = buildThemeOverrides;
-exports.contract = contract;
-exports.cssVar = cssVar;
-exports.generateThemeCSS = generateThemeCSS;
-exports.getColorPreset = getColorPreset;
-exports.getFontPreset = getFontPreset;
-exports.getMenuAccentPreset = getMenuAccentPreset;
-exports.getMenuColorPreset = getMenuColorPreset;
-exports.getRadiusPreset = getRadiusPreset;
-exports.getShadowPreset = getShadowPreset;
-exports.getStylePreset = getStylePreset;
-exports.useDSTheme = useDSTheme;
-exports.useThemeCustomizer = useThemeCustomizer;
+export { COLOR_PRESETS, COLOR_PRESET_KEYS, DEFAULT_FONT_KEY, DEFAULT_MENU_ACCENT_KEY, DEFAULT_MENU_COLOR_KEY, DEFAULT_RADIUS_KEY, DEFAULT_SHADOW_KEY, DEFAULT_STYLE_KEY, DEFAULT_SURFACE_STYLE_KEY, DEFAULT_THEME_CONFIG, DSThemeProvider, FONT_PRESETS, MENU_ACCENT_PRESETS, MENU_COLOR_PRESETS, RADIUS_PRESETS, SHADOW_PRESETS, STYLE_PRESETS, SURFACE_STYLE_PRESETS, ThemeCustomizer, ThemeCustomizerContext, ThemeCustomizerProvider, buildDarkThemeVars, buildLightThemeVars, buildThemeCSS, buildThemeOverrides, contract, cssVar, generateThemeCSS, getColorPreset, getFontPreset, getMenuAccentPreset, getMenuColorPreset, getRadiusPreset, getShadowPreset, getStylePreset, useDSTheme, useThemeCustomizer };

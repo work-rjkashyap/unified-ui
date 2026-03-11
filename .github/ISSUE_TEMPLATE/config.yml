@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+    - name: Project documentation
+      url: https://github.com/imrj05/unified-ui#readme
+      about: Read setup and usage details before opening an issue.
+    - name: Support
+      url: https://github.com/imrj05/unified-ui/blob/main/SUPPORT.md
+      about: Use support guidance for general questions and troubleshooting.
+    - name: Report a security vulnerability
+      url: https://github.com/imrj05/unified-ui/security/advisories/new
+      about: Report vulnerabilities privately through GitHub Security Advisories.
