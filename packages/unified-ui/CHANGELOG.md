@@ -41,12 +41,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] (#6) ([#6](https://github.com/imrj05/unified-ui/issues/6)) ([00f8056](https://github.com/imrj05/unified-ui/commit/00f805695032ac4eb6f25984d276f85cde6aa2f3))
 - **changelog:** Auto-update unreleased entries [skip ci] (#4) ([#4](https://github.com/imrj05/unified-ui/issues/4)) ([6e46e82](https://github.com/imrj05/unified-ui/commit/6e46e82745d62b346015991d075994869d0e4322))
 - **changelog:** Auto-update unreleased entries [skip ci] ([7fb8661](https://github.com/imrj05/unified-ui/commit/7fb8661ffd7650de9bf5e90f52dbf73e2b628ae0))
 - **changelog:** Auto-update unreleased entries [skip ci] ([f9f2c15](https://github.com/imrj05/unified-ui/commit/f9f2c156c6c15a716d56635de647eb3c308ba2fb))
 
 ### Other
 
+- Add MIT license (#7)
+
+* docs(plan): add open-source contribution setup design
+
+* docs(oss): add contribution, security, and governance standards
+
+* chore(dist): add regenerated chunk artifacts
+
+* ci: switch changelog updates to PR flow for protected main
+
+* docs(readme): refresh component count and monorepo sections
+
+* ci(sync): trigger template sync only on template path changes
+
+* docs: remove brainstorming design artifact
+
+* Add MIT license ([#7](https://github.com/imrj05/unified-ui/issues/7)) ([9ccd0da](https://github.com/imrj05/unified-ui/commit/9ccd0daf66750f4a009ee777ded828ad874772d9))
 - Fix/oss contrib pr (#2)
 
 * docs(plan): add open-source contribution setup design
