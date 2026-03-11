@@ -12,9 +12,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add new color tokens (indigo, purple, pink, cyan, emerald, yellow, fuchsia, sky, lime) to the design system ([2eafdc1](https://github.com/imrj05/unified-ui/commit/2eafdc1c3a3f29ea8abaaa93c1b4cf5eea74acb4))
 
+### 📖 Documentation
+
+- **oss:** Add contribution standards and protected-branch CI fixes (#3)
+* docs(plan): add open-source contribution setup design
+
+  * docs(oss): add contribution, security, and governance standards
+
+  * chore(dist): add regenerated chunk artifacts
+
+  * ci: switch changelog updates to PR flow for protected main
+
+  * docs(readme): refresh component count and monorepo sections ([#3](https://github.com/imrj05/unified-ui/issues/3)) ([e77d86f](https://github.com/imrj05/unified-ui/commit/e77d86f818f7226eced8d846ebed265504ed4127))
+
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] ([7fb8661](https://github.com/imrj05/unified-ui/commit/7fb8661ffd7650de9bf5e90f52dbf73e2b628ae0))
 - **changelog:** Auto-update unreleased entries [skip ci] ([f9f2c15](https://github.com/imrj05/unified-ui/commit/f9f2c156c6c15a716d56635de647eb3c308ba2fb))
+
+### Other
+
+- Fix/oss contrib pr (#2)
+
+* docs(plan): add open-source contribution setup design
+
+* docs(oss): add contribution, security, and governance standards
+
+* chore(dist): add regenerated chunk artifacts ([#2](https://github.com/imrj05/unified-ui/issues/2)) ([2a39426](https://github.com/imrj05/unified-ui/commit/2a3942616f95f7616db1a52dded533345688f948))
 ## [0.3.4] — 2026-03-10
 
 ### 🚀 Features
