@@ -1,4 +1,4 @@
-# Unified UI — Starter Kit Overlays
+# Unified UI Monorepo — Starter Kit Overlays
 
 This directory contains the overlay files that the Unified UI CLI applies on top
 of freshly scaffolded framework projects.
@@ -10,10 +10,10 @@ When a user runs `npx @work-rjkashyap/unified-ui init`, the CLI:
 1. **Asks which framework** → vite-react, nextjs, vuejs, or laravel-blade
 2. **Asks for a project name**
 3. **Runs the official scaffolding tool** for that framework:
-   - `vite-react` → `npm create vite@latest <name> -- --template react-ts`
-   - `nextjs` → `npx create-next-app@latest <name> --ts --tailwind --app --src-dir --import-alias "@/*"`
-   - `vuejs` → `npm create vue@latest <name>`
-   - `laravel-blade` → `composer create-project laravel/laravel <name>`
+    - `vite-react` → `npm create vite@latest <name> -- --template react-ts`
+    - `nextjs` → `npx create-next-app@latest <name> --ts --tailwind --app --src-dir --import-alias "@/*"`
+    - `vuejs` → `npm create vue@latest <name>`
+    - `laravel-blade` → `composer create-project laravel/laravel <name>`
 4. **Installs `@work-rjkashyap/unified-ui`** and framework-specific dependencies
 5. **Overlays files** — replaces/patches config, CSS, layouts, and demo pages
 

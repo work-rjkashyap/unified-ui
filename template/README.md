@@ -1,4 +1,4 @@
-# unified-ui Templates
+# Unified UI Monorepo Templates
 
 This directory contains official starter templates for the [`@work-rjkashyap/unified-ui`](https://github.com/imrj05/unified-ui) design system.
 
@@ -8,12 +8,12 @@ Each template is automatically mirrored to its own readonly GitHub repository. *
 
 ## Available Templates
 
-| Template | Directory | Readonly Repo | Stack |
-|---|---|---|---|
-| Next.js | `unified-ui-nextjs/` | [unified-ui-template-nextjs](https://github.com/imrj05/unified-ui-template-nextjs) | Next.js 16, App Router, Tailwind CSS v4 |
-| React (Vite) | `unified-ui-vite/` | [unified-ui-template-react](https://github.com/imrj05/unified-ui-template-react) | React 19, Vite, Tailwind CSS v4 |
+| Template        | Directory                     | Readonly Repo                                                                                        | Stack                                            |
+| --------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Next.js         | `unified-ui-nextjs/`          | [unified-ui-template-nextjs](https://github.com/imrj05/unified-ui-template-nextjs)                   | Next.js 16, App Router, Tailwind CSS v4          |
+| React (Vite)    | `unified-ui-vite/`            | [unified-ui-template-react](https://github.com/imrj05/unified-ui-template-react)                     | React 19, Vite, Tailwind CSS v4                  |
 | TanStack Router | `unified-ui-tanstack-router/` | [unified-ui-template-tanstack-router](https://github.com/imrj05/unified-ui-template-tanstack-router) | React 19, Vite, TanStack Router, Tailwind CSS v4 |
-| Laravel | `unified-ui-laravel/` | [unified-ui-template-laravel](https://github.com/imrj05/unified-ui-template-laravel) | Laravel 12, Blade, Vite, Tailwind CSS v4 |
+| Laravel         | `unified-ui-laravel/`         | [unified-ui-template-laravel](https://github.com/imrj05/unified-ui-template-laravel)                 | Laravel 12, Blade, Vite, Tailwind CSS v4         |
 
 ---
 
