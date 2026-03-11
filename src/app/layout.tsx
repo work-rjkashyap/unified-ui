@@ -4,6 +4,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeCustomizerTrigger } from "@/components/layout/theme-customizer-trigger";
 import "./global.css";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import {
   Barlow,
@@ -315,6 +316,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </ThemeCustomizerProvider>
         </RootProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
