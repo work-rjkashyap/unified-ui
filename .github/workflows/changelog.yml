@@ -24,6 +24,7 @@ on:
 
 permissions:
     contents: write
+    pull-requests: write
 
 jobs:
     changelog:
@@ -60,11 +61,19 @@ jobs:
                     echo "changed=true" >> "$GITHUB_OUTPUT"
                   fi
 
-            - name: Commit and push changelog
+            - name: Create changelog PR
               if: steps.diff.outputs.changed == 'true'
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add -f packages/unified-ui/CHANGELOG.md
-                  git commit -m "chore(changelog): auto-update unreleased entries [skip ci]"
-                  git push
+              uses: peter-evans/create-pull-request@v7
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  commit-message: "chore(changelog): auto-update unreleased entries [skip ci]"
+                  branch: ci/changelog-update
+                  delete-branch: true
+                  title: "chore(changelog): auto-update unreleased entries"
+                  body: |
+                      Automated changelog update generated from commits on `main`.
+
+                      This PR updates:
+                      - `packages/unified-ui/CHANGELOG.md`
+                  add-paths: |
+                      packages/unified-ui/CHANGELOG.md
