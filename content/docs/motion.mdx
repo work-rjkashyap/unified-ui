@@ -6,6 +6,22 @@ icon: Zap
 
 import { Callout } from "fumadocs-ui/components/callout";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import {
+	MotionBlurPreview,
+	MotionDurationTokensPreview,
+	MotionEasingTokensPreview,
+	MotionExpandPreview,
+	MotionFadePreview,
+	MotionLoadingPreview,
+	MotionMicroInteractionPreview,
+	MotionModalPreview,
+	MotionPopPreview,
+	MotionScalePreview,
+	MotionSlidePreview,
+	MotionSpringTokensPreview,
+	MotionStaggerPreview,
+	MotionToastPreview,
+} from "@/components/docs/motion-docs-previews";
 
 ## Overview
 
@@ -38,6 +54,8 @@ All animation timing originates from the [motion tokens](/docs/tokens#motion). T
 | `slower`   | 400ms | Complex orchestrated animations              |
 | `slowest`  | 500ms | Long-form — skeleton loaders, progress       |
 
+<MotionDurationTokensPreview />
+
 ### Easing Curves
 
 | Token        | Value                             | Use Case                    |
@@ -49,6 +67,8 @@ All animation timing originates from the [motion tokens](/docs/tokens#motion). T
 | `linear`     | `cubic-bezier(0, 0, 1, 1)`        | Spinners, progress bars     |
 | `snap`       | `cubic-bezier(0.2, 0, 0, 1)`      | Toggle switches, checkboxes |
 
+<MotionEasingTokensPreview />
+
 ### Spring Configurations
 
 For physics-based animations with Framer Motion:
@@ -59,6 +79,8 @@ For physics-based animations with Framer Motion:
 | `snappy` | 300       | 25      | 0.8  | Buttons, toggles, micro-interactions |
 | `bouncy` | 400       | 15      | 0.8  | Playful emphasis, celebrations       |
 | `stiff`  | 500       | 35      | 1    | Dialogs, drawers (no overshoot)      |
+
+<MotionSpringTokensPreview />
 
 ```tsx
 import {
@@ -94,6 +116,8 @@ Opacity-only transitions — the most common and least intrusive animation patte
 | `fadeIn`     | 200ms    | decelerate | Standard fade-in for general use     |
 | `fadeInFast` | 100ms    | decelerate | Quick fade for tooltips, popovers    |
 | `fadeInSlow` | 300ms    | decelerate | Slow fade for page-level transitions |
+
+<MotionFadePreview />
 
 ```tsx
 import { motion } from "framer-motion";
@@ -133,6 +157,8 @@ Directional movement combined with fade. Ideal for content entering from an edge
 | `slideInFromRight`  | ← Enter from right  | 100%     | 300ms    | Full-width slide from right     |
 | `slideInFromBottom` | ↑ Enter from bottom | 100%     | 300ms    | Full-height slide from bottom   |
 
+<MotionSlidePreview />
+
 ```tsx
 import { motion } from "framer-motion";
 import { slideUp, slideUpSm, slideDown, slideLeft } from "@work-rjkashyap/unified-ui";
@@ -168,6 +194,8 @@ Scale transitions with fade — ideal for elements that appear to grow from a po
 | `scaleInLg`     | 0.9         | 300ms    | Larger scale for emphasis           |
 | `scaleInSpring` | 0.95        | spring   | Spring-based scale for natural feel |
 
+<MotionScalePreview />
+
 ```tsx
 import { motion } from "framer-motion";
 import { scaleIn, scaleInSpring } from "@work-rjkashyap/unified-ui";
@@ -191,6 +219,8 @@ Opacity + blur filter transitions for a modern, frosted-glass style entrance.
 | -------------- | ----------- | -------- | ------------------------------ |
 | `blurIn`       | 8px         | 300ms    | Standard blur-in               |
 | `blurInSubtle` | 4px         | 200ms    | Subtle blur for lighter effect |
+
+<MotionBlurPreview />
 
 ```tsx
 import { motion } from "framer-motion";
@@ -216,6 +246,8 @@ Scale-based emphasis effects — for drawing attention to elements.
 | `pop`       | 1.05  | spring   | Standard pop effect        |
 | `popSubtle` | 1.02  | spring   | Subtle pop — less dramatic |
 
+<MotionPopPreview />
+
 ```tsx
 import { motion } from "framer-motion";
 import { pop, popSubtle } from "@work-rjkashyap/unified-ui";
@@ -239,6 +271,8 @@ Height-based animations for accordions, collapsibles, and disclosure patterns.
 | ------------------ | -------- | ---------- | -------------------------------- |
 | `expandHeight`     | 200ms    | decelerate | Standard height expand           |
 | `expandHeightSlow` | 300ms    | decelerate | Slower expand for larger content |
+
+<MotionExpandPreview />
 
 ```tsx
 import { motion, AnimatePresence } from "framer-motion";
@@ -270,6 +304,8 @@ Specialized presets for overlay patterns — dialogs, sheets, and toast notifica
 | `overlayBackdrop`    | Fade   | Backdrop overlay (fade to semi-transparent) |
 | `modalContent`       | Tween  | Standard modal entry (scale + fade + slide) |
 | `modalContentSpring` | Spring | Physics-based modal entry                   |
+
+<MotionModalPreview />
 
 ```tsx
 import { motion, AnimatePresence } from "framer-motion";
@@ -312,6 +348,8 @@ function CustomModal({ isOpen, children }) {
 | `toastSlideIn` | → Right   | Toast sliding in from the right edge |
 | `toastSlideUp` | ↑ Up      | Toast sliding up from the bottom     |
 
+<MotionToastPreview />
+
 ```tsx
 import { motion } from "framer-motion";
 import { toastSlideIn, toastSlideUp } from "@work-rjkashyap/unified-ui";
@@ -339,6 +377,8 @@ Small, immediate animations for hover, press, and focus states. These don't use 
 | `hoverScale` | `scale: 1.05`        | Scale up on hover                     |
 | `press`      | `scale: 0.98`        | Subtle shrink on press (buttons)      |
 | `tapScale`   | `scale: 0.95`        | Larger shrink on tap (mobile buttons) |
+
+<MotionMicroInteractionPreview />
 
 ```tsx
 import { motion } from "framer-motion";
@@ -370,6 +410,8 @@ import { hoverLift, press, tapScale, hoverScale } from "@work-rjkashyap/unified-
 | `pulse` | opacity 0.5 → 1 | Pulsing opacity for skeleton loaders |
 | `spin`  | rotate 0 → 360  | Continuous rotation for spinners     |
 
+<MotionLoadingPreview />
+
 ```tsx
 import { motion } from "framer-motion";
 import { pulse, spin } from "@work-rjkashyap/unified-ui";
@@ -392,6 +434,8 @@ Orchestrate sequential child animations by wrapping a parent with a stagger cont
 | `staggerContainer`     | 50ms            | Standard stagger                |
 | `staggerContainerFast` | 30ms            | Rapid stagger for long lists    |
 | `staggerContainerSlow` | 80ms            | Deliberate stagger for emphasis |
+
+<MotionStaggerPreview />
 
 ### Usage Pattern
 
