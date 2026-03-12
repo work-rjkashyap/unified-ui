@@ -40,22 +40,54 @@ import {
   tapScale,
   toastSlideIn,
   toastSlideUp,
+  useReducedMotion,
 } from "@work-rjkashyap/unified-ui/motion";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
+let replayGlobalKey = 0;
+let replayTimerId: number | null = null;
+const replayListeners = new Set<(value: number) => void>();
+
+function startReplayTimer(intervalMs: number) {
+  if (replayTimerId !== null) return;
+
+  replayTimerId = window.setInterval(() => {
+    replayGlobalKey += 1;
+    replayListeners.forEach((listener) => listener(replayGlobalKey));
+  }, intervalMs);
+}
+
+function stopReplayTimerIfIdle() {
+  if (replayListeners.size === 0 && replayTimerId !== null) {
+    window.clearInterval(replayTimerId);
+    replayTimerId = null;
+    replayGlobalKey = 0;
+  }
+}
+
 function useReplayKey(intervalMs = 2400): number {
   const [key, setKey] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    const id = window.setInterval(() => {
-      setKey((current) => current + 1);
-    }, intervalMs);
+    if (prefersReducedMotion) {
+      return;
+    }
 
-    return () => window.clearInterval(id);
-  }, [intervalMs]);
+    const listener = (value: number) => {
+      setKey(value);
+    };
 
+    replayListeners.add(listener);
+    startReplayTimer(intervalMs);
+
+    return () => {
+      replayListeners.delete(listener);
+      stopReplayTimerIfIdle();
+    };
+  }, [intervalMs, prefersReducedMotion]);
   return key;
 }
 
