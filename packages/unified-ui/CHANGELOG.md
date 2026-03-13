@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- **docs:** Add motion preset previews (#11)
+* feat(docs): add motion preset previews
+
+  * Update content/docs/motion.mdx ([#11](https://github.com/imrj05/unified-ui/issues/11)) ([ceb9fed](https://github.com/imrj05/unified-ui/commit/ceb9fed3307003cbf575b55178f4bd3b5fc941b3))
 - Add new color tokens (indigo, purple, pink, cyan, emerald, yellow, fuchsia, sky, lime) to the design system ([2eafdc1](https://github.com/imrj05/unified-ui/commit/2eafdc1c3a3f29ea8abaaa93c1b4cf5eea74acb4))
 
 ### 📖 Documentation
@@ -41,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] (#10) ([#10](https://github.com/imrj05/unified-ui/issues/10)) ([dc691b1](https://github.com/imrj05/unified-ui/commit/dc691b1df0d28dee7961a0cf695a3751e756d8af))
 - **changelog:** Auto-update unreleased entries [skip ci] (#8) ([#8](https://github.com/imrj05/unified-ui/issues/8)) ([59a0b38](https://github.com/imrj05/unified-ui/commit/59a0b3863c9deb7b6914202d7be46707ea83a09b))
 - **changelog:** Auto-update unreleased entries [skip ci] (#6) ([#6](https://github.com/imrj05/unified-ui/issues/6)) ([00f8056](https://github.com/imrj05/unified-ui/commit/00f805695032ac4eb6f25984d276f85cde6aa2f3))
 - **changelog:** Auto-update unreleased entries [skip ci] (#4) ([#4](https://github.com/imrj05/unified-ui/issues/4)) ([6e46e82](https://github.com/imrj05/unified-ui/commit/6e46e82745d62b346015991d075994869d0e4322))
