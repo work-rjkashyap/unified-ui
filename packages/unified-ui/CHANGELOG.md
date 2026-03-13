@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Features
 
+- **docs:** Add motion preset previews (#13)
+* feat(docs): add motion preset previews
+
+  * Update content/docs/motion.mdx ([#13](https://github.com/imrj05/unified-ui/issues/13)) ([5bc4c3c](https://github.com/imrj05/unified-ui/commit/5bc4c3c60757c82b713b6a3772c5642c26d36ca0))
 - **docs:** Add motion preset previews (#11)
 * feat(docs): add motion preset previews
 
@@ -45,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🏗️ Miscellaneous
 
+- **changelog:** Auto-update unreleased entries [skip ci] (#12) ([#12](https://github.com/imrj05/unified-ui/issues/12)) ([77d3670](https://github.com/imrj05/unified-ui/commit/77d36705c83146732171f838f2bcdb52bac409fb))
 - **changelog:** Auto-update unreleased entries [skip ci] (#10) ([#10](https://github.com/imrj05/unified-ui/issues/10)) ([dc691b1](https://github.com/imrj05/unified-ui/commit/dc691b1df0d28dee7961a0cf695a3751e756d8af))
 - **changelog:** Auto-update unreleased entries [skip ci] (#8) ([#8](https://github.com/imrj05/unified-ui/issues/8)) ([59a0b38](https://github.com/imrj05/unified-ui/commit/59a0b3863c9deb7b6914202d7be46707ea83a09b))
 - **changelog:** Auto-update unreleased entries [skip ci] (#6) ([#6](https://github.com/imrj05/unified-ui/issues/6)) ([00f8056](https://github.com/imrj05/unified-ui/commit/00f805695032ac4eb6f25984d276f85cde6aa2f3))
