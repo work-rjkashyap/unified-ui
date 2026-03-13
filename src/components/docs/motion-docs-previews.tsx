@@ -55,9 +55,7 @@ function startReplayTimer(intervalMs: number) {
 
   replayTimerId = window.setInterval(() => {
     replayGlobalKey += 1;
-    replayListeners.forEach((listener) => {
-      listener(replayGlobalKey);
-    });
+    replayListeners.forEach((listener) => listener(replayGlobalKey));
   }, intervalMs);
 }
 
