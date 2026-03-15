@@ -41,62 +41,62 @@
     },
     "./tokens": {
       "import": {
-        "types": "./dist/tokens.d.ts",
-        "default": "./dist/tokens.mjs"
+        "types": "./dist/tokens/index.d.ts",
+        "default": "./dist/tokens/index.mjs"
       },
       "require": {
-        "types": "./dist/tokens.d.cts",
-        "default": "./dist/tokens.cjs"
+        "types": "./dist/tokens/index.d.cts",
+        "default": "./dist/tokens/index.cjs"
       }
     },
     "./theme": {
       "import": {
-        "types": "./dist/theme.d.ts",
-        "default": "./dist/theme.mjs"
+        "types": "./dist/theme/index.d.ts",
+        "default": "./dist/theme/index.mjs"
       },
       "require": {
-        "types": "./dist/theme.d.cts",
-        "default": "./dist/theme.cjs"
+        "types": "./dist/theme/index.d.cts",
+        "default": "./dist/theme/index.cjs"
       }
     },
     "./primitives": {
       "import": {
-        "types": "./dist/primitives.d.ts",
-        "default": "./dist/primitives.mjs"
+        "types": "./dist/primitives/index.d.ts",
+        "default": "./dist/primitives/index.mjs"
       },
       "require": {
-        "types": "./dist/primitives.d.cts",
-        "default": "./dist/primitives.cjs"
+        "types": "./dist/primitives/index.d.cts",
+        "default": "./dist/primitives/index.cjs"
       }
     },
     "./components": {
       "import": {
-        "types": "./dist/components.d.ts",
-        "default": "./dist/components.mjs"
+        "types": "./dist/components/index.d.ts",
+        "default": "./dist/components/index.mjs"
       },
       "require": {
-        "types": "./dist/components.d.cts",
-        "default": "./dist/components.cjs"
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
       }
     },
     "./motion": {
       "import": {
-        "types": "./dist/motion.d.ts",
-        "default": "./dist/motion.mjs"
+        "types": "./dist/motion/index.d.ts",
+        "default": "./dist/motion/index.mjs"
       },
       "require": {
-        "types": "./dist/motion.d.cts",
-        "default": "./dist/motion.cjs"
+        "types": "./dist/motion/index.d.cts",
+        "default": "./dist/motion/index.cjs"
       }
     },
     "./utils": {
       "import": {
-        "types": "./dist/utils.d.ts",
-        "default": "./dist/utils.mjs"
+        "types": "./dist/utils/index.d.ts",
+        "default": "./dist/utils/index.mjs"
       },
       "require": {
-        "types": "./dist/utils.d.cts",
-        "default": "./dist/utils.cjs"
+        "types": "./dist/utils/index.d.cts",
+        "default": "./dist/utils/index.cjs"
       }
     },
     "./styles.css": "./styles.css"
@@ -104,22 +104,22 @@
   "typesVersions": {
     "*": {
       "tokens": [
-        "./dist/tokens.d.ts"
+        "./dist/tokens/index.d.ts"
       ],
       "theme": [
-        "./dist/theme.d.ts"
+        "./dist/theme/index.d.ts"
       ],
       "primitives": [
-        "./dist/primitives.d.ts"
+        "./dist/primitives/index.d.ts"
       ],
       "components": [
-        "./dist/components.d.ts"
+        "./dist/components/index.d.ts"
       ],
       "motion": [
-        "./dist/motion.d.ts"
+        "./dist/motion/index.d.ts"
       ],
       "utils": [
-        "./dist/utils.d.ts"
+        "./dist/utils/index.d.ts"
       ]
     }
   },
@@ -162,10 +162,102 @@
   "peerDependencies": {
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0",
-    "tailwindcss": ">=4.0.0"
+    "tailwindcss": ">=4.0.0",
+    "radix-ui": ">=1.0.0",
+    "class-variance-authority": ">=0.7.0",
+    "clsx": ">=2.0.0",
+    "tailwind-merge": ">=3.0.0",
+    "sonner": ">=2.0.0",
+    "vaul": ">=1.0.0",
+    "react-resizable-panels": ">=4.0.0",
+    "@radix-ui/primitive": ">=1.0.0",
+    "@radix-ui/react-compose-refs": ">=1.0.0",
+    "@radix-ui/react-context": ">=1.0.0",
+    "@radix-ui/react-dismissable-layer": ">=1.0.0",
+    "@radix-ui/react-popper": ">=1.0.0",
+    "@radix-ui/react-portal": ">=1.0.0",
+    "@radix-ui/react-presence": ">=1.0.0",
+    "@radix-ui/react-primitive": ">=1.0.0",
+    "@radix-ui/react-slot": ">=1.0.0",
+    "@radix-ui/react-tooltip": ">=1.0.0",
+    "@radix-ui/react-use-callback-ref": ">=1.0.0",
+    "@radix-ui/react-use-controllable-state": ">=1.0.0",
+    "@radix-ui/react-use-layout-effect": ">=1.0.0",
+    "@radix-ui/react-use-size": ">=1.0.0",
+    "@radix-ui/react-use-effect-event": ">=0.0.1",
+    "@radix-ui/react-visually-hidden": ">=1.0.0"
   },
   "peerDependenciesMeta": {
     "tailwindcss": {
+      "optional": true
+    },
+    "radix-ui": {
+      "optional": false
+    },
+    "class-variance-authority": {
+      "optional": false
+    },
+    "clsx": {
+      "optional": false
+    },
+    "tailwind-merge": {
+      "optional": false
+    },
+    "sonner": {
+      "optional": true
+    },
+    "vaul": {
+      "optional": true
+    },
+    "react-resizable-panels": {
+      "optional": true
+    },
+    "@radix-ui/primitive": {
+      "optional": true
+    },
+    "@radix-ui/react-compose-refs": {
+      "optional": true
+    },
+    "@radix-ui/react-context": {
+      "optional": true
+    },
+    "@radix-ui/react-dismissable-layer": {
+      "optional": true
+    },
+    "@radix-ui/react-popper": {
+      "optional": true
+    },
+    "@radix-ui/react-portal": {
+      "optional": true
+    },
+    "@radix-ui/react-presence": {
+      "optional": true
+    },
+    "@radix-ui/react-primitive": {
+      "optional": true
+    },
+    "@radix-ui/react-slot": {
+      "optional": true
+    },
+    "@radix-ui/react-tooltip": {
+      "optional": true
+    },
+    "@radix-ui/react-use-callback-ref": {
+      "optional": true
+    },
+    "@radix-ui/react-use-controllable-state": {
+      "optional": true
+    },
+    "@radix-ui/react-use-layout-effect": {
+      "optional": true
+    },
+    "@radix-ui/react-use-size": {
+      "optional": true
+    },
+    "@radix-ui/react-use-effect-event": {
+      "optional": true
+    },
+    "@radix-ui/react-visually-hidden": {
       "optional": true
     }
   },
