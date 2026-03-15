@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { glob } from "node:fs/promises";
+
 import { dirname, join, relative } from "node:path";
 import { defineConfig } from "tsup";
 
@@ -38,14 +38,18 @@ const ALIAS_MAP: Record<string, string> = {
  * makes tsup emit one output file per source module — the equivalent of
  * Rollup's `preserveModules: true` — so consumers' bundlers (Vite, Webpack,
  * Rollup) can tree-shake at the individual component level.
+ *
+ * Uses a synchronous recursive walk instead of `node:fs/promises` glob so
+ * that the config is compatible with Node 20 (glob was only added in Node 22).
  */
-async function collectEntries(srcDir: string): Promise<Record<string, string>> {
+function collectEntries(srcDir: string): Record<string, string> {
   const entries: Record<string, string> = {};
 
-  for await (const file of glob("**/*.{ts,tsx}", { cwd: srcDir })) {
-    const normalized = file.replace(/\\/g, "/");
+  for (const filePath of walk(srcDir)) {
+    if (!/\.(tsx?)$/.test(filePath)) continue;
+    const normalized = relative(srcDir, filePath).replace(/\\/g, "/");
     const key = normalized.replace(/\.(tsx?)$/, "");
-    entries[key] = join(srcDir, normalized);
+    entries[key] = filePath;
   }
 
   return entries;
@@ -212,10 +216,10 @@ function patchUseClient(distDir: string) {
   console.log('✅ Patched "use client" directive into client module files');
 }
 
-export default defineConfig(async () => {
+export default defineConfig(() => {
   const srcDir = join(__dirname, "src");
   const distDir = join(__dirname, "dist");
-  const entries = await collectEntries(srcDir);
+  const entries = collectEntries(srcDir);
 
   return {
     entry: entries,
