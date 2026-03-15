@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 
 import { dirname, extname, join, relative } from "node:path";
+import { analyzeMetafile } from "esbuild";
 import { defineConfig } from "tsup";
 
 // ---------------------------------------------------------------------------
@@ -301,6 +302,8 @@ function patchUseClient(distDir: string) {
   console.log('✅ Patched "use client" directive into client module files');
 }
 
+const ANALYZE = process.env.ANALYZE === "true";
+
 export default defineConfig(() => {
   const srcDir = join(__dirname, "src");
   const distDir = join(__dirname, "dist");
@@ -357,6 +360,18 @@ export default defineConfig(() => {
       "vaul",
       "react-resizable-panels",
     ],
+    // -------------------------------------------------------------------------
+    // Bundle analysis — only active when ANALYZE=true (npm run analyze).
+    //
+    // tsup uses esbuild under the hood, not Rollup, so rollup-plugin-visualizer
+    // cannot be wired in as a plugin. Instead we use tsup's built-in
+    // `metafile: true` option which writes dist/metafile-esm.json and
+    // dist/metafile-cjs.json, then feed the ESM metafile into esbuild's own
+    // `analyzeMetafile` for a rich terminal report. The raw metafile JSON is
+    // also retained in dist/ so it can be uploaded to https://esbuild.github.io/analyze/
+    // for an interactive treemap visualisation.
+    // -------------------------------------------------------------------------
+    ...(ANALYZE ? { metafile: true } : {}),
     async onSuccess() {
       // Order matters:
       // 1. rewriteAliases — converts @unified-ui/* bare specifiers to relative
@@ -369,6 +384,27 @@ export default defineConfig(() => {
       rewriteAliases(distDir);
       rewriteExtensions(distDir);
       patchUseClient(distDir);
+
+      if (ANALYZE) {
+        // tsup writes metafile-esm.json when metafile:true is set.
+        const metaPath = join(distDir, "metafile-esm.json");
+        if (statSync(metaPath, { throwIfNoEntry: false })?.isFile()) {
+          const meta = readFileSync(metaPath, "utf-8");
+          // analyzeMetafile prints a human-readable breakdown of every module,
+          // its size, and what imported it — equivalent to webpack-bundle-analyzer
+          // but for esbuild output.
+          const report = await analyzeMetafile(meta, { verbose: false });
+          console.log("\n📊 Bundle analysis (ESM):\n");
+          console.log(report);
+          console.log(
+            "💡 For an interactive treemap upload dist/metafile-esm.json to:",
+          );
+          console.log("   https://esbuild.github.io/analyze/\n");
+        } else {
+          console.warn("⚠  ANALYZE=true but dist/metafile-esm.json not found.");
+        }
+      }
+
       console.log("✅ Build complete — modules preserved for tree-shaking");
     },
   };

@@ -11,6 +11,7 @@
     "analyze": "NODE_OPTIONS='--max-old-space-size=8192' sh -c 'npm run build:registry && ANALYZE=true OPEN_ANALYZER=true next build'",
     "prepare": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit .githooks/pre-push",
     "build:ds": "npm run build --workspace=@work-rjkashyap/unified-ui",
+    "analyze:ds": "npm run analyze --workspace=@work-rjkashyap/unified-ui",
     "build:registry": "node scripts/build-registry.mjs",
     "pack:ds": "npm run build:ds && cd packages/unified-ui && npm pack --pack-destination ../../",
     "release": "npm publish --workspace=@work-rjkashyap/unified-ui",
