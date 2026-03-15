@@ -41,7 +41,7 @@ jobs:
     # --------------------------------------------------------------------------
     validate:
         name: Validate Tag
-        runs-on: ubuntu-latest
+        runs-on: blacksmith-4vcpu-ubuntu-2404
         outputs:
             version: ${{ steps.extract.outputs.version }}
             prerelease: ${{ steps.extract.outputs.prerelease }}
@@ -85,7 +85,7 @@ jobs:
     # --------------------------------------------------------------------------
     build:
         name: Build
-        runs-on: ubuntu-latest
+        runs-on: blacksmith-4vcpu-ubuntu-2404
         needs: validate
         steps:
             - name: Checkout repository
@@ -136,7 +136,7 @@ jobs:
     # --------------------------------------------------------------------------
     publish:
         name: Publish to npm
-        runs-on: ubuntu-latest
+        runs-on: blacksmith-4vcpu-ubuntu-2404
         needs: [validate, build]
         environment: npm
         steps:
@@ -180,7 +180,7 @@ jobs:
     # --------------------------------------------------------------------------
     promote-changelog:
         name: Promote Changelog
-        runs-on: ubuntu-latest
+        runs-on: blacksmith-4vcpu-ubuntu-2404
         needs: [validate, publish]
         steps:
             - name: Checkout repository
@@ -262,7 +262,7 @@ jobs:
     # --------------------------------------------------------------------------
     release:
         name: GitHub Release
-        runs-on: ubuntu-latest
+        runs-on: blacksmith-4vcpu-ubuntu-2404
         needs: [validate, publish, promote-changelog]
         steps:
             - name: Checkout repository
