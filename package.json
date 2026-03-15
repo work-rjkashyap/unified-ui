@@ -8,7 +8,7 @@
 	],
 	"scripts": {
 		"build": "NODE_OPTIONS='--max-old-space-size=8192' sh -c 'npm run build:registry && next build'",
-		"analyze": "NODE_OPTIONS='--max-old-space-size=8192' sh -c 'npm run build:registry && ANALYZE=true next build'",
+		"analyze": "NODE_OPTIONS='--max-old-space-size=8192' sh -c 'npm run build:registry && ANALYZE=true OPEN_ANALYZER=true next build'",
 		"prepare": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit .githooks/pre-push",
 		"test:treeshake": "node scripts/test-treeshake.mjs",
 		"build:ds": "npm run build --workspace=@work-rjkashyap/unified-ui",
