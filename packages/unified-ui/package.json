@@ -1,6 +1,6 @@
 {
   "name": "@work-rjkashyap/unified-ui",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A scalable, token-driven React design system with 75+ components, built with Tailwind CSS v4, Radix UI, and Framer Motion.",
   "author": "Rajeshwar Kashyap",
   "license": "MIT",
@@ -41,62 +41,62 @@
     },
     "./tokens": {
       "import": {
-        "types": "./dist/tokens.d.ts",
-        "default": "./dist/tokens.mjs"
+        "types": "./dist/tokens/index.d.ts",
+        "default": "./dist/tokens/index.mjs"
       },
       "require": {
-        "types": "./dist/tokens.d.cts",
-        "default": "./dist/tokens.cjs"
+        "types": "./dist/tokens/index.d.cts",
+        "default": "./dist/tokens/index.cjs"
       }
     },
     "./theme": {
       "import": {
-        "types": "./dist/theme.d.ts",
-        "default": "./dist/theme.mjs"
+        "types": "./dist/theme/index.d.ts",
+        "default": "./dist/theme/index.mjs"
       },
       "require": {
-        "types": "./dist/theme.d.cts",
-        "default": "./dist/theme.cjs"
+        "types": "./dist/theme/index.d.cts",
+        "default": "./dist/theme/index.cjs"
       }
     },
     "./primitives": {
       "import": {
-        "types": "./dist/primitives.d.ts",
-        "default": "./dist/primitives.mjs"
+        "types": "./dist/primitives/index.d.ts",
+        "default": "./dist/primitives/index.mjs"
       },
       "require": {
-        "types": "./dist/primitives.d.cts",
-        "default": "./dist/primitives.cjs"
+        "types": "./dist/primitives/index.d.cts",
+        "default": "./dist/primitives/index.cjs"
       }
     },
     "./components": {
       "import": {
-        "types": "./dist/components.d.ts",
-        "default": "./dist/components.mjs"
+        "types": "./dist/components/index.d.ts",
+        "default": "./dist/components/index.mjs"
       },
       "require": {
-        "types": "./dist/components.d.cts",
-        "default": "./dist/components.cjs"
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
       }
     },
     "./motion": {
       "import": {
-        "types": "./dist/motion.d.ts",
-        "default": "./dist/motion.mjs"
+        "types": "./dist/motion/index.d.ts",
+        "default": "./dist/motion/index.mjs"
       },
       "require": {
-        "types": "./dist/motion.d.cts",
-        "default": "./dist/motion.cjs"
+        "types": "./dist/motion/index.d.cts",
+        "default": "./dist/motion/index.cjs"
       }
     },
     "./utils": {
       "import": {
-        "types": "./dist/utils.d.ts",
-        "default": "./dist/utils.mjs"
+        "types": "./dist/utils/index.d.ts",
+        "default": "./dist/utils/index.mjs"
       },
       "require": {
-        "types": "./dist/utils.d.cts",
-        "default": "./dist/utils.cjs"
+        "types": "./dist/utils/index.d.cts",
+        "default": "./dist/utils/index.cjs"
       }
     },
     "./styles.css": "./styles.css"
@@ -104,22 +104,22 @@
   "typesVersions": {
     "*": {
       "tokens": [
-        "./dist/tokens.d.ts"
+        "./dist/tokens/index.d.ts"
       ],
       "theme": [
-        "./dist/theme.d.ts"
+        "./dist/theme/index.d.ts"
       ],
       "primitives": [
-        "./dist/primitives.d.ts"
+        "./dist/primitives/index.d.ts"
       ],
       "components": [
-        "./dist/components.d.ts"
+        "./dist/components/index.d.ts"
       ],
       "motion": [
-        "./dist/motion.d.ts"
+        "./dist/motion/index.d.ts"
       ],
       "utils": [
-        "./dist/utils.d.ts"
+        "./dist/utils/index.d.ts"
       ]
     }
   },
