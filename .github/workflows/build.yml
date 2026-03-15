@@ -1,0 +1,81 @@
+# ============================================================================
+# Build CI
+# ============================================================================
+# Runs on every PR targeting main and on direct pushes to main.
+# Installs dependencies, builds the design system package, and verifies
+# that the critical dist output files were produced correctly.
+# ============================================================================
+
+name: build
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+concurrency:
+    group: build-${{ github.ref }}
+    cancel-in-progress: true
+
+env:
+    NODE_VERSION: "20"
+
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build design system
+              run: npm run build:ds
+
+            - name: Verify dist output
+              run: |
+                  DS=packages/unified-ui
+
+                  echo "── dist/ structure ──"
+                  ls $DS/dist/
+
+                  # Top-level entry points
+                  test -f $DS/dist/index.mjs      || { echo "::error::Missing dist/index.mjs";      exit 1; }
+                  test -f $DS/dist/index.cjs      || { echo "::error::Missing dist/index.cjs";      exit 1; }
+                  test -f $DS/dist/index.d.ts     || { echo "::error::Missing dist/index.d.ts";     exit 1; }
+                  test -f $DS/dist/components/index.mjs  || { echo "::error::Missing dist/components/index.mjs"; exit 1; }
+                  test -f $DS/dist/tokens/index.mjs      || { echo "::error::Missing dist/tokens/index.mjs";     exit 1; }
+                  test -f $DS/dist/utils/cn.mjs          || { echo "::error::Missing dist/utils/cn.mjs";         exit 1; }
+
+                  # Individual component files (tree-shaking check)
+                  test -f $DS/dist/components/button.mjs  || { echo "::error::Missing dist/components/button.mjs";  exit 1; }
+                  test -f $DS/dist/components/button.cjs  || { echo "::error::Missing dist/components/button.cjs";  exit 1; }
+
+                  # No leftover pre-bundled chunks (regression guard)
+                  CHUNKS=$(ls $DS/dist/chunk-*.mjs 2>/dev/null | wc -l)
+                  if [ "$CHUNKS" -gt 0 ]; then
+                    echo "::error::Found $CHUNKS pre-bundled chunk file(s) — tree-shaking regression!"
+                    ls $DS/dist/chunk-*.mjs
+                    exit 1
+                  fi
+
+                  # No unresolved @unified-ui/* aliases in output
+                  LEAKS=$(grep -r "@unified-ui" $DS/dist --include="*.mjs" --include="*.cjs" -l 2>/dev/null | wc -l)
+                  if [ "$LEAKS" -gt 0 ]; then
+                    echo "::error::Found unresolved @unified-ui/* aliases in dist/ — alias rewrite failed!"
+                    grep -r "@unified-ui" $DS/dist --include="*.mjs" --include="*.cjs" -l
+                    exit 1
+                  fi
+
+                  COMPONENT_COUNT=$(ls $DS/dist/components/*.mjs 2>/dev/null | wc -l)
+                  echo "✅ dist verified — $COMPONENT_COUNT individual component .mjs files found"
