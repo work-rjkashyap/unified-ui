@@ -55,7 +55,7 @@ jobs:
     # -------------------------------------------------------------------------
     sync-nextjs:
         name: "Sync → unified-ui-template-nextjs"
-        runs-on: blacksmith-4vcpu-ubuntu-2404
+        runs-on: ubuntu-latest
         if: >
             github.event_name == 'workflow_dispatch'
               && (github.event.inputs.template == '' || github.event.inputs.template == 'nextjs')
@@ -121,7 +121,7 @@ jobs:
     # -------------------------------------------------------------------------
     sync-react:
         name: "Sync → unified-ui-template-react"
-        runs-on: blacksmith-4vcpu-ubuntu-2404
+        runs-on: ubuntu-latest
         if: >
             github.event_name == 'workflow_dispatch'
               && (github.event.inputs.template == '' || github.event.inputs.template == 'react')
@@ -187,7 +187,7 @@ jobs:
     # -------------------------------------------------------------------------
     sync-tanstack-router:
         name: "Sync → unified-ui-template-tanstack-router"
-        runs-on: blacksmith-4vcpu-ubuntu-2404
+        runs-on: ubuntu-latest
         if: >
             github.event_name == 'workflow_dispatch'
               && (github.event.inputs.template == '' || github.event.inputs.template == 'tanstack-router')
@@ -253,7 +253,7 @@ jobs:
     # -------------------------------------------------------------------------
     sync-laravel:
         name: "Sync → unified-ui-template-laravel"
-        runs-on: blacksmith-4vcpu-ubuntu-2404
+        runs-on: ubuntu-latest
         if: >
             github.event_name == 'workflow_dispatch'
               && (github.event.inputs.template == '' || github.event.inputs.template == 'laravel')

@@ -32,7 +32,7 @@ permissions:
 jobs:
     changelog:
         name: Update Changelog
-        runs-on: blacksmith-4vcpu-ubuntu-2404
+        runs-on: ubuntu-latest
 
         # Don't run on commits made by this workflow (prevent infinite loop)
         if: >-
