@@ -6,11 +6,11 @@
   "license": "MIT",
   "homepage": "https://www.unified-ui.space",
   "bugs": {
-    "url": "https://github.com/imrj05/unified-ui/issues"
+    "url": "https://github.com/work-rjkashyap/unified-ui/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/imrj05/unified-ui.git",
+    "url": "https://github.com/work-rjkashyap/unified-ui.git",
     "directory": "packages/unified-ui"
   },
   "funding": {
