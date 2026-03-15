@@ -6,15 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [0.3.7] — 2026-03-15
 
 ### 🐛 Bug Fixes
 
-- **build:** Append .mjs/.cjs extensions to relative imports in post-build (#26) ([#26](https://github.com/imrj05/unified-ui/issues/26)) ([097be6d](https://github.com/imrj05/unified-ui/commit/097be6d1f65ab2a1333f87275a20485f696b3cac))
+- **package:** Update version to 0.3.7 and adjust dependencies ([f9da07a](https://github.com/imrj05/unified-ui/commit/f9da07a65a9756ac9f46cb4eb5e975209862baf1))
+- **build:** Resolve all package resolution errors — extensions, exports map, peer deps (v0.3.8) (#26)
+* fix(build): append .mjs/.cjs extensions to relative imports in post-build (#26)
+
+  * Bump @work-rjkashyap/unified-ui to v0.3.6
+
+  * Update unified-ui CHANGELOG for 0.3.5
+
+  * fix(exports): point sub-entry exports to subdirectory index files
+
+  With bundle:false, tsup emits each layer as a directory:
+    dist/theme/index.mjs   (not dist/theme.mjs)
+    dist/components/index.mjs  (not dist/components.mjs)
+    ...etc
+
+  The exports map and typesVersions both referenced the flat non-existent
+  paths, causing 'Module not found: Can't resolve @work-rjkashyap/unified-ui/theme'
+  (and /components, /tokens, /primitives, /motion, /utils). ([#26](https://github.com/imrj05/unified-ui/issues/26), [#26](https://github.com/imrj05/unified-ui/issues/26)) ([323fbda](https://github.com/imrj05/unified-ui/commit/323fbda5fd8fa0b062a6e6e9c9ec0e3f8e8525a2))
+## [0.3.6] — 2026-03-15
+
+### 🐛 Bug Fixes
+
+- **build:** Append .mjs/.cjs extensions to relative imports in post-build (#26) ([#26](https://github.com/imrj05/unified-ui/issues/26)) ([35c1896](https://github.com/imrj05/unified-ui/commit/35c189622ee545065f762461387e59b2d8efc21e))
+- **build:** Append .mjs/.cjs extensions to relative imports in post-build
+With bundle:false and custom outExtension, esbuild emits extensionless
+  relative specifiers (e.g. require('./components/accordion') or
+  from './motion'). Node's CJS and ESM resolvers do not auto-resolve
+  non-.js extensions, causing MODULE_NOT_FOUND errors at runtime. ([e27a7a0](https://github.com/imrj05/unified-ui/commit/e27a7a0e692d8efef357643383681ba48d4c3aca))
 
 ### Other
 
-- Bump @work-rjkashyap/unified-ui to v0.3.6 ([cb2d748](https://github.com/imrj05/unified-ui/commit/cb2d748b2225d03c308d5f46afb1bdec6ca6057b))
+- Bump @work-rjkashyap/unified-ui to v0.3.6 ([b9c6dd3](https://github.com/imrj05/unified-ui/commit/b9c6dd3dd94b72cba5e615d809e0763a146615e9))
+- Bump @work-rjkashyap/unified-ui to v0.3.5 ([c2565ce](https://github.com/imrj05/unified-ui/commit/c2565cecfc431fe5e49fe27498bc1e2cada38c02))
 - Revert ".github/workflows: Migrate workflows to Blacksmith runners (#24)" (#25)
 
 This reverts commit 6a3be7318fe805253461737ab05f7792e97bf3ca. ([#24](https://github.com/imrj05/unified-ui/issues/24), [#25](https://github.com/imrj05/unified-ui/issues/25)) ([28bf45a](https://github.com/imrj05/unified-ui/commit/28bf45a0fb6fe70e0ad8d6252e9beabc931a38fa))
