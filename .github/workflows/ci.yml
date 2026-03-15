@@ -1,0 +1,97 @@
+# ============================================================================
+# Continuous Integration
+# ============================================================================
+# Runs on every pull request and push to main.
+# Required status checks: build, lint, test
+# ============================================================================
+
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+env:
+    NODE_VERSION: "20"
+
+jobs:
+    # --------------------------------------------------------------------------
+    # 1. Lint — Biome check (formatting + linting)
+    # --------------------------------------------------------------------------
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run Biome check
+              run: npm run lint
+
+    # --------------------------------------------------------------------------
+    # 2. Build — Build the design system package
+    # --------------------------------------------------------------------------
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build design system
+              run: npm run build:ds
+
+            - name: Verify build output
+              run: |
+                  test -f packages/unified-ui/dist/index.mjs || { echo "::error::Missing dist/index.mjs"; exit 1; }
+                  test -f packages/unified-ui/dist/index.d.ts || { echo "::error::Missing dist/index.d.ts"; exit 1; }
+                  echo "✅ Build verified"
+
+    # --------------------------------------------------------------------------
+    # 3. Test — TypeScript type checking
+    # --------------------------------------------------------------------------
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run type check
+              run: npm test
