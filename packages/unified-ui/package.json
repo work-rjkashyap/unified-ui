@@ -1,293 +1,293 @@
 {
-  "name": "@work-rjkashyap/unified-ui",
-  "version": "0.3.8",
-  "description": "A scalable, token-driven React design system with 75+ components, built with Tailwind CSS v4, Radix UI, and Framer Motion.",
-  "author": "Rajeshwar Kashyap",
-  "license": "MIT",
-  "homepage": "https://www.unified-ui.space",
-  "bugs": {
-    "url": "https://github.com/work-rjkashyap/unified-ui/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/work-rjkashyap/unified-ui.git",
-    "directory": "packages/unified-ui"
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/imrj05"
-  },
-  "type": "module",
-  "bin": {
-    "unified-ui": "./bin/cli.mjs"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "sideEffects": [
-    "./styles.css",
-    "./dist/**/*.css"
-  ],
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+    "name": "@work-rjkashyap/unified-ui",
+    "version": "0.3.6",
+    "description": "A scalable, token-driven React design system with 75+ components, built with Tailwind CSS v4, Radix UI, and Framer Motion.",
+    "author": "Rajeshwar Kashyap",
+    "license": "MIT",
+    "homepage": "https://www.unified-ui.space",
+    "bugs": {
+        "url": "https://github.com/work-rjkashyap/unified-ui/issues"
     },
-    "./tokens": {
-      "import": {
-        "types": "./dist/tokens/index.d.ts",
-        "default": "./dist/tokens/index.mjs"
-      },
-      "require": {
-        "types": "./dist/tokens/index.d.cts",
-        "default": "./dist/tokens/index.cjs"
-      }
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/work-rjkashyap/unified-ui.git",
+        "directory": "packages/unified-ui"
     },
-    "./theme": {
-      "import": {
-        "types": "./dist/theme/index.d.ts",
-        "default": "./dist/theme/index.mjs"
-      },
-      "require": {
-        "types": "./dist/theme/index.d.cts",
-        "default": "./dist/theme/index.cjs"
-      }
+    "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/imrj05"
     },
-    "./primitives": {
-      "import": {
-        "types": "./dist/primitives/index.d.ts",
-        "default": "./dist/primitives/index.mjs"
-      },
-      "require": {
-        "types": "./dist/primitives/index.d.cts",
-        "default": "./dist/primitives/index.cjs"
-      }
+    "type": "module",
+    "bin": {
+        "unified-ui": "./bin/cli.mjs"
     },
-    "./components": {
-      "import": {
-        "types": "./dist/components/index.d.ts",
-        "default": "./dist/components/index.mjs"
-      },
-      "require": {
-        "types": "./dist/components/index.d.cts",
-        "default": "./dist/components/index.cjs"
-      }
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "sideEffects": [
+        "./styles.css",
+        "./dist/**/*.css"
+    ],
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.mjs"
+            },
+            "require": {
+                "types": "./dist/index.d.cts",
+                "default": "./dist/index.cjs"
+            }
+        },
+        "./tokens": {
+            "import": {
+                "types": "./dist/tokens/index.d.ts",
+                "default": "./dist/tokens/index.mjs"
+            },
+            "require": {
+                "types": "./dist/tokens/index.d.cts",
+                "default": "./dist/tokens/index.cjs"
+            }
+        },
+        "./theme": {
+            "import": {
+                "types": "./dist/theme/index.d.ts",
+                "default": "./dist/theme/index.mjs"
+            },
+            "require": {
+                "types": "./dist/theme/index.d.cts",
+                "default": "./dist/theme/index.cjs"
+            }
+        },
+        "./primitives": {
+            "import": {
+                "types": "./dist/primitives/index.d.ts",
+                "default": "./dist/primitives/index.mjs"
+            },
+            "require": {
+                "types": "./dist/primitives/index.d.cts",
+                "default": "./dist/primitives/index.cjs"
+            }
+        },
+        "./components": {
+            "import": {
+                "types": "./dist/components/index.d.ts",
+                "default": "./dist/components/index.mjs"
+            },
+            "require": {
+                "types": "./dist/components/index.d.cts",
+                "default": "./dist/components/index.cjs"
+            }
+        },
+        "./motion": {
+            "import": {
+                "types": "./dist/motion/index.d.ts",
+                "default": "./dist/motion/index.mjs"
+            },
+            "require": {
+                "types": "./dist/motion/index.d.cts",
+                "default": "./dist/motion/index.cjs"
+            }
+        },
+        "./utils": {
+            "import": {
+                "types": "./dist/utils/index.d.ts",
+                "default": "./dist/utils/index.mjs"
+            },
+            "require": {
+                "types": "./dist/utils/index.d.cts",
+                "default": "./dist/utils/index.cjs"
+            }
+        },
+        "./styles.css": "./styles.css"
     },
-    "./motion": {
-      "import": {
-        "types": "./dist/motion/index.d.ts",
-        "default": "./dist/motion/index.mjs"
-      },
-      "require": {
-        "types": "./dist/motion/index.d.cts",
-        "default": "./dist/motion/index.cjs"
-      }
+    "typesVersions": {
+        "*": {
+            "tokens": [
+                "./dist/tokens/index.d.ts"
+            ],
+            "theme": [
+                "./dist/theme/index.d.ts"
+            ],
+            "primitives": [
+                "./dist/primitives/index.d.ts"
+            ],
+            "components": [
+                "./dist/components/index.d.ts"
+            ],
+            "motion": [
+                "./dist/motion/index.d.ts"
+            ],
+            "utils": [
+                "./dist/utils/index.d.ts"
+            ]
+        }
     },
-    "./utils": {
-      "import": {
-        "types": "./dist/utils/index.d.ts",
-        "default": "./dist/utils/index.mjs"
-      },
-      "require": {
-        "types": "./dist/utils/index.d.cts",
-        "default": "./dist/utils/index.cjs"
-      }
+    "files": [
+        "dist",
+        "bin",
+        "styles.css",
+        "README.md",
+        "CHANGELOG.md"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "build:watch": "tsup --watch",
+        "dev": "tsup --watch",
+        "clean": "rm -rf dist",
+        "typecheck": "tsc --noEmit",
+        "prepublishOnly": "npm run clean && npm run build",
+        "postpublish": "node ../../scripts/postpublish.mjs"
     },
-    "./styles.css": "./styles.css"
-  },
-  "typesVersions": {
-    "*": {
-      "tokens": [
-        "./dist/tokens/index.d.ts"
-      ],
-      "theme": [
-        "./dist/theme/index.d.ts"
-      ],
-      "primitives": [
-        "./dist/primitives/index.d.ts"
-      ],
-      "components": [
-        "./dist/components/index.d.ts"
-      ],
-      "motion": [
-        "./dist/motion/index.d.ts"
-      ],
-      "utils": [
-        "./dist/utils/index.d.ts"
-      ]
+    "keywords": [
+        "react",
+        "design-system",
+        "tailwindcss",
+        "tailwind",
+        "tailwind-css-v4",
+        "components",
+        "ui",
+        "unified-ui",
+        "tokens",
+        "design-tokens",
+        "framer-motion",
+        "accessibility",
+        "radix-ui",
+        "css-variables",
+        "theming",
+        "dark-mode",
+        "typescript",
+        "tree-shakeable"
+    ],
+    "peerDependencies": {
+        "react": ">=19.0.0",
+        "react-dom": ">=19.0.0",
+        "tailwindcss": ">=4.0.0",
+        "radix-ui": ">=1.0.0",
+        "class-variance-authority": ">=0.7.0",
+        "clsx": ">=2.0.0",
+        "tailwind-merge": ">=3.0.0",
+        "sonner": ">=2.0.0",
+        "vaul": ">=1.0.0",
+        "react-resizable-panels": ">=4.0.0",
+        "@radix-ui/primitive": ">=1.0.0",
+        "@radix-ui/react-compose-refs": ">=1.0.0",
+        "@radix-ui/react-context": ">=1.0.0",
+        "@radix-ui/react-dismissable-layer": ">=1.0.0",
+        "@radix-ui/react-popper": ">=1.0.0",
+        "@radix-ui/react-portal": ">=1.0.0",
+        "@radix-ui/react-presence": ">=1.0.0",
+        "@radix-ui/react-primitive": ">=1.0.0",
+        "@radix-ui/react-slot": ">=1.0.0",
+        "@radix-ui/react-tooltip": ">=1.0.0",
+        "@radix-ui/react-use-callback-ref": ">=1.0.0",
+        "@radix-ui/react-use-controllable-state": ">=1.0.0",
+        "@radix-ui/react-use-layout-effect": ">=1.0.0",
+        "@radix-ui/react-use-size": ">=1.0.0",
+        "@radix-ui/react-use-effect-event": ">=0.0.1",
+        "@radix-ui/react-visually-hidden": ">=1.0.0"
+    },
+    "peerDependenciesMeta": {
+        "tailwindcss": {
+            "optional": true
+        },
+        "radix-ui": {
+            "optional": false
+        },
+        "class-variance-authority": {
+            "optional": false
+        },
+        "clsx": {
+            "optional": false
+        },
+        "tailwind-merge": {
+            "optional": false
+        },
+        "sonner": {
+            "optional": true
+        },
+        "vaul": {
+            "optional": true
+        },
+        "react-resizable-panels": {
+            "optional": true
+        },
+        "@radix-ui/primitive": {
+            "optional": true
+        },
+        "@radix-ui/react-compose-refs": {
+            "optional": true
+        },
+        "@radix-ui/react-context": {
+            "optional": true
+        },
+        "@radix-ui/react-dismissable-layer": {
+            "optional": true
+        },
+        "@radix-ui/react-popper": {
+            "optional": true
+        },
+        "@radix-ui/react-portal": {
+            "optional": true
+        },
+        "@radix-ui/react-presence": {
+            "optional": true
+        },
+        "@radix-ui/react-primitive": {
+            "optional": true
+        },
+        "@radix-ui/react-slot": {
+            "optional": true
+        },
+        "@radix-ui/react-tooltip": {
+            "optional": true
+        },
+        "@radix-ui/react-use-callback-ref": {
+            "optional": true
+        },
+        "@radix-ui/react-use-controllable-state": {
+            "optional": true
+        },
+        "@radix-ui/react-use-layout-effect": {
+            "optional": true
+        },
+        "@radix-ui/react-use-size": {
+            "optional": true
+        },
+        "@radix-ui/react-use-effect-event": {
+            "optional": true
+        },
+        "@radix-ui/react-visually-hidden": {
+            "optional": true
+        }
+    },
+    "dependencies": {
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "radix-ui": "^1.4.3",
+        "react-resizable-panels": "^4.7.1",
+        "sonner": "^2.0.7",
+        "tailwind-merge": "^3.4.0",
+        "vaul": "^1.1.2"
+    },
+    "optionalDependencies": {
+        "@tanstack/react-table": ">=8.0.0",
+        "framer-motion": ">=12.0.0"
+    },
+    "devDependencies": {
+        "@tanstack/react-table": "^8.21.3",
+        "@types/react": "^19.2.8",
+        "@types/react-dom": "^19.2.3",
+        "framer-motion": "^12.34.3",
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
+        "tsup": "^8.5.1",
+        "typescript": "^5.9.3"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "engines": {
+        "node": ">=20.0.0"
     }
-  },
-  "files": [
-    "dist",
-    "bin",
-    "styles.css",
-    "README.md",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "build:watch": "tsup --watch",
-    "dev": "tsup --watch",
-    "clean": "rm -rf dist",
-    "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run clean && npm run build",
-    "postpublish": "node ../../scripts/postpublish.mjs"
-  },
-  "keywords": [
-    "react",
-    "design-system",
-    "tailwindcss",
-    "tailwind",
-    "tailwind-css-v4",
-    "components",
-    "ui",
-    "unified-ui",
-    "tokens",
-    "design-tokens",
-    "framer-motion",
-    "accessibility",
-    "radix-ui",
-    "css-variables",
-    "theming",
-    "dark-mode",
-    "typescript",
-    "tree-shakeable"
-  ],
-  "peerDependencies": {
-    "react": ">=19.0.0",
-    "react-dom": ">=19.0.0",
-    "tailwindcss": ">=4.0.0",
-    "radix-ui": ">=1.0.0",
-    "class-variance-authority": ">=0.7.0",
-    "clsx": ">=2.0.0",
-    "tailwind-merge": ">=3.0.0",
-    "sonner": ">=2.0.0",
-    "vaul": ">=1.0.0",
-    "react-resizable-panels": ">=4.0.0",
-    "@radix-ui/primitive": ">=1.0.0",
-    "@radix-ui/react-compose-refs": ">=1.0.0",
-    "@radix-ui/react-context": ">=1.0.0",
-    "@radix-ui/react-dismissable-layer": ">=1.0.0",
-    "@radix-ui/react-popper": ">=1.0.0",
-    "@radix-ui/react-portal": ">=1.0.0",
-    "@radix-ui/react-presence": ">=1.0.0",
-    "@radix-ui/react-primitive": ">=1.0.0",
-    "@radix-ui/react-slot": ">=1.0.0",
-    "@radix-ui/react-tooltip": ">=1.0.0",
-    "@radix-ui/react-use-callback-ref": ">=1.0.0",
-    "@radix-ui/react-use-controllable-state": ">=1.0.0",
-    "@radix-ui/react-use-layout-effect": ">=1.0.0",
-    "@radix-ui/react-use-size": ">=1.0.0",
-    "@radix-ui/react-use-effect-event": ">=0.0.1",
-    "@radix-ui/react-visually-hidden": ">=1.0.0"
-  },
-  "peerDependenciesMeta": {
-    "tailwindcss": {
-      "optional": true
-    },
-    "radix-ui": {
-      "optional": false
-    },
-    "class-variance-authority": {
-      "optional": false
-    },
-    "clsx": {
-      "optional": false
-    },
-    "tailwind-merge": {
-      "optional": false
-    },
-    "sonner": {
-      "optional": true
-    },
-    "vaul": {
-      "optional": true
-    },
-    "react-resizable-panels": {
-      "optional": true
-    },
-    "@radix-ui/primitive": {
-      "optional": true
-    },
-    "@radix-ui/react-compose-refs": {
-      "optional": true
-    },
-    "@radix-ui/react-context": {
-      "optional": true
-    },
-    "@radix-ui/react-dismissable-layer": {
-      "optional": true
-    },
-    "@radix-ui/react-popper": {
-      "optional": true
-    },
-    "@radix-ui/react-portal": {
-      "optional": true
-    },
-    "@radix-ui/react-presence": {
-      "optional": true
-    },
-    "@radix-ui/react-primitive": {
-      "optional": true
-    },
-    "@radix-ui/react-slot": {
-      "optional": true
-    },
-    "@radix-ui/react-tooltip": {
-      "optional": true
-    },
-    "@radix-ui/react-use-callback-ref": {
-      "optional": true
-    },
-    "@radix-ui/react-use-controllable-state": {
-      "optional": true
-    },
-    "@radix-ui/react-use-layout-effect": {
-      "optional": true
-    },
-    "@radix-ui/react-use-size": {
-      "optional": true
-    },
-    "@radix-ui/react-use-effect-event": {
-      "optional": true
-    },
-    "@radix-ui/react-visually-hidden": {
-      "optional": true
-    }
-  },
-  "dependencies": {
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "radix-ui": "^1.4.3",
-    "react-resizable-panels": "^4.7.1",
-    "sonner": "^2.0.7",
-    "tailwind-merge": "^3.4.0",
-    "vaul": "^1.1.2"
-  },
-  "optionalDependencies": {
-    "@tanstack/react-table": ">=8.0.0",
-    "framer-motion": ">=12.0.0"
-  },
-  "devDependencies": {
-    "@tanstack/react-table": "^8.21.3",
-    "@types/react": "^19.2.8",
-    "@types/react-dom": "^19.2.3",
-    "framer-motion": "^12.34.3",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "engines": {
-    "node": ">=20.0.0"
-  }
 }
