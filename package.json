@@ -8,6 +8,7 @@
 	],
 	"scripts": {
 		"build": "NODE_OPTIONS='--max-old-space-size=8192' sh -c 'npm run build:registry && next build'",
+		"analyze": "NODE_OPTIONS='--max-old-space-size=8192' sh -c 'npm run build:registry && ANALYZE=true next build'",
 		"prepare": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit .githooks/pre-push",
 		"test:treeshake": "node scripts/test-treeshake.mjs",
 		"build:ds": "npm run build --workspace=@work-rjkashyap/unified-ui",
@@ -46,6 +47,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.11",
+		"@next/bundle-analyzer": "^16.1.6",
 		"@tailwindcss/postcss": "^4.1.18",
 		"@types/mdx": "^2.0.13",
 		"@types/node": "^25.0.5",
