@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 
-import { dirname, join, relative } from "node:path";
+import { dirname, extname, join, relative } from "node:path";
 import { defineConfig } from "tsup";
 
 // ---------------------------------------------------------------------------
@@ -85,6 +85,9 @@ function walk(dir: string): string[] {
  *   → resolved target dir in dist: dist/utils/
  *   → relative from dist/components/ to dist/utils/cn → "../utils/cn"
  *   → final specifier: "../utils/cn"
+ *
+ * Extension appending (.mjs / .cjs) is handled separately by rewriteExtensions,
+ * which runs immediately after this step.
  */
 function rewriteAliases(distDir: string) {
   // We only rewrite JS output files, not .d.ts (the DTS build uses its own
@@ -170,6 +173,88 @@ function rewriteAliases(distDir: string) {
   if (unresolved === 0) {
     console.log("✅ All @unified-ui/* aliases rewritten to relative paths");
   }
+}
+
+/**
+ * Rewrite all relative import/require specifiers that are missing a file
+ * extension to include the correct extension for the output format.
+ *
+ * With `bundle: false` and custom `outExtension` (.mjs / .cjs), esbuild
+ * emits extensionless relative specifiers like `require("../utils/cn")` or
+ * `from "../utils/cn"`. Node's module resolution requires explicit extensions
+ * for non-.js files — it will NOT fall back from `cn` → `cn.cjs`. This step
+ * appends the matching extension to every relative specifier that lacks one.
+ *
+ * Directory imports (e.g. `from "./motion"` where `dist/motion/` is a
+ * directory) are resolved to their index file: `"./motion/index.mjs"`.
+ * This mirrors Node's CommonJS directory-index resolution, which does NOT
+ * apply to ESM or to non-.js extensions.
+ *
+ * IMPORTANT: The specifier capture group must be greedy (`[^'"]+` without `?`)
+ * so it consumes the full path up to the closing quote. A lazy quantifier
+ * stops too early and inserts the extension mid-path (e.g. `./c.cjsomponents`).
+ */
+function rewriteExtensions(distDir: string) {
+  const allFiles = walk(distDir).filter((f) =>
+    ALL_EXTENSIONS.some((ext) => f.endsWith(ext)),
+  );
+
+  for (const filePath of allFiles) {
+    const fileDir = dirname(filePath);
+    const outputExt = extname(filePath) as ".mjs" | ".cjs";
+
+    let content: string;
+    try {
+      content = readFileSync(filePath, "utf-8");
+    } catch {
+      continue;
+    }
+
+    const rewritten = content.replace(
+      // Match relative import/require specifiers in ESM and CJS output.
+      // Capture groups:
+      //   1. prefix  — the opening keyword + quote  (from " | require(")
+      //   2. specifier — the full path starting with ./ or ../  (GREEDY)
+      //   3. suffix  — the closing quote (and optional paren for CJS)
+      //
+      // The specifier group is intentionally greedy ([^'"]+) so it captures
+      // the entire path before the closing quote.  A lazy quantifier would
+      // stop at the first character that satisfies the suffix, injecting the
+      // extension in the middle of the path.
+      /((?:from|require)\s*\(\s*["']|from\s*["'])(\.{1,2}\/[^'"]+)(["'](?:\s*\))?)/g,
+      (match, prefix, specifier, suffix) => {
+        // Skip specifiers that already have an explicit file extension
+        // (.mjs, .cjs, .js, .json, .css, etc.)
+        if (/\.[a-z]+$/i.test(specifier)) return match;
+
+        // Resolve the absolute path this specifier points to on disk.
+        const resolvedBase = join(fileDir, specifier);
+
+        // Check whether the specifier resolves to a directory that contains
+        // an index file (e.g. `./motion` → `dist/motion/index.cjs`).
+        // If so, rewrite it to the explicit `./motion/index.mjs` form so
+        // that Node can find the file regardless of resolution mode.
+        let indexCandidate: string;
+        try {
+          if (statSync(resolvedBase).isDirectory()) {
+            indexCandidate = `${specifier}/index${outputExt}`;
+            return `${prefix}${indexCandidate}${suffix}`;
+          }
+        } catch {
+          // resolvedBase does not exist as a directory — fall through to the
+          // plain extension-append path below.
+        }
+
+        return `${prefix}${specifier}${outputExt}${suffix}`;
+      },
+    );
+
+    if (rewritten !== content) {
+      writeFileSync(filePath, rewritten, "utf-8");
+    }
+  }
+
+  console.log("✅ Appended explicit extensions to all relative imports");
 }
 
 /**
@@ -273,9 +358,16 @@ export default defineConfig(() => {
       "react-resizable-panels",
     ],
     async onSuccess() {
-      // Order matters: rewrite aliases first so patchUseClient reads the
-      // already-correct files (the directive check looks at file content).
+      // Order matters:
+      // 1. rewriteAliases — converts @unified-ui/* bare specifiers to relative
+      //    paths (already appends the correct extension as part of the rewrite).
+      // 2. rewriteExtensions — appends .mjs/.cjs to any remaining relative
+      //    specifiers that esbuild emitted without an extension (e.g. internal
+      //    cross-layer imports that don't use the @unified-ui/* alias).
+      // 3. patchUseClient — must run last so it sees the final file content
+      //    when checking whether the directive is already present.
       rewriteAliases(distDir);
+      rewriteExtensions(distDir);
       patchUseClient(distDir);
       console.log("✅ Build complete — modules preserved for tree-shaking");
     },
