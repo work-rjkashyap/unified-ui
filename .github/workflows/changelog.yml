@@ -5,11 +5,15 @@
 #   1. Scans new commits since the last git tag (or last changelog update)
 #   2. Parses Conventional Commit messages (feat:, fix:, refactor:, etc.)
 #   3. Prepends new entries into the [Unreleased] section of CHANGELOG.md
-#   4. Commits and pushes the update directly to main
+#   4. Pushes the update to a dedicated branch (ci/changelog-update)
 #
 # IMPORTANT: This does NOT overwrite the hand-written changelog.
 # It only adds new commit entries to the [Unreleased] section.
 # Tagged releases (## [0.2.1], ## [0.2.0], etc.) are never touched.
+#
+# NOTE: Branch protection on `main` prevents direct pushes, so the update
+# is pushed to `ci/changelog-update` instead. Merge that branch manually
+# (or via auto-merge) when convenient.
 #
 # Requirements:
 #   - Commits follow Conventional Commits: https://www.conventionalcommits.org
@@ -60,11 +64,21 @@ jobs:
                     echo "changed=true" >> "$GITHUB_OUTPUT"
                   fi
 
-            - name: Commit and push changelog update
+            - name: Push changelog update to dedicated branch
               if: steps.diff.outputs.changed == 'true'
+              continue-on-error: true
               run: |
                   git config user.name  "github-actions[bot]"
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  # Work on an isolated branch so we never touch main directly.
+                  # Force-reset to the latest main so the branch is always fast-forwardable.
+                  git checkout -B ci/changelog-update origin/main
+
+                  # Re-apply the changelog diff (the generate script already modified the
+                  # working tree, but we just switched branches — re-run it to be safe)
+                  bash .github/scripts/generate-changelog.sh
+
                   git add packages/unified-ui/CHANGELOG.md
                   git commit -m "chore(changelog): auto-update unreleased entries [skip ci]"
-                  git push origin main
+                  git push --force-with-lease origin ci/changelog-update
