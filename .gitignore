@@ -16,7 +16,7 @@
 *.tsbuildinfo
 
 # design system build output
-#packages/*/dist/
+packages/*/dist/
 
 # laravel package vendor
 packages/unified-ui-laravel/vendor/

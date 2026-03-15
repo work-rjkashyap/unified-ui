@@ -1,5 +1,15 @@
 import { readFileSync } from "node:fs";
+import bundleAnalyzer from "@next/bundle-analyzer";
 import { createMDX } from "fumadocs-mdx/next";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+  // Only open the browser automatically when explicitly requested and not in CI.
+  // - OPEN_ANALYZER=true  → open browser (local use)
+  // - CI=true             → never open (headless / automated runs)
+  openAnalyzer:
+    process.env.OPEN_ANALYZER === "true" && process.env.CI !== "true",
+});
 
 const dsPkg = JSON.parse(
   readFileSync("packages/unified-ui/package.json", "utf-8"),
@@ -78,4 +88,4 @@ const config = {
   },
 };
 
-export default withMDX(config);
+export default withBundleAnalyzer(withMDX(config));
